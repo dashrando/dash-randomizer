@@ -3,10 +3,6 @@ body {
    background-color: black;
    color: white;
 }
-#content {
-   font-size: 22px;
-   font-weight: bold;
-}
 a {
    text-decoration: none;
    color: rgb(90, 173, 54);
@@ -16,6 +12,25 @@ a {
    height: 214px;
    object-fit: cover;
    opacity: 0.85;
+   padding-bottom: 10px;
+}
+#main_header {
+   font-size: 32px;
+   padding-bottom: 10px;
+   font-weight: bold;
+}
+#download {
+   font-size: 26px;
+   padding-bottom: 14px;
+   font-weight: bold;
+}
+#dash_links {
+   font-size: 20px;
+   padding-bottom: 10px;
+   font-weight: bold;
+}
+.dash_source {
+   padding-left: 30px;
 }
 #topic {
    font-size: 18px;
@@ -45,6 +60,6 @@ hr {
    color: black;
 }
 .misc {
-   background-color: rgb(112,112,112);
+   background-color: rgb(122,122,122);
    color: black;
 }
