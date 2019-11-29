@@ -17,30 +17,23 @@ a {
    object-fit: cover;
    opacity: 0.85;
 }
-p.intro {
-   font-size: 18px;
-   width: 76%;
-}
 #topic {
    font-size: 18px;
-   width: 80%;
+   width: 90%;
 }
 hr {
    border: 1px solid rgb(90, 173, 54);
-   width: 82%;
+   width: 92%;
 }
-#utility {
-   display: inline-block;
+.utility {
    background-color: rgb(0,255,255);
    color: black;
 }
-#suits {
-   display: inline-block;
+.suits {
    background-color: yellow;
    color: black;
 }
-#placement {
-   display: inline-block;
+.placement {
    background-color: rgb(0,255,0);
    color: black;
 }
