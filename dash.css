@@ -29,6 +29,14 @@ a {
    padding-bottom: 10px;
    font-weight: bold;
 }
+#schedule_notice {
+   font-size: 20px;
+   padding-top: 20px;
+   padding-bottom: 20px;
+   font-weight: bold;
+   font-style: italic;
+   color: rgb(90, 173, 54);
+}
 .dash_source {
    padding-left: 30px;
 }
