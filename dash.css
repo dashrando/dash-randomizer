@@ -1,0 +1,46 @@
+body {
+   font-family: "Calibri";
+   background-color: black;
+   color: white;
+}
+#content {
+   font-size: 22px;
+   font-weight: bold;
+}
+a {
+   text-decoration: none;
+   color: rgb(90, 173, 54);
+}
+#header img {
+   width: 480px;
+   height: 214px;
+   object-fit: cover;
+   opacity: 0.85;
+}
+p.intro {
+   font-size: 18px;
+   width: 76%;
+}
+#topic {
+   font-size: 18px;
+   width: 80%;
+}
+hr {
+   border: 1px solid rgb(90, 173, 54);
+   width: 82%;
+}
+#utility {
+   display: inline-block;
+   background-color: rgb(0,255,255);
+   color: black;
+}
+#suits {
+   display: inline-block;
+   background-color: yellow;
+   color: black;
+}
+#placement {
+   display: inline-block;
+   background-color: rgb(0,255,0);
+   color: black;
+}

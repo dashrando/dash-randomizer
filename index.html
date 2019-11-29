@@ -2,79 +2,66 @@
    <head>
       <title>DASH Super Metroid Randomizer</title>
       <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<style>
-body {
-   font-family: "Calibri";
-   background-color: black;
-   color: white;
-}
-#content {
-   font-size: 22px;
-   font-weight: bold;
-}
-a {
-   text-decoration: none;
-   color: rgb(90, 173, 54);
-}
-#header img {
-   width: 480px;
-   height: 214px;
-   object-fit: cover;
-   opacity: 0.85;
-}
-p.intro {
-   font-size: 18px;
-   width: 76%;
-}
-hr {
-   border: 1px solid rgb(90, 173, 54);
-   width: 78%;
-}
-
-</style>
+      <link rel="stylesheet" type="text/css" href="dash.css">
    </head>
    <body>
       <div id="header">
          <img src="dashLogo-noBG.png" />
          <br />
          <h1>DASH Super Metroid Randomizer!</h1>
-         <h1>Version 7: <a href="https://github.com/dashrando/dash-rando-app/releases/download/v7/dash-rando-app-v7.zip">Download</a></h1>
-         <h3><u>Game Updates</u></h3>
-         <ul type="disc">
-         <li>Bombs opens Wrecked Ship Reserve location</li>
-         <li>Spazer opens Waterway and Botwoon hallway</li>
-         <li>Samus begins with starter Charge Beam that does 30% damage</li>
-         <li>Gravity Suit provides 50% heat damage reduction</li>
-         <li>Varia and Gravity Suit each add 50% damage reduction to enemy attacks and environmental damage; the two suits stack when both are equipped to reach 75% reduction</li>
-         <li>Minor item ratio is 34-14-18</li>
-         </ul>
+         <h1>Version 8: <a href="https://github.com/dashrando/dash-rando-app/releases/download/v8/dash-rando-app-v8.zip">Download</a></h1>
          <p><h3>Source: <a href="https://github.com/dashrando/dash-rando-app">dash-rando-app</a></h3></p>
       </div>
       <hr align="left">
-      <h2><u>DASH at DreamHack Atlanta</u></h2>
-      <p class="intro">
-      On Saturday, November 16 at 6:00 pm ET, a special charity marathon randomizer race will be featured at DreamHack Atlanta. This race will be between <a href="https://www.twitch.tv/zoasty">Zoast</a> and <a href="https://www.twitch.tv/rossu123">Rossu</a>. <a href="https://www.twitch.tv/kipp">Kipp</a> and <a href="https://www.twitch.tv/andy">Andy</a> will be on commentary to promote the new DASH Randomizer that Kipp has been working on with others in the community. The charity marathon can be watched at <a href="https://www.twitch.tv/noresetspeedrun">twitch.tv/noresetspeedrun</a> Friday through Sunday of that weekend.
+         <br />
+         <img src="charge_final.png" />
+         <h2><u>Game Updates</u></h2>
+         <div id="topic">
+            <div id="utility">Item Utility Changes</div>&nbsp;<div id="suits">Suit Changes</div>&nbsp;
+            <div id="placement">Placement and Ratio Changes</div>
+         <ul type="disc">
+            <li><div id="utility">Bombs opens Wrecked Ship Reserve location</div></li>
+            <li><div id="utility">Spazer opens Waterway and Botwoon hallway</div></li>
+            <li><div id="utility">Samus begins with starter Charge Beam that does 30% charged shot damage</div></li>
+            <li><div id="utility">Pseudo Screws and SBAs do full damage with starter Charge Beam</div></li>
+            <li><div id="suits">Gravity Suit provides 50% heat damage reduction</div></li>
+            <li><div id="suits">Varia and Gravity each add 50% damage reduction to enemy attacks and environmental damage</div></li>
+            <li><div id="suits">Varia and Gravity stack to reach 75% reduction to enemy attacks and environmental damage</div></li>
+            <li><div id="placement">Gravity is no longer restricted from being placed in Brinstar (other than Retro)</div></li>
+            <li><div id="placement">Minor item ratio is 34 missiles - 14 supers - 18 power bombs</div></li>
+            <li><div id="placement">1/13 chance that Speed Booster will be logic progression to Green Brinstar</div></li>
+            <li><div id="placement">2/13 chance that Screw Attack will be logic progression to Green Brinstar</div></li>
+            <li><div id="placement">4/13 chance that Bombs will be logic progression to Green Brinstar</div></li>
+            <li><div id="placement">6/13 chance that Power Bombs will be logic progression to Green Brinstar</div></li>
+         <li>[Miscellaneous] Saving the animals is now like the vanilla game</li>
+         </ul>
+All of the updates above are changes featured in the DASH randomizer that are different from the 2017 Tournament logic, which was created by Total. 
 <br /><br />
-When the race airs, information will be released about how to get seeds to play the randomizer as well as information about a planned one-day tournament with cash prizes that will be featured on SpeedGaming at the beginning of 2020. It is also possible that this tournament will be used to raise funds for the SG Live 2020 Super Metroid randomizer tournament. Additional game modes are also currently in development. 
+To view information about Total’s randomizer on which DASH is based, click here: <a href="https://itemrando.supermetroid.run/information">https://itemrando.supermetroid.run/information</a>
 <br /><br />
-A beta version of the DASH randomizer was featured in a Crowd Control race during SG Live 2019. While additional changes have been made, if you are interested in learning a bit about the randomizer in advance, you can watch the VOD, which includes extensive discussion before the race, here: <a href="https://www.twitch.tv/rossu123">https://www.twitch.tv/videos/500670759</a>
-      </p>
+To view the changelog on Total’s randomizer, click here: <a href="https://itemrando.supermetroid.run/">https://itemrando.supermetroid.run</a>
+<br /><br />
+         </div>
       <hr align="left">
-      <h2><u>DASH Tournament</u></h2>
-      <p class="intro">
-There will be a special DASH Randomizer one-day tournament on January 18, 2020 that will be featured on the SpeedGaming Twitch channel. This tournament will feature 16 players who qualify for the tournament with the top 4 finishers winning cash prizes. 
+         <br />
+         <img src="croc_final.png" />
+      <h2><u>DASH Cash Tournament on SpeedGaming</u></h2>
+      <div id="topic">
+There will be a special DASH Randomizer one-day tournament on January 18, 2020 that will be featured on the SpeedGaming Twitch channel. This tournament will feature 16 players who qualify for the tournament with the top 8 finishers winning cash prizes. The tournament will begin at 12:00 p.m. ET and will continue throughout the full day until it is completed. 
+
+For more information and a complete set of rules, click here: <a href="tournament.html">https://dashrando.github.io/tournament.html</a>
 <br /><br />
-Full tournament rules and information on how to participate in the qualifiers will be released within the next few weeks. Please continue to check back here for more details as well as look for an announcement in the SRL - Super Metroid Discord server. 
-<br /><br />
-Discord server invitation: <a href="https://discord.gg/rT2fWZt">https://discord.gg/rT2fWZt</a>
-      </p>
+      </div>
       <hr align="left">
+      <br />
+      <img src="speed_final.png" />
       <h2><u>About DASH</u></h2>
-      <p class="intro">
+      <div id="topic">
          The DASH (Diversity and Selective Haste) Super Metroid Randomizer focuses on providing more options for runners to complete seeds by providing new functionality to Bombs, Spazer Beam, Gravity Suit, and Charge Beam. This randomizer seeks to open up Super Metroid even more by limiting the gating potential of certain items and item locations. DASH utilizes the Total logic from the 2017 Super Metroid Randomizer Tournament with the functionality changes to expand players’ options to defeat bosses and progress through areas of the game.
          <br /><br />
-For more information, please watch the three introduction videos that will outline all of the major changes that the DASH Randomizer adds on top of what the Total Randomizer created. 
-</p>
+For more information, please watch the three introduction videos that will outline all of the major changes that DASH adds on top of what the Total Randomizer created.
+<br /><br />
+</div>
       <p>
 <iframe
     src="https://player.twitch.tv/?video=507137408&autoplay=false"
@@ -110,6 +97,16 @@ For more information, please watch the three introduction videos that will outli
       </p>
       <br />
       <div id="content">
+      </div>
+      <hr align="left">
+      <br />
+      <img src="variaFinal.png" />
+      <h2><u>DASH at DreamHack Atlanta and SG Live 2019</u></h2>
+      <div id="topic">
+      On Saturday, November 16, a DASH race between <a href="https://www.twitch.tv/zoasty">Zoast</a> and <a href="https://www.twitch.tv/rossu123">Rossu</a> was featured during the DreamHack Atlanta event. Twitch channel <a href="https://www.twitch.tv/noresetspeedrun">NoResetSpeedrun</a> hosted a charity marathon at the event, and <a href="https://www.twitch.tv/kipp">Kipp</a> provided commentary on the run as well as providing basic information about DASH. You can watch the VOD of the race here: <a href="https://www.twitch.tv/videos/510229319">https://www.twitch.tv/videos/510229319</a>
+<br /><br />
+A beta version of the DASH randomizer was featured in a Crowd Control race during SG Live 2019. The VOD features extensive discussion before the race and can be watched here: <a href="https://www.twitch.tv/videos/500670759">https://www.twitch.tv/videos/500670759</a>
+<br /><br />
       </div>
    </body>
 </html>
