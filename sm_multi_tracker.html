@@ -1,0 +1,247 @@
+<html>
+<head>
+<title>Super Metroid Multi-Category Tracker</title>
+
+<style>
+body {
+
+   background-color: black;
+   font-family: arial;
+   font-weight: bold;
+   font-size: 18px;
+}
+
+#button_table {
+   display: table;
+   border-spacing: 10px;
+}
+
+#controls {
+   padding-top: 200px;
+   color: white;
+}
+
+#names {
+   position: absolute;
+   top: 39px;
+   z-index: -1;
+}
+
+.row {
+   display: table-row;
+}
+
+.cat_name, .unselected, .veto, .selected {
+   min-width: 180px;
+   max-width: 180px;
+   height: 40px;
+   text-align: center;
+   display: table-cell;
+   vertical-align: middle;
+}
+
+.cat_name {
+   color: white;
+}
+
+.unselected, .veto, .selected {
+   border-style: solid;
+   border-width: 1px;
+   border-color: gray;
+   cursor: pointer;
+}
+
+.unselected {
+   background-color: lightgray;
+}
+
+.veto {
+   background-color: lightcoral;
+   text-decoration: line-through;
+}
+
+.selected {
+   background-color: mediumseagreen;
+}
+
+#status_msg {
+   font-family: consolas;
+   font-weight: normal;
+   font-size: 14px;
+}
+
+#PlayerOne, #PlayerTwo, #WinLoss, #RandomControls {
+   padding-top: 10px;
+}
+
+</style>
+
+<script>
+var clickCount = 0;
+var lastName = "";
+var lastNameField = "";
+var cats = [ "any", "all", "low", "rbo", "hundo", "bingo", "gtc" ];
+
+function getP1Name() {
+   return document.getElementById('p1').value;
+}
+
+function getP2Name() {
+   return document.getElementById('p2').value;
+}
+
+function updateButtons() {
+   var wonLost = true;
+   var randWin = true;
+
+   if (clickCount < 2) {
+   } else if (clickCount < 4) {
+      wonLost = false;
+   }
+   else if (clickCount < 5) {
+      randWin = false;
+   }
+
+   document.getElementById("won").disabled=wonLost;
+   document.getElementById("lost").disabled=wonLost;
+   document.getElementById("p1won").disabled=randWin;
+   document.getElementById("p2won").disabled=randWin;
+   document.getElementById("random").disabled=randWin;
+}
+
+function setNameField(nameValue) {
+   document.getElementById(lastNameField).innerHTML = nameValue;
+   updateButtons();
+}
+
+function userClick(item,nameField) {
+
+   if (clickCount >= 4) {
+      return;
+   }
+
+   const index = cats.indexOf(item.id);
+
+   if (index > -1) {
+      cats.splice(index, 1);
+   } else {
+      return;
+   }
+
+   if (clickCount % 2 == 0) {
+      lastName = getP1Name();
+   } else {
+      lastName = getP2Name();
+   }
+
+   if (clickCount < 2) {
+      item.className = "veto";
+   } else {
+      item.className = "selected";
+   }
+
+   lastNameField = nameField;
+   setNameField(lastName + ' <span style="color: black; font-size: 24px">\u2713</span>');
+   clickCount += 1;
+}
+
+function wonClick() {
+   setNameField(lastName + ' <span style="color: green; font-size: 24px">\u2713</span>');
+}
+
+function lostClick() {
+   setNameField(lastName + ' <span style="color: red; font-size: 24px">\u2717</span>');
+}
+
+function randomClick() {
+   var x = Math.floor((Math.random() * cats.length));
+   var item = document.getElementById(cats[x]);
+   item.className = "selected";
+   lastNameField = cats[x] + "_name";
+   cats.splice(x,1);
+   clickCount += 1;
+   document.getElementById("random").disabled=true;
+}
+
+function p1WonClick() {
+   setNameField(getP1Name() + ' <span style="color: green; font-size: 24px">\u2713</span>');
+}
+
+function p2WonClick() {
+   setNameField(getP2Name() + ' <span style="color: green; font-size: 24px">\u2713</span>');
+}
+
+</script>
+
+</head>
+<body>
+   <div id="main">
+
+      <div id="button_table">
+
+      <!-- Buttons -->
+      <div id="buttons" class="row">
+
+      <div id="any" class="unselected" onClick="userClick(this,'any_name')">Any%</div>
+      <div id="all" class="unselected" onClick="userClick(this,'all_name')">All Bosses</div>
+      <div id="low" class="unselected" onClick="userClick(this,'low_name')">Low Ice</div>
+      <div id="rbo" class="unselected" onClick="userClick(this,'rbo_name')">RBO</div>
+      <div id="hundo" class="unselected" onClick="userClick(this,'hundo_name')">100%</div>
+      <div id="bingo" class="unselected" onClick="userClick(this,'bingo_name')">Triple Bingo</div>
+      <div id="gtc" class="unselected" onClick="userClick(this,'gtc_name')">GT Classic</div>
+
+      </div>
+
+      <!-- Names -->
+      <div id="names" class="row">
+         <div id="any_name" class="cat_name"></div>
+         <div id="all_name" class="cat_name"></div>
+         <div id="low_name" class="cat_name"></div>
+         <div id="rbo_name" class="cat_name"></div>
+         <div id="hundo_name" class="cat_name"></div>
+         <div id="bingo_name" class="cat_name"></div>
+         <div id="gtc_name" class="cat_name"></div>
+      </div>
+
+      </div>
+
+      <!-- Controls -->
+      <div id="controls">
+         <div id="status_msg">
+            <u>Steps:</u><br />
+            a) Enter Player Names (Player 1 Vetoes First)<br />
+            b) Click 2 Categories for Vetoes<br />
+            c) Click 1st Category to Race<br />
+            d) Click Won/Lost based on the result for the Selector of the Category<br />
+            e) Click 2nd Category to Race<br />
+            f) Click Won/Lost based on the result for the Selector of the Category<br />
+            g) Click Random to pick 3rd Category to Race<br />
+            h) Click "P1 Won" or "P2 Won" based on the winner of the Race
+         </div>
+
+         <div id="PlayerOne">
+            <label for="p1">Player 1:</label>
+            <input type="text" id="p1" name="p1">
+         </div>
+
+         <div id="PlayerTwo">
+            <label for="p2">Player 2:</label>
+            <input type="text" id="p2" name="p2">
+         </div>
+
+         <div id="WinLoss">
+            <span id="WinLossQuestion"></span>
+            <input type="button" id="won" value="Won" onclick="wonClick()" disabled>
+            <input type="button" id="lost" value="Lost" onclick="lostClick()" disabled>
+         </div>
+
+         <div id="RandomControls">
+            <input type="button" id="random" value="Random" onclick="randomClick()" disabled>
+            <input type="button" id="p1won" value="P1 Won" onclick="p1WonClick()" disabled>
+            <input type="button" id="p2won" value="P2 Won" onclick="p2WonClick()" disabled>
+         </div>
+      </div>
+
+   </div>
+</body>
+</html>
