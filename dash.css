@@ -1,7 +1,7 @@
 body {
-   font-family: "Calibri";
+   font-family: "Arial";
    background-color: black;
-   color: white;
+   color: rgb(200,200,200);
 }
 a {
    text-decoration: none;
@@ -68,11 +68,12 @@ hr {
    color: black;
 }
 .misc {
-   background-color: rgb(122,122,122);
+   background-color: rgb(209, 46, 187);
    color: black;
 }
 
 .dash_changes {
-   background-color: rgb(206, 56, 56);
-   color: black;
+   /*background-color: rgba(206, 56, 56, 0.4);*/
+   background-color: rgba(255, 0, 0, 0.45);
+   /*color: black;*/
 }
