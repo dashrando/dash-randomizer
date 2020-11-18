@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <script src="scripts/FileSaver.js"></script>
+        <script src="scripts/ips-patch.js"></script>
+        <script src="scripts/patch-test.js"></script>
+    </head>
+    <body>
+        <iframe id="my_iframe" style="display:none;"></iframe>
+        <fieldset>
+            <legend>IPS Patches</legend>
+            <p>
+            <button onclick="a_to_b()">Test</button>
+            <span style="padding-left: 10px">a.txt &#8594; b.txt</span>
+            </p>
+            <p>
+            <button onclick="a_to_c()">Test</button>
+            <span style="padding-left: 10px">a.txt &#8594; c.txt</span>
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>I/O</legend>
+            <p>
+            <button onclick="Download()">Test</button>
+            <span style="padding-left: 10px">Download</span>
+            </p>
+            <p>
+            <button onclick="Upload()">Test</button>
+            <span style="padding-left: 10px">
+            Upload
+            <input id="upload-file" type="file" >
+            </span>
+            </p>
+            <p>
+            <button onclick="RoundTrip()">Test</button>
+            <span style="padding-left: 10px">
+            Round Trip
+            <input id="trip-file" type="file" >
+            </span>
+            </p>
+        </fieldset>
+    </body>
+</html>
