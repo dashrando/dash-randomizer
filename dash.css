@@ -1,18 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=Muli');
 body {
-   font-family: "Arial";
+   font-family: "Muli";
    background-color: black;
-   color: rgb(200,200,200);
+   color: rgb(210,210,210);
 }
 a {
    text-decoration: none;
    color: rgb(90, 173, 54);
 }
+#img_header_text {
+   position: relative;
+   bottom: 30px;
+   left: 8px;
+   font-size: 22px;
+   text-decoration: underline;
+   text-decoration-color: rgb(90, 173, 54);
+}
+#topic_img_header {
+   margin-bottom: 6px;
+}
 #header img {
-   width: 480px;
-   height: 214px;
-   object-fit: cover;
-   opacity: 0.85;
-   padding-bottom: 10px;
+   width: 420px;
+   height: 160px;
+   opacity: 0.80;
+   margin-bottom: 10px;
 }
 #main_header {
    font-size: 32px;
@@ -41,7 +52,7 @@ a {
    padding-left: 30px;
 }
 #topic {
-   font-size: 18px;
+   font-size: 16px;
    width: 90%;
 }
 hr {
@@ -51,6 +62,7 @@ hr {
 #topic_header {
    font-size: 24px;
    text-decoration: underline;
+   text-decoration-color: rgb(90, 173, 54);
    padding-top: 10px;
    padding-bottom: 10px;
    font-weight: bold;
@@ -73,7 +85,5 @@ hr {
 }
 
 .dash_changes {
-   /*background-color: rgba(206, 56, 56, 0.4);*/
    background-color: rgba(255, 0, 0, 0.45);
-   /*color: black;*/
 }
