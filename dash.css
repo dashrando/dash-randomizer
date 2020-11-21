@@ -27,6 +27,7 @@ a {
    text-decoration-color: rgb(90, 173, 54);
    grid-row: 1;
    grid-column: 2;
+   min-width: 500px;
 }
 #header_double_text {
    bottom: -28px;
