@@ -16,8 +16,35 @@ a {
    text-decoration: underline;
    text-decoration-color: rgb(90, 173, 54);
 }
+#topic_header_grid {
+   width: 90%;
+   display: grid;
+   grid-template-columns: 130px auto;
+   grid-template-rows: 130px;
+}
+#header_img {
+   grid-row: 1;
+   grid-column: 1;
+}
+#header_text {
+   position: relative;
+   bottom: -48px;
+   text-align: left;
+   font-size: 22px;
+   text-decoration: underline;
+   text-decoration-color: rgb(90, 173, 54);
+   grid-row: 1;
+   grid-column: 2;
+}
 #topic_img_header {
    margin-bottom: 6px;
+}
+#img_header {
+   display: inline-block;
+   height: 112px;
+}
+#img_div {
+   float: left;
 }
 #header img {
    width: 420px;
