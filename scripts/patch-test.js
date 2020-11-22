@@ -10,6 +10,34 @@ async function Download() {
   saveAs(freshBlob, "b_dl.txt");
 }
 
+function toHexString(byteArray) {
+  return Array.from(byteArray, function(byte) {
+    return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+  }).join('')
+}
+
+async function Checksum() {
+  let response = await fetch('patches/a.txt');
+  let buffer = await response.arrayBuffer();
+  let check = await window.crypto.subtle.digest('SHA-1', buffer);
+  console.log(toHexString(new Uint8Array(check)));
+}
+
+async function SuperMetroidChecksum() {
+  let theFile = document.getElementById("checksum-file").files[0];
+  let reader = new FileReader();
+  reader.readAsArrayBuffer(theFile);
+
+  reader.onload = async function () {
+    let check = await window.crypto.subtle.digest('SHA-256', reader.result);
+    console.log(toHexString(new Uint8Array(check)));
+  };
+
+  reader.onerror = function () {
+    console.log(reader.error);
+  };
+}
+
 async function Upload() {
   let theFile = document.getElementById("upload-file").files[0]
   let reader = new FileReader();
