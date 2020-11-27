@@ -2,7 +2,7 @@ async function GetSeedData(fileName,seedNum) {
     let response = await fetch(fileName);
     let compressed = await response.arrayBuffer();
     let decompressed = BrotliDecode(new Uint8Array(compressed));
-    let offset = seedNum - 1000000;
+    let offset = seedNum;
     return new Uint8Array(decompressed.buffer, offset * 104, 104);
 }
 

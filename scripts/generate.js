@@ -9,7 +9,7 @@ function DisableFixedSeed() {
 function EnableFixedSeed() {
     var temp = document.getElementById('fixed_value');
     temp.disabled = false;
-    temp.value = 1000000;
+    temp.value = 1;
 }
 
 async function LoadFile(path) {
@@ -19,25 +19,19 @@ async function LoadFile(path) {
 }
 
 async function RandomizeRom() {
-    let gameMode = document.getElementById("game_mode").value;
-    let fixedSeed = document.getElementById("fixed").checked;
-    var patchFile = null;
-    var seedFile = null;
-    var savePrefix = null;
-    
-    if (gameMode == "sgl20") {
-        patchFile = 'patches/DASH_SGL20_seed.ips';
-        seedFile = 'patches/sgl20.seeds.br';
-        savePrefix = 'DASH_SGL20_';
-    } else {
+    let gameModeName = document.getElementById("game_mode").value;
+    let gameMode = game_modes.find(mode => mode.name == gameModeName);
+
+    if (gameMode == null) {
         alert("Selected Game Mode is currently unsupported for web generation.");
         return;
     }
 
     var theSeed = 0;
+    let fixedSeed = document.getElementById("fixed").checked;
     var fixedValueInput = document.getElementById("fixed_value");
-    var minValue = Number(fixedValueInput.min);
-    var maxValue = Number(fixedValueInput.max);
+    var minValue = Number(gameMode.seeds[0].min);
+    var maxValue = Number(gameMode.seeds[gameMode.seeds.length - 1].max);
 
     if (fixedSeed) {
         var fixedValue = Number(fixedValueInput.value);
@@ -56,12 +50,23 @@ async function RandomizeRom() {
         theSeed = minValue + modSeed;
     }
 
-    var gamePatch = await IpsPatch.Load(patchFile);
+    let seedEntry = gameMode.seeds.find(s => Number(s.min) <= theSeed && Number(s.max) >= theSeed);
+    let seedData = await GetSeedData(seedEntry.file,theSeed - seedEntry.min);
+
+    if (seedData == null) {
+        alert("Failed to find data for seed " + theSeed);
+        return;
+    }
+
+    // Apply the IPS patch associated with the game mode.
+    var gamePatch = await IpsPatch.Load(gameMode.patch);
     var patchedBytes = gamePatch.Apply(vanillaBytes);
 
-    var seedData = await GetSeedData(seedFile,theSeed);
+    // Adjust the item locations based on the seed.
     await ApplySeedData(patchedBytes,seedData);
-    saveAs(new Blob([patchedBytes]), savePrefix + theSeed + '.sfc');
+
+    // Save the new file on the local system.
+    saveAs(new Blob([patchedBytes]), gameMode.prefix + theSeed + '.sfc');
 }
 
 function ToHexString(byteArray) {

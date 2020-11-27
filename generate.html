@@ -7,6 +7,7 @@
         <script src="scripts/locations.js"></script>
         <script src="scripts/items.js"></script>
         <script src="scripts/sm-rando.js"></script>
+        <script src="scripts/game-modes.js"></script>
         <script src="scripts/generate.js"></script>
         <style>
             #rom_load {
@@ -62,8 +63,8 @@
             <div class="row_label">Game Mode:</div>
             <div id="select_mode">
                 <select name="game_mode" id="game_mode">
-                    <option value="sgl20">SG Live 2020 - Major / Minor</option>
-                    <!--<option value="mm">Standard - Major / Minor</option>-->
+                    <!--<option value="sgl20">SG Live 2020 - Major / Minor</option>-->
+                    <option value="mm">Standard - Major / Minor</option>
                 </select>
             </div>
             <div id="prac_rom"></div>
@@ -73,7 +74,7 @@
                 <label for="random">Random</label>
                 <input type="radio" id="fixed" name="seed_type" value="fixed" onclick="EnableFixedSeed()">
                 <label for="fixed">Fixed</label>
-                <input name="fixed_value" id="fixed_value" type="number" min="1000000" max="1010000" step="1" value="" disabled>
+                <input name="fixed_value" id="fixed_value" type="number" min="1" max="100000" step="1" value="" disabled>
             </div>
             <div>
                 <button id="randomize" onclick="RandomizeRom()" disabled>Randomize!</button>
