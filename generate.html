@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <title>Generate DASH Seed</title>
+        <script src="scripts/FileSaver.js"></script>
+        <script src="scripts/decode.js"></script>
+        <script src="scripts/ips-patch.js"></script>
+        <script src="scripts/locations.js"></script>
+        <script src="scripts/items.js"></script>
+        <script src="scripts/sm-rando.js"></script>
+        <script src="scripts/game-modes.js"></script>
+        <script src="scripts/generate.js"></script>
+        <style>
+            #rom_load {
+                grid-row: 1;
+                grid-column: 2 / span 2;
+            }
+            #rom_state {
+                border: 1px solid black;
+                width: 100px;
+                height: 20px;
+                text-align: center;
+            }
+            #grid_container {
+                display: grid;
+                grid-template-columns: 100px 120px 170px 120px;
+                grid-template-rows: 60px 60px 60px;
+            }
+            #dash_image {
+                grid-row: 1 / span 2;
+                grid-column: 4;
+                padding-top: 10px;
+                padding-left: 4px;
+                /*border: 1px solid black;*/
+            }
+            #dash_image > img {
+                height: 80px;
+                margin: auto;
+            }
+            #game_mode {
+                width: 240px;
+            }
+            #select_seed {
+                grid-row: 3;
+                grid-column: 2 / span 2;
+            }
+            input,button,select {
+                font-family: "Muli";
+                font-size: 14px;
+            }
+            #fixed_value {
+                width: 100px;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="dash.css">
+    </head>
+    <body>
+        <div id="grid_container">
+            <div class="row_label">Vanilla Rom:</div>
+            <div id="rom_load">
+                <input id="vanilla-rom" type="file" onchange="VerifyVanillaRom()" />
+            </div>
+            <div id="dash_image"><img src="images/speed_final.png" /></div>
+            <div class="row_label">Game Mode:</div>
+            <div id="select_mode">
+                <select name="game_mode" id="game_mode">
+                    <!--<option value="sgl20">SG Live 2020 - Major / Minor</option>-->
+                    <option value="mm">Standard - Major / Minor</option>
+                </select>
+            </div>
+            <div id="prac_rom"></div>
+            <div class="row_label">Seed:</div>
+            <div id="select_seed">
+                <input type="radio" id="random" name="seed_type" value="random" checked="checked" onclick="DisableFixedSeed()">
+                <label for="random">Random</label>
+                <input type="radio" id="fixed" name="seed_type" value="fixed" onclick="EnableFixedSeed()">
+                <label for="fixed">Fixed</label>
+                <input name="fixed_value" id="fixed_value" type="number" min="1" max="99999" step="1" value="" disabled>
+            </div>
+            <div>
+                <button id="randomize" onclick="RandomizeRom()" disabled>Randomize!</button>
+            </div>
+        </div>
+    </body>
+</html>
