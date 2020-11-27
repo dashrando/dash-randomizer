@@ -66,7 +66,7 @@ async function RandomizeRom() {
     await ApplySeedData(patchedBytes,seedData);
 
     // Save the new file on the local system.
-    saveAs(new Blob([patchedBytes]), gameMode.prefix + theSeed + '.sfc');
+    saveAs(new Blob([patchedBytes]), gameMode.prefix + theSeed.toString().padStart(5,'0') + '.sfc');
 }
 
 function ToHexString(byteArray) {

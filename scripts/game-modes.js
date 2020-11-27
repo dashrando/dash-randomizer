@@ -51,7 +51,7 @@ const game_modes = [
             },
             {
                 min: "90001",
-                max: "100000",
+                max: "99999",
                 file: "patches/dash_mm_10.seed.br"
             }
         ]
