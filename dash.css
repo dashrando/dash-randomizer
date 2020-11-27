@@ -49,9 +49,13 @@ a {
    font-weight: bold;
 }
 #dash_links {
-   font-size: 20px;
+   font-size: 17px;
    padding-bottom: 10px;
    font-weight: bold;
+}
+#inline_generate {
+   font-size: 18px;
+   padding-bottom: 10px;
 }
 #schedule_notice {
    font-size: 20px;

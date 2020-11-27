@@ -18,8 +18,7 @@ async function LoadFile(path) {
   return new Uint8Array(buffer);
 }
 
-async function RandomizeRom() {
-    let gameModeName = document.getElementById("game_mode").value;
+async function RandomizeRom(gameModeName) {
     let gameMode = game_modes.find(mode => mode.name == gameModeName);
 
     if (gameMode == null) {
@@ -69,6 +68,11 @@ async function RandomizeRom() {
     saveAs(new Blob([patchedBytes]), gameMode.prefix + theSeed.toString().padStart(5,'0') + '.sfc');
 }
 
+function RandomizeRomFromCombo() {
+    let gameModeName = document.getElementById("game_mode").value;
+    RandomizeRom(gameModeName);
+}
+
 function ToHexString(byteArray) {
   return Array.from(byteArray, function(byte) {
     return ('0' + (byte & 0xFF).toString(16)).slice(-2);
@@ -84,8 +88,20 @@ function VerifyVanillaRom() {
   reader.onload = async function () {
     let check = await window.crypto.subtle.digest('SHA-256', reader.result);
     if (ToHexString(new Uint8Array(check)) == "12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72") {
+
         let randoBtn = document.getElementById("randomize");
-        randoBtn.disabled = false;
+        if (randoBtn != null) {
+          randoBtn.disabled = false;
+          randoBtn.style.visibility = "visible";
+        }
+
+        let romBtn = document.getElementById("select-rom");
+        if (romBtn != null) {
+          romBtn.style.opacity = 0.5;
+          romBtn.style.pointerEvents = "none";
+          romBtn.value = "Verified";
+        }
+
         vanillaRomInput.disabled = true;
         vanillaBytes = new Uint8Array(reader.result);
     } else {
