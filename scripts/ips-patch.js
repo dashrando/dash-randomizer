@@ -47,6 +47,8 @@ class IpsPatch {
             this.hunks.push(hunk[0]);
             PatchIndex = hunk[1];
         }
+
+        return true;
     }
 
     static async Load(FileName) {

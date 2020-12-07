@@ -57,8 +57,8 @@ async function RandomizeRom(gameModeName) {
         return;
     }
 
-    // Apply the IPS patch associated with the game mode.
-    var gamePatch = await IpsPatch.Load(gameMode.patch);
+    // Apply the BPS patch associated with the game mode.
+    var gamePatch = await BpsPatch.Load(gameMode.patch);
     var patchedBytes = gamePatch.Apply(vanillaBytes);
 
     // Adjust the item locations based on the seed.
