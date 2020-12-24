@@ -28,6 +28,7 @@ a {
    grid-row: 1;
    grid-column: 2;
    min-width: 500px;
+   z-index: -1;
 }
 #header_double_text {
    bottom: -28px;
@@ -75,6 +76,8 @@ a {
 hr {
    border: 1px solid rgb(90, 173, 54);
    width: 92%;
+   text-align: left;
+   margin-left: 0px;
 }
 .utility {
    background-color: rgb(0,255,255);
