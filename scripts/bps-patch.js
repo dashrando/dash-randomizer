@@ -27,12 +27,12 @@ class BpsPatch {
         var targetRelativeOffset = 0;
         let eof = this.patchBuffer.length - 12;
 
-        if (!this.#VerifyChecksum(source,eof)) {
+        if (!this.VerifyChecksum(source,eof)) {
             throw "Source Checksum Mismatch";
         }
 
         var patch = this.patchBuffer.slice(0,eof + 8);
-        if (!this.#VerifyChecksum(patch,eof + 8)) {
+        if (!this.VerifyChecksum(patch,eof + 8)) {
             throw "Patch Checksum Mismatch";
         }
 
@@ -70,14 +70,14 @@ class BpsPatch {
             }
         }
 
-        if (!this.#VerifyChecksum(target,eof + 4)) {
+        if (!this.VerifyChecksum(target,eof + 4)) {
             throw "Target Checksum Mismatch";
         }
 
         return target;
     }
 
-    static #CRC32(buffer) {
+    static CRC32(buffer) {
         if (typeof BpsPatch.crcTable == 'undefined') {
             var c;
             BpsPatch.crcTable = [];
@@ -134,8 +134,8 @@ class BpsPatch {
         return this.patchBuffer[this.patchOffset++];
     }
 
-    #VerifyChecksum(bytes,index) {
-        var crc = BpsPatch.#CRC32(bytes);
+    VerifyChecksum(bytes,index) {
+        var crc = BpsPatch.CRC32(bytes);
         return ((crc & 0xff) == this.patchBuffer[index]) &
             (((crc >> 8) & 0xff) == this.patchBuffer[index + 1]) &
             (((crc >> 16) & 0xff) == this.patchBuffer[index + 2]) &
