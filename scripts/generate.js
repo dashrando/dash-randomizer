@@ -1,13 +1,13 @@
-var vanillaBytes = null;
+let vanillaBytes = null;
 
 function DisableFixedSeed() {
-   var temp = document.getElementById("fixed_value");
+   let temp = document.getElementById("fixed_value");
    temp.disabled = true;
    temp.value = "";
 }
 
 function EnableFixedSeed() {
-   var temp = document.getElementById("fixed_value");
+   let temp = document.getElementById("fixed_value");
    temp.disabled = false;
    temp.value = 1;
 }
@@ -26,14 +26,14 @@ async function RandomizeRom(gameModeName) {
       return;
    }
 
-   var theSeed = 0;
-   let fixedSeed = document.getElementById("fixed").checked;
-   var fixedValueInput = document.getElementById("fixed_value");
-   var minValue = 1;
-   var maxValue = 999999;
+   let theSeed = 0;
+   const fixedSeed = document.getElementById("fixed").checked;
+   const fixedValueInput = document.getElementById("fixed_value");
+   const minValue = Number(fixedValueInput.min);
+   const maxValue = Number(fixedValueInput.max);
 
    if (fixedSeed) {
-      var fixedValue = Number(fixedValueInput.value);
+      const fixedValue = Number(fixedValueInput.value);
 
       if (
          !Number.isInteger(fixedValue) ||
@@ -45,7 +45,7 @@ async function RandomizeRom(gameModeName) {
       }
       theSeed = fixedValue;
    } else {
-      var randomArray = new Uint32Array(1);
+      let randomArray = new Uint32Array(1);
       window.crypto.getRandomValues(randomArray);
 
       let numSeeds = maxValue - minValue + 1;
@@ -63,8 +63,8 @@ async function RandomizeRom(gameModeName) {
    }
 
    // Apply the BPS patch associated with the game mode.
-   var gamePatch = await BpsPatch.Load(gameMode.patch);
-   var patchedBytes = gamePatch.Apply(vanillaBytes);
+   const gamePatch = await BpsPatch.Load(gameMode.patch);
+   let patchedBytes = gamePatch.Apply(vanillaBytes);
 
    // Adjust the item locations based on the seed.
    await ApplySeedData(patchedBytes, seedData);

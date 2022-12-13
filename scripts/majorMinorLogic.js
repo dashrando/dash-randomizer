@@ -30,9 +30,6 @@ class Node {
 
 class MajorMinorLogic {
    nodes = [];
-   seed = 0;
-   rnd = null;
-   seedInfo = [];
 
    // Testing variables
    prefilledNodes = [];
@@ -56,9 +53,14 @@ class MajorMinorLogic {
    getSeedData() {
       let seedData = new Uint8Array(104);
 
-      for (let i = 0; i < 4; i++) {
-         seedData[i] = this.seedInfo[i];
-      }
+      let rnd = new DotNetRandom(this.seed);
+      let seedInfo1 = rnd.Next(0xffff);
+      let seedInfo2 = rnd.Next(0xffff);
+
+      seedData[0] = seedInfo1 & 0xff;
+      seedData[1] = (seedInfo1 >> 8) & 0xff;
+      seedData[2] = seedInfo2 & 0xff;
+      seedData[3] = (seedInfo2 >> 8) & 0xff;
 
       for (let i = 0; i < locations.length; i++) {
          let item = this.nodes.find(
@@ -133,14 +135,6 @@ class MajorMinorLogic {
    }
 
    placeItems(items) {
-      let seedInfo1 = this.rnd.Next(0xffff);
-      let seedInfo2 = this.rnd.Next(0xffff);
-
-      this.seedInfo[0] = seedInfo1 & 0xff;
-      this.seedInfo[1] = (seedInfo1 >> 8) & 0xff;
-      this.seedInfo[2] = seedInfo2 & 0xff;
-      this.seedInfo[3] = (seedInfo2 >> 8) & 0xff;
-
       this.rnd = new DotNetRandom(this.seed);
 
       let loadout = new Loadout();
