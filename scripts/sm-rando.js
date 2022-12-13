@@ -1,11 +1,3 @@
-async function GetSeedData(fileName, seedNum) {
-   let response = await fetch(fileName);
-   let compressed = await response.arrayBuffer();
-   let decompressed = BrotliDecode(new Uint8Array(compressed));
-   let offset = seedNum;
-   return new Uint8Array(decompressed.buffer, offset * 104, 104);
-}
-
 async function ApplySeedData(bytes, seedArray) {
    bytes[0x2fff00] = seedArray[0];
    bytes[0x2fff01] = seedArray[1];
