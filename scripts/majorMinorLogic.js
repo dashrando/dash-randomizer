@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------
+// Class representing an item location for Major / Minor logic.
+//-----------------------------------------------------------------
+
 class Node {
    constructor(location, isMajor, available) {
       this.location = location;
@@ -17,45 +21,26 @@ class Node {
    SetItem(item) {
       this.item = item;
    }
-   Show() {
-      let output =
-         '<span style="color: red">' + this.location.name + ": </span>";
-
-      if (this.item == undefined) {
-         return output + "<i>NO ITEM</i>";
-      }
-      return output + "<i>" + this.item.name + "</i>";
-   }
 }
+
+//-----------------------------------------------------------------
+// Class to randomize items using Major / Minor logic.
+//-----------------------------------------------------------------
 
 class MajorMinorLogic {
    nodes = [];
 
-   // Testing variables
-   prefilledNodes = [];
-   progressNodes = [];
-
-   preShuffleLocations = [];
-   postShuffleLocations = [];
-   weightedLocations = [];
-
-   preShuffleItems = [];
-   postShuffleItems = [];
-   weightedItems = [];
-
    constructor(seed, locations) {
       this.seed = seed;
-      this.rnd = new DotNetRandom(this.seed);
       this.setupNodes(locations);
-      this.seedInfo = [0, 0, 0, 0];
    }
 
    getSeedData() {
       let seedData = new Uint8Array(104);
 
-      let rnd = new DotNetRandom(this.seed);
-      let seedInfo1 = rnd.Next(0xffff);
-      let seedInfo2 = rnd.Next(0xffff);
+      const rnd = new DotNetRandom(this.seed);
+      const seedInfo1 = rnd.Next(0xffff);
+      const seedInfo2 = rnd.Next(0xffff);
 
       seedData[0] = seedInfo1 & 0xff;
       seedData[1] = (seedInfo1 >> 8) & 0xff;
@@ -63,10 +48,8 @@ class MajorMinorLogic {
       seedData[3] = (seedInfo2 >> 8) & 0xff;
 
       for (let i = 0; i < locations.length; i++) {
-         let item = this.nodes.find(
-            (n) => n.location.name == locations[i].name
-         ).item;
-         seedData[4 + i] = item.id;
+         const node = this.nodes.find((n) => n.location == locations[i]);
+         seedData[4 + i] = node.item.id;
       }
 
       return seedData;
@@ -102,7 +85,7 @@ class MajorMinorLogic {
          const name = node.location.name;
          return (
             name != "Morphing Ball" &&
-            name != "Missile (blue Brinstar middle)" &&
+            name != "Beta Missiles" &&
             name != "Energy Tank, Brinstar Ceiling"
          );
       };
@@ -125,116 +108,121 @@ class MajorMinorLogic {
       return true;
    }
 
-   prefill(load, item) {
-      let available = this.nodes.filter(
-         (n) => n.available(load) && this.canPlaceAtLocation(item, n)
-      );
-      let i = this.rnd.Next(available.length);
-      available[i].SetItem(item);
-      load.add(item.name);
-   }
+   //-----------------------------------------------------------------
+   // Method that places all items in random locations.
+   //-----------------------------------------------------------------
 
    placeItems(items) {
-      this.rnd = new DotNetRandom(this.seed);
+      const rnd = new DotNetRandom(this.seed);
 
-      let loadout = new Loadout();
+      //-----------------------------------------------------------------
+      // Setup the pool of items that will be placed.
+      //-----------------------------------------------------------------
+
       let itemPool = [...items];
 
-      const addItems = (name, count) => {
-         let newItems = new Array(count);
-         newItems.fill(
-            items.find((p) => p.name == name),
-            0,
-            count
-         );
-         itemPool = newItems.concat(itemPool);
-      };
-
-      addItems("Reserve Tank", 3);
-      addItems("Energy Tank", 13);
-
-      let numSupers = 11 + this.rnd.Next(7);
-      let numPBs = 13 + this.rnd.Next(7);
-      let numMissiles = 63 - numSupers - numPBs;
-
-      addItems("Missile", numMissiles);
-      addItems("Super Missile", numSupers);
-      addItems("Power Bomb", numPBs);
-
-      let pre = (name) => {
-         this.prefill(
-            loadout,
-            items.find((p) => p.name == name)
-         );
-
-         for (let i = 0; i < itemPool.length; i++) {
-            if (itemPool[i].name == name) {
-               itemPool.splice(i, 1);
-               break;
-            }
+      const setAmountInPool = (name, count) => {
+         const item = items.find((i) => i.name == name);
+         while (itemPool.filter((i) => i == item).length < count) {
+            itemPool.unshift(item);
          }
       };
 
-      pre("Morph Ball");
+      const numSupers = 12 + rnd.Next(7);
+      const numPBs = 14 + rnd.Next(7);
+      const numMissiles = 66 - numSupers - numPBs;
 
-      if (this.rnd.Next(100) < 65) {
-         pre("Missile");
+      setAmountInPool("Reserve Tank", 4);
+      setAmountInPool("Energy Tank", 14);
+      setAmountInPool("Missile", numMissiles);
+      setAmountInPool("Super Missile", numSupers);
+      setAmountInPool("Power Bomb", numPBs);
+
+      //-----------------------------------------------------------------
+      // Routine used to place the early progression items.
+      //-----------------------------------------------------------------
+
+      let prefillLoadout = new Loadout();
+
+      let prefill = (name) => {
+         const itemIndex = itemPool.findIndex((i) => i.name == name);
+         const item = itemPool.splice(itemIndex, 1)[0];
+
+         const available = this.nodes.filter(
+            (n) =>
+               n.available(prefillLoadout) && this.canPlaceAtLocation(item, n)
+         );
+
+         const index = rnd.Next(available.length);
+         available[index].SetItem(item);
+         prefillLoadout.add(item.name);
+      };
+
+      //-----------------------------------------------------------------
+      // Prefill locations with early items.
+      //-----------------------------------------------------------------
+
+      prefill("Morph Ball");
+
+      if (rnd.Next(100) < 65) {
+         prefill("Missile");
       } else {
-         pre("Super Missile");
+         prefill("Super Missile");
       }
 
-      switch (this.rnd.Next(13)) {
+      switch (rnd.Next(13)) {
          case 0:
-            pre("Speed Booster");
+            prefill("Speed Booster");
             break;
          case 1:
          case 2:
-            pre("Screw Attack");
+            prefill("Screw Attack");
             break;
          case 3:
          case 4:
          case 5:
          case 6:
-            pre("Bomb");
+            prefill("Bomb");
             break;
          default:
-            pre("Power Bomb");
+            prefill("Power Bomb");
             break;
       }
 
-      if (loadout.superPacks < 1) {
-         pre("Super Missile");
+      if (prefillLoadout.superPacks < 1) {
+         prefill("Super Missile");
       }
 
-      if (loadout.powerPacks < 1) {
-         pre("Power Bomb");
+      if (prefillLoadout.powerPacks < 1) {
+         prefill("Power Bomb");
       }
 
-      // Make note of the prefilled item locations
-      this.prefilledNodes = this.nodes.filter((node) => node.item != undefined);
-
+      //-----------------------------------------------------------------
+      // Utility routines for shuffling arrays.
       //-----------------------------------------------------------------
 
       const swap = (arr, x, y) => {
-         let tmp = arr[x];
+         const tmp = arr[x];
          arr[x] = arr[y];
          arr[y] = tmp;
       };
 
       const shuffle = (arr) => {
          for (let i = 0; i < arr.length; i++) {
-            swap(arr, i, this.rnd.NextInRange(i, arr.length));
+            swap(arr, i, rnd.NextInRange(i, arr.length));
          }
       };
 
       //-----------------------------------------------------------------
+      // Shuffle major locations.
+      //-----------------------------------------------------------------
 
-      this.preShuffleLocations = this.nodes.filter((n) => n.isMajor);
-
-      let shuffledLocations = [...this.preShuffleLocations];
+      let shuffledLocations = this.nodes.filter((n) => n.isMajor);
       shuffle(shuffledLocations);
 
-      this.postShuffleLocations = [...shuffledLocations];
+      //-----------------------------------------------------------------
+      // Give extra weighting to certain areas.
+      //-----------------------------------------------------------------
 
       let num = 100;
       shuffledLocations.forEach((n) => {
@@ -246,65 +234,55 @@ class MajorMinorLogic {
          return a.sortWeight - b.sortWeight;
       });
 
-      this.weightedLocations = [...shuffledLocations];
-
       //-----------------------------------------------------------------
-
-      this.preShuffleItems = [...itemPool];
+      // Shuffle items.
+      //-----------------------------------------------------------------
 
       let shuffledItems = itemPool;
       shuffle(shuffledItems);
 
-      this.postShuffleItems = [...shuffledItems];
-
-      let firstSuit = this.rnd.Next(2) == 0 ? "Varia Suit" : "Gravity Suit";
-      shuffledItems.splice(
-         shuffledItems.findIndex((p) => p.name == firstSuit),
-         1
-      );
-      shuffledItems.unshift(items.find((p) => p.name == firstSuit));
-
-      this.weightedItems = [...shuffledItems];
-
+      //-----------------------------------------------------------------
+      // Move a random suit to the front of the list to be placed first.
       //-----------------------------------------------------------------
 
-      let prefilled = this.nodes
-         .filter((n) => {
-            return n.item != undefined;
-         })
-         .map((p) => p.item);
+      const firstSuit = rnd.Next(2) == 0 ? "Varia Suit" : "Gravity Suit";
+      const suitIndex = shuffledItems.findIndex((i) => i.name == firstSuit);
+      shuffledItems.unshift(shuffledItems.splice(suitIndex, 1)[0]);
 
-      const getAssumedItems = (item) => {
-         let items = shuffledItems.concat(prefilled);
+      //-----------------------------------------------------------------
+      // Routine that computes the assumed loadout that will be
+      // available given the prefilled items and the remaining
+      // shuffled items. Used when placing progression items.
+      //-----------------------------------------------------------------
+
+      const getAssumedLoadout = () => {
          let itemLocations = this.nodes.filter((p) => p.item != undefined);
 
-         let localLoad = new Loadout();
-         items.forEach((p) => localLoad.add(p.name));
+         let assumedLoadout = prefillLoadout.clone();
+         shuffledItems.forEach((i) => assumedLoadout.add(i.name));
 
          let accessibleNodes = itemLocations.filter((p) => {
-            return p.available(localLoad);
+            return p.available(assumedLoadout);
          });
 
-         let accessibleItems = accessibleNodes
-            .map((p) => p.item)
-            .filter((i) => !prefilled.includes(i));
-         return items.concat(accessibleItems);
+         accessibleNodes.forEach((n) => assumedLoadout.add(n.item.name));
+         return assumedLoadout;
       };
 
-      for (let x = 0; x < shuffledItems.length; x++) {
-         let firstProgression = shuffledItems.findIndex((p) =>
+      //-----------------------------------------------------------------
+      // Place progression items.
+      //-----------------------------------------------------------------
+
+      let firstProgression;
+      while (
+         0 <=
+         (firstProgression = shuffledItems.findIndex((p) =>
             this.isProgression(p)
-         );
-
-         if (firstProgression < 0) {
-            break;
-         }
-
+         ))
+      ) {
          let item = shuffledItems.splice(firstProgression, 1)[0];
 
-         let assumedItems = getAssumedItems(item);
-         let assumedLoadout = new Loadout();
-         assumedItems.forEach((a) => assumedLoadout.add(a.name));
+         const assumedLoadout = getAssumedLoadout();
 
          let availableLocations = shuffledLocations.filter(
             (n) =>
@@ -314,9 +292,8 @@ class MajorMinorLogic {
          availableLocations[0].SetItem(item);
       }
 
-      // Make note of the progression item locations
-      this.progressNodes = this.nodes.filter((node) => node.item != undefined);
-
+      //-----------------------------------------------------------------
+      // Place the rest of the items in the pool.
       //-----------------------------------------------------------------
 
       const getCurrentLoadout = () => {
@@ -343,23 +320,17 @@ class MajorMinorLogic {
          let newLocations = getAvailableLocations(current);
 
          const canPlaceItem = (locations) => {
-            if (
+            return (
                undefined !=
                locations.find((n) => this.canPlaceAtLocation(item, n))
-            ) {
-               return true;
-            }
-            return false;
+            );
          };
-
-         const newLocationsHasMajor =
-            undefined != newLocations.find((n) => n.isMajor);
 
          if (!canPlaceItem(oldLocations)) {
             return false;
          }
 
-         if (!newLocationsHasMajor) {
+         if (undefined == newLocations.find((n) => n.isMajor)) {
             return false;
          }
 
@@ -379,10 +350,9 @@ class MajorMinorLogic {
 
          const selectItem = () => {
             if (possibleItems.length == 0) {
-               return itemPool[this.rnd.Next(itemPool.length)];
-            } else {
-               return possibleItems[this.rnd.Next(possibleItems.length)];
+               return itemPool[rnd.Next(itemPool.length)];
             }
+            return possibleItems[rnd.Next(possibleItems.length)];
          };
 
          let item = selectItem();
@@ -390,30 +360,40 @@ class MajorMinorLogic {
             getCurrentLoadout()
          ).filter((n) => this.canPlaceAtLocation(item, n));
 
-         availableLocations[this.rnd.Next(availableLocations.length)].SetItem(
-            item
-         );
+         const locationIndex = rnd.Next(availableLocations.length);
+         availableLocations[locationIndex].SetItem(item);
          return item;
       };
 
       while (itemPool.length > 0) {
-         let item = placeItem();
-         itemPool.splice(
-            itemPool.findIndex((p) => p == item),
-            1
-         );
+         const item = placeItem();
+         const itemIndex = itemPool.findIndex((i) => i == item);
+         itemPool.splice(itemIndex, 1);
       }
 
       return this.getSeedData();
    }
 
+   //-----------------------------------------------------------------
+   // Method sets up the logic required to access the different
+   // item locations.
+   //-----------------------------------------------------------------
+
    setupNodes(locations) {
+      //-----------------------------------------------------------------
+      // Routines for registering item locations.
+      //-----------------------------------------------------------------
+
       let add = (name, isMajor, available) => {
          let loc = locations.find((p) => p.name == name);
          this.nodes.push(new Node(loc, isMajor, available));
       };
       let major = (n, a) => add(n, true, a);
       let minor = (n, a) => add(n, false, a);
+
+      //-----------------------------------------------------------------
+      // Common logic used at item locations.
+      //-----------------------------------------------------------------
 
       const canHellRun = (load) => {
          return load.totalTanks > 2 || load.hasVaria;
@@ -514,6 +494,10 @@ class MajorMinorLogic {
             (load.hasSpeed && load.canUsePowerBombs && load.totalTanks > 1)
          );
       };
+
+      //-----------------------------------------------------------------
+      // Logic for each item location.
+      //-----------------------------------------------------------------
 
       minor("Landing Site (PBs)", (load) => {
          return load.canUsePowerBombs && (load.hasSpeed || load.canFly);

@@ -1,3 +1,19 @@
+// ==++==
+//
+//   Copyright (c) Microsoft Corporation.  All rights reserved.
+//
+// ==--==
+/*============================================================
+**
+** Class: DotNetRandom
+**
+** Purpose: A random number generator.
+**
+** Note: This is a javascript implementation of the Random
+**       class provided in the .NET Framework.
+** 
+===========================================================*/
+
 class DotNetRandom {
    MBIG = 2147483647;
    MSEED = 161803398;
@@ -146,9 +162,9 @@ class DotNetRandom {
       **Arguments: None
       **Exceptions: None
       ==============================================================================*/
-   /*NextDouble() {
+   NextDouble() {
       return Sample();
-   }*/
+   }
 
    /*==================================NextBytes===================================
       **Action:  Fills the byte array with random bytes [0..0x7f].  The entire array is filled.
