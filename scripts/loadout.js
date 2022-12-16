@@ -1,6 +1,4 @@
 class Loadout {
-   items = [];
-
    hasBombs = false;
    hasMorph = false;
    hasGravity = false;
@@ -37,19 +35,61 @@ class Loadout {
 
    clone() {
       let copy = new Loadout();
-      this.items.forEach((i) => copy.add(i));
+
+      copy.hasBombs = this.hasBombs;
+      copy.hasMorph = this.hasMorph;
+      copy.hasGravity = this.hasGravity;
+      copy.hasVaria = this.hasVaria;
+      copy.hasHiJump = this.hasHiJump;
+      copy.hasSpaceJump = this.hasSpaceJump;
+      copy.hasScrewAttack = this.hasScrewAttack;
+      copy.hasSpringBall = this.hasSpringBall;
+      copy.hasSpeed = this.hasSpeed;
+
+      copy.hasIce = this.hasIce;
+      copy.hasWave = this.hasWave;
+      copy.hasCharge = this.hasCharge;
+      copy.hasPlasma = this.hasPlasma;
+      copy.hasGrapple = this.hasGrapple;
+
+      copy.missilePacks = this.missilePacks;
+      copy.superPacks = this.superPacks;
+      copy.powerPacks = this.powerPacks;
+
+      copy.energyTanks = this.energyTanks;
+      copy.reserveTanks = this.reserveTanks;
+      copy.totalTanks = this.totalTanks;
+
+      copy.canUseBombs = this.canUseBombs;
+      copy.canUsePowerBombs = this.canUsePowerBombs;
+      copy.canPassBombPassages = this.canPassBombPassages;
+      copy.canDestroyBombWalls = this.canDestroyBombWalls;
+      copy.canOpenGreenDoors = this.canOpenGreenDoors;
+      copy.canOpenRedDoors = this.canOpenRedDoors;
+      copy.canOpenYellowDoors = this.canOpenYellowDoors;
+      copy.canFly = this.canFly;
+      copy.canCrystalFlash = this.canCrystalFlash;
+
       return copy;
    }
 
    add(item) {
-      this.items.push(item);
-
       switch (item) {
          case "Bomb":
             this.hasBombs = true;
+            this.canUseBombs = this.hasMorph;
+            this.canPassBombPassages |= this.canUseBombs;
+            this.canDestroyBombWalls |= this.canPassBombPassages;
+            this.canFly |= this.canUseBombs;
             break;
          case "Morph Ball":
             this.hasMorph = true;
+            this.canUseBombs = this.hasBombs;
+            this.canUsePowerBombs = this.powerPacks > 0;
+            this.canPassBombPassages =
+               this.canUseBombs || this.canUsePowerBombs;
+            this.canDestroyBombWalls |= this.canPassBombPassages;
+            this.canFly |= this.canUseBombs;
             break;
          case "Gravity Suit":
             this.hasGravity = true;
@@ -62,9 +102,11 @@ class Loadout {
             break;
          case "Space Jump":
             this.hasSpaceJump = true;
+            this.canFly = true;
             break;
          case "Screw Attack":
             this.hasScrewAttack = true;
+            this.canDestroyBombWalls = true;
             break;
          case "Spring Ball":
             this.hasSpringBall = true;
@@ -91,12 +133,30 @@ class Loadout {
 
          case "Missile":
             this.missilePacks += 1;
+            this.canOpenRedDoors = true;
+            this.canCrystalFlash =
+               this.missilePacks > 1 &&
+               this.superPacks > 1 &&
+               this.powerPacks > 2;
             break;
          case "Super Missile":
             this.superPacks += 1;
+            this.canOpenGreenDoors = true;
+            this.canOpenRedDoors = true;
+            this.canCrystalFlash =
+               this.missilePacks > 1 &&
+               this.superPacks > 1 &&
+               this.powerPacks > 2;
             break;
          case "Power Bomb":
             this.powerPacks += 1;
+            this.canUsePowerBombs = this.hasMorph;
+            this.canPassBombPassages |= this.canUsePowerBombs;
+            this.canDestroyBombWalls |= this.canPassBombPassages;
+            this.canCrystalFlash =
+               this.missilePacks > 1 &&
+               this.superPacks > 1 &&
+               this.powerPacks > 2;
             break;
 
          case "Energy Tank":
@@ -108,19 +168,5 @@ class Loadout {
             this.totalTanks += 1;
             break;
       }
-
-      this.canUseBombs |= this.hasMorph && this.hasBombs;
-      this.canUsePowerBombs |= this.hasMorph && this.powerPacks > 0;
-      this.canPassBombPassages |= this.canUseBombs || this.canUsePowerBombs;
-      this.canDestroyBombWalls |=
-         this.canPassBombPassages || this.hasScrewAttack;
-
-      this.canOpenGreenDoors |= this.superPacks > 0;
-      this.canOpenRedDoors |= this.missilePacks > 0 || this.superPacks > 0;
-      this.canOpenYellowDoors |= this.canUsePowerBombs;
-
-      this.canFly |= this.canUseBombs || this.hasSpaceJump;
-      this.canCrystalFlash |=
-         this.missilePacks > 1 && this.superPacks > 1 && this.powerPacks > 2;
    }
 }
