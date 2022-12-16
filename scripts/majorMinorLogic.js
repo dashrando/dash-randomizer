@@ -973,10 +973,7 @@ class MajorMinorLogic {
       });
 
       major("Reserve Tank, Maridia", (load) => {
-         return (
-            canAccessOuterMaridia(load) &&
-            (canDoSuitlessMaridia(load) || load.hasGravity)
-         );
+         return canAccessOuterMaridia(load) && load.hasGravity;
       });
 
       minor("Right Sand Pit (Missiles)", (load) => {
