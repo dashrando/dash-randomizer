@@ -1,3 +1,4 @@
 *.swp
 temp/
 verify/
+stats/

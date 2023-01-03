@@ -256,13 +256,13 @@ class MajorMinorLogic {
       //-----------------------------------------------------------------
 
       const getAssumedLoadout = () => {
-         let itemLocations = this.nodes.filter((p) => p.item != undefined);
+         let itemLocations = this.nodes.filter((n) => n.item != undefined);
 
          let assumedLoadout = prefillLoadout.clone();
          shuffledItems.forEach((i) => assumedLoadout.add(i.name));
 
-         let accessibleNodes = itemLocations.filter((p) => {
-            return p.available(assumedLoadout);
+         let accessibleNodes = itemLocations.filter((n) => {
+            return n.available(assumedLoadout);
          });
 
          accessibleNodes.forEach((n) => assumedLoadout.add(n.item.name));
@@ -284,12 +284,11 @@ class MajorMinorLogic {
 
          const assumedLoadout = getAssumedLoadout();
 
-         let availableLocations = shuffledLocations.filter(
+         let firstLocation = shuffledLocations.find(
             (n) =>
                n.available(assumedLoadout) && this.canPlaceAtLocation(item, n)
          );
-
-         availableLocations[0].SetItem(item);
+         firstLocation.SetItem(item);
       }
 
       //-----------------------------------------------------------------
@@ -316,29 +315,18 @@ class MajorMinorLogic {
          let current = getCurrentLoadout();
          let oldLocations = getAvailableLocations(current);
 
+         if (!oldLocations.some((n) => this.canPlaceAtLocation(item, n))) {
+            return false;
+         }
+
          current.add(item.name);
          let newLocations = getAvailableLocations(current);
-
-         const canPlaceItem = (locations) => {
-            return (
-               undefined !=
-               locations.find((n) => this.canPlaceAtLocation(item, n))
-            );
-         };
-
-         if (!canPlaceItem(oldLocations)) {
-            return false;
-         }
-
-         if (undefined == newLocations.find((n) => n.isMajor)) {
-            return false;
-         }
 
          if (newLocations.length <= oldLocations.length) {
             return false;
          }
 
-         return true;
+         return newLocations.some((n) => n.isMajor);
       };
 
       const getPossibleItems = () => {
@@ -973,10 +961,7 @@ class MajorMinorLogic {
       });
 
       major("Reserve Tank, Maridia", (load) => {
-         return (
-            canAccessOuterMaridia(load) &&
-            (canDoSuitlessMaridia(load) || load.hasGravity)
-         );
+         return canAccessOuterMaridia(load) && load.hasGravity;
       });
 
       minor("Right Sand Pit (Missiles)", (load) => {
