@@ -26,7 +26,7 @@ async function RandomizeRom(gameModeName) {
       return;
    }
 
-   let theSeed = 0;
+   let seed = 0;
    const fixedSeed = document.getElementById("fixed").checked;
    const fixedValueInput = document.getElementById("fixed_value");
    const minValue = Number(fixedValueInput.min);
@@ -43,37 +43,36 @@ async function RandomizeRom(gameModeName) {
          alert("Invalid seed specified.");
          return;
       }
-      theSeed = fixedValue;
+      seed = fixedValue;
    } else {
       let randomArray = new Uint32Array(1);
       window.crypto.getRandomValues(randomArray);
 
       let numSeeds = maxValue - minValue + 1;
       let modSeed = randomArray[0] % numSeeds;
-      theSeed = minValue + modSeed;
+      seed = minValue + modSeed;
    }
 
-   let logic = new MajorMinorLogic(theSeed, locations);
+   let logic = new MajorMinorLogic(seed, locations);
 
    const seedData = logic.placeItems(items);
 
    if (seedData == null) {
-      alert("Failed to find data for seed " + theSeed);
+      alert("Failed to find data for seed " + seed);
       return;
    }
 
-   // Apply the BPS patch associated with the game mode.
-   const gamePatch = await BpsPatch.Load(gameMode.patch);
-   let patchedBytes = gamePatch.Apply(vanillaBytes);
+   // Load the base patch associated with this game mode.
+   const basePatch = await BpsPatch.Load(gameMode.patch);
 
-   // Adjust the item locations based on the seed.
-   await ApplySeedData(patchedBytes, seedData);
+   // Generate the seed specific patch (item locations, etc.)
+   const seedPatch = generateSeedPatch(seedData);
+
+   // Create the rom by patching the vanilla rom.
+   patchedBytes = patchRom(vanillaBytes, basePatch, seedPatch);
 
    // Save the new file on the local system.
-   saveAs(
-      new Blob([patchedBytes]),
-      gameMode.prefix + theSeed.toString().padStart(6, "0") + ".sfc"
-   );
+   saveAs(new Blob([patchedBytes]), getFileName(seed, gameMode.prefix));
 }
 
 function RandomizeRomFromCombo() {

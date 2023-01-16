@@ -1,4 +1,7 @@
 *.swp
+*.sfc
 temp/
 verify/
 stats/
+level/
+viewer/
