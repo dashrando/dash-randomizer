@@ -1,6 +1,5 @@
 const vm = require("node:vm");
 const https = require("node:https");
-const http = require("node:http");
 const fs = require("node:fs");
 
 //-----------------------------------------------------------------
@@ -41,8 +40,7 @@ for (let i = 2; i < process.argv.length; i++) {
 
 const vanillaRom = fs.readFileSync(vanillaPath);
 
-//const baseUrl = "https://dashrando.github.io/";
-const baseUrl = "http://127.0.0.1:5501/";
+const baseUrl = "https://dashrando.github.io/";
 
 //-----------------------------------------------------------------
 // Utility routines for loading remote scripts and patches.
@@ -57,7 +55,7 @@ async function loadScript(url) {
    return new Promise((resolve) => {
       let data = "";
 
-      http.get(baseUrl + url, (res) => {
+      https.get(baseUrl + url, (res) => {
          res.on("data", (chunk) => {
             data += chunk;
          });
@@ -71,7 +69,7 @@ async function loadScript(url) {
 
 async function loadBuffer(url, process) {
    return new Promise((resolve) => {
-      http.get(url, (res) => {
+      https.get(url, (res) => {
          const chunks = [];
          res.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
          res.on("end", () => {
