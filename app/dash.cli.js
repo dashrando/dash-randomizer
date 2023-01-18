@@ -1,6 +1,7 @@
 const vm = require("node:vm");
 const https = require("node:https");
 const fs = require("node:fs");
+const crypto = require("node:crypto");
 
 //-----------------------------------------------------------------
 // CLI usage information.
@@ -16,7 +17,7 @@ const printUsage = () => {
 
 if (process.argv.length != 6) {
    printUsage();
-   return;
+   return 1;
 }
 
 let vanillaPath = "";
@@ -30,17 +31,38 @@ for (let i = 2; i < process.argv.length; i++) {
    } else {
       console.log("INVALID OPTION: ", process.argv[i]);
       printUsage();
-      return;
+      return 1;
    }
+}
+
+//-----------------------------------------------------------------
+// Make sure the vanilla ROM path is correct.
+//-----------------------------------------------------------------
+
+if (!fs.existsSync(vanillaPath)) {
+   console.log("COULD NOT FIND ROM:", vanillaPath);
+   return 1;
 }
 
 //-----------------------------------------------------------------
 // Read the vanilla ROM and establish the base URL.
 //-----------------------------------------------------------------
 
-const vanillaRom = fs.readFileSync(vanillaPath);
-
 const baseUrl = "https://dashrando.github.io/";
+const vanillaRom = fs.readFileSync(vanillaPath);
+const vanillaHash =
+   "12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72";
+
+//-----------------------------------------------------------------
+// Verify the vanilla ROM checksum.
+//-----------------------------------------------------------------
+
+let hash = crypto.createHash("sha256");
+hash.update(vanillaRom);
+if (hash.digest("hex") != vanillaHash) {
+   console.log("INVALID VANILLA ROM:", vanillaPath);
+   return 1;
+}
 
 //-----------------------------------------------------------------
 // Utility routines for loading remote scripts and patches.
@@ -89,7 +111,7 @@ async function loadBuffer(url, process) {
    const [basePatchUrl, seedPatch, fileName] = generateFromPreset(preset);
 
    if (basePatchUrl.length == 0 || seedPatch == null || fileName.length == 0) {
-      return;
+      return 1;
    }
 
    await loadBuffer(baseUrl + basePatchUrl, (data) => {
