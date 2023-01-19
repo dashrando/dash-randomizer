@@ -64,7 +64,7 @@ const loc = (addr, modifier, area, id, name) => {
    return new Location(addr, modifier, area, id, name);
 };
 
-const locations = [
+const getLocations = () => [
    loc(0x786de, 0x00, Area.BlueBrinstar, 1, "Morphing Ball"),
    loc(0x781cc, 0x00, Area.Crateria, 2, "Landing Site (PBs)"),
    loc(0x781e8, 0x00, Area.Crateria, 3, "Ocean (Missiles)"),
