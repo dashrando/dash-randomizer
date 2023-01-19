@@ -53,9 +53,9 @@ async function RandomizeRom(gameModeName) {
       theSeed = minValue + modSeed;
    }
 
-   let logic = new MajorMinorLogic(theSeed, locations);
+   let logic = new MajorMinorLogic(theSeed, getLocations());
 
-   const seedData = logic.placeItems(items);
+   const seedData = logic.placeItems(getItems());
 
    if (seedData == null) {
       alert("Failed to find data for seed " + theSeed);
