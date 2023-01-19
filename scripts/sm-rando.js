@@ -12,10 +12,11 @@ function ApplySeedData(bytes, seedArray) {
    bytes[0x2fff02] = seedArray[2];
    bytes[0x2fff03] = seedArray[3];
 
-   let sortedItems = items.sort((a, b) => {
+   const sortedItems = getItems().sort((a, b) => {
       return a.id - b.id;
    });
 
+   const locations = getLocations();
    for (var i = 0; i < seedArray.length - 4; i++) {
       var id = seedArray[i + 4] & 0x7f;
       var item = sortedItems.find((item) => item.id == id);
@@ -67,13 +68,13 @@ const generateFromPreset = (preset) => {
       const gameMode = game_modes.find((mode) => mode.name == "mm");
       basePatchUrl = gameMode.patch;
       fileNamePrefix = gameMode.prefix;
-      logic = new MajorMinorLogic(seed, locations);
+      logic = new MajorMinorLogic(seed, getLocations());
    } else {
       console.log("UNKNOWN PRESET: " + preset);
       return ["", null, ""];
    }
 
-   const seedData = logic.placeItems(items);
+   const seedData = logic.placeItems(getItems());
    const seedPatch = generateSeedPatch(seedData);
    const fileName = getFileName(seed, fileNamePrefix);
 

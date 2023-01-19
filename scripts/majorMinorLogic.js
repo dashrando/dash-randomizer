@@ -47,8 +47,10 @@ class MajorMinorLogic {
       seedData[2] = seedInfo2 & 0xff;
       seedData[3] = (seedInfo2 >> 8) & 0xff;
 
+      const locations = getLocations();
+
       for (let i = 0; i < locations.length; i++) {
-         const node = this.nodes.find((n) => n.location == locations[i]);
+         const node = this.nodes.find((n) => n.location.id == locations[i].id);
          seedData[4 + i] = node.item.id;
       }
 

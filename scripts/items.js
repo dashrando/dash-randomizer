@@ -29,7 +29,7 @@ class Item {
       return nameArray;
    }
 }
-const items = [
+const getItems = () => [
    new Item(0xeed7, 18, "Energy Tank"),
    new Item(0xeedb, 19, "Missile"),
    new Item(0xeedf, 20, "Super Missile"),
