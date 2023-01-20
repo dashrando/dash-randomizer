@@ -46,17 +46,16 @@ class Location {
       return nameArray;
    }
 
+   GetItemBytes(itemCode) {
+      const code = itemCode + this.modifier;
+      return new Uint8Array([code & 0xff, (code >> 8) & 0xff]);
+   }
+
    GetItemCode(bytes) {
       var code =
          ((bytes[this.address + 1] << 8) & 0xff00) |
          (bytes[this.address] & 0x00ff);
       return code - this.modifier;
-   }
-
-   SetItemCode(bytes, itemCode) {
-      var code = itemCode + this.modifier;
-      bytes[this.address + 1] = (code >> 8) & 0xff;
-      bytes[this.address] = code & 0xff;
    }
 }
 
