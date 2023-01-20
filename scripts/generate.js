@@ -65,7 +65,7 @@ async function RandomizeRom(gameModeName) {
    // Load the base patch associated with this game mode.
    const basePatch = await BpsPatch.Load(gameMode.patch);
 
-   // Generate the seed specific patch (item locations, etc.)
+   // Generate the seed specific patch (item placement, etc.)
    const seedPatch = generateSeedPatch(seedData);
 
    // Create the rom by patching the vanilla rom.

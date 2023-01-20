@@ -5,7 +5,7 @@ SCRIPT_DIR=$(dirname $SCRIPT_PATH)
 
 MIN_FILE="$SCRIPT_DIR/dash.min.js"
 
-pushd ../scripts > /dev/null
+pushd $SCRIPT_DIR/../scripts > /dev/null
 
 npx uglify-js --compress -- \
    dotnet-random.js locations.js items.js loadout.js \

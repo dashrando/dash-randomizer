@@ -6,55 +6,59 @@ const game_modes = [
    },
 ];
 
-function ApplySeedData(bytes, seedArray) {
-   bytes[0x2fff00] = seedArray[0];
-   bytes[0x2fff01] = seedArray[1];
-   bytes[0x2fff02] = seedArray[2];
-   bytes[0x2fff03] = seedArray[3];
+const encodeRepeating = (patch, offset, length, bytes) => {
+   patch.push([offset, length, bytes]);
+};
 
-   const sortedItems = getItems().sort((a, b) => {
-      return a.id - b.id;
-   });
+const encodeBytes = (patch, offset, bytes) => {
+   encodeRepeating(patch, offset, 1, bytes);
+};
 
+const generateSeedPatch = (seedData) => {
+   const spoilerStart = 0x2f5240;
+   const spoilerEnd = spoilerStart + 0x80 * 16;
+   const seedInfo = 0x2fff00;
+
+   let seedPatch = [];
+   encodeBytes(seedPatch, seedInfo, seedData.slice(0, 4));
+
+   const items = getItems();
    const locations = getLocations();
-   for (var i = 0; i < seedArray.length - 4; i++) {
-      var id = seedArray[i + 4] & 0x7f;
-      var item = sortedItems.find((item) => item.id == id);
-      locations[i].SetItemCode(bytes, item.code);
+   for (var i = 0; i < seedData.length - 4; i++) {
+      const id = seedData[i + 4] & 0x7f;
+      const loc = locations[i];
+      const item = items.find((item) => item.id == id);
+
+      const itemBytes = loc.GetItemBytes(item.code);
+      encodeBytes(seedPatch, loc.address, itemBytes);
+
+      if (id < 17) {
+         const spoilerItem = spoilerStart + (id - 1) * 0x80;
+         encodeBytes(seedPatch, spoilerItem, item.GetNameArray());
+
+         const spoilerLocation = spoilerItem + 0x40;
+         encodeBytes(seedPatch, spoilerLocation, loc.GetNameArray());
+      }
    }
 
-   var majors = sortedItems.filter((item) => item.id < 17);
-   var addr = 0x2f5240;
-   for (var i = 0; i < majors.length; i++) {
-      var itemName = majors[i].GetNameArray();
-      for (var j = 0; j < itemName.length; j++) {
-         bytes[addr + j] = itemName[j];
-      }
-      addr += 0x40;
-
-      var itemCode = majors[i].code;
-      var loc = locations.find((loc) => loc.GetItemCode(bytes) == itemCode);
-      var locName = loc.GetNameArray();
-      for (var j = 0; j < locName.length; j++) {
-         bytes[addr + j] = locName[j];
-      }
-      addr += 0x40;
-   }
-
-   bytes[addr] = 0;
-   bytes[addr + 1] = 0;
-   bytes[addr + 2] = 0;
-   bytes[addr + 3] = 0;
-}
-
-const generateSeedPatch = (seedData) => seedData;
+   encodeRepeating(seedPatch, spoilerEnd, 4, new Uint8Array([0]));
+   return seedPatch;
+};
 
 const getFileName = (seed, prefix) =>
    prefix + seed.toString().padStart(6, "0") + ".sfc";
 
 const patchRom = (vanillaRom, basePatch, seedPatch) => {
    let rom = basePatch.Apply(vanillaRom);
-   ApplySeedData(rom, seedPatch);
+
+   seedPatch.forEach((p) => {
+      const [off, cnt, pay] = p;
+
+      for (let i = 0; i < cnt; i++) {
+         rom.set(pay, off + i * pay.length);
+      }
+   });
+
    return rom;
 };
 
