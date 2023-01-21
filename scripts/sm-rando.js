@@ -4,6 +4,11 @@ const game_modes = [
       prefix: "DASH_v11_SM_",
       patch: "patches/dash_mm.bps",
    },
+   {
+      name: "full",
+      prefix: "DASH_v11_SF_",
+      patch: "patches/dash_mm.bps",
+   },
 ];
 
 const encodeRepeating = (patch, offset, length, bytes) => {
@@ -63,7 +68,7 @@ const patchRom = (vanillaRom, basePatch, seedPatch) => {
 };
 
 const generateFromPreset = (preset) => {
-   const timestamp = Math.floor(new Date().getTime() / 10000);
+   const timestamp = Math.floor(new Date().getTime() / 1000);
    const RNG = new DotNetRandom(timestamp);
    const seed = RNG.NextInRange(1, 1000000);
    let basePatchUrl = "";
@@ -73,6 +78,11 @@ const generateFromPreset = (preset) => {
       basePatchUrl = gameMode.patch;
       fileNamePrefix = gameMode.prefix;
       logic = new MajorMinorLogic(seed, getLocations());
+   } else if (preset == "full") {
+      const gameMode = game_modes.find((mode) => mode.name == "full");
+      basePatchUrl = gameMode.patch;
+      fileNamePrefix = gameMode.prefix;
+      logic = new FullLogic(seed, getLocations());
    } else {
       console.log("UNKNOWN PRESET: " + preset);
       return ["", null, ""];

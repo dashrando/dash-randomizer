@@ -53,7 +53,12 @@ async function RandomizeRom(gameModeName) {
       seed = minValue + modSeed;
    }
 
-   let logic = new MajorMinorLogic(seed, getLocations());
+   let logic = null;
+   if (gameModeName == "full") {
+      logic = new FullLogic(seed, getLocations());
+   } else {
+      logic = new MajorMinorLogic(seed, getLocations());
+   }
 
    const seedData = logic.placeItems(getItems());
 
