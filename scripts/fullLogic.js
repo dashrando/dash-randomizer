@@ -78,11 +78,15 @@ class FullLogic {
          }
       };
 
+      const numSupers = 12 + rnd.Next(7);
+      const numPBs = 14 + rnd.Next(7);
+      const numMissiles = 66 - numSupers - numPBs;
+      
       setAmountInPool("Reserve Tank", 4);
       setAmountInPool("Energy Tank", 14);
-      setAmountInPool("Missile", 34);
-      setAmountInPool("Super Missile", 14);
-      setAmountInPool("Power Bomb", 18);
+      setAmountInPool("Missile", numMissiles);
+      setAmountInPool("Super Missile", numSupers);
+      setAmountInPool("Power Bomb", numPBs);
 
       //-----------------------------------------------------------------
       // Routine used to place the early progression items.
@@ -110,7 +114,7 @@ class FullLogic {
 
       prefill("Morph Ball");
 
-      if (rnd.Next(2) == 0) {
+      if (rnd.Next(100) < 65) {
          prefill("Missile");
       } else {
          prefill("Super Missile");
@@ -903,10 +907,7 @@ class FullLogic {
       });
 
       major("Reserve Tank, Maridia", (load) => {
-         return (
-            canAccessOuterMaridia(load) &&
-            (canDoSuitlessMaridia(load) || load.hasGravity)
-         );
+         return canAccessOuterMaridia(load) && load.hasGravity;
       });
 
       minor("Right Sand Pit (Missiles)", (load) => {
