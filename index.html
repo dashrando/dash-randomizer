@@ -48,55 +48,6 @@
                alt="DASH Super Metroid Randomizer"
          /></a>
          <div id="main_header">DASH Super Metroid Randomizer!</div>
-         <div id="inline_generate">
-            <span style="font-weight: bold">Generate:</span>
-            <input
-               type="file"
-               id="vanilla-rom"
-               style="display: none"
-               onchange="VerifyVanillaRom()"
-            />
-            <input
-               type="button"
-               id="select-rom"
-               value="Select ROM..."
-               onclick="document.getElementById('vanilla-rom').click();"
-            />
-            <input
-               type="radio"
-               id="random"
-               name="seed_type"
-               value="random"
-               checked="checked"
-               onclick="DisableFixedSeed()"
-            />
-            <label for="random">Random</label>
-            <input
-               type="radio"
-               id="fixed"
-               name="seed_type"
-               value="fixed"
-               onclick="EnableFixedSeed()"
-            />
-            <label for="fixed">Fixed</label>
-            <input
-               name="fixed_value"
-               id="fixed_value"
-               type="number"
-               min="1"
-               max="999999"
-               step="1"
-               value=""
-               disabled
-            />
-            <input
-               type="button"
-               value="Randomize!"
-               id="randomize"
-               onclick="RandomizeRom('mm')"
-               disabled
-            />
-         </div>
          <div id="dash_links">
             Discord:
             <a href="https://discord.gg/WsnYSxA">https://discord.gg/WsnYSxA</a>
@@ -106,6 +57,9 @@
                   >dashrando.github.io</a
                ></span
             >
+            <br>
+            <br>
+            <a href="generate.html"><u>Generate DASH Seed</u></a>
          </div>
       </div>
 

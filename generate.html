@@ -12,6 +12,7 @@
       <script src="scripts/loadout.js"></script>
       <script src="scripts/majorMinorLogic.js"></script>
       <script src="scripts/generate.js"></script>
+      <script src="scripts/modeStandard.js"></script>
       <style>
          #rom_load {
             grid-row: 1;
@@ -25,7 +26,7 @@
          }
          #grid_container {
             display: grid;
-            grid-template-columns: 100px 120px 170px 120px;
+            grid-template-columns: 100px 240px 170px 120px;
             grid-template-rows: 60px 60px 60px;
          }
          #dash_image {
@@ -34,6 +35,19 @@
             padding-top: 10px;
             padding-left: 4px;
             /*border: 1px solid black;*/
+         }
+         #randomize_button {
+            width: 240px;
+            border: none;
+            padding: 10px 10px;
+            font-size: xx-large;
+            cursor: pointer;
+            text-align: center;
+         }
+         #section_label {
+            border: none;
+            font-size: large;
+            text-align: left;
          }
          #dash_image > img {
             height: 80px;
@@ -59,55 +73,137 @@
       <link rel="stylesheet" type="text/css" href="dash.css" />
    </head>
    <body>
-      <div id="grid_container">
-         <div class="row_label">Vanilla Rom:</div>
-         <div id="rom_load">
-            <input id="vanilla-rom" type="file" onchange="VerifyVanillaRom()" />
-         </div>
-         <div id="dash_image"><img src="images/speed_final.png" /></div>
-         <div class="row_label">Game Mode:</div>
-         <div id="select_mode">
-            <select name="game_mode" id="game_mode">
-               <!--<option value="sgl20">SG Live 2020 - Major / Minor</option>-->
-               <option value="mm">Standard - Major / Minor</option>
-            </select>
-         </div>
-         <div id="prac_rom"></div>
-         <div class="row_label">Seed:</div>
-         <div id="select_seed">
+      <div>
+         <a href="index.html"
+            ><img
+               src="images/dashLogo-noBG.png"
+               alt="DASH Super Metroid Randomizer"
+         /></a>
+      </div>
+      <hr>
+      <div id="topic">
+         Welcome to the DASH seed generation page. To generate a seed, upload your vanilla rom, select your game mode,
+         select any extra settings if you want them, and then click the "Randomize!" button.
+      </div>
+      <br>
+      <br>
+      <div id="section_label">
+         Enter Your Vanilla Rom
+      </div>
+      <hr>
+      <div id="rom_load">
+         <input id="vanilla-rom" type="file" onchange="VerifyVanillaRom()" />
+      </div>
+      <br>
+      <br>
+      <div id="section_label">
+         Select Your Game Mode
+      </div>
+      <hr>
+      <div id="select_mode">
+         <select name="game_mode" id="game_mode">
+            <option value="sm">Standard - Major / Minor</option>
+            <option value="sf">Standard - Full</option>
+            <option value="rm">Recall - Major / Minor</option>
+            <option value="rf">Recall - Full</option>
+         </select>
+      </div>
+      <br>
+      <br>
+      <div id="section_label">
+         Select Any Other Settings
+      </div>
+      <hr>
+      <div id="topic">
+         Area Randomization:
+      </div>
+      <div id="select_area">
+         <input
+            type="radio"
+            id="none"
+            name="area_type"
+            value="None"
+            checked="checked"
+         />
+         <label for="none">None</label>
+         <input
+            type="radio"
+            id="full"
+            name="area_type"
+            value="Full"
+         />
+         <label for="full">Full</label>
+         <input
+         type="radio"
+         id="light"
+         name="area_type"
+         value="Light"
+         />
+      <label for="light">Light</label>
+      </div>
+      <br>
+      <div class="topic">
+         Boss Randomization:
+         <div id="select_boss">
             <input
                type="radio"
-               id="random"
-               name="seed_type"
-               value="random"
+               id="off"
+               name="boss_type"
+               value="Off"
                checked="checked"
-               onclick="DisableFixedSeed()"
             />
-            <label for="random">Random</label>
+            <label for="off">Off</label>
             <input
                type="radio"
-               id="fixed"
-               name="seed_type"
-               value="fixed"
-               onclick="EnableFixedSeed()"
+               id="on"
+               name="boss_type"
+               value="On"
             />
-            <label for="fixed">Fixed</label>
-            <input
-               name="fixed_value"
-               id="fixed_value"
-               type="number"
-               min="1"
-               max="999999"
-               step="1"
-               value=""
-               disabled
-            />
-         </div>
-         <div>
-            <button id="randomize" onclick="RandomizeRomFromCombo()" disabled>
-               Randomize!
-            </button>
+            <label for="on">On</label>
          </div>
       </div>
+      <br>
+      <br>
+      <div id="section_label">
+         Seed Settings:
+      </div>
+      <hr>
+      <div id="select_seed">
+         <input
+            type="radio"
+            id="random"
+            name="seed_type"
+            value="random"
+            checked="checked"
+            onclick="DisableFixedSeed()"
+         />
+         <label for="random">Random</label>
+         <input
+            type="radio"
+            id="fixed"
+            name="seed_type"
+            value="fixed"
+            onclick="EnableFixedSeed()"
+         />
+         <label for="fixed">Fixed</label>
+         <input
+            name="fixed_value"
+            id="fixed_value"
+            type="number"
+            min="1"
+            max="999999"
+            step="1"
+            value=""
+            disabled
+         />
+      </div>
+      <br>
+      <div id="randomize">
+         <button id="randomize_button" onclick="RandomizeRomFromCombo()" disabled>
+            Randomize!
+         </button>
+      </div>
+      <br>
+      <a href="index.html"><u>Back to Main Page</u></a>
    </body>
 </html>

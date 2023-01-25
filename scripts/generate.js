@@ -18,14 +18,7 @@ async function LoadFile(path) {
    return new Uint8Array(buffer);
 }
 
-async function RandomizeRom(gameModeName) {
-   let gameMode = game_modes.find((mode) => mode.name == gameModeName);
-
-   if (gameMode == null) {
-      alert("Selected Game Mode is currently unsupported for web generation.");
-      return;
-   }
-
+async function RandomizeRom() {
    let theSeed = 0;
    const fixedSeed = document.getElementById("fixed").checked;
    const fixedValueInput = document.getElementById("fixed_value");
@@ -53,9 +46,39 @@ async function RandomizeRom(gameModeName) {
       theSeed = minValue + modSeed;
    }
 
-   let logic = new MajorMinorLogic(theSeed, getLocations());
+   //Set the logic and the nodes (items and locations) based on user input.
+   let logic;
+   let mode;
+   let gameModeName;
 
-   const seedData = logic.placeItems(getItems());
+   switch (document.getElementById("game_mode").value) {
+      case "sm":
+         mode = new ModeStandard(theSeed, getItems(), getLocations());
+         logic = new MajorMinorLogic(theSeed, mode.nodes);
+         gameModeName = "mm";
+         break;
+
+      /*
+      Add in more cases here as they come online for the other game modes:
+      Standard Full ("sf") 
+      Recall M/M ("rm")
+      Recall Full ("rf") 
+      */
+
+      default:
+         mode = new ModeStandard(theSeed, getItems(), getLocations());
+         logic = new MajorMinorLogic(theSeed, mode.nodes);
+         break;
+   }
+
+   let gameMode = game_modes.find((mode) => mode.name == gameModeName);
+
+   if (gameMode == null) {
+      alert("Selected Game Mode is currently unsupported for web generation.");
+      return;
+   }
+
+   const seedData = logic.placeItems(mode.itemPool);
 
    if (seedData == null) {
       alert("Failed to find data for seed " + theSeed);
@@ -77,7 +100,7 @@ async function RandomizeRom(gameModeName) {
 }
 
 function RandomizeRomFromCombo() {
-   let gameModeName = document.getElementById("game_mode").value;
+   let gameModeName = document.getElementById("select_mode").value;
    RandomizeRom(gameModeName);
 }
 
@@ -99,7 +122,7 @@ function VerifyVanillaRom() {
          ToHexString(new Uint8Array(check)) ==
          "12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72"
       ) {
-         let randoBtn = document.getElementById("randomize");
+         let randoBtn = document.getElementById("randomize_button");
          if (randoBtn != null) {
             randoBtn.disabled = false;
             randoBtn.style.visibility = "visible";
