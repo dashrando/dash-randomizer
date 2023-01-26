@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------
-// Class representing an item location for Major / Minor logic.
+// Class representing an item location.
 //-----------------------------------------------------------------
 
 class Node {
