@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------
-// Class to randomize items using Major / Minor logic.
+// Class to randomize items using Full logic.
 //-----------------------------------------------------------------
 
-class MajorMinorLogic {
+class FullLogic {
    nodes = [];
 
    constructor(seed, locations) {
@@ -55,33 +55,6 @@ class MajorMinorLogic {
       if (node.item != undefined) {
          return false;
       }
-      if (this.isMajor(item) != node.isMajor) {
-         return false;
-      }
-      const notFirstThree = (node) => {
-         const name = node.location.name;
-         return (
-            name != "Morphing Ball" &&
-            name != "Beta Missiles" &&
-            name != "Energy Tank, Brinstar Ceiling"
-         );
-      };
-      const area = node.location.area;
-      if (item.name == "Gravity Suit") {
-         if (area == Area.Crateria) {
-            return false;
-         }
-         return notFirstThree(node);
-      } else if (item.name == "Varia Suit") {
-         if (area == Area.LowerNorfair || area == Area.Crateria) {
-            return false;
-         }
-         return notFirstThree(node);
-      } else if (item.name == "Speed Booster") {
-         return notFirstThree(node);
-      } else if (item.name == "Screw Attack") {
-         return notFirstThree(node);
-      }
       return true;
    }
 
@@ -108,7 +81,7 @@ class MajorMinorLogic {
       const numSupers = 12 + rnd.Next(7);
       const numPBs = 14 + rnd.Next(7);
       const numMissiles = 66 - numSupers - numPBs;
-
+      
       setAmountInPool("Reserve Tank", 4);
       setAmountInPool("Energy Tank", 14);
       setAmountInPool("Missile", numMissiles);
@@ -149,29 +122,25 @@ class MajorMinorLogic {
 
       switch (rnd.Next(13)) {
          case 0:
-            prefill("Speed Booster");
-            break;
-         case 1:
-         case 2:
+            prefill("Missile");
             prefill("Screw Attack");
             break;
-         case 3:
-         case 4:
-         case 5:
-         case 6:
+         case 1:
+            prefill("Missile");
+            prefill("Speed Booster");
+            break;
+         case 2:
+            prefill("Missile");
             prefill("Bomb");
             break;
          default:
-            prefill("Power Bomb");
             break;
       }
 
+      prefill("Power Bomb");
+
       if (prefillLoadout.superPacks < 1) {
          prefill("Super Missile");
-      }
-
-      if (prefillLoadout.powerPacks < 1) {
-         prefill("Power Bomb");
       }
 
       //-----------------------------------------------------------------
@@ -194,7 +163,7 @@ class MajorMinorLogic {
       // Shuffle major locations.
       //-----------------------------------------------------------------
 
-      let shuffledLocations = this.nodes.filter((n) => n.isMajor);
+      let shuffledLocations = this.nodes.filter(() => true);
       shuffle(shuffledLocations);
 
       //-----------------------------------------------------------------
@@ -303,7 +272,7 @@ class MajorMinorLogic {
             return false;
          }
 
-         return newLocations.some((n) => n.isMajor);
+         return true;
       };
 
       const getPossibleItems = () => {

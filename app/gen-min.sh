@@ -9,7 +9,7 @@ pushd $SCRIPT_DIR/../scripts > /dev/null
 
 npx uglify-js --compress -- \
    dotnet-random.js locations.js items.js loadout.js \
-   majorMinorLogic.js bps-patch.js ips-patch.js \
-   sm-rando.js > $MIN_FILE
+   logic.js majorMinorLogic.js fullLogic.js \
+   bps-patch.js ips-patch.js sm-rando.js > $MIN_FILE
 
 popd > /dev/null
