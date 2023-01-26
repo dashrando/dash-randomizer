@@ -19,7 +19,7 @@ async function LoadFile(path) {
 }
 
 async function RandomizeRom() {
-   let theSeed = 0;
+   let seed = 0;
    const fixedSeed = document.getElementById("fixed").checked;
    const fixedValueInput = document.getElementById("fixed_value");
    const minValue = Number(fixedValueInput.min);
@@ -36,14 +36,14 @@ async function RandomizeRom() {
          alert("Invalid seed specified.");
          return;
       }
-      theSeed = fixedValue;
+      seed = fixedValue;
    } else {
       let randomArray = new Uint32Array(1);
       window.crypto.getRandomValues(randomArray);
 
       let numSeeds = maxValue - minValue + 1;
       let modSeed = randomArray[0] % numSeeds;
-      theSeed = minValue + modSeed;
+      seed = minValue + modSeed;
    }
 
    //Set the logic and the nodes (items and locations) based on user input.
@@ -53,9 +53,15 @@ async function RandomizeRom() {
 
    switch (document.getElementById("game_mode").value) {
       case "sm":
-         mode = new ModeStandard(theSeed, getItems(), getLocations());
-         logic = new MajorMinorLogic(theSeed, mode.nodes);
+         mode = new ModeStandard(seed, getItems(), getLocations());
+         logic = new MajorMinorLogic(seed, mode.nodes);
          gameModeName = "mm";
+         break;
+
+      case "sf":
+         mode = new ModeStandard(seed, getItems(), getLocations());
+         logic = new FullLogic(seed, mode.nodes);
+         gameModeName = "full";
          break;
 
       /*
@@ -66,8 +72,9 @@ async function RandomizeRom() {
       */
 
       default:
-         mode = new ModeStandard(theSeed, getItems(), getLocations());
-         logic = new MajorMinorLogic(theSeed, mode.nodes);
+         mode = new ModeStandard(seed, getItems(), getLocations());
+         logic = new MajorMinorLogic(seed, mode.nodes);
+         gameModeName = "mm";
          break;
    }
 
@@ -81,27 +88,21 @@ async function RandomizeRom() {
    const seedData = logic.placeItems(mode.itemPool);
 
    if (seedData == null) {
-      alert("Failed to find data for seed " + theSeed);
+      alert("Failed to find data for seed " + seed);
       return;
    }
 
-   // Apply the BPS patch associated with the game mode.
-   const gamePatch = await BpsPatch.Load(gameMode.patch);
-   let patchedBytes = gamePatch.Apply(vanillaBytes);
+   // Load the base patch associated with this game mode.
+   const basePatch = await BpsPatch.Load(gameMode.patch);
 
-   // Adjust the item locations based on the seed.
-   await ApplySeedData(patchedBytes, seedData);
+   // Generate the seed specific patch (item placement, etc.)
+   const seedPatch = generateSeedPatch(seedData);
+
+   // Create the rom by patching the vanilla rom.
+   patchedBytes = patchRom(vanillaBytes, basePatch, seedPatch);
 
    // Save the new file on the local system.
-   saveAs(
-      new Blob([patchedBytes]),
-      gameMode.prefix + theSeed.toString().padStart(6, "0") + ".sfc"
-   );
-}
-
-function RandomizeRomFromCombo() {
-   let gameModeName = document.getElementById("select_mode").value;
-   RandomizeRom(gameModeName);
+   saveAs(new Blob([patchedBytes]), getFileName(seed, gameMode.prefix));
 }
 
 function ToHexString(byteArray) {
