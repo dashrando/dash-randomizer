@@ -64,11 +64,17 @@ async function RandomizeRom() {
          gameModeName = "full";
          break;
 
-      /*
-      Add in more cases here as they come online for the other game modes:
-      Recall M/M ("rm")
-      Recall Full ("rf") 
-      */
+      case "rm":
+         mode = new ModeRecall(seed, getItems(), getLocations());
+         logic = new MajorMinorLogic(seed, mode.nodes);
+         gameModeName = "rm";
+         break;
+
+      case "rf":
+         mode = new ModeRecall(seed, getItems(), getLocations());
+         logic = new FullLogic(seed, mode.nodes);
+         gameModeName = "rf";
+         break;
 
       default:
          mode = new ModeStandard(seed, getItems(), getLocations());
@@ -80,12 +86,11 @@ async function RandomizeRom() {
    let gameMode = game_modes.find((mode) => mode.name == gameModeName);
 
    function setOtherRandoSettings(areaSettings, bossSettings) {
-
       areaElements = document.getElementsByName(areaSettings);
       bossElements = document.getElementsByName(bossSettings);
 
       //Get area rando setting
-      for(i = 0; i < areaElements.length; i++) {
+      for (i = 0; i < areaElements.length; i++) {
          if (areaElements[i].checked) {
             switch (areaElements[i].value) {
                case "Full":
@@ -103,13 +108,13 @@ async function RandomizeRom() {
                   console.log("No Area Randomization");
                   break;
                default:
-                  //Do nothing.
+               //Do nothing.
             }
          }
       }
 
       //Get boss rando setting
-      for(i = 0; i < bossElements.length; i++) {
+      for (i = 0; i < bossElements.length; i++) {
          if (bossElements[i].checked) {
             switch (bossElements[i].value) {
                case "On":
@@ -123,7 +128,7 @@ async function RandomizeRom() {
                   console.log("Boss Randomization Off");
                   break;
                default:
-                  //Do nothing.
+               //Do nothing.
             }
          }
       }
@@ -136,18 +141,14 @@ async function RandomizeRom() {
       return;
    }
 
-   const seedData = logic.placeItems(mode.itemPool);
-
-   if (seedData == null) {
-      alert("Failed to find data for seed " + seed);
-      return;
-   }
+   // Place the items.
+   logic.placeItems(mode.itemPool);
 
    // Load the base patch associated with this game mode.
    const basePatch = await BpsPatch.Load(gameMode.patch);
 
    // Generate the seed specific patch (item placement, etc.)
-   const seedPatch = generateSeedPatch(seedData);
+   const seedPatch = generateSeedPatch(seed, logic.nodes);
 
    // Create the rom by patching the vanilla rom.
    patchedBytes = patchRom(vanillaBytes, basePatch, seedPatch);

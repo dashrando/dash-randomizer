@@ -10,30 +10,8 @@ class MajorMinorLogic {
       this.nodes = nodes;
    }
 
-   getSeedData() {
-      let seedData = new Uint8Array(104);
-
-      const rnd = new DotNetRandom(this.seed);
-      const seedInfo1 = rnd.Next(0xffff);
-      const seedInfo2 = rnd.Next(0xffff);
-
-      seedData[0] = seedInfo1 & 0xff;
-      seedData[1] = (seedInfo1 >> 8) & 0xff;
-      seedData[2] = seedInfo2 & 0xff;
-      seedData[3] = (seedInfo2 >> 8) & 0xff;
-
-      const locations = getLocations();
-
-      for (let i = 0; i < locations.length; i++) {
-         const node = this.nodes.find((n) => n.location.id == locations[i].id);
-         seedData[4 + i] = node.item.id;
-      }
-
-      return seedData;
-   }
-
    isMajor(item) {
-      return item.id < 19;
+      return item.id < 19 || item.id > 21;
    }
 
    isProgression(item) {
@@ -45,6 +23,9 @@ class MajorMinorLogic {
          case 19:
          case 20:
          case 21:
+         case 22:
+         case 23:
+         case 24:
             return false;
          default:
             return true;
@@ -319,7 +300,5 @@ class MajorMinorLogic {
          const itemIndex = itemPool.findIndex((i) => i == item);
          itemPool.splice(itemIndex, 1);
       }
-
-      return this.getSeedData();
    }
 }

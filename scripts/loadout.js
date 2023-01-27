@@ -9,9 +9,14 @@ class Loadout {
    hasSpringBall = false;
    hasSpeed = false;
 
+   hasHeatShield = false;
+   hasPressureValve = false;
+   hasDoubleJump = false;
+
    hasIce = false;
    hasWave = false;
    hasCharge = false;
+   hasSpazer = false;
    hasPlasma = false;
    hasGrapple = false;
 
@@ -46,9 +51,14 @@ class Loadout {
       copy.hasSpringBall = this.hasSpringBall;
       copy.hasSpeed = this.hasSpeed;
 
+      copy.hasHeatShield = copy.hasHeatShield;
+      copy.hasPressureValve = copy.hasPressureValve;
+      copy.hasDoubleJump = copy.hasDoubleJump;
+
       copy.hasIce = this.hasIce;
       copy.hasWave = this.hasWave;
       copy.hasCharge = this.hasCharge;
+      copy.hasSpazer = this.hasSpazer;
       copy.hasPlasma = this.hasPlasma;
       copy.hasGrapple = this.hasGrapple;
 
@@ -94,11 +104,20 @@ class Loadout {
          case "Gravity Suit":
             this.hasGravity = true;
             break;
+         case "Pressure Valve":
+            this.hasPressureValve = true;
+            break;
+         case "Heat Shield":
+            this.hasHeatShield = true;
+            break;
          case "Varia Suit":
             this.hasVaria = true;
             break;
          case "HiJump Boots":
             this.hasHiJump = true;
+            break;
+         case "Double Jump":
+            this.hasDoubleJump = true;
             break;
          case "Space Jump":
             this.hasSpaceJump = true;
@@ -123,6 +142,9 @@ class Loadout {
             break;
          case "Charge Beam":
             this.hasCharge = true;
+            break;
+         case "Spazer Beam":
+            this.hasSpazer = true;
             break;
          case "Plasma Beam":
             this.hasPlasma = true;
