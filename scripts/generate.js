@@ -66,7 +66,6 @@ async function RandomizeRom() {
 
       /*
       Add in more cases here as they come online for the other game modes:
-      Standard Full ("sf") 
       Recall M/M ("rm")
       Recall Full ("rf") 
       */
@@ -79,6 +78,58 @@ async function RandomizeRom() {
    }
 
    let gameMode = game_modes.find((mode) => mode.name == gameModeName);
+
+   function setOtherRandoSettings(areaSettings, bossSettings) {
+
+      areaElements = document.getElementsByName(areaSettings);
+      bossElements = document.getElementsByName(bossSettings);
+
+      //Get area rando setting
+      for(i = 0; i < areaElements.length; i++) {
+         if (areaElements[i].checked) {
+            switch (areaElements[i].value) {
+               case "Full":
+                  //Call area rando setup function with Full parameter
+                  //or set area rando variable
+                  console.log("Full Area Randomization");
+                  break;
+               case "Light":
+                  //Call area rando setup function with Light parameter
+                  //or set area rando variable
+                  console.log("Light Area Randomization");
+                  break;
+               case "None":
+                  //Do nothing for now.
+                  console.log("No Area Randomization");
+                  break;
+               default:
+                  //Do nothing.
+            }
+         }
+      }
+
+      //Get boss rando setting
+      for(i = 0; i < bossElements.length; i++) {
+         if (bossElements[i].checked) {
+            switch (bossElements[i].value) {
+               case "On":
+                  //Call boss rando setup function with Full parameter
+                  //or set boss rando variable
+                  console.log("Boss Randomization On");
+                  break;
+               case "Off":
+                  //Call boss rando setup function with Light parameter
+                  //or set boss rando variable
+                  console.log("Boss Randomization Off");
+                  break;
+               default:
+                  //Do nothing.
+            }
+         }
+      }
+   }
+
+   setOtherRandoSettings("area_type", "boss_type");
 
    if (gameMode == null) {
       alert("Selected Game Mode is currently unsupported for web generation.");
