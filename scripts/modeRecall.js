@@ -161,6 +161,16 @@ class ModeRecall {
       let minor = (n, a) => add(n, false, a);
 
       //-----------------------------------------------------------------
+      // Update locations.
+      //-----------------------------------------------------------------
+
+      let ws_reserve = this.getRecallLocation(
+         "Reserve Tank (Wrecked Ship)",
+         locations
+      );
+      ws_reserve.modifier = 0x00;
+
+      //-----------------------------------------------------------------
       // Common logic used at item locations.
       //-----------------------------------------------------------------
 
