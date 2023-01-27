@@ -14,9 +14,9 @@ class ModeRecall {
 
       let itemPool = [
          ...items.concat([
-            new Item(0xefe0, 22, "Double Jump"),
-            new Item(0xefe8, 23, "Pressure Valve"),
-            new Item(0xefe4, 24, "Heat Shield"),
+            new Item(0xefe0, 22, "Double Jump", true, true),
+            new Item(0xefe8, 23, "Pressure Valve", true, true),
+            new Item(0xefe4, 24, "Heat Shield", true, true),
          ]),
       ];
 
@@ -26,6 +26,9 @@ class ModeRecall {
             itemPool.unshift(item);
          }
       };
+
+      let spazer = itemPool.find((i) => i.name == "Spazer");
+      spazer.isProgression = true;
 
       const numSupers = 15 + rnd.Next(4);
       const numPBs = 15 + rnd.Next(4);

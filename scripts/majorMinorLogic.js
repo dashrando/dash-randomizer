@@ -10,33 +10,11 @@ class MajorMinorLogic {
       this.nodes = nodes;
    }
 
-   isMajor(item) {
-      return item.id < 19 || item.id > 21;
-   }
-
-   isProgression(item) {
-      switch (item.id) {
-         case 3:
-         case 6:
-         case 15:
-         case 18:
-         case 19:
-         case 20:
-         case 21:
-         case 22:
-         case 23:
-         case 24:
-            return false;
-         default:
-            return true;
-      }
-   }
-
    canPlaceAtLocation(item, node) {
       if (node.item != undefined) {
          return false;
       }
-      if (this.isMajor(item) != node.isMajor) {
+      if (item.isMajor != node.isMajor) {
          return false;
       }
       const notFirstThree = (node) => {
@@ -218,9 +196,7 @@ class MajorMinorLogic {
       let firstProgression;
       while (
          0 <=
-         (firstProgression = shuffledItems.findIndex((p) =>
-            this.isProgression(p)
-         ))
+         (firstProgression = shuffledItems.findIndex((p) => p.isProgression))
       ) {
          let item = shuffledItems.splice(firstProgression, 1)[0];
 
