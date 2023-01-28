@@ -148,7 +148,7 @@ async function RandomizeRom() {
    const basePatch = await BpsPatch.Load(gameMode.patch);
 
    // Generate the seed specific patch (item placement, etc.)
-   const seedPatch = generateSeedPatch(seed, logic.nodes);
+   const seedPatch = generateSeedPatch(seed, gameMode, logic.nodes);
 
    // Create the rom by patching the vanilla rom.
    patchedBytes = patchRom(vanillaBytes, basePatch, seedPatch);
