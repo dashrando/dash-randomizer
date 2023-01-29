@@ -7,7 +7,6 @@ class ModeRecall {
 
    setupItemPool(seed) {
       const rnd = new DotNetRandom(seed);
-      const addr = (a) => a - 0x00;
 
       //-----------------------------------------------------------------
       // Setup the pool of items that will be placed.
@@ -18,29 +17,29 @@ class ModeRecall {
          new Item(0xeedb, 19, "Missile", false, false, 0x0),
          new Item(0xeedf, 20, "Super Missile", false, false, 0x0),
          new Item(0xeee3, 21, "Power Bomb", false, false, 0x0),
-         new Item(0xeee7, 2, "Bomb", true, true, addr(0x2f8107)),
-         new Item(0xeeeb, 3, "Charge Upgrade", true, false, addr(0x2f8987)),
-         new Item(0xeeef, 4, "Ice Beam", true, true, addr(0x2f8187)),
-         new Item(0xeef3, 10, "HiJump Boots", true, true, addr(0x2f8487)),
-         new Item(0xeef7, 12, "Speed Booster", true, true, addr(0x2f8587)),
-         new Item(0xeefb, 5, "Wave Beam", true, true, addr(0x2f8207)),
-         new Item(0xeeff, 6, "Spazer", true, true, addr(0x2f8287)),
-         new Item(0xef03, 14, "Spring Ball", true, true, addr(0x2f8687)),
-         new Item(0xef07, 8, "Varia Suit", true, true, addr(0x2f8387)),
-         new Item(0xef13, 7, "Plasma Beam", true, true, addr(0x2f8307)),
-         new Item(0xef17, 16, "Grappling Beam", true, true, addr(0x2f8787)),
-         new Item(0xef23, 1, "Morph Ball", true, true, addr(0x2f8087)),
+         new Item(0xeee7, 2, "Bomb", true, true, 0x2f8107),
+         new Item(0xeeeb, 3, "Charge Upgrade", true, false, 0x2f8987),
+         new Item(0xeeef, 4, "Ice Beam", true, true, 0x2f8187),
+         new Item(0xeef3, 10, "HiJump Boots", true, true, 0x2f8487),
+         new Item(0xeef7, 12, "Speed Booster", true, true, 0x2f8587),
+         new Item(0xeefb, 5, "Wave Beam", true, true, 0x2f8207),
+         new Item(0xeeff, 6, "Spazer", true, true, 0x2f8287),
+         new Item(0xef03, 14, "Spring Ball", true, true, 0x2f8687),
+         new Item(0xef07, 8, "Varia Suit", true, true, 0x2f8387),
+         new Item(0xef13, 7, "Plasma Beam", true, true, 0x2f8307),
+         new Item(0xef17, 16, "Grappling Beam", true, true, 0x2f8787),
+         new Item(0xef23, 1, "Morph Ball", true, true, 0x2f8087),
          new Item(0xef27, 17, "Reserve Tank", true, true, 0x0),
-         new Item(0xef0b, 9, "Gravity Suit", true, true, addr(0x2f8407)),
-         new Item(0xef0f, 15, "Xray Scope", true, false, addr(0x2f8707)),
-         new Item(0xef1b, 11, "Space Jump", true, true, addr(0x2f8507)),
-         new Item(0xef1f, 13, "Screw Attack", true, true, addr(0x2f8607)),
-         new Item(0xefe0, 22, "Double Jump", true, true, addr(0x2f8907)),
-         new Item(0xefe8, 23, "Pressure Valve", true, true, addr(0x2f8887)),
-         new Item(0xefe4, 24, "Heat Shield", true, true, addr(0x2f8807)),
-         new Item(0xeeeb, 3, "Charge Upgrade", true, false, addr(0x2f89c7)),
-         new Item(0xeeeb, 3, "Charge Upgrade", true, false, addr(0x2f8a07)),
-         new Item(0xeeeb, 3, "Charge Upgrade", true, false, addr(0x2f8a47)),
+         new Item(0xef0b, 9, "Gravity Suit", true, true, 0x2f8407),
+         new Item(0xef0f, 15, "Xray Scope", true, false, 0x2f8707),
+         new Item(0xef1b, 11, "Space Jump", true, true, 0x2f8507),
+         new Item(0xef1f, 13, "Screw Attack", true, true, 0x2f8607),
+         new Item(0xefe0, 22, "Double Jump", true, true, 0x2f8907),
+         new Item(0xefe8, 23, "Pressure Valve", true, true, 0x2f8887),
+         new Item(0xefe4, 24, "Heat Shield", true, true, 0x2f8807),
+         new Item(0xeeeb, 3, "Charge Upgrade", true, false, 0x2f89c7),
+         new Item(0xeeeb, 3, "Charge Upgrade", true, false, 0x2f8a07),
+         new Item(0xeeeb, 3, "Charge Upgrade", true, false, 0x2f8a47),
       ];
 
       const setAmountInPool = (name, count) => {
