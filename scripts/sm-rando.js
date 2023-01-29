@@ -4,24 +4,28 @@ const game_modes = [
       prefix: "DASH_v11_SM_",
       patch: "patches/dash_mm.bps",
       seedAddress: 0x2fff00,
+      writeName: true,
    },
    {
       name: "full",
       prefix: "DASH_v11_SF_",
       patch: "patches/dash_mm.bps",
       seedAddress: 0x2fff00,
+      writeName: true,
    },
    {
       name: "rm",
       prefix: "DASH_v11c_RM_",
       patch: "patches/dash_working.bps",
       seedAddress: 0x2f8000,
+      writeName: false,
    },
    {
       name: "rf",
       prefix: "DASH_v11c_RF_",
       patch: "patches/dash_working.bps",
       seedAddress: 0x2f8000,
+      writeName: false,
    },
 ];
 
@@ -68,11 +72,16 @@ const generateSeedPatch = (seed, gameMode, nodes) => {
    nodes
       .filter((n) => n.item.spoilerAddress > 0)
       .forEach((n) => {
-         const spoilerItem = n.item.spoilerAddress;
-         encodeBytes(seedPatch, spoilerItem, n.item.GetNameArray());
+         if (gameMode.writeName) {
+            const spoilerItem = n.item.spoilerAddress - 0x40;
+            encodeBytes(seedPatch, spoilerItem, n.item.GetNameArray());
+         }
 
-         const spoilerLocation = spoilerItem + 0x40;
-         encodeBytes(seedPatch, spoilerLocation, n.location.GetNameArray());
+         encodeBytes(
+            seedPatch,
+            n.item.spoilerAddress,
+            n.location.GetNameArray()
+         );
       });
 
    return seedPatch;
