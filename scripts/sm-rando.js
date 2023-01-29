@@ -4,32 +4,24 @@ const game_modes = [
       prefix: "DASH_v11_SM_",
       patch: "patches/dash_mm.bps",
       seedAddress: 0x2fff00,
-      spoilerAddress: 0x2f5240,
-      spoilerSize: 2048,
    },
    {
       name: "full",
       prefix: "DASH_v11_SF_",
       patch: "patches/dash_mm.bps",
       seedAddress: 0x2fff00,
-      spoilerAddress: 0x2f5240,
-      spoilerSize: 2048,
    },
    {
       name: "rm",
-      prefix: "DASH_v11_RM_",
+      prefix: "DASH_v11c_RM_",
       patch: "patches/dash_working.bps",
       seedAddress: 0x2f8000,
-      spoilerAddress: 0x0,
-      spoilerSize: 0,
    },
    {
       name: "rf",
-      prefix: "DASH_v11_RF_",
+      prefix: "DASH_v11c_RF_",
       patch: "patches/dash_working.bps",
       seedAddress: 0x2f8000,
-      spoilerAddress: 0x0,
-      spoilerSize: 0,
    },
 ];
 
@@ -73,26 +65,16 @@ const generateSeedPatch = (seed, gameMode, nodes) => {
    // Write the spoiler in the credits.
    //-----------------------------------------------------------------
 
-   if (gameMode.spoilerAddress > 0) {
-      const encodeItemSpoiler = (item, location, pos) => {
-         const spoilerItem = gameMode.spoilerAddress + pos * 0x80;
-         encodeBytes(seedPatch, spoilerItem, item.GetNameArray());
+   nodes
+      .filter((n) => n.item.spoilerAddress > 0)
+      .forEach((n) => {
+         const spoilerItem = n.item.spoilerAddress;
+         encodeBytes(seedPatch, spoilerItem, n.item.GetNameArray());
 
          const spoilerLocation = spoilerItem + 0x40;
-         encodeBytes(seedPatch, spoilerLocation, location.GetNameArray());
-      };
-      nodes
-         .filter((n) => n.item.inSpoiler)
-         .forEach((n) => {
-            encodeItemSpoiler(n.item, n.location, n.item.id - 1);
-         });
-      encodeRepeating(
-         seedPatch,
-         gameMode.spoilerAddress + gameMode.spoilerSize,
-         4,
-         new Uint8Array([0])
-      );
-   }
+         encodeBytes(seedPatch, spoilerLocation, n.location.GetNameArray());
+      });
+
    return seedPatch;
 };
 
@@ -121,19 +103,19 @@ const generateFromPreset = (preset) => {
 
    if (preset == "mm") {
       gameMode = game_modes.find((mode) => mode.name == "mm");
-      mode = new ModeStandard(seed, getItems(), getLocations());
+      mode = new ModeStandard(seed, getLocations());
       logic = new MajorMinorLogic(seed, mode.nodes);
    } else if (preset == "full") {
       gameMode = game_modes.find((mode) => mode.name == "full");
-      mode = new ModeStandard(seed, getItems(), getLocations());
+      mode = new ModeStandard(seed, getLocations());
       logic = new FullLogic(seed, mode.nodes);
    } else if (preset == "recall_mm") {
       gameMode = game_modes.find((mode) => mode.name == "rm");
-      mode = new ModeRecall(seed, getItems(), getLocations());
+      mode = new ModeRecall(seed, getLocations());
       logic = new MajorMinorLogic(seed, mode.nodes);
    } else if (preset == "recall_full") {
       gameMode = game_modes.find((mode) => mode.name == "rf");
-      mode = new ModeRecall(seed, getItems(), getLocations());
+      mode = new ModeRecall(seed, getLocations());
       logic = new FullLogic(seed, mode.nodes);
    } else {
       console.log("UNKNOWN PRESET: " + preset);

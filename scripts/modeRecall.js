@@ -1,11 +1,11 @@
 class ModeRecall {
    nodes = [];
-   constructor(seed, items, locations) {
-      this.itemPool = this.setupItemPool(seed, items);
+   constructor(seed, locations) {
+      this.itemPool = this.setupItemPool(seed);
       this.setupNodes(locations);
    }
 
-   setupItemPool(seed, items) {
+   setupItemPool(seed) {
       const rnd = new DotNetRandom(seed);
 
       //-----------------------------------------------------------------
@@ -13,22 +13,38 @@ class ModeRecall {
       //-----------------------------------------------------------------
 
       let itemPool = [
-         ...items.concat([
-            new Item(0xefe0, 22, "Double Jump", true, true),
-            new Item(0xefe8, 23, "Pressure Valve", true, true),
-            new Item(0xefe4, 24, "Heat Shield", true, true),
-         ]),
+         new Item(0xeed7, 18, "Energy Tank", true, false, 0x0),
+         new Item(0xeedb, 19, "Missile", false, false, 0x0),
+         new Item(0xeedf, 20, "Super Missile", false, false, 0x0),
+         new Item(0xeee3, 21, "Power Bomb", false, false, 0x0),
+         new Item(0xeee7, 2, "Bomb", true, true, 0x0),
+         new Item(0xeeeb, 3, "Charge Beam", true, false, 0x0),
+         new Item(0xeeef, 4, "Ice Beam", true, true, 0x0),
+         new Item(0xeef3, 10, "HiJump Boots", true, true, 0x0),
+         new Item(0xeef7, 12, "Speed Booster", true, true, 0x0),
+         new Item(0xeefb, 5, "Wave Beam", true, true, 0x0),
+         new Item(0xeeff, 6, "Spazer", true, true, 0x0),
+         new Item(0xef03, 14, "Spring Ball", true, true, 0x0),
+         new Item(0xef07, 8, "Varia Suit", true, true, 0x0),
+         new Item(0xef13, 7, "Plasma Beam", true, true, 0x0),
+         new Item(0xef17, 16, "Grappling Beam", true, true, 0x0),
+         new Item(0xef23, 1, "Morph Ball", true, true, 0x0),
+         new Item(0xef27, 17, "Reserve Tank", true, true, 0x0),
+         new Item(0xef0b, 9, "Gravity Suit", true, true, 0x0),
+         new Item(0xef0f, 15, "Xray Scope", true, false, 0x0),
+         new Item(0xef1b, 11, "Space Jump", true, true, 0x0),
+         new Item(0xef1f, 13, "Screw Attack", true, true, 0x0),
+         new Item(0xefe0, 22, "Double Jump", true, true, 0x0),
+         new Item(0xefe8, 23, "Pressure Valve", true, true, 0x0),
+         new Item(0xefe4, 24, "Heat Shield", true, true, 0x0),
       ];
 
       const setAmountInPool = (name, count) => {
-         const item = items.find((i) => i.name == name);
+         const item = itemPool.find((i) => i.name == name);
          while (itemPool.filter((i) => i == item).length < count) {
             itemPool.unshift(item);
          }
       };
-
-      let spazer = itemPool.find((i) => i.name == "Spazer");
-      spazer.isProgression = true;
 
       const numSupers = 15 + rnd.Next(4);
       const numPBs = 15 + rnd.Next(4);

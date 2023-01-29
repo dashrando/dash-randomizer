@@ -53,31 +53,31 @@ async function RandomizeRom() {
 
    switch (document.getElementById("game_mode").value) {
       case "sm":
-         mode = new ModeStandard(seed, getItems(), getLocations());
+         mode = new ModeStandard(seed, getLocations());
          logic = new MajorMinorLogic(seed, mode.nodes);
          gameModeName = "mm";
          break;
 
       case "sf":
-         mode = new ModeStandard(seed, getItems(), getLocations());
+         mode = new ModeStandard(seed, getLocations());
          logic = new FullLogic(seed, mode.nodes);
          gameModeName = "full";
          break;
 
       case "rm":
-         mode = new ModeRecall(seed, getItems(), getLocations());
+         mode = new ModeRecall(seed, getLocations());
          logic = new MajorMinorLogic(seed, mode.nodes);
          gameModeName = "rm";
          break;
 
       case "rf":
-         mode = new ModeRecall(seed, getItems(), getLocations());
+         mode = new ModeRecall(seed, getLocations());
          logic = new FullLogic(seed, mode.nodes);
          gameModeName = "rf";
          break;
 
       default:
-         mode = new ModeStandard(seed, getItems(), getLocations());
+         mode = new ModeStandard(seed, getLocations());
          logic = new MajorMinorLogic(seed, mode.nodes);
          gameModeName = "mm";
          break;
