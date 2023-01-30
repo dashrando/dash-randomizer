@@ -1,14 +1,14 @@
 const game_modes = [
    {
       name: "mm",
-      prefix: "DASH_v11_SM_",
+      prefix: "DASH_v11c_SM_",
       patch: "patches/dash_std.bps",
       seedAddress: 0x2f8000,
       writeName: false,
    },
    {
       name: "full",
-      prefix: "DASH_v11_SF_",
+      prefix: "DASH_v11c_SF_",
       patch: "patches/dash_std.bps",
       seedAddress: 0x2f8000,
       writeName: false,

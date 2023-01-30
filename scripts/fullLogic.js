@@ -165,9 +165,7 @@ class FullLogic {
       let firstProgression;
       while (
          0 <=
-         (firstProgression = shuffledItems.findIndex((p) =>
-            this.isProgression(p)
-         ))
+         (firstProgression = shuffledItems.findIndex((p) => p.isProgression))
       ) {
          let item = shuffledItems.splice(firstProgression, 1)[0];
 
