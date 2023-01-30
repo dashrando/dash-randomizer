@@ -14,12 +14,11 @@ const Area = {
 };
 
 class Location {
-   constructor(address, modifier, area, id, name) {
+   constructor(address, modifier, area, name) {
       this.address = address;
       this.modifier = modifier;
       this.area = area;
       this.name = name;
-      this.id = id;
    }
 
    GetNameArray() {
@@ -60,7 +59,7 @@ class Location {
 }
 
 const loc = (addr, modifier, area, id, name) => {
-   return new Location(addr, modifier, area, id, name);
+   return new Location(addr, modifier, area, name);
 };
 
 const getLocations = () => [

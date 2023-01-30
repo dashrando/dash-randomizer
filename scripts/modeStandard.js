@@ -13,31 +13,31 @@ class ModeStandard {
       //-----------------------------------------------------------------
 
       let itemPool = [
-         new Item(0xeed7, 18, "Energy Tank", true, false, 0x0),
-         new Item(0xeedb, 19, "Missile", false, false, 0x0),
-         new Item(0xeedf, 20, "Super Missile", false, false, 0x0),
-         new Item(0xeee3, 21, "Power Bomb", false, false, 0x0),
-         new Item(0xeee7, 2, "Bomb", true, true, 0x2f8107),
-         new Item(0xeeeb, 3, "Charge Beam", true, false, 0x2f8987),
-         new Item(0xeeef, 4, "Ice Beam", true, true, 0x2f8187),
-         new Item(0xeef3, 10, "HiJump Boots", true, true, 0x2f8487),
-         new Item(0xeef7, 12, "Speed Booster", true, true, 0x2f8587),
-         new Item(0xeefb, 5, "Wave Beam", true, true, 0x2f8207),
-         new Item(0xeeff, 6, "Spazer", true, false, 0x2f8287),
-         new Item(0xef03, 14, "Spring Ball", true, true, 0x2f8687),
-         new Item(0xef07, 8, "Varia Suit", true, true, 0x2f8387),
-         new Item(0xef13, 7, "Plasma Beam", true, true, 0x2f8307),
-         new Item(0xef17, 16, "Grappling Beam", true, true, 0x2f8787),
-         new Item(0xef23, 1, "Morph Ball", true, true, 0x2f8087),
-         new Item(0xef27, 17, "Reserve Tank", true, true, 0x0),
-         new Item(0xef0b, 9, "Gravity Suit", true, true, 0x2f8407),
-         new Item(0xef0f, 15, "Xray Scope", true, false, 0x2f8707),
-         new Item(0xef1b, 11, "Space Jump", true, true, 0x2f8507),
-         new Item(0xef1f, 13, "Screw Attack", true, true, 0x2f8607),
+         MajorItem(0x000000, ItemType.Energy, false),
+         MinorItem(0x000000, ItemType.Missile),
+         MinorItem(0x000000, ItemType.Super),
+         MinorItem(0x000000, ItemType.Power),
+         MajorItem(0x2f8107, ItemType.Bombs),
+         MajorItem(0x2f8987, ItemType.Charge, false),
+         MajorItem(0x2f8187, ItemType.Ice),
+         MajorItem(0x2f8487, ItemType.HJB),
+         MajorItem(0x2f8587, ItemType.Speed),
+         MajorItem(0x2f8207, ItemType.Wave),
+         MajorItem(0x2f8287, ItemType.Spazer, false),
+         MajorItem(0x2f8687, ItemType.Spring),
+         MajorItem(0x2f8387, ItemType.Varia),
+         MajorItem(0x2f8307, ItemType.Plasma),
+         MajorItem(0x2f8787, ItemType.Grapple),
+         MajorItem(0x2f8087, ItemType.Morph),
+         MajorItem(0x000000, ItemType.Reserve),
+         MajorItem(0x2f8407, ItemType.Gravity),
+         MajorItem(0x2f8707, ItemType.Xray, false),
+         MajorItem(0x2f8507, ItemType.Space),
+         MajorItem(0x2f8607, ItemType.Screw),
       ];
 
-      const setAmountInPool = (name, count) => {
-         const item = itemPool.find((i) => i.name == name);
+      const setAmountInPool = (type, count) => {
+         const item = itemPool.find((i) => i.code == type.code);
          while (itemPool.filter((i) => i == item).length < count) {
             itemPool.unshift(item);
          }
@@ -47,11 +47,11 @@ class ModeStandard {
       const numPBs = 14 + rnd.Next(7);
       const numMissiles = 66 - numSupers - numPBs;
 
-      setAmountInPool("Reserve Tank", 4);
-      setAmountInPool("Energy Tank", 14);
-      setAmountInPool("Missile", numMissiles);
-      setAmountInPool("Super Missile", numSupers);
-      setAmountInPool("Power Bomb", numPBs);
+      setAmountInPool(ItemType.Reserve, 4);
+      setAmountInPool(ItemType.Energy, 14);
+      setAmountInPool(ItemType.Missile, numMissiles);
+      setAmountInPool(ItemType.Super, numSupers);
+      setAmountInPool(ItemType.Power, numPBs);
 
       return itemPool;
    }
