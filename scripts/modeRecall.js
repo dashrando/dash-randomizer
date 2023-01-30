@@ -13,33 +13,33 @@ class ModeRecall {
       //-----------------------------------------------------------------
 
       let itemPool = [
-         MajorItem(0x000000, ItemType.Energy, false),
-         MinorItem(0x000000, ItemType.Missile),
-         MinorItem(0x000000, ItemType.Super),
-         MinorItem(0x000000, ItemType.Power),
-         MajorItem(0x2f8107, ItemType.Bombs),
-         MajorItem(0x2f8987, ItemType.Charge, false),
-         MajorItem(0x2f8187, ItemType.Ice),
-         MajorItem(0x2f8487, ItemType.HJB),
-         MajorItem(0x2f8587, ItemType.Speed),
-         MajorItem(0x2f8207, ItemType.Wave),
-         MajorItem(0x2f8287, ItemType.Spazer),
-         MajorItem(0x2f8687, ItemType.Spring),
-         MajorItem(0x2f8387, ItemType.Varia),
-         MajorItem(0x2f8307, ItemType.Plasma),
-         MajorItem(0x2f8787, ItemType.Grapple),
-         MajorItem(0x2f8087, ItemType.Morph),
-         MajorItem(0x000000, ItemType.Reserve),
-         MajorItem(0x2f8407, ItemType.Gravity),
-         MajorItem(0x2f8707, ItemType.Xray, false),
-         MajorItem(0x2f8507, ItemType.Space),
-         MajorItem(0x2f8607, ItemType.Screw),
-         MajorItem(0x2f8907, ItemType.Double),
-         MajorItem(0x2f8887, ItemType.Valve),
-         MajorItem(0x2f8807, ItemType.Shield),
-         MajorItem(0x2f89c7, ItemType.Charge, false),
-         MajorItem(0x2f8a07, ItemType.Charge, false),
-         MajorItem(0x2f8a47, ItemType.Charge, false),
+         majorItem(0x000000, Item.Energy, false),
+         minorItem(0x000000, Item.Missile),
+         minorItem(0x000000, Item.Super),
+         minorItem(0x000000, Item.Power),
+         majorItem(0x2f8107, Item.Bombs),
+         majorItem(0x2f8987, Item.Charge, false),
+         majorItem(0x2f8187, Item.Ice),
+         majorItem(0x2f8487, Item.HJB),
+         majorItem(0x2f8587, Item.Speed),
+         majorItem(0x2f8207, Item.Wave),
+         majorItem(0x2f8287, Item.Spazer),
+         majorItem(0x2f8687, Item.Spring),
+         majorItem(0x2f8387, Item.Varia),
+         majorItem(0x2f8307, Item.Plasma),
+         majorItem(0x2f8787, Item.Grapple),
+         majorItem(0x2f8087, Item.Morph),
+         majorItem(0x000000, Item.Reserve),
+         majorItem(0x2f8407, Item.Gravity),
+         majorItem(0x2f8707, Item.Xray, false),
+         majorItem(0x2f8507, Item.Space),
+         majorItem(0x2f8607, Item.Screw),
+         majorItem(0x2f8907, Item.Double),
+         majorItem(0x2f8887, Item.Valve),
+         majorItem(0x2f8807, Item.Shield),
+         majorItem(0x2f89c7, Item.Charge, false),
+         majorItem(0x2f8a07, Item.Charge, false),
+         majorItem(0x2f8a47, Item.Charge, false),
       ];
 
       const setAmountInPool = (type, count) => {
@@ -53,11 +53,11 @@ class ModeRecall {
       const numPBs = 15 + rnd.Next(4);
       const numMissiles = 64 - numSupers - numPBs;
 
-      setAmountInPool(ItemType.Reserve, 2);
-      setAmountInPool(ItemType.Energy, 12);
-      setAmountInPool(ItemType.Missile, numMissiles);
-      setAmountInPool(ItemType.Super, numSupers);
-      setAmountInPool(ItemType.Power, numPBs);
+      setAmountInPool(Item.Reserve, 2);
+      setAmountInPool(Item.Energy, 12);
+      setAmountInPool(Item.Missile, numMissiles);
+      setAmountInPool(Item.Super, numSupers);
+      setAmountInPool(Item.Power, numPBs);
 
       return itemPool;
    }

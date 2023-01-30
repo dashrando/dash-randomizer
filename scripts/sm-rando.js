@@ -74,7 +74,7 @@ const generateSeedPatch = (seed, gameMode, nodes) => {
       .forEach((n) => {
          if (gameMode.writeName) {
             const spoilerItem = n.item.spoilerAddress - 0x40;
-            encodeBytes(seedPatch, spoilerItem, n.item.GetNameArray());
+            encodeBytes(seedPatch, spoilerItem, itemNameToBytes(n.item.name));
          }
 
          encodeBytes(

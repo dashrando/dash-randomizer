@@ -1,5 +1,5 @@
 // prettier-ignore
-const ItemType = {
+const Item = {
    // Vanilla items
    Energy:  { code: 0xeed7, name: "Energy Tank" },
    Missile: { code: 0xeedb, name: "Missile" },
@@ -28,44 +28,46 @@ const ItemType = {
    Shield:  { code: 0xefe4, name: "Heat Shield" },
 };
 
-class Item {
-   constructor(code, name, isMajor, isProgression, spoilerAddress) {
-      this.code = code;
-      this.name = name;
-      this.isMajor = isMajor;
-      this.isProgression = isProgression;
-      this.spoilerAddress = spoilerAddress;
-   }
+const itemNameToBytes = (name) => {
+   var nameArray = new Uint8Array(64);
+   var upperName = " " + name.toUpperCase().padEnd(31, " ");
 
-   GetNameArray() {
-      var nameArray = new Uint8Array(64);
-      var upperName = " " + this.name.toUpperCase().padEnd(31, " ");
-
-      for (var i = 0; i < upperName.length; i++) {
-         var idx = i * 2;
-         if (upperName[i] == " ") {
-            nameArray[idx + 1] = 0x0;
-            nameArray[idx] = 0x7f;
-         } else {
-            var charCode = upperName.charCodeAt(i) - 0x41;
-            if (upperName[i] == ".") {
-               charCode = 0x1a;
-            } else if (upperName[i] == ",") {
-               charCode = 0x1b;
-            }
-            nameArray[idx + 1] = 0x04; // color
-            nameArray[idx] = charCode;
+   for (var i = 0; i < upperName.length; i++) {
+      var idx = i * 2;
+      if (upperName[i] == " ") {
+         nameArray[idx + 1] = 0x0;
+         nameArray[idx] = 0x7f;
+      } else {
+         var charCode = upperName.charCodeAt(i) - 0x41;
+         if (upperName[i] == ".") {
+            charCode = 0x1a;
+         } else if (upperName[i] == ",") {
+            charCode = 0x1b;
          }
+         nameArray[idx + 1] = 0x04; // color
+         nameArray[idx] = charCode;
       }
-
-      return nameArray;
    }
-}
 
-const MajorItem = (spoilerAddress, type, isProgression = true) => {
-   return new Item(type.code, type.name, true, isProgression, spoilerAddress);
+   return nameArray;
 };
 
-const MinorItem = (spoilerAddress, type, isProgression = false) => {
-   return new Item(type.code, type.name, false, isProgression, spoilerAddress);
+const majorItem = (spoilerAddress, type, isProgression = true) => {
+   return {
+      code: type.code,
+      name: type.name,
+      isMajor: true,
+      isProgression: isProgression,
+      spoilerAddress: spoilerAddress,
+   };
+};
+
+const minorItem = (spoilerAddress, type, isProgression = false) => {
+   return {
+      code: type.code,
+      name: type.name,
+      isMajor: false,
+      isProgression: isProgression,
+      spoilerAddress: spoilerAddress,
+   };
 };
