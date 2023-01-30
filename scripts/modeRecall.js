@@ -198,8 +198,9 @@ class ModeRecall {
       const canHellRun = (load) => {
          return (
             load.totalTanks >= 4 ||
+            (load.totalTanks >= 3 && load.hasGravity) ||
             load.hasVaria ||
-            (load.totalTank >= 2 && load.hasHeatShield)
+            load.hasHeatShield
          );
       };
 
@@ -655,7 +656,7 @@ class ModeRecall {
             canAccessKraid(load) &&
             (load.hasVaria ||
                load.totalTanks >= 2 ||
-               (load.hasHeatShield && load.totalTanks >= 1))
+               load.hasHeatShield)
          );
       });
 
