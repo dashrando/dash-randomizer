@@ -13,10 +13,10 @@ class ModeRecall {
       //-----------------------------------------------------------------
 
       let itemPool = [
-         majorItem(0x000000, Item.Energy, false),
+         majorItem(0x000000, Item.EnergyTank, false),
          minorItem(0x000000, Item.Missile),
          minorItem(0x000000, Item.Super),
-         minorItem(0x000000, Item.Power),
+         minorItem(0x000000, Item.PowerBomb),
          majorItem(0x2f8107, Item.Bombs),
          majorItem(0x2f8987, Item.Charge, false),
          majorItem(0x2f8187, Item.Ice),
@@ -24,7 +24,7 @@ class ModeRecall {
          majorItem(0x2f8587, Item.Speed),
          majorItem(0x2f8207, Item.Wave),
          majorItem(0x2f8287, Item.Spazer),
-         majorItem(0x2f8687, Item.Spring),
+         majorItem(0x2f8687, Item.SpringBall),
          majorItem(0x2f8387, Item.Varia),
          majorItem(0x2f8307, Item.Plasma),
          majorItem(0x2f8787, Item.Grapple),
@@ -32,18 +32,18 @@ class ModeRecall {
          majorItem(0x000000, Item.Reserve),
          majorItem(0x2f8407, Item.Gravity),
          majorItem(0x2f8707, Item.Xray, false),
-         majorItem(0x2f8507, Item.Space),
-         majorItem(0x2f8607, Item.Screw),
-         majorItem(0x2f8907, Item.Double),
-         majorItem(0x2f8887, Item.Valve),
-         majorItem(0x2f8807, Item.Shield),
+         majorItem(0x2f8507, Item.SpaceJump),
+         majorItem(0x2f8607, Item.ScrewAttack),
+         majorItem(0x2f8907, Item.DoubleJump),
+         majorItem(0x2f8887, Item.PressureValve),
+         majorItem(0x2f8807, Item.HeatShield),
          majorItem(0x2f89c7, Item.Charge, false),
          majorItem(0x2f8a07, Item.Charge, false),
          majorItem(0x2f8a47, Item.Charge, false),
       ];
 
       const setAmountInPool = (type, count) => {
-         const item = itemPool.find((i) => i.code == type.code);
+         const item = itemPool.find((i) => i.type == type);
          while (itemPool.filter((i) => i == item).length < count) {
             itemPool.unshift(item);
          }
@@ -54,10 +54,10 @@ class ModeRecall {
       const numMissiles = 64 - numSupers - numPBs;
 
       setAmountInPool(Item.Reserve, 2);
-      setAmountInPool(Item.Energy, 12);
+      setAmountInPool(Item.EnergyTank, 12);
       setAmountInPool(Item.Missile, numMissiles);
       setAmountInPool(Item.Super, numSupers);
-      setAmountInPool(Item.Power, numPBs);
+      setAmountInPool(Item.PowerBomb, numPBs);
 
       return itemPool;
    }

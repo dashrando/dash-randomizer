@@ -1,32 +1,60 @@
 // prettier-ignore
-const Item = {
+const Item = Object.freeze({
    // Vanilla items
-   Energy:  { code: 0xeed7, name: "Energy Tank" },
-   Missile: { code: 0xeedb, name: "Missile" },
-   Super:   { code: 0xeedf, name: "Super Missile" },
-   Power:   { code: 0xeee3, name: "Power Bomb" },
-   Bombs:   { code: 0xeee7, name: "Bomb" },
-   Charge:  { code: 0xeeeb, name: "Charge Beam" },
-   Ice:     { code: 0xeeef, name: "Ice Beam" },
-   HJB:     { code: 0xeef3, name: "HiJump Boots" },
-   Speed:   { code: 0xeef7, name: "Speed Booster" },
-   Wave:    { code: 0xeefb, name: "Wave Beam" },
-   Spazer:  { code: 0xeeff, name: "Spazer" },
-   Spring:  { code: 0xef03, name: "Spring Ball" },
-   Varia:   { code: 0xef07, name: "Varia Suit" },
-   Plasma:  { code: 0xef13, name: "Plasma Beam" },
-   Grapple: { code: 0xef17, name: "Grappling Beam" },
-   Morph:   { code: 0xef23, name: "Morph Ball" },
-   Reserve: { code: 0xef27, name: "Reserve Tank" },
-   Gravity: { code: 0xef0b, name: "Gravity Suit" },
-   Xray:    { code: 0xef0f, name: "Xray Scope" },
-   Space:   { code: 0xef1b, name: "Space Jump" },
-   Screw:   { code: 0xef1f, name: "Screw Attack" },
+   EnergyTank:    0xeed7,
+   Missile:       0xeedb,
+   Super:         0xeedf,
+   PowerBomb:     0xeee3,
+   Bombs:         0xeee7,
+   Charge:        0xeeeb,
+   Ice:           0xeeef,
+   HJB:           0xeef3,
+   Speed:         0xeef7,
+   Wave:          0xeefb,
+   Spazer:        0xeeff,
+   SpringBall:    0xef03,
+   Varia:         0xef07,
+   Plasma:        0xef13,
+   Grapple:       0xef17,
+   Morph:         0xef23,
+   Reserve:       0xef27,
+   Gravity:       0xef0b,
+   Xray:          0xef0f,
+   SpaceJump:     0xef1b,
+   ScrewAttack:   0xef1f,
    // Custom DASH items
-   Double:  { code: 0xefe0, name: "Double Jump" },
-   Valve:   { code: 0xefe8, name: "Pressure Valve" },
-   Shield:  { code: 0xefe4, name: "Heat Shield" },
-};
+   DoubleJump:    0xefe0,
+   PressureValve: 0xefe8,
+   HeatShield:    0xefe4,
+});
+
+// prettier-ignore
+const ItemNames = new Map([
+   [Item.EnergyTank,    "Energy Tank"],
+   [Item.Missile,       "Missile"],
+   [Item.Super,         "Super Missile"],
+   [Item.PowerBomb,     "Power Bomb"],
+   [Item.Bombs,         "Bomb"],
+   [Item.Charge,        "Charge Beam"],
+   [Item.Ice,           "Ice Beam"],
+   [Item.HJB,           "HiJump Boots"],
+   [Item.Speed,         "Speed Booster"],
+   [Item.Wave,          "Wave Beam"],
+   [Item.Spazer,        "Spazer"],
+   [Item.SpringBall,    "Spring Ball"],
+   [Item.Varia,         "Varia Suit"],
+   [Item.Plasma,        "Plasma Beam"],
+   [Item.Grapple,       "Grappling Beam"],
+   [Item.Morph,         "Morph Ball"],
+   [Item.Reserve,       "Reserve Tank"],
+   [Item.Gravity,       "Gravity Suit"],
+   [Item.Xray,          "Xray Scope"],
+   [Item.SpaceJump,     "Space Jump"],
+   [Item.ScrewAttack,   "Screw Attack"],
+   [Item.DoubleJump,    "Double Jump"],
+   [Item.PressureValve, "Pressure Valve"],
+   [Item.HeatShield,    "Heat Shield"]
+]);
 
 const itemNameToBytes = (name) => {
    var nameArray = new Uint8Array(64);
@@ -54,8 +82,8 @@ const itemNameToBytes = (name) => {
 
 const majorItem = (spoilerAddress, type, isProgression = true) => {
    return {
-      code: type.code,
-      name: type.name,
+      type: type,
+      name: ItemNames.get(type),
       isMajor: true,
       isProgression: isProgression,
       spoilerAddress: spoilerAddress,
@@ -64,8 +92,8 @@ const majorItem = (spoilerAddress, type, isProgression = true) => {
 
 const minorItem = (spoilerAddress, type, isProgression = false) => {
    return {
-      code: type.code,
-      name: type.name,
+      type: type,
+      name: ItemNames.get(type),
       isMajor: false,
       isProgression: isProgression,
       spoilerAddress: spoilerAddress,

@@ -61,7 +61,7 @@ const generateSeedPatch = (seed, gameMode, nodes) => {
    //-----------------------------------------------------------------
 
    nodes.forEach((n) => {
-      const itemBytes = n.location.GetItemBytes(n.item.code);
+      const itemBytes = n.location.GetItemBytes(n.item.type);
       encodeBytes(seedPatch, n.location.address, itemBytes);
    });
 

@@ -38,7 +38,7 @@ class FullLogic {
       let prefillLoadout = new Loadout();
 
       let prefill = (itemType) => {
-         const itemIndex = itemPool.findIndex((i) => i.code == itemType.code);
+         const itemIndex = itemPool.findIndex((i) => i.type == itemType);
          const item = itemPool.splice(itemIndex, 1)[0];
 
          const available = this.nodes.filter(
@@ -48,7 +48,7 @@ class FullLogic {
 
          const index = rnd.Next(available.length);
          available[index].SetItem(item);
-         prefillLoadout.add(item.code);
+         prefillLoadout.add(itemType);
       };
 
       //-----------------------------------------------------------------
@@ -66,7 +66,7 @@ class FullLogic {
       switch (rnd.Next(13)) {
          case 0:
             prefill(Item.Missile);
-            prefill(Item.Screw);
+            prefill(Item.ScrewAttack);
             break;
          case 1:
             prefill(Item.Missile);
@@ -80,7 +80,7 @@ class FullLogic {
             break;
       }
 
-      prefill(Item.Power);
+      prefill(Item.PowerBomb);
 
       if (prefillLoadout.superPacks < 1) {
          prefill(Item.Super);
@@ -135,9 +135,7 @@ class FullLogic {
       //-----------------------------------------------------------------
 
       const firstSuit = rnd.Next(2) == 0 ? Item.Varia : Item.Gravity;
-      const suitIndex = shuffledItems.findIndex(
-         (i) => i.code == firstSuit.code
-      );
+      const suitIndex = shuffledItems.findIndex((i) => i.type == firstSuit);
       shuffledItems.unshift(shuffledItems.splice(suitIndex, 1)[0]);
 
       //-----------------------------------------------------------------
@@ -150,13 +148,13 @@ class FullLogic {
          let itemLocations = this.nodes.filter((n) => n.item != undefined);
 
          let assumedLoadout = prefillLoadout.clone();
-         shuffledItems.forEach((i) => assumedLoadout.add(i.code));
+         shuffledItems.forEach((i) => assumedLoadout.add(i.type));
 
          let accessibleNodes = itemLocations.filter((n) => {
             return n.available(assumedLoadout);
          });
 
-         accessibleNodes.forEach((n) => assumedLoadout.add(n.item.code));
+         accessibleNodes.forEach((n) => assumedLoadout.add(n.item.type));
          return assumedLoadout;
       };
 
@@ -188,7 +186,7 @@ class FullLogic {
          let current = new Loadout();
          this.nodes.forEach((n) => {
             if (n.item != undefined) {
-               current.add(n.item.code);
+               current.add(n.item.type);
             }
          });
          return current;
@@ -208,7 +206,7 @@ class FullLogic {
             return false;
          }
 
-         current.add(item.code);
+         current.add(item.type);
          let newLocations = getAvailableLocations(current);
 
          if (newLocations.length <= oldLocations.length) {

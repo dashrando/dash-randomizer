@@ -83,16 +83,16 @@ class Loadout {
       return copy;
    }
 
-   add(itemCode) {
-      switch (itemCode) {
-         case Item.Bombs.code:
+   add(itemType) {
+      switch (itemType) {
+         case Item.Bombs:
             this.hasBombs = true;
             this.canUseBombs = this.hasMorph;
             this.canPassBombPassages |= this.canUseBombs;
             this.canDestroyBombWalls |= this.canPassBombPassages;
             this.canFly |= this.canUseBombs;
             break;
-         case Item.Morph.code:
+         case Item.Morph:
             this.hasMorph = true;
             this.canUseBombs = this.hasBombs;
             this.canUsePowerBombs = this.powerPacks > 0;
@@ -101,59 +101,59 @@ class Loadout {
             this.canDestroyBombWalls |= this.canPassBombPassages;
             this.canFly |= this.canUseBombs;
             break;
-         case Item.Gravity.code:
+         case Item.Gravity:
             this.hasGravity = true;
             break;
-         case Item.Valve.code:
+         case Item.PressureValve:
             this.hasPressureValve = true;
             break;
-         case Item.Shield.code:
+         case Item.HeatShield:
             this.hasHeatShield = true;
             break;
-         case Item.Varia.code:
+         case Item.Varia:
             this.hasVaria = true;
             break;
-         case Item.HJB.code:
+         case Item.HJB:
             this.hasHiJump = true;
             break;
-         case Item.Double.code:
+         case Item.DoubleJump:
             this.hasDoubleJump = true;
             break;
-         case Item.Space.code:
+         case Item.SpaceJump:
             this.hasSpaceJump = true;
             this.canFly = true;
             break;
-         case Item.Screw.code:
+         case Item.ScrewAttack:
             this.hasScrewAttack = true;
             this.canDestroyBombWalls = true;
             break;
-         case Item.Spring.code:
+         case Item.SpringBall:
             this.hasSpringBall = true;
             break;
-         case Item.Speed.code:
+         case Item.Speed:
             this.hasSpeed = true;
             break;
 
-         case Item.Ice.code:
+         case Item.Ice:
             this.hasIce = true;
             break;
-         case Item.Wave.code:
+         case Item.Wave:
             this.hasWave = true;
             break;
-         case Item.Charge.code:
+         case Item.Charge:
             this.hasCharge = true;
             break;
-         case Item.Spazer.code:
+         case Item.Spazer:
             this.hasSpazer = true;
             break;
-         case Item.Plasma.code:
+         case Item.Plasma:
             this.hasPlasma = true;
             break;
-         case Item.Grapple.code:
+         case Item.Grapple:
             this.hasGrapple = true;
             break;
 
-         case Item.Missile.code:
+         case Item.Missile:
             this.missilePacks += 1;
             this.canOpenRedDoors = true;
             this.canCrystalFlash =
@@ -161,7 +161,7 @@ class Loadout {
                this.superPacks > 1 &&
                this.powerPacks > 2;
             break;
-         case Item.Super.code:
+         case Item.Super:
             this.superPacks += 1;
             this.canOpenGreenDoors = true;
             this.canOpenRedDoors = true;
@@ -170,7 +170,7 @@ class Loadout {
                this.superPacks > 1 &&
                this.powerPacks > 2;
             break;
-         case Item.Power.code:
+         case Item.PowerBomb:
             this.powerPacks += 1;
             this.canUsePowerBombs = this.hasMorph;
             this.canPassBombPassages |= this.canUsePowerBombs;
@@ -181,13 +181,23 @@ class Loadout {
                this.powerPacks > 2;
             break;
 
-         case Item.Energy.code:
+         case Item.EnergyTank:
             this.energyTanks += 1;
             this.totalTanks += 1;
             break;
-         case Item.Reserve.code:
+         case Item.Reserve:
             this.reserveTanks += 1;
             this.totalTanks += 1;
+            break;
+
+         case Item.Xray:
+            break;
+
+         default:
+            console.error(
+               "[Loadout] Unknown item type:",
+               ItemNames.get(itemType)
+            );
             break;
       }
    }

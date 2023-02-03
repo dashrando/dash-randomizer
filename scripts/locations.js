@@ -1,4 +1,4 @@
-const Area = {
+const Area = Object.freeze({
    Crateria: 0,
    BlueBrinstar: 1,
    GreenBrinstar: 2,
@@ -11,7 +11,7 @@ const Area = {
    WestMaridia: 9,
    UpperNorfair: 10,
    LowerNorfair: 11,
-};
+});
 
 class Location {
    constructor(address, modifier, area, name) {
