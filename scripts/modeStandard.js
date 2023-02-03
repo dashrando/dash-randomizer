@@ -63,7 +63,7 @@ class ModeStandard {
 
       let add = (name, isMajor, available) => {
          let loc = locations.find((p) => p.name == name);
-         this.nodes.push(new Node(loc, isMajor, available));
+         this.nodes.push(new Node(name, loc, isMajor, available));
       };
       let major = (n, a) => add(n, true, a);
       let minor = (n, a) => add(n, false, a);

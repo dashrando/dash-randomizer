@@ -83,16 +83,16 @@ class Loadout {
       return copy;
    }
 
-   add(item) {
-      switch (item) {
-         case "Bomb":
+   add(itemCode) {
+      switch (itemCode) {
+         case Item.Bombs.code:
             this.hasBombs = true;
             this.canUseBombs = this.hasMorph;
             this.canPassBombPassages |= this.canUseBombs;
             this.canDestroyBombWalls |= this.canPassBombPassages;
             this.canFly |= this.canUseBombs;
             break;
-         case "Morph Ball":
+         case Item.Morph.code:
             this.hasMorph = true;
             this.canUseBombs = this.hasBombs;
             this.canUsePowerBombs = this.powerPacks > 0;
@@ -101,59 +101,59 @@ class Loadout {
             this.canDestroyBombWalls |= this.canPassBombPassages;
             this.canFly |= this.canUseBombs;
             break;
-         case "Gravity Suit":
+         case Item.Gravity.code:
             this.hasGravity = true;
             break;
-         case "Pressure Valve":
+         case Item.Valve.code:
             this.hasPressureValve = true;
             break;
-         case "Heat Shield":
+         case Item.Shield.code:
             this.hasHeatShield = true;
             break;
-         case "Varia Suit":
+         case Item.Varia.code:
             this.hasVaria = true;
             break;
-         case "HiJump Boots":
+         case Item.HJB.code:
             this.hasHiJump = true;
             break;
-         case "Double Jump":
+         case Item.Double.code:
             this.hasDoubleJump = true;
             break;
-         case "Space Jump":
+         case Item.Space.code:
             this.hasSpaceJump = true;
             this.canFly = true;
             break;
-         case "Screw Attack":
+         case Item.Screw.code:
             this.hasScrewAttack = true;
             this.canDestroyBombWalls = true;
             break;
-         case "Spring Ball":
+         case Item.Spring.code:
             this.hasSpringBall = true;
             break;
-         case "Speed Booster":
+         case Item.Speed.code:
             this.hasSpeed = true;
             break;
 
-         case "Ice Beam":
+         case Item.Ice.code:
             this.hasIce = true;
             break;
-         case "Wave Beam":
+         case Item.Wave.code:
             this.hasWave = true;
             break;
-         case "Charge Beam":
+         case Item.Charge.code:
             this.hasCharge = true;
             break;
-         case "Spazer Beam":
+         case Item.Spazer.code:
             this.hasSpazer = true;
             break;
-         case "Plasma Beam":
+         case Item.Plasma.code:
             this.hasPlasma = true;
             break;
-         case "Grappling Beam":
+         case Item.Grapple.code:
             this.hasGrapple = true;
             break;
 
-         case "Missile":
+         case Item.Missile.code:
             this.missilePacks += 1;
             this.canOpenRedDoors = true;
             this.canCrystalFlash =
@@ -161,7 +161,7 @@ class Loadout {
                this.superPacks > 1 &&
                this.powerPacks > 2;
             break;
-         case "Super Missile":
+         case Item.Super.code:
             this.superPacks += 1;
             this.canOpenGreenDoors = true;
             this.canOpenRedDoors = true;
@@ -170,7 +170,7 @@ class Loadout {
                this.superPacks > 1 &&
                this.powerPacks > 2;
             break;
-         case "Power Bomb":
+         case Item.Power.code:
             this.powerPacks += 1;
             this.canUsePowerBombs = this.hasMorph;
             this.canPassBombPassages |= this.canUsePowerBombs;
@@ -181,11 +181,11 @@ class Loadout {
                this.powerPacks > 2;
             break;
 
-         case "Energy Tank":
+         case Item.Energy.code:
             this.energyTanks += 1;
             this.totalTanks += 1;
             break;
-         case "Reserve Tank":
+         case Item.Reserve.code:
             this.reserveTanks += 1;
             this.totalTanks += 1;
             break;

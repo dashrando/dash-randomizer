@@ -26,19 +26,15 @@ class MajorMinorLogic {
          );
       };
       const area = node.location.area;
-      if (item.name == "Gravity Suit") {
+      if (item.code == Item.Gravity.code) {
          if (area == Area.Crateria) {
             return false;
          }
          return notFirstThree(node);
-      } else if (item.name == "Varia Suit") {
+      } else if (item.code == Item.Varia.code) {
          if (area == Area.LowerNorfair || area == Area.Crateria) {
             return false;
          }
-         return notFirstThree(node);
-      } else if (item.name == "Speed Booster") {
-         return notFirstThree(node);
-      } else if (item.name == "Screw Attack") {
          return notFirstThree(node);
       }
       return true;
@@ -64,8 +60,8 @@ class MajorMinorLogic {
 
       let prefillLoadout = new Loadout();
 
-      let prefill = (name) => {
-         const itemIndex = itemPool.findIndex((i) => i.name == name);
+      let prefill = (itemType) => {
+         const itemIndex = itemPool.findIndex((i) => i.code == itemType.code);
          const item = itemPool.splice(itemIndex, 1)[0];
 
          const available = this.nodes.filter(
@@ -75,46 +71,46 @@ class MajorMinorLogic {
 
          const index = rnd.Next(available.length);
          available[index].SetItem(item);
-         prefillLoadout.add(item.name);
+         prefillLoadout.add(item.code);
       };
 
       //-----------------------------------------------------------------
       // Prefill locations with early items.
       //-----------------------------------------------------------------
 
-      prefill("Morph Ball");
+      prefill(Item.Morph);
 
       if (rnd.Next(100) < 65) {
-         prefill("Missile");
+         prefill(Item.Missile);
       } else {
-         prefill("Super Missile");
+         prefill(Item.Super);
       }
 
       switch (rnd.Next(13)) {
          case 0:
-            prefill("Speed Booster");
+            prefill(Item.Speed);
             break;
          case 1:
          case 2:
-            prefill("Screw Attack");
+            prefill(Item.Screw);
             break;
          case 3:
          case 4:
          case 5:
          case 6:
-            prefill("Bomb");
+            prefill(Item.Bombs);
             break;
          default:
-            prefill("Power Bomb");
+            prefill(Item.Power);
             break;
       }
 
       if (prefillLoadout.superPacks < 1) {
-         prefill("Super Missile");
+         prefill(Item.Super);
       }
 
       if (prefillLoadout.powerPacks < 1) {
-         prefill("Power Bomb");
+         prefill(Item.Power);
       }
 
       //-----------------------------------------------------------------
@@ -165,8 +161,10 @@ class MajorMinorLogic {
       // Move a random suit to the front of the list to be placed first.
       //-----------------------------------------------------------------
 
-      const firstSuit = rnd.Next(2) == 0 ? "Varia Suit" : "Gravity Suit";
-      const suitIndex = shuffledItems.findIndex((i) => i.name == firstSuit);
+      const firstSuit = rnd.Next(2) == 0 ? Item.Varia : Item.Gravity;
+      const suitIndex = shuffledItems.findIndex(
+         (i) => i.code == firstSuit.code
+      );
       shuffledItems.unshift(shuffledItems.splice(suitIndex, 1)[0]);
 
       //-----------------------------------------------------------------
@@ -179,13 +177,13 @@ class MajorMinorLogic {
          let itemLocations = this.nodes.filter((n) => n.item != undefined);
 
          let assumedLoadout = prefillLoadout.clone();
-         shuffledItems.forEach((i) => assumedLoadout.add(i.name));
+         shuffledItems.forEach((i) => assumedLoadout.add(i.code));
 
          let accessibleNodes = itemLocations.filter((n) => {
             return n.available(assumedLoadout);
          });
 
-         accessibleNodes.forEach((n) => assumedLoadout.add(n.item.name));
+         accessibleNodes.forEach((n) => assumedLoadout.add(n.item.code));
          return assumedLoadout;
       };
 
@@ -217,7 +215,7 @@ class MajorMinorLogic {
          let current = new Loadout();
          this.nodes.forEach((n) => {
             if (n.item != undefined) {
-               current.add(n.item.name);
+               current.add(n.item.code);
             }
          });
          return current;
@@ -237,7 +235,7 @@ class MajorMinorLogic {
             return false;
          }
 
-         current.add(item.name);
+         current.add(item.code);
          let newLocations = getAvailableLocations(current);
 
          if (newLocations.length <= oldLocations.length) {

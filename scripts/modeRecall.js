@@ -176,7 +176,7 @@ class ModeRecall {
 
       let add = (name, isMajor, available) => {
          let loc = this.getRecallLocation(name, locations);
-         this.nodes.push(new Node(loc, isMajor, available));
+         this.nodes.push(new Node(name, loc, isMajor, available));
       };
       let major = (n, a) => add(n, true, a);
       let minor = (n, a) => add(n, false, a);
@@ -654,9 +654,7 @@ class ModeRecall {
       major("Ice Beam", (load) => {
          return (
             canAccessKraid(load) &&
-            (load.hasVaria ||
-               load.totalTanks >= 2 ||
-               load.hasHeatShield)
+            (load.hasVaria || load.totalTanks >= 2 || load.hasHeatShield)
          );
       });
 

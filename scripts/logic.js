@@ -3,7 +3,8 @@
 //-----------------------------------------------------------------
 
 class Node {
-   constructor(location, isMajor, available) {
+   constructor(name, location, isMajor, available) {
+      this.name = name;
       this.location = location;
       this.isMajor = isMajor;
       this.sortWeight = 0;

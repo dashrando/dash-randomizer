@@ -37,8 +37,8 @@ class FullLogic {
 
       let prefillLoadout = new Loadout();
 
-      let prefill = (name) => {
-         const itemIndex = itemPool.findIndex((i) => i.name == name);
+      let prefill = (itemType) => {
+         const itemIndex = itemPool.findIndex((i) => i.code == itemType.code);
          const item = itemPool.splice(itemIndex, 1)[0];
 
          const available = this.nodes.filter(
@@ -48,42 +48,42 @@ class FullLogic {
 
          const index = rnd.Next(available.length);
          available[index].SetItem(item);
-         prefillLoadout.add(item.name);
+         prefillLoadout.add(item.code);
       };
 
       //-----------------------------------------------------------------
       // Prefill locations with early items.
       //-----------------------------------------------------------------
 
-      prefill("Morph Ball");
+      prefill(Item.Morph);
 
       if (rnd.Next(100) < 65) {
-         prefill("Missile");
+         prefill(Item.Missile);
       } else {
-         prefill("Super Missile");
+         prefill(Item.Super);
       }
 
       switch (rnd.Next(13)) {
          case 0:
-            prefill("Missile");
-            prefill("Screw Attack");
+            prefill(Item.Missile);
+            prefill(Item.Screw);
             break;
          case 1:
-            prefill("Missile");
-            prefill("Speed Booster");
+            prefill(Item.Missile);
+            prefill(Item.Speed);
             break;
          case 2:
-            prefill("Missile");
-            prefill("Bomb");
+            prefill(Item.Missile);
+            prefill(Item.Bombs);
             break;
          default:
             break;
       }
 
-      prefill("Power Bomb");
+      prefill(Item.Power);
 
       if (prefillLoadout.superPacks < 1) {
-         prefill("Super Missile");
+         prefill(Item.Super);
       }
 
       //-----------------------------------------------------------------
@@ -103,7 +103,7 @@ class FullLogic {
       };
 
       //-----------------------------------------------------------------
-      // Shuffle major locations.
+      // Shuffle locations.
       //-----------------------------------------------------------------
 
       let shuffledLocations = this.nodes.filter(() => true);
@@ -134,8 +134,10 @@ class FullLogic {
       // Move a random suit to the front of the list to be placed first.
       //-----------------------------------------------------------------
 
-      const firstSuit = rnd.Next(2) == 0 ? "Varia Suit" : "Gravity Suit";
-      const suitIndex = shuffledItems.findIndex((i) => i.name == firstSuit);
+      const firstSuit = rnd.Next(2) == 0 ? Item.Varia : Item.Gravity;
+      const suitIndex = shuffledItems.findIndex(
+         (i) => i.code == firstSuit.code
+      );
       shuffledItems.unshift(shuffledItems.splice(suitIndex, 1)[0]);
 
       //-----------------------------------------------------------------
@@ -148,13 +150,13 @@ class FullLogic {
          let itemLocations = this.nodes.filter((n) => n.item != undefined);
 
          let assumedLoadout = prefillLoadout.clone();
-         shuffledItems.forEach((i) => assumedLoadout.add(i.name));
+         shuffledItems.forEach((i) => assumedLoadout.add(i.code));
 
          let accessibleNodes = itemLocations.filter((n) => {
             return n.available(assumedLoadout);
          });
 
-         accessibleNodes.forEach((n) => assumedLoadout.add(n.item.name));
+         accessibleNodes.forEach((n) => assumedLoadout.add(n.item.code));
          return assumedLoadout;
       };
 
@@ -186,7 +188,7 @@ class FullLogic {
          let current = new Loadout();
          this.nodes.forEach((n) => {
             if (n.item != undefined) {
-               current.add(n.item.name);
+               current.add(n.item.code);
             }
          });
          return current;
@@ -206,7 +208,7 @@ class FullLogic {
             return false;
          }
 
-         current.add(item.name);
+         current.add(item.code);
          let newLocations = getAvailableLocations(current);
 
          if (newLocations.length <= oldLocations.length) {
