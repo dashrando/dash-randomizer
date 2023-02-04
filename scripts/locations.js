@@ -66,7 +66,7 @@ const getLocations = () => [
    loc(0x786de, 0x00, Area.BlueBrinstar, 1, "Morphing Ball"),
    loc(0x781cc, 0x00, Area.Crateria, 2, "Landing Site (PBs)"),
    loc(0x781e8, 0x00, Area.Crateria, 3, "Ocean (Missiles)"),
-   loc(0x781ee, 0xa8, Area.Crateria, 4, "Sky (Missiles)"),
+   loc(0x781ee, 0xa8, Area.WreckedShip, 4, "Sky (Missiles)"),
    loc(0x781f4, 0x00, Area.Crateria, 5, "Outside WS Middle (Missiles)"),
    loc(0x78248, 0x00, Area.Crateria, 6, "Moat (Missiles)"),
    loc(0x78264, 0x00, Area.Crateria, 7, "Energy Tank, Gauntlet"),
