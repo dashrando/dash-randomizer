@@ -18,7 +18,7 @@ class ModeRecall {
          minorItem(0x000000, Item.Super),
          minorItem(0x000000, Item.PowerBomb),
          majorItem(0x2f8107, Item.Bombs),
-         majorItem(0x2f8987, Item.Charge, false),
+         majorItem(0x2f8987, Item.BeamUpgrade, false),
          majorItem(0x2f8187, Item.Ice),
          majorItem(0x2f8487, Item.HJB),
          majorItem(0x2f8587, Item.Speed),
@@ -37,9 +37,9 @@ class ModeRecall {
          majorItem(0x2f8907, Item.DoubleJump),
          majorItem(0x2f8887, Item.PressureValve),
          majorItem(0x2f8807, Item.HeatShield),
-         majorItem(0x2f89c7, Item.Charge, false),
-         majorItem(0x2f8a07, Item.Charge, false),
-         majorItem(0x2f8a47, Item.Charge, false),
+         majorItem(0x2f89c7, Item.BeamUpgrade, false),
+         majorItem(0x2f8a07, Item.BeamUpgrade, false),
+         majorItem(0x2f8a47, Item.BeamUpgrade, false),
       ];
 
       const setAmountInPool = (type, count) => {

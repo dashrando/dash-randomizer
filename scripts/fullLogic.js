@@ -36,6 +36,7 @@ class FullLogic {
       //-----------------------------------------------------------------
 
       let prefillLoadout = new Loadout();
+      prefillLoadout.hasCharge = true; // TODO: Populate based on flags
 
       let prefill = (itemType) => {
          const itemIndex = itemPool.findIndex((i) => i.type == itemType);

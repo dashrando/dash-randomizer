@@ -26,6 +26,7 @@ const Item = Object.freeze({
    DoubleJump:    0xefe0,
    PressureValve: 0xefe8,
    HeatShield:    0xefe4,
+   BeamUpgrade:   0xefec,
 });
 
 // prettier-ignore
@@ -53,7 +54,8 @@ const ItemNames = new Map([
    [Item.ScrewAttack,   "Screw Attack"],
    [Item.DoubleJump,    "Double Jump"],
    [Item.PressureValve, "Pressure Valve"],
-   [Item.HeatShield,    "Heat Shield"]
+   [Item.HeatShield,    "Heat Shield"],
+   [Item.BeamUpgrade,   "Beam Upgrade"],
 ]);
 
 const itemNameToBytes = (name) => {

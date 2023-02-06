@@ -190,6 +190,7 @@ class Loadout {
             this.totalTanks += 1;
             break;
 
+         case Item.BeamUpgrade:
          case Item.Xray:
             break;
 
