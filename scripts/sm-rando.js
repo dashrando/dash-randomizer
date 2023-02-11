@@ -1,13 +1,31 @@
 const game_modes = [
    {
       name: "mm",
-      prefix: "DASH_v11_SM_",
-      patch: "patches/dash_mm.bps",
+      prefix: "DASH_v11h_SM_",
+      patch: "patches/dash_std.bps",
+      seedAddress: 0x2f8000,
+      writeName: false,
    },
    {
       name: "full",
-      prefix: "DASH_v11_SF_",
-      patch: "patches/dash_mm.bps",
+      prefix: "DASH_v11h_SF_",
+      patch: "patches/dash_std.bps",
+      seedAddress: 0x2f8000,
+      writeName: false,
+   },
+   {
+      name: "rm",
+      prefix: "DASH_v11h_RM_",
+      patch: "patches/dash_working.bps",
+      seedAddress: 0x2f8000,
+      writeName: false,
+   },
+   {
+      name: "rf",
+      prefix: "DASH_v11h_RF_",
+      patch: "patches/dash_working.bps",
+      seedAddress: 0x2f8000,
+      writeName: false,
    },
 ];
 
@@ -19,34 +37,53 @@ const encodeBytes = (patch, offset, bytes) => {
    encodeRepeating(patch, offset, 1, bytes);
 };
 
-const generateSeedPatch = (seedData) => {
-   const spoilerStart = 0x2f5240;
-   const spoilerEnd = spoilerStart + 0x80 * 16;
-   const seedInfo = 0x2fff00;
+const generateSeedPatch = (seed, gameMode, nodes) => {
+   //-----------------------------------------------------------------
+   // Encode the seed to show on the file select screen.
+   //-----------------------------------------------------------------
 
    let seedPatch = [];
-   encodeBytes(seedPatch, seedInfo, seedData.slice(0, 4));
+   const rnd = new DotNetRandom(seed);
+   const seedInfo1 = rnd.Next(0xffff);
+   const seedInfo2 = rnd.Next(0xffff);
 
-   const items = getItems();
-   const locations = getLocations();
-   for (var i = 0; i < seedData.length - 4; i++) {
-      const id = seedData[i + 4] & 0x7f;
-      const loc = locations[i];
-      const item = items.find((item) => item.id == id);
+   const seedData = new Uint8Array([
+      seedInfo1 & 0xff,
+      (seedInfo1 >> 8) & 0xff,
+      seedInfo2 & 0xff,
+      (seedInfo2 >> 8) & 0xff,
+   ]);
 
-      const itemBytes = loc.GetItemBytes(item.code);
-      encodeBytes(seedPatch, loc.address, itemBytes);
+   encodeBytes(seedPatch, gameMode.seedAddress, seedData);
 
-      if (id < 17) {
-         const spoilerItem = spoilerStart + (id - 1) * 0x80;
-         encodeBytes(seedPatch, spoilerItem, item.GetNameArray());
+   //-----------------------------------------------------------------
+   // Write the items at the appropriate locations.
+   //-----------------------------------------------------------------
 
-         const spoilerLocation = spoilerItem + 0x40;
-         encodeBytes(seedPatch, spoilerLocation, loc.GetNameArray());
-      }
-   }
+   nodes.forEach((n) => {
+      const itemBytes = n.location.GetItemBytes(n.item.type);
+      encodeBytes(seedPatch, n.location.address, itemBytes);
+   });
 
-   encodeRepeating(seedPatch, spoilerEnd, 4, new Uint8Array([0]));
+   //-----------------------------------------------------------------
+   // Write the spoiler in the credits.
+   //-----------------------------------------------------------------
+
+   nodes
+      .filter((n) => n.item.spoilerAddress > 0)
+      .forEach((n) => {
+         if (gameMode.writeName) {
+            const spoilerItem = n.item.spoilerAddress - 0x40;
+            encodeBytes(seedPatch, spoilerItem, itemNameToBytes(n.item.name));
+         }
+
+         encodeBytes(
+            seedPatch,
+            n.item.spoilerAddress,
+            n.location.GetNameArray()
+         );
+      });
+
    return seedPatch;
 };
 
@@ -71,26 +108,32 @@ const generateFromPreset = (preset) => {
    const timestamp = Math.floor(new Date().getTime() / 1000);
    const RNG = new DotNetRandom(timestamp);
    const seed = RNG.NextInRange(1, 1000000);
-   let basePatchUrl = "";
+   let gameMode = null;
 
    if (preset == "mm") {
-      const gameMode = game_modes.find((mode) => mode.name == "mm");
-      basePatchUrl = gameMode.patch;
-      fileNamePrefix = gameMode.prefix;
-      logic = new MajorMinorLogic(seed, getLocations());
+      gameMode = game_modes.find((mode) => mode.name == "mm");
+      mode = new ModeStandard(seed, getLocations());
+      logic = new MajorMinorLogic(seed, mode.nodes);
    } else if (preset == "full") {
-      const gameMode = game_modes.find((mode) => mode.name == "full");
-      basePatchUrl = gameMode.patch;
-      fileNamePrefix = gameMode.prefix;
-      logic = new FullLogic(seed, getLocations());
+      gameMode = game_modes.find((mode) => mode.name == "full");
+      mode = new ModeStandard(seed, getLocations());
+      logic = new FullLogic(seed, mode.nodes);
+      /*} else if (preset == "recall_mm") {
+      gameMode = game_modes.find((mode) => mode.name == "rm");
+      mode = new ModeRecall(seed, getLocations());
+      logic = new MajorMinorLogic(seed, mode.nodes);
+   } else if (preset == "recall_full") {
+      gameMode = game_modes.find((mode) => mode.name == "rf");
+      mode = new ModeRecall(seed, getLocations());
+      logic = new FullLogic(seed, mode.nodes);*/
    } else {
       console.log("UNKNOWN PRESET: " + preset);
       return ["", null, ""];
    }
 
-   const seedData = logic.placeItems(getItems());
-   const seedPatch = generateSeedPatch(seedData);
-   const fileName = getFileName(seed, fileNamePrefix);
+   logic.placeItems(mode.itemPool);
+   const seedPatch = generateSeedPatch(seed, gameMode, logic.nodes);
+   const fileName = getFileName(seed, gameMode.prefix);
 
-   return [basePatchUrl, seedPatch, fileName];
+   return [gameMode.patch, seedPatch, fileName];
 };

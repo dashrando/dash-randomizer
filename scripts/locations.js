@@ -1,4 +1,4 @@
-const Area = {
+const Area = Object.freeze({
    Crateria: 0,
    BlueBrinstar: 1,
    GreenBrinstar: 2,
@@ -11,15 +11,14 @@ const Area = {
    WestMaridia: 9,
    UpperNorfair: 10,
    LowerNorfair: 11,
-};
+});
 
 class Location {
-   constructor(address, modifier, area, id, name) {
+   constructor(address, modifier, area, name) {
       this.address = address;
       this.modifier = modifier;
       this.area = area;
       this.name = name;
-      this.id = id;
    }
 
    GetNameArray() {
@@ -60,14 +59,14 @@ class Location {
 }
 
 const loc = (addr, modifier, area, id, name) => {
-   return new Location(addr, modifier, area, id, name);
+   return new Location(addr, modifier, area, name);
 };
 
 const getLocations = () => [
    loc(0x786de, 0x00, Area.BlueBrinstar, 1, "Morphing Ball"),
    loc(0x781cc, 0x00, Area.Crateria, 2, "Landing Site (PBs)"),
    loc(0x781e8, 0x00, Area.Crateria, 3, "Ocean (Missiles)"),
-   loc(0x781ee, 0xa8, Area.Crateria, 4, "Sky (Missiles)"),
+   loc(0x781ee, 0xa8, Area.WreckedShip, 4, "Sky (Missiles)"),
    loc(0x781f4, 0x00, Area.Crateria, 5, "Outside WS Middle (Missiles)"),
    loc(0x78248, 0x00, Area.Crateria, 6, "Moat (Missiles)"),
    loc(0x78264, 0x00, Area.Crateria, 7, "Energy Tank, Gauntlet"),

@@ -2,17 +2,6 @@
    <head>
       <title>DASH Super Metroid Randomizer</title>
       <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-      <script src="scripts/FileSaver.js"></script>
-      <script src="scripts/bps-patch.js"></script>
-      <script src="scripts/ips-patch.js"></script>
-      <script src="scripts/locations.js"></script>
-      <script src="scripts/items.js"></script>
-      <script src="scripts/sm-rando.js"></script>
-      <script src="scripts/dotnet-random.js"></script>
-      <script src="scripts/loadout.js"></script>
-      <script src="scripts/logic.js"></script>
-      <script src="scripts/majorMinorLogic.js"></script>
-      <script src="scripts/generate.js"></script>
       <link rel="stylesheet" type="text/css" href="dash.css" />
       <style>
          table,
@@ -25,18 +14,9 @@
          li {
             padding-top: 4px;
          }
-         input {
-            font-family: Muli;
-            font-size: 15px;
-         }
-         #fixed_value {
-            width: 80px;
-            margin-left: 2px;
-            margin-right: 4px;
-         }
-         #select-rom {
-            margin-left: 2px;
-            width: 110px;
+         #generate {
+            /*text-decoration: underline;*/
+            font-size: 22px;
          }
       </style>
    </head>
@@ -48,55 +28,6 @@
                alt="DASH Super Metroid Randomizer"
          /></a>
          <div id="main_header">DASH Super Metroid Randomizer!</div>
-         <div id="inline_generate">
-            <span style="font-weight: bold">Generate:</span>
-            <input
-               type="file"
-               id="vanilla-rom"
-               style="display: none"
-               onchange="VerifyVanillaRom()"
-            />
-            <input
-               type="button"
-               id="select-rom"
-               value="Select ROM..."
-               onclick="document.getElementById('vanilla-rom').click();"
-            />
-            <input
-               type="radio"
-               id="random"
-               name="seed_type"
-               value="random"
-               checked="checked"
-               onclick="DisableFixedSeed()"
-            />
-            <label for="random">Random</label>
-            <input
-               type="radio"
-               id="fixed"
-               name="seed_type"
-               value="fixed"
-               onclick="EnableFixedSeed()"
-            />
-            <label for="fixed">Fixed</label>
-            <input
-               name="fixed_value"
-               id="fixed_value"
-               type="number"
-               min="1"
-               max="999999"
-               step="1"
-               value=""
-               disabled
-            />
-            <input
-               type="button"
-               value="Randomize!"
-               id="randomize"
-               onclick="RandomizeRom('mm')"
-               disabled
-            />
-         </div>
          <div id="dash_links">
             Discord:
             <a href="https://discord.gg/WsnYSxA">https://discord.gg/WsnYSxA</a>
@@ -106,6 +37,11 @@
                   >dashrando.github.io</a
                ></span
             >
+            <br />
+            <br />
+            <div id="generate">
+               &rarr; <a href="generate.html">Generate DASH Seed</a> &larr;
+            </div>
          </div>
       </div>
 

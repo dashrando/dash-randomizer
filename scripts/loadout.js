@@ -9,9 +9,14 @@ class Loadout {
    hasSpringBall = false;
    hasSpeed = false;
 
+   hasHeatShield = false;
+   hasPressureValve = false;
+   hasDoubleJump = false;
+
    hasIce = false;
    hasWave = false;
    hasCharge = false;
+   hasSpazer = false;
    hasPlasma = false;
    hasGrapple = false;
 
@@ -46,9 +51,14 @@ class Loadout {
       copy.hasSpringBall = this.hasSpringBall;
       copy.hasSpeed = this.hasSpeed;
 
+      copy.hasHeatShield = copy.hasHeatShield;
+      copy.hasPressureValve = copy.hasPressureValve;
+      copy.hasDoubleJump = copy.hasDoubleJump;
+
       copy.hasIce = this.hasIce;
       copy.hasWave = this.hasWave;
       copy.hasCharge = this.hasCharge;
+      copy.hasSpazer = this.hasSpazer;
       copy.hasPlasma = this.hasPlasma;
       copy.hasGrapple = this.hasGrapple;
 
@@ -73,16 +83,16 @@ class Loadout {
       return copy;
    }
 
-   add(item) {
-      switch (item) {
-         case "Bomb":
+   add(itemType) {
+      switch (itemType) {
+         case Item.Bombs:
             this.hasBombs = true;
             this.canUseBombs = this.hasMorph;
             this.canPassBombPassages |= this.canUseBombs;
             this.canDestroyBombWalls |= this.canPassBombPassages;
             this.canFly |= this.canUseBombs;
             break;
-         case "Morph Ball":
+         case Item.Morph:
             this.hasMorph = true;
             this.canUseBombs = this.hasBombs;
             this.canUsePowerBombs = this.powerPacks > 0;
@@ -91,47 +101,59 @@ class Loadout {
             this.canDestroyBombWalls |= this.canPassBombPassages;
             this.canFly |= this.canUseBombs;
             break;
-         case "Gravity Suit":
+         case Item.Gravity:
             this.hasGravity = true;
             break;
-         case "Varia Suit":
+         case Item.PressureValve:
+            this.hasPressureValve = true;
+            break;
+         case Item.HeatShield:
+            this.hasHeatShield = true;
+            break;
+         case Item.Varia:
             this.hasVaria = true;
             break;
-         case "HiJump Boots":
+         case Item.HJB:
             this.hasHiJump = true;
             break;
-         case "Space Jump":
+         case Item.DoubleJump:
+            this.hasDoubleJump = true;
+            break;
+         case Item.SpaceJump:
             this.hasSpaceJump = true;
             this.canFly = true;
             break;
-         case "Screw Attack":
+         case Item.ScrewAttack:
             this.hasScrewAttack = true;
             this.canDestroyBombWalls = true;
             break;
-         case "Spring Ball":
+         case Item.SpringBall:
             this.hasSpringBall = true;
             break;
-         case "Speed Booster":
+         case Item.Speed:
             this.hasSpeed = true;
             break;
 
-         case "Ice Beam":
+         case Item.Ice:
             this.hasIce = true;
             break;
-         case "Wave Beam":
+         case Item.Wave:
             this.hasWave = true;
             break;
-         case "Charge Beam":
+         case Item.Charge:
             this.hasCharge = true;
             break;
-         case "Plasma Beam":
+         case Item.Spazer:
+            this.hasSpazer = true;
+            break;
+         case Item.Plasma:
             this.hasPlasma = true;
             break;
-         case "Grappling Beam":
+         case Item.Grapple:
             this.hasGrapple = true;
             break;
 
-         case "Missile":
+         case Item.Missile:
             this.missilePacks += 1;
             this.canOpenRedDoors = true;
             this.canCrystalFlash =
@@ -139,7 +161,7 @@ class Loadout {
                this.superPacks > 1 &&
                this.powerPacks > 2;
             break;
-         case "Super Missile":
+         case Item.Super:
             this.superPacks += 1;
             this.canOpenGreenDoors = true;
             this.canOpenRedDoors = true;
@@ -148,7 +170,7 @@ class Loadout {
                this.superPacks > 1 &&
                this.powerPacks > 2;
             break;
-         case "Power Bomb":
+         case Item.PowerBomb:
             this.powerPacks += 1;
             this.canUsePowerBombs = this.hasMorph;
             this.canPassBombPassages |= this.canUsePowerBombs;
@@ -159,13 +181,24 @@ class Loadout {
                this.powerPacks > 2;
             break;
 
-         case "Energy Tank":
+         case Item.EnergyTank:
             this.energyTanks += 1;
             this.totalTanks += 1;
             break;
-         case "Reserve Tank":
+         case Item.Reserve:
             this.reserveTanks += 1;
             this.totalTanks += 1;
+            break;
+
+         case Item.BeamUpgrade:
+         case Item.Xray:
+            break;
+
+         default:
+            console.error(
+               "[Loadout] Unknown item type:",
+               ItemNames.get(itemType)
+            );
             break;
       }
    }
