@@ -147,14 +147,30 @@ async function RandomizeRom() {
    // Load the base patch associated with this game mode.
    const basePatch = await BpsPatch.Load(gameMode.patch);
 
+   // Process other options.
+   let options = {
+      DisableFanfare: 0,
+   };
+
+   // Enable or disable item fanfares.
+   const fanfare_options = document.getElementsByName("fanfare_mode");
+   fanfare_options.forEach((i) => {
+      if (i.checked && i.value == "Off") {
+         options.DisableFanfare = 1;
+      }
+   });
+
    // Generate the seed specific patch (item placement, etc.)
-   const seedPatch = generateSeedPatch(seed, gameMode, logic.nodes);
+   const seedPatch = generateSeedPatch(seed, gameMode, logic.nodes, options);
 
    // Create the rom by patching the vanilla rom.
    patchedBytes = patchRom(vanillaBytes, basePatch, seedPatch);
 
    // Save the new file on the local system.
-   saveAs(new Blob([patchedBytes]), getFileName(seed, gameMode.prefix));
+   saveAs(
+      new Blob([patchedBytes]),
+      getFileName(seed, gameMode.prefix, options)
+   );
 }
 
 function ToHexString(byteArray) {

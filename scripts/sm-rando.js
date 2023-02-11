@@ -37,7 +37,15 @@ const encodeBytes = (patch, offset, bytes) => {
    encodeRepeating(patch, offset, 1, bytes);
 };
 
-const generateSeedPatch = (seed, gameMode, nodes) => {
+const generateSeedPatch = (seed, gameMode, nodes, options) => {
+   //-----------------------------------------------------------------
+   // Utility functions.
+   //-----------------------------------------------------------------
+
+   const U16toBytes = (u16) => {
+      return new Uint8Array([u16 & 0xff, (u16 >> 8) & 0xff]);
+   };
+
    //-----------------------------------------------------------------
    // Encode the seed to show on the file select screen.
    //-----------------------------------------------------------------
@@ -84,11 +92,28 @@ const generateSeedPatch = (seed, gameMode, nodes) => {
          );
       });
 
+   //-----------------------------------------------------------------
+   // Other options.
+   //-----------------------------------------------------------------
+
+   if (options != null) {
+      encodeBytes(seedPatch, 0x2f8b0b, U16toBytes(options.DisableFanfare));
+   }
+
    return seedPatch;
 };
 
-const getFileName = (seed, prefix) =>
-   prefix + seed.toString().padStart(6, "0") + ".sfc";
+const getFileName = (seed, prefix, options) => {
+   let fileName = prefix + seed.toString().padStart(6, "0");
+
+   if (options != null) {
+      if (options.DisableFanfare == 1) {
+         fileName += "_no_fan";
+      }
+   }
+
+   return fileName + ".sfc";
+};
 
 const patchRom = (vanillaRom, basePatch, seedPatch) => {
    let rom = basePatch.Apply(vanillaRom);
@@ -132,8 +157,8 @@ const generateFromPreset = (preset) => {
    }
 
    logic.placeItems(mode.itemPool);
-   const seedPatch = generateSeedPatch(seed, gameMode, logic.nodes);
-   const fileName = getFileName(seed, gameMode.prefix);
+   const seedPatch = generateSeedPatch(seed, gameMode, logic.nodes, null);
+   const fileName = getFileName(seed, gameMode.prefix, null);
 
    return [gameMode.patch, seedPatch, fileName];
 };
