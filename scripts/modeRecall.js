@@ -289,7 +289,7 @@ class ModeRecall {
          return (
             canAccessRedBrinstar(load) &&
             load.canUsePowerBombs &&
-            (load.hasGravity || load.canDoSuitlessMaridia) // Wrong for sand pit minors (fix me)
+            (load.hasGravity || load.canDoSuitlessMaridia)
          );
       };
 
