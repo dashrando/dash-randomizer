@@ -1,31 +1,23 @@
 const game_modes = [
    {
       name: "mm",
-      prefix: "DASH_v11j_SM_",
+      prefix: "DASH_v11k_SM_",
       patch: "patches/dash_std.bps",
-      seedAddress: 0x2f8000,
-      writeName: false,
    },
    {
       name: "full",
-      prefix: "DASH_v11j_SF_",
+      prefix: "DASH_v11k_SF_",
       patch: "patches/dash_std.bps",
-      seedAddress: 0x2f8000,
-      writeName: false,
    },
    {
       name: "rm",
-      prefix: "DASH_v11j_RM_",
+      prefix: "DASH_v11k_RM_",
       patch: "patches/dash_working.bps",
-      seedAddress: 0x2f8000,
-      writeName: false,
    },
    {
       name: "rf",
-      prefix: "DASH_v11j_RF_",
+      prefix: "DASH_v11k_RF_",
       patch: "patches/dash_working.bps",
-      seedAddress: 0x2f8000,
-      writeName: false,
    },
 ];
 
@@ -62,7 +54,7 @@ const generateSeedPatch = (seed, gameMode, nodes, options) => {
       (seedInfo2 >> 8) & 0xff,
    ]);
 
-   encodeBytes(seedPatch, gameMode.seedAddress, seedData);
+   encodeBytes(seedPatch, 0x2f8000, seedData);
 
    //-----------------------------------------------------------------
    // Write the items at the appropriate locations.
@@ -77,18 +69,18 @@ const generateSeedPatch = (seed, gameMode, nodes, options) => {
    // Write the spoiler in the credits.
    //-----------------------------------------------------------------
 
+   const sortedLocations = getLocations().sort((a, b) => a.address - b.address);
+
    nodes
       .filter((n) => n.item.spoilerAddress > 0)
       .forEach((n) => {
-         if (gameMode.writeName) {
-            const spoilerItem = n.item.spoilerAddress - 0x40;
-            encodeBytes(seedPatch, spoilerItem, itemNameToBytes(n.item.name));
-         }
-
+         locIndex = sortedLocations.findIndex(
+            (l) => l.address == n.location.address
+         );
          encodeBytes(
             seedPatch,
             n.item.spoilerAddress,
-            n.location.GetNameArray()
+            U16toBytes(locIndex + 1)
          );
       });
 

@@ -21,30 +21,6 @@ class Location {
       this.name = name;
    }
 
-   GetNameArray() {
-      var nameArray = new Uint8Array(64);
-      var upperName = " " + this.name.toUpperCase().padStart(30, ".") + " ";
-
-      for (var i = 0; i < upperName.length; i++) {
-         var idx = i * 2;
-         if (upperName[i] == " ") {
-            nameArray[idx + 1] = 0x0;
-            nameArray[idx] = 0x7f;
-         } else {
-            var charCode = upperName.charCodeAt(i) - 0x41;
-            if (upperName[i] == ".") {
-               charCode = 0x1a;
-            } else if (upperName[i] == ",") {
-               charCode = 0x1b;
-            }
-            nameArray[idx + 1] = 0x18; // color
-            nameArray[idx] = charCode;
-         }
-      }
-
-      return nameArray;
-   }
-
    GetItemBytes(itemCode) {
       const code = itemCode + this.modifier;
       return new Uint8Array([code & 0xff, (code >> 8) & 0xff]);
