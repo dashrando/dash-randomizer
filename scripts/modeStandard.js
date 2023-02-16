@@ -176,51 +176,51 @@ class ModeStandard {
       // Logic for each item location.
       //-----------------------------------------------------------------
 
-      minor("Landing Site (PBs)", (load) => {
+      minor("Power Bombs (Landing Site)", (load) => {
          return load.canUsePowerBombs && (load.hasSpeed || load.canFly);
       });
 
-      minor("Ocean (Missiles)", (load) => {
+      minor("Missiles (Ocean Bottom)", (load) => {
          return canAccessWreckedShip(load);
       });
 
-      minor("Sky (Missiles)", (load) => {
+      minor("Missiles (Sky)", (load) => {
          return canAccessWreckedShip(load);
       });
 
-      minor("Outside WS Middle (Missiles)", (load) => {
+      minor("Missiles (Ocean Middle)", (load) => {
          return canAccessWreckedShip(load);
       });
 
-      minor("Moat (Missiles)", (load) => {
+      minor("Missiles (Moat)", (load) => {
          return canAccessWreckedShip(load);
       });
 
-      major("Energy Tank, Gauntlet", (load) => {
+      major("Energy Tank (Gauntlet)", (load) => {
          return canEnterAndLeaveGauntlet(load);
       });
 
-      minor("Missile (Crateria Bottom)", (load) => {
+      minor("Missiles (Mother Brain)", (load) => {
          return load.canDestroyBombWalls;
       });
 
-      major("Bomb", (load) => {
+      major("Bombs", (load) => {
          return load.hasMorph && load.canOpenRedDoors;
       });
 
-      major("Energy Tank, Terminator", (load) => {
+      major("Energy Tank (Terminator)", (load) => {
          return load.canDestroyBombWalls || load.hasSpeed;
       });
 
-      minor("Gauntlet Right (Missiles)", (load) => {
+      minor("Missiles (Gauntlet Right)", (load) => {
          return canEnterAndLeaveGauntlet(load) && load.canPassBombPassages;
       });
 
-      minor("Gauntlet Left (Missiles)", (load) => {
+      minor("Missiles (Gauntlet Left)", (load) => {
          return canEnterAndLeaveGauntlet(load) && load.canPassBombPassages;
       });
 
-      minor("Climb (Supers)", (load) => {
+      minor("Supers (Climb)", (load) => {
          return (
             load.canUsePowerBombs &&
             load.hasSpeed &&
@@ -229,7 +229,7 @@ class ModeStandard {
          );
       });
 
-      minor("Missile (Crateria Middle)", (load) => {
+      minor("Missiles (230)", (load) => {
          return load.canPassBombPassages;
       });
 
@@ -255,7 +255,7 @@ class ModeStandard {
          );
       });
 
-      major("Reserve Tank, Brinstar", (load) => {
+      major("Reserve Tank (Brinstar)", (load) => {
          return (
             load.canOpenRedDoors &&
             (load.hasSpeed || load.canDestroyBombWalls) &&
@@ -311,15 +311,15 @@ class ModeStandard {
          return true;
       });
 
-      minor("Blue PBs", (load) => {
+      minor("Power Bombs (Morph)", (load) => {
          return load.canUsePowerBombs;
       });
 
-      minor("Beta Missiles", (load) => {
+      minor("Missiles (Beta)", (load) => {
          return load.hasMorph;
       });
 
-      major("Energy Tank, Brinstar Ceiling", (load) => {
+      major("Energy Tank (Brinstar Ceiling)", (load) => {
          return true;
       });
 
@@ -335,7 +335,7 @@ class ModeStandard {
          return load.canUsePowerBombs && load.canOpenRedDoors && load.hasSpeed;
       });
 
-      minor("Alpha Missiles", (load) => {
+      minor("Missiles (Alpha)", (load) => {
          return load.hasMorph;
       });
 
@@ -343,11 +343,11 @@ class ModeStandard {
          return load.canUsePowerBombs && (load.hasWave || load.superPacks > 0);
       });
 
-      minor("Billy Mays 1", (load) => {
+      minor("Missiles (Billy Mays 1)", (load) => {
          return load.canUsePowerBombs;
       });
 
-      minor("Billy Mays 2", (load) => {
+      minor("Missiles (Billy Mays 2)", (load) => {
          return load.canUsePowerBombs;
       });
 
@@ -449,7 +449,7 @@ class ModeStandard {
          return canAccessCrocomire(load);
       });
 
-      major("Reserve Tank, Norfair", (load) => {
+      major("Reserve Tank (Norfair)", (load) => {
          return (
             canAccessHeatedNorfair(load) &&
             (load.canFly ||
@@ -549,7 +549,7 @@ class ModeStandard {
          return canAccessWreckedShip(load);
       });
 
-      major("Reserve Tank, Wrecked Ship", (load) => {
+      major("Reserve Tank (Wrecked Ship)", (load) => {
          return (
             canAccessWreckedShip(load) &&
             load.hasSpeed &&
@@ -579,11 +579,11 @@ class ModeStandard {
          );
       });
 
-      minor("WS Supers Left", (load) => {
+      minor("Supers (WS Left)", (load) => {
          return canAccessWreckedShip(load);
       });
 
-      major("Right Super, Wrecked Ship", (load) => {
+      major("Supers (WS Right)", (load) => {
          return canAccessWreckedShip(load);
       });
 
@@ -649,7 +649,7 @@ class ModeStandard {
          );
       });
 
-      major("Reserve Tank, Maridia", (load) => {
+      major("Reserve Tank (Maridia)", (load) => {
          return canAccessOuterMaridia(load) && load.hasGravity;
       });
 
