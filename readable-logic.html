@@ -89,28 +89,16 @@
             case "sml":
                data = await fetch("scripts/modeStandard.js");
                break;
-
-            case "sfl":
-               //data = await fetch("scripts/modeStandardFull.js");
-               document.getElementById("logic").innerText = "Standard Full Logic Not Finalized.";
-               break;
-
             case "rml":
                data = await fetch("scripts/modeRecall.js");
                break;
-
-            case "rfl":
-               //data = await fetch("scripts/modeRecallFull.js");
-               document.getElementById("logic").innerText = "Recall Full Logic Not Finalized.";
-               break;
-
             default:
-               data = document.createTextNode("test");
+               document.getElementById("logic").innerText = "";
                break;
             }
 
 
-            if(logicType == "rml" || logicType == "sml") {
+            if (logicType == "rml" || logicType == "sml") {
                const text = await data.text();
                readAndFormatLogicFile(text);
             }
@@ -133,25 +121,13 @@
                loadLogic();
                break;
             case "sml":
-               document.getElementById("logic_title").innerText = "Standard Major / Minor Logic";
+               document.getElementById("logic_title").innerText = "DASH - Standard Logic";
                loadLogic();
                break;
-
-            case "sfl":
-               document.getElementById("logic_title").innerText = "Standard Full Logic";
-               loadLogic();
-               break;
-
             case "rml":
-               document.getElementById("logic_title").innerText = "Recall Major / Minor Logic";
+               document.getElementById("logic_title").innerText = "DASH - Recall Logic";
                loadLogic();
                break;
-
-            case "rfl":
-               document.getElementById("logic_title").innerText = "Recall Full Logic";
-               loadLogic();
-               break;
-
             default:
                return "No Logic Selected"
                break;
@@ -176,10 +152,8 @@
       <div id="select_logic_dropdown">
          <select name="logic_type" id="logic_type" onchange="getLogicSelection()">
             <option value="nls" selected="true">No Logic Selected</option>
-            <option value="sml" >Standard - Major / Minor</option>
-            <option value="sfl">Standard - Full</option>
-            <option value="rml">Recall - Major / Minor</option>
-            <option value="rfl">Recall - Full</option>
+            <option value="sml" >DASH - Standard</option>
+            <option value="rml">DASH - Recall</option>
          </select>
       </div>
       <br>
