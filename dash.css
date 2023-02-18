@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Muli');
+@import url("https://fonts.googleapis.com/css?family=Muli");
 body {
    font-family: "Muli";
    background-color: black;
-   color: rgb(210,210,210);
+   color: rgb(210, 210, 210);
 }
 a {
    text-decoration: none;
@@ -36,7 +36,7 @@ a {
 #header img {
    width: 420px;
    height: 160px;
-   opacity: 0.80;
+   opacity: 0.8;
    margin-bottom: 10px;
 }
 #main_header {
@@ -53,10 +53,6 @@ a {
    font-size: 17px;
    padding-bottom: 10px;
    font-weight: bold;
-}
-#inline_generate {
-   font-size: 18px;
-   padding-bottom: 10px;
 }
 #schedule_notice {
    font-size: 20px;
@@ -80,20 +76,32 @@ hr {
    margin-left: 0px;
 }
 .utility {
-   background-color: rgb(0,255,255);
+   background-color: rgb(0, 255, 255);
    color: black;
+}
+.utility_inverse {
+   background-color: black;
+   color: rgb(0, 255, 255);
 }
 .suits {
    background-color: yellow;
    color: black;
 }
+.suits_inverse {
+   color: yellow;
+   background-color: black;
+}
 .placement {
-   background-color: rgb(0,255,0);
+   background-color: rgb(0, 255, 0);
    color: black;
 }
 .misc {
    background-color: rgb(209, 46, 187);
    color: black;
+}
+.misc_inverse {
+   color: rgb(209, 46, 187);
+   background-color: black;
 }
 
 .dash_changes {
