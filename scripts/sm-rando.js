@@ -1,22 +1,22 @@
 const game_modes = [
    {
       name: "mm",
-      prefix: "DASH_v11m_SM_",
+      prefix: "DASH_v11n_SM_",
       patch: "patches/dash_std.bps",
    },
    {
       name: "full",
-      prefix: "DASH_v11m_SF_",
+      prefix: "DASH_v11n_SF_",
       patch: "patches/dash_std.bps",
    },
    {
       name: "rm",
-      prefix: "DASH_v11m_RM_",
+      prefix: "DASH_v11n_RM_",
       patch: "patches/dash_working.bps",
    },
    {
       name: "rf",
-      prefix: "DASH_v11m_RF_",
+      prefix: "DASH_v11n_RF_",
       patch: "patches/dash_working.bps",
    },
 ];
