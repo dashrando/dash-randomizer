@@ -127,19 +127,19 @@ const generateFromPreset = (preset) => {
    const seed = RNG.NextInRange(1, 1000000);
    let gameMode = null;
 
-   if (preset == "mm") {
+   if (preset == "std_mm") {
       gameMode = game_modes.find((mode) => mode.name == "mm");
       mode = new ModeStandard(seed, getLocations());
       logic = new MajorMinorLogic(seed, mode.nodes);
-   } else if (preset == "full") {
+   } else if (preset == "std_full") {
       gameMode = game_modes.find((mode) => mode.name == "full");
       mode = new ModeStandard(seed, getLocations());
       logic = new FullLogic(seed, mode.nodes);
-   } else if (preset == "recall_mm") {
+   } else if (preset == "mm" || preset == "recall_mm") {
       gameMode = game_modes.find((mode) => mode.name == "rm");
       mode = new ModeRecall(seed, getLocations());
       logic = new MajorMinorLogic(seed, mode.nodes);
-   } else if (preset == "recall_full") {
+   } else if (preset == "full" || preset == "recall_full") {
       gameMode = game_modes.find((mode) => mode.name == "rf");
       mode = new ModeRecall(seed, getLocations());
       logic = new FullLogic(seed, mode.nodes);
