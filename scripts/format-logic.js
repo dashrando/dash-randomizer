@@ -34,7 +34,7 @@ let logicBlockBodyArray = [];
 
 const clearLogic = () => {
    document.getElementById("logic").innerText = "";
-}
+};
 
 function removeAndSplitLogicText(logicString) {
    //Remove or the text from the beginning of the code file
@@ -45,15 +45,12 @@ function removeAndSplitLogicText(logicString) {
    logicString = logicStringArray[1];
 
    //Split the remaining string into location access logic anditem access logic.
-   logicStringArray = logicString.split(
-      "// Logic for each item location."
-   );
+   logicStringArray = logicString.split("// Logic for each item location.");
 
    locationAccessString = logicStringArray[0];
    itemAccessString = logicStringArray[1];
 
    splitLogicIntoBlocks(locationAccessString, itemAccessString);
-   
 }
 
 function splitLogicIntoBlocks(locationString, itemString) {
@@ -62,7 +59,6 @@ function splitLogicIntoBlocks(locationString, itemString) {
 }
 
 function removeExtraneousText(stringArray) {
-
    // for (i = 0; i < stringArray.length; i++) {
    //    var tempStringArray = stringArray[i].split("\n");
 
@@ -97,7 +93,10 @@ function removeExtraneousText(stringArray) {
          stringArray[i] = stringArray[i].replace(/\}/g, "");
          stringArray[i] = stringArray[i].replace(/\{/g, "");
          stringArray[i] = stringArray[i].replace(/\./g, "");
-         stringArray[i] = stringArray[i].replace(/>=/g, "is greater than or equal to");
+         stringArray[i] = stringArray[i].replace(
+            />=/g,
+            "is greater than or equal to"
+         );
          stringArray[i] = stringArray[i].replace(/=>/g, "");
          stringArray[i] = stringArray[i].replace(/>/g, "is greater than");
          stringArray[i] = stringArray[i].replace(/&&/g, "AND");
@@ -129,8 +128,7 @@ function removeExtraneousText(stringArray) {
                logicBlockTitleArray.push(tempStringArray[j]);
                tempHasStoredTitle = true;
             }
-         }
-         else {
+         } else {
             tempStringArray.splice(j, 1);
             j--;
          }
@@ -150,45 +148,45 @@ function removeExtraneousText(stringArray) {
 
 function stringContainsLetters(string) {
    if (
-   string.includes("a") ||
-   string.includes("b") ||
-   string.includes("c") ||
-   string.includes("d") ||
-   string.includes("e") ||
-   string.includes("f") ||
-   string.includes("g") ||
-   string.includes("h") ||
-   string.includes("i") ||
-   string.includes("j") ||
-   string.includes("k") ||
-   string.includes("l") ||
-   string.includes("m") ||
-   string.includes("n") ||
-   string.includes("o") ||
-   string.includes("p") ||
-   string.includes("q") ||
-   string.includes("r") ||
-   string.includes("s") ||
-   string.includes("t") ||
-   string.includes("u") ||
-   string.includes("v") ||
-   string.includes("w") ||
-   string.includes("x") ||
-   string.includes("y") ||
-   string.includes("z") ||
-   string.includes("0") ||
-   string.includes("1") ||
-   string.includes("2") ||
-   string.includes("3") ||
-   string.includes("4") ||
-   string.includes("5") ||
-   string.includes("6") ||
-   string.includes("7") ||
-   string.includes("8") ||
-   string.includes("9") ) {
+      string.includes("a") ||
+      string.includes("b") ||
+      string.includes("c") ||
+      string.includes("d") ||
+      string.includes("e") ||
+      string.includes("f") ||
+      string.includes("g") ||
+      string.includes("h") ||
+      string.includes("i") ||
+      string.includes("j") ||
+      string.includes("k") ||
+      string.includes("l") ||
+      string.includes("m") ||
+      string.includes("n") ||
+      string.includes("o") ||
+      string.includes("p") ||
+      string.includes("q") ||
+      string.includes("r") ||
+      string.includes("s") ||
+      string.includes("t") ||
+      string.includes("u") ||
+      string.includes("v") ||
+      string.includes("w") ||
+      string.includes("x") ||
+      string.includes("y") ||
+      string.includes("z") ||
+      string.includes("0") ||
+      string.includes("1") ||
+      string.includes("2") ||
+      string.includes("3") ||
+      string.includes("4") ||
+      string.includes("5") ||
+      string.includes("6") ||
+      string.includes("7") ||
+      string.includes("8") ||
+      string.includes("9")
+   ) {
       return true;
-   }
-   else {
+   } else {
       return false;
    }
 }
@@ -198,6 +196,12 @@ function createElements() {
    let logicDiv = document.getElementById("logic");
 
    for (i = 0; i < logicBlockTitleArray.length; i++) {
+      const title = logicBlockTitleArray[i];
+
+      // Skip duplicates
+      if (logicBlockTitleArray.slice(0, i).find((p) => p == title)) {
+         continue;
+      }
 
       newDiv = document.createElement("div", { is: "title" });
       newStrong = null;
@@ -205,33 +209,31 @@ function createElements() {
       newUnderline = null;
 
       newUnderline = document.createElement("u");
-      newTitle = document.createTextNode(logicBlockTitleArray[i]);
+      newTitle = document.createTextNode(title);
       newBody = document.createTextNode(logicBlockBodyArray[i]);
       newUnderline.appendChild(newTitle);
       newDiv.appendChild(newUnderline);
       newDiv.appendChild(document.createElement("br"));
       newDiv.appendChild(newBody);
- 
+
       newDiv.appendChild(document.createElement("br"));
       newDiv.appendChild(document.createElement("br"));
 
       logicDiv.appendChild(newDiv);
    }
-   
+
    //Clear these arrays so we can push to them again with different logic.
    logicBlockTitleArray = [];
    logicBlockBodyArray = [];
-
 }
 
 function readAndFormatLogicFile(logicString) {
+   removeAndSplitLogicText(logicString);
+   removeExtraneousText(locationAccessBlocks);
+   removeExtraneousText(itemAccessBlocks);
+   createElements();
 
-removeAndSplitLogicText(logicString);
-removeExtraneousText(locationAccessBlocks);
-removeExtraneousText(itemAccessBlocks);
-createElements();
-
-/*
+   /*
    //[DONE (removeAndSplitLogicText function)] Split the strings into 2 strings (location logic string and item logic string).
    //[DONE (splitLogicIntoBlocks function)]Split the two string into individual logic blocks
    //[DONE]Remove syntax, whitespace and blank lines
@@ -327,9 +329,7 @@ createElements();
       */
 }
 
-
 //readAndFormatLogicFile(recallFilePath, "recall_logic.txt");
 //readAndFormatLogicFile(standardFilePath, "standard_logic.txt");
 
 //formatLogic();
-
