@@ -404,7 +404,7 @@ class ModeStandard {
          );
       });
 
-      major("Energy Tank, Crocomire", (load) => {
+      major("Energy Tank (Crocomire)", (load) => {
          return canAccessCrocomire(load);
       });
 
@@ -430,15 +430,15 @@ class ModeStandard {
          return canAccessRedBrinstar(load);
       });
 
-      minor("Croc PBs", (load) => {
+      minor("Power Bombs (Crocomire)", (load) => {
          return canAccessCrocomire(load);
       });
 
-      minor("Cosine Missiles", (load) => {
+      minor("Missiles (Cosine)", (load) => {
          return canAccessCrocomire(load);
       });
 
-      minor("Indiana Jones", (load) => {
+      minor("Missiles (Indiana Jones)", (load) => {
          return (
             canAccessCrocomire(load) &&
             (load.canFly || load.hasGrapple || load.hasSpeed)
@@ -510,7 +510,7 @@ class ModeStandard {
          return canAccessLowerNorfair(load);
       });
 
-      minor("Mickey Mouse Missiles", (load) => {
+      minor("Missiles (Mickey Mouse)", (load) => {
          return canPassWorstRoom(load);
       });
 
@@ -526,11 +526,11 @@ class ModeStandard {
          return canPassWorstRoom(load);
       });
 
-      minor("3 Muskateers", (load) => {
+      minor("Missiles (Three Muskateers)", (load) => {
          return canPassWorstRoom(load);
       });
 
-      major("Energy Tank, Ridley", (load) => {
+      major("Energy Tank (Ridley)", (load) => {
          return canPassWorstRoom(load);
       });
 
@@ -545,7 +545,7 @@ class ModeStandard {
          return canPassWorstRoom(load);
       });
 
-      minor("Spooky Missiles", (load) => {
+      minor("Missiles (Spooky)", (load) => {
          return canAccessWreckedShip(load);
       });
 
@@ -557,13 +557,13 @@ class ModeStandard {
          );
       });
 
-      minor("WS Reserve Missiles", (load) => {
+      minor("Missiles (Bowling)", (load) => {
          return (
             canAccessWreckedShip(load) && (load.hasVaria || load.totalTanks > 0)
          );
       });
 
-      minor("WS Attic Missiles", (load) => {
+      minor("Missiles (Attic)", (load) => {
          return canAccessWreckedShip(load);
       });
 
