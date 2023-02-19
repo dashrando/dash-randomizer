@@ -62,72 +62,13 @@ class ModeRecall {
       return itemPool;
    }
 
-   getRecallLocation(recallName, locations) {
-      const mapping = [
-         ["Energy Tank (Botwoon)", "Energy Tank, Botwoon"],
-         ["Missiles (Aqueduct)", "Aquaduct Missiles"],
-         ["Missiles (Precious)", "Precious Missiles"],
-         ["Missiles (Sand Pit Left)", "Left Sand Pit (Missiles)"],
-         ["Missiles (Sand Pit Right)", "Right Sand Pit (Missiles)"],
-         ["Power Bombs (Sand Pit Right)", "Right Sand Pit (PBs)"],
-         ["Supers (Aqueduct)", "Aquaduct Supers"],
-         ["Energy Tank (Etecoons)", "Energy Tank, Etecoons"],
-         ["Energy Tank (Waterway)", "Energy Tank, Waterway"],
-         ["Energy Tank (Wave Gate)", "Energy Tank, Brinstar Gate"],
-         ["Missiles (Big Pink)", "Big Pink (Missiles)"],
-         ["Missiles (Brin Reserve 1)", "Brinstar Reserve 1 (Missiles)"],
-         ["Missiles (Brin Reserve 2)", "Brinstar Reserve 2 (Missiles)"],
-         ["Missiles (Brin Tube)", "Tube (Missiles)"],
-         ["Missiles (Charge))", "Charge (Missiles)"],
-         ["Missiles (Early Bridge)", "Early Supers Bridge"],
-         ["Power Bombs (Etecoons)", "Etecoons (PBs)"],
-         ["Power Bombs (Mission Impossible)", "Mission Impossible (PBs)"],
-         ["Supers (Early Bridge)", "Early Supers"],
-         ["Supers (Etecoons)", "Etecoons (Supers)"],
-         ["Supers (Spore Spawn)", "Spo Spo (Supers)"],
-         ["Energy Tank (Kraid)", "Energy Tank, Kraid"],
-         ["Missiles (Kraid)", "Kraid Missiles"],
-         ["Energy Tank (Firefleas)", "Energy Tank, Firefleas"],
-         ["Missiles (GT)", "GT Missiles"],
-         ["Missiles (Maze)", "Maze Missiles"],
-         ["Power Bombs (Maze)", "Maze PBs"],
-         ["Power Bombs (Shame)", "PBs of Shame"],
-         ["Supers (GT)", "GT Supers"],
-         ["Missiles (Alpha PBs)", "Alpha PBs (Missiles)"],
-         ["Power Bombs (Alpha)", "Alpha PBs"],
-         ["Power Bombs (Beta)", "Beta PBs"],
-         ["Energy Tank (HJB)", "Energy Tank, Hi-Jump Boots"],
-         ["Missiles (Bubble Mountain)", "Bubble Mountain Missiles"],
-         ["Missiles (Cathedral)", "Cathedral Missiles"],
-         ["Missiles (Croc Escape)", "Croc Escape"],
-         ["Missiles (Crumble Shaft)", "Southern Missiles"],
-         ["Missiles (HJB)", "HJB (Missiles)"],
-         ["Missiles (Norfair Reserve 1)", "Norfair Reserve 1 (Missiles)"],
-         ["Missiles (Norfair Reserve 2)", "Norfair Reserve 2 (Missiles)"],
-         ["Missiles (Speed)", "Speed Missiles"],
-         ["Missiles (Wave)", "Wave Missiles"],
-         ["Energy Tank, Mama Turtle", "Energy Tank, Mama Turtle"],
-         ["Missiles (Beach)", "Beach Missiles"],
-         ["Missiles (Mainstreet)", "Mainstreet Missiles"],
-         ["Missiles (Mama Turtle)", "Mama Turtle Missiles"],
-         ["Missiles (Watering Hole)", "Watering Hole Missiles"],
-         ["Supers (Crab)", "Crab Supers"],
-         ["Supers (Watering Hole)", "Watering Hole Supers"],
-         ["Energy Tank, Wrecked Ship", "Energy Tank, Wrecked Ship"],
-      ];
-      const mappedLocation = mapping.find((m) => m[0] == recallName);
-      const locationName =
-         mappedLocation == undefined ? recallName : mappedLocation[1];
-      return locations.find((l) => l.name == locationName);
-   }
-
    setupNodes(locations) {
       //-----------------------------------------------------------------
       // Routines for registering item locations.
       //-----------------------------------------------------------------
 
       let add = (name, isMajor, available) => {
-         let loc = this.getRecallLocation(name, locations);
+         let loc = locations.find((p) => p.name == name);
          this.nodes.push(new Node(name, loc, isMajor, available));
       };
       let major = (n, a) => add(n, true, a);
@@ -137,9 +78,8 @@ class ModeRecall {
       // Update locations.
       //-----------------------------------------------------------------
 
-      let ws_reserve = this.getRecallLocation(
-         "Reserve Tank (Wrecked Ship)",
-         locations
+      let ws_reserve = locations.find(
+         (l) => l.name == "Reserve Tank (Wrecked Ship)"
       );
       ws_reserve.modifier = 0x00;
 
@@ -467,7 +407,7 @@ class ModeRecall {
          );
       });
 
-      minor("Missiles (Charge))", (load) => {
+      minor("Missiles (Charge)", (load) => {
          return (
             load.canUsePowerBombs ||
             (load.canOpenRedDoors &&
@@ -666,7 +606,7 @@ class ModeRecall {
          return canAccessHeatedNorfair(load);
       });
 
-      major("Energy Tank, Mama Turtle", (load) => {
+      major("Energy Tank (Mama Turtle)", (load) => {
          return (
             canAccessWreckedShip(load) &&
             (load.hasGravity ||
@@ -708,7 +648,7 @@ class ModeRecall {
          return canAccessWestMaridia(load);
       });
 
-      major("Energy Tank, Wrecked Ship", (load) => {
+      major("Energy Tank (Wrecked Ship)", (load) => {
          return canAccessWreckedShip(load);
       });
 
