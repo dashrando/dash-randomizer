@@ -73,12 +73,12 @@ class ModeStandard {
       //-----------------------------------------------------------------
 
       const canHellRun = (load) => {
-         return load.totalTanks > 2 || load.hasVaria;
+         return load.totalTanks >= 3 || load.hasVaria;
       };
 
       const canAccessRedBrinstar = (load) => {
          return (
-            load.superPacks > 0 &&
+            load.superPacks >= 1 &&
             (load.canUsePowerBombs ||
                (load.canDestroyBombWalls && load.hasMorph))
          );
@@ -117,7 +117,7 @@ class ModeStandard {
             (canAccessKraid(load) &&
                load.canUsePowerBombs &&
                load.hasSpeed &&
-               load.totalTanks > 1)
+               load.totalTanks >= 2)
          );
       };
 
@@ -143,7 +143,7 @@ class ModeStandard {
       };
 
       const canAccessWreckedShip = (load) => {
-         return load.canUsePowerBombs && load.superPacks > 0;
+         return load.canUsePowerBombs && load.superPacks >= 1;
       };
 
       const canAccessOuterMaridia = (load) => {
@@ -167,8 +167,8 @@ class ModeStandard {
          return (
             load.canUseBombs ||
             load.hasScrewAttack ||
-            (load.canUsePowerBombs && load.powerPacks > 1) ||
-            (load.hasSpeed && load.canUsePowerBombs && load.totalTanks > 1)
+            (load.canUsePowerBombs && load.powerPacks >= 2) ||
+            (load.hasSpeed && load.canUsePowerBombs && load.totalTanks >= 2)
          );
       };
 
@@ -176,171 +176,32 @@ class ModeStandard {
       // Logic for each item location.
       //-----------------------------------------------------------------
 
-      minor("Power Bombs (Landing Site)", (load) => {
-         return load.canUsePowerBombs && (load.hasSpeed || load.canFly);
-      });
-
-      minor("Missiles (Ocean Bottom)", (load) => {
-         return canAccessWreckedShip(load);
-      });
-
-      minor("Missiles (Sky)", (load) => {
-         return canAccessWreckedShip(load);
-      });
-
-      minor("Missiles (Ocean Middle)", (load) => {
-         return canAccessWreckedShip(load);
-      });
-
-      minor("Missiles (Moat)", (load) => {
-         return canAccessWreckedShip(load);
-      });
-
-      major("Energy Tank (Gauntlet)", (load) => {
-         return canEnterAndLeaveGauntlet(load);
-      });
-
-      minor("Missiles (Mother Brain)", (load) => {
-         return load.canDestroyBombWalls;
-      });
-
       major("Bombs", (load) => {
          return load.hasMorph && load.canOpenRedDoors;
-      });
-
-      major("Energy Tank (Terminator)", (load) => {
-         return load.canDestroyBombWalls || load.hasSpeed;
-      });
-
-      minor("Missiles (Gauntlet Right)", (load) => {
-         return canEnterAndLeaveGauntlet(load) && load.canPassBombPassages;
-      });
-
-      minor("Missiles (Gauntlet Left)", (load) => {
-         return canEnterAndLeaveGauntlet(load) && load.canPassBombPassages;
-      });
-
-      minor("Supers (Climb)", (load) => {
-         return (
-            load.canUsePowerBombs &&
-            load.hasSpeed &&
-            load.energyTanks > 1 &&
-            load.totalTanks > 2
-         );
-      });
-
-      minor("Missiles (230)", (load) => {
-         return load.canPassBombPassages;
-      });
-
-      minor("Power Bombs (Etecoons)", (load) => {
-         return load.canUsePowerBombs;
-      });
-
-      minor("Supers (Spore Spawn)", (load) => {
-         return load.canPassBombPassages && load.superPacks > 0;
-      });
-
-      minor("Missiles (Early Bridge)", (load) => {
-         return (
-            load.canOpenRedDoors && (load.hasSpeed || load.canDestroyBombWalls)
-         );
-      });
-
-      minor("Supers (Early Bridge)", (load) => {
-         return (
-            load.canOpenRedDoors &&
-            (load.hasSpeed || load.canDestroyBombWalls) &&
-            (load.hasMorph || load.hasSpeed)
-         );
-      });
-
-      major("Reserve Tank (Brinstar)", (load) => {
-         return (
-            load.canOpenRedDoors &&
-            (load.hasSpeed || load.canDestroyBombWalls) &&
-            (load.hasMorph || load.hasSpeed)
-         );
-      });
-
-      minor("Missiles (Brin Reserve 2)", (load) => {
-         return load.canOpenRedDoors && load.canPassBombPassages;
-      });
-
-      minor("Missiles (Brin Reserve 1)", (load) => {
-         return (
-            load.canOpenRedDoors && load.canDestroyBombWalls && load.hasMorph
-         );
-      });
-
-      minor("Missiles (Big Pink)", (load) => {
-         return (
-            load.canUsePowerBombs ||
-            (load.canOpenRedDoors &&
-               (load.hasSpeed || load.canDestroyBombWalls))
-         );
-      });
-
-      minor("Missiles (Charge)", (load) => {
-         return (
-            load.canUsePowerBombs ||
-            (load.canOpenRedDoors &&
-               (load.hasSpeed || load.canDestroyBombWalls))
-         );
-      });
-
-      major("Charge Beam", (load) => {
-         return (
-            load.canUsePowerBombs ||
-            (load.canOpenRedDoors && load.canPassBombPassages)
-         );
-      });
-
-      minor("Power Bombs (Mission Impossible)", (load) => {
-         return load.canUsePowerBombs && load.superPacks > 0;
-      });
-
-      minor("Missiles (Brin Tube)", (load) => {
-         return (
-            load.canUsePowerBombs ||
-            (load.canPassBombPassages && load.canOpenGreenDoors)
-         );
-      });
-
-      major("Morphing Ball", (load) => {
-         return true;
-      });
-
-      minor("Power Bombs (Morph)", (load) => {
-         return load.canUsePowerBombs;
-      });
-
-      minor("Missiles (Beta)", (load) => {
-         return load.hasMorph;
       });
 
       major("Energy Tank (Brinstar Ceiling)", (load) => {
          return true;
       });
 
-      major("Energy Tank (Etecoons)", (load) => {
-         return load.canUsePowerBombs;
+      major("Energy Tank (Gauntlet)", (load) => {
+         return canEnterAndLeaveGauntlet(load);
       });
 
-      minor("Supers (Etecoons)", (load) => {
-         return load.canUsePowerBombs && load.canOpenGreenDoors;
+      major("Energy Tank (Terminator)", (load) => {
+         return load.canDestroyBombWalls || load.hasSpeed;
       });
 
-      major("Energy Tank (Waterway)", (load) => {
-         return load.canUsePowerBombs && load.canOpenRedDoors && load.hasSpeed;
+      minor("Missiles (230)", (load) => {
+         return load.canPassBombPassages;
       });
 
       minor("Missiles (Alpha)", (load) => {
          return load.hasMorph;
       });
 
-      major("Energy Tank (Wave Gate)", (load) => {
-         return load.canUsePowerBombs && (load.hasWave || load.superPacks > 0);
+      minor("Missiles (Beta)", (load) => {
+         return load.hasMorph;
       });
 
       minor("Missiles (Billy Mays 1)", (load) => {
@@ -351,56 +212,40 @@ class ModeStandard {
          return load.canUsePowerBombs;
       });
 
-      major("Xray Scope", (load) => {
+      minor("Missiles (Gauntlet Left)", (load) => {
+         return canEnterAndLeaveGauntlet(load) && load.canPassBombPassages;
+      });
+
+      minor("Missiles (Gauntlet Right)", (load) => {
+         return canEnterAndLeaveGauntlet(load) && load.canPassBombPassages;
+      });
+
+      minor("Missiles (Moat)", (load) => {
+         return canAccessWreckedShip(load);
+      });
+
+      minor("Missiles (Mother Brain)", (load) => {
+         return load.canDestroyBombWalls;
+      });
+
+      major("Morphing Ball", (load) => {
+         return true;
+      });
+
+      minor("Power Bombs (Landing Site)", (load) => {
+         return load.canUsePowerBombs && (load.hasSpeed || load.canFly);
+      });
+
+      minor("Power Bombs (Morph)", (load) => {
+         return load.canUsePowerBombs;
+      });
+
+      minor("Supers (Climb)", (load) => {
          return (
-            canAccessRedBrinstar(load) &&
             load.canUsePowerBombs &&
-            (load.hasGrapple ||
-               load.hasSpaceJump ||
-               load.totalTanks > 5 ||
-               (load.hasVaria && load.totalTanks > 3))
-         );
-      });
-
-      minor("Power Bombs (Beta)", (load) => {
-         return canAccessRedBrinstar(load) && load.canUsePowerBombs;
-      });
-
-      minor("Power Bombs (Alpha)", (load) => {
-         return canAccessRedBrinstar(load) && load.canUsePowerBombs;
-      });
-
-      minor("Missiles (Alpha PBs)", (load) => {
-         return canAccessRedBrinstar(load) && load.canUsePowerBombs;
-      });
-
-      major("Spazer", (load) => {
-         return canAccessRedBrinstar(load);
-      });
-
-      major("Energy Tank (Kraid)", (load) => {
-         return canAccessKraid(load);
-      });
-
-      minor("Missiles (Kraid)", (load) => {
-         return canAccessKraid(load) && load.canUsePowerBombs;
-      });
-
-      major("Varia Suit", (load) => {
-         return canAccessKraid(load);
-      });
-
-      minor("Missiles (Cathedral)", (load) => {
-         return canAccessHeatedNorfair(load);
-      });
-
-      major("Ice Beam", (load) => {
-         return canAccessKraid(load) && (load.hasVaria || load.totalTanks > 1);
-      });
-
-      minor("Missiles (Crumble Shaft)", (load) => {
-         return (
-            canAccessKraid(load) && load.canUsePowerBombs && canHellRun(load)
+            load.hasSpeed &&
+            load.energyTanks >= 2 &&
+            load.totalTanks >= 3
          );
       });
 
@@ -408,29 +253,7 @@ class ModeStandard {
          return canAccessCrocomire(load);
       });
 
-      major("HiJump Boots", (load) => {
-         return canAccessRedBrinstar(load);
-      });
-
-      minor("Missiles (Croc Escape)", (load) => {
-         return (
-            canAccessCrocomire(load) &&
-            (load.canFly ||
-               load.hasGrapple ||
-               load.hasIce ||
-               (load.hasHiJump && load.hasSpeed))
-         );
-      });
-
-      minor("Missiles (HJB)", (load) => {
-         return canAccessRedBrinstar(load);
-      });
-
-      minor("Energy Tank (HJB)", (load) => {
-         return canAccessRedBrinstar(load);
-      });
-
-      minor("Power Bombs (Crocomire)", (load) => {
+      major("Grapple Beam", (load) => {
          return canAccessCrocomire(load);
       });
 
@@ -445,11 +268,283 @@ class ModeStandard {
          );
       });
 
-      major("Grapple Beam", (load) => {
+      minor("Power Bombs (Crocomire)", (load) => {
          return canAccessCrocomire(load);
       });
 
-      major("Reserve Tank (Norfair)", (load) => {
+      major("Energy Tank (Botwoon)", (load) => {
+         return canDefeatBotwoon(load);
+      });
+
+      minor("Missiles (Aqueduct)", (load) => {
+         return canAccessOuterMaridia(load) && load.hasGravity;
+      });
+
+      minor("Missiles (Precious)", (load) => {
+         return canDefeatDraygon(load);
+      });
+
+      minor("Missiles (Sand Pit Left)", (load) => {
+         return (
+            canAccessOuterMaridia(load) &&
+            (canDoSuitlessMaridia(load) || load.hasGravity)
+         );
+      });
+
+      minor("Missiles (Sand Pit Right)", (load) => {
+         return canAccessInnerMaridia(load);
+      });
+
+      major("Plasma Beam", (load) => {
+         return (
+            canDefeatDraygon(load) &&
+            ((load.hasCharge && load.totalTanks >= 3) ||
+               load.hasScrewAttack ||
+               load.hasPlasma) &&
+            (load.hasHiJump ||
+               load.hasSpringBall ||
+               load.canFly ||
+               load.hasSpeed)
+         );
+      });
+
+      minor("Power Bombs (Sand Pit Right)", (load) => {
+         return canAccessOuterMaridia(load) && load.hasGravity;
+      });
+
+      major("Reserve Tank (Maridia)", (load) => {
+         return canAccessOuterMaridia(load) && load.hasGravity;
+      });
+
+      major("Space Jump", (load) => {
+         return canDefeatDraygon(load);
+      });
+
+      major("Spring Ball", (load) => {
+         return (
+            canAccessInnerMaridia(load) &&
+            (load.hasIce ||
+               (load.hasGrapple && (load.canFly || load.hasHiJump)))
+         );
+      });
+
+      minor("Supers (Aqueduct)", (load) => {
+         return canAccessOuterMaridia(load) && load.hasGravity;
+      });
+
+      major("Charge Beam", (load) => {
+         return (
+            load.canUsePowerBombs ||
+            (load.canOpenRedDoors && load.canPassBombPassages)
+         );
+      });
+
+      major("Energy Tank (Etecoons)", (load) => {
+         return load.canUsePowerBombs;
+      });
+
+      major("Energy Tank (Waterway)", (load) => {
+         return load.canUsePowerBombs && load.canOpenRedDoors && load.hasSpeed;
+      });
+
+      major("Energy Tank (Wave Gate)", (load) => {
+         return load.canUsePowerBombs && (load.hasWave || load.superPacks > 0);
+      });
+
+      minor("Missiles (Big Pink)", (load) => {
+         return (
+            load.canUsePowerBombs ||
+            (load.canOpenRedDoors &&
+               (load.hasSpeed || load.canDestroyBombWalls))
+         );
+      });
+
+      minor("Missiles (Brin Reserve 1)", (load) => {
+         return (
+            load.canOpenRedDoors && load.canDestroyBombWalls && load.hasMorph
+         );
+      });
+
+      minor("Missiles (Brin Reserve 2)", (load) => {
+         return load.canOpenRedDoors && load.canPassBombPassages;
+      });
+
+      minor("Missiles (Brin Tube)", (load) => {
+         return (
+            load.canUsePowerBombs ||
+            (load.canPassBombPassages && load.canOpenGreenDoors)
+         );
+      });
+
+      minor("Missiles (Charge)", (load) => {
+         return (
+            load.canUsePowerBombs ||
+            (load.canOpenRedDoors &&
+               (load.hasSpeed || load.canDestroyBombWalls))
+         );
+      });
+
+      minor("Missiles (Early Bridge)", (load) => {
+         return (
+            load.canOpenRedDoors && (load.hasSpeed || load.canDestroyBombWalls)
+         );
+      });
+
+      minor("Power Bombs (Etecoons)", (load) => {
+         return load.canUsePowerBombs;
+      });
+
+      minor("Power Bombs (Mission Impossible)", (load) => {
+         return load.canUsePowerBombs && load.superPacks > 0;
+      });
+
+      major("Reserve Tank (Brinstar)", (load) => {
+         return (
+            load.canOpenRedDoors &&
+            (load.hasSpeed || load.canDestroyBombWalls) &&
+            (load.hasMorph || load.hasSpeed)
+         );
+      });
+
+      minor("Supers (Early Bridge)", (load) => {
+         return (
+            load.canOpenRedDoors &&
+            (load.hasSpeed || load.canDestroyBombWalls) &&
+            (load.hasMorph || load.hasSpeed)
+         );
+      });
+
+      minor("Supers (Etecoons)", (load) => {
+         return load.canUsePowerBombs && load.canOpenGreenDoors;
+      });
+
+      minor("Supers (Spore Spawn)", (load) => {
+         return load.canPassBombPassages && load.superPacks > 0;
+      });
+
+      major("Energy Tank (Kraid)", (load) => {
+         return canAccessKraid(load);
+      });
+
+      minor("Missiles (Kraid)", (load) => {
+         return canAccessKraid(load) && load.canUsePowerBombs;
+      });
+
+      major("Varia Suit", (load) => {
+         return canAccessKraid(load);
+      });
+
+      major("Energy Tank (Firefleas)", (load) => {
+         return canPassWorstRoom(load);
+      });
+
+      major("Energy Tank (Ridley)", (load) => {
+         return canPassWorstRoom(load);
+      });
+
+      minor("Missiles (GT)", (load) => {
+         return canAccessLowerNorfair(load) && load.hasSpaceJump;
+      });
+
+      minor("Missiles (Maze)", (load) => {
+         return canPassWorstRoom(load);
+      });
+
+      minor("Missiles (Mickey Mouse)", (load) => {
+         return canPassWorstRoom(load);
+      });
+
+      minor("Missiles (Three Muskateers)", (load) => {
+         return canPassWorstRoom(load);
+      });
+
+      minor("Power Bombs (Maze)", (load) => {
+         return canPassWorstRoom(load);
+      });
+
+      minor("Power Bombs (Shame)", (load) => {
+         return canPassWorstRoom(load);
+      });
+
+      major("Screw Attack", (load) => {
+         return (
+            canAccessLowerNorfair(load) &&
+            (load.canFly || load.hasSpringBall || load.hasSpeed)
+         );
+      });
+
+      minor("Supers (GT)", (load) => {
+         return canAccessLowerNorfair(load);
+      });
+
+      minor("Missiles (Alpha PBs)", (load) => {
+         return canAccessRedBrinstar(load) && load.canUsePowerBombs;
+      });
+
+      minor("Power Bombs (Alpha)", (load) => {
+         return canAccessRedBrinstar(load) && load.canUsePowerBombs;
+      });
+
+      minor("Power Bombs (Beta)", (load) => {
+         return canAccessRedBrinstar(load) && load.canUsePowerBombs;
+      });
+
+      major("Spazer", (load) => {
+         return canAccessRedBrinstar(load);
+      });
+
+      major("Xray Scope", (load) => {
+         return (
+            canAccessRedBrinstar(load) &&
+            load.canUsePowerBombs &&
+            (load.hasGrapple ||
+               load.hasSpaceJump ||
+               load.totalTanks >= 6 ||
+               (load.hasVaria && load.totalTanks >= 4))
+         );
+      });
+
+      minor("Energy Tank (HJB)", (load) => {
+         return canAccessRedBrinstar(load);
+      });
+
+      major("HiJump Boots", (load) => {
+         return canAccessRedBrinstar(load);
+      });
+
+      major("Ice Beam", (load) => {
+         return canAccessKraid(load) && (load.hasVaria || load.totalTanks >= 2);
+      });
+
+      minor("Missiles (Bubble Mountain)", (load) => {
+         return canAccessHeatedNorfair(load);
+      });
+
+      minor("Missiles (Cathedral)", (load) => {
+         return canAccessHeatedNorfair(load);
+      });
+
+      minor("Missiles (Croc Escape)", (load) => {
+         return (
+            canAccessCrocomire(load) &&
+            (load.canFly ||
+               load.hasGrapple ||
+               load.hasIce ||
+               (load.hasHiJump && load.hasSpeed))
+         );
+      });
+
+      minor("Missiles (Crumble Shaft)", (load) => {
+         return (
+            canAccessKraid(load) && load.canUsePowerBombs && canHellRun(load)
+         );
+      });
+
+      minor("Missiles (HJB)", (load) => {
+         return canAccessRedBrinstar(load);
+      });
+
+      minor("Missiles (Norfair Reserve 1)", (load) => {
          return (
             canAccessHeatedNorfair(load) &&
             (load.canFly ||
@@ -471,7 +566,15 @@ class ModeStandard {
          );
       });
 
-      minor("Missiles (Norfair Reserve 1)", (load) => {
+      minor("Missiles (Speed)", (load) => {
+         return canAccessHeatedNorfair(load);
+      });
+
+      minor("Missiles (Wave)", (load) => {
+         return canAccessHeatedNorfair(load);
+      });
+
+      major("Reserve Tank (Norfair)", (load) => {
          return (
             canAccessHeatedNorfair(load) &&
             (load.canFly ||
@@ -482,19 +585,7 @@ class ModeStandard {
          );
       });
 
-      minor("Missiles (Bubble Mountain)", (load) => {
-         return canAccessHeatedNorfair(load);
-      });
-
-      minor("Missiles (Speed)", (load) => {
-         return canAccessHeatedNorfair(load);
-      });
-
       major("Speed Booster", (load) => {
-         return canAccessHeatedNorfair(load);
-      });
-
-      minor("Missiles (Wave)", (load) => {
          return canAccessHeatedNorfair(load);
       });
 
@@ -502,69 +593,40 @@ class ModeStandard {
          return canAccessHeatedNorfair(load);
       });
 
-      minor("Missiles (GT)", (load) => {
-         return canAccessLowerNorfair(load) && load.hasSpaceJump;
-      });
-
-      minor("Supers (GT)", (load) => {
-         return canAccessLowerNorfair(load);
-      });
-
-      minor("Missiles (Mickey Mouse)", (load) => {
-         return canPassWorstRoom(load);
-      });
-
-      minor("Missiles (Maze)", (load) => {
-         return canPassWorstRoom(load);
-      });
-
-      minor("Power Bombs (Maze)", (load) => {
-         return canPassWorstRoom(load);
-      });
-
-      minor("Power Bombs (Shame)", (load) => {
-         return canPassWorstRoom(load);
-      });
-
-      minor("Missiles (Three Muskateers)", (load) => {
-         return canPassWorstRoom(load);
-      });
-
-      major("Energy Tank (Ridley)", (load) => {
-         return canPassWorstRoom(load);
-      });
-
-      major("Screw Attack", (load) => {
+      major("Energy Tank (Mama Turtle)", (load) => {
          return (
-            canAccessLowerNorfair(load) &&
-            (load.canFly || load.hasSpringBall || load.hasSpeed)
+            canAccessOuterMaridia(load) &&
+            (load.canFly || load.hasSpeed || load.hasGrapple)
          );
       });
 
-      major("Energy Tank (Firefleas)", (load) => {
-         return canPassWorstRoom(load);
+      minor("Missiles (Beach)", (load) => {
+         return canAccessInnerMaridia(load);
       });
 
-      minor("Missiles (Spooky)", (load) => {
-         return canAccessWreckedShip(load);
-      });
-
-      major("Reserve Tank (Wrecked Ship)", (load) => {
+      minor("Missiles (Mainstreet)", (load) => {
          return (
-            canAccessWreckedShip(load) &&
-            load.hasSpeed &&
-            ((load.hasVaria && load.totalTanks > 0) || load.totalTanks > 1)
+            canAccessRedBrinstar(load) &&
+            load.canUsePowerBombs &&
+            load.hasGravity &&
+            load.hasSpeed
          );
       });
 
-      minor("Missiles (Bowling)", (load) => {
-         return (
-            canAccessWreckedShip(load) && (load.hasVaria || load.totalTanks > 0)
-         );
+      minor("Missiles (Mama Turtle)", (load) => {
+         return canAccessOuterMaridia(load);
       });
 
-      minor("Missiles (Attic)", (load) => {
-         return canAccessWreckedShip(load);
+      minor("Missiles (Watering Hole)", (load) => {
+         return canAccessInnerMaridia(load);
+      });
+
+      minor("Supers (Crab)", (load) => {
+         return canAccessOuterMaridia(load);
+      });
+
+      minor("Supers (Watering Hole)", (load) => {
+         return canAccessInnerMaridia(load);
       });
 
       major("Energy Tank (Wrecked Ship)", (load) => {
@@ -579,114 +641,54 @@ class ModeStandard {
          );
       });
 
+      major("Gravity Suit", (load) => {
+         return (
+            canAccessWreckedShip(load) &&
+            (load.hasVaria || load.totalTanks >= 1)
+         );
+      });
+
+      minor("Missiles (Attic)", (load) => {
+         return canAccessWreckedShip(load);
+      });
+
+      minor("Missiles (Bowling)", (load) => {
+         return (
+            canAccessWreckedShip(load) &&
+            (load.hasVaria || load.totalTanks >= 1)
+         );
+      });
+
+      minor("Missiles (Ocean Bottom)", (load) => {
+         return canAccessWreckedShip(load);
+      });
+
+      minor("Missiles (Ocean Middle)", (load) => {
+         return canAccessWreckedShip(load);
+      });
+
+      minor("Missiles (Sky)", (load) => {
+         return canAccessWreckedShip(load);
+      });
+
+      minor("Missiles (Spooky)", (load) => {
+         return canAccessWreckedShip(load);
+      });
+
+      major("Reserve Tank (Wrecked Ship)", (load) => {
+         return (
+            canAccessWreckedShip(load) &&
+            load.hasSpeed &&
+            ((load.hasVaria && load.totalTanks >= 1) || load.totalTanks >= 2)
+         );
+      });
+
       minor("Supers (WS Left)", (load) => {
          return canAccessWreckedShip(load);
       });
 
       major("Supers (WS Right)", (load) => {
          return canAccessWreckedShip(load);
-      });
-
-      major("Gravity Suit", (load) => {
-         return (
-            canAccessWreckedShip(load) && (load.hasVaria || load.totalTanks > 0)
-         );
-      });
-
-      minor("Missiles (Mainstreet)", (load) => {
-         return (
-            canAccessRedBrinstar(load) &&
-            load.canUsePowerBombs &&
-            load.hasGravity &&
-            load.hasSpeed
-         );
-      });
-
-      minor("Supers (Crab)", (load) => {
-         return canAccessOuterMaridia(load);
-      });
-
-      major("Energy Tank (Mama Turtle)", (load) => {
-         return (
-            canAccessOuterMaridia(load) &&
-            (load.canFly || load.hasSpeed || load.hasGrapple)
-         );
-      });
-
-      minor("Missiles (Mama Turtle)", (load) => {
-         return canAccessOuterMaridia(load);
-      });
-
-      minor("Supers (Watering Hole)", (load) => {
-         return canAccessInnerMaridia(load);
-      });
-
-      minor("Missiles (Watering Hole)", (load) => {
-         return canAccessInnerMaridia(load);
-      });
-
-      minor("Missiles (Beach)", (load) => {
-         return canAccessInnerMaridia(load);
-      });
-
-      major("Plasma Beam", (load) => {
-         return (
-            canDefeatDraygon(load) &&
-            ((load.hasCharge && load.totalTanks >= 3) ||
-               load.hasScrewAttack ||
-               load.hasPlasma) &&
-            (load.hasHiJump ||
-               load.hasSpringBall ||
-               load.canFly ||
-               load.hasSpeed)
-         );
-      });
-
-      minor("Missiles (Sand Pit Left)", (load) => {
-         return (
-            canAccessOuterMaridia(load) &&
-            (canDoSuitlessMaridia(load) || load.hasGravity)
-         );
-      });
-
-      major("Reserve Tank (Maridia)", (load) => {
-         return canAccessOuterMaridia(load) && load.hasGravity;
-      });
-
-      minor("Missiles (Sand Pit Right)", (load) => {
-         return canAccessInnerMaridia(load);
-      });
-
-      minor("Power Bombs (Sand Pit Right)", (load) => {
-         return canAccessOuterMaridia(load) && load.hasGravity;
-      });
-
-      minor("Missiles (Aqueduct)", (load) => {
-         return canAccessOuterMaridia(load) && load.hasGravity;
-      });
-
-      minor("Supers (Aqueduct)", (load) => {
-         return canAccessOuterMaridia(load) && load.hasGravity;
-      });
-
-      major("Spring Ball", (load) => {
-         return (
-            canAccessInnerMaridia(load) &&
-            (load.hasIce ||
-               (load.hasGrapple && (load.canFly || load.hasHiJump)))
-         );
-      });
-
-      minor("Missiles (Precious)", (load) => {
-         return canDefeatDraygon(load);
-      });
-
-      major("Energy Tank (Botwoon)", (load) => {
-         return canDefeatBotwoon(load);
-      });
-
-      major("Space Jump", (load) => {
-         return canDefeatDraygon(load);
       });
    }
 }
