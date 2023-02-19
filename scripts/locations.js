@@ -13,6 +13,20 @@ const Area = Object.freeze({
    LowerNorfair: 11,
 });
 
+// prettier-ignore
+const AreaCounts = new Map([
+   [Area.Crateria,     0x2f8039],
+   [Area.PinkBrinstar, 0x2f803b],
+   [Area.UpperNorfair, 0x2f803d],
+   [Area.WreckedShip,  0x2f803f],
+   [Area.EastMaridia,  0x2f8041],
+   [Area.RedBrinstar,  0x2f8049],
+   [Area.Kraid,        0x2f804b],
+   [Area.WestMaridia,  0x2f804d],
+   [Area.LowerNorfair, 0x2f804f],
+   [Area.Crocomire,    0x2f8051],
+]);
+
 class Location {
    constructor(address, modifier, area, name) {
       this.address = address;

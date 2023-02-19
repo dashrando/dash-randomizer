@@ -66,6 +66,39 @@ const generateSeedPatch = (seed, gameMode, nodes, options) => {
    });
 
    //-----------------------------------------------------------------
+   // Write area item counts.
+   //-----------------------------------------------------------------
+
+   const mapArea = (a) => {
+      if (a == Area.BlueBrinstar) {
+         return Area.Crateria;
+      } else if (a == Area.GreenBrinstar) {
+         return Area.PinkBrinstar;
+      } else {
+         return a;
+      }
+   };
+
+   eTanks = nodes
+      .filter((n) => n.item.type == Item.EnergyTank)
+      .map((n) => mapArea(n.location.area));
+
+   majors = nodes
+      .filter(
+         (n) =>
+            n.item.isMajor &&
+            n.item.type != Item.EnergyTank &&
+            n.item.type != Item.Reserve
+      )
+      .map((n) => mapArea(n.location.area));
+
+   AreaCounts.forEach((addr, area) => {
+      const numTanks = eTanks.filter((p) => p == area).length;
+      const numMajors = majors.filter((p) => p == area).length;
+      encodeBytes(seedPatch, addr, new Uint8Array([numTanks, numMajors]));
+   });
+
+   //-----------------------------------------------------------------
    // Write the spoiler in the credits.
    //-----------------------------------------------------------------
 
