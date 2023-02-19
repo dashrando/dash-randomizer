@@ -21,8 +21,8 @@ class MajorMinorLogic {
          const name = node.location.name;
          return (
             name != "Morphing Ball" &&
-            name != "Beta Missiles" &&
-            name != "Energy Tank, Brinstar Ceiling"
+            name != "Missiles (Beta)" &&
+            name != "Energy Tank (Brinstar Ceiling)"
          );
       };
       const area = node.location.area;

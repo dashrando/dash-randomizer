@@ -64,10 +64,6 @@ class ModeRecall {
 
    getRecallLocation(recallName, locations) {
       const mapping = [
-         ["Energy Tank (Crocomire)", "Energy Tank, Crocomire"],
-         ["Missiles (Cosine)", "Cosine Missiles"],
-         ["Missiles (Indiana Jones)", "Indiana Jones"],
-         ["Power Bombs (Crocomire)", "Croc PBs"],
          ["Energy Tank (Botwoon)", "Energy Tank, Botwoon"],
          ["Missiles (Aqueduct)", "Aquaduct Missiles"],
          ["Missiles (Precious)", "Precious Missiles"],
@@ -92,11 +88,8 @@ class ModeRecall {
          ["Energy Tank (Kraid)", "Energy Tank, Kraid"],
          ["Missiles (Kraid)", "Kraid Missiles"],
          ["Energy Tank (Firefleas)", "Energy Tank, Firefleas"],
-         ["Energy Tank (Ridley)", "Energy Tank, Ridley"],
          ["Missiles (GT)", "GT Missiles"],
          ["Missiles (Maze)", "Maze Missiles"],
-         ["Missiles (Mickey Mouse)", "Mickey Mouse Missiles"],
-         ["Missiles (Three Muskateers)", "3 Muskateers"],
          ["Power Bombs (Maze)", "Maze PBs"],
          ["Power Bombs (Shame)", "PBs of Shame"],
          ["Supers (GT)", "GT Supers"],
@@ -121,9 +114,6 @@ class ModeRecall {
          ["Supers (Crab)", "Crab Supers"],
          ["Supers (Watering Hole)", "Watering Hole Supers"],
          ["Energy Tank, Wrecked Ship", "Energy Tank, Wrecked Ship"],
-         ["Missiles (Attic)", "WS Attic Missiles"],
-         ["Missiles (Bowling)", "WS Reserve Missiles"],
-         ["Missiles (Spooky)", "Spooky Missiles"],
       ];
       const mappedLocation = mapping.find((m) => m[0] == recallName);
       const locationName =
