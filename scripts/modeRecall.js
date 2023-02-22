@@ -23,7 +23,7 @@ class ModeRecall {
          majorItem(0x2f8017, Item.HJB),
          majorItem(0x2f801b, Item.Speed),
          majorItem(0x2f800d, Item.Wave),
-         majorItem(0x2f800f, Item.Spazer, false),
+         majorItem(0x2f800f, Item.Spazer),
          majorItem(0x2f801f, Item.SpringBall),
          majorItem(0x2f8013, Item.Varia),
          majorItem(0x2f8011, Item.Plasma),
