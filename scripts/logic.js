@@ -11,6 +11,17 @@ class Node {
       this.available = available;
       this.item = undefined;
    }
+   Clone() {
+      let copy = new Node(
+         this.name,
+         this.location,
+         this.isMajor,
+         this.available
+      );
+      copy.sortWeight = this.sortWeight;
+      copy.item = this.item;
+      return copy;
+   }
    GetWeight() {
       if (this.location.area == Area.LowerNorfair) {
          return 11;
