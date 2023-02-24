@@ -10,7 +10,7 @@ pushd $SCRIPT_DIR/../scripts > /dev/null
 npx uglify-js --compress -- \
    dotnet-random.js locations.js items.js loadout.js \
    logic.js majorMinorLogic.js fullLogic.js \
-   modeStandard.js modeRecall.js \
+   modeStandard.js modeRecall.js itemPlacement.js \
    bps-patch.js ips-patch.js sm-rando.js > $MIN_FILE
 
 popd > /dev/null
