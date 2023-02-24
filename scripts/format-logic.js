@@ -1,8 +1,4 @@
-/*const fs = require("fs");
-const standardFilePath = "scripts\\modeStandard.js";
-const recallFilePath = "scripts\\modeRecall.js";*/
-//let logicString = "";
-//let logicStringArray = [];
+//Global variables
 let locationAccessString = "";
 let itemAccessString = "";
 let locationAccessBlocks = [];
@@ -10,68 +6,67 @@ let itemAccessBlocks = [];
 let logicBlockTitleArray = [];
 let logicBlockBodyArray = [];
 
-// function formatLogic() {
-//    //Split each line up.
-//    logicStringArray = logicString.split("\n");
-
-//    //Remove new lines and whitespace at the front and back front of each string.
-//    for (i = 0; i < logicStringArray.length; i++) {
-//       if (
-//          logicStringArray[i].includes("can") ||
-//          logicStringArray[i].includes("has") ||
-//          logicStringArray[i].includes("major") ||
-//          logicStringArray[i].includes("minor") ||
-//          logicStringArray[i].includes("tanks")
-//       ) {
-//          //Trim the before and after whitespaces.
-//          logicStringArray[i] = logicStringArray[i].trim();
-//       } else {
-//          logicStringArray.splice(i, 1);
-//          i--;
-//       }
-//    }
-// }
-
+/* ---------------------------------------------
+Function to remove the printed logic text when
+the user switches between logic types from the
+drop down list in readable-logic.html
+-----------------------------------------------*/ 
 const clearLogic = () => {
    document.getElementById("logic").innerText = "";
 };
 
+/* ---------------------------------------------
+Function for any variables that need to be reset
+before attempting to print a full body of logic
+to readable-logic.html.
+-----------------------------------------------*/ 
+function resetVariables() {
+   logicBlockTitleArray.length = 0;
+   logicBlockBodyArray.length = 0;
+}
+
+/* ---------------------------------------------
+Function to split up an store the code file's text
+and remove the initial chunks we don't want.
+-----------------------------------------------*/ 
 function removeAndSplitLogicText(logicString) {
    //Remove or the text from the beginning of the code file
    //and set logicString to the latter half.
    var logicStringArray = logicString.split(
       "// Common logic used at item locations."
    );
+   //Set logicString to be the entire latter half string
+   //we got after splitting up the code file into two strings.
    logicString = logicStringArray[1];
 
    //Split the remaining string into location access logic anditem access logic.
    logicStringArray = logicString.split("// Logic for each item location.");
 
+   //Set variables to be the location access and item access entire
+   //strings.
    locationAccessString = logicStringArray[0];
    itemAccessString = logicStringArray[1];
 
+   //Then split each string into individual strings for each logic block
+   //in the code.
    splitLogicIntoBlocks(locationAccessString, itemAccessString);
 }
 
+/* ---------------------------------------------
+Function to split each full logic string into 
+individual strings for each logic block in the code.
+-----------------------------------------------*/ 
 function splitLogicIntoBlocks(locationString, itemString) {
    locationAccessBlocks = locationString.split("};");
    itemAccessBlocks = itemString.split("});");
 }
 
+/* ---------------------------------------------
+Function to remove all the syntax from the code and
+replace particular syntax with words so it's 
+interpretable by anyone reading it. 
+-----------------------------------------------*/ 
 function removeExtraneousText(stringArray) {
-   // for (i = 0; i < stringArray.length; i++) {
-   //    var tempStringArray = stringArray[i].split("\n");
-
-   //    for (j = 0; j < tempStringArray.length; j++) {
-   //       if (j > 0) {
-   //          tempStringArray[j]
-   //       }
-   //       else {
-
-   //       }
-   //    }
-   // }
-
    //Remove most of the syntax and whitespace for lines we want, and remove lines we don't want.
    for (i = 0; i < stringArray.length; i++) {
       if (
@@ -108,44 +103,54 @@ function removeExtraneousText(stringArray) {
          stringArray[i] = stringArray[i].replace(/minor\(\"/g, "Minor Item - ");
          stringArray[i] = stringArray[i].replace(/\"/g, "");
          stringArray[i] = stringArray[i].replace(/\,/g, "");
-         //stringArray[i] = stringArray[i].replace(/\(/g, "\n\r\(");
-         //stringArray[i] = stringArray[i].replace(/\)/g, "]");
+
       } else {
          //Get rid of lines we don't want.
          stringArray.splice(i, 1);
-         i--;
+         //If we're at the end of the list we don't need to go back an index.
+         if (i != stringArray.length) {
+            i--;
+         }
       }
+      
+      /*Now that we have the chunks of logic code we want,
+      break the logic block up into individual strings per line of code.
+      Then get rid of any lines we don't want, and store the title of the
+      block into the title block array (to be used for mouse hovering stuff later). */
+      if (stringArray[i] != null) {
 
-      //Now that we have the chunks of logic code we want,
-      //break the logic block up into individual strings per line of code.
-      //Then get rid of any lines we don't want, and store the title of the
-      //block into the title block array (to be used for mouse hovering stuff later).
-      var tempStringArray = stringArray[i].split("\n");
-      var tempHasStoredTitle = false;
-      for (j = 0; j < tempStringArray.length; j++) {
-         if (stringContainsLetters(tempStringArray[j])) {
-            if (!tempHasStoredTitle) {
-               logicBlockTitleArray.push(tempStringArray[j]);
-               tempHasStoredTitle = true;
+         var tempStringArray = stringArray[i].split("\n");
+         var tempHasStoredTitle = false;
+         for (j = 0; j < tempStringArray.length; j++) {
+            if (stringContainsLetters(tempStringArray[j])) {
+               if (!tempHasStoredTitle) {
+                  logicBlockTitleArray.push(tempStringArray[j]);
+                  tempHasStoredTitle = true;
+               }
+            } else {
+               tempStringArray.splice(j, 1);
+               j--;
             }
-         } else {
-            tempStringArray.splice(j, 1);
-            j--;
          }
-      }
 
-      //Put the logic block's body strings back together into one string (not including the title string).
-      for (k = 0; k < tempStringArray.length; k++) {
-         if (k > 1) {
-            tempStringArray[k] = tempStringArray[k - 1] + tempStringArray[k];
+         //Put the logic block's body strings back together into one string (not including the title string).
+         for (k = 0; k < tempStringArray.length; k++) {
+            if (k > 1) {
+               tempStringArray[k] = tempStringArray[k - 1] + tempStringArray[k];
+            }
          }
-      }
 
-      //Store the body string into the body block array (to be used for mouse hovering later).
-      logicBlockBodyArray.push(tempStringArray[tempStringArray.length - 1]);
+         //Store the body string into the body block array (to be used for mouse hovering later).
+         logicBlockBodyArray.push(tempStringArray[tempStringArray.length - 1]);
+      }
    }
 }
 
+/* ---------------------------------------------
+Function to check if a line contains any letters or 
+numbers. Necessary to remove unwanted lines in the 
+code easily.
+-----------------------------------------------*/ 
 function stringContainsLetters(string) {
    if (
       string.includes("a") ||
@@ -191,6 +196,22 @@ function stringContainsLetters(string) {
    }
 }
 
+/* ---------------------------------------------
+Function to remove and trim new line characters
+as needed.
+-----------------------------------------------*/ 
+function removeNewLineCharacters(myStringArray) {
+   for (i = 0; i < myStringArray.length; i++) {
+      myStringArray[i] = myStringArray[i].replace(/(\r\n|\r|\n)/g, '');
+      myStringArray[i] = myStringArray[i].trim();
+   }
+}
+
+/* ---------------------------------------------
+Function to add and set the specifics of every
+element we want to print, in order, to the
+readable-logic.html page.
+-----------------------------------------------*/ 
 function createElements() {
    clearLogic();
    let logicDiv = document.getElementById("logic");
@@ -198,138 +219,203 @@ function createElements() {
    for (i = 0; i < logicBlockTitleArray.length; i++) {
       const title = logicBlockTitleArray[i];
 
-      // Skip duplicates
-      if (logicBlockTitleArray.slice(0, i).find((p) => p == title)) {
-         continue;
+      //Variables for creating and appending elements for the interactable logic text.
+      newDiv = document.createElement("div", { is: "title" });
+      newTitle = document.createTextNode(title);
+      newUnderline = document.createElement("u");
+      newBody = document.createElement("div");
+      newBodyContents = document.createElement("div");
+      logicReferenceElement = null;
+
+      //Variables for parsing logic text to create elements for interactable events.
+      tempFullString = logicBlockBodyArray[i];
+      tempTextElement = null;
+      tempLogicRefs = [];
+      tempCurrentSingleString = "";
+      tempLogicSingleString = logicBlockBodyArray[i];
+      tempLogicBodySplitStrings = [];
+      tempFoundLogicRef = false;
+      tempFirstLogicRef = "";
+
+      //Check to see if the body of the logic contains any previously defined logic names.
+      //For example "canHellRun."
+      for (j = 0; j < logicBlockTitleArray.length; j++) {
+         if (j == 0) {
+            tempFoundLogicRef = false;
+         }
+
+         //Do we have a logic ref string match in the logic body to any logic title?
+         if (logicBlockBodyArray[i].includes(logicBlockTitleArray[j])) {
+            tempFoundLogicRef = true;
+
+            //Store all references found in the logic body in the tempLogicRefs array.
+            for (n = 0; n < logicBlockTitleArray.length; n++) {
+               if (logicBlockBodyArray[i].includes(logicBlockTitleArray[n])) {
+                  tempLogicRefs.push(logicBlockTitleArray[n]);
+               }
+            }
+            
+            //Do a loop for the amount of logic refs we have
+            for (p = 0; p < tempLogicRefs.length; p++) {
+
+               //Used to know when we can stop looping.
+               haveReachedTheBeginningofTheString = false;
+
+               /*Split at the first logic ref. Whether or not it's 
+               that actual one we want isn't important here because 
+               we'll loop through to find the first (left most) one in the next for loop.*/
+               tempLogicBodySplitStrings = tempLogicSingleString.split(tempLogicRefs[p]);
+
+               //Loop until we find the first instance of a logic ref in the whole string (if there is another one at all).
+               for (r = 0; r < tempLogicRefs.length; r++) {
+                  if (tempLogicBodySplitStrings[0].includes(tempLogicRefs[r])) {
+                     tempLogicBodySplitStrings = tempLogicBodySplitStrings[0].split(tempLogicRefs[r]);
+                     tempFirstLogicRef = tempLogicRefs[r];
+                  }
+               }
+
+               /*If the previous loop didn't find any other
+               logic refs, then we only have 1and we can 
+               assign it to the temp variable.*/
+               if (tempFirstLogicRef == "") {
+                  tempFirstLogicRef = tempLogicRefs[p];
+               }
+               
+               /*The beginning of the string has any characters in it, 
+               it means the logic ref wasn't at the beginning of the string
+               and we need to append that text before the logic ref append.*/
+               tempLogicBodySplitStrings[0] = tempLogicBodySplitStrings[0].trim();
+               if (tempLogicBodySplitStrings[0] != "") {
+                  //create an element for the NON-LOGIC REF string and append it to contentsbody
+                  newBodyContents.appendChild(document.createTextNode(tempLogicBodySplitStrings[0]));
+                  newBodyContents.appendChild(document.createTextNode("\xa0"));
+                  haveReachedTheBeginningofTheString = true;
+               }
+
+               /*Create a new element for the logic reference
+               that's inside the logic body and add a unique id to the element.*/
+               logicReferenceElement = document.createElement('strong');
+               logicReferenceElement.id = tempFirstLogicRef + "_" + i;
+               logicReferenceElement.classList.add("popup");
+
+               /*These next two lines are the way we are able to pass in what
+               element id is being hovered over, and return the appropriate
+               body logic text.*/
+               logicReferenceElement.setAttribute("onpointerenter", 
+                                                  "showLogicText(" + logicReferenceElement.id + ", \"enter\")");
+               logicReferenceElement.setAttribute("onpointerleave", 
+                                                  "showLogicText(" + logicReferenceElement.id + ", \"leave\")");
+
+               logicReferenceElement.style.color = "limegreen";
+
+               //Create the popup element and assign its settings.
+               popupSpan = document.createElement("span");
+               popupSpan.classList.add("popuptext");
+               popupSpan.style.fontStyle = "normal";
+
+               //Append everything to newBodyContents
+               logicReferenceElement.appendChild(popupSpan);
+               tempTextElement = document.createTextNode(tempFirstLogicRef);
+               logicReferenceElement.appendChild(tempTextElement);
+               newBodyContents.appendChild(logicReferenceElement);
+
+               //Add a space
+               newBodyContents.appendChild(document.createTextNode("\xa0"));
+
+
+               //Reset the string to it's original state before we started spitting it.
+               if (tempCurrentSingleString == "") {
+               tempLogicSingleString = logicBlockBodyArray[i];
+               }
+
+               /*Remove what we've already appended to the div and
+               remove/replace the two strings from the logic body
+               string so we can search again without these strings.*/
+               tempLogicSingleString = tempLogicSingleString.replace(tempLogicBodySplitStrings[0], "");
+               tempLogicSingleString = tempLogicSingleString.replace(tempFirstLogicRef, "");  
+               
+               /*Set our current string to whatever it is we end up
+               with after replacing what we've already appended.*/
+               tempCurrentSingleString = tempLogicSingleString;
+
+               //if this is the last iteration through the loop, create and append the last remaining string.
+               if (p >= tempLogicRefs.length - 1) {
+                  //!We probably need to do the code below (reset string and remove strings) before we run this code, else we'll get dupes!
+                  newBodyContents.appendChild(document.createTextNode(tempCurrentSingleString));
+               }
+
+               //Reset variables for the next iteration.
+               tempFirstLogicRef = "";
+            }
+            //Reset variables for the next iteration, and stop looping.
+            tempLogicRefs.length = 0;
+            tempCurrentSingleString = "";
+            break;
+         } 
       }
 
-      newDiv = document.createElement("div", { is: "title" });
-      newStrong = null;
-      newTitle = null;
-      newUnderline = null;
+      //If there are no logic refs found...
+      if (tempFoundLogicRef == false) {
+         newBodyContentsNoChange = document.createElement("div");
+         newBodyContentsNoChange.id = "No_Change_" + i;
+         newBodyContentsNoChange.appendChild(document.createTextNode(tempLogicSingleString));
+         newBody.appendChild(newBodyContentsNoChange);
+      }
 
-      newUnderline = document.createElement("u");
-      newTitle = document.createTextNode(title);
-      newBody = document.createTextNode(logicBlockBodyArray[i]);
+      //Append everything we need, in order, to the DOM.
+      newBody.appendChild(newBodyContents);
       newUnderline.appendChild(newTitle);
       newDiv.appendChild(newUnderline);
       newDiv.appendChild(document.createElement("br"));
       newDiv.appendChild(newBody);
-
       newDiv.appendChild(document.createElement("br"));
       newDiv.appendChild(document.createElement("br"));
-
       logicDiv.appendChild(newDiv);
    }
-
-   //Clear these arrays so we can push to them again with different logic.
-   logicBlockTitleArray = [];
-   logicBlockBodyArray = [];
 }
 
+/* ---------------------------------------------
+Function to display the popup text window and underline
+the current logic ref that's being hovered over.
+-----------------------------------------------*/ 
+function showLogicText(elementId, direction) {
+
+   var bodyLogicToShow = "";
+   var currentElement = document.getElementById(elementId.id);
+   var currentElementsChildren = currentElement.children;
+
+   for (i = 0; i < logicBlockTitleArray.length; i++) {
+      if (elementId.innerHTML.includes(logicBlockTitleArray[i])) {
+         //Grab the corresponding body logic for the current logic ref we're hovering over.
+         bodyLogicToShow = logicBlockBodyArray[i];
+         for (j = 0; j < currentElementsChildren.length; j++) {
+            if (currentElementsChildren[j].tagName == "SPAN") {
+               currentElementsChildren[j].innerHTML = bodyLogicToShow;
+               //If we're entering or leaving the logic ref element...
+               if(direction == "enter") {
+                  currentElement.style.textDecoration = "underline";
+               } else {
+                  currentElement.style.textDecoration = "none";
+               }
+               currentElementsChildren[j].classList.toggle("show");
+               break;
+            }
+         }
+         break;
+      }
+   }
+}
+
+/* ---------------------------------------------
+This is the main function called by readable-logic.html
+-----------------------------------------------*/ 
 function readAndFormatLogicFile(logicString) {
+   //Reset variables so we start with fresh arrays (if the logic has been reprinted by the user).
+   resetVariables();
    removeAndSplitLogicText(logicString);
    removeExtraneousText(locationAccessBlocks);
    removeExtraneousText(itemAccessBlocks);
+   removeNewLineCharacters(logicBlockTitleArray);
    createElements();
-
-   /*
-   //[DONE (removeAndSplitLogicText function)] Split the strings into 2 strings (location logic string and item logic string).
-   //[DONE (splitLogicIntoBlocks function)]Split the two string into individual logic blocks
-   //[DONE]Remove syntax, whitespace and blank lines
-   //[DONE] Create lists, or tables, or something to store a logic header, and a logic body, so we can reference these later for mouse hover functions
-      //One way to do this is to store the first line (the logic header) in one array and the rest of the logic body in another array so you can point 
-      //from one array's index to another and get the header and body. 
-   //[DONE for now]Display in a nice format the logic (in a table or using different text styles)
-   //Create a combo box that allows you to select standard or recall logic to view.
-
-
-
-      //Remove or replace text from the code file's string
-      logicStringArray = logicString.split(
-         //"Logic starts marker (do not remove this comment)"
-         "// Common logic used at item locations."
-      );
-      logicString = logicStringArray[1];
-      logicStringArray = logicString.split("};");
-
-
-      // logicString = logicStringArray[1];
-
-
-      //Split each line up.
-      //logicStringArray = logicString.split("\n");
-
-      //Remove new lines and whitespace at the front and back front of each string.
-      for (i = 0; i < logicStringArray.length; i++) {
-         if (
-            logicStringArray[i].includes("can") ||
-            logicStringArray[i].includes("has") ||
-            logicStringArray[i].includes("major") ||
-            logicStringArray[i].includes("minor") ||
-            logicStringArray[i].includes("tanks")
-         ) {
-            //Trim the before and after whitespaces.
-            logicStringArray[i] = logicStringArray[i].trim();
-
-            logicStringArray[i] = logicStringArray[i].replace(/const /g, "");
-            logicStringArray[i] = logicStringArray[i].replace(/load/g, "");
-            logicStringArray[i] = logicStringArray[i].replace(/return/g, "");
-            logicStringArray[i] = logicStringArray[i].replace(/\(/g, "");
-            logicStringArray[i] = logicStringArray[i].replace(/\)/g, "");
-            logicStringArray[i] = logicStringArray[i].replace(/;/g, "");
-            logicStringArray[i] = logicStringArray[i].replace(/\}/g, "");
-            logicStringArray[i] = logicStringArray[i].replace(/\{/g, "");
-            logicStringArray[i] = logicStringArray[i].replace(/\./g, "");
-            logicStringArray[i] = logicStringArray[i].replace(/>=/g, "is greater than or equal to");
-            logicStringArray[i] = logicStringArray[i].replace(/=>/g, "");
-            logicStringArray[i] = logicStringArray[i].replace(/>/g, "is greater than");
-            logicStringArray[i] = logicStringArray[i].replace(/&&/g, "and");
-            logicStringArray[i] = logicStringArray[i].replace(/\|\|/g, "or");
-            logicStringArray[i] = logicStringArray[i].replace(/=/g, "");
-
-         } else {
-            logicStringArray.splice(i, 1);
-            i--;
-         }
-      }
-
-      let logicDiv = document.getElementById("logic");
-      //logicDiv.innerText = logicString;
-
-      for (i = 0; i < logicStringArray.length; i++) {
-         tempStringArray = logicStringArray[i].split("\n");
-
-         newDiv = null;
-         newStrong = null;
-         newContent = null;
-         //newSpace = document.createElement("br");
-
-         for (j = 0; j < tempStringArray.length; j++) {
-            if (j > 0) {
-               newStrong = document.createElement("strong");
-               newContent = document.createTextNode(tempStringArray[j]);
-               newStrong.appendChild(newContent);
-               newDiv.appendChild(newStrong);
-               //newDiv.appendChild(newContent);
-               //logicDiv.appendChild(newStrong);
-            }
-            else {
-               newDiv = document.createElement("div", { is: "title" });
-               newContent = document.createTextNode(tempStringArray[j]);
-               newDiv.appendChild(newContent);
-            }
-
-            newDiv.appendChild(document.createElement("br"));
-         }
-         newDiv.appendChild(document.createElement("br"));
-         logicDiv.appendChild(newDiv);
-         
-      }
-      */
 }
 
-//readAndFormatLogicFile(recallFilePath, "recall_logic.txt");
-//readAndFormatLogicFile(standardFilePath, "standard_logic.txt");
-
-//formatLogic();
