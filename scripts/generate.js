@@ -46,39 +46,45 @@ async function RandomizeRom() {
       seed = minValue + modSeed;
    }
 
-   //Set the logic and the nodes (items and locations) based on user input.
-   let logic;
+   //
+   let getPrePool;
+   let canPlaceItem;
    let mode;
    let gameModeName;
 
    switch (document.getElementById("game_mode").value) {
       case "sm":
          mode = new ModeStandard(seed, getLocations());
-         logic = new MajorMinorLogic(seed, mode.nodes);
+         getPrePool = getMajorMinorPrePool;
+         canPlaceItem = isValidMajorMinor;
          gameModeName = "mm";
          break;
 
       case "sf":
          mode = new ModeStandard(seed, getLocations());
-         logic = new FullLogic(seed, mode.nodes);
+         getPrePool = getFullPrePool;
+         canPlaceItem = isEmptyNode;
          gameModeName = "full";
          break;
 
       case "rm":
          mode = new ModeRecall(seed, getLocations());
-         logic = new MajorMinorLogic(seed, mode.nodes);
+         getPrePool = getMajorMinorPrePool;
+         canPlaceItem = isValidMajorMinor;
          gameModeName = "rm";
          break;
 
       case "rf":
          mode = new ModeRecall(seed, getLocations());
-         logic = new FullLogic(seed, mode.nodes);
+         getPrePool = getFullPrePool;
+         canPlaceItem = isEmptyNode;
          gameModeName = "rf";
          break;
 
       default:
          mode = new ModeStandard(seed, getLocations());
-         logic = new MajorMinorLogic(seed, mode.nodes);
+         getPrePool = getMajorMinorPrePool;
+         canPlaceItem = isValidMajorMinor;
          gameModeName = "mm";
          break;
    }
@@ -141,8 +147,19 @@ async function RandomizeRom() {
       return;
    }
 
+   // Setup the initial loadout.
+   let initLoad = new Loadout();
+   initLoad.hasCharge = true;
+
    // Place the items.
-   logic.placeItems(mode.itemPool);
+   performVerifiedFill(
+      seed,
+      mode.nodes,
+      mode.itemPool,
+      getPrePool,
+      initLoad,
+      canPlaceItem
+   );
 
    // Load the base patch associated with this game mode.
    const basePatch = await BpsPatch.Load(gameMode.patch);
@@ -161,7 +178,7 @@ async function RandomizeRom() {
    });
 
    // Generate the seed specific patch (item placement, etc.)
-   const seedPatch = generateSeedPatch(seed, gameMode, logic.nodes, options);
+   const seedPatch = generateSeedPatch(seed, gameMode, mode.nodes, options);
 
    // Create the rom by patching the vanilla rom.
    patchedBytes = patchRom(vanillaBytes, basePatch, seedPatch);

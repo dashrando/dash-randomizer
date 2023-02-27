@@ -1,22 +1,22 @@
 const game_modes = [
    {
       name: "mm",
-      prefix: "DASH_v11r_SM_",
+      prefix: "DASH_v11q_SM_",
       patch: "patches/dash_std.bps",
    },
    {
       name: "full",
-      prefix: "DASH_v11r_SF_",
+      prefix: "DASH_v11q_SF_",
       patch: "patches/dash_std.bps",
    },
    {
       name: "rm",
-      prefix: "DASH_v11r_RM_",
+      prefix: "DASH_v11q_RM_",
       patch: "patches/dash_working.bps",
    },
    {
       name: "rf",
-      prefix: "DASH_v11r_RF_",
+      prefix: "DASH_v11q_RF_",
       patch: "patches/dash_working.bps",
    },
 ];
@@ -158,31 +158,47 @@ const generateFromPreset = (preset) => {
    const timestamp = Math.floor(new Date().getTime() / 1000);
    const RNG = new DotNetRandom(timestamp);
    const seed = RNG.NextInRange(1, 1000000);
-   let gameMode = null;
 
    if (preset == "std_mm") {
       gameMode = game_modes.find((mode) => mode.name == "mm");
       mode = new ModeStandard(seed, getLocations());
-      logic = new MajorMinorLogic(seed, mode.nodes);
+      getPrePool = getMajorMinorPrePool;
+      canPlaceItem = isValidMajorMinor;
    } else if (preset == "std_full") {
       gameMode = game_modes.find((mode) => mode.name == "full");
       mode = new ModeStandard(seed, getLocations());
-      logic = new FullLogic(seed, mode.nodes);
+      getPrePool = getFullPrePool;
+      canPlaceItem = isEmptyNode;
    } else if (preset == "mm" || preset == "recall_mm") {
       gameMode = game_modes.find((mode) => mode.name == "rm");
       mode = new ModeRecall(seed, getLocations());
-      logic = new MajorMinorLogic(seed, mode.nodes);
+      getPrePool = getMajorMinorPrePool;
+      canPlaceItem = isValidMajorMinor;
    } else if (preset == "full" || preset == "recall_full") {
       gameMode = game_modes.find((mode) => mode.name == "rf");
       mode = new ModeRecall(seed, getLocations());
-      logic = new FullLogic(seed, mode.nodes);
+      getPrePool = getFullPrePool;
+      canPlaceItem = isEmptyNode;
    } else {
       console.log("UNKNOWN PRESET: " + preset);
       return ["", null, ""];
    }
 
-   logic.placeItems(mode.itemPool);
-   const seedPatch = generateSeedPatch(seed, gameMode, logic.nodes, null);
+   // Setup the initial loadout.
+   let initLoad = new Loadout();
+   initLoad.hasCharge = true;
+
+   // Place the items.
+   performVerifiedFill(
+      seed,
+      mode.nodes,
+      mode.itemPool,
+      getPrePool,
+      initLoad,
+      canPlaceItem
+   );
+
+   const seedPatch = generateSeedPatch(seed, gameMode, mode.nodes, null);
    const fileName = getFileName(seed, gameMode.prefix, null);
 
    return [gameMode.patch, seedPatch, fileName];
