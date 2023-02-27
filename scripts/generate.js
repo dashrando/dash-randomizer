@@ -147,6 +147,7 @@ async function RandomizeRom() {
       return;
    }
 
+   // Setup the initial loadout.
    let initLoad = new Loadout();
    initLoad.hasCharge = true;
 
