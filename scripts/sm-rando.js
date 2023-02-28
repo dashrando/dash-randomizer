@@ -1,41 +1,49 @@
 const game_modes = [
    {
       name: "mm",
-      prefix: "DASH_v11q_SM_",
+      prefix: "DASH_v11r_SM_",
       patch: "patches/dash_std.bps",
+      mask: 0x11,
    },
    {
       name: "full",
-      prefix: "DASH_v11q_SF_",
+      prefix: "DASH_v11r_SF_",
       patch: "patches/dash_std.bps",
+      mask: 0x21,
    },
    {
       name: "rm",
-      prefix: "DASH_v11q_RM_",
+      prefix: "DASH_v11r_RM_",
       patch: "patches/dash_working.bps",
+      mask: 0x12,
    },
    {
       name: "rf",
-      prefix: "DASH_v11q_RF_",
+      prefix: "DASH_v11r_RF_",
       patch: "patches/dash_working.bps",
+      mask: 0x22,
    },
 ];
-
-const encodeRepeating = (patch, offset, length, bytes) => {
-   patch.push([offset, length, bytes]);
-};
-
-const encodeBytes = (patch, offset, bytes) => {
-   encodeRepeating(patch, offset, 1, bytes);
-};
 
 const generateSeedPatch = (seed, gameMode, nodes, options) => {
    //-----------------------------------------------------------------
    // Utility functions.
    //-----------------------------------------------------------------
 
+   const encodeRepeating = (patch, offset, length, bytes) => {
+      patch.push([offset, length, bytes]);
+   };
+
+   const encodeBytes = (patch, offset, bytes) => {
+      encodeRepeating(patch, offset, 1, bytes);
+   };
+
    const U16toBytes = (u16) => {
-      return new Uint8Array([u16 & 0xff, (u16 >> 8) & 0xff]);
+      return new Uint8Array(new Uint16Array([u16]).buffer);
+   };
+
+   const U32toBytes = (u32) => {
+      return new Uint8Array(new Uint32Array([u32]).buffer);
    };
 
    //-----------------------------------------------------------------
@@ -43,18 +51,10 @@ const generateSeedPatch = (seed, gameMode, nodes, options) => {
    //-----------------------------------------------------------------
 
    let seedPatch = [];
+   let seedFlags = gameMode.mask;
    const rnd = new DotNetRandom(seed);
-   const seedInfo1 = rnd.Next(0xffff);
-   const seedInfo2 = rnd.Next(0xffff);
-
-   const seedData = new Uint8Array([
-      seedInfo1 & 0xff,
-      (seedInfo1 >> 8) & 0xff,
-      seedInfo2 & 0xff,
-      (seedInfo2 >> 8) & 0xff,
-   ]);
-
-   encodeBytes(seedPatch, 0x2f8000, seedData);
+   encodeBytes(seedPatch, 0x2f8000, U16toBytes(rnd.Next(0xffff)));
+   encodeBytes(seedPatch, 0x2f8002, U16toBytes(rnd.Next(0xffff)));
 
    //-----------------------------------------------------------------
    // Write the items at the appropriate locations.
@@ -123,7 +123,14 @@ const generateSeedPatch = (seed, gameMode, nodes, options) => {
 
    if (options != null) {
       encodeBytes(seedPatch, 0x2f8b0b, U16toBytes(options.DisableFanfare));
+      seedFlags |= options.DisableFanfare ? 0x0100 : 0x0000;
    }
+
+   //-----------------------------------------------------------------
+   // Encode seed flags from the website.
+   //-----------------------------------------------------------------
+
+   encodeBytes(seedPatch, 0x2f8b00, U32toBytes(seedFlags));
 
    return seedPatch;
 };
