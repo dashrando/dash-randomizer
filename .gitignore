@@ -5,3 +5,5 @@ verify/
 stats/
 level/
 viewer/
+
+node_modules/

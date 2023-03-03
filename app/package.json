@@ -1,0 +1,25 @@
+{
+  "name": "@dashrando/cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dash.cli.js",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "build": "npx uglify-js --compress -- ../scripts/dotnet-random.js ../scripts/locations.js ../scripts/items.js ../scripts/loadout.js ../scripts/logic.js ../scripts/itemPlacement.js ../scripts/modeStandard.js ../scripts/modeRecall.js ../scripts/bps-patch.js ../scripts/ips-patch.js ../scripts/sm-rando.js > dash.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dashrando/dashrando.github.io.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dashrando/dashrando.github.io/issues"
+  },
+  "homepage": "https://github.com/dashrando/dashrando.github.io#readme",
+  "devDependencies": {
+    "uglify-js": "^3.17.4"
+  }
+}
