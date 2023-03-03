@@ -2,7 +2,7 @@ name: Deploy dashrando.github.io to GitHub Pages
 
 on:
   push:
-    branches: ["main", "cli-action"]
+    branches: ["main"]
 
   workflow_dispatch:
 
