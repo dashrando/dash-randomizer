@@ -1,7 +1,7 @@
 {
-  "name": "@dashrando/cli",
+  "name": "@dashrando/core",
   "version": "1.0.0",
-  "description": "",
+  "description": "The core logic for the DASH Randomizer. Used for racetime.gg races.",
   "main": "dash.cli.js",
   "engines": {
     "node": "18.x"
@@ -13,12 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/dashrando/dashrando.github.io.git"
   },
-  "author": "",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/dashrando/dashrando.github.io/issues"
   },
-  "homepage": "https://github.com/dashrando/dashrando.github.io#readme",
+  "homepage": "https://dashrando.github.io/index.html",
   "devDependencies": {
     "uglify-js": "^3.17.4"
   }
