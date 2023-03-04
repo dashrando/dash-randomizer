@@ -30,13 +30,6 @@
             grid-template-columns: 100px 240px 170px 120px;
             grid-template-rows: 60px 60px 60px;
          }
-         #dash_image {
-            grid-row: 1 / span 2;
-            grid-column: 4;
-            padding-top: 10px;
-            padding-left: 4px;
-            /*border: 1px solid black;*/
-         }
          #randomize_button {
             width: 240px;
             border: none;
@@ -49,10 +42,6 @@
             border: none;
             font-size: large;
             text-align: left;
-         }
-         #dash_image > img {
-            height: 80px;
-            margin: auto;
          }
          #game_mode {
             width: 240px;
@@ -74,7 +63,7 @@
       <link rel="stylesheet" type="text/css" href="dash.css" />
    </head>
    <body>
-      <div>
+      <div id="header">
          <a href="index.html"
             ><img
                src="images/dashLogo-noBG.png"
