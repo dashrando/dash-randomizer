@@ -196,6 +196,40 @@ function ToHexString(byteArray) {
    }).join("");
 }
 
+async function SetVanillaRom(value, inputEl) {
+   let check = await window.crypto.subtle.digest("SHA-256", value);
+   if (
+      ToHexString(new Uint8Array(check)) ==
+      "12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72"
+   ) {
+      let randoBtn = document.getElementById("randomize_button");
+      if (randoBtn != null) {
+         randoBtn.disabled = false;
+         randoBtn.style.visibility = "visible";
+      }
+
+      let romBtn = document.getElementById("select-rom");
+      if (romBtn != null) {
+         romBtn.style.opacity = 0.5;
+         romBtn.style.pointerEvents = "none";
+         romBtn.value = "Verified";
+      }
+
+      inputEl.disabled = true;
+      vanillaBytes = new Uint8Array(value);
+   } else if (
+      ToHexString(new Uint8Array(check)) ==
+      "9a4441809ac9331cdbc6a50fba1a8fbfd08bc490bc8644587ee84a4d6f924fea"
+   ) {
+      console.warn('You have entered a headered ROM. The header will now be removed.')
+      const unheaderedContent = value.slice(512)
+      await SetVanillaRom(unheaderedContent, inputEl)
+   } else {
+      alert("Vanilla Rom does not match checksum.");
+      inputEl.value = "";
+   }
+}
+
 function VerifyVanillaRom() {
    let vanillaRomInput = document.getElementById("vanilla-rom");
    let vanillaRom = vanillaRomInput.files[0];
@@ -203,30 +237,7 @@ function VerifyVanillaRom() {
    reader.readAsArrayBuffer(vanillaRom);
 
    reader.onload = async function () {
-      let check = await window.crypto.subtle.digest("SHA-256", reader.result);
-      if (
-         ToHexString(new Uint8Array(check)) ==
-         "12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72"
-      ) {
-         let randoBtn = document.getElementById("randomize_button");
-         if (randoBtn != null) {
-            randoBtn.disabled = false;
-            randoBtn.style.visibility = "visible";
-         }
-
-         let romBtn = document.getElementById("select-rom");
-         if (romBtn != null) {
-            romBtn.style.opacity = 0.5;
-            romBtn.style.pointerEvents = "none";
-            romBtn.value = "Verified";
-         }
-
-         vanillaRomInput.disabled = true;
-         vanillaBytes = new Uint8Array(reader.result);
-      } else {
-         alert("Vanilla Rom does not match checksum.");
-         vanillaRomInput.value = "";
-      }
+      await SetVanillaRom(reader.result, vanillaRomInput)
    };
 
    reader.onerror = function () {
