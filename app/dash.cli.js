@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const vm = require("node:vm");
 const fs = require("node:fs");
 const crypto = require("node:crypto");

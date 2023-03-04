@@ -1,0 +1,23 @@
+{
+  "name": "@dashrando/core",
+  "version": "1.0.0",
+  "description": "The core logic for the DASH Randomizer. Used for racetime.gg races.",
+  "main": "dash.cli.js",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "build": "npx uglify-js --compress -- ../scripts/dotnet-random.js ../scripts/locations.js ../scripts/items.js ../scripts/loadout.js ../scripts/logic.js ../scripts/itemPlacement.js ../scripts/modeStandard.js ../scripts/modeRecall.js ../scripts/bps-patch.js ../scripts/ips-patch.js ../scripts/sm-rando.js > dash.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dashrando/dashrando.github.io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dashrando/dashrando.github.io/issues"
+  },
+  "homepage": "https://dashrando.github.io/index.html",
+  "devDependencies": {
+    "uglify-js": "^3.17.4"
+  }
+}
