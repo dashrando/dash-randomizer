@@ -9,6 +9,10 @@ class VanillaROMStorage {
     document.addEventListener('vanillaRom:input', async (evt) => {
       await self.setValue(evt.detail.data)
     })
+
+    document.addEventListener('vanillaRom:clear', async (evt) => {
+      await self.clearValue()
+    })
     
     document.addEventListener('DOMContentLoaded', async () => {
       try {
@@ -42,8 +46,7 @@ class VanillaROMStorage {
         data: value
       }
     })
-    console.log(dispatchEvt)
-    document.dispatchEvent(dispatchEvt)
+  document.dispatchEvent(dispatchEvt)
   }
 
   supported() {
@@ -60,6 +63,11 @@ class VanillaROMStorage {
       "12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72"
     )
   }
+}
+
+function clearVanillaRom() {
+  const dispatchEvt = new CustomEvent('vanillaRom:clear')
+  document.dispatchEvent(dispatchEvt)
 }
 
 new VanillaROMStorage()
