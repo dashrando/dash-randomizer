@@ -12,10 +12,13 @@
       <script src="scripts/logic.js"></script>
       <script src="scripts/itemPlacement.js"></script>
       <script src="scripts/generate.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/idb-keyval@6/dist/umd.js"></script>
+      <script src="scripts/storage.js"></script>
       <script src="scripts/modeStandard.js"></script>
       <script src="scripts/modeRecall.js"></script>
       <style>
          #rom_load {
+            position: relative;
             grid-row: 1;
             grid-column: 2 / span 2;
          }
@@ -59,6 +62,24 @@
          #fixed_value {
             width: 100px;
          }
+         #vanilla-rom-loaded {
+            visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+         }
+         #vanilla-rom:disabled {
+            visibility: hidden;
+         }
+         #vanilla-rom:disabled + #vanilla-rom-loaded {
+            visibility: visible;
+         }
+         #vanilla-rom-loaded button {
+            all: unset;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 24px;
+         }
       </style>
       <link rel="stylesheet" type="text/css" href="dash.css" />
    </head>
@@ -82,6 +103,10 @@
       <hr />
       <div id="rom_load">
          <input id="vanilla-rom" type="file" onchange="VerifyVanillaRom()" />
+         <div id="vanilla-rom-loaded">
+            Vanilla ROM is loaded
+            <button onclick="clearVanillaRom()">x</button>
+         </div>
       </div>
       <br />
       <br />
