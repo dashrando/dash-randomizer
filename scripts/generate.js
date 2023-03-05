@@ -240,6 +240,7 @@ document.addEventListener('vanillaRom:cleared', (evt) => {
 
    let vanillaRomInput = document.getElementById("vanilla-rom");
    vanillaRomInput.disabled = false;
+   vanillaRomInput.value = '';
    vanillaBytes = null;
 })
 
