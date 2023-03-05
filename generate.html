@@ -18,6 +18,7 @@
       <script src="scripts/modeRecall.js"></script>
       <style>
          #rom_load {
+            position: relative;
             grid-row: 1;
             grid-column: 2 / span 2;
          }
@@ -62,13 +63,16 @@
             width: 100px;
          }
          #vanilla-rom-loaded {
-            display: none;
+            visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
          }
          #vanilla-rom:disabled {
-            display: none;
+            visibility: hidden;
          }
          #vanilla-rom:disabled + #vanilla-rom-loaded {
-            display: block;
+            visibility: visible;
          }
          #vanilla-rom-loaded button {
             all: unset;
