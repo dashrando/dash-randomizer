@@ -202,21 +202,12 @@ async function SetVanillaRom(value, inputEl) {
       ToHexString(new Uint8Array(check)) ==
       "12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72"
    ) {
-      let randoBtn = document.getElementById("randomize_button");
-      if (randoBtn != null) {
-         randoBtn.disabled = false;
-         randoBtn.style.visibility = "visible";
-      }
-
-      let romBtn = document.getElementById("select-rom");
-      if (romBtn != null) {
-         romBtn.style.opacity = 0.5;
-         romBtn.style.pointerEvents = "none";
-         romBtn.value = "Verified";
-      }
-
-      inputEl.disabled = true;
-      vanillaBytes = new Uint8Array(value);
+      const event = new CustomEvent("vanillaRom:input", {
+         detail: {
+            data: new Uint8Array(value),
+         }
+      })
+      document.dispatchEvent(event)
    } else if (
       ToHexString(new Uint8Array(check)) ==
       "9a4441809ac9331cdbc6a50fba1a8fbfd08bc490bc8644587ee84a4d6f924fea"
@@ -229,6 +220,28 @@ async function SetVanillaRom(value, inputEl) {
       inputEl.value = "";
    }
 }
+
+document.addEventListener('vanillaRom:set', (evt) => {
+   let randoBtn = document.getElementById("randomize_button");
+   if (randoBtn != null) {
+      randoBtn.disabled = false;
+   }
+
+   let vanillaRomInput = document.getElementById("vanilla-rom");
+   vanillaRomInput.disabled = true;
+   vanillaBytes = evt.detail.data;
+})
+
+document.addEventListener('vanillaRom:cleared', (evt) => {
+   let randoBtn = document.getElementById("randomize_button");
+   if (randoBtn != null) {
+      randoBtn.disabled = true;
+   }
+
+   let vanillaRomInput = document.getElementById("vanilla-rom");
+   vanillaRomInput.disabled = false;
+   vanillaBytes = null;
+})
 
 function VerifyVanillaRom() {
    let vanillaRomInput = document.getElementById("vanilla-rom");
