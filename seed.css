@@ -36,7 +36,8 @@
 }
 
 #seed-settings ul {
-  display: block;
+  display: flex;
+  justify-content: center;
   margin: 0;
   padding: 0;
   list-style: none outside none;
@@ -49,30 +50,32 @@
 }
 
 #seed-settings ul li {
-  display: flex;
-  margin: 6px 0;
+  margin: 16px 0;
+  padding: 0 16px;
+  display: block;
+  text-align: left;
 }
 
 #seed-settings ul li span {
   display: block;
-  width: 50%;
+  width: 100%;
 }
 
 .settings-label {
   font-size: 14px;
   text-transform: uppercase;
-  text-align: right;
+  /* text-align: right; */
   /* padding-right: 8px; */
   line-height: 18px;
   color: #777;
 }
 
 .settings-value {
-  text-align: left;
+  /* text-align: left; */
   font-size: 14px;
   line-height: 18px;
   color: #fff;
-  padding-left: 14px;
+  /* padding-left: 14px; */
 }
 
 #download-btn {

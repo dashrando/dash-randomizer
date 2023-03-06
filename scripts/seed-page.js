@@ -42,7 +42,7 @@ function setupSeedUI() {
     modeEl.textContent = mode.title
 
     const numEl = document.getElementById('settings-number')
-    numEl.textContent = evt.detail.num
+    numEl.textContent = evt.detail.num.padStart(6, '0')
 
     const seedEl = document.getElementById('seed-container')
     seedEl.classList.add('loaded')
