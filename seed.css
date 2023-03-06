@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css?family=JetBrains+Mono");
+
+#seed-container {
+  max-width: 400px;
+  margin: 80px auto 40px;
+  text-align: center;
+}
+
+#seed-container h1 {
+  margin: 0;
+  font-size: 36px;
+  line-height: 24px;
+}
+
+#seed-container,
+#seed-container * {
+  box-sizing: border-box;
+}
+
+#seed-signature {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 12px 0 0;
+}
+
+#seed-settings {
+  margin: 40px 0 0;
+}
+
+#seed-settings ul {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none outside none;
+}
+
+#seed-settings ul li {
+  display: flex;
+  margin: 6px 0;
+}
+
+#seed-settings ul li span {
+  display: block;
+  width: 50%;
+}
+
+.settings-label {
+  font-size: 14px;
+  text-transform: uppercase;
+  text-align: right;
+  /* padding-right: 8px; */
+  line-height: 18px;
+  color: #777;
+}
+
+.settings-value {
+  text-align: left;
+  font-size: 14px;
+  line-height: 18px;
+  color: #fff;
+  padding-left: 14px;
+}
+
+#download-btn {
+  all: unset;
+  cursor: pointer;
+  display: block;
+  max-width: 300px;
+  margin: 60px auto 20px;
+  font-size: 14px;
+  background-color: #fff;
+  padding: 12px 24px;
+  border-radius: 24px;
+  color: #000;
+  border: 2px solid #fff;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+}
+
+#download-btn:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+#customize {
+  margin: 40px 0 20px;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+#customize a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+#customize a:hover {
+  color: #fff;
+  text-decoration-color: transparent;
+}

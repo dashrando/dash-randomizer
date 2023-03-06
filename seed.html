@@ -3,6 +3,7 @@
   <head>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <link rel="stylesheet" type="text/css" href="dash.css" />
+    <link rel="stylesheet" type="text/css" href="seed.css" />
     <script src="https://cdn.jsdelivr.net/npm/idb-keyval@6/dist/umd.js"></script>
     <script src="scripts/bps-patch.js"></script>
     <script src="scripts/locations.js"></script>
@@ -16,9 +17,37 @@
     <script src="scripts/FileSaver.js"></script>
     <script src="scripts/generate.js"></script>
     <script src="scripts/sm-rando.js"></script>
-    <script src="scripts/seed-page.js"></script>
   </head>
   <body>
-
+    <main id="seed-container">
+      <h1>DASH Randomizer</h1>
+      <div id="seed-signature">
+        BEETOM
+        BULL
+        YARD
+        GAMET
+      </div>
+      <div id="seed-settings">
+        <ul>
+          <li>
+            <span class="settings-label">Game Mode</span>
+            <span class="settings-value" id="settings-mode">&mdash;</span>
+          </li>
+          <li>
+            <span class="settings-label">Number</span>
+            <span class="settings-value" id="settings-number">&mdash;</span>
+          </li>
+        </ul>
+      </div>
+      <div id="download">
+        <button id="download-btn">...</button>
+      </div>
+      <div id="customize">
+        To customize, please use
+        <br />
+        <a href="https://varia.run/customizer">varia.run/customizer</a> or use <a href="https://github.com/Artheau/SpriteSomething">SpriteSomething</a>
+      </div>
+    </main>
+    <script async defer src="scripts/seed-page.js"></script>
   </body>
 </html>
