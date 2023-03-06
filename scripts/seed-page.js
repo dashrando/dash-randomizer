@@ -1,3 +1,40 @@
+// These signatures are taken from:
+// https://github.com/dashrando/dash-template-asm/blob/main/src/fileselect/gameoptions.asm#L85-L117
+const SIGNATURE_VALUES = [
+  "GEEMER  ",
+  "RIPPER  ",
+  "ATOMIC  ",
+  "POWAMP  ",
+  "SCISER  ",
+  "NAMIHE  ",
+  "PUROMI  ",
+  "ALCOON  ",
+  "BEETOM  ",
+  "OWTCH   ",
+  "ZEBBO   ",
+  "ZEELA   ",
+  "HOLTZ   ",
+  "VIOLA   ",
+  "WAVER   ",
+  "RINKA   ",
+  "BOYON   ",
+  "CHOOT   ",
+  "KAGO    ",
+  "SKREE   ",
+  "COVERN  ",
+  "EVIR    ",
+  "TATORI  ",
+  "OUM     ",
+  "PUYO    ",
+  "YARD    ",
+  "ZOA     ",
+  "FUNE    ",
+  "GAMET   ",
+  "GERUTA  ",
+  "SOVA    ",
+  "BULL    ",
+]
+
 function getSeedOpts() {
   const url = new URL(document.location)
   return {
@@ -37,6 +74,9 @@ function setupSeedUI() {
       downloadFile(evt.detail.data, evt.detail.name)
     })
 
+    const signatureEl = document.getElementById('seed-signature')
+    signatureEl.textContent = evt.detail.signature
+
     const modeEl = document.getElementById('settings-mode')
     const mode = game_modes.find(({ name }) => name === evt.detail.mode)
     modeEl.textContent = mode.title
@@ -56,7 +96,17 @@ function setupSeedUI() {
   })
 }
 
-
+function fetchSignature(data) {
+  // the signature is stored in 4 bytes at 0x2f8000 - 0x2f8003
+  // use bit mask of 0x1f to get the index in the signatures array
+  // then trim the string to remove the extra spaces
+  const mask = 0x1f
+  const addresses =
+    [0x2f8000, 0x2f8001, 0x2f8002, 0x2f8003]
+    .map((addr) => data[addr] & mask)
+    .map((index) => SIGNATURE_VALUES[index].trim())
+  return addresses.join(' ')
+}
 
 (async () => {
   try {
@@ -64,7 +114,8 @@ function setupSeedUI() {
     const { num, mode, download: autoDownload } = getSeedOpts()
     const vanillaBytes = await getVanillaBytes()
     const { data, name } = await RandomizeRom(num, mode, {}, { vanillaBytes })
-    const readyEvt = new CustomEvent('seed:ready', { detail: { data, name, num, mode, autoDownload } })
+    const signature = fetchSignature(data)
+    const readyEvt = new CustomEvent('seed:ready', { detail: { data, name, num, mode, autoDownload, signature } })
     document.dispatchEvent(readyEvt)
 
     if (autoDownload) {
