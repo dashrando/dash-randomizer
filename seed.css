@@ -131,13 +131,27 @@
   opacity: 1;
 }
 
-#customize a {
+#customize a,
+#seed-footer a {
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
 }
 
-#customize a:hover {
+#customize a:hover,
+#seed-footer a:hover {
   color: #fff;
   text-decoration-color: transparent;
+}
+
+#seed-footer {
+  margin: 40px 0 0;
+  font-size: 14px;
+  line-height: 18px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out 0.8s;
+}
+
+.loaded #seed-footer {
+  opacity: 1;
 }
