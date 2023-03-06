@@ -18,13 +18,12 @@ async function LoadFile(path) {
    return new Uint8Array(buffer);
 }
 
-async function RandomizeRom() {
+function getSeed() {
    let seed = 0;
    const fixedSeed = document.getElementById("fixed").checked;
    const fixedValueInput = document.getElementById("fixed_value");
    const minValue = Number(fixedValueInput.min);
    const maxValue = Number(fixedValueInput.max);
-
    if (fixedSeed) {
       const fixedValue = Number(fixedValueInput.value);
 
@@ -45,14 +44,23 @@ async function RandomizeRom() {
       let modSeed = randomArray[0] % numSeeds;
       seed = minValue + modSeed;
    }
+   return seed;
+}
 
+async function GetRandomizedRom() {
+   const seed = getSeed();
+   const mode = document.getElementById("game_mode").value
+   return await RandomizeRom(seed, mode);
+}
+
+async function RandomizeRom(seed=0, game_mode) {
    //
    let getPrePool;
    let canPlaceItem;
    let mode;
    let gameModeName;
 
-   switch (document.getElementById("game_mode").value) {
+   switch (game_mode) {
       case "sm":
          mode = new ModeStandard(seed, getLocations());
          getPrePool = getMajorMinorPrePool;
