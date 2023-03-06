@@ -3,6 +3,7 @@ function getSeedOpts() {
   return {
     num: url.searchParams.get('num'),
     mode: url.searchParams.get('mode'),
+    download: url.searchParams.get('download') !== null,
   }
 }
 
@@ -44,12 +45,14 @@ function setupSeedUI() {
 (async () => {
   try {
     setupSeedUI()
-    const { num, mode } = getSeedOpts()
+    const { num, mode, download: autoDownload } = getSeedOpts()
     const vanillaBytes = await getVanillaBytes()
     const { data, name } = await RandomizeRom(num, mode, {}, { vanillaBytes })
     const readyEvt = new CustomEvent('seed:ready', { detail: { data, name, num, mode } })
     document.dispatchEvent(readyEvt)
-    downloadFile(data, name)
+    if (autoDownload) {
+      downloadFile(data, name)
+    }
   } catch (e) {
     console.error(e)
   }
