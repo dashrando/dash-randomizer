@@ -67,6 +67,13 @@ async function GetRandomizedRom() {
 
    // Save the new file on the local system.
    saveAs(new Blob([data]), name);
+
+   // Update the UI with permalink to the new seed
+   const permalink = `${window.location.origin}/seed.html?num=${seed}&mode=${mode}`;
+   const permalinkEl = document.getElementById('seed-permalink');
+   permalinkEl.innerHTML = `<a href="${permalink}">${permalink}</a>`;
+
+   document.getElementById('permalink-container').classList.add('visible');
 }
 
 async function RandomizeRom(seed=0, game_mode, opts={}, config={}) {
