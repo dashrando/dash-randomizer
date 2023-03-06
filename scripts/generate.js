@@ -59,17 +59,25 @@ async function GetRandomizedRom() {
          options.DisableFanfare = 1;
       }
    });
-   const { data, name } = await RandomizeRom(seed, mode, options);
+
+   const config = {
+      vanillaBytes,
+   }
+   const { data, name } = await RandomizeRom(seed, mode, options, config);
 
    // Save the new file on the local system.
    saveAs(new Blob([data]), name);
 }
 
-async function RandomizeRom(seed=0, game_mode, opts={}) {
+async function RandomizeRom(seed=0, game_mode, opts={}, config={}) {
    let getPrePool;
    let canPlaceItem;
    let mode;
    let gameModeName;
+
+   if (!config.vanillaBytes) {
+      throw Error('No vanilla ROM data found')
+   }
 
    switch (game_mode) {
       case "sm":
@@ -193,7 +201,7 @@ async function RandomizeRom(seed=0, game_mode, opts={}) {
 
    // Create the rom by patching the vanilla rom.
    return {
-      data: patchRom(vanillaBytes, basePatch, seedPatch),
+      data: patchRom(config.vanillaBytes, basePatch, seedPatch),
       name: getFileName(seed, gameMode.prefix, options),
    }
 }
