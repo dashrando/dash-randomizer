@@ -50,11 +50,22 @@ function getSeed() {
 async function GetRandomizedRom() {
    const seed = getSeed();
    const mode = document.getElementById("game_mode").value
-   return await RandomizeRom(seed, mode);
+   
+   // Enable or disable item fanfares.
+   const options = {};
+   const fanfare_options = document.getElementsByName("fanfare_mode");
+   fanfare_options.forEach((i) => {
+      if (i.checked && i.value == "Off") {
+         options.DisableFanfare = 1;
+      }
+   });
+   const { data, name } = await RandomizeRom(seed, mode, options);
+
+   // Save the new file on the local system.
+   saveAs(new Blob([data]), name);
 }
 
-async function RandomizeRom(seed=0, game_mode) {
-   //
+async function RandomizeRom(seed=0, game_mode, opts={}) {
    let getPrePool;
    let canPlaceItem;
    let mode;
@@ -98,6 +109,10 @@ async function RandomizeRom(seed=0, game_mode) {
    }
 
    let gameMode = game_modes.find((mode) => mode.name == gameModeName);
+   if (gameMode == null) {
+      alert("Selected Game Mode is currently unsupported for web generation.");
+      return;
+   }
 
    function setOtherRandoSettings(areaSettings, bossSettings) {
       areaElements = document.getElementsByName(areaSettings);
@@ -150,11 +165,6 @@ async function RandomizeRom(seed=0, game_mode) {
 
    setOtherRandoSettings("area_type", "boss_type");
 
-   if (gameMode == null) {
-      alert("Selected Game Mode is currently unsupported for web generation.");
-      return;
-   }
-
    // Setup the initial loadout.
    let initLoad = new Loadout();
    initLoad.hasCharge = true;
@@ -172,30 +182,20 @@ async function RandomizeRom(seed=0, game_mode) {
    // Load the base patch associated with this game mode.
    const basePatch = await BpsPatch.Load(gameMode.patch);
 
-   // Process other options.
-   let options = {
+   // Process options with defaults.
+   const defaultOptions = {
       DisableFanfare: 0,
-   };
-
-   // Enable or disable item fanfares.
-   const fanfare_options = document.getElementsByName("fanfare_mode");
-   fanfare_options.forEach((i) => {
-      if (i.checked && i.value == "Off") {
-         options.DisableFanfare = 1;
-      }
-   });
+   }
+   const options = { ...defaultOptions, ...opts}
 
    // Generate the seed specific patch (item placement, etc.)
    const seedPatch = generateSeedPatch(seed, gameMode, mode.nodes, options);
 
    // Create the rom by patching the vanilla rom.
-   patchedBytes = patchRom(vanillaBytes, basePatch, seedPatch);
-
-   // Save the new file on the local system.
-   saveAs(
-      new Blob([patchedBytes]),
-      getFileName(seed, gameMode.prefix, options)
-   );
+   return {
+      data: patchRom(vanillaBytes, basePatch, seedPatch),
+      name: getFileName(seed, gameMode.prefix, options),
+   }
 }
 
 function ToHexString(byteArray) {
