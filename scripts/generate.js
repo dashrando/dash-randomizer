@@ -246,6 +246,9 @@ async function SetVanillaRom(value, inputEl) {
 
 document.addEventListener('vanillaRom:set', (evt) => {
    let randoBtn = document.getElementById("randomize_button");
+   if (randoBtn === null) {
+      return;
+   }
    if (randoBtn != null) {
       randoBtn.disabled = false;
    }
@@ -257,6 +260,9 @@ document.addEventListener('vanillaRom:set', (evt) => {
 
 document.addEventListener('vanillaRom:cleared', (evt) => {
    let randoBtn = document.getElementById("randomize_button");
+   if (randoBtn === null) {
+      return;
+   }
    if (randoBtn != null) {
       randoBtn.disabled = true;
    }
@@ -267,14 +273,16 @@ document.addEventListener('vanillaRom:cleared', (evt) => {
    vanillaBytes = null;
 })
 
-function VerifyVanillaRom() {
-   let vanillaRomInput = document.getElementById("vanilla-rom");
-   let vanillaRom = vanillaRomInput.files[0];
+function VerifyVanillaRom(el) {
+   if (!el) {
+      return;
+   }
+   let vanillaRom = el.files[0];
    let reader = new FileReader();
    reader.readAsArrayBuffer(vanillaRom);
 
    reader.onload = async function () {
-      await SetVanillaRom(reader.result, vanillaRomInput)
+      await SetVanillaRom(reader.result, el)
    };
 
    reader.onerror = function () {

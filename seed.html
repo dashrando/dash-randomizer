@@ -19,6 +19,7 @@
     <script src="scripts/FileSaver.js"></script>
     <script src="scripts/generate.js"></script>
     <script src="scripts/sm-rando.js"></script>
+    <script src="scripts/storage.js"></script>
   </head>
   <body>
     <main id="seed-container">
@@ -46,7 +47,10 @@
         </ul>
       </div>
       <div id="download">
-        <button id="download-btn" disabled>Download DASH_v00r_AA_000000.sfc</button>
+        <button id="download-btn" class="btn" disabled>Download DASH_v00r_AA_000000.sfc</button>
+        <label id="vanilla-btn" class="btn" for="vanilla-file-input">Enter your Vanilla ROM
+          <input type="file" id="vanilla-file-input" name="vanilla-file" />
+        </label>
       </div>
       <div id="customize">
         To customize, please use

@@ -45,11 +45,7 @@ function getSeedOpts() {
 }
 
 async function getVanillaBytes() {
-  const data = await idbKeyval.get('vanilla-rom')
-  if (!data) {
-    throw Error('No vanilla ROM data found')
-  }
-  return data
+  return idbKeyval.get('vanilla-rom')
 }
 
 function downloadFile(data, name) {
@@ -59,7 +55,52 @@ function downloadFile(data, name) {
  )
 }
 
-function setupSeedUI() {
+function updateMode(value) {
+  const modeEl = document.getElementById('settings-mode')
+  const mode = game_modes.find(({ name }) => name === value)
+  modeEl.textContent = mode.title
+}
+
+function updateSeedNumber(value) {
+  const numEl = document.getElementById('settings-number')
+  numEl.textContent = value.padStart(6, '0')
+}
+
+function updateSignature(value) {
+  const signatureEl = document.getElementById('seed-signature')
+  signatureEl.textContent = value
+}
+
+function setupSeedUI(num, mode) {
+  document.addEventListener('seed:vanilla-missing', (evt) => {
+    updateMode(evt.detail.mode)
+    updateSeedNumber(evt.detail.num)
+    const seedEl = document.getElementById('seed-container')
+    seedEl.classList.add('vanilla-missing')
+    seedEl.classList.add('loaded')
+
+    document.addEventListener('vanillaRom:set', async (evt) => {
+      const vanillaBytes = evt.detail.data
+      const { data, name } = await RandomizeRom(num, mode, {}, { vanillaBytes })
+      const signature = fetchSignature(data)
+      updateSignature(signature)
+
+      const btnEl = document.getElementById('download-btn')
+      btnEl.textContent = `Download ${name}`
+      btnEl.disabled = false
+      btnEl.addEventListener('click', () => {
+        downloadFile(data, name)
+      })
+      const seedEl = document.getElementById('seed-container')
+      seedEl.classList.remove('vanilla-missing')
+    })
+
+    const vanillaEl = document.getElementById('vanilla-file-input')
+    vanillaEl.addEventListener('change', (evt) => {
+      VerifyVanillaRom(evt.target)
+    })
+  })
+
   document.addEventListener('seed:ready', (evt) => {
     const btnEl = document.getElementById('download-btn')
     if (evt.detail.autoDownload) {
@@ -74,15 +115,9 @@ function setupSeedUI() {
       downloadFile(evt.detail.data, evt.detail.name)
     })
 
-    const signatureEl = document.getElementById('seed-signature')
-    signatureEl.textContent = evt.detail.signature
-
-    const modeEl = document.getElementById('settings-mode')
-    const mode = game_modes.find(({ name }) => name === evt.detail.mode)
-    modeEl.textContent = mode.title
-
-    const numEl = document.getElementById('settings-number')
-    numEl.textContent = evt.detail.num.padStart(6, '0')
+    updateSignature(evt.detail.signature)
+    updateMode(evt.detail.mode)
+    updateSeedNumber(evt.detail.num)
 
     const seedEl = document.getElementById('seed-container')
     seedEl.classList.add('loaded')
@@ -110,9 +145,14 @@ function fetchSignature(data) {
 
 (async () => {
   try {
-    setupSeedUI()
     const { num, mode, download: autoDownload } = getSeedOpts()
+    setupSeedUI(num, mode)
     const vanillaBytes = await getVanillaBytes()
+    if (!vanillaBytes) {
+      const vanillaEvt = new CustomEvent('seed:vanilla-missing', { detail: { num, mode }})
+      document.dispatchEvent(vanillaEvt)
+      return null
+    }
     const { data, name } = await RandomizeRom(num, mode, {}, { vanillaBytes })
     const signature = fetchSignature(data)
     const readyEvt = new CustomEvent('seed:ready', { detail: { data, name, num, mode, autoDownload, signature } })
@@ -126,6 +166,6 @@ function fetchSignature(data) {
       }, 850)
     }
   } catch (e) {
-    console.error(e)
+    console.error(e.message)
   }
 })()
