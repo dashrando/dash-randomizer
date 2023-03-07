@@ -31,6 +31,14 @@
   filter: blur(4px);
 }
 
+#seed-error {
+  display: none;
+}
+
+.params-missing #seed-error {
+  display: block;
+}
+
 .vanilla-missing #seed-signature {
   filter: blur(4px) !important;
 }

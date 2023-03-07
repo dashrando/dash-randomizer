@@ -72,6 +72,11 @@ function updateSignature(value) {
 }
 
 function setupSeedUI(num, mode) {
+  document.addEventListener('seed:params-missing', (evt) => {
+    const seedEl = document.getElementById('seed-container')
+    seedEl.classList.add('params-missing')
+  })
+
   document.addEventListener('seed:vanilla-missing', (evt) => {
     updateMode(evt.detail.mode)
     updateSeedNumber(evt.detail.num)
@@ -148,6 +153,12 @@ function fetchSignature(data) {
   try {
     const { num, mode, download: autoDownload } = getSeedOpts()
     setupSeedUI(num, mode)
+    if (!num || !mode) {
+      const missingEvt = new CustomEvent('seed:params-missing')
+      document.dispatchEvent(missingEvt)
+      return null
+    }
+
     const vanillaBytes = await getVanillaBytes()
     if (!vanillaBytes) {
       const vanillaEvt = new CustomEvent('seed:vanilla-missing', { detail: { num, mode }})
