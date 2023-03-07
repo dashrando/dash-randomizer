@@ -93,6 +93,7 @@ function setupSeedUI(num, mode) {
       })
       const seedEl = document.getElementById('seed-container')
       seedEl.classList.remove('vanilla-missing')
+      downloadFile(data, name)
     })
 
     const vanillaEl = document.getElementById('vanilla-file-input')
