@@ -38,7 +38,7 @@ const SIGNATURE_VALUES = [
 function getSeedOpts() {
   const url = new URL(document.location)
   return {
-    num: url.searchParams.get('num'),
+    seed: url.searchParams.get('seed'),
     mode: url.searchParams.get('mode'),
     download: url.searchParams.get('download') !== null,
   }
@@ -81,11 +81,11 @@ function setupSeedUI() {
     const mode = game_modes.find(({ name }) => name === evt.detail.mode)
     modeEl.textContent = mode.title
 
-    const numEl = document.getElementById('settings-number')
-    numEl.textContent = evt.detail.num.padStart(6, '0')
+    const seedEl = document.getElementById('settings-seed')
+    seedEl.textContent = evt.detail.seed.padStart(6, '0')
 
-    const seedEl = document.getElementById('seed-container')
-    seedEl.classList.add('loaded')
+    const containerEl = document.getElementById('seed-container')
+    containerEl.classList.add('loaded')
   })
 
   document.addEventListener('seed:download', (evt) => {
@@ -111,11 +111,11 @@ function fetchSignature(data) {
 (async () => {
   try {
     setupSeedUI()
-    const { num, mode, download: autoDownload } = getSeedOpts()
+    const { seed, mode, download: autoDownload } = getSeedOpts()
     const vanillaBytes = await getVanillaBytes()
-    const { data, name } = await RandomizeRom(num, mode, {}, { vanillaBytes })
+    const { data, name } = await RandomizeRom(seed, mode, {}, { vanillaBytes })
     const signature = fetchSignature(data)
-    const readyEvt = new CustomEvent('seed:ready', { detail: { data, name, num, mode, autoDownload, signature } })
+    const readyEvt = new CustomEvent('seed:ready', { detail: { data, name, seed, mode, autoDownload, signature } })
     document.dispatchEvent(readyEvt)
 
     if (autoDownload) {
