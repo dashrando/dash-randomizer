@@ -107,3 +107,15 @@ hr {
 .dash_changes {
    background-color: rgba(255, 0, 0, 0.45);
 }
+
+#seed-permalink {
+   display: block;
+}
+
+#permalink-container {
+   visibility: hidden;
+}
+
+#permalink-container.visible {
+   visibility: visible;
+}

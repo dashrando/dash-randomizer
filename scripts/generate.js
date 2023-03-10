@@ -18,13 +18,12 @@ async function LoadFile(path) {
    return new Uint8Array(buffer);
 }
 
-async function RandomizeRom() {
+function getSeed() {
    let seed = 0;
    const fixedSeed = document.getElementById("fixed").checked;
    const fixedValueInput = document.getElementById("fixed_value");
    const minValue = Number(fixedValueInput.min);
    const maxValue = Number(fixedValueInput.max);
-
    if (fixedSeed) {
       const fixedValue = Number(fixedValueInput.value);
 
@@ -45,14 +44,49 @@ async function RandomizeRom() {
       let modSeed = randomArray[0] % numSeeds;
       seed = minValue + modSeed;
    }
+   return seed;
+}
 
-   //
+async function GetRandomizedRom() {
+   const seed = getSeed();
+   const mode = document.getElementById("game_mode").value
+   
+   // Enable or disable item fanfares.
+   const options = {};
+   const fanfare_options = document.getElementsByName("fanfare_mode");
+   fanfare_options.forEach((i) => {
+      if (i.checked && i.value == "Off") {
+         options.DisableFanfare = 1;
+      }
+   });
+
+   const config = {
+      vanillaBytes,
+   }
+   const { data, name } = await RandomizeRom(seed, mode, options, config);
+
+   // Save the new file on the local system.
+   saveAs(new Blob([data]), name);
+
+   // Update the UI with permalink to the new seed
+   const permalink = `${window.location.origin}/seed.html?seed=${seed}&mode=${mode}`;
+   const permalinkEl = document.getElementById('seed-permalink');
+   permalinkEl.innerHTML = `<a href="${permalink}">${permalink}</a>`;
+
+   document.getElementById('permalink-container').classList.add('visible');
+}
+
+async function RandomizeRom(seed=0, game_mode, opts={}, config={}) {
    let getPrePool;
    let canPlaceItem;
    let mode;
    let gameModeName;
 
-   switch (document.getElementById("game_mode").value) {
+   if (!config.vanillaBytes) {
+      throw Error('No vanilla ROM data found')
+   }
+
+   switch (game_mode) {
       case "sm":
          mode = new ModeStandard(seed, getLocations());
          getPrePool = getMajorMinorPrePool;
@@ -90,6 +124,10 @@ async function RandomizeRom() {
    }
 
    let gameMode = game_modes.find((mode) => mode.name == gameModeName);
+   if (gameMode == null) {
+      alert("Selected Game Mode is currently unsupported for web generation.");
+      return;
+   }
 
    function setOtherRandoSettings(areaSettings, bossSettings) {
       areaElements = document.getElementsByName(areaSettings);
@@ -142,11 +180,6 @@ async function RandomizeRom() {
 
    setOtherRandoSettings("area_type", "boss_type");
 
-   if (gameMode == null) {
-      alert("Selected Game Mode is currently unsupported for web generation.");
-      return;
-   }
-
    // Setup the initial loadout.
    let initLoad = new Loadout();
    initLoad.hasCharge = true;
@@ -164,30 +197,20 @@ async function RandomizeRom() {
    // Load the base patch associated with this game mode.
    const basePatch = await BpsPatch.Load(gameMode.patch);
 
-   // Process other options.
-   let options = {
+   // Process options with defaults.
+   const defaultOptions = {
       DisableFanfare: 0,
-   };
-
-   // Enable or disable item fanfares.
-   const fanfare_options = document.getElementsByName("fanfare_mode");
-   fanfare_options.forEach((i) => {
-      if (i.checked && i.value == "Off") {
-         options.DisableFanfare = 1;
-      }
-   });
+   }
+   const options = { ...defaultOptions, ...opts}
 
    // Generate the seed specific patch (item placement, etc.)
    const seedPatch = generateSeedPatch(seed, gameMode, mode.nodes, options);
 
    // Create the rom by patching the vanilla rom.
-   patchedBytes = patchRom(vanillaBytes, basePatch, seedPatch);
-
-   // Save the new file on the local system.
-   saveAs(
-      new Blob([patchedBytes]),
-      getFileName(seed, gameMode.prefix, options)
-   );
+   return {
+      data: patchRom(config.vanillaBytes, basePatch, seedPatch),
+      name: getFileName(seed, gameMode.prefix, options),
+   }
 }
 
 function ToHexString(byteArray) {
@@ -223,6 +246,9 @@ async function SetVanillaRom(value, inputEl) {
 
 document.addEventListener('vanillaRom:set', (evt) => {
    let randoBtn = document.getElementById("randomize_button");
+   if (randoBtn === null) {
+      return;
+   }
    if (randoBtn != null) {
       randoBtn.disabled = false;
    }
@@ -234,6 +260,9 @@ document.addEventListener('vanillaRom:set', (evt) => {
 
 document.addEventListener('vanillaRom:cleared', (evt) => {
    let randoBtn = document.getElementById("randomize_button");
+   if (randoBtn === null) {
+      return;
+   }
    if (randoBtn != null) {
       randoBtn.disabled = true;
    }
@@ -244,14 +273,16 @@ document.addEventListener('vanillaRom:cleared', (evt) => {
    vanillaBytes = null;
 })
 
-function VerifyVanillaRom() {
-   let vanillaRomInput = document.getElementById("vanilla-rom");
-   let vanillaRom = vanillaRomInput.files[0];
+function VerifyVanillaRom(el) {
+   if (!el) {
+      return;
+   }
+   let vanillaRom = el.files[0];
    let reader = new FileReader();
    reader.readAsArrayBuffer(vanillaRom);
 
    reader.onload = async function () {
-      await SetVanillaRom(reader.result, vanillaRomInput)
+      await SetVanillaRom(reader.result, el)
    };
 
    reader.onerror = function () {
