@@ -102,7 +102,11 @@
       <div id="section_label">Enter Your Vanilla Rom</div>
       <hr />
       <div id="rom_load">
-         <input id="vanilla-rom" type="file" onchange="VerifyVanillaRom()" />
+         <input
+            id="vanilla-rom"
+            type="file"
+            onchange="VerifyVanillaRom(this)"
+         />
          <div id="vanilla-rom-loaded">
             Vanilla ROM is loaded
             <button onclick="clearVanillaRom()">x</button>

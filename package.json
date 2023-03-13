@@ -1,0 +1,23 @@
+{
+  "name": "dash-rando",
+  "version": "1.0.0",
+  "description": "Website for the DASH Randomizer.",
+  "main": "dash.cli.js",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "build": "npx uglify-js --compress -- public/scripts/dotnet-random.js public/scripts/locations.js public/scripts/items.js public/scripts/loadout.js public/scripts/logic.js public/scripts/itemPlacement.js public/scripts/modeStandard.js public/scripts/modeRecall.js public/scripts/bps-patch.js public/scripts/ips-patch.js public/scripts/sm-rando.js > public/app/dash.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dashrando/dashrando.github.io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dashrando/dashrando.github.io/issues"
+  },
+  "homepage": "https://dashrando.github.io/index.html",
+  "devDependencies": {
+    "uglify-js": "^3.17.4"
+  }
+}

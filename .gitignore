@@ -8,3 +8,5 @@ viewer/
 
 node_modules/
 .vercel
+
+public/app/dash.min.js
