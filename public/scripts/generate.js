@@ -1,3 +1,5 @@
+import BpsPatch from './bps-patch';
+
 let vanillaBytes = null;
 
 function DisableFixedSeed() {
