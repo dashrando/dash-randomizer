@@ -1,4 +1,5 @@
 import BpsPatch from './bps-patch';
+import { saveAs } from 'file-saver';
 
 let vanillaBytes = null;
 

@@ -1,3 +1,5 @@
+import { saveAs } from 'file-saver';
+
 // These signatures are taken from:
 // https://github.com/dashrando/dash-template-asm/blob/main/src/fileselect/gameoptions.asm#L85-L117
 const SIGNATURE_VALUES = [

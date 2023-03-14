@@ -19,5 +19,8 @@
   "homepage": "https://dashrando.github.io/index.html",
   "devDependencies": {
     "uglify-js": "^3.17.4"
+  },
+  "dependencies": {
+    "file-saver": "^2.0.5"
   }
 }
