@@ -10,3 +10,5 @@ node_modules/
 .vercel
 
 public/app/dash.min.js
+public/*.bundled.js
+public/*.bundled.js.map

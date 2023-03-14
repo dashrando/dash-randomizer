@@ -1,3 +1,4 @@
+import game_modes from '../../scripts/data/modes';
 import { saveAs } from 'file-saver';
 
 // These signatures are taken from:

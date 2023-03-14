@@ -1,3 +1,5 @@
+import { get, set, del } from 'idb-keyval'
+
 class VanillaROMStorage {
   constructor() {
     if (!this.supported) {
@@ -16,7 +18,7 @@ class VanillaROMStorage {
     
     document.addEventListener('DOMContentLoaded', async () => {
       try {
-        const data = await idbKeyval.get('vanilla-rom')
+        const data = await get('vanilla-rom')
         const valid = await self.verifyData(data)
         if (!valid) {
           return self.clearValue()
@@ -34,13 +36,13 @@ class VanillaROMStorage {
   }
 
   async clearValue() {
-    await idbKeyval.del('vanilla-rom')
+    await del('vanilla-rom')
     const dispatchEvt = new CustomEvent('vanillaRom:cleared')
     document.dispatchEvent(dispatchEvt)
   }
 
   async setValue(value) {
-    await idbKeyval.set('vanilla-rom', value)
+    await set('vanilla-rom', value)
     const dispatchEvt = new CustomEvent('vanillaRom:set', {
       detail: {
         data: value
@@ -65,9 +67,9 @@ class VanillaROMStorage {
   }
 }
 
-function clearVanillaRom() {
+export function clearVanillaRom() {
   const dispatchEvt = new CustomEvent('vanillaRom:clear')
   document.dispatchEvent(dispatchEvt)
 }
 
-new VanillaROMStorage()
+export default VanillaROMStorage
