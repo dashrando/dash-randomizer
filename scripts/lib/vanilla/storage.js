@@ -72,4 +72,6 @@ export function clearVanillaRom() {
   document.dispatchEvent(dispatchEvt)
 }
 
+export const getVanilla = async () => await get('vanilla-rom')
+
 export default VanillaROMStorage
