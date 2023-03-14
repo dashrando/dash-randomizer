@@ -702,3 +702,5 @@ class ModeRecall {
       });
    }
 }
+
+export default ModeRecall

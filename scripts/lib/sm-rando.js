@@ -1,7 +1,7 @@
-import DotNetRandom from "../../scripts/data/random";
-import game_modes from '../../scripts/data/modes';
+import DotNetRandom from "./random";
+import game_modes from '../data/modes';
 
-const generateSeedPatch = (seed, gameMode, nodes, options) => {
+export const generateSeedPatch = (seed, gameMode, nodes, options) => {
    //-----------------------------------------------------------------
    // Utility functions.
    //-----------------------------------------------------------------
@@ -111,7 +111,7 @@ const generateSeedPatch = (seed, gameMode, nodes, options) => {
    return seedPatch;
 };
 
-const getFileName = (seed, prefix, options) => {
+export const getFileName = (seed, prefix, options) => {
    let fileName = prefix + seed.toString().padStart(6, "0");
 
    if (options != null) {
@@ -123,7 +123,7 @@ const getFileName = (seed, prefix, options) => {
    return fileName + ".sfc";
 };
 
-const patchRom = (vanillaRom, basePatch, seedPatch) => {
+export const patchRom = (vanillaRom, basePatch, seedPatch) => {
    let rom = basePatch.Apply(vanillaRom);
 
    seedPatch.forEach((p) => {

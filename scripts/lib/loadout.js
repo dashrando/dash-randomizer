@@ -203,3 +203,5 @@ class Loadout {
       }
    }
 }
+
+export default Loadout;

@@ -182,7 +182,6 @@
             name="seed_type"
             value="random"
             checked="checked"
-            onclick="DisableFixedSeed()"
          />
          <label for="random">Random</label>
          <input
@@ -190,7 +189,6 @@
             id="fixed"
             name="seed_type"
             value="fixed"
-            onclick="EnableFixedSeed()"
          />
          <label for="fixed">Fixed</label>
          <input
@@ -206,7 +204,7 @@
       </div>
       <br />
       <div id="randomize">
-         <button id="randomize_button" onclick="GetRandomizedRom()" disabled>
+         <button id="randomize_button" disabled>
             Randomize!
          </button>
       </div>

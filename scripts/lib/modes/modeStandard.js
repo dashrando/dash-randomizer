@@ -692,3 +692,5 @@ class ModeStandard {
       });
    }
 }
+
+export default ModeStandard

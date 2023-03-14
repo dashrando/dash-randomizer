@@ -111,7 +111,7 @@ const getMajorMinorPrePool = (rnd) => {
 // Places items in random locations and verifies the seed.
 //-----------------------------------------------------------------
 
-const performVerifiedFill = (
+export const performVerifiedFill = (
    seed,
    nodes,
    itemPool,
