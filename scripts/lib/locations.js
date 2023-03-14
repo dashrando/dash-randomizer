@@ -1,4 +1,4 @@
-const Area = Object.freeze({
+export const Area = Object.freeze({
    Crateria: 0,
    BlueBrinstar: 1,
    GreenBrinstar: 2,
@@ -14,7 +14,7 @@ const Area = Object.freeze({
 });
 
 // prettier-ignore
-const AreaCounts = new Map([
+export const AreaCounts = new Map([
    [Area.Crateria,     0x2f8039],
    [Area.PinkBrinstar, 0x2f803b],
    [Area.UpperNorfair, 0x2f803d],
@@ -52,7 +52,7 @@ const loc = (addr, modifier, area, id, name) => {
    return new Location(addr, modifier, area, name);
 };
 
-const getLocations = () => [
+export const getLocations = () => [
    loc(0x786de, 0x00, Area.BlueBrinstar, 1, "Morphing Ball"),
    loc(0x781cc, 0x00, Area.Crateria, 2, "Power Bombs (Landing Site)"),
    loc(0x781e8, 0x00, Area.Crateria, 3, "Missiles (Ocean Bottom)"),

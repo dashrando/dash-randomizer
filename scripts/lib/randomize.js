@@ -1,8 +1,11 @@
 import BpsPatch from "./bps-patch";
 import ModeRecall from "./modes/modeRecall";
 import ModeStandard from "./modes/modeStandard";
+import game_modes from "../data/modes";
 import { getFileName, generateSeedPatch, patchRom } from "./sm-rando";
-import { performVerifiedFill } from "./itemPlacement";
+import { getMajorMinorPrePool, isValidMajorMinor, performVerifiedFill } from "./itemPlacement";
+import { getLocations } from "./locations";
+import Loadout from "./loadout";
 
 async function RandomizeRom(seed=0, game_mode, opts={}, config={}) {
   let getPrePool;

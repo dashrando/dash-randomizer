@@ -1,5 +1,10 @@
-import DotNetRandom from "./random";
+import DotNetRandom from "./dotnet-random";
 import game_modes from '../data/modes';
+import ModeStandard from './modes/modeStandard';
+import ModeRecall from './modes/modeRecall';
+import { Area, AreaCounts, getLocations } from './locations';
+import { getMajorMinorPrePool, isValidMajorMinor } from './itemPlacement';
+import { Item } from './items';
 
 export const generateSeedPatch = (seed, gameMode, nodes, options) => {
    //-----------------------------------------------------------------

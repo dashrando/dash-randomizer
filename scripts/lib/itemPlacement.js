@@ -1,3 +1,8 @@
+import DotNetRandom from "./dotnet-random";
+import { Item } from "./items";
+import { Area } from "./locations";
+import Loadout from "./loadout";
+
 //-----------------------------------------------------------------
 // Checks if a node is empty.
 //-----------------------------------------------------------------
@@ -8,7 +13,7 @@ const isEmptyNode = (_, node) => node.item == undefined;
 // Checks if an item is allowed at the specified node in M/M.
 //-----------------------------------------------------------------
 
-const isValidMajorMinor = (item, node) => {
+export const isValidMajorMinor = (item, node) => {
    if (!isEmptyNode(item, node)) {
       return false;
    }
@@ -76,7 +81,7 @@ const getFullPrePool = (rnd) => {
 // Generates the default prefill pool for M/M seeds.
 //-----------------------------------------------------------------
 
-const getMajorMinorPrePool = (rnd) => {
+export const getMajorMinorPrePool = (rnd) => {
    prePool = [Item.Morph];
 
    if (rnd.Next(100) < 65) {

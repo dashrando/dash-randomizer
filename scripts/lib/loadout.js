@@ -1,3 +1,5 @@
+import { Item, ItemNames } from "./items";
+
 class Loadout {
    hasBombs = false;
    hasMorph = false;

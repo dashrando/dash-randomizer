@@ -1,5 +1,4 @@
-import { Modes as game_modes } from '../data';
-import BpsPatch from '../lib/bps-patch';
+import RandomizeRom from '../lib/randomize';
 import { saveAs } from 'file-saver';
 import vanillaROM, { clearVanillaRom } from '../lib/vanilla/storage';
 import inputVanillaRom from '../lib/vanilla/input';
