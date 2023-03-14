@@ -1,7 +1,8 @@
-import game_modes from '../data/modes';
+import { Modes as game_modes } from '../data';
 import BpsPatch from '../lib/bps-patch';
 import { saveAs } from 'file-saver';
 import vanillaROM, { clearVanillaRom } from '../lib/vanilla/storage';
+import inputVanillaRom from '../lib/vanilla/input';
 
 let vanillaBytes = null;
 
@@ -215,92 +216,41 @@ async function RandomizeRom(seed=0, game_mode, opts={}, config={}) {
    }
 }
 
-function ToHexString(byteArray) {
-   return Array.from(byteArray, function (byte) {
-      return ("0" + (byte & 0xff).toString(16)).slice(-2);
-   }).join("");
-}
-
-async function SetVanillaRom(value, inputEl) {
-   let check = await window.crypto.subtle.digest("SHA-256", value);
-   if (
-      ToHexString(new Uint8Array(check)) ==
-      "12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72"
-   ) {
-      const event = new CustomEvent("vanillaRom:input", {
-         detail: {
-            data: new Uint8Array(value),
-         }
-      })
-      document.dispatchEvent(event)
-   } else if (
-      ToHexString(new Uint8Array(check)) ==
-      "9a4441809ac9331cdbc6a50fba1a8fbfd08bc490bc8644587ee84a4d6f924fea"
-   ) {
-      console.warn('You have entered a headered ROM. The header will now be removed.')
-      const unheaderedContent = value.slice(512)
-      await SetVanillaRom(unheaderedContent, inputEl)
-   } else {
-      alert("Vanilla Rom does not match checksum.");
-      inputEl.value = "";
-   }
-}
-
-document.addEventListener('vanillaRom:set', (evt) => {
-   let randoBtn = document.getElementById("randomize_button");
-   if (randoBtn === null) {
-      return;
-   }
-   if (randoBtn != null) {
-      randoBtn.disabled = false;
-   }
-
-   let vanillaRomInput = document.getElementById("vanilla-rom");
-   vanillaRomInput.disabled = true;
-   vanillaBytes = evt.detail.data;
-})
-
-document.addEventListener('vanillaRom:cleared', (evt) => {
-   let randoBtn = document.getElementById("randomize_button");
-   if (randoBtn === null) {
-      return;
-   }
-   if (randoBtn != null) {
-      randoBtn.disabled = true;
-   }
-
-   let vanillaRomInput = document.getElementById("vanilla-rom");
-   vanillaRomInput.disabled = false;
-   vanillaRomInput.value = '';
-   vanillaBytes = null;
-})
-
-// Used in generate.html and seed-page.js
-function VerifyVanillaRom(el) {
-   if (!el) {
-      return;
-   }
-   let vanillaRom = el.files[0];
-   let reader = new FileReader();
-   reader.readAsArrayBuffer(vanillaRom);
-
-   reader.onload = async function () {
-      await SetVanillaRom(reader.result, el)
-   };
-
-   reader.onerror = function () {
-      alert("Failed to load file.");
-   };
-}
-
 function setupUI() {
-  new vanillaROM()
+
+  document.addEventListener('vanillaRom:set', (evt) => {
+    let randoBtn = document.getElementById("randomize_button");
+    if (randoBtn === null) {
+       return;
+    }
+    if (randoBtn != null) {
+       randoBtn.disabled = false;
+    }
+ 
+    let vanillaRomInput = document.getElementById("vanilla-rom");
+    vanillaRomInput.disabled = true;
+    vanillaBytes = evt.detail.data;
+  })
+ 
+ document.addEventListener('vanillaRom:cleared', (evt) => {
+    let randoBtn = document.getElementById("randomize_button");
+    if (randoBtn === null) {
+       return;
+    }
+    if (randoBtn != null) {
+       randoBtn.disabled = true;
+    }
+ 
+    let vanillaRomInput = document.getElementById("vanilla-rom");
+    vanillaRomInput.disabled = false;
+    vanillaRomInput.value = '';
+    vanillaBytes = null;
+  })
 
   // Listen to when the vanilla rom is set.
   const vanillaRomEl = document.getElementById("vanilla-rom")
-  console.log(vanillaRomEl)
   vanillaRomEl.addEventListener('change', (evt) => {
-    VerifyVanillaRom(evt.target)
+    inputVanillaRom(evt.target)
   })
 
   // Listen to when the vanilla rom is cleared.
@@ -308,6 +258,8 @@ function setupUI() {
   removeEl.addEventListener('click', (_evt) => {
     clearVanillaRom()
   })
+
+  new vanillaROM()
 }
 
 document.addEventListener('DOMContentLoaded', setupUI)

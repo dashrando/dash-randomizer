@@ -1,4 +1,5 @@
 import { get, set, del } from 'idb-keyval'
+import verifyVanillaRom from './verify';
 
 class VanillaROMStorage {
   constructor() {
@@ -16,23 +17,32 @@ class VanillaROMStorage {
       await self.clearValue()
     })
     
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const data = await get('vanilla-rom')
-        const valid = await self.verifyData(data)
-        if (!valid) {
-          return self.clearValue()
-        }
-        const dispatchEvt = new CustomEvent('vanillaRom:set', {
-          detail: {
-            data
-          }
-        })
-        document.dispatchEvent(dispatchEvt)
-      } catch (e) {
-        self.clearValue()
+    this.initialize()
+  }
+
+  async initialize() {
+    const self = this
+    try {
+      const data = await get('vanilla-rom')
+      if (!data) {
+        return
       }
-    })
+      
+      const valid = await verifyVanillaRom(data)
+      if (!valid) {
+        return self.clearValue()
+      }
+
+      const dispatchEvt = new CustomEvent('vanillaRom:set', {
+        detail: {
+          data
+        }
+      })
+      document.dispatchEvent(dispatchEvt)
+    } catch (e) {
+      console.error(e)
+      self.clearValue()
+    }
   }
 
   async clearValue() {
@@ -55,16 +65,6 @@ class VanillaROMStorage {
     return ('indexedDB' in window)
   }
 
-  async verifyData(value) {
-    if (!value) {
-      return false
-    }
-    const signature = await window.crypto.subtle.digest("SHA-256", value);
-    return (
-      ToHexString(new Uint8Array(signature)) ==
-      "12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72"
-    )
-  }
 }
 
 export function clearVanillaRom() {
