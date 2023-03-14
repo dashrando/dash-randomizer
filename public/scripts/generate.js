@@ -3,22 +3,18 @@ import { saveAs } from 'file-saver';
 
 let vanillaBytes = null;
 
+// Used in generate.html UI
 function DisableFixedSeed() {
    let temp = document.getElementById("fixed_value");
    temp.disabled = true;
    temp.value = "";
 }
 
+// Used in generate.html UI
 function EnableFixedSeed() {
    let temp = document.getElementById("fixed_value");
    temp.disabled = false;
    temp.value = 1;
-}
-
-async function LoadFile(path) {
-   let response = await fetch(path);
-   let buffer = await response.arrayBuffer();
-   return new Uint8Array(buffer);
 }
 
 function getSeed() {
@@ -50,6 +46,7 @@ function getSeed() {
    return seed;
 }
 
+// Used in generate.html UI
 async function GetRandomizedRom() {
    const seed = getSeed();
    const mode = document.getElementById("game_mode").value
@@ -276,6 +273,7 @@ document.addEventListener('vanillaRom:cleared', (evt) => {
    vanillaBytes = null;
 })
 
+// Used in generate.html and seed-page.js
 function VerifyVanillaRom(el) {
    if (!el) {
       return;
