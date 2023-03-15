@@ -36,6 +36,9 @@ jobs:
         run: |
           mkdir ./redirect/public/app
           cp ./public/app/dash.min.js ./redirect/public/app/dash.min.js
+      - name: Build redirect pages
+        run: |
+          npm run redirects
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
