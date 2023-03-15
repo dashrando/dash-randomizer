@@ -1,21 +1,7 @@
 <html>
    <head>
       <title>Recall Logic</title>
-      <script src="scripts/FileSaver.js"></script>
-      <script src="scripts/bps-patch.js"></script>
-      <script src="scripts/ips-patch.js"></script>
-      <script src="scripts/locations.js"></script>
-      <script src="scripts/items.js"></script>
-      <script src="scripts/sm-rando.js"></script>
-      <script src="scripts/dotnet-random.js"></script>
-      <script src="scripts/loadout.js"></script>
-      <script src="scripts/logic.js"></script>
-      <script src="scripts/majorMinorLogic.js"></script>
-      <script src="scripts/fullLogic.js"></script>
-      <script src="scripts/generate.js"></script>
-      <script src="scripts/modeStandard.js"></script>
-      <script src="scripts/modeRecall.js"></script>
-      <script src="scripts/format-logic.js"></script>
+      <script src="/logic.bundled.js"></script>
       <style>
          #rom_load {
             grid-row: 1;
@@ -125,56 +111,8 @@
          }
       </style>
       <link rel="stylesheet" type="text/css" href="dash.css" />
-      <script>
-         const loadLogic = async () => {
-            data = null;
-            logicType = document.getElementById("logic_type").value;
-            switch (logicType) {
-               case "nls":
-                  document.getElementById("logic").innerText = "";
-                  break;
-               case "sml":
-                  data = await fetch("scripts/modeStandard.js");
-                  break;
-               case "rml":
-                  data = await fetch("scripts/modeRecall.js");
-                  break;
-               default:
-                  document.getElementById("logic").innerText = "";
-                  break;
-            }
-
-            if (logicType == "rml" || logicType == "sml") {
-               const text = await data.text();
-               readAndFormatLogicFile(text);
-            } else {
-            }
-         };
-
-         const refreshLogic = () => {
-            switch (document.getElementById("logic_type").value) {
-               case "nls":
-                  document.getElementById("logic_title").innerText =
-                     "No Logic Selected";
-                  loadLogic();
-                  break;
-               case "sml":
-                  document.getElementById("logic_title").innerText =
-                     "DASH - Standard Logic";
-                  loadLogic();
-                  break;
-               case "rml":
-                  document.getElementById("logic_title").innerText =
-                     "DASH - Recall Logic";
-                  loadLogic();
-                  break;
-               default:
-                  break;
-            }
-         };
-      </script>
    </head>
-   <body onload="refreshLogic()">
+   <body>
       <div>
          <a href="index.html"
             ><img
@@ -188,7 +126,7 @@
       <br />
       <div id="select_logic_text">Select Logic:</div>
       <div id="select_logic_dropdown">
-         <select name="logic_type" id="logic_type" onchange="refreshLogic()">
+         <select name="logic_type" id="logic_type">
             <option value="sml">DASH - Standard</option>
             <option value="rml" selected="true">DASH - Recall</option>
          </select>
