@@ -1,5 +1,5 @@
 import fs from "node:fs"
-import redirectTemaplte from "./template.mjs"
+import redirectTemplate, { seedRedirectTemplate } from "./template.mjs"
 
 const redirectPaths = [
   'generate.html',
@@ -14,6 +14,8 @@ const redirectPaths = [
 ]
 
 redirectPaths.forEach((fileName) => {
-  const redirect = `https://www.dashrando.net/${fileName}`
-  fs.writeFileSync(`./redirect/public/${fileName}`, redirectTemaplte(redirect))
+  let redirect = `https://www.dashrando.net/${fileName}`
+  const template = (fileName === 'seed.html') ? seedRedirectTemplate : redirectTemplate
+  const contents = template(redirect)
+  fs.writeFileSync(`./redirect/public/${fileName}`, contents)
 })
