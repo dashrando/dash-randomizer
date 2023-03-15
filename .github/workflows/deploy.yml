@@ -2,7 +2,7 @@ name: Deploy dashrando.github.io to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "vercel"]
 
   workflow_dispatch:
 
@@ -28,9 +28,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - name: Build CLI script file
+      - name: Build Minified script file for CLI
         run: |
-          cd app
           npm install
           npm run build
       - name: Setup Pages
@@ -38,7 +37,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: '.'
+          path: './public'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
