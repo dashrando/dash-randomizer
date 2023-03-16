@@ -3,6 +3,11 @@
   "redirects": [
     {
       "source": "/discord",
+      "destination": "https://discord.gg/3dp5W8Eq",
+      "permanent": false
+    },
+    {
+      "source": "/smdiscord",
       "destination": "https://discord.gg/rT2fWZt",
       "permanent": false
     },
