@@ -2,7 +2,7 @@ name: Deploy dashrando.github.io to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "github-pages-redirect"]
 
   workflow_dispatch:
 
@@ -36,6 +36,7 @@ jobs:
         run: |
           mkdir ./redirect/public/app
           cp ./public/app/dash.min.js ./redirect/public/app/dash.min.js
+          cp ./public/app/dash.cli.js ./redirect/public/app/dash.cli.js
       - name: Build redirect pages
         run: |
           npm run redirects
