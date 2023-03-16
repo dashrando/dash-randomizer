@@ -24,7 +24,7 @@ export function seedRedirectTemplate(redirect) {
     <script>
     const queryString = window.location.search;
     const redirect = \`${redirect}\${queryString}\`;
-    window.location.replace = redirect;
+    window.location.replace(redirect);
     </script>
   </head>
   <body style="background-color: #000; color: #fff;">
