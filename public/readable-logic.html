@@ -1,71 +1,15 @@
 <html>
    <head>
-      <title>Recall Logic</title>
-      <script src="scripts/FileSaver.js"></script>
-      <script src="scripts/bps-patch.js"></script>
-      <script src="scripts/ips-patch.js"></script>
-      <script src="scripts/locations.js"></script>
-      <script src="scripts/items.js"></script>
-      <script src="scripts/sm-rando.js"></script>
-      <script src="scripts/dotnet-random.js"></script>
-      <script src="scripts/loadout.js"></script>
-      <script src="scripts/logic.js"></script>
-      <script src="scripts/majorMinorLogic.js"></script>
-      <script src="scripts/fullLogic.js"></script>
-      <script src="scripts/generate.js"></script>
-      <script src="scripts/modeStandard.js"></script>
-      <script src="scripts/modeRecall.js"></script>
+      <title>Readable Logic</title>
       <script src="scripts/format-logic.js"></script>
       <style>
-         #rom_load {
-            grid-row: 1;
-            grid-column: 2 / span 2;
-         }
-         #rom_state {
-            border: 1px solid black;
-            width: 100px;
-            height: 20px;
-            text-align: center;
-         }
          #logic_title {
             font-size: large;
             text-align: center;
+            font-size: 20px;
          }
-         #grid_container {
-            display: grid;
-            grid-template-columns: 100px 240px 170px 120px;
-            grid-template-rows: 60px 60px 60px;
-         }
-         #dash_image {
-            grid-row: 1 / span 2;
-            grid-column: 4;
-            padding-top: 10px;
-            padding-left: 4px;
-            /*border: 1px solid black;*/
-         }
-         #randomize_button {
-            width: 240px;
-            border: none;
-            padding: 10px 10px;
-            font-size: xx-large;
-            cursor: pointer;
-            text-align: center;
-         }
-         #section_label {
-            border: none;
-            font-size: large;
-            text-align: left;
-         }
-         #dash_image > img {
-            height: 80px;
-            margin: auto;
-         }
-         #game_mode {
-            width: 240px;
-         }
-         #select_seed {
-            grid-row: 3;
-            grid-column: 2 / span 2;
+         #logic {
+            padding-top: 20px;
          }
          input,
          button,
@@ -73,55 +17,64 @@
             font-family: "Muli";
             font-size: 14px;
          }
-         #fixed_value {
-            width: 100px;
+         #select_logic_dropdown {
+            padding-top: 20px;
+            padding-bottom: 20px;
          }
          /* Popup container. */
          .popup {
-         position: relative;
-         display: inline-block;
-         cursor: pointer;
-         -webkit-user-select: none;
-         -moz-user-select: none;
-         -ms-user-select: none;
-         user-select: none;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
          }
 
          /* The actual popup window. */
          .popup .popuptext {
-         visibility: hidden;
-         width: 300px;
-         background-color: #555;
-         color: #fff;
-         text-align: center;
-         border-radius: 6px;
-         border-width: 3px;
-         border-style: solid;
-         border-color: limegreen;
-         padding: 8px 0;
-         position: absolute;
-         z-index: 1;
-         bottom: 125%;
-         left: 50%;
-         margin-left: -80px;
+            visibility: hidden;
+            width: 300px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            border-width: 3px;
+            border-style: solid;
+            border-color: limegreen;
+            padding: 8px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -80px;
          }
 
          /* Toggle this class to show and hide the popup window. */
          .popup .show {
-         visibility: visible;
-         -webkit-animation: fadeIn 1s;
-         animation: fadeIn 1s;
+            visibility: visible;
+            -webkit-animation: fadeIn 1s;
+            animation: fadeIn 1s;
          }
 
          /* Popup fade in */
          @-webkit-keyframes fadeIn {
-         from {opacity: 0;} 
-         to {opacity: 1;}
+            from {
+               opacity: 0;
+            }
+            to {
+               opacity: 1;
+            }
          }
 
          @keyframes fadeIn {
-         from {opacity: 0;}
-         to {opacity:1 ;}
+            from {
+               opacity: 0;
+            }
+            to {
+               opacity: 1;
+            }
          }
       </style>
       <link rel="stylesheet" type="text/css" href="dash.css" />
@@ -175,26 +128,20 @@
       </script>
    </head>
    <body onload="refreshLogic()">
-      <div>
+      <div id="header">
          <a href="index.html"
             ><img
                src="images/dashLogo-noBG.png"
-               alt="DASH Super Metroid Randomizer"
+               alt="Super Metroid DASH Randomizer"
          /></a>
       </div>
-      <br />
-      <a href="generate.html"><u>Back to Seed Generation</u></a>
-      <br />
-      <br />
-      <div id="select_logic_text">Select Logic:</div>
       <div id="select_logic_dropdown">
+         <label for="logic_type">Select Logic:</label>
          <select name="logic_type" id="logic_type" onchange="refreshLogic()">
             <option value="sml">DASH - Standard</option>
             <option value="rml" selected="true">DASH - Recall</option>
          </select>
       </div>
-      <br />
-      <br />
       <hr />
       <div id="logic_title">No Logic</div>
       <hr />

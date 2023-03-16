@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/dashrando/dashrando.github.io/issues"
   },
-  "homepage": "https://dashrando.github.io/index.html",
+  "homepage": "https://dashrando.net/index.html",
   "devDependencies": {
     "uglify-js": "^3.17.4"
   }
