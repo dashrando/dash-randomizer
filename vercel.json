@@ -1,3 +1,10 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/discord",
+      "destination": "https://discord.gg/rT2fWZt",
+      "permanent": false
+    }
+  ]
 }
