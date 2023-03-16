@@ -5,6 +5,11 @@
       "source": "/discord",
       "destination": "https://discord.gg/rT2fWZt",
       "permanent": false
+    },
+    {
+      "source": "/source",
+      "destination": "https://github.com/dashrando",
+      "permanent": false
     }
   ]
 }
