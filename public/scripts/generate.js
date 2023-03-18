@@ -49,8 +49,8 @@ function getSeed() {
 
 async function GetRandomizedRom() {
    const seed = getSeed();
-   const mode = document.getElementById("game_mode").value
-   
+   const mode = document.getElementById("game_mode").value;
+
    // Enable or disable item fanfares.
    const options = {};
    const fanfare_options = document.getElementsByName("fanfare_mode");
@@ -62,7 +62,7 @@ async function GetRandomizedRom() {
 
    const config = {
       vanillaBytes,
-   }
+   };
    const { data, name } = await RandomizeRom(seed, mode, options, config);
 
    // Save the new file on the local system.
@@ -70,57 +70,48 @@ async function GetRandomizedRom() {
 
    // Update the UI with permalink to the new seed
    const permalink = `${window.location.origin}/seed.html?seed=${seed}&mode=${mode}`;
-   const permalinkEl = document.getElementById('seed-permalink');
+   const permalinkEl = document.getElementById("seed-permalink");
    permalinkEl.innerHTML = `<a href="${permalink}">${permalink}</a>`;
 
-   document.getElementById('permalink-container').classList.add('visible');
+   document.getElementById("permalink-container").classList.add("visible");
 }
 
-async function RandomizeRom(seed=0, game_mode, opts={}, config={}) {
+async function RandomizeRom(seed = 0, gameModeName, opts = {}, config = {}) {
    let getPrePool;
    let canPlaceItem;
    let mode;
-   let gameModeName;
 
    if (!config.vanillaBytes) {
-      throw Error('No vanilla ROM data found')
+      throw Error("No vanilla ROM data found");
    }
 
-   switch (game_mode) {
+   switch (gameModeName) {
       case "sm":
          mode = new ModeStandard(seed, getLocations());
          getPrePool = getMajorMinorPrePool;
          canPlaceItem = isValidMajorMinor;
-         gameModeName = "mm";
          break;
 
       case "sf":
          mode = new ModeStandard(seed, getLocations());
          getPrePool = getFullPrePool;
          canPlaceItem = isEmptyNode;
-         gameModeName = "full";
          break;
 
       case "rm":
          mode = new ModeRecall(seed, getLocations());
          getPrePool = getMajorMinorPrePool;
          canPlaceItem = isValidMajorMinor;
-         gameModeName = "rm";
          break;
 
       case "rf":
          mode = new ModeRecall(seed, getLocations());
          getPrePool = getFullPrePool;
          canPlaceItem = isEmptyNode;
-         gameModeName = "rf";
          break;
 
       default:
-         mode = new ModeStandard(seed, getLocations());
-         getPrePool = getMajorMinorPrePool;
-         canPlaceItem = isValidMajorMinor;
-         gameModeName = "mm";
-         break;
+         throw Error("Could not find Game Mode");
    }
 
    let gameMode = game_modes.find((mode) => mode.name == gameModeName);
@@ -200,8 +191,8 @@ async function RandomizeRom(seed=0, game_mode, opts={}, config={}) {
    // Process options with defaults.
    const defaultOptions = {
       DisableFanfare: 0,
-   }
-   const options = { ...defaultOptions, ...opts}
+   };
+   const options = { ...defaultOptions, ...opts };
 
    // Generate the seed specific patch (item placement, etc.)
    const seedPatch = generateSeedPatch(seed, gameMode, mode.nodes, options);
@@ -210,7 +201,7 @@ async function RandomizeRom(seed=0, game_mode, opts={}, config={}) {
    return {
       data: patchRom(config.vanillaBytes, basePatch, seedPatch),
       name: getFileName(seed, gameMode.prefix, options),
-   }
+   };
 }
 
 function ToHexString(byteArray) {
@@ -228,23 +219,25 @@ async function SetVanillaRom(value, inputEl) {
       const event = new CustomEvent("vanillaRom:input", {
          detail: {
             data: new Uint8Array(value),
-         }
-      })
-      document.dispatchEvent(event)
+         },
+      });
+      document.dispatchEvent(event);
    } else if (
       ToHexString(new Uint8Array(check)) ==
       "9a4441809ac9331cdbc6a50fba1a8fbfd08bc490bc8644587ee84a4d6f924fea"
    ) {
-      console.warn('You have entered a headered ROM. The header will now be removed.')
-      const unheaderedContent = value.slice(512)
-      await SetVanillaRom(unheaderedContent, inputEl)
+      console.warn(
+         "You have entered a headered ROM. The header will now be removed."
+      );
+      const unheaderedContent = value.slice(512);
+      await SetVanillaRom(unheaderedContent, inputEl);
    } else {
       alert("Vanilla Rom does not match checksum.");
       inputEl.value = "";
    }
 }
 
-document.addEventListener('vanillaRom:set', (evt) => {
+document.addEventListener("vanillaRom:set", (evt) => {
    let randoBtn = document.getElementById("randomize_button");
    if (randoBtn === null) {
       return;
@@ -256,9 +249,9 @@ document.addEventListener('vanillaRom:set', (evt) => {
    let vanillaRomInput = document.getElementById("vanilla-rom");
    vanillaRomInput.disabled = true;
    vanillaBytes = evt.detail.data;
-})
+});
 
-document.addEventListener('vanillaRom:cleared', (evt) => {
+document.addEventListener("vanillaRom:cleared", (evt) => {
    let randoBtn = document.getElementById("randomize_button");
    if (randoBtn === null) {
       return;
@@ -269,9 +262,9 @@ document.addEventListener('vanillaRom:cleared', (evt) => {
 
    let vanillaRomInput = document.getElementById("vanilla-rom");
    vanillaRomInput.disabled = false;
-   vanillaRomInput.value = '';
+   vanillaRomInput.value = "";
    vanillaBytes = null;
-})
+});
 
 function VerifyVanillaRom(el) {
    if (!el) {
@@ -282,7 +275,7 @@ function VerifyVanillaRom(el) {
    reader.readAsArrayBuffer(vanillaRom);
 
    reader.onload = async function () {
-      await SetVanillaRom(reader.result, el)
+      await SetVanillaRom(reader.result, el);
    };
 
    reader.onerror = function () {

@@ -1,13 +1,13 @@
 const game_modes = [
    {
-      name: "mm",
+      name: "sm",
       prefix: "DASH_v11r_SM_",
       patch: "patches/dash_std.bps",
       mask: 0x11,
       title: "Standard - Major / Minor",
    },
    {
-      name: "full",
+      name: "sf",
       prefix: "DASH_v11r_SF_",
       patch: "patches/dash_std.bps",
       mask: 0x21,
@@ -170,13 +170,13 @@ const generateFromPreset = (preset) => {
    const RNG = new DotNetRandom(timestamp);
    const seed = RNG.NextInRange(1, 1000000);
 
-   if (preset == "std_mm") {
-      gameMode = game_modes.find((mode) => mode.name == "mm");
+   if (preset == "standard_mm" || preset == "std_mm") {
+      gameMode = game_modes.find((mode) => mode.name == "sm");
       mode = new ModeStandard(seed, getLocations());
       getPrePool = getMajorMinorPrePool;
       canPlaceItem = isValidMajorMinor;
-   } else if (preset == "std_full") {
-      gameMode = game_modes.find((mode) => mode.name == "full");
+   } else if (preset == "standard_full" || preset == "std_full") {
+      gameMode = game_modes.find((mode) => mode.name == "sf");
       mode = new ModeStandard(seed, getLocations());
       getPrePool = getFullPrePool;
       canPlaceItem = isEmptyNode;
