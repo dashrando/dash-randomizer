@@ -126,7 +126,7 @@ const generateSeedPatch = (seed, gameMode, nodes, options) => {
    //-----------------------------------------------------------------
 
    if (options != null) {
-      encodeBytes(seedPatch, 0x2f8b0b, U16toBytes(options.DisableFanfare));
+      encodeBytes(seedPatch, 0x2f8b0c, U16toBytes(options.DisableFanfare));
       seedFlags |= options.DisableFanfare ? 0x0100 : 0x0000;
    }
 
