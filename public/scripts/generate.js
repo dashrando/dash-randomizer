@@ -50,6 +50,9 @@ function getSeed() {
 async function GetRandomizedRom() {
    const seed = getSeed();
    const mode = document.getElementById("game_mode").value;
+   if (!seed || !mode) {
+      return;
+   }
 
    // Enable or disable item fanfares.
    const options = {};
@@ -69,7 +72,7 @@ async function GetRandomizedRom() {
    saveAs(new Blob([data]), name);
 
    // Update the UI with permalink to the new seed
-   const permalink = `${window.location.origin}/seed.html?seed=${seed}&mode=${mode}`;
+   const permalink = `${window.location.origin}/seed.html?num=${seed}&mode=${mode}`;
    const permalinkEl = document.getElementById("seed-permalink");
    permalinkEl.innerHTML = `<a href="${permalink}">${permalink}</a>`;
 
