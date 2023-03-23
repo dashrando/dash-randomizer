@@ -40,6 +40,7 @@ function getSeedOpts() {
    return {
       num: url.searchParams.get("num"),
       mode: url.searchParams.get("mode"),
+      options: {},
       download: url.searchParams.get("download") !== null,
    };
 }
@@ -58,6 +59,10 @@ function updateMode(value) {
    modeEl.textContent = mode.title;
 }
 
+function updateOptions(value) {
+   //TODO: Show options
+}
+
 function updateSeedNumber(value) {
    const seedEl = document.getElementById("settings-seed");
    seedEl.textContent = value.padStart(6, "0");
@@ -68,7 +73,7 @@ function updateSignature(value) {
    signatureEl.textContent = value;
 }
 
-function setupSeedUI(num, mode) {
+function setupSeedUI(num, mode, options) {
    document.addEventListener("seed:params-missing", (evt) => {
       const seedEl = document.getElementById("seed-container");
       seedEl.classList.add("params-missing");
@@ -77,18 +82,16 @@ function setupSeedUI(num, mode) {
    document.addEventListener("seed:vanilla-missing", (evt) => {
       updateMode(evt.detail.mode);
       updateSeedNumber(evt.detail.num);
+      updateOptions(evt.detail.options);
       const seedEl = document.getElementById("seed-container");
       seedEl.classList.add("vanilla-missing");
       seedEl.classList.add("loaded");
 
       document.addEventListener("vanillaRom:set", async (evt) => {
          const vanillaBytes = evt.detail.data;
-         const { data, name } = await RandomizeRom(
-            num,
-            mode,
-            {},
-            { vanillaBytes }
-         );
+         const { data, name } = await RandomizeRom(num, mode, options, {
+            vanillaBytes,
+         });
          const signature = fetchSignature(data);
          updateSignature(signature);
 
@@ -152,8 +155,8 @@ function fetchSignature(data) {
 
 (async () => {
    try {
-      const { num, mode, download: autoDownload } = getSeedOpts();
-      setupSeedUI(num, mode);
+      const { num, mode, options, download: autoDownload } = getSeedOpts();
+      setupSeedUI(num, mode, options);
       if (!num || !mode) {
          const missingEvt = new CustomEvent("seed:params-missing");
          document.dispatchEvent(missingEvt);
@@ -163,20 +166,17 @@ function fetchSignature(data) {
       const vanillaBytes = await getVanillaBytes();
       if (!vanillaBytes) {
          const vanillaEvt = new CustomEvent("seed:vanilla-missing", {
-            detail: { num, mode },
+            detail: { num, mode, options },
          });
          document.dispatchEvent(vanillaEvt);
          return null;
       }
-      const { data, name } = await RandomizeRom(
-         num,
-         mode,
-         {},
-         { vanillaBytes }
-      );
+      const { data, name } = await RandomizeRom(num, mode, options, {
+         vanillaBytes,
+      });
       const signature = fetchSignature(data);
       const readyEvt = new CustomEvent("seed:ready", {
-         detail: { data, name, num, mode, autoDownload, signature },
+         detail: { data, name, num, mode, options, autoDownload, signature },
       });
       document.dispatchEvent(readyEvt);
 
