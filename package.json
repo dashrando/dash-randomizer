@@ -9,7 +9,7 @@
   "type": "module",
   "scripts": {
     "build:cli": "npx uglify-js --compress -- public/scripts/dotnet-random.js public/scripts/locations.js public/scripts/items.js public/scripts/loadout.js public/scripts/logic.js public/scripts/itemPlacement.js public/scripts/modeStandard.js public/scripts/modeRecall.js public/scripts/bps-patch.js public/scripts/ips-patch.js public/scripts/sm-rando.js > public/app/dash.min.js",
-    "build:web": "esbuild scripts/pages/*.js --outdir=public --bundle --minify --sourcemap --entry-names=[name].bundled",
+    "build:web": "node build.js",
     "dev": "npm run build:web -- --watch"
   },
   "repository": {
@@ -23,6 +23,7 @@
   "devDependencies": {
     "esbuild": "^0.17.11",
     "esbuild-serve": "^1.0.1",
+    "glob": "^9.3.2",
     "uglify-js": "^3.17.4"
   },
   "dependencies": {
