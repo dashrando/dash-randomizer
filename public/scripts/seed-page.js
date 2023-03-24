@@ -37,10 +37,15 @@ const SIGNATURE_VALUES = [
 
 function getSeedOpts() {
    const url = new URL(document.location);
+   const flags = url.searchParams.get("flags");
+   const { mode, options } = !flags
+      ? getPresetOptions(url.searchParams.get("preset"))
+      : flagsToOptions(flags);
+
    return {
       num: url.searchParams.get("num"),
-      mode: url.searchParams.get("mode"),
-      options: {},
+      mode: mode,
+      options: options,
       download: url.searchParams.get("download") !== null,
    };
 }

@@ -71,8 +71,11 @@ async function GetRandomizedRom() {
    // Save the new file on the local system.
    saveAs(new Blob([data]), name);
 
+   // Generate the flags associated with these options
+   const flags = optionsToFlags(mode, options);
+
    // Update the UI with permalink to the new seed
-   const permalink = `${window.location.origin}/seed.html?num=${seed}&mode=${mode}`;
+   const permalink = `${window.location.origin}/seed.html?num=${seed}&flags=${flags}`;
    const permalinkEl = document.getElementById("seed-permalink");
    permalinkEl.innerHTML = `<a href="${permalink}">${permalink}</a>`;
 
