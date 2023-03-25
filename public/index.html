@@ -1,0 +1,443 @@
+<html>
+   <head>
+      <title>Super Metroid DASH Randomizer</title>
+      <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="dash.css" />
+      <style>
+         table,
+         td {
+            border: 1px solid rgb(200, 200, 200);
+         }
+         ul {
+            padding-top: 14px;
+         }
+         li {
+            padding-top: 4px;
+         }
+         #generate {
+            font-size: 22px;
+            padding-top: 0.25em;
+            padding-bottom: 0.25em;
+            font-weight: bold;
+         }
+         #dash_links > a {
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+         }
+         ol {
+            counter-reset: list;
+         }
+         ol > li {
+            list-style: none;
+            position: relative;
+            padding-top: 14px;
+         }
+         ol > li:before {
+            counter-increment: list;
+            content: counter(list, lower-alpha) ") ";
+            position: absolute;
+            left: -1.4em;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="header">
+         <a href="/"
+            ><img
+               src="images/dashLogo-noBG.png"
+               alt="Super Metroid DASH Randomizer"
+         /></a>
+         <div id="main_header">Super Metroid DASH Randomizer!</div>
+         <div id="dash_links">
+            <a href="resources.html">resources</a> |
+            <a href="https://discord.gg/WsnYSxA">community</a> |
+            <a href="https://github.com/dashrando">source code</a>
+         </div>
+         <div id="generate">
+            &rarr; <a href="generate.html">Generate DASH Seed</a> &larr;
+         </div>
+      </div>
+
+      <hr />
+      <br />
+      <div id="topic_header_grid">
+         <div id="header_img"><img src="images/screw_final.png" /></div>
+         <div class="header_text">DASH: Recall</div>
+      </div>
+      <div id="topic">
+         The DASH Dev Team is excited to announce our newest project - DASH:
+         Recall! This mode is a reimagining and rebalancing of vanilla map with
+         the goal of offering up even more routing possibilities in a variety of
+         seeds and further diversity in how seeds can be completed within a
+         competitive racing situation. The following changes are introduced
+         along with the existing DASH modifications:
+
+         <ol type="a">
+            <li>
+               Rebalanced Beam System
+               <span class="suits_inverse">(Item Balance)</span>
+               <ul type="disc">
+                  <li>New Beam Damage Table</li>
+                  <li>Current Charge Damage added to HUD under X-Ray</li>
+                  <li>4 Individual Charge Upgrades added to Major Item pool</li>
+               </ul>
+               <br />
+               <img
+                  src="images/recall_beam_damage_table.png"
+                  class="beam_table"
+               />
+            </li>
+            <li>
+               36 Item Locations: +3 Charge Upgrades, +3 New Items, -2 ETanks,
+               -2 Reserves
+               <span class="misc_inverse">(Map Balance)</span>
+            </li>
+            <ul type="disc">
+               <li>Kraid Etank removed from Major Item Location pool</li>
+               <li>Sky Missile added to Major Item Location pool</li>
+               <li>Watering Hole Missile added to Major Item Location pool</li>
+               <li>Mickey Mouse Missile added to Major Item Location pool</li>
+            </ul>
+            <li>
+               Rebalanced WS Reserve Location
+               <span class="misc_inverse">(Map Balance)</span>
+               <ul type="disc">
+                  <li>
+                     All speed blocks removed from the bowling room (both at the
+                     top for scouting the location and the singular block that
+                     blocks access to the item)
+                  </li>
+                  <li>WS Reserve Item no longer in a capsule</li>
+               </ul>
+            </li>
+            <li>
+               Rebalanced Plasma Location
+               <span class="misc_inverse">(Map Balance)</span>
+               <ul type="disc">
+                  <li>Plasma Gray door is now a blue door</li>
+                  <li>Replaced pink pirates with green pirates</li>
+                  <li>
+                     Added a platform in the middle of the plasma room that
+                     allows exit from the room without “can fly”
+                  </li>
+               </ul>
+            </li>
+            <li>
+               Rebalanced Spring Ball Location
+               <span class="misc_inverse">(Map Balance)</span>
+               <ul type="disc">
+                  <li>
+                     Removed all 5 of the ceiling blocks from the pants room
+                     before Shaktool (the grapple block and the other 4 blocks
+                     on that “row”)
+                  </li>
+                  <li>Removed the sand from the Shaktool</li>
+               </ul>
+            </li>
+            <li>
+               Maridia Routing Updates
+               <span class="misc_inverse">(Map Balance)</span>
+               <ul type="disc">
+                  <li>Removed green gate from Crab Tunnel room in Maridia</li>
+                  <li>
+                     Gray door to Cac Alley is now a blue door (recent change
+                     based on player feedback but need data on balance impact -
+                     we have multiple ideas if it’s too powerful)
+                  </li>
+               </ul>
+            </li>
+            <li>
+               Pressure Valve <span class="utility_inverse">(New Item)</span>
+               <ul type="disc">
+                  <li>
+                     Works like Gravity Suit in rooms with water other than East
+                     Maridia
+                  </li>
+                  <li>
+                     Note that there are now North and South Maridia zones where
+                     Pressure Valve DOES work (See
+                     <a href="images/maridia_logic_sections_with_colors.png"
+                        >New Maridia Logic Map with Color Coding</a
+                     >)
+                  </li>
+                  <li>Does NOT work in lava or acid anywhere</li>
+               </ul>
+            </li>
+            <li>
+               Heat Shield <span class="utility_inverse">(New Item)</span>
+               <ul type="disc">
+                  <li>
+                     Provides 100% reduction to heat damage in Upper Norfair
+                     heated rooms
+                  </li>
+                  <li>
+                     Provides 50% reduction to heat damage in Lower Norfair
+                     heated rooms
+                  </li>
+                  <li>Does NOT stack heat reduction with Gravity Suit</li>
+               </ul>
+            </li>
+            <li>
+               Double Jump Item
+               <span class="utility_inverse">(New Item)</span>
+               <ul type="disc">
+                  <li>
+                     Like Space Jump but only one extra spin jump instead of
+                     infinite
+                  </li>
+               </ul>
+            </li>
+            <li>
+               Rebalanced Gravity Suit
+               <span class="suits_inverse">(Item Balance)</span>
+               <ul type="disc">
+                  <li>
+                     Gravity Suit provides a flat 25% reduction to heat damage
+                     in both Upper Norfair and Lower Norfair heated rooms (down
+                     from 50% in Standard DASH)
+                  </li>
+                  <li>Does NOT stack with Heat Shield Item</li>
+               </ul>
+            </li>
+         </ol>
+         <br />
+      </div>
+
+      <hr />
+      <br />
+      <div id="topic_header_grid">
+         <div id="header_img"><img src="images/speed_final.png" /></div>
+         <div class="header_text">About DASH</div>
+      </div>
+      <div id="topic">
+         The DASH (Diversity and Selective Haste) Super Metroid Randomizer seeks
+         to provide more options for runners to complete seeds by limiting the
+         gating potential of certain items and item locations. DASH is based on
+         the
+         <a href="https://itemrando.supermetroid.run"
+            >Super Metroid Item Randomizer</a
+         >
+         developed by Total and featured in the 2017 Super Metroid Randomizer
+         Tournament. <br /><br />
+         <table cellspacing="0">
+            <tr>
+               <td class="utility" style="text-align: center; width: 120px">
+                  Item Utility<br />Changes
+               </td>
+               <td valign="middle" style="width: 620px">
+                  <ul type="disc">
+                     <li>Bombs opens Wrecked Ship Reserve location</li>
+                     <li>Spazer opens Waterway and Botwoon hallway</li>
+                     <li>
+                        Samus begins with Starter Charge Beam that does the same
+                        damage as uncharged shots
+                     </li>
+                     <li>
+                        Pseudo Screws and Special Beam Attacks do full damage
+                        with Starter Charge Beam
+                     </li>
+                  </ul>
+               </td>
+            </tr>
+            <tr>
+               <td class="suits" style="text-align: center; width: 80px">
+                  Suit<br />Changes
+               </td>
+               <td valign="middle">
+                  <ul type="disc">
+                     <li>Gravity Suit provides 50% heat damage reduction</li>
+                     <li>
+                        Varia and Gravity each add 50% damage reduction to enemy
+                        attacks and environmental damage
+                     </li>
+                     <li>
+                        Varia and Gravity stack to reach 75% reduction to enemy
+                        attacks and environmental damage
+                     </li>
+                  </ul>
+               </td>
+            </tr>
+            <tr>
+               <td class="placement" style="text-align: center; width: 80px">
+                  Item<br />Placement<br />Changes
+               </td>
+               <td>
+                  <ul type="disc">
+                     <li>
+                        Gravity is no longer restricted from being placed in
+                        Brinstar (other than Retro)
+                     </li>
+                     <li>
+                        <span style="text-decoration: underline"
+                           >Minor Item Ratio</span
+                        ><br />
+                        <div style="margin-left: 16px">
+                           Super Missiles: 15 &#177; 3<br />
+                           Power Bombs: 17 &#177; 3<br />
+                           Missiles: All remaining items (average of 34)
+                        </div>
+                     </li>
+                     <li>
+                        <span style="text-decoration: underline"
+                           >Green Brinstar Logical Progression Item</span
+                        ><br />
+                        <div style="margin-left: 16px">
+                           Power Bombs: 46.1%<br />
+                           Bombs: 30.8%<br />
+                           Screw Attack: 15.4%<br />
+                           Speed Booster: 7.7%<br />
+                        </div>
+                     </li>
+                  </ul>
+               </td>
+            </tr>
+            <tr>
+               <td class="misc" style="text-align: center; width: 80px">
+                  Miscellaneous
+               </td>
+               <td valign="middle">
+                  <ul type="disc">
+                     <li>Saving the animals behaves like the vanilla game</li>
+                  </ul>
+               </td>
+            </tr>
+         </table>
+         <br />
+         The table above describes changes featured in DASH that are different
+         from the
+         <a href="https://itemrando.supermetroid.run/"
+            >Super Metroid Item Randomizer</a
+         >. A complete breakdown of all updates can be found
+         <a href="updates.html">here</a>. <br /><br />
+      </div>
+
+      <hr />
+      <br />
+      <div id="topic_header_grid">
+         <div id="header_img"><img src="images/charge_final.png" /></div>
+         <div class="header_text">Videos</div>
+      </div>
+      <div id="topic">
+         The following
+         <a href="https://www.twitch.tv/collections/T5AL62OO1hW-Qw">
+            introduction videos</a
+         >
+         were prepared by <a href="https://www.twitch.tv/Kipp">Kipp</a> to
+         outline the major changes featured in DASH.
+      </div>
+      <p style="padding-top: 10px">
+         <iframe
+            src="https://player.twitch.tv/?video=507137408&parent=dashrando.github.io&autoplay=false"
+            height="360"
+            width="640"
+            frameborder="0"
+            scrolling="no"
+            allowfullscreen="false"
+         >
+         </iframe>
+      </p>
+      <p>
+         <iframe
+            src="https://player.twitch.tv/?video=507142580&parent=dashrando.github.io&autoplay=false"
+            height="360"
+            width="640"
+            frameborder="0"
+            scrolling="no"
+            allowfullscreen="false"
+         >
+         </iframe>
+      </p>
+      <p style="padding-bottom: 8px">
+         <iframe
+            src="https://player.twitch.tv/?video=507526887&parent=dashrando.github.io&autoplay=false"
+            height="360"
+            width="640"
+            frameborder="0"
+            scrolling="no"
+            allowfullscreen="false"
+         >
+         </iframe>
+      </p>
+
+      <hr />
+      <br />
+      <div id="topic_header_grid">
+         <div id="header_img"><img src="images/gravityFinal.png" /></div>
+         <div class="header_text" id="header_double_text">
+            SG Live 2020 Super Metroid Randomizer<br />CASH TOURNAMENT featuring
+            DASH
+         </div>
+      </div>
+      <div id="topic">
+         There will be a Super Metroid randomizer tournament for cash prizes
+         featured at the SG Live 2020 event. Due to the current pandemic, this
+         event is now online, and will be restreamed on SpeedGaming. This
+         tournament will feature 16 players who qualify for the tournament, as
+         well as potentially a few other players who purchase special tickets to
+         support SG Live 2020. An updated version of the DASH randomizer will be
+         used in this tournament.
+         <br /><br />
+         To sign up for the tournament, click here:
+         <a href="https://speedgaming.challonge.com/sgl20smr"
+            >https://speedgaming.challonge.com/sgl20smr</a
+         >
+         <br /><br />
+         To see information on the changes to the DASH randomizer that have been
+         implemented for this tournament specifically, click here:
+         <a href="sgl2020.html">https://dashrando.github.io/sgl2020.html</a>
+         <br /><br />
+      </div>
+
+      <hr />
+      <br />
+      <div id="topic_header_grid">
+         <div id="header_img"><img src="images/croc_final.png" /></div>
+         <div class="header_text">DASH Cash Tournament on SpeedGaming</div>
+      </div>
+      <div id="topic">
+         There will be a special DASH Randomizer one-day tournament on January
+         18, 2020 that will be featured on the
+         <a href="https://www.twitch.tv/speedgaming">SpeedGaming</a> Twitch
+         channel. This tournament will feature 16 players who qualify for the
+         tournament with the top 8 finishers winning cash prizes. The tournament
+         will begin at 12:00 p.m. ET and will continue throughout the full day
+         until it is completed. For more information and a complete set of
+         rules, click here:
+         <a href="tournament.html"
+            >https://dashrando.github.io/tournament.html</a
+         >
+         <br /><br />
+      </div>
+
+      <hr />
+      <br />
+      <div id="topic_header_grid">
+         <div id="header_img"><img src="images/variaFinal.png" /></div>
+         <div class="header_text">
+            DASH at DreamHack Atlanta and SG Live 2019
+         </div>
+      </div>
+      <div id="topic">
+         On Saturday, November 16, a DASH race between
+         <a href="https://www.twitch.tv/zoasty">Zoast</a> and
+         <a href="https://www.twitch.tv/rossu123">Rossu</a> was featured during
+         the DreamHack Atlanta event. Twitch channel
+         <a href="https://www.twitch.tv/noresetspeedrun">NoResetSpeedrun</a>
+         hosted a charity marathon at the event, and
+         <a href="https://www.twitch.tv/kipp">Kipp</a> provided commentary on
+         the run as well as providing basic information about DASH. You can
+         watch the VOD of the race here:
+         <a href="https://www.twitch.tv/videos/510229319"
+            >https://www.twitch.tv/videos/510229319</a
+         >
+         <br /><br />
+         A beta version of the DASH randomizer was featured in a Crowd Control
+         race during SG Live 2019. The VOD features extensive discussion before
+         the race and can be watched here:
+         <a href="https://www.twitch.tv/videos/500670759"
+            >https://www.twitch.tv/videos/500670759</a
+         >
+         <br /><br />
+      </div>
+   </body>
+</html>
