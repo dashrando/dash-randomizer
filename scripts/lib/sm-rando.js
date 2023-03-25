@@ -1,4 +1,3 @@
-<<<<<<< HEAD:scripts/lib/sm-rando.js
 import DotNetRandom from "./dotnet-random";
 import game_modes from '../data/modes';
 import ModeStandard from './modes/modeStandard';
@@ -6,38 +5,6 @@ import ModeRecall from './modes/modeRecall';
 import { Area, AreaCounts, getLocations } from './locations';
 import { getMajorMinorPrePool, isValidMajorMinor } from './itemPlacement';
 import { Item } from './items';
-=======
-const game_modes = [
-   {
-      name: "sm",
-      prefix: "DASH_v11r_SM_",
-      patch: "patches/dash_std.bps",
-      mask: 0x11,
-      title: "Standard - Major / Minor",
-   },
-   {
-      name: "sf",
-      prefix: "DASH_v11r_SF_",
-      patch: "patches/dash_std.bps",
-      mask: 0x21,
-      title: "Standard - Full",
-   },
-   {
-      name: "rm",
-      prefix: "DASH_v11r_RM_",
-      patch: "patches/dash_working.bps",
-      mask: 0x12,
-      title: "Recall - Major / Minor",
-   },
-   {
-      name: "rf",
-      prefix: "DASH_v11r_RF_",
-      patch: "patches/dash_working.bps",
-      mask: 0x22,
-      title: "Recall - Full",
-   },
-];
->>>>>>> main:public/scripts/sm-rando.js
 
 export const generateSeedPatch = (seed, gameMode, nodes, options) => {
    //-----------------------------------------------------------------
@@ -175,10 +142,11 @@ export const patchRom = (vanillaRom, basePatch, seedPatch) => {
    return rom;
 };
 
-const generateFromPreset = (preset) => {
+export const generateFromPreset = (preset) => {
    const timestamp = Math.floor(new Date().getTime() / 1000);
    const RNG = new DotNetRandom(timestamp);
    const seed = RNG.NextInRange(1, 1000000);
+   let gameMode
 
    if (preset == "standard_mm" || preset == "std_mm") {
       gameMode = game_modes.find((mode) => mode.name == "sm");
