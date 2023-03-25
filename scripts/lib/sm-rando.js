@@ -1,10 +1,17 @@
 import DotNetRandom from "./dotnet-random";
-import game_modes from '../data/modes';
-import ModeStandard from './modes/modeStandard';
-import ModeRecall from './modes/modeRecall';
-import { Area, AreaCounts, getLocations } from './locations';
-import { getMajorMinorPrePool, isValidMajorMinor } from './itemPlacement';
-import { Item } from './items';
+import game_modes from "../data/modes";
+import ModeStandard from "./modes/modeStandard";
+import ModeRecall from "./modes/modeRecall";
+import { Area, AreaCounts, getLocations } from "./locations";
+import {
+   performVerifiedFill,
+   getMajorMinorPrePool,
+   isValidMajorMinor,
+   getFullPrePool,
+   isEmptyNode,
+} from "./itemPlacement";
+import { Item } from "./items";
+import Loadout from "./loadout";
 
 export const generateSeedPatch = (seed, gameMode, nodes, options) => {
    //-----------------------------------------------------------------
@@ -60,11 +67,11 @@ export const generateSeedPatch = (seed, gameMode, nodes, options) => {
       }
    };
 
-   eTanks = nodes
+   const eTanks = nodes
       .filter((n) => n.item.type == Item.EnergyTank)
       .map((n) => mapArea(n.location.area));
 
-   majors = nodes
+   const majors = nodes
       .filter(
          (n) =>
             n.item.isMajor &&
@@ -88,7 +95,7 @@ export const generateSeedPatch = (seed, gameMode, nodes, options) => {
    nodes
       .filter((n) => n.item.spoilerAddress > 0)
       .forEach((n) => {
-         locIndex = sortedLocations.findIndex(
+         const locIndex = sortedLocations.findIndex(
             (l) => l.address == n.location.address
          );
          encodeBytes(
@@ -128,25 +135,11 @@ export const getFileName = (seed, prefix, options) => {
    return fileName + ".sfc";
 };
 
-export const patchRom = (vanillaRom, basePatch, seedPatch) => {
-   let rom = basePatch.Apply(vanillaRom);
-
-   seedPatch.forEach((p) => {
-      const [off, cnt, pay] = p;
-
-      for (let i = 0; i < cnt; i++) {
-         rom.set(pay, off + i * pay.length);
-      }
-   });
-
-   return rom;
-};
-
 export const generateFromPreset = (preset) => {
    const timestamp = Math.floor(new Date().getTime() / 1000);
    const RNG = new DotNetRandom(timestamp);
    const seed = RNG.NextInRange(1, 1000000);
-   let gameMode
+   let gameMode, mode;
 
    if (preset == "standard_mm" || preset == "std_mm") {
       gameMode = game_modes.find((mode) => mode.name == "sm");
