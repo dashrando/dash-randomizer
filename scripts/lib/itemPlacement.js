@@ -7,7 +7,7 @@ import Loadout from "./loadout";
 // Checks if a node is empty.
 //-----------------------------------------------------------------
 
-const isEmptyNode = (_, node) => node.item == undefined;
+export const isEmptyNode = (_, node) => node.item == undefined;
 
 //-----------------------------------------------------------------
 // Checks if an item is allowed at the specified node in M/M.
@@ -49,8 +49,8 @@ export const isValidMajorMinor = (item, node) => {
 // Generates the default prefill pool for Full seeds.
 //-----------------------------------------------------------------
 
-const getFullPrePool = (rnd) => {
-   prePool = [Item.Morph];
+export const getFullPrePool = (rnd) => {
+   const prePool = [Item.Morph];
 
    if (rnd.Next(100) < 65) {
       prePool.push(Item.Missile);
@@ -82,7 +82,7 @@ const getFullPrePool = (rnd) => {
 //-----------------------------------------------------------------
 
 export const getMajorMinorPrePool = (rnd) => {
-   prePool = [Item.Morph];
+   const prePool = [Item.Morph];
 
    if (rnd.Next(100) < 65) {
       prePool.push(Item.Missile);
