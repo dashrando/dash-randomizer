@@ -1,13 +1,13 @@
 const MODES = [
   {
-     name: "mm",
+     name: "sm",
      prefix: "DASH_v11r_SM_",
      patch: "patches/dash_std.bps",
      mask: 0x11,
      title: "Standard - Major / Minor",
   },
   {
-     name: "full",
+     name: "sf",
      prefix: "DASH_v11r_SF_",
      patch: "patches/dash_std.bps",
      mask: 0x21,

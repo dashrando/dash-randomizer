@@ -1,3 +1,4 @@
+<<<<<<< HEAD:scripts/lib/sm-rando.js
 import DotNetRandom from "./dotnet-random";
 import game_modes from '../data/modes';
 import ModeStandard from './modes/modeStandard';
@@ -5,6 +6,38 @@ import ModeRecall from './modes/modeRecall';
 import { Area, AreaCounts, getLocations } from './locations';
 import { getMajorMinorPrePool, isValidMajorMinor } from './itemPlacement';
 import { Item } from './items';
+=======
+const game_modes = [
+   {
+      name: "sm",
+      prefix: "DASH_v11r_SM_",
+      patch: "patches/dash_std.bps",
+      mask: 0x11,
+      title: "Standard - Major / Minor",
+   },
+   {
+      name: "sf",
+      prefix: "DASH_v11r_SF_",
+      patch: "patches/dash_std.bps",
+      mask: 0x21,
+      title: "Standard - Full",
+   },
+   {
+      name: "rm",
+      prefix: "DASH_v11r_RM_",
+      patch: "patches/dash_working.bps",
+      mask: 0x12,
+      title: "Recall - Major / Minor",
+   },
+   {
+      name: "rf",
+      prefix: "DASH_v11r_RF_",
+      patch: "patches/dash_working.bps",
+      mask: 0x22,
+      title: "Recall - Full",
+   },
+];
+>>>>>>> main:public/scripts/sm-rando.js
 
 export const generateSeedPatch = (seed, gameMode, nodes, options) => {
    //-----------------------------------------------------------------
@@ -103,7 +136,7 @@ export const generateSeedPatch = (seed, gameMode, nodes, options) => {
    //-----------------------------------------------------------------
 
    if (options != null) {
-      encodeBytes(seedPatch, 0x2f8b0b, U16toBytes(options.DisableFanfare));
+      encodeBytes(seedPatch, 0x2f8b0c, U16toBytes(options.DisableFanfare));
       seedFlags |= options.DisableFanfare ? 0x0100 : 0x0000;
    }
 
@@ -147,13 +180,13 @@ const generateFromPreset = (preset) => {
    const RNG = new DotNetRandom(timestamp);
    const seed = RNG.NextInRange(1, 1000000);
 
-   if (preset == "std_mm") {
-      gameMode = game_modes.find((mode) => mode.name == "mm");
+   if (preset == "standard_mm" || preset == "std_mm") {
+      gameMode = game_modes.find((mode) => mode.name == "sm");
       mode = new ModeStandard(seed, getLocations());
       getPrePool = getMajorMinorPrePool;
       canPlaceItem = isValidMajorMinor;
-   } else if (preset == "std_full") {
-      gameMode = game_modes.find((mode) => mode.name == "full");
+   } else if (preset == "standard_full" || preset == "std_full") {
+      gameMode = game_modes.find((mode) => mode.name == "sf");
       mode = new ModeStandard(seed, getLocations());
       getPrePool = getFullPrePool;
       canPlaceItem = isEmptyNode;

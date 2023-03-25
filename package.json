@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/dashrando/dashrando.github.io/issues"
   },
-  "homepage": "https://dashrando.github.io/index.html",
+  "homepage": "https://dashrando.net",
   "devDependencies": {
     "esbuild": "^0.17.11",
     "esbuild-serve": "^1.0.1",
