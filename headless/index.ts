@@ -32,8 +32,7 @@ async function main() {
   //-----------------------------------------------------------------
 
   const baseUrl = "https://dashrando.net/";
-  let userRom = fs.readFileSync(vanillaPath);
-  let vanillaRom = null;
+  const userRom = fs.readFileSync(vanillaPath);
   const vanillaHash =
     "12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72";
   const headeredHash =
@@ -58,7 +57,7 @@ async function main() {
     throw Error("Invalid vanilla ROM");
   };
 
-  vanillaRom = verifyAndSetRom(userRom);
+  const vanillaRom = verifyAndSetRom(userRom);
 
   const postData = JSON.stringify({
     preset: preset,
@@ -76,25 +75,23 @@ async function main() {
   };
 
   const req = http.request(options, (res) => {
-    //console.log(`STATUS: ${res.statusCode}`);
-    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     let data = "";
     res.setEncoding("utf8");
     res.on("data", (chunk) => {
       data += chunk;
-      //console.log(`BODY: ${chunk}`);
     });
     res.on("end", () => {
       const seedData = JSON.parse(data);
-      const { basePatchUrl, fileName } = seedData;
-      const seedPatch = seedData.seedPatch.map((h) => {
-        return [h[0], h[1], new Uint8Array(Object.values(h[2]))];
-      });
+      const { basePatchUrl, seedPatch, fileName } = seedData;
 
       if (!basePatchUrl || !seedPatch || !fileName) {
         console.log("Failed to generate preset:", preset);
-        return 1;
+        process.exit(1);
       }
+
+      const patch = seedPatch.map((h: any[]) => {
+        return [h[0], h[1], new Uint8Array(Object.values(h[2]))];
+      });
 
       fetch(baseUrl + basePatchUrl)
         .then((res) => res.arrayBuffer())
@@ -102,20 +99,11 @@ async function main() {
           const rom = patchRom(
             vanillaRom,
             new BpsPatch(new Uint8Array(buffer)),
-            seedPatch
+            patch
           );
           fs.writeFileSync(fileName, rom);
           console.log("Generated: " + fileName);
         });
-      //seedPatch.forEach((h) =>
-      //console.log(`offset: ${h[0]}, length: ${h[1]}, payload:`, h[2])
-      //);
-
-      //seedData.seedPatch.forEach((h) =>
-      //console.log(`offset: ${h[0]}, length: ${h[1]}, payload:`, h[2])
-      //);
-      //console.log(seedData.seedPatch[1][2]);
-      //console.log(seedData);
     });
   });
 
