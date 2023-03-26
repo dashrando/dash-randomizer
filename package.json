@@ -8,7 +8,7 @@
   },
   "type": "module",
   "scripts": {
-    "build:cli": "npx uglify-js --compress -- public/scripts/dotnet-random.js public/scripts/locations.js public/scripts/items.js public/scripts/loadout.js public/scripts/logic.js public/scripts/itemPlacement.js public/scripts/modeStandard.js public/scripts/modeRecall.js public/scripts/bps-patch.js public/scripts/ips-patch.js public/scripts/sm-rando.js > public/app/dash.min.js",
+    "build:headless": "esbuild headless/index.js --bundle --outfile=headless/dist/dash.headless.js --minify --target=node18 --platform=node",
     "build:web": "node build.js",
     "dev": "npm run build:web -- --watch",
     "format": "prettier --write ."
@@ -25,8 +25,7 @@
     "esbuild": "^0.17.11",
     "esbuild-serve": "^1.0.1",
     "glob": "^9.3.2",
-    "prettier": "2.8.7",
-    "uglify-js": "^3.17.4"
+    "prettier": "2.8.7"
   },
   "dependencies": {
     "file-saver": "^2.0.5",

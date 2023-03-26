@@ -6,6 +6,8 @@ stats/
 level/
 viewer/
 
+dist/
+
 node_modules/
 .vercel
 
