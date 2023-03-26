@@ -8,7 +8,7 @@
   },
   "type": "module",
   "scripts": {
-    "build:headless": "esbuild headless/index.js --bundle --outfile=headless/dist/dash.headless.js --minify --target=node18 --platform=node",
+    "build:headless": "ncc build ./headless/index.ts -o ./headless/dist --minify --no-cache --no-source-map-register",
     "build:web": "node build.js",
     "dev": "npm run build:web -- --watch",
     "format": "prettier --write ."
@@ -22,10 +22,13 @@
   },
   "homepage": "https://dashrando.net",
   "devDependencies": {
+    "@types/node": "^18.15.10",
+    "@vercel/ncc": "^0.36.1",
     "esbuild": "^0.17.11",
     "esbuild-serve": "^1.0.1",
     "glob": "^9.3.2",
-    "prettier": "2.8.7"
+    "prettier": "2.8.7",
+    "typescript": "^5.0.2"
   },
   "dependencies": {
     "file-saver": "^2.0.5",
