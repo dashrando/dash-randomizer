@@ -6,6 +6,8 @@ import { program } from "commander";
 import { patchRom } from "../scripts/helpers/patcher";
 import BpsPatch from "../scripts/lib/bps-patch";
 import got, { HTTPError } from 'got';
+import chalk from 'chalk';
+import path from 'path';
 
 export type SeedAPIResponse = {
   basePatchUrl: string;
@@ -43,7 +45,7 @@ const verify = (rom) => {
     return rom;
   } else if (signature === headeredHash) {
     console.warn(
-      "You have entered a headered ROM. The header will now be removed."
+      `${chalk.yellow('You have entered a headered ROM')}. The header will now be removed.`
     );
     const unheaderedContent = rom.slice(512);
     return verify(unheaderedContent);
@@ -109,18 +111,16 @@ const createFile = async (vanilla, seedPatch, basePatch, fileName) => {
     seedData
   );
   fs.writeFileSync(fileName, rom);
-  console.log(`Generated: ${fileName}`);
+  const filePath = path.join(process.cwd(), fileName)
+  console.log(`Generated ${chalk.cyan(fileName)} at ${chalk.magenta(filePath)}`);
 }
 
 async function main() {
-  //-----------------------------------------------------------------
-  // Setup command line arguments.
-  //-----------------------------------------------------------------
+  // Setup CLI with arguments and options
   program
     .argument("<vanillaRom>", "path to vanilla rom")
     .argument("<preset>", "preset to use")
     .option('-b --base-url <url>', 'base url for rolling the seed', 'https://dashrando.net/');
-
   program.parse();
 
   const [vanillaPath, preset] = program.args;
@@ -128,9 +128,6 @@ async function main() {
 
   // Check and verify `vanillaRom`
   const vanilla = await getVanilla(vanillaPath);
-
-  // TODO: Check and verify `preset`
-  // verifyPreset(preset);
 
   // Setup options for fetching patch
   const seedData = await fetchSeedData({ preset }, options);
@@ -145,6 +142,6 @@ main()
     process.exit(code);
   })
   .catch((e) => {
-    console.error(e.message);
+    console.error(chalk.red(e.message));
     process.exit(1);
   });
