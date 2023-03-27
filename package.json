@@ -8,9 +8,7 @@
   },
   "type": "module",
   "scripts": {
-    "build:headless": "ncc build ./headless/index.ts -o ./headless/dist --minify --no-cache --no-source-map-register",
-    "build:web": "node build.js",
-    "dev": "npm run build:web -- --watch",
+    "build": "node build.js",
     "format": "prettier --write ."
   },
   "repository": {
