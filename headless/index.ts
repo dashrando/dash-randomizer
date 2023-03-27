@@ -5,7 +5,7 @@ import crypto from "crypto";
 import { program } from "commander";
 import { patchRom } from "../scripts/helpers/patcher";
 import BpsPatch from "../scripts/lib/bps-patch";
-import got from 'got';
+import got, { HTTPError } from 'got';
 
 export type SeedAPIResponse = {
   basePatchUrl: string;
@@ -61,11 +61,25 @@ function getVanilla(vanillaPath: string) {
 }
 
 const fetchSeedData = async (input: SeedPatchRequestBody, options) => {
-  const url = new URL('/api/seed', options.baseUrl);
-  const res: SeedAPIResponse = await got.post(url.href, {
-    json: input,
-  }).json();
-  return res;
+  try {
+    const url = new URL('/api/seed', options.baseUrl);
+    const res: SeedAPIResponse = await got.post(url.href, {
+      json: input,
+    })
+      .json();
+    return res;
+  } catch (err: HTTPError | unknown) {
+    if (err instanceof HTTPError) {
+      const error = err as HTTPError;
+      const body = error.response.body as any;
+      const msg = JSON.parse(body).error || 'Error fetching seed data';
+      throw new Error(msg);
+    } else {
+      const error = err as Error;
+      const msg = error.message || 'Error fetching seed data';
+      throw new Error(msg)
+    }
+  }
 }
 
 const fetchBasePatch = async (basePatchUrl: string, baseUrl: string) => {
