@@ -1,5 +1,5 @@
 import DotNetRandom from "../dotnet-random";
-import { majorItem, minorItem } from "../items";
+import { majorItem, minorItem, Item } from "../items";
 import ItemNode from "../logic";
 
 class ModeStandard {
