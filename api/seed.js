@@ -32,6 +32,7 @@ const handler = async (req) => {
       'Content-Type': 'application/json',
     })
   } catch (err) {
+    console.error(err.stack)
     return resJSON({ error: err.message }, 500);
   }
 };

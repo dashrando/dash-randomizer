@@ -6,6 +6,22 @@ import crypto from "crypto";
 import { program } from "commander";
 import { patchRom } from "../scripts/helpers/patcher";
 import BpsPatch from "../scripts/lib/bps-patch";
+import got from 'got';
+
+export type SeedAPIResponse = {
+  basePatchUrl: string;
+  seedPatch: SeedPatchPart[];
+  fileName: string;
+  preset: string;
+}
+
+export type SeedPatchPart = [
+  number,
+  number,
+  {
+    [key: number]: number;
+  }
+]
 
 async function main() {
   //-----------------------------------------------------------------
@@ -18,6 +34,11 @@ async function main() {
   program.parse();
 
   const [vanillaPath, preset] = program.args;
+
+  // Check and verify `vanillaRom`
+  // Check and verify `preset`
+  // Setup options for fetching patch
+  // 
 
   //-----------------------------------------------------------------
   // Make sure the vanilla ROM path is correct.
@@ -62,60 +83,67 @@ async function main() {
   const postData = JSON.stringify({
     preset: preset,
   });
+  console.log(postData, typeof got);
 
-  const options = {
-    hostname: "localhost",
-    port: 3000,
-    path: "/api/seed",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Content-Length": Buffer.byteLength(postData),
-    },
-  };
-
-  const req = http.request(options, (res) => {
-    let data = "";
-    res.setEncoding("utf8");
-    res.on("data", (chunk) => {
-      data += chunk;
-    });
-    res.on("end", () => {
-      const seedData = JSON.parse(data);
-      const { basePatchUrl, seedPatch, fileName } = seedData;
-
-      if (!basePatchUrl || !seedPatch || !fileName) {
-        console.log("Failed to generate preset:", preset);
-        process.exit(1);
-      }
-
-      const patch = seedPatch.map((h: any[]) => {
-        return [h[0], h[1], new Uint8Array(Object.values(h[2]))];
-      });
-
-      fetch(baseUrl + basePatchUrl)
-        .then((res) => res.arrayBuffer())
-        .then((buffer) => {
-          const rom = patchRom(
-            vanillaRom,
-            new BpsPatch(new Uint8Array(buffer)),
-            patch
-          );
-          fs.writeFileSync(fileName, rom);
-          console.log("Generated: " + fileName);
-        });
-    });
-  });
-
-  req.on("error", (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
-
-  // // Write data to request body
-  req.write(postData);
-  req.end();
+  
   return 0;
 }
+
+// function fetchSettings(postData) {
+//   const options = {
+//     hostname: "localhost",
+//     port: 3000,
+//     path: "/api/seed",
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Content-Length": Buffer.byteLength(postData),
+//     },
+//   };
+
+//   return new Promise((resolve, reject) => {
+  
+//     const req = http.request(options, (res) => {
+//       let data = "";
+//       res.setEncoding("utf8");
+//       res.on("data", (chunk) => {
+//         data += chunk;
+//       });
+//       res.on("end", () => {
+//         const seedData = JSON.parse(data);
+//         const { basePatchUrl, seedPatch, fileName } = seedData;
+
+//         if (!basePatchUrl || !seedPatch || !fileName) {
+//           return reject(`Failed to generate preset: ${preset}`);
+//         }
+
+//         const patch = seedPatch.map((h: any[]) => {
+//           return resolve([h[0], h[1], new Uint8Array(Object.values(h[2]))]);
+//         });
+
+//         fetch(baseUrl + basePatchUrl)
+//           .then((res) => res.arrayBuffer())
+//           .then((buffer) => {
+//             const rom = patchRom(
+//               vanillaRom,
+//               new BpsPatch(new Uint8Array(buffer)),
+//               patch
+//             );
+//             fs.writeFileSync(fileName, rom);
+//             console.log("Generated: " + fileName);
+//           });
+//       });
+//     });
+
+//     req.on("error", (e) => {
+//       console.error(`problem with request: ${e.message}`);
+//     });
+
+//     // // Write data to request body
+//     req.write(postData);
+//     req.end();
+//   });
+// }
 
 main()
   .then((code: number) => {
