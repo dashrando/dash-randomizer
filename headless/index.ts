@@ -7,19 +7,11 @@ import { patchRom } from "../scripts/helpers/patcher";
 import BpsPatch from "../scripts/lib/bps-patch";
 import got from 'got';
 
-export type SeedMode = 
-  "std_mm" |
-  "std_full" |
-  "standard_mm" |
-  "standard_full" |
-  "recall_mm" | 
-  "recall_full"
-
 export type SeedAPIResponse = {
   basePatchUrl: string;
   seedPatch: SeedPatchPart[];
   fileName: string;
-  preset: SeedMode;
+  preset: string;
 }
 
 export type SeedPatchPart = [
