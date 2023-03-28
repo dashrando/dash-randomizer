@@ -73,9 +73,13 @@ const fetchSeedData = async (input: SeedPatchRequestBody, options) => {
   } catch (err: HTTPError | unknown) {
     if (err instanceof HTTPError) {
       const error = err as HTTPError;
-      const body = error.response.body as any;
-      const msg = JSON.parse(body).error || 'Error fetching seed data';
-      throw new Error(msg);
+      const body = JSON.parse(error.response.body as any);
+      if (typeof body.error == 'object') {
+        throw new Error(JSON.stringify(body.error));
+      } else {
+        const msg = body.error || 'Error fetching seed data';
+        throw new Error(msg);
+      }
     } else {
       const error = err as Error;
       const msg = error.message || 'Error fetching seed data';
