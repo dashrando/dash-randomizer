@@ -118,20 +118,23 @@ const createFile = async (vanilla, seedPatch, basePatch, fileName) => {
 async function main() {
   // Setup CLI with arguments and options
   program
-    .argument("<vanillaRom>", "path to vanilla rom")
-    .argument("<preset>", "preset to use")
+    .name('dash.headless.js')
+    .usage(`-r <vanillaRom> -p <preset> [options]`)
+    .description('Generate a randomized DASH seed from the command line')
+    .option("-r --vanillaPath <vanillaRom>", "path to vanilla rom")
+    .option("-p --preset <preset>", "preset to use")
     .option('-b --base-url <url>', 'base url for rolling the seed', 'https://dashrando.net/');
   program.parse();
 
-  const [vanillaPath, preset] = program.args;
   const options = program.opts();
+  const { vanillaPath, preset, baseUrl } = options;
 
   // Check and verify `vanillaRom`
   const vanilla = await getVanilla(vanillaPath);
 
   // Setup options for fetching patch
   const seedData = await fetchSeedData({ preset }, options);
-  const basePatch = await fetchBasePatch(seedData.basePatchUrl, options.baseUrl);
+  const basePatch = await fetchBasePatch(seedData.basePatchUrl, baseUrl);
   await createFile(vanilla, seedData.seedPatch, basePatch, seedData.fileName);
   
   return 0;
