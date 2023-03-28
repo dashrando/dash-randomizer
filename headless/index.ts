@@ -5,7 +5,7 @@ import crypto from "crypto";
 import { program } from "commander";
 import { patchRom } from "../scripts/helpers/patcher";
 import BpsPatch from "../scripts/lib/bps-patch";
-import got, { HTTPError } from 'got';
+import got, { HTTPError, RequestError } from 'got';
 import chalk from 'chalk';
 import path from 'path';
 
@@ -63,8 +63,8 @@ function getVanilla(vanillaPath: string) {
 }
 
 const fetchSeedData = async (input: SeedPatchRequestBody, options) => {
+  const url = new URL('/api/seed', options.baseUrl);
   try {
-    const url = new URL('/api/seed', options.baseUrl);
     const res: SeedAPIResponse = await got.post(url.href, {
       json: input,
     })
@@ -75,11 +75,23 @@ const fetchSeedData = async (input: SeedPatchRequestBody, options) => {
       const error = err as HTTPError;
       const body = JSON.parse(error.response.body as any);
       if (typeof body.error == 'object') {
-        throw new Error(JSON.stringify(body.error));
+        throw new Error(`${body.error.code}: ${url.href}`);
       } else {
         const msg = body.error || 'Error fetching seed data';
         throw new Error(msg);
       }
+    } else if (err instanceof RequestError) {
+      const error = err as RequestError;
+      let msg;
+      switch(true) {
+        case error.code === 'ECONNREFUSED':
+          msg = `Could not connect to server: ${options.baseUrl}`;
+          break;
+        default:
+          msg = error.message || 'Error fetching seed data';
+          break;
+      }
+      throw new Error(msg);
     } else {
       const error = err as Error;
       const msg = error.message || 'Error fetching seed data';
