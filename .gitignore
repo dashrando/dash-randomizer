@@ -6,7 +6,12 @@ stats/
 level/
 viewer/
 
+dist/
+
 node_modules/
 .vercel
 
-public/app/dash.min.js
+# public/app/dash.min.js
+public/*.bundled.js
+public/*.bundled.js.map
+public/app/dash.headless.js

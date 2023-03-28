@@ -1,7 +1,7 @@
 <html>
    <head>
       <title>Readable Logic</title>
-      <script src="scripts/format-logic.js"></script>
+      <script src="/logic.bundled.js"></script>
       <style>
          #logic_title {
             font-size: large;
@@ -78,56 +78,8 @@
          }
       </style>
       <link rel="stylesheet" type="text/css" href="dash.css" />
-      <script>
-         const loadLogic = async () => {
-            data = null;
-            logicType = document.getElementById("logic_type").value;
-            switch (logicType) {
-               case "nls":
-                  document.getElementById("logic").innerText = "";
-                  break;
-               case "sml":
-                  data = await fetch("scripts/modeStandard.js");
-                  break;
-               case "rml":
-                  data = await fetch("scripts/modeRecall.js");
-                  break;
-               default:
-                  document.getElementById("logic").innerText = "";
-                  break;
-            }
-
-            if (logicType == "rml" || logicType == "sml") {
-               const text = await data.text();
-               readAndFormatLogicFile(text);
-            } else {
-            }
-         };
-
-         const refreshLogic = () => {
-            switch (document.getElementById("logic_type").value) {
-               case "nls":
-                  document.getElementById("logic_title").innerText =
-                     "No Logic Selected";
-                  loadLogic();
-                  break;
-               case "sml":
-                  document.getElementById("logic_title").innerText =
-                     "DASH - Standard Logic";
-                  loadLogic();
-                  break;
-               case "rml":
-                  document.getElementById("logic_title").innerText =
-                     "DASH - Recall Logic";
-                  loadLogic();
-                  break;
-               default:
-                  break;
-            }
-         };
-      </script>
    </head>
-   <body onload="refreshLogic()">
+   <body>
       <div id="header">
          <a href="index.html"
             ><img
@@ -137,7 +89,7 @@
       </div>
       <div id="select_logic_dropdown">
          <label for="logic_type">Select Logic:</label>
-         <select name="logic_type" id="logic_type" onchange="refreshLogic()">
+         <select name="logic_type" id="logic_type">
             <option value="sml">DASH - Standard</option>
             <option value="rml" selected="true">DASH - Recall</option>
          </select>

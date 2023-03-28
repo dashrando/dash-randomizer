@@ -1,21 +1,7 @@
 <html>
    <head>
       <title>Generate DASH Seed</title>
-      <script src="scripts/FileSaver.js"></script>
-      <script src="scripts/bps-patch.js"></script>
-      <script src="scripts/ips-patch.js"></script>
-      <script src="scripts/locations.js"></script>
-      <script src="scripts/items.js"></script>
-      <script src="scripts/sm-rando.js"></script>
-      <script src="scripts/dotnet-random.js"></script>
-      <script src="scripts/loadout.js"></script>
-      <script src="scripts/logic.js"></script>
-      <script src="scripts/itemPlacement.js"></script>
-      <script src="scripts/generate.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/idb-keyval@6/dist/umd.js"></script>
-      <script src="scripts/storage.js"></script>
-      <script src="scripts/modeStandard.js"></script>
-      <script src="scripts/modeRecall.js"></script>
+      <script src="/generate.bundled.js"></script>
       <style>
          #rom_load {
             position: relative;
@@ -105,11 +91,10 @@
          <input
             id="vanilla-rom"
             type="file"
-            onchange="VerifyVanillaRom(this)"
          />
          <div id="vanilla-rom-loaded">
             Vanilla ROM is loaded
-            <button onclick="clearVanillaRom()">x</button>
+            <button id="remove-vanilla-rom-btn">x</button>
          </div>
       </div>
       <br />
@@ -189,7 +174,6 @@
             name="seed_type"
             value="random"
             checked="checked"
-            onclick="DisableFixedSeed()"
          />
          <label for="random">Random</label>
          <input
@@ -197,7 +181,6 @@
             id="fixed"
             name="seed_type"
             value="fixed"
-            onclick="EnableFixedSeed()"
          />
          <label for="fixed">Fixed</label>
          <input
@@ -213,7 +196,7 @@
       </div>
       <br />
       <div id="randomize">
-         <button id="randomize_button" onclick="GetRandomizedRom()" disabled>
+         <button id="randomize_button" disabled>
             Randomize!
          </button>
       </div>

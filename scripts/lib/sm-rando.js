@@ -1,35 +1,19 @@
-const game_modes = [
-   {
-      name: "sm",
-      prefix: "DASH_v11r_SM_",
-      patch: "patches/dash_std.bps",
-      mask: 0x11,
-      title: "Standard - Major / Minor",
-   },
-   {
-      name: "sf",
-      prefix: "DASH_v11r_SF_",
-      patch: "patches/dash_std.bps",
-      mask: 0x21,
-      title: "Standard - Full",
-   },
-   {
-      name: "rm",
-      prefix: "DASH_v11r_RM_",
-      patch: "patches/dash_working.bps",
-      mask: 0x12,
-      title: "Recall - Major / Minor",
-   },
-   {
-      name: "rf",
-      prefix: "DASH_v11r_RF_",
-      patch: "patches/dash_working.bps",
-      mask: 0x22,
-      title: "Recall - Full",
-   },
-];
+import DotNetRandom from "./dotnet-random";
+import game_modes from "../data/modes";
+import ModeStandard from "./modes/modeStandard";
+import ModeRecall from "./modes/modeRecall";
+import { Area, AreaCounts, getLocations } from "./locations";
+import {
+   performVerifiedFill,
+   getMajorMinorPrePool,
+   isValidMajorMinor,
+   getFullPrePool,
+   isEmptyNode,
+} from "./itemPlacement";
+import { Item } from "./items";
+import Loadout from "./loadout";
 
-const generateSeedPatch = (seed, gameMode, nodes, options) => {
+export const generateSeedPatch = (seed, gameMode, nodes, options) => {
    //-----------------------------------------------------------------
    // Utility functions.
    //-----------------------------------------------------------------
@@ -83,11 +67,11 @@ const generateSeedPatch = (seed, gameMode, nodes, options) => {
       }
    };
 
-   eTanks = nodes
+   const eTanks = nodes
       .filter((n) => n.item.type == Item.EnergyTank)
       .map((n) => mapArea(n.location.area));
 
-   majors = nodes
+   const majors = nodes
       .filter(
          (n) =>
             n.item.isMajor &&
@@ -111,7 +95,7 @@ const generateSeedPatch = (seed, gameMode, nodes, options) => {
    nodes
       .filter((n) => n.item.spoilerAddress > 0)
       .forEach((n) => {
-         locIndex = sortedLocations.findIndex(
+         const locIndex = sortedLocations.findIndex(
             (l) => l.address == n.location.address
          );
          encodeBytes(
@@ -139,7 +123,7 @@ const generateSeedPatch = (seed, gameMode, nodes, options) => {
    return seedPatch;
 };
 
-const getFileName = (seed, prefix, options) => {
+export const getFileName = (seed, prefix, options) => {
    let fileName = prefix + seed.toString().padStart(6, "0");
 
    if (options != null) {
@@ -151,24 +135,11 @@ const getFileName = (seed, prefix, options) => {
    return fileName + ".sfc";
 };
 
-const patchRom = (vanillaRom, basePatch, seedPatch) => {
-   let rom = basePatch.Apply(vanillaRom);
-
-   seedPatch.forEach((p) => {
-      const [off, cnt, pay] = p;
-
-      for (let i = 0; i < cnt; i++) {
-         rom.set(pay, off + i * pay.length);
-      }
-   });
-
-   return rom;
-};
-
-const generateFromPreset = (preset) => {
+export const generateFromPreset = (preset) => {
    const timestamp = Math.floor(new Date().getTime() / 1000);
    const RNG = new DotNetRandom(timestamp);
    const seed = RNG.NextInRange(1, 1000000);
+   let gameMode, mode;
 
    if (preset == "standard_mm" || preset == "std_mm") {
       gameMode = game_modes.find((mode) => mode.name == "sm");

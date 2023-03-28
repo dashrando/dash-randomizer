@@ -182,3 +182,5 @@ class DotNetRandom {
          }
       }*/
 }
+
+export default DotNetRandom;

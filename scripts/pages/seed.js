@@ -1,3 +1,9 @@
+import game_modes from '../data/modes';
+import RandomizeRom from '../lib/randomize';
+import { saveAs } from 'file-saver';
+import vanillaROM, { getVanilla } from '../lib/vanilla/storage';
+import inputVanillaRom from '../lib/vanilla/input';
+
 // These signatures are taken from:
 // https://github.com/dashrando/dash-template-asm/blob/main/src/fileselect/gameoptions.asm#L85-L117
 const SIGNATURE_VALUES = [
@@ -42,10 +48,6 @@ function getSeedOpts() {
     mode: url.searchParams.get('mode'),
     download: url.searchParams.get('download') !== null,
   }
-}
-
-async function getVanillaBytes() {
-  return idbKeyval.get('vanilla-rom')
 }
 
 function downloadFile(data, name) {
@@ -103,7 +105,7 @@ function setupSeedUI(seed, mode) {
 
     const vanillaEl = document.getElementById('vanilla-file-input')
     vanillaEl.addEventListener('change', (evt) => {
-      VerifyVanillaRom(evt.target)
+      inputVanillaRom(evt.target)
     })
   })
 
@@ -151,6 +153,7 @@ function fetchSignature(data) {
 
 (async () => {
   try {
+    new vanillaROM()
     const { seed, mode, download: autoDownload } = getSeedOpts()
     setupSeedUI(seed, mode)
     if (!seed || !mode) {
@@ -159,7 +162,7 @@ function fetchSignature(data) {
       return null
     }
 
-    const vanillaBytes = await getVanillaBytes()
+    const vanillaBytes = await getVanilla()
     if (!vanillaBytes) {
       const vanillaEvt = new CustomEvent('seed:vanilla-missing', { detail: { seed, mode }})
       document.dispatchEvent(vanillaEvt)

@@ -419,3 +419,73 @@ function readAndFormatLogicFile(logicString) {
    createElements();
 }
 
+const CACHE = new Map();
+const getLogicFilePath = (logicType) => {
+  switch (logicType) {
+    case "sml":
+      return "scripts/modeStandard.js";
+    case "rml":
+      return "scripts/modeRecall.js";
+    default:
+      return null;
+  }
+}
+
+const fetchLogic = async (logicType) => {
+  const cached = CACHE.has(logicType);
+  if (cached) {
+    return CACHE.get(logicType);
+  }
+  const filePath = getLogicFilePath(logicType);
+  const url = githubUrl(filePath)
+  const response = await fetch(url);
+  const contents = await response.text();
+  CACHE.set(logicType, contents);
+  return contents;
+}
+
+const githubUrl = (path) => (
+  `https://raw.githubusercontent.com/dashrando/dashrando.github.io/main/${path}`
+)
+const loadLogic = async () => {
+  data = null;
+  logicType = document.getElementById("logic_type").value;
+  switch (logicType) {
+     case "sml":
+     case "rml":
+        data = await fetchLogic(logicType);
+        readAndFormatLogicFile(data);
+        break;
+     default:
+        document.getElementById("logic").innerText = "";
+        break;
+  }
+};
+
+const refreshLogic = () => {
+  switch (document.getElementById("logic_type").value) {
+     case "nls":
+        document.getElementById("logic_title").innerText =
+           "No Logic Selected";
+        loadLogic();
+        break;
+     case "sml":
+        document.getElementById("logic_title").innerText =
+           "DASH - Standard Logic";
+        loadLogic();
+        break;
+     case "rml":
+        document.getElementById("logic_title").innerText =
+           "DASH - Recall Logic";
+        loadLogic();
+        break;
+     default:
+        break;
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const el = document.getElementById("logic_type");
+  el.addEventListener("change", (_evt) => refreshLogic());
+  refreshLogic();
+});
