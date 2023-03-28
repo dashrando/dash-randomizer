@@ -137,8 +137,8 @@ async function main() {
     .name('dash.headless.js')
     .usage(`-r <vanillaRom> -p <preset> [options]`)
     .description('Generate a randomized DASH seed from the command line')
-    .option("-r --vanillaPath <vanillaRom>", "path to vanilla rom")
-    .option("-p --preset <preset>", "preset to use")
+    .requiredOption("-r --vanillaPath <vanillaRom>", "path to vanilla rom")
+    .requiredOption("-p --preset <preset>", "preset to use")
     .option('-b --base-url <url>', 'base url for rolling the seed', 'https://dashrando.net/');
   program.parse();
 
