@@ -139,7 +139,7 @@ export const generateFromPreset = (preset) => {
    const timestamp = Math.floor(new Date().getTime() / 1000);
    const RNG = new DotNetRandom(timestamp);
    const seed = RNG.NextInRange(1, 1000000);
-   let gameMode, mode;
+   let gameMode, mode, getPrePool, canPlaceItem;
 
    if (preset == "standard_mm" || preset == "std_mm") {
       gameMode = game_modes.find((mode) => mode.name == "sm");
