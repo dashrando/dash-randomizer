@@ -423,9 +423,9 @@ const CACHE = new Map();
 const getLogicFilePath = (logicType) => {
   switch (logicType) {
     case "sml":
-      return "scripts/modeStandard.js";
+      return "modeStandard.js";
     case "rml":
-      return "scripts/modeRecall.js";
+      return "modeRecall.js";
     default:
       return null;
   }
@@ -445,7 +445,7 @@ const fetchLogic = async (logicType) => {
 }
 
 const githubUrl = (path) => (
-  `https://raw.githubusercontent.com/dashrando/dashrando.github.io/main/${path}`
+  `https://raw.githubusercontent.com/dashrando/dashrando.github.io/main/scripts/lib/modes/${path}`
 )
 const loadLogic = async () => {
   data = null;
