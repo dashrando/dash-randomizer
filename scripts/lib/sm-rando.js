@@ -2,6 +2,7 @@ import DotNetRandom from "./dotnet-random";
 import game_modes from "../data/modes";
 import ModeStandard from "./modes/modeStandard";
 import ModeRecall from "./modes/modeRecall";
+import { Buffer } from "buffer"
 import { Area, AreaCounts, getLocations } from "./locations";
 import {
    performVerifiedFill,
@@ -136,13 +137,7 @@ export const getFileName = (seed, prefix, options) => {
 };
 
 export const flagsToOptions = (flags) => {
-  var binary_string = atob(flags);
-  var len = binary_string.length;
-  var bytes = new Uint8Array(len);
-  for (var i = 0; i < len; i++) {
-    bytes[i] = binary_string.charCodeAt(i);
-    bytes[i] = binary_string.charCodeAt(i);
-  }
+  const bytes = Buffer.from(flags, 'base64');
 
   let options = {};
   const gameMode = game_modes.find((m) => m.mask == (bytes[0] & 0xff));
@@ -183,12 +178,7 @@ export const optionsToFlags = (mode, options) => {
   const bytes = new Uint8Array(12).fill(0);
   bytes[0] |= gameMode.mask;
   bytes[0] |= options.DisableFanfare ? 0x0100 : 0x0000;
-
-  let binary = "";
-  for (let i = 0; i < bytes.length; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return btoa(binary);
+  return Buffer.from(bytes).toString('base64');
 };
 
 export const generateFromPreset = (preset) => {

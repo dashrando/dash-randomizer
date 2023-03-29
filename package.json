@@ -31,6 +31,7 @@
     "typescript": "^5.0.2"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
     "file-saver": "^2.0.5",
     "got": "^12.6.0",
     "idb-keyval": "^6.2.0"
