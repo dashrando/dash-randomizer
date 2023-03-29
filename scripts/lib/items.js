@@ -1,5 +1,5 @@
 // prettier-ignore
-const Item = Object.freeze({
+export const Item = Object.freeze({
    // Vanilla items
    EnergyTank:    0xeed7,
    Missile:       0xeedb,
@@ -30,7 +30,7 @@ const Item = Object.freeze({
 });
 
 // prettier-ignore
-const ItemNames = new Map([
+export const ItemNames = new Map([
    [Item.EnergyTank,    "Energy Tank"],
    [Item.Missile,       "Missile"],
    [Item.Super,         "Super Missile"],
@@ -58,7 +58,7 @@ const ItemNames = new Map([
    [Item.BeamUpgrade,   "Beam Upgrade"],
 ]);
 
-const majorItem = (spoilerAddress, type, isProgression = true) => {
+export const majorItem = (spoilerAddress, type, isProgression = true) => {
    return {
       type: type,
       name: ItemNames.get(type),
@@ -68,7 +68,7 @@ const majorItem = (spoilerAddress, type, isProgression = true) => {
    };
 };
 
-const minorItem = (spoilerAddress, type, isProgression = false) => {
+export const minorItem = (spoilerAddress, type, isProgression = false) => {
    return {
       type: type,
       name: ItemNames.get(type),

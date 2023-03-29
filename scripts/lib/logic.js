@@ -2,7 +2,7 @@
 // Class representing an item location.
 //-----------------------------------------------------------------
 
-class Node {
+class ItemNode {
    constructor(name, location, isMajor, available) {
       this.name = name;
       this.location = location;
@@ -12,7 +12,7 @@ class Node {
       this.item = undefined;
    }
    Clone() {
-      let copy = new Node(
+      let copy = new ItemNode(
          this.name,
          this.location,
          this.isMajor,
@@ -34,3 +34,5 @@ class Node {
       this.item = item;
    }
 }
+
+export default ItemNode;

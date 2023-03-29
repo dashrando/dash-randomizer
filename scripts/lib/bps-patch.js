@@ -142,3 +142,5 @@ class BpsPatch {
             (((crc >> 24) & 0xff) == this.patchBuffer[index + 3]);
     }
 }
+
+export default BpsPatch
