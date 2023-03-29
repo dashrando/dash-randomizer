@@ -57,6 +57,9 @@ const getOptions = () => {
 async function GetRandomizedRom() {
    const seed = getSeed();
    const mode = document.getElementById("game_mode").value
+   if (!seed || !mode) {
+      return;
+   }
    const options = getOptions();
    const config = { vanillaBytes }
    const { data, name } = await RandomizeRom(seed, mode, options, config);
