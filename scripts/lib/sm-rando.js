@@ -135,6 +135,62 @@ export const getFileName = (seed, prefix, options) => {
    return fileName + ".sfc";
 };
 
+export const flagsToOptions = (flags) => {
+  var binary_string = atob(flags);
+  var len = binary_string.length;
+  var bytes = new Uint8Array(len);
+  for (var i = 0; i < len; i++) {
+    bytes[i] = binary_string.charCodeAt(i);
+    bytes[i] = binary_string.charCodeAt(i);
+  }
+
+  let options = {};
+  const gameMode = game_modes.find((m) => m.mask == (bytes[0] & 0xff));
+  options.DisableFanfare = bytes[0] & 0x0100;
+
+  return {
+    mode: gameMode.name,
+    options: options,
+  };
+};
+
+export const getPresetOptions = (preset) => {
+  if (preset == "standard_mm" || preset == "std_mm") {
+    return {
+      mode: "sm",
+      options: {},
+    };
+  } else if (preset == "standard_full" || preset == "std_full") {
+    return {
+      mode: "sf",
+      options: {},
+    };
+  } else if (preset == "mm" || preset == "recall_mm") {
+    return {
+      mode: "rm",
+      options: {},
+    };
+  } else if (preset == "full" || preset == "recall_full") {
+    return {
+      mode: "rf",
+      options: {},
+    };
+  }
+};
+
+export const optionsToFlags = (mode, options) => {
+  const gameMode = game_modes.find((m) => m.name == mode);
+  const bytes = new Uint8Array(12).fill(0);
+  bytes[0] |= gameMode.mask;
+  bytes[0] |= options.DisableFanfare ? 0x0100 : 0x0000;
+
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+};
+
 export const generateFromPreset = (preset) => {
    const timestamp = Math.floor(new Date().getTime() / 1000);
    const RNG = new DotNetRandom(timestamp);

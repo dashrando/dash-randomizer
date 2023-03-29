@@ -3,6 +3,7 @@ import RandomizeRom from '../lib/randomize';
 import { saveAs } from 'file-saver';
 import vanillaROM, { getVanilla } from '../lib/vanilla/storage';
 import inputVanillaRom from '../lib/vanilla/input';
+import { getPresetOptions, flagsToOptions } from '../lib/sm-rando';
 
 // These signatures are taken from:
 // https://github.com/dashrando/dash-template-asm/blob/main/src/fileselect/gameoptions.asm#L85-L117
@@ -43,10 +44,15 @@ const SIGNATURE_VALUES = [
 
 function getSeedOpts() {
   const url = new URL(document.location)
+  const flags = url.searchParams.get('flags')
+  const { mode, options } = !flags
+    ? getPresetOptions(url.searchParams.get('preset'))
+    : flagsToOptions(flags)
+
   return {
     num: url.searchParams.get('num'),
-    mode: url.searchParams.get('mode'),
-    options: {},
+    mode: mode,
+    options: options,
     download: url.searchParams.get('download') !== null,
   }
 }

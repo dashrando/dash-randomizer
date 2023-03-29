@@ -2,6 +2,7 @@ import RandomizeRom from '../lib/randomize';
 import { saveAs } from 'file-saver';
 import vanillaROM, { clearVanillaRom } from '../lib/vanilla/storage';
 import inputVanillaRom from '../lib/vanilla/input';
+import { optionsToFlags } from '../lib/sm-rando';
 
 let vanillaBytes = null;
 
@@ -34,8 +35,8 @@ function getSeed() {
    return seed;
 }
 
-const updatePermalink = (seed, mode) => {
-   const permalink = `${window.location.origin}/seed?num=${seed}&mode=${mode}`;
+const updatePermalink = (seed, flags) => {
+   const permalink = `${window.location.origin}/seed?num=${seed}&flags=${flags}`;
    const permalinkEl = document.getElementById('seed-permalink');
    permalinkEl.innerHTML = `<a href="${permalink}">${permalink}</a>`;
 }
@@ -60,9 +61,12 @@ async function GetRandomizedRom() {
    const config = { vanillaBytes }
    const { data, name } = await RandomizeRom(seed, mode, options, config);
 
+   // Generate the flags associated with these options.
+   const flags = optionsToFlags(mode, options);
+
    // Save the new file on the local system.
    saveAs(new Blob([data]), name);
-   updatePermalink(seed, mode)
+   updatePermalink(seed, flags)
    document.getElementById('permalink-container').classList.add('visible');
 }
 
