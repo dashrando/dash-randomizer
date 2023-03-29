@@ -35,7 +35,7 @@ function getSeed() {
 }
 
 const updatePermalink = (seed, mode) => {
-   const permalink = `${window.location.origin}/seed?seed=${seed}&mode=${mode}`;
+   const permalink = `${window.location.origin}/seed?num=${seed}&mode=${mode}`;
    const permalinkEl = document.getElementById('seed-permalink');
    permalinkEl.innerHTML = `<a href="${permalink}">${permalink}</a>`;
 }
