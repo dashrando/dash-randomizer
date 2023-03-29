@@ -2,7 +2,7 @@ name: Deploy dashrando.github.io to GitHub Pages
 
 on:
   push:
-    branches: ["main", "vercel"]
+    branches: ["main", "github-pages-redirect"]
 
   workflow_dispatch:
 
@@ -32,12 +32,20 @@ jobs:
         run: |
           npm install
           npm run build
+      - name: Copy minified file to redirect folder
+        run: |
+          mkdir ./redirect/public/app
+          cp ./public/app/dash.min.js ./redirect/public/app/dash.min.js
+          cp ./public/app/dash.cli.js ./redirect/public/app/dash.cli.js
+      - name: Build redirect pages
+        run: |
+          npm run redirects
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: './public'
+          path: './redirect/public'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
