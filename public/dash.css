@@ -1,14 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap');
+* {
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+ }
+
 body {
    font-family: "Mulish", sans-serif;
    background-color: black;
    color: rgb(210, 210, 210);
+   margin: 0;
+   padding: 0;
 }
 
 #wrapper {
    width: 100%;
    max-width: 800px;
-   margin: 0;
+   padding: 8px;
 }
 
 a {
@@ -41,8 +49,10 @@ a {
    bottom: -28px;
 }
 #header img {
-   width: 420px;
-   height: 160px;
+   max-width: 420px;
+   max-height: 160px;
+   width: 100%;
+   display: block;
    opacity: 0.8;
    margin-bottom: 10px;
 }
@@ -137,10 +147,6 @@ hr {
    padding: 4px 8px;
 }
 
-/* .damage-table tbody td:first-child {
-   padding-left: 0;
-} */
-
 .damage-table thead th {
    font-weight: 700;
    text-align: left;
@@ -148,10 +154,73 @@ hr {
    border-bottom: 1px solid #777;
 }
 
-/* .damage-table thead th:first-child {
-   padding-left: 0;
+/* .damage-table thead tr th:nth-child(3),
+.damage-table tbody tr td:nth-child(3) {
+   display: none;
 } */
 
-.damage-table tbody tr:nth-child(even) {
-   background-color: #222;
+@media screen and (min-width: 601px) {
+   .damage-table tbody tr:nth-child(even) {
+      background-color: #222;
+   }
+}
+
+@media screen and (max-width: 600px) {
+   .damage-table {
+      display: block;
+      width: 100%;
+   }
+
+   .damage-table tbody {
+      display: block;
+      width: 90%;
+   }
+
+   .damage-table thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+   }
+
+   .damage-table tbody tr {
+      display: block;
+      width: 100%;
+      margin-bottom: 20px;
+   }
+
+   .damage-table tbody tr td {
+      display: block;
+      border-bottom: 1px solid #333;
+   }
+
+   .damage-table tbody tr td:last-child {
+      border-bottom: 0;
+   }
+
+   .damage-table tbody tr td:first-child::before {
+      content: '';
+      display: none;
+   }
+
+   .damage-table tbody tr td::before {
+      content: attr(data-label);
+      display: inline-block;
+      width: 120px;
+      padding-right: 20px;
+      color: #777;
+   }
+
+   .damage-table tbody tr td:first-child {
+      border-bottom: 1px solid #777;
+      font-weight: 700;
+   }
+
+   .header_text {
+      min-width: unset;
+   }
 }
