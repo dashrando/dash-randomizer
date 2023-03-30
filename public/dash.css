@@ -4,6 +4,13 @@ body {
    background-color: black;
    color: rgb(210, 210, 210);
 }
+
+#wrapper {
+   width: 100%;
+   max-width: 800px;
+   margin: 0;
+}
+
 a {
    text-decoration: none;
    color: rgb(90, 173, 54);
