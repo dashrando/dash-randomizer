@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css?family=Muli");
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap');
 body {
-   font-family: "Muli";
+   font-family: "Mulish", sans-serif;
    background-color: black;
    color: rgb(210, 210, 210);
 }
@@ -119,4 +119,32 @@ hr {
 
 #permalink-container.visible {
    visibility: visible;
+}
+
+.damage-table {
+   border: 0;
+}
+
+.damage-table tbody td {
+   border: 0;
+   padding: 4px 8px;
+}
+
+/* .damage-table tbody td:first-child {
+   padding-left: 0;
+} */
+
+.damage-table thead th {
+   font-weight: 700;
+   text-align: left;
+   padding: 8px;
+   border-bottom: 1px solid #777;
+}
+
+/* .damage-table thead th:first-child {
+   padding-left: 0;
+} */
+
+.damage-table tbody tr:nth-child(even) {
+   background-color: #222;
 }
