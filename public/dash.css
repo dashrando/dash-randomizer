@@ -140,6 +140,11 @@ hr {
 
 .damage-table {
    border: 0;
+   border-collapse: collapse;
+   table-layout: fixed;
+   width: 100%;
+   margin: 0;
+   padding: 0;
 }
 
 .damage-table tbody td {
