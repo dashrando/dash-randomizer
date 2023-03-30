@@ -25,9 +25,10 @@ a {
 }
 #topic_header_grid {
    width: 90%;
-   display: grid;
-   grid-template-columns: 130px auto;
-   grid-template-rows: 130px;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   gap: 20px;
 }
 #header_img {
    grid-row: 1;
@@ -35,19 +36,17 @@ a {
 }
 .header_text {
    position: relative;
-   bottom: -48px;
+   /* bottom: -48px; */
    text-align: left;
    font-size: 22px;
    text-decoration: underline;
    text-decoration-color: rgb(90, 173, 54);
-   grid-row: 1;
-   grid-column: 2;
-   min-width: 500px;
    z-index: -1;
+   margin-bottom: 20px;
 }
-#header_double_text {
+/* #header_double_text {
    bottom: -28px;
-}
+} */
 #header img {
    max-width: 420px;
    max-height: 160px;
