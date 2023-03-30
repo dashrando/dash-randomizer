@@ -230,4 +230,16 @@ hr {
    .header_text {
       min-width: unset;
    }
+
+   #topic img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+   }
+
+   #section_label a {
+      display: block;
+      margin: 4px 0;
+      font-size: 0.8em;
+   }
 }
