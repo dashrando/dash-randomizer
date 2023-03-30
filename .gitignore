@@ -17,3 +17,5 @@ redirect/public/*
 public/*.bundled.js
 public/*.bundled.js.map
 public/app/dash.headless.js
+
+.env
