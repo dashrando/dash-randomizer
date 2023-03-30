@@ -193,7 +193,8 @@ hr {
    }
 
    .damage-table tbody tr {
-      display: block;
+      display: flex;
+      flex-direction: column;
       width: 100%;
       margin-bottom: 20px;
    }
@@ -208,10 +209,10 @@ hr {
       border-bottom: 0;
    }
 
-   /* .damage-table tbody tr td:first-child::before {
+   .damage-table tbody tr td:first-child::before {
       content: '';
       display: none;
-   } */
+   }
 
    .damage-table tbody tr td::before {
       content: attr(data-label);
