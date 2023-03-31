@@ -6,6 +6,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node-dev src/index.ts",
+    "dev:register-commands": "DEV=true ts-node-dev src/register-commands.ts",
+    "register-commands": "ts-node src/register-commands.ts",
     "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

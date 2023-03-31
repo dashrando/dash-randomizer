@@ -1,18 +1,42 @@
-// Require the necessary discord.js classes
-import { Client, Events, GatewayIntentBits } from 'discord.js'
+import { Client, Events, GatewayIntentBits, Message } from 'discord.js'
+import { slashCommands } from './commands'
+import { prefixCommand } from './commands/dashrando'
 import './assert-env-vars'
 
 const token = process.env.DISCORD_BOT_TOKEN
 
-console.log('sup', token)
-// Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] })
+const client = new Client(
+  {
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.MessageContent
+    ]
+  }
+)
+const prefix = '!dashrando'
 
-// When the client is ready, run this code (only once)
-// We use 'c' for the event parameter to keep it separate from the already defined 'client'
 client.once(Events.ClientReady, c => {
-	console.log(`Ready! Logged in as ${c.user.tag}`)
+  console.log(`Ready! Logged in as ${c.user.tag}`)
 })
 
-// Log in to Discord with your client's token
+client.on(Events.MessageCreate, (message: Message) => {
+  const isCommand = message.content.startsWith(prefix)
+  if (!isCommand) {
+    return
+  }
+  prefixCommand(message)
+})
+
+client.on(Events.InteractionCreate, async (interaction) => {
+  if (!interaction.isChatInputCommand()) {
+    console.log('not a chat input command', interaction)
+    return
+  }
+
+  slashCommands
+    .find((c) => c.data.name === interaction.commandName)
+    ?.execute(interaction)
+})
+
 client.login(token)
