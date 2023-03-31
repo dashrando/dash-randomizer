@@ -1,6 +1,7 @@
-<html>
+<html lang="en">
    <head>
       <title>Generate DASH Seed</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       <script src="/generate.bundled.js"></script>
       <style>
          #rom_load {
@@ -42,7 +43,7 @@
          input,
          button,
          select {
-            font-family: "Muli";
+            font-family: "Mulish";
             font-size: 14px;
          }
          #fixed_value {
@@ -70,6 +71,7 @@
       <link rel="stylesheet" type="text/css" href="dash.css" />
    </head>
    <body>
+      <div id="wrapper">
       <div id="header">
          <a href="/"
             ><img
@@ -203,5 +205,6 @@
       <div id="permalink-container">
          <p>Your Seed's URL: <span id="seed-permalink">&nbsp;</span></p>
       </div>
+   </div>
    </body>
 </html>
