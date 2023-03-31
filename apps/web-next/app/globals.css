@@ -23,6 +23,8 @@
   --spacer-14x: 56px;
   --spacer-15x: 60px;
   --spacer-16x: 64px;
+  --spacer-17x: 68px;
+  --spacer-18x: 72px;
 }
 
 html { box-sizing: border-box; }
