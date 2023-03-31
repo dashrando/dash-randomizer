@@ -17,5 +17,5 @@ redirectPaths.forEach((fileName) => {
   let redirect = `https://www.dashrando.net/${fileName}`
   const template = (fileName === 'seed.html') ? seedRedirectTemplate : redirectTemplate
   const contents = template(redirect)
-  fs.writeFileSync(`./redirect/public/${fileName}`, contents)
+  fs.writeFileSync(`./public/${fileName}`, contents)
 })
