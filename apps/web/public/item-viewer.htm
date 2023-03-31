@@ -1,0 +1,220 @@
+<html>
+  <head>
+    <style>
+      spoiler {
+        font-size: 0.9em;
+        display: table;
+      }
+
+      #col1 {
+        display: table-cell;
+      }
+
+      #col2 {
+        display: table-cell;
+        margin-left: 10px;
+      }
+
+      #spoiler {
+        margin-top: 1em;
+      }
+      .location {
+        width: 220px;
+        font-size: 0.85em;
+        display: inline-block;
+        padding-left: 10px;
+        border-style: solid;
+        border-width: 1px;
+      }
+      .minor {
+        background-color: lightblue;
+        font-size: 0.85em;
+        width: 120px;
+        display: inline-block;
+        padding-right: 10px;
+        border-style: solid;
+        border-width: 1px;
+      }
+      .major {
+        background-color: #efdd7d;
+        font-size: 0.85em;
+        width: 120px;
+        display: inline-block;
+        padding-right: 10px;
+        border-style: solid;
+        border-width: 1px;
+      }
+      .suit {
+        background-color: rgb(36, 217, 36);
+        font-size: 0.85em;
+        width: 120px;
+        display: inline-block;
+        padding-right: 10px;
+        border-style: solid;
+        border-width: 1px;
+      }
+    </style>
+    <script src="../scripts/items.js"></script>
+    <script src="../scripts/locations.js"></script>
+    <script src="../scripts/dotnet-random.js"></script>
+    <script src="../scripts/loadout.js"></script>
+    <script src="../scripts/logic.js"></script>
+    <script src="../scripts/modeStandard.js"></script>
+    <script src="../scripts/modeRecall.js"></script>
+    <script src="../scripts/itemPlacement.js"></script>
+    <script>
+      async function ShowItems(fileName, bytes) {
+        let col1 = document.getElementById("col1");
+        let col2 = document.getElementById("col2");
+
+        col1.innerHTML = "";
+        col2.innerHTML = "";
+
+        const getLocCode = (loc) => {
+          return (
+            ((bytes[loc.address + 1] << 8) & 0xff00) |
+            (bytes[loc.address] & 0x00ff)
+          );
+        };
+
+        const swap = (arr, x, y) => {
+          const tmp = arr[x];
+          arr[x] = arr[y];
+          arr[y] = tmp;
+        };
+
+        const swapByName = (arr, x, name) => {
+          const index = arr.findIndex((n) => n.location.name == name);
+          swap(arr, x, index);
+        };
+
+        const improveItemOrder = (nodes) => {
+          swapByName(nodes, 0, "Morphing Ball");
+          swapByName(nodes, 1, "Energy Tank (Brinstar Ceiling)");
+          swapByName(nodes, 2, "Missiles (Alpha)");
+          swapByName(nodes, 3, "Missiles (Beta)");
+          swapByName(nodes, 4, "Bombs");
+        };
+
+        const addEntry = (element, loc, item) => {
+          let itemClass = "major";
+          if (!item.isMajor) {
+            itemClass = "minor";
+          } else if (
+            item.type == Item.Varia ||
+            item.type == Item.Gravity ||
+            item.type == Item.PressureValve ||
+            item.type == Item.HeatShield
+          ) {
+            itemClass = "suit";
+          }
+          element.innerHTML +=
+            "<div class='itemLocation'>" +
+            "<span class='location'>" +
+            loc.name +
+            "</span><span class='" +
+            itemClass +
+            "'>" +
+            item.name +
+            "</span>";
+        };
+
+        let flagArray = new Uint32Array(bytes.buffer, 0x2f8b00, 4);
+        let flags = flagArray[0];
+        let mode =
+          (flags & 0xf) == 0x2
+            ? new ModeRecall(0, getLocations())
+            : new ModeStandard(0, getLocations());
+
+        for (let i = 0; i < mode.nodes.length; i++) {
+          const loc = mode.nodes[i].location;
+          const itemCode = loc.GetItemCode(bytes);
+          const item = mode.itemPool.find((i) => i.type == itemCode);
+
+          if (item == undefined) {
+            alert("Undefined item found. Try the other mode.");
+          }
+
+          mode.nodes[i].item = item;
+        }
+
+        improveItemOrder(mode.nodes);
+
+        let log = [];
+        verifyItemProgression(mode.nodes, log);
+
+        let modeDiv = document.getElementById("mode");
+        const progressionOnly = modeDiv.value == "progression";
+
+        let missile = false,
+          superMissile = false,
+          pb = false,
+          etank = false,
+          reserve = false;
+        let count = 0;
+        for (let i = 0; i < log.length; i++) {
+          const element = count > 49 ? col2 : col1;
+
+          if (log[i].item.type == Item.Missile) {
+            if (missile) {
+              continue;
+            }
+            missile = progressionOnly;
+          } else if (log[i].item.type == Item.Super) {
+            if (superMissile) {
+              continue;
+            }
+            superMissile = progressionOnly;
+          } else if (log[i].item.type == Item.PowerBomb) {
+            if (pb) {
+              continue;
+            }
+            pb = progressionOnly;
+          } else if (log[i].item.type == Item.EnergyTank) {
+            if (etank) {
+              continue;
+            }
+            etank = progressionOnly;
+          } else if (log[i].item.type == Item.Reserve) {
+            if (reserve) {
+              continue;
+            }
+            reserve = progressionOnly;
+          } else if (progressionOnly && !log[i].item.isProgression) {
+            continue;
+          }
+          addEntry(element, log[i].location, log[i].item);
+          count += 1;
+        }
+      }
+
+      const loadRom = async () => {
+        let romInput = document.getElementById("rom_file");
+        let romData = romInput.files[0];
+        let reader = new FileReader();
+
+        reader.onload = async () => {
+          bytes = new Uint8Array(reader.result);
+          ShowItems(romData.name, bytes);
+        };
+        reader.readAsArrayBuffer(romData);
+      };
+    </script>
+  </head>
+  <body>
+    <div>
+      <select name="mode" id="mode" onchange="loadRom()">
+        <option value="progression" selected>Progression Only</option>
+        <option value="all">All Items</option>
+      </select>
+
+      Select ROM to process:
+
+      <input type="file" id="rom_file" name="rom_file" onchange="loadRom()" />
+    </div>
+    <div id="spoiler">
+      <div id="col1"></div>
+      <div id="col2"></div>
+    </div>
+  </body>
+</html>
