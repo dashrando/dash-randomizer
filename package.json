@@ -20,6 +20,9 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "class-variance-authority": "^0.4.0",
+    "clsx": "^1.2.1"
+  },
   "packageManager": "npm@8.19.4"
 }

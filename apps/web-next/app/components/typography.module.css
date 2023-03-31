@@ -1,0 +1,56 @@
+.base {
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.base a {
+  color: var(--color-green);
+  text-underline-offset: var(--spacer);
+  text-decoration-thickness: 1px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.base a:hover {
+  color: var(--color-magenta);
+  text-decoration-color: transparent;
+}
+
+.size_compact {
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.1px;
+}
+
+.size_small {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+.size_medium {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.176px;
+}
+
+.size_large {
+  font-size: 24px;
+  line-height: 24px;
+  letter-spacing: -0.456px;
+}
+
+.size_xlarge {
+  font-size: 40px;
+  line-height: 40px;
+  letter-spacing: -0.88px;
+}
+
+.weight_default {
+  font-weight: 400;
+}
+
+.weight_bold {
+  font-weight: 700;
+}
