@@ -1,7 +1,5 @@
-import RandomizeRom from '../lib/randomize';
+import { RandomizeRom, vanilla } from 'core';
 import { saveAs } from 'file-saver';
-import vanillaROM, { clearVanillaRom } from '../lib/vanilla/storage';
-import inputVanillaRom from '../lib/vanilla/input';
 
 let vanillaBytes = null;
 
@@ -112,13 +110,13 @@ function setupUI() {
   // Listen to when the vanilla rom is set.
   const vanillaRomEl = document.getElementById("vanilla-rom")
   vanillaRomEl.addEventListener('change', (evt) => {
-    inputVanillaRom(evt.target)
+    vanilla.inputVanillaRom(evt.target)
   })
 
   // Listen to when the vanilla rom is cleared.
   const removeEl = document.getElementById('remove-vanilla-rom-btn')
   removeEl.addEventListener('click', (_evt) => {
-    clearVanillaRom()
+    vanilla.clearVanillaRom()
   })
 
    const fixedSeedEl = document.getElementById('fixed')
@@ -139,7 +137,7 @@ function setupUI() {
       GetRandomizedRom()
    })
 
-  new vanillaROM()
+  new vanilla.vanillaROM()
 }
 
 document.addEventListener('DOMContentLoaded', setupUI)

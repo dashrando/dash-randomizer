@@ -30,13 +30,9 @@ jobs:
           node-version: '18'
       - name: Build Minified script file for CLI
         run: |
+          cd apps/github-pages-redirect
           npm install
           npm run build
-      - name: Copy minified file to redirect folder
-        run: |
-          mkdir ./redirect/public/app
-          cp ./public/app/dash.min.js ./redirect/public/app/dash.min.js
-          cp ./public/app/dash.cli.js ./redirect/public/app/dash.cli.js
       - name: Build redirect pages
         run: |
           npm run redirects
@@ -45,7 +41,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: './redirect/public'
+          path: './apps/github-pages-redirect/public'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1

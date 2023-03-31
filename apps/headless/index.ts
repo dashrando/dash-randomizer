@@ -3,8 +3,7 @@
 import fs from "fs";
 import crypto from "crypto";
 import { program } from "commander";
-import { patchRom } from "../scripts/helpers/patcher";
-import BpsPatch from "../scripts/lib/bps-patch";
+import { BpsPatch, patchRom } from "core";
 import got, { HTTPError, RequestError } from 'got';
 import chalk from 'chalk';
 import path from 'path';

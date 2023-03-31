@@ -1,4 +1,4 @@
-import { generateFromPreset } from "../scripts/lib/sm-rando";
+import { generateFromPreset } from "core";
 
 export const config = {
   runtime: 'edge',
