@@ -2,6 +2,7 @@ import { Client, Events, GatewayIntentBits, Message } from 'discord.js'
 import { slashCommands } from './commands'
 import { prefixCommand } from './commands/dashrando'
 import './assert-env-vars'
+import './health'
 
 const token = process.env.DISCORD_BOT_TOKEN
 

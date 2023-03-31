@@ -14,6 +14,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@godaddy/terminus": "^4.11.2",
     "discord.js": "^14.8.0",
     "dotenv": "^16.0.3",
     "typescript": "^5.0.2"
