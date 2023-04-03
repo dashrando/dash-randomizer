@@ -18,4 +18,4 @@ const options = {
 
 createTerminus(server, options)
 
-server.listen(process.env.PORT || 3000)
+server.listen(process.env.PORT || 3002)
