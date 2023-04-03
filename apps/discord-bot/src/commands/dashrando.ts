@@ -46,7 +46,11 @@ function parseCommandInput(input: string) {
     const validModes = MODES.map((mode) => `\`${mode.value}\``)
     throw new Error(`Invalid mode: ${opts.preset}. Please use one of the following: ${validModes.join(', ')}`)
   }
-  opts.repeat = parseInt(opts.repeat) || 1
+  const repeat = parseInt(opts.repeat) || 1
+  if (repeat > 30) {
+    throw new Error('You can only roll up to 30 seeds at once')
+  }
+  opts.repeat = repeat
   return opts;
 }
 
@@ -64,6 +68,8 @@ export const slashCommand = {
       option
         .setName('repeat')
         .setDescription('How many seeds you want to roll at once')
+        .setMinValue(1)
+        .setMaxValue(30)
         .setRequired(false)
     )),
   async execute(interaction: ChatInputCommandInteraction) {
