@@ -261,10 +261,6 @@ function createElements() {
                /*These next two lines are the way we are able to pass in what
                element id is being hovered over, and return the appropriate
                body logic text.*/
-               // logicReferenceElement.setAttribute("onpointerenter", 
-               //                                    "showLogicText(" + logicReferenceElement.id + ", \"enter\")");
-               // logicReferenceElement.setAttribute("onpointerleave", 
-               //                                    "showLogicText(" + logicReferenceElement.id + ", \"leave\")");
                const id = logicReferenceElement.id
                logicReferenceElement.addEventListener('pointerenter', () => { showLogicText(id, 'enter') })
                logicReferenceElement.addEventListener('pointerleave', () => { showLogicText(id, 'leave') })
