@@ -18,22 +18,20 @@ const MODES = [
   { name: 'Recall Full', value: 'rf' },
 ]
 
+const generateUrls = ({ preset = 'rf', repeat = 1 }) => {
+  const urls = []
+  for (let i = 0; i < repeat; i++) {
+    urls.push(generateUrl({ preset }))
+  }
+  return urls
+}
+
 const generateUrl = ({ preset = 'rf' }: { preset: string }) => {
   const seedNum = Math.floor(Math.random() * 999999) + 1
   const url = new URL('https://dashrando.net/seed')
   url.searchParams.append('mode', preset)
   url.searchParams.append('seed', seedNum.toString())
   return url.toString()
-}
-
-const getModeFromInput = (input: string) => {
-  const regex = /mode=(\w+)/;
-  const matches = regex.exec(input);
-  const hasMatch = matches !== null && matches.length >= 2;
-  if (!hasMatch) {
-    return null;
-  }
-  return matches[1];
 }
 
 function parseCommandInput(input: string) {
@@ -61,11 +59,23 @@ export const slashCommand = {
         .setName('preset')
         .setDescription('The logic mode used in rolling the seed')
         .addChoices(...MODES)
-		)),
+		))
+    .addNumberOption((option) => (
+      option
+        .setName('repeat')
+        .setDescription('How many seeds you want to roll at once')
+        .setRequired(false)
+    )),
   async execute(interaction: ChatInputCommandInteraction) {
-    const preset = interaction.options.getString('preset') ?? 'recall_mm'
-    const seedUrl = generateUrl({ preset })
-    await interaction.reply(seedUrl)
+    try {
+      await interaction.reply('Generating seed...')
+      const preset = interaction.options.getString('preset') ?? 'rf'
+      const repeat = interaction.options.getNumber('repeat') ?? 1
+      const seedUrls = generateUrls({ preset, repeat })
+      await interaction.editReply(seedUrls.join('\n'))
+    } catch (err) {
+      console.error(err)
+    }
   },
 }
 
@@ -73,10 +83,7 @@ export const prefixCommand = (message: Message) => {
   try {
     const options = parseCommandInput(message.content) as BotInputOptions
     if (options.preset) {
-      const urls = []
-      for (let i = 0; i < options.repeat; i++) {
-        urls.push(generateUrl(options))
-      }
+      const urls = generateUrls(options)
       message.reply(urls.join('\n'))
     }
   } catch (err) {
