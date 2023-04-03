@@ -1,4 +1,4 @@
-import { Client, Events, GatewayIntentBits, Message } from 'discord.js'
+import { Client, Events, GatewayIntentBits, Message, Partials } from 'discord.js'
 import { slashCommands } from './commands'
 import { prefixCommand } from './commands/dashrando'
 import './assert-env-vars'
@@ -11,7 +11,12 @@ const client = new Client(
     intents: [
       GatewayIntentBits.Guilds,
       GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.MessageContent
+      GatewayIntentBits.MessageContent,
+      GatewayIntentBits.DirectMessages,
+    ],
+    partials: [
+      Partials.Channel,
+      Partials.Message
     ]
   }
 )
