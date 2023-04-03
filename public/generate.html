@@ -32,6 +32,7 @@
             border: none;
             font-size: large;
             text-align: left;
+            margin-bottom: 8px;
          }
          #game_mode {
             width: 240px;
@@ -67,6 +68,10 @@
             display: inline-block;
             margin-left: 24px;
          }
+         #welcome {
+            font-size: 16px;
+            width: 90%;
+         }
       </style>
       <link rel="stylesheet" type="text/css" href="dash.css" />
    </head>
@@ -79,16 +84,18 @@
                alt="Super Metroid DASH Randomizer"
          /></a>
       </div>
-      <hr />
-      <div id="topic">
-         Welcome to the DASH seed generation page. To generate a seed, upload
-         your vanilla rom, select your game mode, select any extra settings if
-         you want them, and then click the "Randomize!" button.
+      <div id="section_label"><hr /></div>
+      <div id="welcome">
+         Generating a seed: load the vanilla rom,
+         select a game mode along with any extra settings,
+         and then click Randomize!
       </div>
       <br />
       <br />
-      <div id="section_label">Enter Your Vanilla Rom</div>
-      <hr />
+      <div id="section_label">
+         Enter Your Vanilla Rom
+         <hr />
+      </div>
       <div id="rom_load">
          <input
             id="vanilla-rom"
@@ -102,11 +109,10 @@
       <br />
       <br />
       <div id="section_label">
-         Select Your Game Mode &emsp;<a href="/readable-logic"
-            ><u>What's in the logic for each game mode?</u></a
-         >
+         Select Your Game Mode &emsp;
+         <a href="/readable-logic">What's in the logic for each game mode?</a>
+         <hr />
       </div>
-      <hr />
       <div id="select_mode">
          <select name="game_mode" id="game_mode">
             <option value="sm">Standard - Major / Minor</option>
@@ -117,8 +123,10 @@
       </div>
       <br />
       <br />
-      <div id="section_label">Select Any Other Settings</div>
-      <hr />
+      <div id="section_label">
+         Select Any Other Settings
+         <hr />
+      </div>
       <div id="topic">Item Fanfare:</div>
       <div id="select_fanfare">
          <input
@@ -167,8 +175,10 @@
       </div>
       <br />-->
       <br />
-      <div id="section_label">Seed Settings:</div>
-      <hr />
+      <div id="section_label">
+         Seed Settings:
+         <hr />
+      </div>
       <div id="select_seed">
          <input
             type="radio"
