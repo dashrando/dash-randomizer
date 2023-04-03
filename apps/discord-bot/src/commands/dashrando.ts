@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message } from 'discord.js'
 
 const MODES = [
-  { name: 'Standard Major/Minor', value: 'mm' },
-  { name: 'Standard Full', value: 'full' },
+  { name: 'Standard Major/Minor', value: 'sm' },
+  { name: 'Standard Full', value: 'sf' },
   { name: 'Recall Major/Minor', value: 'rm' },
   { name: 'Recall Full', value: 'rf' },
 ]
