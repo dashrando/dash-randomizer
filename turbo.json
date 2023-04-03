@@ -4,6 +4,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
+      "env": ["DISCORD_BOT_TOKEN", "DISCORD_CLIENT_ID"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {
