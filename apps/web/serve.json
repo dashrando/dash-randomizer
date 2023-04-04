@@ -1,0 +1,10 @@
+{
+  "public": "public",
+  "redirects": [
+    {
+      "from": "/api/seed",
+      "to": "http://localhost:3001/api/seed",
+      "type": 307
+    }
+  ]
+}
