@@ -49,6 +49,7 @@ export const getFns = async () => {
     return {
       key,
       fn: displayFn,
+      code: fn,
       start,
       end,
       url: `${baseUrl}#L${start}-L${end}`,
