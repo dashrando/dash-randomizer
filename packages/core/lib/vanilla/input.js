@@ -6,14 +6,16 @@ async function parseContents(value) {
     const event = new CustomEvent("vanillaRom:input", {
       detail: {
         data: new Uint8Array(value),
-      }
-    })
-    document.dispatchEvent(event)
+      },
+    });
+    document.dispatchEvent(event);
     return;
   }
 
   if (isHeadered(signature)) {
-    console.warn("You have entered a headered ROM. The header will now be removed.");
+    console.warn(
+      "You have entered a headered ROM. The header will now be removed."
+    );
     const unheaderedContent = value.slice(512);
     return parseContents(unheaderedContent);
   }
@@ -24,12 +26,12 @@ async function parseContents(value) {
 export default function inputVanillaRom(el) {
   if (!el) {
     return;
- }
- let vanillaRom = el.files[0];
- let reader = new FileReader();
- reader.readAsArrayBuffer(vanillaRom);
+  }
+  let vanillaRom = el.files[0];
+  let reader = new FileReader();
+  reader.readAsArrayBuffer(vanillaRom);
 
- reader.onload = async function () {
+  reader.onload = async function () {
     try {
       await parseContents(reader.result);
     } catch (e) {
@@ -37,9 +39,9 @@ export default function inputVanillaRom(el) {
       alert(e.message);
       el.value = "";
     }
- };
+  };
 
- reader.onerror = function () {
+  reader.onerror = function () {
     alert("Failed to load file.");
- };
+  };
 }

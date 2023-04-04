@@ -59,21 +59,21 @@ export const ItemNames = new Map([
 ]);
 
 export const majorItem = (spoilerAddress, type, isProgression = true) => {
-   return {
-      type: type,
-      name: ItemNames.get(type),
-      isMajor: true,
-      isProgression: isProgression,
-      spoilerAddress: spoilerAddress,
-   };
+  return {
+    type: type,
+    name: ItemNames.get(type),
+    isMajor: true,
+    isProgression: isProgression,
+    spoilerAddress: spoilerAddress,
+  };
 };
 
 export const minorItem = (spoilerAddress, type, isProgression = false) => {
-   return {
-      type: type,
-      name: ItemNames.get(type),
-      isMajor: false,
-      isProgression: isProgression,
-      spoilerAddress: spoilerAddress,
-   };
+  return {
+    type: type,
+    name: ItemNames.get(type),
+    isMajor: false,
+    isProgression: isProgression,
+    spoilerAddress: spoilerAddress,
+  };
 };

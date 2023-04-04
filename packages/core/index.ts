@@ -1,21 +1,22 @@
-import { generateFromPreset } from './lib/sm-rando'
-import RandomizeRom from './lib/randomize'
-import vanillaROM, { clearVanillaRom, getVanilla } from './lib/vanilla/storage'
-import inputVanillaRom from './lib/vanilla/input'
-import gameModes from './data/modes'
-import BpsPatch from './lib/bps-patch'
-import { patchRom } from './helpers/patcher'
+import { generateFromPreset } from "./lib/sm-rando";
+import RandomizeRom from "./lib/randomize";
+import vanillaROM, { clearVanillaRom, getVanilla } from "./lib/vanilla/storage";
+import inputVanillaRom from "./lib/vanilla/input";
+import gameModes from "./data/modes";
+import BpsPatch from "./lib/bps-patch";
+import { patchRom } from "./helpers/patcher";
+import { Logic as RecallLogic } from "./lib/modes/modeRecall";
 
 const vanilla = {
   vanillaROM,
   clearVanillaRom,
   getVanilla,
   inputVanillaRom,
-}
+};
 
-export default function trill() {
-  console.log('yo')
-}
+export const Logic = {
+  recall: RecallLogic,
+};
 
 export {
   gameModes,
@@ -24,4 +25,4 @@ export {
   vanilla,
   BpsPatch,
   patchRom,
-}
+};
