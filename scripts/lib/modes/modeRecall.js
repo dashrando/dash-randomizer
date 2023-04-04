@@ -180,28 +180,6 @@ class ModeRecall {
          );
       };
 
-      const canAccessEastMaridia = (load) => {
-         return (
-            canAccessRedBrinstar(load) &&
-            load.canUsePowerBombs &&
-            (load.hasGravity || canDoSuitlessMaridia(load))
-         );
-      };
-
-      const canAccessNorthMaridia = (load) => {
-         return (
-            canAccessWreckedShip(load) &&
-            (load.hasGravity || load.hasPressureValve)
-         );
-      };
-
-      const canAccessSouthMaridia = (load) => {
-         return (
-            canAccessWreckedShip(load) &&
-            (load.hasGravity || load.hasPressureValve)
-         );
-      };
-
       const canEnterAndLeaveGauntlet = (load) => {
          return (
             (load.canUseBombs && load.totalTanks >= 2) ||
