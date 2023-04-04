@@ -1,4 +1,6 @@
 import { getFns } from "./getFns"
+import Code from '@/app/components/code'
+import Type from '@/app/components/typography'
 
 type LogicParams = {
   logic: string
@@ -13,8 +15,11 @@ export default async function LogicPage({ params }: { params: LogicParams }) {
         {checks.map((check: any) => (
           <div key={check.key}>
             <h2>{check.key}</h2>
-            <pre style={{ fontFamily: 'monospace' }}>{check.fn}</pre>
-            <a href={check.url} target="_blank">View on Github</a>
+            {check.description}
+            <Code>{check.fn}</Code>
+            <Type size="small">
+              <a href={check.url} target="_blank">View on Github</a>
+            </Type>
           </div>
         ))}
       </div>

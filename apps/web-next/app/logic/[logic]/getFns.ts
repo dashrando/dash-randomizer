@@ -1,5 +1,6 @@
 import { format } from 'prettier'
 import Modes from 'core/modes'
+import descriptions from './recall'
 
 const getSourceCode = async (path: string) => {
   const branch = process.env.GIT_BRANCH;
@@ -44,12 +45,14 @@ export const getFns = async () => {
     const displayFn = `const ${key} = ${prettyFn}`
     const start = findFn(source, key)
     const end = findFnEnd(start, displayFn)
+    const description = descriptions.get(key) || null
     return {
       key,
       fn: displayFn,
       start,
       end,
       url: `${baseUrl}#L${start}-L${end}`,
+      description,
     }
   })
   return checks
