@@ -226,7 +226,7 @@ export const performVerifiedFill = (
 // Verify seed can be completed.
 //-----------------------------------------------------------------
 
-const verifyItemProgression = (nodes, log) => {
+export const verifyItemProgression = (nodes, log) => {
    let load = new Loadout();
    let copy = [...nodes];
 

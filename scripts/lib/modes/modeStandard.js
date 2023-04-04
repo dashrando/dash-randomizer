@@ -106,8 +106,7 @@ class ModeStandard {
             canAccessLowerNorfair(load) &&
             (load.canFly ||
                load.hasHiJump ||
-               load.hasSpringBall ||
-               (load.hasIce && load.hasCharge))
+               load.hasSpringBall)
          );
       };
 
@@ -605,7 +604,11 @@ class ModeStandard {
       });
 
       minor("Missiles (Beach)", (load) => {
-         return canAccessInnerMaridia(load);
+         return (
+            canAccessRedBrinstar(load) &&
+            load.canUsePowerBombs &&
+            (load.hasGravity || canDoSuitlessMaridia(load))
+         );
       });
 
       minor("Missiles (Mainstreet)", (load) => {
@@ -622,7 +625,11 @@ class ModeStandard {
       });
 
       minor("Missiles (Watering Hole)", (load) => {
-         return canAccessInnerMaridia(load);
+         return (
+            canAccessRedBrinstar(load) &&
+            load.canUsePowerBombs &&
+            (load.hasGravity || canDoSuitlessMaridia(load))
+         );
       });
 
       minor("Supers (Crab)", (load) => {
@@ -630,7 +637,11 @@ class ModeStandard {
       });
 
       minor("Supers (Watering Hole)", (load) => {
-         return canAccessInnerMaridia(load);
+         return (
+            canAccessRedBrinstar(load) &&
+            load.canUsePowerBombs &&
+            (load.hasGravity || canDoSuitlessMaridia(load))
+         );
       });
 
       major("Energy Tank (Wrecked Ship)", (load) => {
