@@ -14,6 +14,7 @@ export default async function LogicPage({ params }: { params: LogicParams }) {
           <div key={check.key}>
             <h2>{check.key}</h2>
             <pre style={{ fontFamily: 'monospace' }}>{check.fn}</pre>
+            <a href={check.url} target="_blank">View on Github</a>
           </div>
         ))}
       </div>
