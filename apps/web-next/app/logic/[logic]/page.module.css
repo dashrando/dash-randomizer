@@ -2,11 +2,25 @@
   display: flex;
   flex-direction: column;
   margin-top: var(--spacer-4x);
-  max-width: 600px;
+  max-width: 1000px;
 }
 
 .check {
   margin-bottom: var(--spacer-16x);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacer-4x);
+}
+
+.check_content {
+  width: 100%;
+}
+
+.sidebar {
+  flex-basis: 400px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 400px;
 }
 
 a.header_link {
