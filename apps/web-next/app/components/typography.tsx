@@ -16,11 +16,16 @@ const textVariants = cva(
       weight: {
         bold: styles.weight_bold,
         default: styles.weight_default,
+      },
+      family: {
+        mono: styles.family_mono,
+        default: styles.family_default,
       }
     },
     defaultVariants: {
       size: "medium",
       weight: "default",
+      family: "default",
     },
   }
 )
@@ -32,9 +37,10 @@ export interface TextProps
 export default function Text({
   size = 'medium',
   weight = 'default',
+  family = 'default',
   className = '',
   ...props
 }: any) {
   const El = props.el || 'p'
-  return (<El className={cn(textVariants({ size, weight, className }))}>{props.children}</El>)
+  return (<El className={cn(textVariants({ size, weight, family, className }))}>{props.children}</El>)
 }

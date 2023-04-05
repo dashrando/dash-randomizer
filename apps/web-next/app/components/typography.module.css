@@ -5,18 +5,6 @@
   line-height: 1;
 }
 
-.base a {
-  color: var(--color-foreground);
-  text-underline-offset: var(--spacer);
-  text-decoration-thickness: 1px;
-  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
-}
-
-.base a:hover {
-  color: var(--color-magenta);
-  text-decoration-color: transparent;
-}
-
 .size_compact {
   font-size: 10px;
   line-height: 14px;
@@ -53,4 +41,8 @@
 
 .weight_bold {
   font-weight: 700;
+}
+
+.family_mono {
+  font-family: var(--type-mono);
 }

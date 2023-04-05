@@ -18,6 +18,11 @@
   list-style: none outside none;
 }
 
+.wrapper ul li {
+  margin-left: var(--spacer-4x-negative);
+  font-family: var(--type-mono);
+}
+
 .wrapper ul li a {
   color: var(--color-foreground);
   text-decoration: none;
@@ -26,7 +31,7 @@
   transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
   display: block;
   border-left: 2px solid transparent;
-  padding-left: 12px;
+  padding-left: var(--spacer-6x);
 }
 
 .wrapper ul li a:hover {
@@ -36,4 +41,9 @@
 
 .title {
   color: #5E6459;
+}
+
+.nav {
+  padding: var(--spacer-4x);
+  padding-bottom: 0;
 }

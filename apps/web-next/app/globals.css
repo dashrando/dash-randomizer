@@ -8,6 +8,8 @@
   --selection-background: var(--color-magenta);
   --selection-foreground: var(--color-background);
 
+  --type-mono: "SFMono Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+
   --spacer: 4px;
   --spacer-2x: 8px;
   --spacer-3x: 12px;
@@ -26,6 +28,25 @@
   --spacer-16x: 64px;
   --spacer-17x: 68px;
   --spacer-18x: 72px;
+
+  --spacer-negative: -4px;
+  --spacer-2x-negative: -8px;
+  --spacer-3x-negative: -12px;
+  --spacer-4x-negative: -16px;
+  --spacer-5x-negative: -20px;
+  --spacer-6x-negative: -24px;
+  --spacer-7x-negative: -28px;
+  --spacer-8x-negative: -32px;
+  --spacer-9x-negative: -36px;
+  --spacer-10x-negative: -40px;
+  --spacer-11x-negative: -44px;
+  --spacer-12x-negative: -48px;
+  --spacer-13x-negative: -52px;
+  --spacer-14x-negative: -56px;
+  --spacer-15x-negative: -60px;
+  --spacer-16x-negative: -64px;
+  --spacer-17x-negative: -68px;
+  --spacer-18x-negative: -72px;
 }
 
 html { box-sizing: border-box; }

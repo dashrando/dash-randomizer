@@ -9,7 +9,7 @@ const Nav = async ({ modeKey }: { modeKey: string }) => {
   const checks = Object.keys(mode.checks) as string[]
   return (
     <aside className={styles.wrapper}>
-      <nav>
+      <nav className={styles.nav}>
         <Type size="small" weight="bold" className={styles.title}>Logical Checks</Type>
         <ul>
           {checks.map((check: any) => (
