@@ -7,9 +7,7 @@ const getSourceCode = async (path: string) => {
   const repo = process.env.GIT_REPO;
   const url = `https://raw.githubusercontent.com/${repo}/${branch}/${path}`;
   const response = await fetch(url, {
-    next: {
-      revalidate: 0,
-    }
+    cache: 'force-cache'
   })
   return await response.text()
 }
