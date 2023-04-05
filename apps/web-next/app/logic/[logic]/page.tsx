@@ -48,3 +48,9 @@ export default async function LogicPage({ params }: { params: LogicParams }) {
     </main>
   )
 }
+
+export async function generateStaticParams() {
+  return [
+    { logic: 'dash-recall' },
+  ]
+}
