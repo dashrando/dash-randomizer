@@ -1,0 +1,29 @@
+.header_link {
+  color: #fff;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+}
+
+.header_link:hover {
+  text-decoration-color: var(--color-highlight);
+}
+
+.title {
+  margin: var(--spacer-4x) 0 0;
+  position: relative;
+}
+
+.title a {
+  outline: none;
+}
+
+.title .anchor_spacer {
+  display: block;
+  position: absolute;
+  visibility: hidden;
+  margin-top: -32px;
+  padding-top: 32px;
+}

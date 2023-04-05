@@ -1,6 +1,7 @@
 import { getFns } from "./getFns"
 import Code from '@/app/components/code'
 import Type from '@/app/components/typography'
+import styles from './page.module.css'
 
 type LogicParams = {
   logic: string
@@ -9,12 +10,16 @@ type LogicParams = {
 export default async function LogicPage({ params }: { params: LogicParams }) {
   const checks: any[] = await getFns()
   return (
-    <main>
-      <h1>{params.logic}</h1>
+    <main style={{ marginTop: '40px', display: 'flex', flexDirection: 'column' }}>
       <div>
         {checks.map((check: any) => (
           <div key={check.key}>
-            <h2>{check.key}</h2>
+            <h2 className={styles.title}>
+              <span id={check.key} className={styles.anchor_spacer} />
+              <a className={styles.header_link} href={`/logic/${params.logic}#${check.key}`}>
+                {check.key}
+              </a>
+            </h2>
             {check.description}
             <Code>{check.fn}</Code>
             <Type size="small">
