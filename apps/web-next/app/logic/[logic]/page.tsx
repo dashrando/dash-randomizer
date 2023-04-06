@@ -1,10 +1,11 @@
 import { getFns } from "./getFns"
 import Code from '@/app/components/code'
 import Type from '@/app/components/typography'
-import { Caption } from '@/app/components/text'
+import Body, { Caption } from '@/app/components/text'
 import styles from './page.module.css'
 import { ExternalLink, Link as LinkIcon } from 'react-feather'
 import Spacer from '@/app/components/spacer'
+import Tabs from '@/app/components/tab'
 
 type LogicParams = {
   logic: string
@@ -27,20 +28,35 @@ export default async function LogicPage({ params }: { params: LogicParams }) {
                   </span>
                 </a>
               </Type>
+              <Spacer y={3} />
               {check.description}
             </article>
             <aside className={styles.sidebar}>
-              <Spacer y={4} />
-              <Code>{check.fn}</Code>
-              <Spacer y={2} />
-              <Caption>
-                <a href={check.url} target="_blank" className={styles.external_link}>
-                  View on Github
-                  <span className={styles.external_icon}>
-                    <ExternalLink size={12} />
-                  </span>
-                </a>
-              </Caption>
+              <Tabs
+                items={[
+                  {
+                    title: 'Requirements',
+                    content: <Body>This is the requirement text</Body>,
+                  },
+                  {
+                    title: 'Source',
+                    content: (
+                      <>
+                        <Code>{check.fn}</Code>
+                        <Spacer y={2} />
+                        <Caption>
+                          <a href={check.url} target="_blank" className={styles.external_link}>
+                            View on Github
+                            <span className={styles.external_icon}>
+                              <ExternalLink size={12} />
+                            </span>
+                          </a>
+                        </Caption>
+                      </>
+                    ),
+                  }
+                ]}
+              />
             </aside>
           </div>
         ))}

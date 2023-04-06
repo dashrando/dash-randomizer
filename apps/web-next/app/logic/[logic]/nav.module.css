@@ -44,6 +44,5 @@
 }
 
 .nav {
-  padding: var(--spacer-4x);
-  padding-bottom: 0;
+  padding: var(--spacer-2x) var(--spacer-4x) 0;
 }

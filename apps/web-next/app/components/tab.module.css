@@ -1,0 +1,31 @@
+.btn {
+  all: unset;
+  cursor: pointer;
+  position: relative;
+  padding: 0 var(--spacer-2x) var(--spacer);
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.25s ease-in-out;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.btn:hover {
+  color: var(--color-highlight);
+  border-color: #333;
+}
+
+.btn:first-child {
+  padding-left: 0;
+}
+
+.btn[data-state='active'] {
+  color: var(--color-highlight);
+  border-color: var(--color-highlight);
+}
+
+
+.list {
+  /* border-bottom: 1px solid #333; */
+  box-shadow: 0 1px 0 0 #333;
+  margin-bottom: calc(var(--spacer) + 2px);
+}
