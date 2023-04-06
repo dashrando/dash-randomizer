@@ -13,7 +13,7 @@ const Nav = ({ sections }: { sections: any[] }) => {
         className={styles.mobile_btn}
         onClick={() => setOpen(!open)}
       >
-        {open ? 'Close' : 'Open'} Table of Contents
+        {open ? <span style={{ display: 'inline-block', width: '8px', textAlign: 'left' }}>-</span> : <span style={{ display: 'inline-block', width: '8px', textAlign: 'left' }}>+</span>} Table of Contents
       </button>
       <nav className={styles.nav}>
         {sections.map((section: any) => (

@@ -33,6 +33,13 @@
 
 .mobile_btn {
   display: none;
+  all: unset;
+  cursor: pointer;
+  border: 1px solid #333;
+  color: var(--color-highlight);
+  padding: var(--spacer) var(--spacer-2x);
+  border-radius: 3px;
+  font-size: 12px;
 }
 
 @media (max-width: 600px) {
