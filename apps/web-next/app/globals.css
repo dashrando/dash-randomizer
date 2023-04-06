@@ -28,6 +28,8 @@
   --spacer-16x: 64px;
   --spacer-17x: 68px;
   --spacer-18x: 72px;
+  --spacer-19x: 76px;
+  --spacer-20x: 80px;
 
   --spacer-negative: -4px;
   --spacer-2x-negative: -8px;
@@ -47,6 +49,10 @@
   --spacer-16x-negative: -64px;
   --spacer-17x-negative: -68px;
   --spacer-18x-negative: -72px;
+  --spacer-19x-negative: -76px;
+  --spacer-20x-negative: -80px;
+
+  --mq-mobile: 600px;
 }
 
 html { box-sizing: border-box; }

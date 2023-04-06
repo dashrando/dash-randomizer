@@ -1,30 +1,35 @@
-import Modes from 'core/modes'
+'use client'
+
 import Type from '@/app/components/typography'
 import styles from './nav.module.css'
+import { cn } from '@/lib/utils'
+import { Fragment, useState } from 'react'
 
-const Nav = async ({ modeKey }: { modeKey: string }) => {
-  const modes:any = await Modes()
-  const mode:any = modes[modeKey]
-  const checks = Object.keys(mode.checks) as string[]
+const Nav = ({ sections }: { sections: any[] }) => {
+  const [open, setOpen] = useState(false)
   return (
-    <aside className={styles.wrapper}>
+    <aside className={cn(styles.wrapper, open && styles.open)}>
+      <button
+        className={styles.mobile_btn}
+        onClick={() => setOpen(!open)}
+      >
+        {open ? 'Close' : 'Open'} Table of Contents
+      </button>
       <nav className={styles.nav}>
-        <Type size="small" weight="bold" className={styles.title}>Logical Checks</Type>
-        <ul className={styles.logical_list}>
-          {checks.map((check: any) => (
-            <li key={check}>
-              <a href={`#${check}`}>{check}</a>
-            </li>
-          ))}
-        </ul>
-        <Type size="small" weight="bold" className={styles.title}>Item Locations</Type>
-        <ul>
-          {/* {checks.map((check: any) => (
-            <li key={check}>
-              <a href={`#${check}`}>{check}</a>
-            </li>
-          ))} */}
-        </ul>
+        {sections.map((section: any) => (
+          <Fragment key={section.label}>
+            <Type size="small" weight="bold" className={styles.title}>
+              {section.label}
+            </Type>
+            <ul>
+              {section.items.map((item: any) => (
+                <li key={item}>
+                  <a href={`#${item}`} onClick={() => setOpen(false)}>{item}</a>
+                </li>
+              ))}
+            </ul>
+          </Fragment>
+        ))}
       </nav>
     </aside>
   )

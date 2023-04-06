@@ -1,15 +1,33 @@
 import React from 'react'
 import Nav from './nav'
+import Modes from 'core/modes'
+import styles from './layout.module.css'
 
-export default function LogicLayout({
+export default async function LogicLayout({
+  params,
   children,
 }: {
   children: React.ReactNode
+  params: any
 }) {
+  const modes:any = await Modes()
+  // const modeKey = params.logic
+  // const mode:any = modes[modeKey]
+  const mode = modes.recall
+  const checks = Object.keys(mode.checks) as string[]
+  const sections = [
+    {
+      label: 'Logical Checks',
+      items: checks,
+    },
+    {
+      label: 'Item Locations',
+      items: [],
+    }
+  ]
   return (
-    <div style={{ display: 'flex', position: 'relative' }}>
-      {/* @ts-expect-error Async Server Components */}
-      <Nav modeKey="recall" />
+    <div className={styles.layout}>
+      <Nav sections={sections} />
       {children}
     </div>
   )
