@@ -20,6 +20,9 @@
 
 .wrapper ul li {
   margin-left: var(--spacer-4x-negative);
+}
+
+.wrapper ul.logical_list li {
   font-family: var(--type-mono);
 }
 

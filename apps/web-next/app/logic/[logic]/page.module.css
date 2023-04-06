@@ -16,6 +16,11 @@
   width: 100%;
 }
 
+.check_content a {
+  color: var(--color-highlight);
+  font-weight: bold;
+}
+
 .sidebar {
   flex-basis: 400px;
   flex-grow: 0;

@@ -1,7 +1,7 @@
 .code {
-  padding: var(--spacer-2x);
-  border: 1px solid #333;
-  border-radius: 3px;
+  /* padding: var(--spacer-2x); */
+  /* border: 1px solid #333;
+  border-radius: 3px; */
 }
 
 .code pre,
