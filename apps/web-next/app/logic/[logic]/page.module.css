@@ -21,6 +21,9 @@
   flex-grow: 0;
   flex-shrink: 0;
   width: 400px;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
 }
 
 a.header_link {
