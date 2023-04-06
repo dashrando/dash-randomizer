@@ -455,6 +455,7 @@ const loadLogic = async () => {
      case "rml":
         data = await fetchLogic(logicType);
         readAndFormatLogicFile(data);
+        console.log('data', data)
         break;
      default:
         document.getElementById("logic").innerText = "";

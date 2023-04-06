@@ -1,21 +1,31 @@
 import { format } from 'prettier'
 import Modes from 'core/modes'
+import { getSourceFile, getUrl } from '@/lib/github'
 import descriptions from './recall'
 
-const getSourceCode = async (path: string) => {
-  const branch = process.env.GIT_BRANCH;
-  const repo = process.env.GIT_REPO;
-  const url = `https://raw.githubusercontent.com/${repo}/${branch}/${path}`;
-  const response = await fetch(url, {
-    cache: 'force-cache'
-  })
-  return await response.text()
-}
-
-const getGithubUrl = (path: string) => {
-  const branch = process.env.GIT_BRANCH;
-  const repo = process.env.GIT_REPO;
-  return `https://github.com/${repo}/blob/${branch}/${path}`
+function removeSyntax(input: string) {
+  return input
+    .replace(/const /g, '')
+    .replace(/load/g, '')
+    .replace(/return/g, '')
+    // .replace(/\r\n/g, '')
+    .replace(/;/g, '')
+    .replace(/\}/g, '')
+    .replace(/\{/g, '')
+    .replace(/\./g, '')
+    .replace(/>=/g, 'is greater than or equal to')
+    .replace(/=>/g, "")
+    .replace(/>/g, "is greater than")
+    .replace(/&&/g, "AND")
+    .replace(/\|\|/g, "OR")
+    .replace(/=/g, "")
+    .replace(/\(\)/g, "")
+    .replace(/true/g, "Always Accessible")
+    .replace(/major\(\"/g, "Major Item - ")
+    .replace(/minor\(\"/g, "Minor Item - ")
+    .replace(/\"/g, "")
+    .replace(/\,/g, "")
+    .trim()
 }
 
 const findFn = (source: string, fnName: string) => {
@@ -33,8 +43,8 @@ const findFnEnd = (start: number, fn: string) => {
 export const getFns = async () => {
   const modes = await Modes()
   const { recall: mode } = modes
-  const source = await getSourceCode(mode.path)
-  const baseUrl = getGithubUrl(mode.path)
+  const source = await getSourceFile(mode.path)
+  const baseUrl = getUrl(mode.path)
   const keys = Object.keys(mode.checks) as string[]
   const checks = keys.map((key: string) => {
     const logicChecks = mode.checks as any
@@ -52,6 +62,7 @@ export const getFns = async () => {
       end,
       url: `${baseUrl}#L${start}-L${end}`,
       description,
+      requirements: removeSyntax(fn.toString())
     }
   })
   return checks

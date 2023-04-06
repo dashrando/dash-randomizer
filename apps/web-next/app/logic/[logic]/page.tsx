@@ -36,7 +36,7 @@ export default async function LogicPage({ params }: { params: LogicParams }) {
                 items={[
                   {
                     title: 'Requirements',
-                    content: <Body>This is the requirement text</Body>,
+                    content: <Body>{check.requirements}</Body>,
                   },
                   {
                     title: 'Source',
