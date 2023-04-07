@@ -11,6 +11,33 @@ type LogicParams = {
   logic: string
 }
 
+const Requirements = ({ input ='', checks=[] }: { input: string, checks: any[] }) => {
+  const words = input.split(' ')
+  const output = words.map((word: string) => (
+    word
+      .split(/(\(|\))/)
+      .map<React.ReactNode>((part: string, index: number) => {
+        if (part === '(' || part === ')') {
+          return (
+            <>{part}</>
+          )
+        }
+        const isCheck = checks.find((check: any) => check.key === part)
+        return isCheck ? (
+          <span key={index}>
+            <a href={`#${part}`}>{part}</a>
+          </span>
+        ) : (
+          <span key={index}>{part}</span>
+        )
+      })
+  ))
+  const content = output.reduce((prev, curr) => [prev, ' ', curr])
+  return (
+    <Type family="mono" size="small" el="code">{content}</Type>
+  )
+}
+
 export default async function LogicPage({ params }: { params: LogicParams }) {
   const checks: any[] = await getFns()
   return (
@@ -36,7 +63,8 @@ export default async function LogicPage({ params }: { params: LogicParams }) {
                 items={[
                   {
                     title: 'Requirements',
-                    content: <Type family="mono" size="small" el="code">{check.requirements}</Type>,
+                    // content: <Type family="mono" size="small" el="code">{check.requirements}</Type>,
+                    content: <Requirements input={check.requirements} checks={checks} />,
                   },
                   {
                     title: 'Source',

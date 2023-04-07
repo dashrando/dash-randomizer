@@ -45,6 +45,17 @@
   align-self: flex-start;
 }
 
+.sidebar code a {
+  color: var(--color-highlight);
+  text-underline-offset: 4px;
+  text-decoration-style: dotted;
+  position: relative;
+}
+
+.sidebar code a:hover {
+  text-decoration-style: solid;
+}
+
 @media (max-width: 600px) {
   .sidebar {
     flex-basis: 100%;
