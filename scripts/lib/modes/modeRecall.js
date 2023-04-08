@@ -508,8 +508,6 @@ class ModeRecall {
             load.canUsePowerBombs &&
             (load.hasGrapple ||
                load.hasSpaceJump ||
-               load.totalTanks >= 6 ||
-               (load.hasVaria && load.totalTanks >= 3) ||
                (load.hasDoubleJump && load.totalTanks >= 4) ||
                (load.hasHiJump && load.hasSpeed && load.totalTanks >= 4) ||
                (load.hasIce && load.totalTanks >= 4))
