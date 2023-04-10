@@ -32,7 +32,6 @@
 }
 
 .mobile_btn {
-  display: none;
   all: unset;
   cursor: pointer;
   border: 1px solid #333;
@@ -40,6 +39,7 @@
   padding: var(--spacer) var(--spacer-2x);
   border-radius: 3px;
   font-size: 12px;
+  display: none;
 }
 
 @media (max-width: 600px) {
