@@ -49,8 +49,57 @@ class Loadout {
     })
   }
 
+  static canDestroyBombWalls(load) {
+    return Loadout.canPassBombPassages(load) || load.hasScrewAttack
+  }
+
+  static canFly(load) {
+    return Loadout.canUseBombs(load) || load.hasSpaceJump;
+  }
+
+  static canUseBombs(load) {
+    return load.hasBombs && load.hasMorph
+  }
+
+  static canUsePowerBombs(load) {
+    return load.powerPacks > 0 && load.hasMorph
+  }
+
+  static canPassBombPassages(load) {
+    return Loadout.canUseBombs(load) || Loadout.canUsePowerBombs(load)
+  }
+
+  static canOpenGreenDoors(load) {
+    return load.superPacks > 0
+  }
+
+  static canOpenRedDoors(load) {
+    return load.missilePacks > 0 || load.superPacks > 0
+  }
+
+  static canOpenYellowDoors(load) {
+    return load.powerPacks > 0 && Loadout.canUsePowerBombs(load)
+  }
+
+  static canCrystalFlash(load) {
+    return (
+      Loadout.canUsePowerBombs(load) &&
+      load.missilePacks >= 2 &&
+      load.superPacks >= 2 &&
+      load.powerPacks >= 3
+    )
+  }
+
+  static totalTanks(load) {
+    return load.energyTanks + load.reserveTanks
+  }
+
   clone() {
-    const loadoutState = Object.getOwnPropertyNames(this)
+    const keys = Object.getOwnPropertyNames(this)
+    const loadoutState = keys.reduce((acc, key) => {
+      acc[key] = this[key]
+      return acc
+    }, {})
     return new Loadout(loadoutState)
   }
 
@@ -58,18 +107,18 @@ class Loadout {
     switch (itemType) {
       case Item.Bombs:
         this.hasBombs = true;
-        this.canUseBombs = this.hasMorph;
-        this.canPassBombPassages |= this.canUseBombs;
-        this.canDestroyBombWalls |= this.canPassBombPassages;
-        this.canFly |= this.canUseBombs;
+        this.canUseBombs = Loadout.canUseBombs(this);
+        this.canPassBombPassages = Loadout.canPassBombPassages(this);
+        this.canDestroyBombWalls = Loadout.canDestroyBombWalls(this);
+        this.canFly = Loadout.canFly(this);
         break;
       case Item.Morph:
         this.hasMorph = true;
-        this.canUseBombs = this.hasBombs;
-        this.canUsePowerBombs = this.powerPacks > 0;
-        this.canPassBombPassages = this.canUseBombs || this.canUsePowerBombs;
-        this.canDestroyBombWalls |= this.canPassBombPassages;
-        this.canFly |= this.canUseBombs;
+        this.canUseBombs = Loadout.canUseBombs(this);
+        this.canUsePowerBombs = Loadout.canUsePowerBombs(this);
+        this.canPassBombPassages = Loadout.canPassBombPassages(this);
+        this.canDestroyBombWalls = Loadout.canDestroyBombWalls(this);
+        this.canFly = Loadout.canFly(this);
         break;
       case Item.Gravity:
         this.hasGravity = true;
@@ -91,11 +140,11 @@ class Loadout {
         break;
       case Item.SpaceJump:
         this.hasSpaceJump = true;
-        this.canFly = true;
+        this.canFly = Loadout.canFly(this);
         break;
       case Item.ScrewAttack:
         this.hasScrewAttack = true;
-        this.canDestroyBombWalls = true;
+        this.canDestroyBombWalls = Loadout.canDestroyBombWalls(this);
         break;
       case Item.SpringBall:
         this.hasSpringBall = true;
@@ -125,33 +174,30 @@ class Loadout {
 
       case Item.Missile:
         this.missilePacks += 1;
-        this.canOpenRedDoors = true;
-        this.canCrystalFlash =
-          this.missilePacks > 1 && this.superPacks > 1 && this.powerPacks > 2;
+        this.canOpenRedDoors = Loadout.canOpenRedDoors(this);
+        this.canCrystalFlash = Loadout.canCrystalFlash(this);
         break;
       case Item.Super:
         this.superPacks += 1;
-        this.canOpenGreenDoors = true;
-        this.canOpenRedDoors = true;
-        this.canCrystalFlash =
-          this.missilePacks > 1 && this.superPacks > 1 && this.powerPacks > 2;
+        this.canOpenRedDoors = Loadout.canOpenRedDoors(this);
+        this.canOpenGreenDoors = Loadout.canOpenGreenDoors(this);
+        this.canCrystalFlash = Loadout.canCrystalFlash(this);
         break;
       case Item.PowerBomb:
         this.powerPacks += 1;
-        this.canUsePowerBombs = this.hasMorph;
-        this.canPassBombPassages |= this.canUsePowerBombs;
-        this.canDestroyBombWalls |= this.canPassBombPassages;
-        this.canCrystalFlash =
-          this.missilePacks > 1 && this.superPacks > 1 && this.powerPacks > 2;
+        this.canUsePowerBombs = Loadout.canUsePowerBombs(this);
+        this.canPassBombPassages = Loadout.canPassBombPassages(this);
+        this.canDestroyBombWalls = Loadout.canDestroyBombWalls(this);
+        this.canCrystalFlash = Loadout.canCrystalFlash(this);
         break;
 
       case Item.EnergyTank:
         this.energyTanks += 1;
-        this.totalTanks += 1;
+        this.totalTanks = Loadout.totalTanks(this);
         break;
       case Item.Reserve:
         this.reserveTanks += 1;
-        this.totalTanks += 1;
+        this.totalTanks = Loadout.totalTanks(this);
         break;
 
       case Item.BeamUpgrade:
