@@ -95,12 +95,8 @@ class Loadout {
   }
 
   clone() {
-    const keys = Object.getOwnPropertyNames(this)
-    const loadoutState = keys.reduce((acc, key) => {
-      acc[key] = this[key]
-      return acc
-    }, {})
-    return new Loadout(loadoutState)
+    const state = { ...this }
+    return new Loadout(state)
   }
 
   add(itemType) {
