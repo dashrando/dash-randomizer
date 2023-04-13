@@ -26,6 +26,7 @@
     "chalk": "^4.1.2",
     "commander": "^10.0.0",
     "esbuild": "^0.17.11",
+    "esbuild-plugin-copy": "^2.1.1",
     "esbuild-serve": "^1.0.1",
     "glob": "^9.3.2",
     "prettier": "2.8.7",
@@ -34,6 +35,9 @@
   "dependencies": {
     "file-saver": "^2.0.5",
     "got": "^12.6.0",
-    "idb-keyval": "^6.2.0"
+    "idb-keyval": "^6.2.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1"
   }
 }

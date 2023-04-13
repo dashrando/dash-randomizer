@@ -3,6 +3,7 @@ import glob from "glob";
 import ncc from "@vercel/ncc";
 import path from "node:path";
 import fs from "node:fs/promises";
+import { copy } from 'esbuild-plugin-copy';
 
 async function buildWeb() {
   const paths = await glob("scripts/pages/*.js", { absolute: true });
@@ -29,17 +30,33 @@ async function buildHeadless() {
 }
 
 async function buildTracker() {
-  console.log("Buildling Tracker...")
-  const paths = await glob("tracker-src/src/App.js", { absolute: true });
+  const paths = await glob("tracker-src/src/", { absolute: true });
   await esbuild.build({
     entryPoints: paths,
     bundle: true,
-    minify: true,
+    minify: false,
     sourcemap: true,
     loader: {".js":"jsx"},
     outdir: "public/tracker/",
     entryNames: "tracker.bundled",
-    external: ['react','react-dom']
+    plugins: [
+      copy({
+        resolveFrom: 'cwd',
+        assets: {
+          from: ['tracker-src/public/index.html'],
+          to: ['public/tracker'],
+        },
+        watch: true,
+      }),      
+      copy({
+        resolveFrom: 'cwd',
+        assets: {
+          from: ['tracker-src/public/icons/*'],
+          to: ['public/tracker/icons'],
+        },
+        watch: true,
+      })
+    ]
   })
 }
 const build = async () => Promise.all([
