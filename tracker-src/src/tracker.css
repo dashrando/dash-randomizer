@@ -1,68 +1,11 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #000000;
-  min-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-h3 {
-  font-size: 15px;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .item {
-    margin: 0px;
+    margin: 2px;
     display: inline-grid;
     align-self: auto;
     font-size: 0;
     cursor: pointer;
     grid-column: span 2;
-    grid-row: span 2
+    grid-row: span 2;    
   }
 
   
@@ -81,6 +24,7 @@ h3 {
   font-size: 0;
   height: 100%;
   width: 100%;    
+  filter: grayscale(1);
 }
 
 .increment-controls {
@@ -146,6 +90,7 @@ h3 {
 
   .collected {
     opacity: 1;
+    filter: grayscale(0);
   }
 
   .trackers {
@@ -155,8 +100,7 @@ h3 {
  
   .junior-item {
     opacity: 1;
-    -webkit-filter: grayscale(.75);
-            filter: grayscale(.75)
+    filter: grayscale(.75)
   }
 
   .lvl-1 {
@@ -182,6 +126,3 @@ h3 {
   .hidden {
     display: none
   }
-
-
-/*# sourceMappingURL=main.12652b47.chunk.css.map*/

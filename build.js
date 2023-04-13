@@ -28,9 +28,24 @@ async function buildHeadless() {
 
 }
 
+async function buildTracker() {
+  console.log("Buildling Tracker...")
+  const paths = await glob("tracker-src/src/App.js", { absolute: true });
+  await esbuild.build({
+    entryPoints: paths,
+    bundle: true,
+    minify: true,
+    sourcemap: true,
+    loader: {".js":"jsx"},
+    outdir: "public/tracker/",
+    entryNames: "tracker.bundled",
+    external: ['react','react-dom']
+  })
+}
 const build = async () => Promise.all([
   buildWeb(),
   buildHeadless(),
+  buildTracker(),
 ])
 
 build()
