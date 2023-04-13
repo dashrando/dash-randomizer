@@ -40,49 +40,18 @@ class Loadout {
   canFly = false;
   canCrystalFlash = false;
 
+  constructor(inventory = {}) {
+    const self = this
+    const keys = Object.keys(inventory)
+    keys.forEach((key) => {
+      const value = inventory[key]
+      self[key] = value
+    })
+  }
+
   clone() {
-    let copy = new Loadout();
-
-    copy.hasBombs = this.hasBombs;
-    copy.hasMorph = this.hasMorph;
-    copy.hasGravity = this.hasGravity;
-    copy.hasVaria = this.hasVaria;
-    copy.hasHiJump = this.hasHiJump;
-    copy.hasSpaceJump = this.hasSpaceJump;
-    copy.hasScrewAttack = this.hasScrewAttack;
-    copy.hasSpringBall = this.hasSpringBall;
-    copy.hasSpeed = this.hasSpeed;
-
-    copy.hasHeatShield = copy.hasHeatShield;
-    copy.hasPressureValve = copy.hasPressureValve;
-    copy.hasDoubleJump = copy.hasDoubleJump;
-
-    copy.hasIce = this.hasIce;
-    copy.hasWave = this.hasWave;
-    copy.hasCharge = this.hasCharge;
-    copy.hasSpazer = this.hasSpazer;
-    copy.hasPlasma = this.hasPlasma;
-    copy.hasGrapple = this.hasGrapple;
-
-    copy.missilePacks = this.missilePacks;
-    copy.superPacks = this.superPacks;
-    copy.powerPacks = this.powerPacks;
-
-    copy.energyTanks = this.energyTanks;
-    copy.reserveTanks = this.reserveTanks;
-    copy.totalTanks = this.totalTanks;
-
-    copy.canUseBombs = this.canUseBombs;
-    copy.canUsePowerBombs = this.canUsePowerBombs;
-    copy.canPassBombPassages = this.canPassBombPassages;
-    copy.canDestroyBombWalls = this.canDestroyBombWalls;
-    copy.canOpenGreenDoors = this.canOpenGreenDoors;
-    copy.canOpenRedDoors = this.canOpenRedDoors;
-    copy.canOpenYellowDoors = this.canOpenYellowDoors;
-    copy.canFly = this.canFly;
-    copy.canCrystalFlash = this.canCrystalFlash;
-
-    return copy;
+    const loadoutState = Object.getOwnPropertyNames(this)
+    return new Loadout(loadoutState)
   }
 
   add(itemType) {
