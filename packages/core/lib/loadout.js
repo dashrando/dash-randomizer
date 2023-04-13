@@ -208,3 +208,8 @@ class Loadout {
 }
 
 export default Loadout;
+
+export const Checks =
+  Object.getOwnPropertyNames(Loadout).filter(
+    (name) => name.startsWith("can") && typeof Loadout[name] === "function"
+  )
