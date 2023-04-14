@@ -77,6 +77,17 @@ class ModeRecall {
     ws_reserve.modifier = 0x00;
 
     //-----------------------------------------------------------------
+    // Routines for registering item locations.
+    //-----------------------------------------------------------------
+
+    let add = (name, isMajor, available) => {
+      let loc = locations.find((p) => p.name == name);
+      this.nodes.push(new ItemNode(name, loc, isMajor, available));
+    };
+    let major = (n, a) => add(n, true, a);
+    let minor = (n, a) => add(n, false, a);
+
+    //-----------------------------------------------------------------
     // Logic for each item location.
     //-----------------------------------------------------------------
 
@@ -554,17 +565,6 @@ class ModeRecall {
     });
   }
 }
-
-//-----------------------------------------------------------------
-// Routines for registering item locations.
-//-----------------------------------------------------------------
-
-let add = (name, isMajor, available) => {
-  let loc = locations.find((p) => p.name == name);
-  this.nodes.push(new ItemNode(name, loc, isMajor, available));
-};
-let major = (n, a) => add(n, true, a);
-let minor = (n, a) => add(n, false, a);
 
 //-----------------------------------------------------------------
 // Common logic used at item locations.

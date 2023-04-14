@@ -71,6 +71,7 @@ async function RandomizeRom(seed = 0, game_mode, opts = {}, config = {}) {
   let initLoad = new Loadout();
   initLoad.hasCharge = true;
 
+  console.time('rollSeed');
   // Place the items.
   performVerifiedFill(
     seed,
@@ -80,6 +81,7 @@ async function RandomizeRom(seed = 0, game_mode, opts = {}, config = {}) {
     initLoad,
     canPlaceItem
   );
+  console.timeEnd('rollSeed');
 
   // Load the base patch associated with this game mode.
   const basePatch = await BpsPatch.Load(gameMode.patch);
