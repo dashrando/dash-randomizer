@@ -1,6 +1,11 @@
+"use client";
+
 import "./page.module.css";
 import { Item } from "../../../../packages/core/lib/items";
 import { getLocations } from "../../../../packages/core/lib/locations";
+import ModeRecall from "../../../../packages/core/lib/modes/modeRecall";
+import Loadout from "../../../../packages/core/lib/loadout";
+import { useState } from "react";
 
 const columns = [
   { header: "Heat Shield", item: Item.HeatShield },
@@ -27,6 +32,11 @@ const columns = [
   { header: "Reserve", item: Item.Reserve },
 ];
 
+type RowData = {
+  locationName: string;
+  itemTypes: any[];
+};
+
 export function MajorItemHeader(props: any) {
   return (
     <tr>
@@ -47,6 +57,15 @@ export function MajorItemRow({ name = "" }: { name: string }) {
 }
 
 export default function StatsPage() {
+  const [rows, setRows] = useState([] as RowData[]);
+
+  const generateSeeds = () => {
+    const temp: RowData[] = [];
+    temp.push({ locationName: "a", itemTypes: [] });
+    temp.push({ locationName: "b", itemTypes: [] });
+    setRows(temp);
+  };
+
   return (
     <div id="stats">
       <label htmlFor="game_mode">Mode:</label>
@@ -80,7 +99,12 @@ export default function StatsPage() {
         step="100"
         value="1"
       />
-      <input type="button" value="Generate" id="gen_seeds" />
+      <input
+        type="button"
+        value="Generate"
+        id="gen_seeds"
+        onClick={() => generateSeeds()}
+      />
       <input type="button" value="Clear" id="clear_table" />
       <span id="stats_status"></span>
       <span id="action_status"></span>
@@ -97,8 +121,8 @@ export default function StatsPage() {
       <div id="stats_panel">
         <table id="majorItemPlacement">
           <MajorItemHeader />
-          {getLocations().map((l) => (
-            <MajorItemRow key={l.name} name={l.name} />
+          {rows.map((r) => (
+            <MajorItemRow key={r.locationName} name={r.locationName} />
           ))}
         </table>
       </div>
