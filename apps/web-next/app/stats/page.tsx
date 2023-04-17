@@ -38,6 +38,14 @@ export function MajorItemHeader(props: any) {
   );
 }
 
+export function MajorItemRow({ name = "" }: { name: string }) {
+  return (
+    <tr>
+      <td>{name}</td>
+    </tr>
+  );
+}
+
 export default function StatsPage() {
   return (
     <div id="stats">
@@ -89,6 +97,9 @@ export default function StatsPage() {
       <div id="stats_panel">
         <table id="majorItemPlacement">
           <MajorItemHeader />
+          {getLocations().map((l) => (
+            <MajorItemRow key={l.name} name={l.name} />
+          ))}
         </table>
       </div>
     </div>
