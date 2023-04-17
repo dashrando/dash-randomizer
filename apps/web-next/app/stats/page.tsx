@@ -105,7 +105,12 @@ export default function StatsPage() {
         id="gen_seeds"
         onClick={() => generateSeeds()}
       />
-      <input type="button" value="Clear" id="clear_table" />
+      <input
+        type="button"
+        value="Clear"
+        id="clear_table"
+        onClick={() => setRows([] as RowData[])}
+      />
       <span id="stats_status"></span>
       <span id="action_status"></span>
       <span id="panels">
