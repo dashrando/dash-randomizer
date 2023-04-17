@@ -37,18 +37,18 @@ type RowData = {
   itemTypes: any[];
 };
 
-export function MajorItemHeader(props: any) {
+function MajorItemHeader(props: any) {
   return (
     <tr>
       <th>Location</th>
       {columns.map((c) => (
-        <th>{c.header}</th>
+        <th key={c.item}>{c.header}</th>
       ))}
     </tr>
   );
 }
 
-export function MajorItemRow({ name = "" }: { name: string }) {
+function MajorItemRow({ name = "" }: { name: string }) {
   return (
     <tr>
       <td>{name}</td>
