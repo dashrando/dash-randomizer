@@ -1,0 +1,31 @@
+/*table {
+  font-family: arial, sans-serif;
+  font-size: 0.75em;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 5px;
+}*/
+
+#stats > th {
+  text-align: left;
+  padding: 5px;
+}
+
+th.location {
+  width: 10%;
+}
+
+#stats {
+  width: 100%;
+}
+
+#panels {
+  float: right;
+  padding-right: 4em;
+}
