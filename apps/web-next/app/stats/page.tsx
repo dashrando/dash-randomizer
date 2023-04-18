@@ -37,21 +37,34 @@ type RowData = {
   itemTypes: any[];
 };
 
-export function MajorItemHeader(props: any) {
+function MajorItemHeader(props: any) {
   return (
     <tr>
-      <th>Location</th>
+      <th key="location">Location</th>
       {columns.map((c) => (
-        <th>{c.header}</th>
+        <th key={c.header}>{c.header}</th>
       ))}
     </tr>
   );
 }
 
-export function MajorItemRow({ name = "" }: { name: string }) {
+function MajorItemRow({
+  row = { locationName: "", itemTypes: [] },
+  numSeeds = 1,
+}: {
+  row: RowData;
+  numSeeds: number;
+}) {
+  const counts = columns.map((c) => {
+    const numAtLoc = row.itemTypes.filter((t) => t == c.item).length;
+    return numAtLoc / numSeeds;
+  });
   return (
     <tr>
-      <td>{name}</td>
+      <td>{row.locationName}</td>
+      {counts.map((c) => (
+        <td>{c}</td>
+      ))}
     </tr>
   );
 }
@@ -69,12 +82,10 @@ export default function StatsPage() {
   return (
     <div id="stats">
       <label htmlFor="game_mode">Mode:</label>
-      <select name="game_mode" id="game_mode">
+      <select name="game_mode" id="game_mode" defaultValue="rm">
         <option value="sm">Standard - Major / Minor</option>
         <option value="sf">Standard - Full</option>
-        <option value="rm" selected>
-          Recall - Major / Minor
-        </option>
+        <option value="rm">Recall - Major / Minor</option>
         <option value="rf">Recall - Full</option>
       </select>
 
@@ -86,7 +97,7 @@ export default function StatsPage() {
         min="1"
         max="999999"
         step="100"
-        value="1"
+        defaultValue="1"
       />
 
       <label htmlFor="end_seed">End</label>
@@ -97,7 +108,7 @@ export default function StatsPage() {
         min="1"
         max="999999"
         step="100"
-        value="1"
+        defaultValue="1"
       />
       <input
         type="button"
@@ -115,7 +126,11 @@ export default function StatsPage() {
       <span id="action_status"></span>
       <span id="panels">
         <label htmlFor="panel_selection">Panel:</label>
-        <select name="panel_seletion" id="panel_selection">
+        <select
+          name="panel_seletion"
+          id="panel_selection"
+          defaultValue="majors"
+        >
           <option value="majors">Majors</option>
           <option value="minors">Minors</option>
           <option value="progression">Progression</option>
@@ -127,7 +142,7 @@ export default function StatsPage() {
         <table id="majorItemPlacement">
           <MajorItemHeader />
           {rows.map((r) => (
-            <MajorItemRow key={r.locationName} name={r.locationName} />
+            <MajorItemRow key={r.locationName} row={r} numSeeds={2} />
           ))}
         </table>
       </div>
