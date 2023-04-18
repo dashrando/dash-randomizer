@@ -1,11 +1,17 @@
 "use client";
 
 import styles from "./page.module.css";
-import { Item } from "../../../../packages/core/lib/items";
-import { getLocations } from "../../../../packages/core/lib/locations";
-import ModeRecall from "../../../../packages/core/lib/modes/modeRecall";
-import Loadout from "../../../../packages/core/lib/loadout";
+import { Item } from "@/../../packages/core/lib/items";
+import { getLocations } from "@/../../packages/core/lib/locations";
+import ModeRecall from "@/../../packages/core/lib/modes/modeRecall";
+import Loadout from "@/../../packages/core/lib/loadout";
 import { useState } from "react";
+import {
+  getMajorMinorPrePool,
+  isValidMajorMinor,
+  performVerifiedFill,
+  verifyItemProgression,
+} from "@/../../packages/core/lib/itemPlacement";
 
 const columns = [
   { header: "Heat Shield", item: Item.HeatShield },
@@ -61,13 +67,20 @@ function MajorItemRow({
 }) {
   return (
     <tr className="majorItemRow">
-      <td key="location" id="location" className={styles.thin_border}>
+      <td
+        key={`location_${row.locationName}`}
+        id="location"
+        className={styles.thin_border}
+      >
         {row.locationName}
       </td>
       {columns.map((c) => {
         const count = row.itemTypes.filter((t) => t == c.item).length;
         return (
-          <td key={c.header} className={styles.thin_border}>
+          <td
+            key={`${c.header}_${row.locationName}`}
+            className={styles.thin_border}
+          >
             {count / numSeeds}
           </td>
         );
@@ -80,9 +93,23 @@ export default function StatsPage() {
   const [rows, setRows] = useState([] as RowData[]);
 
   const generateSeeds = () => {
-    const temp: RowData[] = [];
-    temp.push({ locationName: "a", itemTypes: [] });
-    temp.push({ locationName: "b", itemTypes: [] });
+    let mode = new ModeRecall(1, getLocations());
+    let initLoad = new Loadout();
+    performVerifiedFill(
+      1,
+      mode.nodes,
+      mode.itemPool,
+      getMajorMinorPrePool,
+      initLoad,
+      isValidMajorMinor
+    );
+    let log: any[] = [];
+    verifyItemProgression(mode.nodes, log);
+    const temp: RowData[] = log.map((l) => {
+      const { item, location } = l;
+      return { locationName: location.name, itemTypes: [item.type] };
+    });
+
     setRows(temp);
   };
 
@@ -149,9 +176,15 @@ export default function StatsPage() {
         <table>
           <tbody>
             <MajorItemHeader />
-            {rows.map((r) => (
-              <MajorItemRow key={r.locationName} row={r} numSeeds={2} />
-            ))}
+            {rows
+              .filter((r) =>
+                r.itemTypes.some(
+                  (t) => columns.findIndex((c) => c.item == t) >= 0
+                )
+              )
+              .map((r) => (
+                <MajorItemRow key={r.locationName} row={r} numSeeds={1} />
+              ))}
           </tbody>
         </table>
       </div>
