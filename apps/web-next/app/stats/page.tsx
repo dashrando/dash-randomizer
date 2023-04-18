@@ -1,6 +1,6 @@
 "use client";
 
-import "./page.module.css";
+import styles from "./page.module.css";
 import { Item } from "../../../../packages/core/lib/items";
 import { getLocations } from "../../../../packages/core/lib/locations";
 import ModeRecall from "../../../../packages/core/lib/modes/modeRecall";
@@ -39,10 +39,14 @@ type RowData = {
 
 function MajorItemHeader(props: any) {
   return (
-    <tr>
-      <th key="location">Location</th>
+    <tr id="header">
+      <th key="location" className={styles.thin_border}>
+        Location
+      </th>
       {columns.map((c) => (
-        <th key={c.header}>{c.header}</th>
+        <th key={c.header} className={styles.thin_border}>
+          {c.header}
+        </th>
       ))}
     </tr>
   );
@@ -55,16 +59,19 @@ function MajorItemRow({
   row: RowData;
   numSeeds: number;
 }) {
-  const counts = columns.map((c) => {
-    const numAtLoc = row.itemTypes.filter((t) => t == c.item).length;
-    return numAtLoc / numSeeds;
-  });
   return (
-    <tr>
-      <td>{row.locationName}</td>
-      {counts.map((c) => (
-        <td>{c}</td>
-      ))}
+    <tr className="majorItemRow">
+      <td key="location" id="location" className={styles.thin_border}>
+        {row.locationName}
+      </td>
+      {columns.map((c) => {
+        const count = row.itemTypes.filter((t) => t == c.item).length;
+        return (
+          <td key={c.header} className={styles.thin_border}>
+            {count / numSeeds}
+          </td>
+        );
+      })}
     </tr>
   );
 }
@@ -139,11 +146,13 @@ export default function StatsPage() {
       </span>
 
       <div id="stats_panel">
-        <table id="majorItemPlacement">
-          <MajorItemHeader />
-          {rows.map((r) => (
-            <MajorItemRow key={r.locationName} row={r} numSeeds={2} />
-          ))}
+        <table>
+          <tbody>
+            <MajorItemHeader />
+            {rows.map((r) => (
+              <MajorItemRow key={r.locationName} row={r} numSeeds={2} />
+            ))}
+          </tbody>
         </table>
       </div>
     </div>

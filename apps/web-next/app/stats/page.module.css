@@ -12,20 +12,31 @@ th {
   padding: 5px;
 }*/
 
-#stats > th {
+.thin_border {
+  border-style: solid;
+  border-width: 1px;
+  padding: 5px;
+  margin: 0px;
+}
+
+/*#stats > th {
   text-align: left;
   padding: 5px;
-}
+}*/
 
-th.location {
+/*th.location {
   width: 10%;
+}*/
+
+tr.header > th {
+  font-weight: bold;
 }
 
-#stats {
+/*#stats {
   width: 100%;
-}
+}*/
 
-#panels {
+/*#panels {
   float: right;
   padding-right: 4em;
-}
+}*/
