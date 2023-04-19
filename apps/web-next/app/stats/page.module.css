@@ -17,16 +17,20 @@ th {
   border-width: 1px;
   padding: 5px;
   margin: 0px;
+  border-collapse: collapse;
 }
 
-/*#stats > th {
-  text-align: left;
-  padding: 5px;
-}*/
+.stats_panel {
+  padding-top: 6px;
+}
 
-/*th.location {
-  width: 10%;
-}*/
+.legacy_style {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+  color: black;
+  font-size: 0.75em;
+  width: 100%;
+}
 
 tr.header > th {
   font-weight: bold;

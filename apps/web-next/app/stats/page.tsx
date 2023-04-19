@@ -231,8 +231,8 @@ export default function StatsPage() {
         </select>
       </span>
 
-      <div id="stats_panel">
-        <table>
+      <div id="stats_panel" className={styles.stats_panel}>
+        <table className={styles.legacy_style}>
           <tbody>
             <MajorItemHeader />
             {rows
