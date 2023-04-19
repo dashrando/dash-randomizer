@@ -81,7 +81,7 @@ function MajorItemRow({
             key={`${c.header}_${row.locationName}`}
             className={styles.thin_border}
           >
-            {count / numSeeds}
+            {((count / numSeeds) * 100).toFixed(2) + "%"}
           </td>
         );
       })}
@@ -91,26 +91,83 @@ function MajorItemRow({
 
 export default function StatsPage() {
   const [rows, setRows] = useState([] as RowData[]);
+  const [status, setStatus] = useState("");
+  const [startSeed, setStartSeed] = useState(1);
+  const [endSeed, setEndSeed] = useState(100);
+  const [numSeeds, setNumSeeds] = useState(0);
 
   const generateSeeds = () => {
-    let mode = new ModeRecall(1, getLocations());
-    let initLoad = new Loadout();
-    performVerifiedFill(
-      1,
-      mode.nodes,
-      mode.itemPool,
-      getMajorMinorPrePool,
-      initLoad,
-      isValidMajorMinor
-    );
-    let log: any[] = [];
-    verifyItemProgression(mode.nodes, log);
-    const temp: RowData[] = log.map((l) => {
-      const { item, location } = l;
-      return { locationName: location.name, itemTypes: [item.type] };
+    let itemProgression = [];
+    const start = Date.now();
+    for (let i = startSeed; i <= endSeed; i++) {
+      let mode = new ModeRecall(i, getLocations());
+      let initLoad = new Loadout();
+      initLoad.add(Item.Charge);
+
+      performVerifiedFill(
+        i,
+        mode.nodes,
+        mode.itemPool,
+        getMajorMinorPrePool,
+        initLoad,
+        isValidMajorMinor
+      );
+      let log: any[] = [];
+      verifyItemProgression(mode.nodes, log);
+      itemProgression.push(log);
+    }
+    const delta = Date.now() - start;
+
+    let majorLocations: RowData[] = [];
+
+    itemProgression.forEach((p) => {
+      p.forEach((c) => {
+        if (c.item.isMajor) {
+          const locationEntry = majorLocations.find(
+            (m) => m.locationName == c.location.name
+          );
+          if (locationEntry == undefined) {
+            majorLocations.push({
+              locationName: c.location.name,
+              itemTypes: [c.item.type],
+            });
+          } else {
+            locationEntry.itemTypes.push(c.item.type);
+          }
+        }
+      });
     });
 
-    setRows(temp);
+    majorLocations = majorLocations.sort((a, b) => {
+      if (a.locationName < b.locationName) {
+        return -1;
+      }
+      if (a.locationName > b.locationName) {
+        return 1;
+      }
+      return 0;
+    });
+
+    setRows(majorLocations);
+    const localNumSeeds = endSeed - startSeed + 1;
+    setNumSeeds(localNumSeeds);
+    setStatus(
+      localNumSeeds +
+        " seeds " +
+        delta +
+        "ms [ " +
+        (delta / localNumSeeds).toFixed(1) +
+        "ms avg] " /*+
+                  majorLocations.length +
+                  " major locs with " +
+                  uniqueMajors.length +
+                  " unique major combos"*/
+    );
+  };
+
+  const clearResults = () => {
+    setRows([] as RowData[]);
+    setStatus("");
   };
 
   return (
@@ -131,7 +188,8 @@ export default function StatsPage() {
         min="1"
         max="999999"
         step="100"
-        defaultValue="1"
+        value={startSeed}
+        onChange={(e) => setStartSeed(Number(e.target.value))}
       />
 
       <label htmlFor="end_seed">End</label>
@@ -142,7 +200,8 @@ export default function StatsPage() {
         min="1"
         max="999999"
         step="100"
-        defaultValue="1"
+        value={endSeed}
+        onChange={(e) => setEndSeed(Number(e.target.value))}
       />
       <input
         type="button"
@@ -154,10 +213,10 @@ export default function StatsPage() {
         type="button"
         value="Clear"
         id="clear_table"
-        onClick={() => setRows([] as RowData[])}
+        onClick={() => clearResults()}
       />
       <span id="stats_status"></span>
-      <span id="action_status"></span>
+      <span id="action_status">{status}</span>
       <span id="panels">
         <label htmlFor="panel_selection">Panel:</label>
         <select
@@ -183,7 +242,11 @@ export default function StatsPage() {
                 )
               )
               .map((r) => (
-                <MajorItemRow key={r.locationName} row={r} numSeeds={1} />
+                <MajorItemRow
+                  key={r.locationName}
+                  row={r}
+                  numSeeds={numSeeds}
+                />
               ))}
           </tbody>
         </table>
