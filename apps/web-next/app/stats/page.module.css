@@ -1,12 +1,3 @@
-.thin_border {
-  border-style: solid;
-  border-width: 1px;
-  border-color: #dddddd;
-  padding: 5px 5px 5px 5px;
-  margin: 0px;
-  border-collapse: collapse;
-}
-
 .stats_panel {
   padding-top: 6px;
 }
@@ -15,29 +6,7 @@
   padding-top: 6px;
 }
 
-.legacy_style {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: white;
-  color: black;
-  font-size: 0.75em;
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-}
-
-tr.header > th {
-  font-weight: bold;
-}
-
 .panel_selector {
   float: right;
   padding-right: 4em;
-}
-
-.tan_cell {
-  background-color: tan;
-}
-
-.gray_cell {
-  background-color: lightgrey;
 }

@@ -15,94 +15,17 @@ import {
   performVerifiedFill,
   verifyItemProgression,
 } from "@/../../packages/core/lib/itemPlacement";
-
-const columns = [
-  { header: "Heat Shield", item: Item.HeatShield },
-  { header: "Varia", item: Item.Varia },
-  { header: "Pressure Valve", item: Item.PressureValve },
-  { header: "Gravity", item: Item.Gravity },
-  { header: "Double Jump", item: Item.DoubleJump },
-  { header: "Space Jump", item: Item.SpaceJump },
-  { header: "Bombs", item: Item.Bombs },
-  { header: "Speed", item: Item.Speed },
-  { header: "Charge", item: Item.Charge },
-  { header: "Beam Upgrade", item: Item.BeamUpgrade },
-  { header: "Ice Beam", item: Item.Ice },
-  { header: "HiJump Boots", item: Item.HJB },
-  { header: "Wave Beam", item: Item.Wave },
-  { header: "Spazer", item: Item.Spazer },
-  { header: "Spring Ball", item: Item.SpringBall },
-  { header: "Plasma", item: Item.Plasma },
-  { header: "Grapple", item: Item.Grapple },
-  { header: "Screw Attack", item: Item.ScrewAttack },
-  { header: "Xray", item: Item.Xray },
-  { header: "Morph", item: Item.Morph },
-  { header: "Energy Tank", item: Item.EnergyTank },
-  { header: "Reserve", item: Item.Reserve },
-];
-
-type RowData = {
-  locationName: string;
-  itemTypes: any[];
-};
-
-function MajorItemHeader(props: any) {
-  return (
-    <tr id="header">
-      <th key="location" className={styles.thin_border}>
-        Location
-      </th>
-      {columns.map((c) => (
-        <th key={c.header} className={styles.thin_border}>
-          {c.header}
-        </th>
-      ))}
-    </tr>
-  );
-}
-
-function MajorItemRow({
-  row = { locationName: "", itemTypes: [] },
-  numSeeds = 1,
-}: {
-  row: RowData;
-  numSeeds: number;
-}) {
-  return (
-    <tr className="majorItemRow">
-      <td
-        key={`location_${row.locationName}`}
-        id="location"
-        className={styles.thin_border}
-      >
-        {row.locationName}
-      </td>
-      {columns.map((c) => {
-        const count = row.itemTypes.filter((t) => t == c.item).length;
-        const percent = (count / numSeeds) * 100;
-        let rowStyle = styles.thin_border;
-        if (percent > 5) {
-          rowStyle += " " + styles.tan_cell;
-        } else if (percent == 0) {
-          rowStyle += " " + styles.gray_cell;
-        }
-        return (
-          <td key={`${c.header}_${row.locationName}`} className={rowStyle}>
-            {percent.toFixed(2) + "%"}
-          </td>
-        );
-      })}
-    </tr>
-  );
-}
+import { MajorRowData } from "./majors";
+import MajorItemTable from "./majors";
 
 export default function StatsPage() {
-  const [rows, setRows] = useState([] as RowData[]);
+  const [rows, setRows] = useState([] as MajorRowData[]);
   const [status, setStatus] = useState("");
   const [startSeed, setStartSeed] = useState(1);
   const [endSeed, setEndSeed] = useState(100);
   const [numSeeds, setNumSeeds] = useState(0);
   const [gameMode, setGameMode] = useState("rm");
+  const [panel, setPanel] = useState("majors");
 
   const generateSeeds = () => {
     let itemProgression = [];
@@ -135,7 +58,7 @@ export default function StatsPage() {
     }
     const delta = Date.now() - start;
 
-    let majorLocations: RowData[] = [];
+    let majorLocations: MajorRowData[] = [];
 
     itemProgression.forEach((p) => {
       p.forEach((c) => {
@@ -177,7 +100,7 @@ export default function StatsPage() {
   };
 
   const clearResults = () => {
-    setRows([] as RowData[]);
+    setRows([] as MajorRowData[]);
     setStatus("");
   };
 
@@ -232,14 +155,14 @@ export default function StatsPage() {
           id="clear_table"
           onClick={() => clearResults()}
         />
-        <span id="stats_status"></span>
         <span id="action_status">{status}</span>
         <span id="panels" className={styles.panel_selector}>
           <label htmlFor="panel_selection">Panel:</label>
           <select
             name="panel_seletion"
             id="panel_selection"
-            defaultValue="majors"
+            value={panel}
+            onChange={(e) => setPanel(e.target.value)}
           >
             <option value="majors">Majors</option>
             <option value="progression">Progression</option>
@@ -249,24 +172,9 @@ export default function StatsPage() {
       </div>
 
       <div id="stats_panel" className={styles.stats_panel}>
-        <table className={styles.legacy_style}>
-          <tbody>
-            <MajorItemHeader />
-            {rows
-              .filter((r) =>
-                r.itemTypes.some(
-                  (t) => columns.findIndex((c) => c.item == t) >= 0
-                )
-              )
-              .map((r) => (
-                <MajorItemRow
-                  key={r.locationName}
-                  row={r}
-                  numSeeds={numSeeds}
-                />
-              ))}
-          </tbody>
-        </table>
+        {panel == "majors" && (
+          <MajorItemTable rows={rows} numSeeds={numSeeds} />
+        )}
       </div>
     </div>
   );
