@@ -4,10 +4,13 @@ import styles from "./page.module.css";
 import { Item } from "@/../../packages/core/lib/items";
 import { getLocations } from "@/../../packages/core/lib/locations";
 import ModeRecall from "@/../../packages/core/lib/modes/modeRecall";
+import ModeStandard from "@/../../packages/core/lib/modes/modeStandard";
 import Loadout from "@/../../packages/core/lib/loadout";
 import { useState } from "react";
 import {
+  getFullPrePool,
   getMajorMinorPrePool,
+  isEmptyNode,
   isValidMajorMinor,
   performVerifiedFill,
   verifyItemProgression,
@@ -99,12 +102,22 @@ export default function StatsPage() {
   const [startSeed, setStartSeed] = useState(1);
   const [endSeed, setEndSeed] = useState(100);
   const [numSeeds, setNumSeeds] = useState(0);
+  const [gameMode, setGameMode] = useState("rm");
 
   const generateSeeds = () => {
     let itemProgression = [];
     const start = Date.now();
     for (let i = startSeed; i <= endSeed; i++) {
-      let mode = new ModeRecall(i, getLocations());
+      let mode =
+        gameMode[0] == "s"
+          ? new ModeStandard(i, getLocations())
+          : new ModeRecall(i, getLocations());
+
+      const [prePool, canPlaceItem] =
+        gameMode[1] == "m"
+          ? [getMajorMinorPrePool, isValidMajorMinor]
+          : [getFullPrePool, isEmptyNode];
+
       let initLoad = new Loadout();
       initLoad.add(Item.Charge);
 
@@ -112,9 +125,9 @@ export default function StatsPage() {
         i,
         mode.nodes,
         mode.itemPool,
-        getMajorMinorPrePool,
+        prePool,
         initLoad,
-        isValidMajorMinor
+        canPlaceItem
       );
       let log: any[] = [];
       verifyItemProgression(mode.nodes, log);
@@ -172,7 +185,12 @@ export default function StatsPage() {
     <div id="stats">
       <div className={styles.stats_nav}>
         <label htmlFor="game_mode">Mode</label>
-        <select name="game_mode" id="game_mode" defaultValue="rm">
+        <select
+          name="game_mode"
+          id="game_mode"
+          value={gameMode}
+          onChange={(e) => setGameMode(e.target.value)}
+        >
           <option value="sm">Standard - Major / Minor</option>
           <option value="sf">Standard - Full</option>
           <option value="rm">Recall - Major / Minor</option>
@@ -224,7 +242,6 @@ export default function StatsPage() {
             defaultValue="majors"
           >
             <option value="majors">Majors</option>
-            <option value="minors">Minors</option>
             <option value="progression">Progression</option>
             <option value="noteworthy">Noteworthy</option>
           </select>
