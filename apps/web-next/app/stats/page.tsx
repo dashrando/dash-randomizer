@@ -76,12 +76,16 @@ function MajorItemRow({
       </td>
       {columns.map((c) => {
         const count = row.itemTypes.filter((t) => t == c.item).length;
+        const percent = (count / numSeeds) * 100;
+        let rowStyle = styles.thin_border;
+        if (percent > 5) {
+          rowStyle += " " + styles.tan_cell;
+        } else if (percent == 0) {
+          rowStyle += " " + styles.gray_cell;
+        }
         return (
-          <td
-            key={`${c.header}_${row.locationName}`}
-            className={styles.thin_border}
-          >
-            {((count / numSeeds) * 100).toFixed(2) + "%"}
+          <td key={`${c.header}_${row.locationName}`} className={rowStyle}>
+            {percent.toFixed(2) + "%"}
           </td>
         );
       })}
@@ -139,13 +143,7 @@ export default function StatsPage() {
     });
 
     majorLocations = majorLocations.sort((a, b) => {
-      if (a.locationName < b.locationName) {
-        return -1;
-      }
-      if (a.locationName > b.locationName) {
-        return 1;
-      }
-      return 0;
+      return a.locationName.localeCompare(b.locationName);
     });
 
     setRows(majorLocations);
@@ -172,64 +170,66 @@ export default function StatsPage() {
 
   return (
     <div id="stats">
-      <label htmlFor="game_mode">Mode:</label>
-      <select name="game_mode" id="game_mode" defaultValue="rm">
-        <option value="sm">Standard - Major / Minor</option>
-        <option value="sf">Standard - Full</option>
-        <option value="rm">Recall - Major / Minor</option>
-        <option value="rf">Recall - Full</option>
-      </select>
-
-      <label htmlFor="start_seed">Start</label>
-      <input
-        name="start_seed"
-        id="start_seed"
-        type="number"
-        min="1"
-        max="999999"
-        step="100"
-        value={startSeed}
-        onChange={(e) => setStartSeed(Number(e.target.value))}
-      />
-
-      <label htmlFor="end_seed">End</label>
-      <input
-        name="end_seed"
-        id="end_seed"
-        type="number"
-        min="1"
-        max="999999"
-        step="100"
-        value={endSeed}
-        onChange={(e) => setEndSeed(Number(e.target.value))}
-      />
-      <input
-        type="button"
-        value="Generate"
-        id="gen_seeds"
-        onClick={() => generateSeeds()}
-      />
-      <input
-        type="button"
-        value="Clear"
-        id="clear_table"
-        onClick={() => clearResults()}
-      />
-      <span id="stats_status"></span>
-      <span id="action_status">{status}</span>
-      <span id="panels">
-        <label htmlFor="panel_selection">Panel:</label>
-        <select
-          name="panel_seletion"
-          id="panel_selection"
-          defaultValue="majors"
-        >
-          <option value="majors">Majors</option>
-          <option value="minors">Minors</option>
-          <option value="progression">Progression</option>
-          <option value="noteworthy">Noteworthy</option>
+      <div className={styles.stats_nav}>
+        <label htmlFor="game_mode">Mode</label>
+        <select name="game_mode" id="game_mode" defaultValue="rm">
+          <option value="sm">Standard - Major / Minor</option>
+          <option value="sf">Standard - Full</option>
+          <option value="rm">Recall - Major / Minor</option>
+          <option value="rf">Recall - Full</option>
         </select>
-      </span>
+
+        <label htmlFor="start_seed">Start</label>
+        <input
+          name="start_seed"
+          id="start_seed"
+          type="number"
+          min="1"
+          max="999999"
+          step="100"
+          value={startSeed}
+          onChange={(e) => setStartSeed(Number(e.target.value))}
+        />
+
+        <label htmlFor="end_seed">End</label>
+        <input
+          name="end_seed"
+          id="end_seed"
+          type="number"
+          min="1"
+          max="999999"
+          step="100"
+          value={endSeed}
+          onChange={(e) => setEndSeed(Number(e.target.value))}
+        />
+        <input
+          type="button"
+          value="Generate"
+          id="gen_seeds"
+          onClick={() => generateSeeds()}
+        />
+        <input
+          type="button"
+          value="Clear"
+          id="clear_table"
+          onClick={() => clearResults()}
+        />
+        <span id="stats_status"></span>
+        <span id="action_status">{status}</span>
+        <span id="panels" className={styles.panel_selector}>
+          <label htmlFor="panel_selection">Panel:</label>
+          <select
+            name="panel_seletion"
+            id="panel_selection"
+            defaultValue="majors"
+          >
+            <option value="majors">Majors</option>
+            <option value="minors">Minors</option>
+            <option value="progression">Progression</option>
+            <option value="noteworthy">Noteworthy</option>
+          </select>
+        </span>
+      </div>
 
       <div id="stats_panel" className={styles.stats_panel}>
         <table className={styles.legacy_style}>
