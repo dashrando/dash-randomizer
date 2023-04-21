@@ -2,6 +2,7 @@
 
 import styles from "./majors.module.css";
 import { Item } from "@/../../packages/core/lib/items";
+import { ItemProgression } from "./page";
 
 const columns = [
   { header: "Heat Shield", item: Item.HeatShield },
@@ -84,17 +85,40 @@ function MajorItemRow({
 }
 
 export default function MajorItemTable({
-  rows,
-  numSeeds,
+  itemProgression,
 }: {
-  rows: MajorRowData[];
-  numSeeds: number;
+  itemProgression: ItemProgression[];
 }) {
+  const numSeeds = itemProgression.length;
+  let majorLocations: MajorRowData[] = [];
+
+  itemProgression.forEach((p) => {
+    p.forEach((c) => {
+      if (c.item.isMajor) {
+        const locationEntry = majorLocations.find(
+          (m) => m.locationName == c.location.name
+        );
+        if (locationEntry == undefined) {
+          majorLocations.push({
+            locationName: c.location.name,
+            itemTypes: [c.item.type],
+          });
+        } else {
+          locationEntry.itemTypes.push(c.item.type);
+        }
+      }
+    });
+  });
+
+  majorLocations = majorLocations.sort((a, b) => {
+    return a.locationName.localeCompare(b.locationName);
+  });
+
   return (
     <table className={styles.legacy_style}>
       <tbody>
         <MajorItemHeader />
-        {rows
+        {majorLocations
           .filter((r) =>
             r.itemTypes.some((t) => columns.findIndex((c) => c.item == t) >= 0)
           )

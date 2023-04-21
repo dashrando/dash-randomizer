@@ -27,7 +27,7 @@ export const AreaCounts = new Map([
    [Area.Crocomire,    0x2f8051],
 ]);
 
-class Location {
+export class Location {
   constructor(address, modifier, area, name) {
     this.address = address;
     this.modifier = modifier;

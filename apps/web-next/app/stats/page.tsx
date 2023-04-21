@@ -2,7 +2,7 @@
 
 import styles from "./page.module.css";
 import { Item } from "@/../../packages/core/lib/items";
-import { getLocations } from "@/../../packages/core/lib/locations";
+import { getLocations, Location } from "@/../../packages/core/lib/locations";
 import ModeRecall from "@/../../packages/core/lib/modes/modeRecall";
 import ModeStandard from "@/../../packages/core/lib/modes/modeStandard";
 import Loadout from "@/../../packages/core/lib/loadout";
@@ -15,21 +15,29 @@ import {
   performVerifiedFill,
   verifyItemProgression,
 } from "@/../../packages/core/lib/itemPlacement";
-import { MajorRowData } from "./majors";
 import MajorItemTable from "./majors";
 
+export type ItemLocation = {
+  location: Location;
+  item: any;
+};
+
+export type ItemProgression = ItemLocation[];
+
 export default function StatsPage() {
-  const [rows, setRows] = useState([] as MajorRowData[]);
+  const [itemProgression, setItemProgression] = useState(
+    [] as ItemProgression[]
+  );
   const [status, setStatus] = useState("");
   const [startSeed, setStartSeed] = useState(1);
   const [endSeed, setEndSeed] = useState(100);
-  const [numSeeds, setNumSeeds] = useState(0);
   const [gameMode, setGameMode] = useState("rm");
   const [panel, setPanel] = useState("majors");
 
   const generateSeeds = () => {
-    let itemProgression = [];
+    const progression: ItemProgression[] = [];
     const start = Date.now();
+
     for (let i = startSeed; i <= endSeed; i++) {
       let mode =
         gameMode[0] == "s"
@@ -52,55 +60,21 @@ export default function StatsPage() {
         initLoad,
         canPlaceItem
       );
-      let log: any[] = [];
+      const log: ItemLocation[] = [];
       verifyItemProgression(mode.nodes, log);
-      itemProgression.push(log);
+      progression.push(log);
     }
+
     const delta = Date.now() - start;
+    setItemProgression(progression);
 
-    let majorLocations: MajorRowData[] = [];
-
-    itemProgression.forEach((p) => {
-      p.forEach((c) => {
-        if (c.item.isMajor) {
-          const locationEntry = majorLocations.find(
-            (m) => m.locationName == c.location.name
-          );
-          if (locationEntry == undefined) {
-            majorLocations.push({
-              locationName: c.location.name,
-              itemTypes: [c.item.type],
-            });
-          } else {
-            locationEntry.itemTypes.push(c.item.type);
-          }
-        }
-      });
-    });
-
-    majorLocations = majorLocations.sort((a, b) => {
-      return a.locationName.localeCompare(b.locationName);
-    });
-
-    setRows(majorLocations);
-    const localNumSeeds = endSeed - startSeed + 1;
-    setNumSeeds(localNumSeeds);
-    setStatus(
-      localNumSeeds +
-        " seeds " +
-        delta +
-        "ms [ " +
-        (delta / localNumSeeds).toFixed(1) +
-        "ms avg] " /*+
-                  majorLocations.length +
-                  " major locs with " +
-                  uniqueMajors.length +
-                  " unique major combos"*/
-    );
+    const num = progression.length;
+    const avg = (delta / num).toFixed(1);
+    setStatus(`${num} seeds ${delta}ms [ ${avg}ms avg ]`);
   };
 
   const clearResults = () => {
-    setRows([] as MajorRowData[]);
+    setItemProgression([] as ItemProgression[]);
     setStatus("");
   };
 
@@ -173,7 +147,7 @@ export default function StatsPage() {
 
       <div id="stats_panel" className={styles.stats_panel}>
         {panel == "majors" && (
-          <MajorItemTable rows={rows} numSeeds={numSeeds} />
+          <MajorItemTable itemProgression={itemProgression} />
         )}
       </div>
     </div>
