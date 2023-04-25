@@ -162,17 +162,10 @@ class ModeRecall {
                (canDoSuitlessMaridia(load) && (load.hasIce || load.hasSpazer))
             )
          )
-      }
-
-      const canDefeatBotwoon = (load) => {
-         return (
-            canAccessBotwoon(load) &&
-            (load.superPacks > 2 || load.missilePacks > 4 || load.hasCharge)
-         );
       };
 
       const canDefeatDraygon = (load) => {
-         return canDefeatBotwoon(load) && load.hasGravity;
+         return canAccessBotwoon(load) && load.hasGravity;
       };
 
       const canAccessWreckedShip = (load) => {
@@ -300,7 +293,7 @@ class ModeRecall {
       });
 
       major("Energy Tank (Botwoon)", (load) => {
-         return canDefeatBotwoon(load);
+         return canAccessBotwoon(load);
       });
 
       minor("Missiles (Aqueduct)", (load) => {
