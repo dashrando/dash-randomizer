@@ -16,6 +16,8 @@ import {
   verifyItemProgression,
 } from "@/../../packages/core/lib/itemPlacement";
 import MajorItemTable from "./majors";
+import ProgressionStats from "./progression";
+import NoteworthyStats from "./noteworthy";
 
 export type ItemLocation = {
   location: Location;
@@ -148,6 +150,12 @@ export default function StatsPage() {
       <div id="stats_panel" className={styles.stats_panel}>
         {panel == "majors" && (
           <MajorItemTable itemProgression={itemProgression} />
+        )}
+        {panel == "progression" && (
+          <ProgressionStats itemProgression={itemProgression} />
+        )}
+        {panel == "noteworthy" && (
+          <NoteworthyStats itemProgression={itemProgression} />
         )}
       </div>
     </div>

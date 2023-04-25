@@ -29,7 +29,7 @@ const columns = [
   { header: "Reserve", item: Item.Reserve },
 ];
 
-export type MajorRowData = {
+type MajorRowData = {
   locationName: string;
   itemTypes: any[];
 };
