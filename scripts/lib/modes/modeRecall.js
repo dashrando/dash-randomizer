@@ -153,12 +153,21 @@ class ModeRecall {
          );
       };
 
-      const canDefeatBotwoon = (load) => {
+      const canAccessBotwoon = (load) => {
          return (
             canAccessRedBrinstar(load) &&
             load.canUsePowerBombs &&
-            (load.hasIce || load.hasSpeed || load.hasSpazer) &&
-            (load.hasGravity || (canDoSuitlessMaridia(load) && load.hasIce))
+            (
+               (load.hasGravity && (load.hasIce || load.hasSpeed || load.hasSpazer)) ||
+               (canDoSuitlessMaridia(load) && (load.hasIce || load.hasSpazer))
+            )
+         )
+      }
+
+      const canDefeatBotwoon = (load) => {
+         return (
+            canAccessBotwoon(load) &&
+            (load.superPacks > 2 || load.missilePacks > 4 || load.hasCharge)
          );
       };
 
