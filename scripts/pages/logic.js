@@ -122,7 +122,7 @@ function removeExtraneousText(stringArray) {
          var tempStringArray = stringArray[i].split("\n");
          var tempHasStoredTitle = false;
          for (j = 0; j < tempStringArray.length; j++) {
-            if (stringContainsLetters(tempStringArray[j])) {
+            if (containsLettersOrNumbers(tempStringArray[j])) {
                if (!tempHasStoredTitle) {
                   logicBlockTitleArray.push(tempStringArray[j]);
                   tempHasStoredTitle = true;
@@ -151,49 +151,9 @@ Function to check if a line contains any letters or
 numbers. Necessary to remove unwanted lines in the 
 code easily.
 -----------------------------------------------*/ 
-function stringContainsLetters(string) {
-   if (
-      string.includes("a") ||
-      string.includes("b") ||
-      string.includes("c") ||
-      string.includes("d") ||
-      string.includes("e") ||
-      string.includes("f") ||
-      string.includes("g") ||
-      string.includes("h") ||
-      string.includes("i") ||
-      string.includes("j") ||
-      string.includes("k") ||
-      string.includes("l") ||
-      string.includes("m") ||
-      string.includes("n") ||
-      string.includes("o") ||
-      string.includes("p") ||
-      string.includes("q") ||
-      string.includes("r") ||
-      string.includes("s") ||
-      string.includes("t") ||
-      string.includes("u") ||
-      string.includes("v") ||
-      string.includes("w") ||
-      string.includes("x") ||
-      string.includes("y") ||
-      string.includes("z") ||
-      string.includes("0") ||
-      string.includes("1") ||
-      string.includes("2") ||
-      string.includes("3") ||
-      string.includes("4") ||
-      string.includes("5") ||
-      string.includes("6") ||
-      string.includes("7") ||
-      string.includes("8") ||
-      string.includes("9")
-   ) {
-      return true;
-   } else {
-      return false;
-   }
+function containsLettersOrNumbers(string) {
+   const pattern = new RegExp(/[a-zA-Z0-9]/);
+   return pattern.test(string);
 }
 
 /* ---------------------------------------------
@@ -301,10 +261,9 @@ function createElements() {
                /*These next two lines are the way we are able to pass in what
                element id is being hovered over, and return the appropriate
                body logic text.*/
-               logicReferenceElement.setAttribute("onpointerenter", 
-                                                  "showLogicText(" + logicReferenceElement.id + ", \"enter\")");
-               logicReferenceElement.setAttribute("onpointerleave", 
-                                                  "showLogicText(" + logicReferenceElement.id + ", \"leave\")");
+               const id = logicReferenceElement.id
+               logicReferenceElement.addEventListener('pointerenter', () => { showLogicText(id, 'enter') })
+               logicReferenceElement.addEventListener('pointerleave', () => { showLogicText(id, 'leave') })
 
                logicReferenceElement.style.color = "limegreen";
 
@@ -381,11 +340,11 @@ the current logic ref that's being hovered over.
 function showLogicText(elementId, direction) {
 
    var bodyLogicToShow = "";
-   var currentElement = document.getElementById(elementId.id);
+   var currentElement = document.getElementById(elementId);
    var currentElementsChildren = currentElement.children;
 
    for (i = 0; i < logicBlockTitleArray.length; i++) {
-      if (elementId.innerHTML.includes(logicBlockTitleArray[i])) {
+      if (currentElement.innerHTML.includes(logicBlockTitleArray[i])) {
          //Grab the corresponding body logic for the current logic ref we're hovering over.
          bodyLogicToShow = logicBlockBodyArray[i];
          for (j = 0; j < currentElementsChildren.length; j++) {

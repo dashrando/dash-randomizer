@@ -127,8 +127,7 @@ class ModeRecall {
             (load.canFly ||
                load.hasHiJump ||
                load.hasSpringBall ||
-               load.hasDoubleJump ||
-               (load.hasIce && load.hasCharge))
+               load.hasDoubleJump)
          );
       };
 
@@ -178,28 +177,6 @@ class ModeRecall {
             (load.hasGravity ||
                load.hasPressureValve ||
                (load.hasHiJump && (load.hasIce || load.hasSpringBall)))
-         );
-      };
-
-      const canAccessEastMaridia = (load) => {
-         return (
-            canAccessRedBrinstar(load) &&
-            load.canUsePowerBombs &&
-            (load.hasGravity || load.canDoSuitlessMaridia)
-         );
-      };
-
-      const canAccessNorthMaridia = (load) => {
-         return (
-            canAccessWreckedShip(load) &&
-            (load.hasGravity || load.hasPressureValve)
-         );
-      };
-
-      const canAccessSouthMaridia = (load) => {
-         return (
-            canAccessWreckedShip(load) &&
-            (load.hasGravity || load.hasPressureValve)
          );
       };
 
@@ -531,8 +508,6 @@ class ModeRecall {
             load.canUsePowerBombs &&
             (load.hasGrapple ||
                load.hasSpaceJump ||
-               load.totalTanks >= 6 ||
-               (load.hasVaria && load.totalTanks >= 3) ||
                (load.hasDoubleJump && load.totalTanks >= 4) ||
                (load.hasHiJump && load.hasSpeed && load.totalTanks >= 4) ||
                (load.hasIce && load.totalTanks >= 4))
@@ -624,7 +599,11 @@ class ModeRecall {
       });
 
       minor("Missiles (Beach)", (load) => {
-         return canAccessWestMaridia(load);
+         return (
+            canAccessRedBrinstar(load) &&
+            load.canUsePowerBombs &&
+            (load.hasGravity || load.hasPressureValve || canDoSuitlessMaridia(load))
+         );
       });
 
       minor("Missiles (Mainstreet)", (load) => {
@@ -641,7 +620,11 @@ class ModeRecall {
       });
 
       major("Missiles (Watering Hole)", (load) => {
-         return canAccessWestMaridia(load);
+         return (
+            canAccessRedBrinstar(load) &&
+            load.canUsePowerBombs &&
+            (load.hasGravity || load.hasPressureValve || canDoSuitlessMaridia(load))
+         );
       });
 
       minor("Supers (Crab)", (load) => {
@@ -649,7 +632,11 @@ class ModeRecall {
       });
 
       minor("Supers (Watering Hole)", (load) => {
-         return canAccessWestMaridia(load);
+         return (
+            canAccessRedBrinstar(load) &&
+            load.canUsePowerBombs &&
+            (load.hasGravity || load.hasPressureValve || canDoSuitlessMaridia(load))
+         );
       });
 
       major("Energy Tank (Wrecked Ship)", (load) => {
