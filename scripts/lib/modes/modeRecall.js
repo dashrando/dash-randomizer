@@ -158,7 +158,7 @@ class ModeRecall {
             canAccessRedBrinstar(load) &&
             load.canUsePowerBombs &&
             (
-               (load.hasGravity && (load.hasIce || load.hasSpeed)) ||
+               (load.hasGravity && (load.hasIce || load.hasSpeed || load.hasSpazer)) ||
                (canDoSuitlessMaridia(load) && (load.hasIce || load.hasSpazer))
             )
          )
