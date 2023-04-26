@@ -142,7 +142,7 @@ class ModeStandard {
             load.canUsePowerBombs &&
             (
                (load.hasGravity && (load.hasIce || load.hasSpeed)) ||
-               (canDoSuitlessMaridia(load) && (load.hasIce || load.hasSpazer))
+               (canDoSuitlessMaridia(load) && load.hasIce)
             )
          )
       };
