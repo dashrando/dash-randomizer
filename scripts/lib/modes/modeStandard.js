@@ -141,7 +141,7 @@ class ModeStandard {
             canAccessRedBrinstar(load) &&
             load.canUsePowerBombs &&
             (
-               (load.hasGravity && (load.hasIce || load.hasSpeed || load.hasSpazer)) ||
+               (load.hasGravity && (load.hasIce || load.hasSpeed)) ||
                (canDoSuitlessMaridia(load) && (load.hasIce || load.hasSpazer))
             )
          )
