@@ -153,17 +153,19 @@ class ModeRecall {
          );
       };
 
-      const canDefeatBotwoon = (load) => {
+      const canAccessBotwoon = (load) => {
          return (
             canAccessRedBrinstar(load) &&
             load.canUsePowerBombs &&
-            (load.hasIce || load.hasSpeed || load.hasSpazer) &&
-            (load.hasGravity || (canDoSuitlessMaridia(load) && load.hasIce))
-         );
+            (
+               (load.hasGravity && (load.hasIce || load.hasSpeed || load.hasSpazer)) ||
+               (canDoSuitlessMaridia(load) && (load.hasIce || load.hasSpazer))
+            )
+         )
       };
 
       const canDefeatDraygon = (load) => {
-         return canDefeatBotwoon(load) && load.hasGravity;
+         return canAccessBotwoon(load) && load.hasGravity;
       };
 
       const canAccessWreckedShip = (load) => {
@@ -291,7 +293,7 @@ class ModeRecall {
       });
 
       major("Energy Tank (Botwoon)", (load) => {
-         return canDefeatBotwoon(load);
+         return canAccessBotwoon(load);
       });
 
       minor("Missiles (Aqueduct)", (load) => {
