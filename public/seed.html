@@ -17,6 +17,12 @@
         YARD
         GAMET
       </div>
+      <div id="download">
+        <button id="download-btn" class="btn" disabled>Download DASH_v00r_AA_000000.sfc</button>
+        <label id="vanilla-btn" class="btn" for="vanilla-file-input">Enter your Vanilla ROM
+          <input type="file" id="vanilla-file-input" name="vanilla-file" />
+        </label>
+      </div>
       <div id="seed-error">
         <p>
           <span style="font-weight: 600; color: #b32020;">Missing Parameter</span>
@@ -28,6 +34,7 @@
         </p>
       </div>
       <div id="seed-settings">
+        <h4>Settings</h4>
         <ul>
           <li>
             <span class="settings-label">Game Mode</span>
@@ -43,11 +50,17 @@
           </li>
         </ul>
       </div>
-      <div id="download">
-        <button id="download-btn" class="btn" disabled>Download DASH_v00r_AA_000000.sfc</button>
-        <label id="vanilla-btn" class="btn" for="vanilla-file-input">Enter your Vanilla ROM
-          <input type="file" id="vanilla-file-input" name="vanilla-file" />
-        </label>
+      <div id="seed-settings">
+        <h4>Options</h4>
+        <ul>
+          <li>
+            <span class="settings-label">Disable Fanfare</span>
+            <span class="settings-value" id="options-fanfare">
+              <span class="settings-mdash">&mdash;</span>
+            </span>
+          </li>
+          <li></li>
+        </ul>
       </div>
       <footer id="seed-footer">
         <p>
