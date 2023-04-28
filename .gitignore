@@ -10,6 +10,7 @@ dist/
 
 node_modules/
 .vercel
+.next
 
 redirect/public/*
 !**/.keep
