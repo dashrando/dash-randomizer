@@ -1,7 +1,7 @@
 "use client";
 
-import "@/app/public/styles/dash.css";
-import "@/app/public/styles/seed.css";
+import "@/public/styles/dash.css";
+import "@/public/styles/seed.css";
 
 export default function SeedPage() {
    return (
