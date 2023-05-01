@@ -183,7 +183,7 @@ function fetchSignature(data) {
       document.dispatchEvent(vanillaEvt);
       return null;
     }
-    const { data, name } = await RandomizeRom(num, mode, {}, { vanillaBytes });
+    const { data, name } = await RandomizeRom(num, mode, options, { vanillaBytes });
     const signature = fetchSignature(data);
     const readyEvt = new CustomEvent("seed:ready", {
       detail: { data, name, num, mode, options, autoDownload, signature },
