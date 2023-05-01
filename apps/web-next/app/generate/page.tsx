@@ -14,32 +14,41 @@ export default function GeneratePage() {
   const [disableFanfare, setDisableFanfare] = useState(false);
   const [vanillaBytes, setVanillaBytes] = useState(new Uint8Array());
   const inputRef = useRef<HTMLInputElement>(null);
+  const [minSeed, maxSeed] = [1, 999999];
 
   const generateRom = async () => {
-    console.log("game mode =", gameMode);
-    console.log("seed mode =", seedMode);
-    console.log("fanfare =", !disableFanfare);
-    console.log("fixed =", fixedSeed);
-    console.log(vanillaBytes);
     const seed = getSeed();
     const options = getOptions();
     const config = { vanillaBytes };
-    const { data, name } = await RandomizeRom(seed, gameMode, options, config);
-    console.log(data);
-    console.log(name);
-    saveAs(new Blob([data]), name);
+    try {
+      const { data, name } = await RandomizeRom(seed, gameMode, options, config) as { data: any, name: string };
+      saveAs(new Blob([data]), name);
+    } catch (e) {
+      const message = (e as Error).message;
+      console.error(message);
+      alert(message);
+    }
   };
 
   const getOptions = () => {
-    return {};
+    return {
+      DisableFanfare: disableFanfare,
+    };
   };
 
   const getSeed = () => {
-    return 1;
+    if (seedMode == "fixed") {
+      return fixedSeed;
+    }
+
+    const numSeeds = maxSeed - minSeed + 1;
+    let randomArray = new Uint32Array(1);
+    window.crypto.getRandomValues(randomArray);
+    return minSeed + (randomArray[0] & numSeeds);
   };
 
   const hasValues = () => {
-    return true;
+    return vanillaBytes.length > 0;
   };
 
   const loadFile = (evt: any) => {
@@ -50,11 +59,11 @@ export default function GeneratePage() {
 
       reader.onload = async function () {
         try {
-          setVanillaBytes(new Uint8Array(reader.result));
+          setVanillaBytes(new Uint8Array(reader.result as ArrayBuffer));
         } catch (e) {
-          console.error(e.message);
-          alert(e.message);
-        //el.value = "";
+          const message = (e as Error).message;
+          console.error(message);
+          alert(message);
         }
       };
 
@@ -62,11 +71,7 @@ export default function GeneratePage() {
         alert("Failed to load file.");
       };
     }
-  }
-
-      //setVanillaBytes(e.target.files[0]);
-    //}
-  //};
+  };
 
   const toggleSeedMode = () => {
     setSeedMode(seedMode == "random" ? "fixed" : "random");
@@ -75,7 +80,7 @@ export default function GeneratePage() {
   const unloadFile = (e: any) => {
     setVanillaBytes(new Uint8Array());
     if (inputRef.current != null) {
-      inputRef.current.value = '';
+      inputRef.current.value = "";
     }
   };
 
@@ -193,8 +198,8 @@ export default function GeneratePage() {
             name="fixed_value"
             id="fixed_value"
             type="number"
-            min="1"
-            max="999999"
+            min={minSeed}
+            max={maxSeed}
             step="1"
             value={seedMode == "fixed" ? fixedSeed : ""}
             disabled={seedMode != "fixed"}
