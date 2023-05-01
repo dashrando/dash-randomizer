@@ -22,8 +22,7 @@
   },
   "dependencies": {
     "class-variance-authority": "^0.4.0",
-    "clsx": "^1.2.1",
-    "turbo-windows-64": "^1.9.3"
+    "clsx": "^1.2.1"
   },
   "packageManager": "npm@8.19.4"
 }
