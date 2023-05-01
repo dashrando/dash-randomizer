@@ -14,51 +14,42 @@ import { getLocations } from "./locations";
 import Loadout from "./loadout";
 import { patchRom } from "../helpers/patcher";
 
-async function RandomizeRom(seed = 0, game_mode, opts = {}, config = {}) {
+async function RandomizeRom(seed = 0, gameModeName, opts = {}, config = {}) {
   let getPrePool;
   let canPlaceItem;
   let mode;
-  let gameModeName;
 
   if (!config.vanillaBytes) {
     throw Error("No vanilla ROM data found");
   }
 
-  switch (game_mode) {
+   switch (gameModeName) {
     case "sm":
       mode = new ModeStandard(seed, getLocations());
       getPrePool = getMajorMinorPrePool;
       canPlaceItem = isValidMajorMinor;
-      gameModeName = "mm";
       break;
 
     case "sf":
       mode = new ModeStandard(seed, getLocations());
       getPrePool = getFullPrePool;
       canPlaceItem = isEmptyNode;
-      gameModeName = "full";
       break;
 
     case "rm":
       mode = new ModeRecall(seed, getLocations());
       getPrePool = getMajorMinorPrePool;
       canPlaceItem = isValidMajorMinor;
-      gameModeName = "rm";
       break;
 
     case "rf":
       mode = new ModeRecall(seed, getLocations());
       getPrePool = getFullPrePool;
       canPlaceItem = isEmptyNode;
-      gameModeName = "rf";
       break;
 
     default:
-      mode = new ModeStandard(seed, getLocations());
-      getPrePool = getMajorMinorPrePool;
-      canPlaceItem = isValidMajorMinor;
-      gameModeName = "mm";
-      break;
+         throw Error("Invalid game mode specified");
   }
 
   let gameMode = game_modes.find((mode) => mode.name == gameModeName);
@@ -71,7 +62,6 @@ async function RandomizeRom(seed = 0, game_mode, opts = {}, config = {}) {
   let initLoad = new Loadout();
   initLoad.hasCharge = true;
 
-  console.time('rollSeed');
   // Place the items.
   performVerifiedFill(
     seed,
@@ -81,7 +71,6 @@ async function RandomizeRom(seed = 0, game_mode, opts = {}, config = {}) {
     initLoad,
     canPlaceItem
   );
-  console.timeEnd('rollSeed');
 
   // Load the base patch associated with this game mode.
   const basePatch = await BpsPatch.Load(gameMode.patch);
