@@ -21,7 +21,12 @@ export default function GeneratePage() {
     const options = getOptions();
     const config = { vanillaBytes };
     try {
-      const { data, name } = await RandomizeRom(seed, gameMode, options, config) as { data: any, name: string };
+      const { data, name } = (await RandomizeRom(
+        seed,
+        gameMode,
+        options,
+        config
+      )) as { data: any; name: string };
       saveAs(new Blob([data]), name);
     } catch (e) {
       const message = (e as Error).message;

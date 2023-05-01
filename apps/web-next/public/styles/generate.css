@@ -43,6 +43,7 @@ select {
 }
 #fixed_value {
   width: 100px;
+  margin-left: 6px;
 }
 #vanilla-rom-loaded {
   visibility: hidden;
