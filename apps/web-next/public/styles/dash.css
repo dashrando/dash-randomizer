@@ -142,14 +142,6 @@ hr {
   display: block;
 }
 
-#permalink-container {
-  visibility: hidden;
-}
-
-#permalink-container.visible {
-  visibility: visible;
-}
-
 .damage-table {
   border: 0;
   border-collapse: collapse;

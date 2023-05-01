@@ -13,6 +13,7 @@ export default function GeneratePage() {
   const [gameMode, setGameMode] = useState("rm");
   const [disableFanfare, setDisableFanfare] = useState(false);
   const [vanillaBytes, setVanillaBytes] = useState(new Uint8Array());
+  const [permalink, setPermalink] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [minSeed, maxSeed] = [1, 999999];
 
@@ -28,6 +29,7 @@ export default function GeneratePage() {
         config
       )) as { data: any; name: string };
       saveAs(new Blob([data]), name);
+      updatePermalink(seed, "ABCD");
     } catch (e) {
       const message = (e as Error).message;
       console.error(message);
@@ -87,6 +89,10 @@ export default function GeneratePage() {
     if (inputRef.current != null) {
       inputRef.current.value = "";
     }
+  };
+
+  const updatePermalink = (seed: number, flags: string) => {
+    setPermalink(`${window.location.origin}/seed?num=${seed}&flags=${flags}`);
   };
 
   return (
@@ -221,11 +227,17 @@ export default function GeneratePage() {
             Randomize!
           </button>
         </div>
-        <div id="permalink-container">
-          <p>
-            Your Seed's URL: <span id="seed-permalink">&nbsp;</span>
-          </p>
-        </div>
+
+        {permalink.length > 0 && (
+          <div id="permalink-container">
+            <p>
+              Your Seed's URL:{" "}
+              <span id="seed-permalink">
+                <a href={permalink}>{permalink}</a>
+              </span>
+            </p>
+          </div>
+        )}
       </div>
     </>
   );
