@@ -21,7 +21,7 @@
 }
 
 #seed-signature {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 18px;
   color: #fff;
   text-transform: uppercase;
@@ -49,17 +49,26 @@
 }
 
 #seed-settings {
-  margin: 40px 0 0;
+  margin: 20px 0 0;
 }
 
 #seed-settings ul {
   display: flex;
   justify-content: center;
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 14%;
   list-style: none outside none;
   opacity: 0;
   transition: opacity 0.3s ease-in-out 0.15s;
+}
+
+#seed-settings h4 {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out 0.15s;
+}
+
+.loaded #seed-settings h4 {
+  opacity: 1;
 }
 
 .loaded #seed-settings ul {
@@ -71,6 +80,7 @@
   padding: 0 16px;
   display: block;
   text-align: left;
+  width: 100%;
 }
 
 #seed-settings ul li span {
@@ -129,7 +139,6 @@
   background-color: #fff;
 }
 
-
 #download .btn {
   all: unset;
   cursor: pointer;
@@ -140,7 +149,8 @@
   padding: 12px 24px;
   border-radius: 24px;
   border: 2px solid #fff;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, width 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    width 0.15s ease-in-out;
 }
 
 #download-btn.btn {

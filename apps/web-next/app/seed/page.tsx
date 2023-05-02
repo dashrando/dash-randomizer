@@ -2,20 +2,169 @@
 
 import "@/public/styles/dash.css";
 import "@/public/styles/seed.css";
+import { useEffect, useState } from "react";
+import {
+  getPresetOptions,
+  flagsToOptions,
+} from "@/../../packages/core/lib/sm-rando";
+import { saveAs } from "file-saver";
+import { RandomizeRom, vanilla } from "@/../../packages/core";
+import { getVanilla } from "@/../../packages/core/lib/vanilla/storage";
+import MODES from "@/../../packages/core/data/modes";
+
+// These signatures are taken from:
+// https://github.com/dashrando/dash-template-asm/blob/main/src/fileselect/gameoptions.asm#L85-L117
+const SIGNATURE_VALUES = [
+  "GEEMER  ",
+  "RIPPER  ",
+  "ATOMIC  ",
+  "POWAMP  ",
+  "SCISER  ",
+  "NAMIHE  ",
+  "PUROMI  ",
+  "ALCOON  ",
+  "BEETOM  ",
+  "OWTCH   ",
+  "ZEBBO   ",
+  "ZEELA   ",
+  "HOLTZ   ",
+  "VIOLA   ",
+  "WAVER   ",
+  "RINKA   ",
+  "BOYON   ",
+  "CHOOT   ",
+  "KAGO    ",
+  "SKREE   ",
+  "COVERN  ",
+  "EVIR    ",
+  "TATORI  ",
+  "OUM     ",
+  "PUYO    ",
+  "YARD    ",
+  "ZOA     ",
+  "FUNE    ",
+  "GAMET   ",
+  "GERUTA  ",
+  "SOVA    ",
+  "BULL    ",
+];
+
+function getSeedOpts(): {
+  num: number;
+  mode: string;
+  options: object;
+  download: boolean;
+} {
+  const url = new URL(document.location);
+  const flags = url.searchParams.get("flags");
+  const { mode, options } = !flags
+    ? getPresetOptions(url.searchParams.get("preset"))
+    : flagsToOptions(flags);
+
+  return {
+    num: url.searchParams.get("num"),
+    mode: mode,
+    options: options,
+    download: url.searchParams.get("download") !== null,
+  };
+}
+
+function downloadFile(data: any, name: string) {
+  saveAs(new Blob([data]), name);
+}
+
+function fetchSignature(data: any) {
+  // the signature is stored in 4 bytes at 0x2f8000 - 0x2f8003
+  // use bit mask of 0x1f to get the index in the signatures array
+  // then trim the string to remove the extra spaces
+  const mask = 0x1f;
+  const addresses = [0x2f8000, 0x2f8001, 0x2f8002, 0x2f8003]
+    .map((addr) => data[addr] & mask)
+    .map((index) => SIGNATURE_VALUES[index].trim());
+  return addresses.join(" ");
+}
 
 export default function SeedPage() {
-   return (
-    <main id="seed-container">
+  const [mode, setMode] = useState("");
+  const [containerClass, setContainerClass] = useState("");
+
+  const updateMode = (value: string) => {
+    const mode = MODES.find(({ name }) => name === value);
+    setMode(mode.title);
+  }
+
+  useEffect(() => {
+    async function startup() {
+      try {
+        new vanilla.vanillaROM();
+        const { num, mode, options, download: autoDownload } = getSeedOpts();
+
+        updateMode(mode);
+
+        //setupSeedUI(num, mode, options);
+        if (!num || !mode) {
+          const missingEvt = new CustomEvent("seed:params-missing");
+          document.dispatchEvent(missingEvt);
+          return null;
+        }
+
+        const vanillaBytes = await getVanilla();
+        if (!vanillaBytes) {
+          const vanillaEvt = new CustomEvent("seed:vanilla-missing", {
+            detail: { num, mode, options },
+          });
+          document.dispatchEvent(vanillaEvt);
+          return null;
+        }
+        const { data, name } = await RandomizeRom(num, mode, options, {
+          vanillaBytes,
+        });
+        const signature = fetchSignature(data);
+        const readyEvt = new CustomEvent("seed:ready", {
+          detail: { data, name, num, mode, options, autoDownload, signature },
+        });
+        document.dispatchEvent(readyEvt);
+
+        if (autoDownload) {
+          setTimeout(() => {
+            downloadFile(data, name);
+            const downloadEvt = new CustomEvent("seed:download", {
+              detail: { name },
+            });
+            document.dispatchEvent(downloadEvt);
+          }, 850);
+        }
+      } catch (e) {
+        console.error(e.message);
+      }
+    }
+
+    document.addEventListener("seed:ready", (evt) => {
+      updateMode(evt.detail.mode);
+      setContainerClass("loaded");
+    });
+
+    startup();
+  }, []);
+
+  return (
+    <main id="seed-container" className={containerClass}>
       <h1>DASH Randomizer</h1>
-      <div id="seed-signature">
-        BEETOM
-        BULL
-        YARD
-        GAMET
+      <div id="seed-signature">BEETOM BULL YARD GAMET</div>
+      <div id="download">
+        <button id="download-btn" className="btn" disabled>
+          Download DASH_v00r_AA_000000.sfc
+        </button>
+        <label id="vanilla-btn" className="btn" htmlFor="vanilla-file-input">
+          Enter your Vanilla ROM
+          <input type="file" id="vanilla-file-input" name="vanilla-file" />
+        </label>
       </div>
       <div id="seed-error">
         <p>
-          <span style={{fontWeight: 600, color: "#b32020"}}>Missing Parameter</span>
+          <span style={{ fontWeight: 600, color: "#b32020" }}>
+            Missing Parameter
+          </span>
           <br />
           Something went wrong when sharing this seed.
         </p>
@@ -24,11 +173,16 @@ export default function SeedPage() {
         </p>
       </div>
       <div id="seed-settings">
+        <h4>Settings</h4>
         <ul>
           <li>
             <span className="settings-label">Game Mode</span>
             <span className="settings-value" id="settings-mode">
-              <span className="settings-mdash">&mdash;</span>
+              {mode.length > 0 ? (
+                mode
+              ) : (
+                <span className="settings-mdash">&mdash;</span>
+              )}
             </span>
           </li>
           <li>
@@ -39,18 +193,25 @@ export default function SeedPage() {
           </li>
         </ul>
       </div>
-      <div id="download">
-        <button id="download-btn" className="btn" disabled>Download DASH_v00r_AA_000000.sfc</button>
-        <label id="vanilla-btn" className="btn" htmlFor="vanilla-file-input">Enter your Vanilla ROM
-          <input type="file" id="vanilla-file-input" name="vanilla-file" />
-        </label>
+      <div id="seed-settings">
+        <h4>Options</h4>
+        <ul>
+          <li>
+            <span className="settings-label">Item Fanfare</span>
+            <span className="settings-value" id="options-fanfare">
+              <span className="settings-mdash">&mdash;</span>
+            </span>
+          </li>
+          <li></li>
+        </ul>
       </div>
       <footer id="seed-footer">
         <p>
-          This seed was generated by<br />
+          This seed was generated by
+          <br />
           <a href="/">DASH Randomizer</a>
         </p>
       </footer>
     </main>
-   )
+  );
 }
