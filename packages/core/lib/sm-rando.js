@@ -2,6 +2,7 @@ import DotNetRandom from "./dotnet-random";
 import game_modes from "../data/modes";
 import ModeStandard from "./modes/modeStandard";
 import ModeRecall from "./modes/modeRecall";
+import { Buffer } from "buffer";
 import { Area, AreaCounts, getLocations } from "./locations";
 import {
   performVerifiedFill,
@@ -12,6 +13,10 @@ import {
 } from "./itemPlacement";
 import { Item } from "./items";
 import Loadout from "./loadout";
+import {
+  compressToEncodedURIComponent,
+  decompressFromEncodedURIComponent,
+} from "lz-string";
 
 export const generateSeedPatch = (seed, gameMode, nodes, options) => {
   //-----------------------------------------------------------------
@@ -129,6 +134,51 @@ export const getFileName = (seed, prefix, options) => {
   }
 
   return fileName + ".sfc";
+};
+
+export const flagsToOptions = (flags) => {
+  const bytes = Buffer.from(decompressFromEncodedURIComponent(flags), "base64");
+
+  let options = {};
+  const gameMode = game_modes.find((m) => m.mask == (bytes[0] & 0xff));
+  options.DisableFanfare = bytes[1] & 0x01;
+
+  return {
+    mode: gameMode.name,
+    options: options,
+  };
+};
+
+export const getPresetOptions = (preset) => {
+  if (preset == "standard_mm" || preset == "std_mm") {
+    return {
+      mode: "sm",
+      options: {},
+    };
+  } else if (preset == "standard_full" || preset == "std_full") {
+    return {
+      mode: "sf",
+      options: {},
+    };
+  } else if (preset == "mm" || preset == "recall_mm") {
+    return {
+      mode: "rm",
+      options: {},
+    };
+  } else if (preset == "full" || preset == "recall_full") {
+    return {
+      mode: "rf",
+      options: {},
+    };
+  }
+};
+
+export const optionsToFlags = (mode, options) => {
+  const gameMode = game_modes.find((m) => m.name == mode);
+  const bytes = new Uint8Array(12).fill(0);
+  bytes[0] |= gameMode.mask;
+  bytes[1] |= options.DisableFanfare == 1 ? 0x01 : 0x00;
+  return compressToEncodedURIComponent(Buffer.from(bytes).toString("base64"));
 };
 
 export const generateFromPreset = (preset) => {

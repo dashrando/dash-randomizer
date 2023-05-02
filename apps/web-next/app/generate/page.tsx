@@ -2,10 +2,11 @@
 
 import "@/public/styles/dash.css";
 import "@/public/styles/generate.css";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RandomizeRom } from "@/../../packages/core";
 import { saveAs } from "file-saver";
 import { vanilla } from "@/../../packages/core";
+import { optionsToFlags } from "@/../../packages/core/lib/sm-rando";
 
 export default function GeneratePage() {
   const [seedMode, setSeedMode] = useState("random");
@@ -17,7 +18,7 @@ export default function GeneratePage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [minSeed, maxSeed] = [1, 999999];
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     document.addEventListener('vanillaRom:set', (evt: any) => {
       setVanillaBytes(evt.detail.data);
     });
@@ -42,7 +43,7 @@ export default function GeneratePage() {
         config
       )) as { data: any; name: string };
       saveAs(new Blob([data]), name);
-      updatePermalink(seed, "ABCD");
+      updatePermalink(seed, optionsToFlags(gameMode, options));
     } catch (e) {
       const message = (e as Error).message;
       console.error(message);

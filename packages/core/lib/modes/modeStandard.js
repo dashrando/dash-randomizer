@@ -77,7 +77,11 @@ class ModeStandard {
     //-----------------------------------------------------------------
 
     const canHellRun = (load) => {
-      return load.totalTanks >= 3 || load.hasVaria;
+      return (
+        load.totalTanks >= 4 ||
+        (load.totalTanks >= 3 && load.hasGravity) ||
+        load.hasVaria
+      );
     };
 
     const canAccessRedBrinstar = (load) => {
@@ -105,8 +109,7 @@ class ModeStandard {
         canAccessLowerNorfair(load) &&
         (load.canFly ||
           load.hasHiJump ||
-          load.hasSpringBall ||
-          (load.hasIce && load.hasCharge))
+          load.hasSpringBall)
       );
     };
 
@@ -490,8 +493,8 @@ class ModeStandard {
         load.canUsePowerBombs &&
         (load.hasGrapple ||
           load.hasSpaceJump ||
-          load.totalTanks >= 6 ||
-          (load.hasVaria && load.totalTanks >= 4))
+          (load.hasHiJump && load.hasSpeed && load.totalTanks >= 4) ||
+          (load.hasIce && load.totalTanks >= 4))
       );
     });
 
@@ -590,7 +593,11 @@ class ModeStandard {
     });
 
     minor("Missiles (Beach)", (load) => {
-      return canAccessInnerMaridia(load);
+      return (
+        canAccessRedBrinstar(load) &&
+        load.canUsePowerBombs &&
+        (load.hasGravity || canDoSuitlessMaridia(load))
+      );
     });
 
     minor("Missiles (Mainstreet)", (load) => {
@@ -607,7 +614,11 @@ class ModeStandard {
     });
 
     minor("Missiles (Watering Hole)", (load) => {
-      return canAccessInnerMaridia(load);
+      return (
+        canAccessRedBrinstar(load) &&
+        load.canUsePowerBombs &&
+        (load.hasGravity || canDoSuitlessMaridia(load))
+      );
     });
 
     minor("Supers (Crab)", (load) => {
@@ -615,7 +626,11 @@ class ModeStandard {
     });
 
     minor("Supers (Watering Hole)", (load) => {
-      return canAccessInnerMaridia(load);
+      return (
+        canAccessRedBrinstar(load) &&
+        load.canUsePowerBombs &&
+        (load.hasGravity || canDoSuitlessMaridia(load))
+      );
     });
 
     major("Energy Tank (Wrecked Ship)", (load) => {
