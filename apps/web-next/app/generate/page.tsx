@@ -2,10 +2,10 @@
 
 import "@/public/styles/dash.css";
 import "@/public/styles/generate.css";
-import { useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { RandomizeRom } from "@/../../packages/core";
 import { saveAs } from "file-saver";
-//import { vanilla } from "@/../../packages/core";
+import { vanilla } from "@/../../packages/core";
 
 export default function GeneratePage() {
   const [seedMode, setSeedMode] = useState("random");
@@ -16,6 +16,19 @@ export default function GeneratePage() {
   const [permalink, setPermalink] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [minSeed, maxSeed] = [1, 999999];
+
+  useLayoutEffect(() => {
+    document.addEventListener('vanillaRom:set', (evt: any) => {
+      setVanillaBytes(evt.detail.data);
+    });
+    document.addEventListener('vanillaRom:cleared', (evt: any) => {
+      setVanillaBytes(new Uint8Array());
+      if (inputRef.current != null) {
+        inputRef.current.value = "";
+      }
+    });
+    new vanilla.vanillaROM();
+  }, []);
 
   const generateRom = async () => {
     const seed = getSeed();
@@ -58,37 +71,8 @@ export default function GeneratePage() {
     return vanillaBytes.length > 0;
   };
 
-  const loadFile = (evt: any) => {
-    if (evt.target != null) {
-      let vanillaRom = evt.target.files[0];
-      let reader = new FileReader();
-      reader.readAsArrayBuffer(vanillaRom);
-
-      reader.onload = async function () {
-        try {
-          setVanillaBytes(new Uint8Array(reader.result as ArrayBuffer));
-        } catch (e) {
-          const message = (e as Error).message;
-          console.error(message);
-          alert(message);
-        }
-      };
-
-      reader.onerror = function () {
-        alert("Failed to load file.");
-      };
-    }
-  };
-
   const toggleSeedMode = () => {
     setSeedMode(seedMode == "random" ? "fixed" : "random");
-  };
-
-  const unloadFile = (e: any) => {
-    setVanillaBytes(new Uint8Array());
-    if (inputRef.current != null) {
-      inputRef.current.value = "";
-    }
   };
 
   const updatePermalink = (seed: number, flags: string) => {
@@ -123,13 +107,13 @@ export default function GeneratePage() {
           <input
             id="vanilla-rom"
             type="file"
-            onChange={loadFile}
+            onChange={(e) => vanilla.inputVanillaRom(e.target)}
             disabled={vanillaBytes.length > 0}
             ref={inputRef}
           />
           <div id="vanilla-rom-loaded">
             Vanilla ROM is loaded
-            <button id="remove-vanilla-rom-btn" onClick={unloadFile}>
+            <button id="remove-vanilla-rom-btn" onClick={() => vanilla.clearVanillaRom()}>
               x
             </button>
           </div>
