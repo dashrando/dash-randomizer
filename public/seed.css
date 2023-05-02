@@ -62,6 +62,15 @@
   transition: opacity 0.3s ease-in-out 0.15s;
 }
 
+#seed-settings h4 {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out 0.15s;
+}
+
+.loaded #seed-settings h4 {
+  opacity: 1;
+}
+
 .loaded #seed-settings ul {
   opacity: 1;
 }
