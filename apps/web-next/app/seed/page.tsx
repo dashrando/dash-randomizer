@@ -92,8 +92,12 @@ export default function SeedPage() {
     seedNum: 0,
     options: {},
   });
-  const [signature, setSignature] = useState("BEETOM BULL YARD GAMET")
+  const [signature, setSignature] = useState("BEETOM BULL YARD GAMET");
   const [containerClass, setContainerClass] = useState("");
+  const [romData, setRomData] = useState({
+    data: null,
+    name: "DASH_v00r_AA_000000.sfc",
+  });
 
   const updateSettings = (num: number, mode: string, options: {}) => {
     const gameMode = MODES.find(({ name }) => name === mode);
@@ -149,7 +153,30 @@ export default function SeedPage() {
       }
     }
 
+    document.addEventListener("seed:params-missing", (_) => {
+      setContainerClass("params-missing");
+    });
+
+    document.addEventListener("seed:vanilla-missing", (evt: any) => {
+      const { num, mode, options } = evt.detail;
+      updateSettings(num, mode, options);
+      setContainerClass("vanilla-missing loaded");
+
+      document.addEventListener("vanillaRom:set", async (evt: any) => {
+        const vanillaBytes = evt.detail.data;
+        const { data, name } = (await RandomizeRom(num, mode, options, {
+          vanillaBytes,
+        })) as { data: any; name: string };
+        const signature = fetchSignature(data);
+        setSignature(signature);
+        setRomData({ data: data, name: name });
+        setContainerClass("loaded");
+        downloadFile(data, name);
+      });
+    });
+
     document.addEventListener("seed:ready", (evt: any) => {
+      setRomData({ data: evt.detail.data, name: evt.detail.name });
       updateSettings(evt.detail.num, evt.detail.mode, evt.detail.options);
       setSignature(evt.detail.signature);
       setContainerClass("loaded");
@@ -161,12 +188,26 @@ export default function SeedPage() {
   const DownloadButton = () => {
     return (
       <div id="download">
-        <button id="download-btn" className="btn" disabled>
-          Download DASH_v00r_AA_000000.sfc
+        <button
+          id="download-btn"
+          className="btn"
+          disabled={romData.data == null}
+          onClick={() => {
+            if (romData.data != null) {
+              downloadFile(romData.data, romData.name);
+            }
+          }}
+        >
+          Download {romData.name}
         </button>
         <label id="vanilla-btn" className="btn" htmlFor="vanilla-file-input">
           Enter your Vanilla ROM
-          <input type="file" id="vanilla-file-input" name="vanilla-file" />
+          <input
+            type="file"
+            id="vanilla-file-input"
+            name="vanilla-file"
+            onChange={(e) => vanilla.inputVanillaRom(e.target)}
+          />
         </label>
       </div>
     );
