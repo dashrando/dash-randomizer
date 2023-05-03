@@ -19,10 +19,10 @@ export default function GeneratePage() {
   const [minSeed, maxSeed] = [1, 999999];
 
   useEffect(() => {
-    document.addEventListener('vanillaRom:set', (evt: any) => {
+    document.addEventListener("vanillaRom:set", (evt: any) => {
       setVanillaBytes(evt.detail.data);
     });
-    document.addEventListener('vanillaRom:cleared', (evt: any) => {
+    document.addEventListener("vanillaRom:cleared", (evt: any) => {
       setVanillaBytes(new Uint8Array());
       if (inputRef.current != null) {
         inputRef.current.value = "";
@@ -114,7 +114,10 @@ export default function GeneratePage() {
           />
           <div id="vanilla-rom-loaded">
             Vanilla ROM is loaded
-            <button id="remove-vanilla-rom-btn" onClick={() => vanilla.clearVanillaRom()}>
+            <button
+              id="remove-vanilla-rom-btn"
+              onClick={() => vanilla.clearVanillaRom()}
+            >
               x
             </button>
           </div>

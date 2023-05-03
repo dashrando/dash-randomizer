@@ -52,17 +52,19 @@ const SIGNATURE_VALUES = [
 function getSeedOpts(): {
   num: number;
   mode: string;
-  options: object;
+  options: {};
   download: boolean;
 } {
-  const url = new URL(document.location);
+  const url = new URL(document.URL);
   const flags = url.searchParams.get("flags");
-  const { mode, options } = !flags
-    ? getPresetOptions(url.searchParams.get("preset"))
-    : flagsToOptions(flags);
+  const { mode, options } = (
+    !flags
+      ? getPresetOptions(url.searchParams.get("preset"))
+      : flagsToOptions(flags)
+  ) as { mode: string; options: {} };
 
   return {
-    num: url.searchParams.get("num"),
+    num: Number(url.searchParams.get("num")),
     mode: mode,
     options: options,
     download: url.searchParams.get("download") !== null,
@@ -90,8 +92,10 @@ export default function SeedPage() {
 
   const updateMode = (value: string) => {
     const mode = MODES.find(({ name }) => name === value);
-    setMode(mode.title);
-  }
+    if (mode != null) {
+      setMode(mode.title);
+    }
+  };
 
   useEffect(() => {
     async function startup() {
@@ -116,9 +120,9 @@ export default function SeedPage() {
           document.dispatchEvent(vanillaEvt);
           return null;
         }
-        const { data, name } = await RandomizeRom(num, mode, options, {
+        const { data, name } = (await RandomizeRom(num, mode, options, {
           vanillaBytes,
-        });
+        })) as { data: any; name: string };
         const signature = fetchSignature(data);
         const readyEvt = new CustomEvent("seed:ready", {
           detail: { data, name, num, mode, options, autoDownload, signature },
@@ -135,11 +139,12 @@ export default function SeedPage() {
           }, 850);
         }
       } catch (e) {
-        console.error(e.message);
+        const message = (e as Error).message;
+        console.error(message);
       }
     }
 
-    document.addEventListener("seed:ready", (evt) => {
+    document.addEventListener("seed:ready", (evt: any) => {
       updateMode(evt.detail.mode);
       setContainerClass("loaded");
     });
