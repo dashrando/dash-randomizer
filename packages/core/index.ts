@@ -1,4 +1,8 @@
-import { generateFromPreset } from "./lib/sm-rando";
+import {
+  generateFromPreset,
+  getPresetOptions,
+  flagsToOptions,
+} from "./lib/sm-rando";
 import RandomizeRom from "./lib/randomize";
 import vanillaROM, { clearVanillaRom, getVanilla } from "./lib/vanilla/storage";
 import inputVanillaRom from "./lib/vanilla/input";
@@ -19,8 +23,10 @@ export const Logic = {
 };
 
 export {
+  flagsToOptions,
   gameModes,
   generateFromPreset,
+  getPresetOptions,
   RandomizeRom,
   vanilla,
   BpsPatch,

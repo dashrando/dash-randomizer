@@ -3,14 +3,14 @@
 import "@/public/styles/dash.css";
 import "@/public/styles/seed.css";
 import { useEffect, useState } from "react";
-import {
-  getPresetOptions,
-  flagsToOptions,
-} from "@/../../packages/core/lib/sm-rando";
 import { saveAs } from "file-saver";
-import { RandomizeRom, vanilla } from "@/../../packages/core";
-import { getVanilla } from "@/../../packages/core/lib/vanilla/storage";
-import MODES from "@/../../packages/core/data/modes";
+import {
+  flagsToOptions,
+  gameModes,
+  getPresetOptions,
+  RandomizeRom,
+  vanilla,
+} from "core";
 
 // These signatures are taken from:
 // https://github.com/dashrando/dash-template-asm/blob/main/src/fileselect/gameoptions.asm#L85-L117
@@ -100,7 +100,7 @@ export default function SeedPage() {
   });
 
   const updateSettings = (num: number, mode: string, options: {}) => {
-    const gameMode = MODES.find(({ name }) => name === mode);
+    const gameMode = gameModes.find(({ name }) => name === mode);
     if (gameMode != null) {
       setSettings({
         gameMode: gameMode.title,
@@ -121,7 +121,7 @@ export default function SeedPage() {
           return null;
         }
 
-        const vanillaBytes = await getVanilla();
+        const vanillaBytes = await vanilla.getVanilla();
         if (!vanillaBytes) {
           const vanillaEvt = new CustomEvent("seed:vanilla-missing", {
             detail: { num, mode, options },
