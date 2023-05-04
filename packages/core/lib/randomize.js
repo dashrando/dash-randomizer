@@ -23,7 +23,7 @@ async function RandomizeRom(seed = 0, gameModeName, opts = {}, config = {}) {
     throw Error("No vanilla ROM data found");
   }
 
-   switch (gameModeName) {
+  switch (gameModeName) {
     case "sm":
       mode = new ModeStandard(seed, getLocations());
       getPrePool = getMajorMinorPrePool;
@@ -49,13 +49,12 @@ async function RandomizeRom(seed = 0, gameModeName, opts = {}, config = {}) {
       break;
 
     default:
-         throw Error("Invalid game mode specified");
+      throw Error("Invalid game mode specified");
   }
 
   let gameMode = game_modes.find((mode) => mode.name == gameModeName);
   if (gameMode == null) {
-    alert("Selected Game Mode is currently unsupported for web generation.");
-    return;
+    throw Error("Unknown game mode:" + gameModeName);
   }
 
   // Setup the initial loadout.
