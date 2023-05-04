@@ -194,6 +194,7 @@ export default function SeedPage() {
   }, []);
 
   const DownloadButton = () => {
+    const btnText = downloading ? "Downloading..." : `Download ${romData.name}`;
     return (
       <div id="download">
         <button
@@ -206,11 +207,7 @@ export default function SeedPage() {
             }
           }}
         >
-          {downloading ? (
-            <>Downloading...</>
-          ) : (
-            <>Download {romData.name}</>
-          )}
+          {btnText}
         </button>
         <label id="vanilla-btn" className="btn" htmlFor="vanilla-file-input">
           Enter your Vanilla ROM
@@ -255,62 +252,66 @@ export default function SeedPage() {
   };
 
   const SeedOptions = ({ opts }: { opts: any }) => {
+    let fanfareString = "";
+
+    if (opts != null) {
+      fanfareString = opts.DisableFanfare ? "Off" : "On";
+    }
+
     return (
-      <div id="seed-settings">
-        <h4>Options</h4>
-        <ul>
-          <li>
-            <span className="settings-label">Item Fanfare</span>
-            <span className="settings-value" id="options-fanfare">
-              {opts != null && opts.DisableFanfare != null ? (
-                opts.DisableFanfare ? (
-                  "Off"
-                ) : (
-                  "On"
-                )
-              ) : (
-                <span className="settings-mdash">&mdash;</span>
-              )}
-            </span>
-          </li>
-          <li></li>
-        </ul>
-      </div>
+      <SeedParamList header="Options">
+        <SeedParam name="Item Fanfare" value={fanfareString} />
+        <SeedSpacer />
+      </SeedParamList>
     );
   };
 
   const SeedSettings = ({ mode, num }: { mode: string; num: number }) => {
+    const numString = num <= 0 ? "" : num.toString().padStart(6, "0");
     return (
-      <div id="seed-settings">
-        <h4>Settings</h4>
-        <ul>
-          <li>
-            <span className="settings-label">Game Mode</span>
-            <span className="settings-value" id="settings-mode">
-              {mode.length > 0 ? (
-                mode
-              ) : (
-                <span className="settings-mdash">&mdash;</span>
-              )}
-            </span>
-          </li>
-          <li>
-            <span className="settings-label">Seed</span>
-            <span className="settings-value" id="settings-seed">
-              {num > 0 ? (
-                num.toString().padStart(6, "0")
-              ) : (
-                <span className="settings-mdash">&mdash;</span>
-              )}
-            </span>
-          </li>
-        </ul>
-      </div>
+      <SeedParamList header="Settings">
+        <SeedParam name="Game Mode" value={mode} />
+        <SeedParam name="Seed" value={numString} />
+      </SeedParamList>
     );
   };
 
   const SeedSignature = ({ sig }: { sig: string }) => {
     return <div id="seed-signature">{sig}</div>;
+  };
+
+  const SeedParam = ({ name, value }: { name: string; value: string }) => {
+    return (
+      <li>
+        <span className="settings-label">{name}</span>
+        <span className="settings-value">
+          {value.length > 0 ? (
+            value
+          ) : (
+            <span className="settings-mdash">&mdash;</span>
+          )}
+        </span>
+      </li>
+    );
+  };
+
+  const SeedParamList = ({
+    header,
+    children,
+  }: {
+    header: string;
+    children: any;
+  }) => {
+    return (
+      <div id="seed-settings">
+        <h4>{header}</h4>
+        <ul>{children}</ul>
+      </div>
+    );
+  };
+
+  const SeedSpacer = () => {
+    return <li></li>;
   };
 
   return (
