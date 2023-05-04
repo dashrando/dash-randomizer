@@ -2,6 +2,7 @@ import {
   generateFromPreset,
   getPresetOptions,
   flagsToOptions,
+  optionsToFlags,
 } from "./lib/sm-rando";
 import RandomizeRom from "./lib/randomize";
 import vanillaROM, { clearVanillaRom, getVanilla } from "./lib/vanilla/storage";
@@ -31,4 +32,5 @@ export {
   vanilla,
   BpsPatch,
   patchRom,
+  optionsToFlags,
 };

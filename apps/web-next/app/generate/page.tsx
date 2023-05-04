@@ -2,11 +2,10 @@
 
 import "@/public/styles/dash.css";
 import "@/public/styles/generate.css";
+
 import { useEffect, useRef, useState } from "react";
-import { RandomizeRom } from "@/../../packages/core";
+import { optionsToFlags, RandomizeRom, vanilla } from "core";
 import { saveAs } from "file-saver";
-import { vanilla } from "@/../../packages/core";
-import { optionsToFlags } from "@/../../packages/core/lib/sm-rando";
 
 export default function GeneratePage() {
   const [seedMode, setSeedMode] = useState("random");

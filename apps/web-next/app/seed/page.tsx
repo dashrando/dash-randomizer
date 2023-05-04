@@ -94,6 +94,7 @@ export default function SeedPage() {
   });
   const [signature, setSignature] = useState("BEETOM BULL YARD GAMET");
   const [containerClass, setContainerClass] = useState("");
+  const [downloading, setDownloading] = useState(false);
   const [romData, setRomData] = useState({
     data: null,
     name: "DASH_v00r_AA_000000.sfc",
@@ -176,10 +177,17 @@ export default function SeedPage() {
     });
 
     document.addEventListener("seed:ready", (evt: any) => {
+      if (evt.detail.autoDownload) {
+        setDownloading(true);
+      }
       setRomData({ data: evt.detail.data, name: evt.detail.name });
       updateSettings(evt.detail.num, evt.detail.mode, evt.detail.options);
       setSignature(evt.detail.signature);
       setContainerClass("loaded");
+    });
+
+    document.addEventListener("seed:download", (evt: any) => {
+      setDownloading(false);
     });
 
     startup();
@@ -190,7 +198,7 @@ export default function SeedPage() {
       <div id="download">
         <button
           id="download-btn"
-          className="btn"
+          className={downloading ? "btn downloading" : "btn"}
           disabled={romData.data == null}
           onClick={() => {
             if (romData.data != null) {
@@ -198,7 +206,11 @@ export default function SeedPage() {
             }
           }}
         >
-          Download {romData.name}
+          {downloading ? (
+            <>Downloading...</>
+          ) : (
+            <>Download {romData.name}</>
+          )}
         </button>
         <label id="vanilla-btn" className="btn" htmlFor="vanilla-file-input">
           Enter your Vanilla ROM
