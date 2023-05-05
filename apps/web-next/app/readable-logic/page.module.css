@@ -1,0 +1,11 @@
+.token {
+  margin-bottom: 32px;
+}
+
+.token_name {
+  text-decoration: underline;
+}
+
+.token_criteria {
+  text-decoration: none;
+}

@@ -1,6 +1,7 @@
 import DotNetRandom from "../dotnet-random";
 import { majorItem, minorItem, Item } from "../items";
 import ItemNode from "../logic";
+import { getLocations } from "../locations";
 
 class ModeStandard {
   nodes = [];
@@ -71,108 +72,6 @@ class ModeStandard {
     };
     let major = (n, a) => add(n, true, a);
     let minor = (n, a) => add(n, false, a);
-
-    //-----------------------------------------------------------------
-    // Common logic used at item locations.
-    //-----------------------------------------------------------------
-
-    const canHellRun = (load) => {
-      return (
-        load.totalTanks >= 4 ||
-        (load.totalTanks >= 3 && load.hasGravity) ||
-        load.hasVaria
-      );
-    };
-
-    const canAccessRedBrinstar = (load) => {
-      return (
-        load.superPacks >= 1 &&
-        (load.canUsePowerBombs || (load.canDestroyBombWalls && load.hasMorph))
-      );
-    };
-
-    const canAccessHeatedNorfair = (load) => {
-      return canAccessRedBrinstar(load) && canHellRun(load);
-    };
-
-    const canAccessLowerNorfair = (load) => {
-      return (
-        canAccessHeatedNorfair(load) &&
-        load.canUsePowerBombs &&
-        load.hasVaria &&
-        (load.hasHiJump || load.hasGravity)
-      );
-    };
-
-    const canPassWorstRoom = (load) => {
-      return (
-        canAccessLowerNorfair(load) &&
-        (load.canFly ||
-          load.hasHiJump ||
-          load.hasSpringBall)
-      );
-    };
-
-    const canAccessKraid = (load) => {
-      return canAccessRedBrinstar(load) && load.canPassBombPassages;
-    };
-
-    const canAccessCrocomire = (load) => {
-      return (
-        canAccessHeatedNorfair(load) ||
-        (canAccessKraid(load) &&
-          load.canUsePowerBombs &&
-          load.hasSpeed &&
-          load.totalTanks >= 2)
-      );
-    };
-
-    const canDoSuitlessMaridia = (load) => {
-      return (
-        load.hasHiJump && load.hasGrapple && (load.hasIce || load.hasSpringBall)
-      );
-    };
-
-    const canDefeatBotwoon = (load) => {
-      return (
-        canAccessRedBrinstar(load) &&
-        load.canUsePowerBombs &&
-        (load.hasIce || load.hasSpeed) &&
-        (load.hasGravity || (canDoSuitlessMaridia(load) && load.hasIce))
-      );
-    };
-
-    const canDefeatDraygon = (load) => {
-      return canDefeatBotwoon(load) && load.hasGravity;
-    };
-
-    const canAccessWreckedShip = (load) => {
-      return load.canUsePowerBombs && load.superPacks >= 1;
-    };
-
-    const canAccessOuterMaridia = (load) => {
-      return (
-        canAccessRedBrinstar(load) &&
-        load.canUsePowerBombs &&
-        (load.hasGravity ||
-          (load.hasHiJump && (load.hasIce || load.hasSpringBall)))
-      );
-    };
-
-    const canAccessInnerMaridia = (load) => {
-      return (
-        canAccessRedBrinstar(load) && load.canUsePowerBombs && load.hasGravity
-      );
-    };
-
-    const canEnterAndLeaveGauntlet = (load) => {
-      return (
-        load.canUseBombs ||
-        load.hasScrewAttack ||
-        (load.canUsePowerBombs && load.powerPacks >= 2) ||
-        (load.hasSpeed && load.canUsePowerBombs && load.totalTanks >= 2)
-      );
-    };
 
     //-----------------------------------------------------------------
     // Logic for each item location.
@@ -694,5 +593,124 @@ class ModeStandard {
     });
   }
 }
+
+//-----------------------------------------------------------------
+// Common logic used at item locations.
+//-----------------------------------------------------------------
+
+const canHellRun = (load) => {
+  return (
+    load.totalTanks >= 4 ||
+    (load.totalTanks >= 3 && load.hasGravity) ||
+    load.hasVaria
+  );
+};
+
+const canAccessRedBrinstar = (load) => {
+  return (
+    load.superPacks >= 1 &&
+    (load.canUsePowerBombs || (load.canDestroyBombWalls && load.hasMorph))
+  );
+};
+
+const canAccessHeatedNorfair = (load) => {
+  return canAccessRedBrinstar(load) && canHellRun(load);
+};
+
+const canAccessLowerNorfair = (load) => {
+  return (
+    canAccessHeatedNorfair(load) &&
+    load.canUsePowerBombs &&
+    load.hasVaria &&
+    (load.hasHiJump || load.hasGravity)
+  );
+};
+
+const canPassWorstRoom = (load) => {
+  return (
+    canAccessLowerNorfair(load) &&
+    (load.canFly || load.hasHiJump || load.hasSpringBall)
+  );
+};
+
+const canAccessKraid = (load) => {
+  return canAccessRedBrinstar(load) && load.canPassBombPassages;
+};
+
+const canAccessCrocomire = (load) => {
+  return (
+    canAccessHeatedNorfair(load) ||
+    (canAccessKraid(load) &&
+      load.canUsePowerBombs &&
+      load.hasSpeed &&
+      load.totalTanks >= 2)
+  );
+};
+
+const canDoSuitlessMaridia = (load) => {
+  return (
+    load.hasHiJump && load.hasGrapple && (load.hasIce || load.hasSpringBall)
+  );
+};
+
+const canDefeatBotwoon = (load) => {
+  return (
+    canAccessRedBrinstar(load) &&
+    load.canUsePowerBombs &&
+    (load.hasIce || load.hasSpeed) &&
+    (load.hasGravity || (canDoSuitlessMaridia(load) && load.hasIce))
+  );
+};
+
+const canDefeatDraygon = (load) => {
+  return canDefeatBotwoon(load) && load.hasGravity;
+};
+
+const canAccessWreckedShip = (load) => {
+  return load.canUsePowerBombs && load.superPacks >= 1;
+};
+
+const canAccessOuterMaridia = (load) => {
+  return (
+    canAccessRedBrinstar(load) &&
+    load.canUsePowerBombs &&
+    (load.hasGravity || (load.hasHiJump && (load.hasIce || load.hasSpringBall)))
+  );
+};
+
+const canAccessInnerMaridia = (load) => {
+  return canAccessRedBrinstar(load) && load.canUsePowerBombs && load.hasGravity;
+};
+
+const canEnterAndLeaveGauntlet = (load) => {
+  return (
+    load.canUseBombs ||
+    load.hasScrewAttack ||
+    (load.canUsePowerBombs && load.powerPacks >= 2) ||
+    (load.hasSpeed && load.canUsePowerBombs && load.totalTanks >= 2)
+  );
+};
+
+export const LogicChecks = {
+  canHellRun,
+  canAccessRedBrinstar,
+  canAccessHeatedNorfair,
+  canAccessLowerNorfair,
+  canPassWorstRoom,
+  canAccessKraid,
+  canAccessCrocomire,
+  canDoSuitlessMaridia,
+  canDefeatBotwoon,
+  canDefeatDraygon,
+  canAccessWreckedShip,
+  canAccessOuterMaridia,
+  canAccessInnerMaridia,
+  canEnterAndLeaveGauntlet,
+};
+
+export const Logic = {
+  LogicChecks,
+  LogicLocations: new ModeStandard(1, getLocations()).nodes,
+};
 
 export default ModeStandard;

@@ -11,6 +11,7 @@ import gameModes from "./data/modes";
 import BpsPatch from "./lib/bps-patch";
 import { patchRom } from "./helpers/patcher";
 import { Logic as RecallLogic } from "./lib/modes/modeRecall";
+import { Logic as StandardLogic } from "./lib/modes/modeStandard";
 
 const vanilla = {
   vanillaROM,
@@ -21,6 +22,7 @@ const vanilla = {
 
 export const Logic = {
   recall: RecallLogic,
+  standard: StandardLogic,
 };
 
 export {

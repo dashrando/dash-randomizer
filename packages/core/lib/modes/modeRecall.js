@@ -1,5 +1,6 @@
 import DotNetRandom from "../dotnet-random";
 import { majorItem, minorItem, Item } from "../items";
+import { getLocations } from "../locations";
 import ItemNode from "../logic";
 
 class ModeRecall {
@@ -612,10 +613,7 @@ const canAccessLowerNorfair = (load) => {
 const canPassWorstRoom = (load) => {
   return (
     canAccessLowerNorfair(load) &&
-    (load.canFly ||
-      load.hasHiJump ||
-      load.hasSpringBall ||
-      load.hasDoubleJump)
+    (load.canFly || load.hasHiJump || load.hasSpringBall || load.hasDoubleJump)
   );
 };
 
@@ -692,7 +690,7 @@ export const LogicChecks = {
 
 export const Logic = {
   LogicChecks,
-  LogicLocations: [],
+  LogicLocations: new ModeRecall(1, getLocations()).nodes,
 };
 
 export default ModeRecall;
