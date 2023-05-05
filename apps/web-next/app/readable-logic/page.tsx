@@ -37,7 +37,7 @@ const formatCriteria = (criteria: string): string => {
 };
 
 const tokenizeLogic = (logic: any): Token[] => {
-  const nodeToToken = (node: any): Token => {
+  /*const nodeToToken = (node: any): Token => {
     const type = node.isMajor ? "Major" : "Minor";
     const func = node.available.toString();
     return {
@@ -56,6 +56,8 @@ const tokenizeLogic = (logic: any): Token[] => {
   return Object.entries(logic.LogicChecks)
     .map((n: any) => funcToToken(n))
     .concat(logic.LogicLocations.map((n: any) => nodeToToken(n)));
+    */
+   return logic.LogicChecks.concat(logic.LogicLocations);
 };
 
 const loadLogic = (logicType: string): { title: string; tokens: any } => {

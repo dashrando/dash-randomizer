@@ -2,6 +2,7 @@ import DotNetRandom from "../dotnet-random";
 import { majorItem, minorItem, Item } from "../items";
 import { getLocations } from "../locations";
 import ItemNode from "../logic";
+import { tokenizeFunctions, tokenizeNodes } from "../../helpers/tokenize";
 
 class ModeRecall {
   nodes = [];
@@ -689,8 +690,8 @@ export const LogicChecks = {
 };
 
 export const Logic = {
-  LogicChecks,
-  LogicLocations: new ModeRecall(1, getLocations()).nodes,
+  LogicChecks: tokenizeFunctions(Object.entries(LogicChecks)),
+  LogicLocations: tokenizeNodes(new ModeRecall(1, getLocations()).nodes),
 };
 
 export default ModeRecall;

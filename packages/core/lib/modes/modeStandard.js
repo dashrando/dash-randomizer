@@ -2,6 +2,7 @@ import DotNetRandom from "../dotnet-random";
 import { majorItem, minorItem, Item } from "../items";
 import ItemNode from "../logic";
 import { getLocations } from "../locations";
+import { tokenizeFunctions, tokenizeNodes } from "../../helpers/tokenize";
 
 class ModeStandard {
   nodes = [];
@@ -709,8 +710,8 @@ export const LogicChecks = {
 };
 
 export const Logic = {
-  LogicChecks,
-  LogicLocations: new ModeStandard(1, getLocations()).nodes,
+  LogicChecks: tokenizeFunctions(Object.entries(LogicChecks)),
+  LogicLocations: tokenizeNodes(new ModeStandard(1, getLocations()).nodes),
 };
 
 export default ModeStandard;
