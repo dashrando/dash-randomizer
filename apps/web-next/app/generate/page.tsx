@@ -6,6 +6,7 @@ import "@/public/styles/generate.css";
 import { useEffect, useRef, useState } from "react";
 import { optionsToFlags, RandomizeRom, vanilla } from "core";
 import { saveAs } from "file-saver";
+import Link from "next/link";
 
 export default function GeneratePage() {
   const [seedMode, setSeedMode] = useState("random");
@@ -83,12 +84,12 @@ export default function GeneratePage() {
     <>
       <div id="wrapper">
         <div id="header">
-          <a href="/">
+          <Link href="/">
             <img
               src="images/dashLogo-noBG.png"
               alt="Super Metroid DASH Randomizer"
             />
-          </a>
+          </Link>
         </div>
         <div id="section_label">
           <hr />
@@ -125,7 +126,15 @@ export default function GeneratePage() {
         <br />
         <div id="section_label">
           Select Your Game Mode &emsp;
-          <a href="/readable-logic">What's in the logic for each game mode?</a>
+          <Link
+            href={
+              gameMode.startsWith("r")
+                ? "/readable/recall"
+                : "/readable/standard"
+            }
+          >
+            What's in the logic for each game mode?
+          </Link>
           <hr />
         </div>
         <div id="select_mode">
@@ -220,7 +229,7 @@ export default function GeneratePage() {
             <p>
               Your Seed's URL:{" "}
               <span id="seed-permalink">
-                <a href={permalink}>{permalink}</a>
+                <Link href={permalink}>{permalink}</Link>
               </span>
             </p>
           </div>

@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Readable Logic - DASH Standard',
-  description: 'DASH Standard logic in a human readable format',
+  title: 'Super Metroid DASH Randomizer',
+  description: 'Super Metroid DASH Randomizer',
 }
 
 export default function RootLayout({
