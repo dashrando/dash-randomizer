@@ -20,6 +20,11 @@ const nextConfig = {
         destination: "https://github.com/dashrando",
         permanent: false,
       },
+      {
+        source: "/readable",
+        destination: "/readable/recall",
+        permanent: false,
+      },
     ];
   },
   rewrites: async () => {

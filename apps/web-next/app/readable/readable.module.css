@@ -1,0 +1,37 @@
+.logic_title {
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.token {
+  margin-bottom: 24px;
+}
+
+.token_name {
+  text-decoration: underline;
+}
+
+.token_criteria {
+  text-decoration: none;
+}
+
+.nav_bar {
+  margin: 32px 0px;
+  font-size: 1.1em;
+}
+
+.nav_title {
+  text-decoration: none;
+  font-variant-caps: all-petite-caps;
+  font-size: 1.1em;
+}
+
+.nav_link {
+  margin: 10px;
+}
+
+.nav_link.selected {
+  font-weight: bold;
+  font-style: italic;
+}
