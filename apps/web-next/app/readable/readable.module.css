@@ -16,6 +16,11 @@
   text-decoration: none;
 }
 
+.token_reference {
+  color: rgb(90, 173, 54);
+  font-weight: bold;
+}
+
 .nav_bar {
   margin: 32px 0px;
   font-size: 1.1em;

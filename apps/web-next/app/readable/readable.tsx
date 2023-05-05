@@ -56,7 +56,7 @@ const tokenizeLogic = (logic: any): Token[] => {
     .concat(logic.LogicLocations.map((n: any) => nodeToToken(n)));
 };
 
-const loadLogic = (logicType: string): { title: string; tokens: any } => {
+const loadLogic = (logicType: string): { title: string; tokens: Token[] } => {
   if (logicType == "recall") {
     return {
       title: "DASH - Recall Logic",
@@ -86,6 +86,27 @@ const Navigation = ({ selected }: { selected: string }) => {
 
 export default function ReadableLogic({ logicType }: { logicType: string }) {
   const { title, tokens } = loadLogic(logicType);
+
+const Criteria = ({ value }: { value: string}) => {
+  const formatWord = (word: string) => {
+    if (tokens.some(t => t.name == word)) {
+      return (
+        <span className={styles.token_reference}>
+          {word+" "}
+        </span>
+      )
+    }
+    return (
+      word+" "
+    );
+  }
+  return (
+    <div className={styles.token_criteria}>
+    {value.split(" ").map(w => formatWord(w))}
+    </div>
+  )
+}
+
   return (
     <>
       <div id="wrapper">
@@ -108,7 +129,7 @@ export default function ReadableLogic({ logicType }: { logicType: string }) {
             return (
               <div key={t.name} className={styles.token}>
                 <div className={styles.token_name}>{t.name}</div>
-                <div className={styles.token_criteria}>{t.criteria}</div>
+                <Criteria value={t.criteria} />
               </div>
             );
           })}
