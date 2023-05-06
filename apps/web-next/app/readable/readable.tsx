@@ -1,5 +1,4 @@
 import "@/public/styles/dash.css";
-import "@/public/styles/readable.css";
 import styles from "./readable.module.css";
 
 import { Logic } from "core";
@@ -74,10 +73,18 @@ const Navigation = ({ selected }: { selected: string }) => {
   return (
     <div className={styles.nav_bar}>
       <span className={styles.nav_title}>Select Logic:</span>
-      <span className={`${styles.nav_link} ${selected == "recall" ? `${styles.selected}` : ""}`}>
+      <span
+        className={`${styles.nav_link} ${
+          selected == "recall" ? `${styles.selected}` : ""
+        }`}
+      >
         <Link href="/readable/recall">Recall</Link>
       </span>
-      <span className={`${styles.nav_link} ${selected == "standard" ? `${styles.selected}` : ""}`}>
+      <span
+        className={`${styles.nav_link} ${
+          selected == "standard" ? `${styles.selected}` : ""
+        }`}
+      >
         <Link href="/readable/standard">Standard</Link>
       </span>
     </div>
@@ -87,64 +94,67 @@ const Navigation = ({ selected }: { selected: string }) => {
 export default function ReadableLogic({ logicType }: { logicType: string }) {
   const { title, tokens } = loadLogic(logicType);
 
-const Criteria = ({ value }: { value: string}) => {
+  const Criteria = ({ value }: { value: string }) => {
+    let parts: string[] = [" "];
 
-  let parts: string[] = [" "];
-
-  value.split(" ").forEach((w: string) => {
-    if (tokens.some(t => t.name == w)) {
-      parts.push(w);
-      parts.push(" ");
-    } else {
-      parts[parts.length - 1] += w + " ";
-    }
-  });
-
-  return (
-    <div className={styles.token_criteria}>
-    {parts.map(p => {
-      if (p.startsWith(" ")) {
-        return p;
+    value.split(" ").forEach((w: string) => {
+      if (tokens.some((t) => t.name == w)) {
+        parts.push(w);
+        parts.push(" ");
+      } else {
+        parts[parts.length - 1] += w + " ";
       }
+    });
+
+    const Popup = ({ reference }: { reference: string }) => {
+      const def = tokens.find((t) => t.name == reference);
       return (
-        <span className={styles.token_reference}>{p}</span>
+        <span className={`${styles.token_reference} ${styles.popup}`}>
+          <span className={styles.popuptext}>{def?.criteria}</span>
+          {reference}
+        </span>
       );
-    })}
-    </div>
-  )
-}
+    };
+
+    return (
+      <div className={styles.token_criteria}>
+        {parts.map((p) => {
+          if (p.startsWith(" ")) {
+            return p;
+          }
+          return <Popup key={p} reference={p} />;
+        })}
+      </div>
+    );
+  };
 
   return (
-    <>
-      <div id="wrapper">
-        <div id="header">
-          <a href="/">
-            <img
-              src="/images/dashLogo-noBG.png"
-              alt="Super Metroid DASH Randomizer"
-            />
-          </a>
-        </div>
-
-        <Navigation selected={logicType} />
-
-        <hr />
-        <div className={styles.logic_title}>{title}</div>
-        <hr />
-        <div id="logic">
-          {tokens.map((t: Token) => {
-            return (
-              <div key={t.name} className={styles.token}>
-                <div className={styles.token_name}>{t.name}</div>
-                <Criteria value={t.criteria} />
-              </div>
-            );
-          })}
-        </div>
-        <hr />
-        <br />
-        <br />
+    <div id="wrapper">
+      <div id="header">
+        <a href="/">
+          <img
+            src="/images/dashLogo-noBG.png"
+            alt="Super Metroid DASH Randomizer"
+          />
+        </a>
       </div>
-    </>
+
+      <Navigation selected={logicType} />
+
+      <hr />
+      <div className={styles.logic_title}>{title}</div>
+      <hr />
+      <div className={styles.logic}>
+        {tokens.map((t: Token) => {
+          return (
+            <div key={t.name} className={styles.token}>
+              <div className={styles.token_name}>{t.name}</div>
+              <Criteria value={t.criteria} />
+            </div>
+          );
+        })}
+      </div>
+      <hr />
+    </div>
   );
 }
