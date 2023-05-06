@@ -88,21 +88,28 @@ export default function ReadableLogic({ logicType }: { logicType: string }) {
   const { title, tokens } = loadLogic(logicType);
 
 const Criteria = ({ value }: { value: string}) => {
-  const formatWord = (word: string) => {
-    if (tokens.some(t => t.name == word)) {
-      return (
-        <span className={styles.token_reference}>
-          {word+" "}
-        </span>
-      )
+
+  let parts: string[] = [" "];
+
+  value.split(" ").forEach((w: string) => {
+    if (tokens.some(t => t.name == w)) {
+      parts.push(w);
+      parts.push(" ");
+    } else {
+      parts[parts.length - 1] += w + " ";
     }
-    return (
-      word+" "
-    );
-  }
+  });
+
   return (
     <div className={styles.token_criteria}>
-    {value.split(" ").map(w => formatWord(w))}
+    {parts.map(p => {
+      if (p.startsWith(" ")) {
+        return p;
+      }
+      return (
+        <span className={styles.token_reference}>{p}</span>
+      );
+    })}
     </div>
   )
 }
