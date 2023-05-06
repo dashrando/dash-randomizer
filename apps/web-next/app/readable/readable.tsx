@@ -3,6 +3,7 @@ import styles from "./readable.module.css";
 
 import { Logic } from "core";
 import Link from "next/link";
+import Header from "../components/header";
 
 type Token = {
   name: string;
@@ -91,8 +92,8 @@ const Navigation = ({ selected }: { selected: string }) => {
   );
 };
 
-export default function ReadableLogic({ logicType }: { logicType: string }) {
-  const { title, tokens } = loadLogic(logicType);
+const ReadableLogic = ({ type }: { type: string }) => {
+  const { title, tokens } = loadLogic(type);
 
   const Criteria = ({ value }: { value: string }) => {
     let parts: string[] = [" "];
@@ -106,16 +107,6 @@ export default function ReadableLogic({ logicType }: { logicType: string }) {
       }
     });
 
-    const Popup = ({ reference }: { reference: string }) => {
-      const def = tokens.find((t) => t.name == reference);
-      return (
-        <span className={`${styles.token_reference} ${styles.popup}`}>
-          <span className={styles.popuptext}>{def?.criteria}</span>
-          {reference}
-        </span>
-      );
-    };
-
     return (
       <div className={styles.token_criteria}>
         {parts.map((p) => {
@@ -128,19 +119,18 @@ export default function ReadableLogic({ logicType }: { logicType: string }) {
     );
   };
 
+  const Popup = ({ reference }: { reference: string }) => {
+    const def = tokens.find((t) => t.name == reference);
+    return (
+      <span className={`${styles.token_reference} ${styles.popup}`}>
+        <span className={styles.popuptext}>{def?.criteria}</span>
+        {reference}
+      </span>
+    );
+  };
+
   return (
-    <div id="wrapper">
-      <div id="header">
-        <a href="/">
-          <img
-            src="/images/dashLogo-noBG.png"
-            alt="Super Metroid DASH Randomizer"
-          />
-        </a>
-      </div>
-
-      <Navigation selected={logicType} />
-
+    <>
       <hr />
       <div className={styles.logic_title}>{title}</div>
       <hr />
@@ -155,6 +145,16 @@ export default function ReadableLogic({ logicType }: { logicType: string }) {
         })}
       </div>
       <hr />
+    </>
+  );
+};
+
+export default function LogicPage({ type }: { type: string }) {
+  return (
+    <div id="wrapper">
+      <Header />
+      <Navigation selected={type} />
+      <ReadableLogic type={type} />
     </div>
   );
 }

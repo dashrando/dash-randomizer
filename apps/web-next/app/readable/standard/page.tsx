@@ -1,4 +1,4 @@
-import ReadableLogic from "../readable"
+import LogicPage from "../readable"
 
 export const metadata = {
   title: 'Readable Logic - DASH Standard',
@@ -7,6 +7,6 @@ export const metadata = {
 
 export default function StandardPage() {
    return (
-      <ReadableLogic logicType="standard" />
+      <LogicPage type="standard" />
    )
 }
