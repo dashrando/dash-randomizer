@@ -21,6 +21,9 @@ const formatCriteria = (criteria: string): string => {
     .replace(/\|\|/g, "OR")
     .replace(/(\r\n|\r|\n)/g, "")
     .replace(/\s+/g, " ")
+    .replace(/true/g, "Always Accessible")
+    .replace(/>=/g, "is greater than or equal to")
+    .replace(/>/g, "is greater than")
     .trim();
 
   if (

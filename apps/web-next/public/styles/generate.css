@@ -9,11 +9,6 @@
   height: 20px;
   text-align: center;
 }
-#grid_container {
-  display: grid;
-  grid-template-columns: 100px 240px 170px 120px;
-  grid-template-rows: 60px 60px 60px;
-}
 #randomize_button {
   width: 240px;
   border: none;
@@ -41,10 +36,6 @@ select {
   font-family: "Mulish";
   font-size: 14px;
 }
-#fixed_value {
-  width: 100px;
-  margin-left: 6px;
-}
 #vanilla-rom-loaded {
   visibility: hidden;
   position: absolute;
@@ -62,8 +53,4 @@ select {
   cursor: pointer;
   display: inline-block;
   margin-left: 24px;
-}
-#welcome {
-  font-size: 16px;
-  width: 90%;
 }
