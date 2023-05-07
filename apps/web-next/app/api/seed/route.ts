@@ -1,9 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { generateFromPreset } from "core";
 
-export const config = {
-  runtime: 'edge',
-};
+export const runtime = 'edge';
 
 const validPresets = [
   'recall_mm', 'recall_full', 'standard_mm', 'standard_full',
