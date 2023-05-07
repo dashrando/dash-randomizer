@@ -10,7 +10,7 @@ async function build() {
     sourceMapRegister: false,
     cache: false,
   })
-  await fs.writeFile(path.resolve(process.cwd(), 'dist/dash.headless.js'), output.code)
+  await fs.writeFile(path.resolve(process.cwd(), 'public/dash.headless.js'), output.code)
 }
 
 build()

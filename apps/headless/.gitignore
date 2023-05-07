@@ -1,2 +1,2 @@
-dist/*
-!dist/.keep
+public/*
+!public/.keep
