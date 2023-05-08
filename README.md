@@ -1,13 +1,27 @@
-# dash-randomizer.github.io
-Super Metroid DASH Randomizer
+# [DASH Randomizer](https://www.dashrando.net)
+DASH is a Super Metroid randomizer aimed at competitive play.
+
+This is a monorepo which consists of all the DASH projects, which are located in the [`apps`](apps) folder.
+* [`web`](apps/web): the website for [dashrando.net](https://www.dashrando.net)
+* [`headless`](apps/headless/): a standalone Node.js version which can be used to generate seeds outside of the website (such as bots).
 
 ## Local Development
-To open DASH website locally, first install the dependencies. [Node.js](https://nodejs.org/) v18 is required.
+### Dependencies
+First install the dependencies for the monorepo. [Node.js](https://nodejs.org/) v18 is required.
 ```sh
 npm install
 ```
 
-To run each app, you will need to run the `dev` command.
+This monorepo is powered by [Turborepo](https://turbo.build/repo). You will need to follow their [installation instructions](https://turbo.build/repo/docs/installing).
+
+### Running Apps
+To run all apps in parallel, you will need to run the `dev` command.
 ```sh
+npm run dev
+```
+
+If you only want to run a single app, you will need to go to that folder and run the `dev` command there. For example, to run the website, you would do something similar to the following.
+```sh
+cd apps/web
 npm run dev
 ```
