@@ -7,6 +7,8 @@ import ModeRecall from "@/../../packages/core/lib/modes/modeRecall";
 import ModeStandard from "@/../../packages/core/lib/modes/modeStandard";
 import Loadout from "@/../../packages/core/lib/loadout";
 import { useState } from "react";
+import { getSignature } from "core";
+import { Buffer } from "buffer";
 import {
   getFullPrePool,
   getMajorMinorPrePool,
@@ -26,17 +28,87 @@ export type ItemLocation = {
 
 export type ItemProgression = ItemLocation[];
 
+export type Params = {
+  gameMode: string;
+  startSeed: number;
+  endSeed: number;
+};
+
+const Parameters = ({ value, update }: { value: Params; update: any }) => {
+  return (
+    <>
+      <label htmlFor="game_mode">Mode</label>
+      <select
+        name="game_mode"
+        id="game_mode"
+        value={value.gameMode}
+        onChange={(e) =>
+          update({
+            gameMode: e.target.value,
+            startSeed: value.startSeed,
+            endSeed: value.endSeed,
+          })
+        }
+      >
+        <option value="sm">Standard - Major / Minor</option>
+        <option value="sf">Standard - Full</option>
+        <option value="rm">Recall - Major / Minor</option>
+        <option value="rf">Recall - Full</option>
+      </select>
+
+      <label htmlFor="start_seed">Start</label>
+      <input
+        name="start_seed"
+        id="start_seed"
+        type="number"
+        min="1"
+        max="999999"
+        step="100"
+        value={value.startSeed}
+        onChange={(e) =>
+          update({
+            gameMode: value.gameMode,
+            startSeed: e.target.valueAsNumber,
+            endSeed: value.endSeed,
+          })
+        }
+      />
+
+      <label htmlFor="end_seed">End</label>
+      <input
+        name="end_seed"
+        id="end_seed"
+        type="number"
+        min="1"
+        max="999999"
+        step="100"
+        value={value.endSeed}
+        onChange={(e) =>
+          update({
+            gameMode: value.gameMode,
+            startSeed: value.startSeed,
+            endSeed: e.target.valueAsNumber,
+          })
+        }
+      />
+    </>
+  );
+};
+
 export default function StatsPage() {
   const [itemProgression, setItemProgression] = useState(
     [] as ItemProgression[]
   );
-  const [status, setStatus] = useState("");
-  const [startSeed, setStartSeed] = useState(1);
-  const [endSeed, setEndSeed] = useState(100);
-  const [gameMode, setGameMode] = useState("rm");
+  const [params, setParams] = useState({
+    gameMode: "rm",
+    startSeed: 1,
+    endSeed: 100,
+  });
   const [panel, setPanel] = useState("majors");
+  const [status, setStatus] = useState("");
 
   const generateSeeds = () => {
+    const { gameMode, startSeed, endSeed } = params;
     const progression: ItemProgression[] = [];
     const start = Date.now();
 
@@ -69,6 +141,9 @@ export default function StatsPage() {
 
     const delta = Date.now() - start;
     setItemProgression(progression);
+    getSignature(Buffer.from(JSON.stringify(progression))).then((s) =>
+      console.log(s)
+    );
 
     const num = progression.length;
     const avg = (delta / num).toFixed(1);
@@ -80,56 +155,25 @@ export default function StatsPage() {
     setStatus("");
   };
 
+  const updateParams = (newParams: Params) => {
+    setParams(newParams);
+  };
+
   return (
     <div id="stats">
       <div className={styles.stats_nav}>
-        <label htmlFor="game_mode">Mode</label>
-        <select
-          name="game_mode"
-          id="game_mode"
-          value={gameMode}
-          onChange={(e) => setGameMode(e.target.value)}
-        >
-          <option value="sm">Standard - Major / Minor</option>
-          <option value="sf">Standard - Full</option>
-          <option value="rm">Recall - Major / Minor</option>
-          <option value="rf">Recall - Full</option>
-        </select>
-
-        <label htmlFor="start_seed">Start</label>
-        <input
-          name="start_seed"
-          id="start_seed"
-          type="number"
-          min="1"
-          max="999999"
-          step="100"
-          value={startSeed}
-          onChange={(e) => setStartSeed(Number(e.target.value))}
-        />
-
-        <label htmlFor="end_seed">End</label>
-        <input
-          name="end_seed"
-          id="end_seed"
-          type="number"
-          min="1"
-          max="999999"
-          step="100"
-          value={endSeed}
-          onChange={(e) => setEndSeed(Number(e.target.value))}
-        />
+        <Parameters value={params} update={updateParams} />
         <input
           type="button"
           value="Generate"
           id="gen_seeds"
-          onClick={() => generateSeeds()}
+          onClick={generateSeeds}
         />
         <input
           type="button"
           value="Clear"
           id="clear_table"
-          onClick={() => clearResults()}
+          onClick={clearResults}
         />
         <span id="action_status">{status}</span>
         <span id="panels" className={styles.panel_selector}>
@@ -146,7 +190,6 @@ export default function StatsPage() {
           </select>
         </span>
       </div>
-
       <div id="stats_panel" className={styles.stats_panel}>
         {panel == "majors" && (
           <MajorItemTable itemProgression={itemProgression} />

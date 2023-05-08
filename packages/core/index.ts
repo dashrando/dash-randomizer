@@ -7,6 +7,7 @@ import {
 import RandomizeRom from "./lib/randomize";
 import vanillaROM, { clearVanillaRom, getVanilla } from "./lib/vanilla/storage";
 import inputVanillaRom from "./lib/vanilla/input";
+import { getSignature } from "./lib/vanilla/verify";
 import gameModes from "./data/modes";
 import BpsPatch from "./lib/bps-patch";
 import { patchRom } from "./helpers/patcher";
@@ -35,4 +36,5 @@ export {
   BpsPatch,
   patchRom,
   optionsToFlags,
+  getSignature
 };
