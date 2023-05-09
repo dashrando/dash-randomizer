@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css?family=JetBrains+Mono");
-
 #seed-container {
+  --type-mono: var(--jetbrains-mono), monospace;
+
   max-width: 400px;
   margin: 80px auto 40px;
   text-align: center;
@@ -21,7 +21,7 @@
 }
 
 #seed-signature {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--type-mono);
   font-size: 18px;
   color: #fff;
   text-transform: uppercase;
