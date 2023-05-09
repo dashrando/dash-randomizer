@@ -1,0 +1,10 @@
+.layout {
+  display: flex;
+  position: relative;
+}
+
+@media (max-width: 600px) {
+  .layout {
+    flex-direction: column;
+  }
+}

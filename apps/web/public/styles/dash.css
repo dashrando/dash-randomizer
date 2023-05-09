@@ -1,0 +1,249 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Mulish", sans-serif;
+  background-color: black;
+  color: rgb(210, 210, 210);
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  margin: 1em 0;
+  padding: 0 0 0 20px;
+}
+
+#topic table ul {
+  padding: 0 0 0 40px;
+}
+
+#wrapper {
+  width: 100%;
+  max-width: 800px;
+  padding: 8px;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(90, 173, 54);
+}
+#topic_header_grid {
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+#header_img {
+  grid-row: 1;
+  grid-column: 1;
+}
+.header_text {
+  position: relative;
+  /* bottom: -48px; */
+  text-align: left;
+  font-size: 22px;
+  text-decoration: underline;
+  text-decoration-color: rgb(90, 173, 54);
+  z-index: -1;
+  margin-bottom: 20px;
+}
+/* #header_double_text {
+   bottom: -28px;
+} */
+#header img {
+  max-width: 420px;
+  max-height: 160px;
+  width: 100%;
+  display: block;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+#main_header {
+  font-size: 32px;
+  padding-bottom: 10px;
+  font-weight: bold;
+}
+#download {
+  font-size: 26px;
+  padding-bottom: 14px;
+  font-weight: bold;
+}
+#dash_links {
+  font-size: 22px;
+  padding-bottom: 10px;
+  font-weight: bold;
+  font-variant: small-caps;
+}
+#schedule_notice {
+  font-size: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-weight: bold;
+  font-style: italic;
+  color: rgb(90, 173, 54);
+}
+.dash_source {
+  padding-left: 30px;
+}
+#topic {
+  font-size: 16px;
+  width: 90%;
+}
+hr {
+  border: 1px solid rgb(90, 173, 54);
+  width: 92%;
+  text-align: left;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+.utility {
+  background-color: rgb(0, 255, 255);
+  color: black;
+}
+.utility_inverse {
+  background-color: black;
+  color: rgb(0, 255, 255);
+}
+.suits {
+  background-color: yellow;
+  color: black;
+}
+.suits_inverse {
+  color: yellow;
+  background-color: black;
+}
+.placement {
+  background-color: rgb(0, 255, 0);
+  color: black;
+}
+.challenge {
+  color: rgb(0, 255, 0);
+  background-color: black;
+}
+.misc {
+  background-color: rgb(209, 46, 187);
+  color: black;
+}
+.misc_inverse {
+  color: rgb(209, 46, 187);
+  background-color: black;
+}
+
+.dash_changes {
+  background-color: rgba(255, 0, 0, 0.45);
+}
+
+#seed-permalink {
+  display: block;
+}
+
+.damage-table {
+  border: 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.damage-table tbody td {
+  border: 0;
+  padding: 4px 8px;
+}
+
+.damage-table thead th {
+  font-weight: 700;
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #777;
+}
+
+/* .damage-table thead tr th:nth-child(3),
+.damage-table tbody tr td:nth-child(3) {
+   display: none;
+} */
+
+@media screen and (min-width: 601px) {
+  .damage-table tbody tr:nth-child(even) {
+    background-color: #222;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .damage-table {
+    display: block;
+    width: 100%;
+  }
+
+  .damage-table tbody {
+    display: block;
+    width: 90%;
+  }
+
+  .damage-table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  .damage-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .damage-table tbody tr td {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #333;
+  }
+
+  .damage-table tbody tr td:last-child {
+    border-bottom: 0;
+  }
+
+  .damage-table tbody tr td:first-child::before {
+    content: "";
+    display: none;
+  }
+
+  .damage-table tbody tr td::before {
+    content: attr(data-label);
+    display: inline-block;
+    width: 120px;
+    padding-right: 20px;
+    color: #777;
+  }
+
+  .damage-table tbody tr td:first-child {
+    border-bottom: 1px solid #777;
+    font-weight: 700;
+  }
+
+  .header_text {
+    min-width: unset;
+  }
+
+  #topic img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  #section_label a {
+    display: block;
+    margin: 4px 0;
+    font-size: 0.8em;
+  }
+}

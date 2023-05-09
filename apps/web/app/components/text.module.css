@@ -1,0 +1,13 @@
+.body a,
+.caption a {
+  color: var(--color-foreground);
+  text-underline-offset: var(--spacer);
+  text-decoration-thickness: 1px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.caption a:hover,
+.body a:hover {
+  color: var(--color-magenta);
+  text-decoration-color: transparent;
+}

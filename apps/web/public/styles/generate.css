@@ -1,0 +1,56 @@
+#rom_load {
+  position: relative;
+  grid-row: 1;
+  grid-column: 2 / span 2;
+}
+#rom_state {
+  border: 1px solid black;
+  width: 100px;
+  height: 20px;
+  text-align: center;
+}
+#randomize_button {
+  width: 240px;
+  border: none;
+  padding: 10px 10px;
+  font-size: xx-large;
+  cursor: pointer;
+  text-align: center;
+}
+#section_label {
+  border: none;
+  font-size: large;
+  text-align: left;
+  margin-bottom: 8px;
+}
+#game_mode {
+  width: 240px;
+}
+#select_seed {
+  grid-row: 3;
+  grid-column: 2 / span 2;
+}
+input,
+button,
+select {
+  font-family: "Mulish";
+  font-size: 14px;
+}
+#vanilla-rom-loaded {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#vanilla-rom:disabled {
+  visibility: hidden;
+}
+#vanilla-rom:disabled + #vanilla-rom-loaded {
+  visibility: visible;
+}
+#vanilla-rom-loaded button {
+  all: unset;
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 24px;
+}
