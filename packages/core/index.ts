@@ -13,6 +13,7 @@ import BpsPatch from "./lib/bps-patch";
 import { patchRom } from "./helpers/patcher";
 import { Logic as RecallLogic } from "./lib/modes/modeRecall";
 import { Logic as StandardLogic } from "./lib/modes/modeStandard";
+import fetchSignature from "./lib/signature";
 
 const vanilla = {
   vanillaROM,
@@ -36,5 +37,6 @@ export {
   BpsPatch,
   patchRom,
   optionsToFlags,
-  getSignature
+  getSignature,
+  fetchSignature,
 };
