@@ -4,6 +4,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
+      "env": ["ENABLE_SENTRY"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {

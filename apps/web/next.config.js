@@ -1,3 +1,21 @@
+const { withSentryConfig } = require("@sentry/nextjs");
+
+const enableSentry = process.env.ENABLE_SENTRY || false;
+
+const sentryConfig = {
+  silent: true,
+  org: "dashrando",
+  project: "web",
+}
+
+const sentryOpts = {
+  widenClientFileUpload: true,
+  transpileClientSDK: true,
+  tunnelRoute: "/monitoring",
+  hideSourceMaps: true,
+  disableLogger: true,
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -53,4 +71,6 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = enableSentry
+  ? withSentryConfig(nextConfig, sentryConfig, sentryOpts)
+  : nextConfig;
