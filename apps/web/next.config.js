@@ -43,6 +43,11 @@ const nextConfig = {
         destination: "/readable/recall",
         permanent: false,
       },
+      {
+        source: "/readable-logic",
+        destination: "/readable/recall",
+        permanent: false,
+      },
     ];
   },
   rewrites: async () => {
