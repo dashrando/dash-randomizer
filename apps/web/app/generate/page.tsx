@@ -145,8 +145,23 @@ export default function GeneratePage() {
     );
   };
 
-  const GameMode = () => {
+  const RandomizeButton = () => {
     return (
+      <button
+        id="randomize_button"
+        disabled={!hasValues()}
+        onClick={() => generateRom()}
+      >
+        Randomize!
+      </button>
+    );
+  };
+
+  return (
+    <div id="wrapper">
+      <Header />
+      <Welcome />
+      <VanillaRom />
       <div className={styles.input_section}>
         <SectionLabel>
           Select Your Game Mode &emsp;
@@ -174,11 +189,6 @@ export default function GeneratePage() {
           </select>
         </div>
       </div>
-    );
-  };
-
-  const SelectSettings = () => {
-    return (
       <div className={styles.input_section}>
         <SectionLabel>Select Any Other Settings</SectionLabel>
         <div id="topic">Item Fanfare:</div>
@@ -202,11 +212,6 @@ export default function GeneratePage() {
           <label htmlFor="off">Off</label>
         </div>
       </div>
-    );
-  };
-
-  const SeedSettings = () => {
-    return (
       <div className={styles.input_section}>
         <SectionLabel>Seed Settings:</SectionLabel>
         <div id="select_seed">
@@ -240,29 +245,6 @@ export default function GeneratePage() {
           />
         </div>
       </div>
-    );
-  };
-
-  const RandomizeButton = () => {
-    return (
-      <button
-        id="randomize_button"
-        disabled={!hasValues()}
-        onClick={() => generateRom()}
-      >
-        Randomize!
-      </button>
-    );
-  };
-
-  return (
-    <div id="wrapper">
-      <Header />
-      <Welcome />
-      <VanillaRom />
-      <GameMode />
-      <SelectSettings />
-      <SeedSettings />
       <RandomizeButton />
       <Permalink url={permalink} />
     </div>
