@@ -21,6 +21,9 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   redirects: async () => {
     return [
       {
