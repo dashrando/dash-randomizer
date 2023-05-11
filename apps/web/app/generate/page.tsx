@@ -195,16 +195,15 @@ export default function GeneratePage() {
         <div id="select_fanfare">
           <input
             type="radio"
-            id="on"
+            id="fanfare_on"
             name="disable_fanfare"
-            value="On"
             checked={!disableFanfare}
             onChange={() => setDisableFanfare((prev) => !prev)}
           />
           <label htmlFor="on">On</label>
           <input
             type="radio"
-            id="off"
+            id="fanfare_off"
             name="disable_fanfare"
             checked={disableFanfare}
             onChange={() => setDisableFanfare((prev) => !prev)}
