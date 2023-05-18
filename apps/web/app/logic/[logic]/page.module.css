@@ -1,0 +1,129 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--spacer-4x);
+  max-width: 1000px;
+}
+
+@media (max-width: 600px) {
+  .main {
+    padding: 0 var(--spacer-4x);
+    margin-top: var(--spacer-14x);
+  }
+}
+
+.check {
+  margin-bottom: var(--spacer-20x);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacer-10x);
+}
+
+@media (max-width: 600px) {
+  .check {
+    flex-direction: column;
+    gap: var(--spacer-4x);
+  }
+}
+
+.check_content {
+  width: 100%;
+}
+
+.check_content a {
+  color: var(--color-highlight);
+  font-weight: bold;
+}
+
+.sidebar {
+  flex-basis: 400px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 400px;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+}
+
+.sidebar code a {
+  color: var(--color-highlight);
+  text-underline-offset: 4px;
+  text-decoration-style: dotted;
+  position: relative;
+}
+
+.sidebar code a:hover {
+  text-decoration-style: solid;
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  .sidebar code {
+    word-break: break-all;
+  }
+
+}
+
+a.header_link {
+  color: #fff;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: var(--spacer-2x);
+}
+
+.main a.header_link:hover {
+  color: #fff;
+  text-decoration-color: var(--color-highlight);
+}
+
+.title {
+  margin: 0 0 var(--spacer-4x);
+  position: relative;
+}
+
+.title .anchor_spacer {
+  display: block;
+  position: absolute;
+  visibility: hidden;
+  margin-top: var(--spacer-4x-negative);
+  padding-top: var(--spacer-4x);
+}
+
+@media (max-width: 600px) {
+  .title .anchor_spacer {
+    margin-top: var(--spacer-14x-negative);
+    padding-top: var(--spacer-14x);
+  }
+}
+
+.title .link_icon {
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.title .header_link:hover .link_icon {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.external_link {
+  display: flex;
+  align-items: center;
+}
+
+.external_icon {
+  margin-left: var(--spacer);
+  position: relative;
+  top: 1px;
+}

@@ -1,0 +1,102 @@
+.logic {
+  padding-top: 20px;
+}
+
+.logic_title {
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.token {
+  margin-bottom: 24px;
+}
+
+.token_name {
+  text-decoration: underline;
+}
+
+.token_criteria {
+  text-decoration: none;
+}
+
+.token_reference {
+  color: rgb(90, 173, 54);
+  font-weight: bold;
+}
+
+.nav_bar {
+  margin: 32px 0px;
+  font-size: 1.1em;
+}
+
+.nav_title {
+  text-decoration: none;
+  font-variant-caps: all-petite-caps;
+  font-size: 1.1em;
+}
+
+.nav_link {
+  margin: 10px;
+}
+
+.nav_link.selected {
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Popup container. */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup window. */
+.popup .popuptext {
+  visibility: hidden;
+  width: 300px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: limegreen;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Toggle this class to show and hide the popup window. */
+.popup:hover > .popuptext {
+  visibility: visible;
+  -webkit-animation: fadeIn 0.2s;
+  animation: fadeIn 0.2s;
+}
+
+/* Popup fade in */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
