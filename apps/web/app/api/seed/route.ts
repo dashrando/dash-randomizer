@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     if (!body.preset) {
       throw new Error("Missing preset");
     }
-    const { preset } = body;
+    const { preset, seedNumber } = body;
     const isValidPreset = validPresets.includes(preset);
     if (!isValidPreset) {
       const msg = `Invalid preset. Valid presets are: ${validPresets
@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
       throw err;
     }
     const [basePatchUrl, seedPatch, fileName] = await generateFromPreset(
-      preset
+      preset,
+      seedNumber
     );
     return resJSON(
       {

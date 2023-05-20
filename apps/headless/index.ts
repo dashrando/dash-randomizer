@@ -25,6 +25,7 @@ export type SeedPatchPart = [
 
 export type SeedPatchRequestBody = {
   preset: string;
+  seedNumber: number;
 };
 
 export type HeadlessOptions = {
@@ -135,6 +136,7 @@ async function main() {
     .description("Generate a randomized DASH seed from the command line")
     .requiredOption("-r --vanillaPath <vanillaRom>", "path to vanilla rom")
     .requiredOption("-p --preset <preset>", "preset to use")
+    .option("-s --seed <seedNumber>", "number between 1 - 999999", "")
     .option(
       "-b --base-url <url>",
       "base url for rolling the seed",
@@ -143,13 +145,18 @@ async function main() {
   program.parse();
 
   const options = program.opts();
-  const { vanillaPath, preset, baseUrl } = options;
+  const { vanillaPath, preset, baseUrl, seed } = options;
+
+  const seedNumber: number = parseInt(seed, 10);
+  if (seed && (isNaN(seedNumber) || seedNumber < 1 || seedNumber > 999999)) {
+    throw new Error("seed must be an integer between 1 - 999999");
+  }
 
   // Check and verify `vanillaRom`
   const vanilla = await getVanilla(vanillaPath);
 
   // Setup options for fetching patch
-  const seedData = await fetchSeedData({ preset }, options);
+  const seedData = await fetchSeedData({ preset, seedNumber }, options);
   const basePatch = await fetchBasePatch(seedData.basePatchUrl, baseUrl);
   await createFile(vanilla, seedData.seedPatch, basePatch, seedData.fileName);
 
