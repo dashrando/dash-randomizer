@@ -62,33 +62,29 @@ export const generateSeedPatch = (seed, gameMode, nodes, options) => {
   // Write area item counts.
   //-----------------------------------------------------------------
 
-  const mapArea = (a) => {
-    if (a == Area.BlueBrinstar) {
+  const mapArea = (n) => {
+    if (n.location.area == Area.BlueBrinstar) {
       return Area.Crateria;
-    } else if (a == Area.GreenBrinstar) {
+    } else if (n.location.area == Area.GreenBrinstar) {
       return Area.PinkBrinstar;
     } else {
-      return a;
+      return n.location.area;
     }
   };
 
-  const eTanks = nodes
-    .filter((n) => n.item.type == Item.EnergyTank)
-    .map((n) => mapArea(n.location.area));
+  const eTanks = nodes.filter((n) => n.item.type == Item.EnergyTank);
 
-  const majors = nodes
-    .filter(
-      (n) =>
-        n.item.isMajor &&
-        n.item.type != Item.EnergyTank &&
-        n.item.type != Item.Reserve
-    )
-    .map((n) => mapArea(n.location.area));
+  const majors = nodes.filter(
+    (n) =>
+      n.item.isMajor &&
+      n.item.type != Item.EnergyTank &&
+      n.item.type != Item.Reserve
+  );
 
   AreaCounts.forEach((addr, area) => {
-    const numTanks = eTanks.filter((p) => p == area).length;
-    const numMajors = majors.filter((p) => p == area).length;
-    encodeBytes(seedPatch, addr, new Uint8Array([numTanks, numMajors]));
+    const numTanks = eTanks.filter((p) => mapArea(p) == area).length;
+    const numMajors = majors.filter((p) => mapArea(p) == area).length;
+    encodeBytes(seedPatch, addr, new Uint8Array([numMajors, numTanks]));
   });
 
   //-----------------------------------------------------------------
