@@ -186,10 +186,7 @@ class ModeStandard {
     });
 
     minor("Missiles (Sand Pit Left)", (load) => {
-      return (
-        canAccessOuterMaridia(load) &&
-        (canDoSuitlessMaridia(load) || load.hasGravity)
-      );
+      return canAccessOuterMaridia(load) && load.hasGravity;
     });
 
     minor("Missiles (Sand Pit Right)", (load) => {
