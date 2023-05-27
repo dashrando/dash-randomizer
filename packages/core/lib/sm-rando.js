@@ -177,10 +177,13 @@ export const optionsToFlags = (mode, options) => {
   return compressToEncodedURIComponent(Buffer.from(bytes).toString("base64"));
 };
 
-export const generateFromPreset = (preset) => {
+export const generateFromPreset = (preset, seedNumber) => {
   const timestamp = Math.floor(new Date().getTime() / 1000);
-  const RNG = new DotNetRandom(timestamp);
-  const seed = RNG.NextInRange(1, 1000000);
+
+  const seed =
+    seedNumber == undefined || seedNumber == 0
+      ? new DotNetRandom(timestamp).NextInRange(1, 1000000)
+      : seedNumber;
   let gameMode, mode, getPrePool, canPlaceItem;
 
   if (preset == "standard_mm" || preset == "std_mm") {
