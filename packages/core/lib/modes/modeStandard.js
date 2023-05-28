@@ -364,7 +364,10 @@ class ModeStandard {
     });
 
     minor("Supers (GT)", (load) => {
-      return canAccessLowerNorfair(load);
+      return (
+        canAccessLowerNorfair(load) &&
+        (load.canFly || load.hasSpringBall || load.hasSpeed)
+      );
     });
 
     minor("Missiles (Alpha PBs)", (load) => {
