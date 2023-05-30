@@ -41,7 +41,7 @@ export default function ProgressionStats({
       <div className={styles.progression_table}>
         {supers.map((s) => {
           return (
-            <div>
+            <div key={s[0]}>
               <span className={styles.location_cell}>{s[0]}</span>
               <span className={styles.count_cell}>
                 {s[1]} ({((100 * s[1]) / numSeeds).toFixed(2)}%)
@@ -54,7 +54,7 @@ export default function ProgressionStats({
       <div className={styles.progression_table}>
         {bombs.map((s) => {
           return (
-            <div>
+            <div key={s[0]}>
               <span className={styles.location_cell}>{s[0]}</span>
               <span className={styles.count_cell}>
                 {s[1]} ({((100 * s[1]) / numSeeds).toFixed(2)}%)
