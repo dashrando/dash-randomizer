@@ -55,9 +55,9 @@ const loc = (addr, modifier, area, id, name) => {
 export const getLocations = () => [
   loc(0x786de, 0x00, Area.BlueBrinstar, 1, "Morphing Ball"),
   loc(0x781cc, 0x00, Area.Crateria, 2, "Power Bombs (Landing Site)"),
-  loc(0x781e8, 0x00, Area.Crateria, 3, "Missiles (Ocean Bottom)"),
+  loc(0x781e8, 0x00, Area.WreckedShip, 3, "Missiles (Ocean Bottom)"),
   loc(0x781ee, 0xa8, Area.WreckedShip, 4, "Missiles (Sky)"),
-  loc(0x781f4, 0x00, Area.Crateria, 5, "Missiles (Ocean Middle)"),
+  loc(0x781f4, 0x00, Area.WreckedShip, 5, "Missiles (Ocean Middle)"),
   loc(0x78248, 0x00, Area.Crateria, 6, "Missiles (Moat)"),
   loc(0x78264, 0x00, Area.Crateria, 7, "Energy Tank (Gauntlet)"),
   loc(0x783ee, 0x00, Area.Crateria, 8, "Missiles (Mother Brain)"),
