@@ -174,7 +174,7 @@ class ModeStandard {
     });
 
     major("Energy Tank (Botwoon)", (load) => {
-      return canDefeatBotwoon(load);
+      return canAccessBotwoon(load);
     });
 
     minor("Missiles (Aqueduct)", (load) => {
@@ -375,7 +375,7 @@ class ModeStandard {
     });
 
     minor("Power Bombs (Alpha)", (load) => {
-      return canAccessRedBrinstar(load) && load.canUsePowerBombs;
+      return canAccessRedBrinstar(load);
     });
 
     minor("Power Bombs (Beta)", (load) => {
@@ -653,17 +653,17 @@ const canDoSuitlessMaridia = (load) => {
   );
 };
 
-const canDefeatBotwoon = (load) => {
+const canAccessBotwoon = (load) => {
   return (
     canAccessRedBrinstar(load) &&
     load.canUsePowerBombs &&
-    (load.hasIce || load.hasSpeed) &&
-    (load.hasGravity || (canDoSuitlessMaridia(load) && load.hasIce))
+    ((load.hasGravity && (load.hasIce || load.hasSpeed)) ||
+      (canDoSuitlessMaridia(load) && load.hasIce))
   );
 };
 
 const canDefeatDraygon = (load) => {
-  return canDefeatBotwoon(load) && load.hasGravity;
+  return canAccessBotwoon(load) && load.hasGravity;
 };
 
 const canAccessWreckedShip = (load) => {
@@ -700,7 +700,7 @@ export const LogicChecks = {
   canAccessKraid,
   canAccessCrocomire,
   canDoSuitlessMaridia,
-  canDefeatBotwoon,
+  canAccessBotwoon,
   canDefeatDraygon,
   canAccessWreckedShip,
   canAccessOuterMaridia,
