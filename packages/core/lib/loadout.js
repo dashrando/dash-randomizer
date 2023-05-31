@@ -41,16 +41,16 @@ class Loadout {
   canCrystalFlash = false;
 
   constructor(inventory = {}) {
-    const self = this
-    const keys = Object.keys(inventory)
+    const self = this;
+    const keys = Object.keys(inventory);
     keys.forEach((key) => {
-      const value = inventory[key]
-      self[key] = value
-    })
+      const value = inventory[key];
+      self[key] = value;
+    });
   }
 
   static canDestroyBombWalls(load) {
-    return Loadout.canPassBombPassages(load) || load.hasScrewAttack
+    return Loadout.canPassBombPassages(load) || load.hasScrewAttack;
   }
 
   static canFly(load) {
@@ -58,27 +58,27 @@ class Loadout {
   }
 
   static canUseBombs(load) {
-    return load.hasBombs && load.hasMorph
+    return load.hasBombs && load.hasMorph;
   }
 
   static canUsePowerBombs(load) {
-    return load.powerPacks > 0 && load.hasMorph
+    return load.powerPacks > 0 && load.hasMorph;
   }
 
   static canPassBombPassages(load) {
-    return Loadout.canUseBombs(load) || Loadout.canUsePowerBombs(load)
+    return Loadout.canUseBombs(load) || Loadout.canUsePowerBombs(load);
   }
 
   static canOpenGreenDoors(load) {
-    return load.superPacks > 0
+    return load.superPacks > 0;
   }
 
   static canOpenRedDoors(load) {
-    return load.missilePacks > 0 || load.superPacks > 0
+    return load.missilePacks > 0 || load.superPacks > 0;
   }
 
   static canOpenYellowDoors(load) {
-    return load.powerPacks > 0 && Loadout.canUsePowerBombs(load)
+    return Loadout.canUsePowerBombs(load);
   }
 
   static canCrystalFlash(load) {
@@ -87,16 +87,16 @@ class Loadout {
       load.missilePacks >= 2 &&
       load.superPacks >= 2 &&
       load.powerPacks >= 3
-    )
+    );
   }
 
   static totalTanks(load) {
-    return load.energyTanks + load.reserveTanks
+    return load.energyTanks + load.reserveTanks;
   }
 
   clone() {
-    const state = { ...this }
-    return new Loadout(state)
+    const state = { ...this };
+    return new Loadout(state);
   }
 
   add(itemType) {
@@ -209,7 +209,6 @@ class Loadout {
 
 export default Loadout;
 
-export const Checks =
-  Object.getOwnPropertyNames(Loadout).filter(
-    (name) => name.startsWith("can") && typeof Loadout[name] === "function"
-  )
+export const Checks = Object.getOwnPropertyNames(Loadout).filter(
+  (name) => name.startsWith("can") && typeof Loadout[name] === "function"
+);
