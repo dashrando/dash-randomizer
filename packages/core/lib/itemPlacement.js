@@ -214,7 +214,7 @@ export const performVerifiedFill = (
       continue;
     }
 
-    if (!verifyItemProgression(nodes, null)) {
+    if (!verifyItemProgression(initLoad, nodes, null)) {
       continue;
     }
 
@@ -226,8 +226,8 @@ export const performVerifiedFill = (
 // Verify seed can be completed.
 //-----------------------------------------------------------------
 
-export const verifyItemProgression = (nodes, log) => {
-  let load = new Loadout();
+export const verifyItemProgression = (initLoad, nodes, log) => {
+  let load = initLoad.clone();
   let copy = [...nodes];
 
   while (copy.length > 0) {

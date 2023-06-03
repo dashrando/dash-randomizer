@@ -23,6 +23,8 @@ async function RandomizeRom(seed = 0, gameModeName, opts = {}, config = {}) {
     throw Error("No vanilla ROM data found");
   }
 
+  let initLoad = new Loadout();
+
   switch (gameModeName) {
     case "sm":
       mode = new ModeStandard(seed, getLocations());
@@ -40,12 +42,14 @@ async function RandomizeRom(seed = 0, gameModeName, opts = {}, config = {}) {
       mode = new ModeRecall(seed, getLocations());
       getPrePool = getMajorMinorPrePool;
       canPlaceItem = isValidMajorMinor;
+      initLoad.hasCharge = true;
       break;
 
     case "rf":
       mode = new ModeRecall(seed, getLocations());
       getPrePool = getFullPrePool;
       canPlaceItem = isEmptyNode;
+      initLoad.hasCharge = true;
       break;
 
     default:
@@ -56,10 +60,6 @@ async function RandomizeRom(seed = 0, gameModeName, opts = {}, config = {}) {
   if (gameMode == null) {
     throw Error("Unknown game mode:" + gameModeName);
   }
-
-  // Setup the initial loadout.
-  let initLoad = new Loadout();
-  initLoad.hasCharge = true;
 
   // Place the items.
   performVerifiedFill(

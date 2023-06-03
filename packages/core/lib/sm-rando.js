@@ -185,6 +185,7 @@ export const generateFromPreset = (preset, seedNumber) => {
       ? new DotNetRandom(timestamp).NextInRange(1, 1000000)
       : seedNumber;
   let gameMode, mode, getPrePool, canPlaceItem;
+  let initLoad = new Loadout();
 
   if (preset == "standard_mm" || preset == "std_mm") {
     gameMode = game_modes.find((mode) => mode.name == "sm");
@@ -201,19 +202,17 @@ export const generateFromPreset = (preset, seedNumber) => {
     mode = new ModeRecall(seed, getLocations());
     getPrePool = getMajorMinorPrePool;
     canPlaceItem = isValidMajorMinor;
+    initLoad.hasCharge = true;
   } else if (preset == "full" || preset == "recall_full") {
     gameMode = game_modes.find((mode) => mode.name == "rf");
     mode = new ModeRecall(seed, getLocations());
     getPrePool = getFullPrePool;
     canPlaceItem = isEmptyNode;
+    initLoad.hasCharge = true;
   } else {
     console.log("UNKNOWN PRESET: " + preset);
     return ["", null, ""];
   }
-
-  // Setup the initial loadout.
-  let initLoad = new Loadout();
-  initLoad.hasCharge = true;
 
   // Place the items.
   performVerifiedFill(

@@ -41,7 +41,7 @@ export class Location {
   }
 
   GetItemCode(bytes) {
-    var code =
+    const code =
       ((bytes[this.address + 1] << 8) & 0xff00) |
       (bytes[this.address] & 0x00ff);
     return code - this.modifier;

@@ -124,7 +124,9 @@ export default function StatsPage() {
           : [getFullPrePool, isEmptyNode];
 
       let initLoad = new Loadout();
-      initLoad.add(Item.Charge);
+      if (gameMode[0] == "r") {
+        initLoad.add(Item.Charge);
+      }
 
       performVerifiedFill(
         i,
@@ -135,7 +137,7 @@ export default function StatsPage() {
         canPlaceItem
       );
       const log: ItemLocation[] = [];
-      verifyItemProgression(mode.nodes, log);
+      verifyItemProgression(initLoad, mode.nodes, log);
       progression.push(log);
     }
 
