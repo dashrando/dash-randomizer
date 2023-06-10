@@ -1,17 +1,22 @@
-.welcome_section {
-  padding-bottom: 20px;
+.container {
+  max-width: 1100px;
+  padding: var(--spacer-8x) var(--spacer-4x);
+  margin: 0 auto;
 }
 
-.welcome_msg {
-  font-size: 16px;
-  width: 90%;
+.grid {
+  display: flex;
 }
 
-.input_section {
-  padding: 20px 0px;
+.sections {
+  width: 70%;
 }
 
-.fixed_value {
-  width: 100px;
-  margin-left: 6px;
+.section + .section {
+  margin-top: var(--spacer-4x);
+}
+
+.heading {
+  padding-bottom: var(--spacer-4x);
+  border-bottom: 1px solid #fff;
 }
