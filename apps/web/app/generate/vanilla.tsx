@@ -80,8 +80,8 @@ export const useVanilla = () => {
 }
 
 export default function VanillaButton() {
-  const { data, set, error, isLoading } = useVanilla()
-
+  const { data, set, isLoading } = useVanilla()
+  
   const onChange = useCallback((e: Event) => {
     const target = e.target as HTMLInputElement
     inputVanillaRom(target, async (value) => {
@@ -89,25 +89,9 @@ export default function VanillaButton() {
     })
   }, [set])
 
-  if (error) {
-    return (
-      <p>Error</p>
-    )
-  }
-
   return (
     <div>
-      {!data ? (
-        <>
-          <ButtonFileInput
-            label="Upload Vanilla ROM"
-            id="vanilla-file-input"
-            name="vanilla-file"
-            onChange={onChange}
-          />
-          <p>You must set the vanilla ROM in order to be able to generate a randomized seed.</p>
-        </>
-      ) : (
+      {data && !isLoading ? (
         <div>
           <Button
             onClick={(evt) => {
@@ -117,6 +101,16 @@ export default function VanillaButton() {
           }>
             Download Seed
           </Button>
+        </div>
+      ) : (
+        <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
+          <ButtonFileInput
+            label="Upload Vanilla ROM"
+            id="vanilla-file-input"
+            name="vanilla-file"
+            onChange={onChange}
+          />
+          <p>You must set the vanilla ROM in order to be able to generate a randomized seed.</p>
         </div>
       )}
     </div>
