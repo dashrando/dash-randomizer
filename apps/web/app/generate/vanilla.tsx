@@ -1,9 +1,10 @@
 'use client'
 
 import useSWR from 'swr'
-import { get, set } from 'idb-keyval'
+import { get, set, del } from 'idb-keyval'
 import { Button, ButtonFileInput } from '@/app/components/button'
 import { vanilla } from 'core'
+import { useCallback } from 'react'
 
 async function parseContents(value: any) {
   const { getSignature, isVerified, isHeadered } = vanilla;
@@ -29,8 +30,7 @@ function inputVanillaRom(el: HTMLInputElement, callback: (value: any) => void) {
   }
   let vanillaRom = el.files[0];
   let reader = new FileReader();
-  reader.readAsArrayBuffer(vanillaRom);
-
+  
   reader.onload = async function () {
     try {
       await parseContents(reader.result);
@@ -38,6 +38,7 @@ function inputVanillaRom(el: HTMLInputElement, callback: (value: any) => void) {
     } catch (e) {
       const err = e as Error;
       console.error(err.message);
+      // TODO: Present a friendly error message to the user instead of an alert.
       alert(err.message);
       el.value = "";
     }
@@ -46,17 +47,32 @@ function inputVanillaRom(el: HTMLInputElement, callback: (value: any) => void) {
   reader.onerror = function () {
     alert("Failed to load file.");
   };
+
+  reader.readAsArrayBuffer(vanillaRom);
+}
+
+async function fetcher() {
+  try {
+    const vanilla = await get('vanilla-rom')
+    return vanilla
+  } catch (e) {
+    const err = e as Error
+    console.error('Vanilla ROM Error', err.message)
+    // This happens when a user deletes the IndexedDB database.
+    // Refreshing the page works for whatever reason.
+    window.location.reload()
+  }
 }
 
 
 export const useVanilla = () => {
-  const { data, isLoading, error, mutate } = useSWR('vanilla-rom', () => get('vanilla-rom'))
+  const { data, isLoading, error, mutate } = useSWR('vanilla-rom', fetcher)
   return {
     data,
     set: async (value: any) => {
       // TODO: validate value
       await set('vanilla-rom', value)
-      await mutate()
+      mutate()
     },
     isLoading,
     error,
@@ -64,7 +80,21 @@ export const useVanilla = () => {
 }
 
 export default function VanillaButton() {
-  const { data, set } = useVanilla()
+  const { data, set, error, isLoading } = useVanilla()
+
+  const onChange = useCallback((e: Event) => {
+    const target = e.target as HTMLInputElement
+    inputVanillaRom(target, async (value) => {
+      await set(value)
+    })
+  }, [set])
+
+  if (error) {
+    return (
+      <p>Error</p>
+    )
+  }
+
   return (
     <div>
       {!data ? (
@@ -73,18 +103,20 @@ export default function VanillaButton() {
             label="Upload Vanilla ROM"
             id="vanilla-file-input"
             name="vanilla-file"
-            onChange={(e: Event) => {
-              const target = e.target as HTMLInputElement
-              inputVanillaRom(target, async (value) => {
-                await set(value)
-              })
-            }}
+            onChange={onChange}
           />
           <p>You must set the vanilla ROM in order to be able to generate a randomized seed.</p>
         </>
-      ): (
+      ) : (
         <div>
-          <Button>Download Seed</Button>
+          <Button
+            onClick={(evt) => {
+              evt.preventDefault()
+              console.log('download seed')
+            }
+          }>
+            Download Seed
+          </Button>
         </div>
       )}
     </div>
