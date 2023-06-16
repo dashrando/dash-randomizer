@@ -2,7 +2,7 @@
 
 import useSWR from 'swr'
 import { get, set } from 'idb-keyval'
-import { ButtonFileInput } from '@/app/components/button'
+import { Button, ButtonFileInput } from '@/app/components/button'
 import { vanilla } from 'core'
 
 async function parseContents(value: any) {
@@ -83,7 +83,9 @@ export default function VanillaButton() {
           <p>You must set the vanilla ROM in order to be able to generate a randomized seed.</p>
         </>
       ): (
-        <p>Vanilla ROM is set.</p>
+        <div>
+          <Button>Download Seed</Button>
+        </div>
       )}
     </div>
   )

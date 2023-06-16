@@ -7,18 +7,31 @@
   visibility: hidden;
 }
 
-.btn {
+.base {
+  border: 1px solid currentColor;
   position: relative;
-  border: 1px solid #fff;
-  color: #fff;
   padding: var(--spacer-2x) var(--spacer-6x);
   cursor: pointer;
   display: block;
   text-align: center;
   border-radius: 4px;
-  transition: background-color 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
 }
 
-.btn:hover {
+.primary {
+  background-color: #fff;
+  color: #000;
+}
+
+.primary:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.secondary {
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.secondary:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
