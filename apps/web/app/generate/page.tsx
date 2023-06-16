@@ -86,7 +86,7 @@ const GeneratePage: NextPage = () => {
                     { label: 'Randomized', value: 'randomized' },
                     { label: 'Known', value: 'known' },
                   ]}
-                  name="area"
+                  name="boss"
                 />
                 <p>
                   <Link href="/generate/info#boss">Boss Randomization</Link>{' '}
@@ -94,7 +94,88 @@ const GeneratePage: NextPage = () => {
                 </p>
               </Option>
             </Section>
-            <Section title="Settings" />
+            <Section title="Settings">
+              <Option label="Minor Item Distribution" name="minors">
+                <Select
+                  options={[
+                    { label: 'Standard', value: 'standard' },
+                    { label: 'DASH', value: 'dash' },
+                  ]}
+                  name="minors"
+                />
+                <p>
+                  <Link href="/generate/info#minors">Minor Item Distribution</Link>{' '}
+                  determines the ratio of minor items placed throughout the game.
+                </p>
+              </Option>
+              <Option label="Map Layout" name="map-layout">
+                <Select
+                  options={[
+                    { label: 'Standard Vanilla', value: 'standard-vanilla' },
+                    { label: 'DASH Classic', value: 'dash-classic' },
+                    { label: 'DASH Recall', value: 'dash-recall' },
+                  ]}
+                  name="map-layout"
+                />
+                <p>
+                  <Link href="/generate/info#map-layout">Map Layout</Link>{' '}
+                  applies various tweaks, anti-soft lock patches and other quality of life improvements.
+                </p>
+              </Option>
+              <Option label="Suit Properties" name="suit-properties">
+                <Select
+                  options={[
+                    { label: 'DASH', value: 'dash' },
+                    { label: 'Varia', value: 'varia' },
+                  ]}
+                  name="suit-properties"
+                />
+                <p>
+                  <Link href="/generate/info#suit-properties">Suit Properties</Link>{' '}
+                  alters the defensive properties of both Gravity and Varia suit.
+                </p>
+              </Option>
+              <Option label="Double Jump" name="double-jump">
+                <Select
+                  options={[
+                    { label: 'On', value: 'on' },
+                    { label: 'Off', value: 'off' },
+                  ]}
+                  name="double-jump"
+                />
+                <p>
+                  <Link href="/generate/info#double-jump">Double Jump</Link>{' '}
+                  is a new item that works as a single-use Space Jump.
+                </p>
+              </Option>
+              <Option label="Heat Shield" name="heat-shield">
+                <Select
+                  options={[
+                    { label: 'On', value: 'on' },
+                    { label: 'Off', value: 'off' },
+                  ]}
+                  name="heat-shield"
+                />
+                <p>
+                  <Link href="/generate/info#heat-shield">Heat Shield</Link>{' '}
+                  is a new item that works as a mini-Varia.
+                </p>
+              </Option>
+              <Option label="Pressure Valve" name="pressure-valve">
+                <Select
+                  options={[
+                    { label: 'None', value: 'none' },
+                    { label: 'On', value: 'on' },
+                    { label: 'Movement', value: 'movement' },
+                  ]}
+                  name="pressure-valve"
+                />
+                <p>
+                  <Link href="/generate/info#pressure-valve">Pressure Valve</Link>{' '}
+                  is a new item that works as a mini-Gravity.
+                </p>
+              </Option>
+            </Section>
             <Section title="Options" />
           </div>
           <aside></aside>
