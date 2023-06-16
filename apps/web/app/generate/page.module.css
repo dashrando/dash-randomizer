@@ -63,3 +63,11 @@
   color: #77e7be;
   text-decoration-color: transparent;
 }
+
+.sidebar {
+  width: 30%;
+  padding-left: 64px;
+  position: sticky;
+  top: 36px;
+  height: 300px;
+}

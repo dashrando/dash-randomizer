@@ -4,6 +4,15 @@ import { Heading } from '../components/text'
 import Select from '../components/select'
 import styles from './page.module.css'
 import { cn } from '@/lib/utils'
+import VanillaButton from './vanilla'
+
+const Sidebar = () => {
+  return (
+    <aside className={styles.sidebar}>
+      <VanillaButton />
+    </aside>
+  )
+}
 
 const SectionHeading = ({ title = '' }) => (
   <div className={styles.heading}>
@@ -181,7 +190,7 @@ const GeneratePage: NextPage = () => {
 
             </Section>
           </div>
-          <aside></aside>
+          <Sidebar />
         </div>
       </main>
     </div>
