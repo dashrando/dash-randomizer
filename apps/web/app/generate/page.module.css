@@ -10,6 +10,7 @@
 
 .sections {
   width: 70%;
+  max-width: 600px;
 }
 
 .section + .section {
@@ -19,4 +20,42 @@
 .heading {
   padding-bottom: var(--spacer-4x);
   border-bottom: 1px solid #fff;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  width: 260px;
+}
+
+.content {
+  width: 100%;
+  max-width: 400px;
+}
+
+.option {
+  margin: 16px 0;
+  display: flex;
+  /* width: 500px; */
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.option + .option {
+  /* border-top: 1px solid #111; */
+  padding-top: 32px;
+}
+
+.option p a {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 500;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.option p a:hover {
+  color: #77e7be;
+  text-decoration-color: transparent;
 }
