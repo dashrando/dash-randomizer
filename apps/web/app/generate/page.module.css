@@ -13,6 +13,10 @@
   max-width: 600px;
 }
 
+.section.open {
+  margin-bottom: var(--spacer-16x);
+}
+
 .section + .section {
   margin-top: var(--spacer-4x);
 }

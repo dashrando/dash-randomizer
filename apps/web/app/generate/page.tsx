@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Heading } from '../components/text'
 import Select from '../components/select'
 import styles from './page.module.css'
+import { cn } from '@/lib/utils'
 
 const SectionHeading = ({ title = '' }) => (
   <div className={styles.heading}>
@@ -11,7 +12,7 @@ const SectionHeading = ({ title = '' }) => (
 )
 
 const Section = ({ children, title }: { children?: React.ReactNode, title: string }) => (
-  <section className={styles.section}>
+  <section className={cn(styles.section, styles.open)}>
     <SectionHeading title={title} />
     <div>
       {children}
@@ -176,7 +177,9 @@ const GeneratePage: NextPage = () => {
                 </p>
               </Option>
             </Section>
-            <Section title="Options" />
+            <Section title="Options">
+
+            </Section>
           </div>
           <aside></aside>
         </div>
