@@ -6,7 +6,7 @@ import { Button, ButtonFileInput } from '@/app/components/button'
 import { vanilla } from 'core'
 import { useCallback } from 'react'
 
-async function parseContents(value: any) {
+async function parseContents(value: any): Promise<any> {
   const { getSignature, isVerified, isHeadered } = vanilla;
   const signature = await getSignature(value);
   if (isVerified(signature)) {
