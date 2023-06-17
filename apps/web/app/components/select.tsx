@@ -9,16 +9,21 @@ export type SelectOption = {
 export type SelectProps = {
   options: SelectOption[],
   name?: string
+  register?: any
+  required?: boolean
 }
 
 const Select = ({
   options = [],
   name = '',
+  register,
+  required = false,
+
 }: SelectProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.select}>
-        <select id={`select-${name}`} name={name}>
+        <select id={`select-${name}`} name={name} {...register(name, { required })}>
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}

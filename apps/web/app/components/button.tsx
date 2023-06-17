@@ -20,7 +20,7 @@ const buttonVariants = cva(
 )
 
 export interface ButtonProps
-  extends React.HTMLAttributes<HTMLElement>,
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {}
 
 export const ButtonFileInput = ({ label = '', ...props }: any) => {
