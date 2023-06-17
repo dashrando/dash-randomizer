@@ -9,6 +9,9 @@ import VanillaButton, { useVanilla } from './vanilla'
 import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
 import useMounted from '../hooks/useMounted'
+import { presets, RandomizeRom } from 'core'
+import { saveAs } from 'file-saver'
+import { get } from 'idb-keyval'
 
 const Sidebar = () => {
   const { data, isLoading } = useVanilla()
@@ -59,8 +62,22 @@ const Option = (
 export default function Form() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const onSubmit = (data: any) => {
-    console.log('submit', data)
-  }
+    console.log("submit", data);
+    const preset = presets.Recall;
+    get("vanilla-rom").then((vanillaBytes) => {
+      const config = { vanillaBytes: vanillaBytes };
+      RandomizeRom(
+        5,
+        preset.mapLayout,
+        preset.itemPoolParams,
+        preset.settings,
+        {},
+        config
+      ).then(({ data, name }) => {
+        saveAs(new Blob([data]), name);
+      });
+    });
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

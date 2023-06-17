@@ -18,8 +18,9 @@ import {
   decompressFromEncodedURIComponent,
 } from "lz-string";
 import { mapLocation } from "./graph/util";
+import { MapLayout } from "./graph/params";
 
-export const generateSeedPatch = (seed, gameMode, nodes, options) => {
+export const generateSeedPatch = (seed, flags, nodes, options) => {
   //-----------------------------------------------------------------
   // Utility functions.
   //-----------------------------------------------------------------
@@ -45,7 +46,6 @@ export const generateSeedPatch = (seed, gameMode, nodes, options) => {
   //-----------------------------------------------------------------
 
   let seedPatch = [];
-  let seedFlags = gameMode.mask;
   const rnd = new DotNetRandom(seed);
   encodeBytes(seedPatch, 0x2f8000, U16toBytes(rnd.Next(0xffff)));
   encodeBytes(seedPatch, 0x2f8002, U16toBytes(rnd.Next(0xffff)));
@@ -109,19 +109,27 @@ export const generateSeedPatch = (seed, gameMode, nodes, options) => {
 
   if (options != null) {
     encodeBytes(seedPatch, 0x2f8b0c, U16toBytes(options.DisableFanfare));
-    seedFlags |= options.DisableFanfare ? 0x0100 : 0x0000;
+    //seedFlags |= options.DisableFanfare ? 0x0100 : 0x0000;
   }
 
   //-----------------------------------------------------------------
   // Encode seed flags from the website.
   //-----------------------------------------------------------------
 
-  encodeBytes(seedPatch, 0x2f8b00, U32toBytes(seedFlags));
+  encodeBytes(seedPatch, 0x2f8b00, U32toBytes(flags));
 
   return seedPatch;
 };
 
-export const getFileName = (seed, prefix, options) => {
+export const getFileName = (
+  seed,
+  mapLayout,
+  itemPoolParams,
+  settings,
+  options
+) => {
+  const prefix =
+    mapLayout == MapLayout.Recall ? "DASH_Recall_" : "DASH_Classic";
   let fileName = prefix + seed.toString().padStart(6, "0");
 
   if (options != null) {

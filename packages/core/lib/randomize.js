@@ -1,78 +1,34 @@
 import BpsPatch from "./bps-patch";
-import ModeRecall from "./modes/modeRecall";
-import ModeStandard from "./modes/modeStandard";
-import game_modes from "../data/modes";
-import { getFileName, generateSeedPatch } from "./sm-rando";
-import {
-  getFullPrePool,
-  isEmptyNode,
-  getMajorMinorPrePool,
-  isValidMajorMinor,
-  performVerifiedFill,
-} from "./itemPlacement";
-import { getLocations } from "./locations";
-import Loadout from "./loadout";
+import { getFileName, generateSeedPatch, getItemNodes } from "./sm-rando";
 import { patchRom } from "../helpers/patcher";
+import { loadGraph } from "./graph/init";
+import { graphFill } from "./graph/fill";
+import { MapLayout } from "./graph/params";
 
-async function RandomizeRom(seed = 0, gameModeName, opts = {}, config = {}) {
-  let getPrePool;
-  let canPlaceItem;
-  let mode;
-
+async function RandomizeRom(
+  seed = 0,
+  mapLayout,
+  itemPoolParams,
+  settings,
+  opts = {},
+  config = {}
+) {
   if (!config.vanillaBytes) {
     throw Error("No vanilla ROM data found");
   }
 
-  let initLoad = new Loadout();
-
-  switch (gameModeName) {
-    case "sm":
-      mode = new ModeStandard(seed, getLocations());
-      getPrePool = getMajorMinorPrePool;
-      canPlaceItem = isValidMajorMinor;
-      break;
-
-    case "sf":
-      mode = new ModeStandard(seed, getLocations());
-      getPrePool = getFullPrePool;
-      canPlaceItem = isEmptyNode;
-      break;
-
-    case "rm":
-      mode = new ModeRecall(seed, getLocations());
-      getPrePool = getMajorMinorPrePool;
-      canPlaceItem = isValidMajorMinor;
-      initLoad.hasCharge = true;
-      break;
-
-    case "rf":
-      mode = new ModeRecall(seed, getLocations());
-      getPrePool = getFullPrePool;
-      canPlaceItem = isEmptyNode;
-      initLoad.hasCharge = true;
-      break;
-
-    default:
-      throw Error("Invalid game mode specified");
-  }
-
-  let gameMode = game_modes.find((mode) => mode.name == gameModeName);
-  if (gameMode == null) {
-    throw Error("Unknown game mode:" + gameModeName);
-  }
-
   // Place the items.
-  performVerifiedFill(
+  const graph = loadGraph(
     seed,
-    mode.nodes,
-    mode.itemPool,
-    getPrePool,
-    initLoad,
-    canPlaceItem
+    mapLayout,
+    itemPoolParams.majorDistributionMode
   );
+  graphFill(seed, graph, itemPoolParams, settings, true);
 
-  // Load the base patch associated with this game mode.
-  const basePatch = await BpsPatch.Load(gameMode.patch);
+  // Load the base patch associated with the map layout.
+  const patch =
+    mapLayout == MapLayout.Recall ? "dash_working.bps" : "dash_std.bps";
+  const basePatch = await BpsPatch.Load(`patches/${patch}`);
 
   // Process options with defaults.
   const defaultOptions = {
@@ -81,12 +37,14 @@ async function RandomizeRom(seed = 0, gameModeName, opts = {}, config = {}) {
   const options = { ...defaultOptions, ...opts };
 
   // Generate the seed specific patch (item placement, etc.)
-  const seedPatch = generateSeedPatch(seed, gameMode, mode.nodes, options);
+  const flags = 0x0; //TODO: fix me
+  const nodes = getItemNodes(graph);
+  const seedPatch = generateSeedPatch(seed, flags, nodes, options);
 
   // Create the rom by patching the vanilla rom.
   return {
     data: patchRom(config.vanillaBytes, basePatch, seedPatch),
-    name: getFileName(seed, gameMode.prefix, options),
+    name: getFileName(seed, mapLayout, itemPoolParams, settings, options),
   };
 }
 
