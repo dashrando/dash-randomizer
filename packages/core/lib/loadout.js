@@ -1,3 +1,4 @@
+import { BeamMode, SuitMode } from "./graph/params";
 import { Item, ItemNames } from "./items";
 
 class Loadout {
@@ -204,6 +205,71 @@ class Loadout {
         console.error("[Loadout] Unknown item type:", ItemNames.get(itemType));
         break;
     }
+  }
+
+  getFlags(settings) {
+    const starterChargeInLogic = settings.beamMode == BeamMode.DashRecall;
+    const canDamageBosses =
+      starterChargeInLogic || this.hasCharge || this.canOpenRedDoors;
+    const isHeatProof =
+      this.hasVaria ||
+      this.hasHeatShield ||
+      settings.suitMode == SuitMode.Vanilla && this.hasGravity;
+    return {
+      CanUseBombs: this.canUseBombs,
+      CanUsePowerBombs: this.canUsePowerBombs,
+      CanOpenRedDoors: this.canOpenRedDoors,
+      CanOpenGreenDoors: this.canOpenGreenDoors,
+      HasCharge: this.hasCharge || starterChargeInLogic,
+      HasDoubleJump: this.hasDoubleJump,
+      HasGravity: this.hasGravity,
+      HasGrapple: this.hasGrapple,
+      HasHeatShield: this.hasHeatShield,
+      HasHiJump: this.hasHiJump,
+      HasIce: this.hasIce,
+      HasMorph: this.hasMorph,
+      HasPlasma: this.hasPlasma,
+      HasPressureValve: this.hasPressureValve,
+      HasScrewAttack: this.hasScrewAttack,
+      HasSpaceJump: this.hasSpaceJump,
+      HasSpazer: this.hasSpazer,
+      HasSpeed: this.hasSpeed,
+      HasSpringBall: this.hasSpringBall,
+      HasVaria: this.hasVaria,
+      HasWave: this.hasWave,
+      EnergyTanks: this.energyTanks,
+      MissilePacks: this.missilePacks,
+      PowerBombPacks: this.powerPacks,
+      SuperPacks: this.superPacks,
+      TotalTanks: this.totalTanks,
+      HellRunTanks: isHeatProof
+        ? 9999
+        : settings.suitMode == SuitMode.Dash && this.hasGravity
+        ? this.totalTanks * 2
+        : this.totalTanks,
+      CanFly: this.canFly,
+      CanHellRun:
+        isHeatProof ||
+        this.totalTanks >= 4 ||
+        (settings.suitMode == SuitMode.Dash &&
+          this.hasGravity &&
+          this.totalTanks >= 3),
+      CanDoSuitlessMaridia:
+        this.hasHiJump &&
+        this.hasGrapple &&
+        (this.hasIce || this.hasSpringBall),
+      CanPassBombPassages: this.canPassBombPassages,
+      CanDestroyBombWalls: this.canDestroyBombWalls,
+      CanMoveInWestMaridia: this.hasGravity || this.hasPressureValve,
+      CanKillKraid: canDamageBosses,
+      CanKillPhantoon: canDamageBosses,
+      CanKillDraygon: canDamageBosses,
+      CanKillRidley: this.hasVaria && canDamageBosses,
+      CanKillSporeSpawn: canDamageBosses,
+      CanKillCrocomire: canDamageBosses,
+      CanKillBotwoon: canDamageBosses,
+      CanKillGoldTorizo: this.hasVaria && canDamageBosses,
+    };
   }
 }
 
