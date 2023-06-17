@@ -6,7 +6,15 @@
   padding-top: 6px;
 }
 
-.panel_selector {
+.right_side {
   float: right;
-  padding-right: 4em;
+  padding-right: 1em;
+}
+
+.fill_selector {
+  padding-right: 1em;
+}
+
+.panel_selector {
+  padding-right: 2em;
 }

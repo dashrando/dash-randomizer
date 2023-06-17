@@ -17,6 +17,7 @@ import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
 } from "lz-string";
+import { mapLocation } from "./graph/util";
 
 export const generateSeedPatch = (seed, gameMode, nodes, options) => {
   //-----------------------------------------------------------------
@@ -130,6 +131,16 @@ export const getFileName = (seed, prefix, options) => {
   }
 
   return fileName + ".sfc";
+};
+
+export const getItemNodes = (graph) => {
+  return getLocations().map((l) => {
+    const vertex = graph.find((e) => e.from.name == mapLocation(l.name)).from;
+    return {
+      location: l,
+      item: vertex.item,
+    };
+  });
 };
 
 export const flagsToOptions = (flags) => {

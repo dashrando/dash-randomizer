@@ -3,6 +3,7 @@ import {
   getPresetOptions,
   flagsToOptions,
   optionsToFlags,
+  getItemNodes,
 } from "./lib/sm-rando";
 import RandomizeRom from "./lib/randomize";
 import vanillaROM, { clearVanillaRom, getVanilla } from "./lib/vanilla/storage";
@@ -42,4 +43,5 @@ export {
   optionsToFlags,
   getSignature,
   fetchSignature,
+  getItemNodes,
 };
