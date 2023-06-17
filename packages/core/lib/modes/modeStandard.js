@@ -694,6 +694,7 @@ const canEnterAndLeaveGauntlet = (load) => {
 };
 
 export const LogicChecks = {
+  canAccessGreenBrinstar,
   canHellRun,
   canAccessRedBrinstar,
   canAccessHeatedNorfair,
