@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
 import useMounted from '../hooks/useMounted'
 import { presets, RandomizeRom } from 'core'
-import { saveAs } from 'file-saver'
+import { MinorDistributionMode } from 'core/params'
 
 const Sidebar = () => {
   const { data, isLoading } = useVanilla()
@@ -76,13 +76,38 @@ export default function Form() {
   const onSubmit = async (data: GenerateSeedParams) => {
     try {
       console.log("submit", data);
-      const preset = presets.Recall;
+      const preset = {...presets.Recall};
       const config = { vanillaBytes: vanilla };
+      const { mapLayout, settings } = preset;
+
+      //TODO: support fixed seed
+      const [minSeed, maxSeed] = [1, 999999];
+      const numSeeds = maxSeed - minSeed + 1;
+      const randomArray = new Uint32Array(1);
+      window.crypto.getRandomValues(randomArray);
+      const theSeed = minSeed + (randomArray[0] & numSeeds);
+
+      const minorDistribution = {
+        mode: MinorDistributionMode.Standard,
+        missiles: 3,
+        supers: 2,
+        powerbombs: 1
+      };
+      if (data.minors == "dash") {
+        minorDistribution.missiles = 2;
+        minorDistribution.supers = 1;
+        minorDistribution.powerbombs = 1;
+      }
+      const itemPoolParams = {
+        majorDistribution: preset.itemPoolParams.majorDistribution,
+        minorDistribution: minorDistribution
+      };
+
       const { data: seed, name } = await RandomizeRom(
-        5,
-        preset.mapLayout,
-        preset.itemPoolParams,
-        preset.settings,
+        theSeed,
+        mapLayout,
+        itemPoolParams,
+        settings,
         {},
         config
       )
@@ -161,8 +186,8 @@ export default function Form() {
             <Option label="Minor Item Distribution" name="minors">
               <Select
                 options={[
-                  { label: 'Standard', value: 'standard' },
-                  { label: 'DASH', value: 'dash' },
+                  { label: 'Standard - 3:2:1', value: 'standard' },
+                  { label: 'DASH - 2:1:1', value: 'dash' },
                 ]}
                 name="minors"
                 register={register}
