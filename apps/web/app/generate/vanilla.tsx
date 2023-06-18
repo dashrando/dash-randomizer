@@ -11,7 +11,7 @@ async function parseContents(value: any): Promise<any> {
   const { getSignature, isVerified, isHeadered } = vanilla;
   const signature = await getSignature(value);
   if (isVerified(signature)) {
-    return value
+    return new Uint8Array(value)
   }
 
   if (isHeadered(signature)) {
@@ -34,8 +34,8 @@ function inputVanillaRom(el: HTMLInputElement, callback: (value: any) => void) {
   
   reader.onload = async function () {
     try {
-      await parseContents(reader.result);
-      await callback(reader.result);
+      const bytes = await parseContents(reader.result);
+      await callback(bytes);
     } catch (e) {
       const err = e as Error;
       console.error(err.message);
@@ -55,7 +55,10 @@ function inputVanillaRom(el: HTMLInputElement, callback: (value: any) => void) {
 async function fetcher() {
   console.debug('fetcher')
   try {
-    const vanilla = await get('vanilla-rom')
+    let vanilla = await get('vanilla-rom')
+    if (vanilla instanceof ArrayBuffer) {
+      vanilla = new Uint8Array(vanilla);
+    }
     return vanilla
   } catch (e) {
     const err = e as Error
