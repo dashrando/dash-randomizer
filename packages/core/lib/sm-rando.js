@@ -1,26 +1,20 @@
 import DotNetRandom from "./dotnet-random";
 import game_modes from "../data/modes";
-import ModeStandard from "./modes/modeStandard";
-import ModeRecall from "./modes/modeRecall";
 import { Buffer } from "buffer";
 import { Area, AreaCounts, getLocations } from "./locations";
-import {
-  performVerifiedFill,
-  getMajorMinorPrePool,
-  isValidMajorMinor,
-  getFullPrePool,
-  isEmptyNode,
-} from "./itemPlacement";
 import { Item } from "./items";
-import Loadout from "./loadout";
 import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
 } from "lz-string";
 import { mapLocation } from "./graph/util";
 import { MapLayout } from "./graph/params";
+import { ClassicPreset } from "./graph/data/classic/preset";
+import { RecallPreset } from "./graph/data/recall/preset";
+import { loadGraph } from "./graph/init";
+import { graphFill } from "./graph/fill";
 
-export const generateSeedPatch = (seed, flags, nodes, options) => {
+export const generateSeedPatch = (seed, settings, nodes, options) => {
   //-----------------------------------------------------------------
   // Utility functions.
   //-----------------------------------------------------------------
@@ -45,7 +39,8 @@ export const generateSeedPatch = (seed, flags, nodes, options) => {
   // Encode the seed to show on the file select screen.
   //-----------------------------------------------------------------
 
-  let seedPatch = [];
+  let flags = 0x0; //TODO: fix me
+  const seedPatch = [];
   const rnd = new DotNetRandom(seed);
   encodeBytes(seedPatch, 0x2f8000, U16toBytes(rnd.Next(0xffff)));
   encodeBytes(seedPatch, 0x2f8002, U16toBytes(rnd.Next(0xffff)));
@@ -196,55 +191,48 @@ export const optionsToFlags = (mode, options) => {
   return compressToEncodedURIComponent(Buffer.from(bytes).toString("base64"));
 };
 
-export const generateFromPreset = (preset, seedNumber) => {
+export const generateFromPreset = (name, seedNumber) => {
   const timestamp = Math.floor(new Date().getTime() / 1000);
 
   const seed =
     seedNumber == undefined || seedNumber == 0
       ? new DotNetRandom(timestamp).NextInRange(1, 1000000)
       : seedNumber;
-  let gameMode, mode, getPrePool, canPlaceItem;
-  let initLoad = new Loadout();
+  let gameMode, restrictType, preset;
 
-  if (preset == "standard_mm" || preset == "std_mm") {
+  if (name == "standard_mm" || name == "std_mm") {
     gameMode = game_modes.find((mode) => mode.name == "sm");
-    mode = new ModeStandard(seed, getLocations());
-    getPrePool = getMajorMinorPrePool;
-    canPlaceItem = isValidMajorMinor;
-  } else if (preset == "standard_full" || preset == "std_full") {
+    preset = ClassicPreset;
+    restrictType = true;
+  } else if (name == "standard_full" || name == "std_full") {
     gameMode = game_modes.find((mode) => mode.name == "sf");
-    mode = new ModeStandard(seed, getLocations());
-    getPrePool = getFullPrePool;
-    canPlaceItem = isEmptyNode;
-  } else if (preset == "mm" || preset == "recall_mm") {
+    preset = ClassicPreset;
+    restrictType = false;
+  } else if (name == "mm" || name == "recall_mm") {
     gameMode = game_modes.find((mode) => mode.name == "rm");
-    mode = new ModeRecall(seed, getLocations());
-    getPrePool = getMajorMinorPrePool;
-    canPlaceItem = isValidMajorMinor;
-    initLoad.hasCharge = true;
-  } else if (preset == "full" || preset == "recall_full") {
+    preset = RecallPreset;
+    restrictType = true;
+  } else if (name == "full" || name == "recall_full") {
     gameMode = game_modes.find((mode) => mode.name == "rf");
-    mode = new ModeRecall(seed, getLocations());
-    getPrePool = getFullPrePool;
-    canPlaceItem = isEmptyNode;
-    initLoad.hasCharge = true;
+    preset = RecallPreset;
+    restrictType = false;
   } else {
-    console.log("UNKNOWN PRESET: " + preset);
+    console.log("UNKNOWN PRESET: " + name);
     return ["", null, ""];
   }
 
   // Place the items.
-  performVerifiedFill(
+  const { mapLayout, itemPoolParams, settings } = preset;
+  const graph = loadGraph(
     seed,
-    mode.nodes,
-    mode.itemPool,
-    getPrePool,
-    initLoad,
-    canPlaceItem
+    mapLayout,
+    itemPoolParams.majorDistribution.mode
   );
+  graphFill(seed, graph, itemPoolParams, settings, restrictType);
 
-  const seedPatch = generateSeedPatch(seed, gameMode, mode.nodes, null);
-  const fileName = getFileName(seed, gameMode.prefix, null);
+  const nodes = getItemNodes(graph);
+  const seedPatch = generateSeedPatch(seed, settings, nodes, null);
+  const fileName = getFileName(seed, mapLayout, itemPoolParams, settings, null);
 
   return [gameMode.patch, seedPatch, fileName];
 };

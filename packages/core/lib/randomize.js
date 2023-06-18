@@ -21,7 +21,7 @@ async function RandomizeRom(
   const graph = loadGraph(
     seed,
     mapLayout,
-    itemPoolParams.majorDistributionMode
+    itemPoolParams.majorDistribution.mode
   );
   graphFill(seed, graph, itemPoolParams, settings, true);
 
@@ -37,9 +37,8 @@ async function RandomizeRom(
   const options = { ...defaultOptions, ...opts };
 
   // Generate the seed specific patch (item placement, etc.)
-  const flags = 0x0; //TODO: fix me
   const nodes = getItemNodes(graph);
-  const seedPatch = generateSeedPatch(seed, flags, nodes, options);
+  const seedPatch = generateSeedPatch(seed, settings, nodes, options);
 
   // Create the rom by patching the vanilla rom.
   return {
