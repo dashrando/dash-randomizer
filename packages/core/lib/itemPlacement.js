@@ -1,7 +1,6 @@
 import DotNetRandom from "./dotnet-random";
 import { Item } from "./items";
 import { Area } from "./locations";
-import Loadout from "./loadout";
 
 //-----------------------------------------------------------------
 // Checks if a node is empty.

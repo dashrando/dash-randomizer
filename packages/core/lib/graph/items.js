@@ -6,17 +6,17 @@ export const getItemPool = (seed, majorDistribution, minorDistribution) => {
   const rnd = new DotNetRandom(seed);
 
   let itemPool = [
-    majorItem(0x000000, Item.EnergyTank, false),
+    majorItem(0x000000, Item.EnergyTank),
     minorItem(0x000000, Item.Missile),
     minorItem(0x000000, Item.Super),
     minorItem(0x000000, Item.PowerBomb),
     majorItem(0x2f8009, Item.Bombs),
-    majorItem(0x2f802b, Item.Charge, false),
+    majorItem(0x2f802b, Item.Charge),
     majorItem(0x2f800b, Item.Ice),
     majorItem(0x2f8017, Item.HJB),
     majorItem(0x2f801b, Item.Speed),
     majorItem(0x2f800d, Item.Wave),
-    majorItem(0x2f800f, Item.Spazer, false),
+    majorItem(0x2f800f, Item.Spazer),
     majorItem(0x2f801f, Item.SpringBall),
     majorItem(0x2f8013, Item.Varia),
     majorItem(0x2f8011, Item.Plasma),
@@ -24,7 +24,7 @@ export const getItemPool = (seed, majorDistribution, minorDistribution) => {
     majorItem(0x2f8007, Item.Morph),
     majorItem(0x000000, Item.Reserve),
     majorItem(0x2f8015, Item.Gravity),
-    majorItem(0x2f8021, Item.Xray, false),
+    majorItem(0x2f8021, Item.Xray),
     majorItem(0x2f8019, Item.SpaceJump),
     majorItem(0x2f801d, Item.ScrewAttack),
   ];

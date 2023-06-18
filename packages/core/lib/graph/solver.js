@@ -1,4 +1,5 @@
 import { canReachStart, canReachVertex, searchAndCache } from "./search";
+import { ItemNames } from "../items";
 
 class GraphSolver {
   constructor(graph, settings, logMethods) {
@@ -14,7 +15,7 @@ class GraphSolver {
     }
   }
 
-  checkFlags(load, bossData) {
+  checkFlags(load) {
     const {
       CanUseBombs,
       CanUsePowerBombs,
@@ -57,34 +58,22 @@ class GraphSolver {
       CanKillCrocomire,
       CanKillBotwoon,
       CanKillGoldTorizo,
-    } = load.getFlags(this.settings);
-
-    const {
       HasDefeatedKraid,
       HasDefeatedPhantoon,
       HasDefeatedDraygon,
       HasDefeatedRidley,
-    } = bossData;
+    } = load.getFlags(this.settings);
 
     return (condition) => eval(`(${condition.toString()})()`);
   }
 
   isVertexAvailable(vertex, load, itemType, legacyMode = false) {
-    //TODO: solve boss data?
-
-    const bossData = {
-      HasDefeatedKraid: false,
-      HasDefeatedPhantoon: false,
-      HasDefeatedDraygon: false,
-      HasDefeatedRidley: false,
-    };
-
     if (
       !canReachVertex(
         this.graph,
         this.startVertex,
         vertex,
-        this.checkFlags(load, bossData)
+        this.checkFlags(load)
       )
     ) {
       return false;
@@ -94,7 +83,7 @@ class GraphSolver {
         this.graph,
         vertex,
         this.startVertex,
-        this.checkFlags(load, bossData)
+        this.checkFlags(load)
       );
     }
     let temp = load.clone();
@@ -103,42 +92,23 @@ class GraphSolver {
       this.graph,
       vertex,
       this.startVertex,
-      this.checkFlags(temp, bossData)
+      this.checkFlags(temp)
     );
   }
 
   isValid(initLoad, legacyMode = false) {
     let samus = initLoad.clone();
-    let collectedCount = 0;
+    let remainingItemCount = 104; //TODO: set using graph
 
-    const bossData = {
-      HasDefeatedKraid: false,
-      HasDefeatedPhantoon: false,
-      HasDefeatedDraygon: false,
-      HasDefeatedRidley: false,
-    };
-
-    const bossEdges = {
-      Kraid: this.graph.find(
-        (n) => n.to.name == "Exit_Kraid" && n.from.name.startsWith("Door_")
-      ),
-      Phantoon: this.graph.find(
-        (n) => n.to.name == "Exit_Phantoon" && n.from.name.startsWith("Door_")
-      ),
-      Draygon: this.graph.find(
-        (n) => n.to.name == "Exit_Draygon" && n.from.name.startsWith("Door_")
-      ),
-      Ridley: this.graph.find(
-        (n) => n.to.name == "Exit_Ridley" && n.from.name.startsWith("Door_")
-      ),
+    const printBoss = (boss) => {
+      const door = this.graph.find(
+        (n) => n.to.name == `Exit_${boss}` && n.from.name.startsWith("Door_")
+      ).from.name;
+      this.printDefeatedBoss(`Defeated ${boss} @ ${door}`);
     };
 
     const findAll = () =>
-      searchAndCache(
-        this.graph,
-        this.startVertex,
-        this.checkFlags(samus, bossData)
-      );
+      searchAndCache(this.graph, this.startVertex, this.checkFlags(samus));
 
     //-----------------------------------------------------------------
     // Collects all items where there is a round trip back to the
@@ -150,22 +120,26 @@ class GraphSolver {
 
       itemLocations.forEach((p) => {
         if (legacyMode) {
-          if (!canReachStart(this.graph, p, this.checkFlags(samus, bossData))) {
+          if (!canReachStart(this.graph, p, this.checkFlags(samus))) {
             return;
           }
           samus.add(p.item.type);
         } else {
           const load = samus.clone();
           load.add(p.item.type);
-          if (!canReachStart(this.graph, p, this.checkFlags(load, bossData))) {
+          if (!canReachStart(this.graph, p, this.checkFlags(load))) {
             return;
           }
           samus = load;
         }
 
         items.push(p.item);
+        if (this.printDefeatedBoss && p.type == "boss") {
+          printBoss(ItemNames.get(p.item.type));
+        }
+
         p.item = undefined;
-        collectedCount += 1;
+        remainingItemCount -= 1;
       });
 
       if (items.length == 0) {
@@ -191,71 +165,6 @@ class GraphSolver {
           this.printAvailableItems(uncollected);
         }
 
-        //-----------------------------------------------------------------
-        // Determines if the graph would allow a round trip from the
-        // specified vertex to the starting vertex.
-        //-----------------------------------------------------------------
-
-        const hasRoundTrip = (vertex) => {
-          if (!all.includes(vertex)) {
-            return false;
-          }
-
-          return canReachStart(
-            this.graph,
-            vertex,
-            this.checkFlags(samus, bossData)
-          );
-        };
-
-        // Update defeated boss flags. Assume that if we can get to the boss
-        // and back to the start that we have defeated the boss since the
-        // logic for killing the boss is considered leaving the boss.
-        if (!bossData.HasDefeatedKraid) {
-          bossData.HasDefeatedKraid = hasRoundTrip(bossEdges.Kraid.to);
-          if (
-            bossData.HasDefeatedKraid &&
-            this.printDefeatedBoss != undefined
-          ) {
-            this.printDefeatedBoss(
-              `Defeated Kraid @ ${bossEdges.Kraid.from.name}`
-            );
-          }
-        }
-        if (!bossData.HasDefeatedPhantoon) {
-          bossData.HasDefeatedPhantoon = hasRoundTrip(bossEdges.Phantoon.to);
-          if (
-            bossData.HasDefeatedPhantoon &&
-            this.printDefeatedBoss != undefined
-          ) {
-            this.printDefeatedBoss(
-              `Defeated Phantoon @ ${bossEdges.Phantoon.from.name}`
-            );
-          }
-        }
-        if (!bossData.HasDefeatedDraygon) {
-          bossData.HasDefeatedDraygon = hasRoundTrip(bossEdges.Draygon.to);
-          if (
-            bossData.HasDefeatedDraygon &&
-            this.printDefeatedBoss != undefined
-          ) {
-            this.printDefeatedBoss(
-              `Defeated Draygon @ ${bossEdges.Draygon.from.name}`
-            );
-          }
-        }
-        if (!bossData.HasDefeatedRidley) {
-          bossData.HasDefeatedRidley = hasRoundTrip(bossEdges.Ridley.to);
-          if (
-            bossData.HasDefeatedRidley &&
-            this.printDefeatedBoss != undefined
-          ) {
-            this.printDefeatedBoss(
-              `Defeated Ridley @ ${bossEdges.Ridley.from.name}`
-            );
-          }
-        }
-
         // Collect all items where we can make a round trip back to the start
         if (collectEasyItems(uncollected)) {
           continue;
@@ -275,8 +184,8 @@ class GraphSolver {
         throw new Error("Uncollected items");
       }
 
-      if (collectedCount != 100) {
-        throw new Error(`Only placed ${collectedCount} items`);
+      if (remainingItemCount != 0) {
+        throw new Error(`Unplaced items: ${remainingItemCount}`);
       }
     } catch (e) {
       if (this.printMsg) {

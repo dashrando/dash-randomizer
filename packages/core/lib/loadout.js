@@ -23,6 +23,15 @@ class Loadout {
   hasPlasma = false;
   hasGrapple = false;
 
+  hasDefeatedKraid = false;
+  hasDefeatedPhantoon = false;
+  hasDefeatedDraygon = false;
+  hasDefeatedRidley = false;
+  hasDefeatedSporeSpawn = false;
+  hasDefeatedCrocomire = false;
+  hasDefeatedBotwoon = false;
+  hasDefeatedGoldTorizo = false;
+
   missilePacks = 0;
   superPacks = 0;
   powerPacks = 0;
@@ -201,6 +210,31 @@ class Loadout {
       case Item.Xray:
         break;
 
+      case Item.DefeatedBotwoon:
+        this.hasDefeatedBotwoon = true;
+        break;
+      case Item.DefeatedCrocomire:
+        this.hasDefeatedCrocomire = true;
+        break;
+      case Item.DefeatedDraygon:
+        this.hasDefeatedDraygon = true;
+        break;
+      case Item.DefeatedKraid:
+        this.hasDefeatedKraid = true;
+        break;
+      case Item.DefeatedPhantoon:
+        this.hasDefeatedPhantoon = true;
+        break;
+      case Item.DefeatedRidley:
+        this.hasDefeatedRidley = true;
+        break;
+      case Item.DefeatedGoldTorizo:
+        this.hasDefeatedGoldTorizo = true;
+        break;
+      case Item.DefeatedSporeSpawn:
+        this.hasDefeatedSporeSpawn = true;
+        break;
+
       default:
         console.error("[Loadout] Unknown item type:", ItemNames.get(itemType));
         break;
@@ -214,7 +248,7 @@ class Loadout {
     const isHeatProof =
       this.hasVaria ||
       this.hasHeatShield ||
-      settings.suitMode == SuitMode.Vanilla && this.hasGravity;
+      (settings.suitMode == SuitMode.Vanilla && this.hasGravity);
     return {
       CanUseBombs: this.canUseBombs,
       CanUsePowerBombs: this.canUsePowerBombs,
@@ -269,6 +303,14 @@ class Loadout {
       CanKillCrocomire: canDamageBosses,
       CanKillBotwoon: canDamageBosses,
       CanKillGoldTorizo: this.hasVaria && canDamageBosses,
+      HasDefeatedBotwoon: this.hasDefeatedBotwoon,
+      HasDefeatedCrocomire: this.hasDefeatedCrocomire,
+      HasDefeatedDraygon: this.hasDefeatedDraygon,
+      HasDefeatedKraid: this.hasDefeatedKraid,
+      HasDefeatedPhantoon: this.hasDefeatedPhantoon,
+      HasDefeatedRidley: this.hasDefeatedRidley,
+      HasDefeatedGoldTorizo: this.hasDefeatedGoldTorizo,
+      HasDefeatedSporeSpawn: this.hasDefeatedSporeSpawn,
     };
   }
 }

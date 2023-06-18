@@ -214,21 +214,21 @@ export const vanillaVertices = {
   },
   Kraid: {
     Exit_Kraid: "",
-    Boss_Kraid: "",
+    Boss_Kraid: "boss",
     VariaSuit: "major",
   },
   Phantoon: {
     Exit_Phantoon: "",
-    Boss_Phantoon: "",
+    Boss_Phantoon: "boss",
   },
   Draygon: {
     Exit_Draygon: "",
-    Boss_Draygon: "",
+    Boss_Draygon: "boss",
     SpaceJump: "major",
   },
   Ridley: {
     Exit_Ridley: "",
-    Boss_Ridley: "",
+    Boss_Ridley: "boss",
     EnergyTank_Ridley: "major",
   },
   Tourian: {

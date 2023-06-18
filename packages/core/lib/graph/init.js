@@ -18,6 +18,7 @@ import { RecallEdgeUpdates } from "./data/recall/edges";
 import { RecallAreaEdgeUpdates } from "./data/recall/area";
 import { SeasonAreaEdgeUpdates } from "./data/season/area";
 import { mapPortals } from "./data/portals";
+import { bossItem, Item } from "../items";
 
 const getVanillaEdges = () => {
   return {
@@ -36,6 +37,23 @@ const getVanillaEdges = () => {
 };
 
 const getAllVertices = () => {
+  const getItem = (name, type) => {
+    if (type != "boss") {
+      return undefined;
+    }
+    switch (name) {
+      case "Boss_Kraid":
+        return bossItem(Item.DefeatedKraid);
+      case "Boss_Phantoon":
+        return bossItem(Item.DefeatedPhantoon);
+      case "Boss_Draygon":
+        return bossItem(Item.DefeatedDraygon);
+      case "Boss_Ridley":
+        return bossItem(Item.DefeatedRidley);
+      default:
+        return undefined;
+    }
+  };
   return Object.entries(vanillaVertices)
     .map(([k, v]) => {
       return Object.entries(v).map(([name, type]) => {
@@ -43,7 +61,7 @@ const getAllVertices = () => {
           name: name,
           type: type,
           area: k,
-          item: undefined,
+          item: getItem(name, type),
           pathToStart: false,
         };
       });
@@ -184,7 +202,6 @@ export const cloneGraph = (graph) => {
         type: orig.item.type,
         name: orig.item.name,
         isMajor: orig.item.isMajor,
-        isProgression: orig.item.isProgression,
         spoilerAddress: orig.item.spoilerAddress,
       };
     }
