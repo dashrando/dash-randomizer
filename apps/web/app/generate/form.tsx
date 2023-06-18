@@ -59,9 +59,21 @@ const Option = (
   </div>
 )
 
+export type GenerateSeedParams = {
+  'item-split': 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard',
+  area: 'standard' | 'randomized',
+  boss: 'standard' | 'randomized' | 'known',
+  minors: 'standard' | 'dash',
+  'map-layout': 'standard-vanilla' | 'dash-classic' | 'dash-recall',
+  'suit-properties': 'dash' | 'varia',
+  'double-jump': boolean,
+  'heat-shield': boolean,
+  'pressure-valve': 'none' | 'on' | 'movement'
+}
+
 export default function Form() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm()
-  const onSubmit = (data: any) => {
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<GenerateSeedParams>()
+  const onSubmit = (data: GenerateSeedParams) => {
     console.log("submit", data);
     const preset = presets.Recall;
     get("vanilla-rom").then((vanillaBytes) => {
