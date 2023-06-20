@@ -23,6 +23,7 @@ import { graphFill } from "@/../../packages/core/lib/graph/fill";
 import { ClassicPreset } from "@/../../packages/core/lib/graph/data/classic/preset";
 import { RecallPreset } from "@/../../packages/core/lib/graph/data/recall/preset";
 import { loadGraph } from "@/../../packages/core/lib/graph/init";
+import { MajorDistributionMode } from "core/params";
 
 export type ItemLocation = {
   location: Location;
@@ -139,12 +140,15 @@ export default function StatsPage() {
 
     for (let i = startSeed; i <= endSeed; i++) {
       const preset = gameMode[0] == "s" ? ClassicPreset : RecallPreset;
-      const restrictType = gameMode[1] == "m";
+
+      if (gameMode[1] == "f") {
+        preset.itemPoolParams.majorDistribution.mode = MajorDistributionMode.Full;
+      }
 
       const { mapLayout, itemPoolParams, settings } = preset;
       const { majorDistribution } = itemPoolParams;
       const graph = loadGraph(i, mapLayout, majorDistribution.mode);
-      graphFill(i, graph, itemPoolParams, settings, restrictType);
+      graphFill(i, graph, itemPoolParams, settings);
 
       progression.push(getItemNodes(graph));
     }

@@ -9,8 +9,8 @@ import VanillaButton, { useVanilla } from './vanilla'
 import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
 import useMounted from '../hooks/useMounted'
-import { presets, RandomizeRom } from 'core'
-import { MinorDistributionMode } from 'core/params'
+import { Item, presets, RandomizeRom } from 'core'
+import { BeamMode, MajorDistributionMode, MapLayout, MinorDistributionMode } from 'core/params'
 
 const Sidebar = () => {
   const { data, isLoading } = useVanilla()
@@ -59,15 +59,16 @@ const Option = (
 )
 
 export type GenerateSeedParams = {
-  'item-split': 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard',
+  'item-split': 'recall-mm' | 'standard-mm' | 'full',
   area: 'standard' | 'randomized',
   boss: 'standard' | 'randomized' | 'known',
   minors: 'standard' | 'dash',
-  'map-layout': 'standard-vanilla' | 'dash-classic' | 'dash-recall',
+  'map-layout': 'standard-vanilla' | 'dash-recall',
+  'beam-mode': 'vanilla' | 'classic' | 'recall' | 'new',
   'suit-properties': 'dash' | 'varia',
-  'double-jump': boolean,
-  'heat-shield': boolean,
-  'pressure-valve': 'none' | 'on' | 'movement'
+  'double-jump': 'off' | 'on',
+  'heat-shield': 'off' | 'on',
+  'pressure-valve': 'none' | 'one' | 'two'
 }
 
 export default function Form() {
@@ -78,7 +79,7 @@ export default function Form() {
       console.log("submit", data);
       const preset = {...presets.Recall};
       const config = { vanillaBytes: vanilla };
-      const { mapLayout, settings } = preset;
+      const { settings } = preset;
 
       //TODO: support fixed seed
       const [minSeed, maxSeed] = [1, 999999];
@@ -98,10 +99,45 @@ export default function Form() {
         minorDistribution.supers = 1;
         minorDistribution.powerbombs = 1;
       }
+
+      const majorDistribution = {
+        mode: MajorDistributionMode.Standard,
+        extraItems: [] as number[],
+      };
+      if (data['item-split'] == "full") {
+        majorDistribution.mode = MajorDistributionMode.Full;
+      } else if (data['item-split'] == "recall-mm") {
+        majorDistribution.mode = MajorDistributionMode.Recall;
+      }
+      if (data['double-jump'] == "on") {
+        majorDistribution.extraItems.push(Item.DoubleJump);
+      }
+      if (data['heat-shield'] == "on") {
+        majorDistribution.extraItems.push(Item.HeatShield);
+      }
+      if (data['pressure-valve'] == "one") {
+        majorDistribution.extraItems.push(Item.PressureValve);
+      }
+
       const itemPoolParams = {
-        majorDistribution: preset.itemPoolParams.majorDistribution,
+        majorDistribution: majorDistribution,
         minorDistribution: minorDistribution
       };
+
+      if (data['beam-mode'] == 'vanilla') {
+        settings.beamMode = BeamMode.Vanilla;
+      } else if (data['beam-mode'] == 'classic') {
+        settings.beamMode = BeamMode.DashClassic;
+      } else if (data['beam-mode'] == 'recall') {
+        settings.beamMode = BeamMode.DashRecall;
+      } else if (data['beam-mode'] == 'new') {
+        settings.beamMode = BeamMode.New;
+      }
+
+      let mapLayout = MapLayout.Standard;
+      if (data['map-layout'] == 'dash-recall') {
+        mapLayout = MapLayout.Recall;
+      }
 
       const { data: seed, name } = await RandomizeRom(
         theSeed,
@@ -139,10 +175,9 @@ export default function Form() {
             <Option label="Item Split" name="item-split">
               <Select
                 options={[
-                  { label: 'DASH: Recall v2', value: 'dash-recall-v2' },
-                  { label: 'DASH: Recall v1', value: 'dash-recall-v1' },
-                  { label: 'DASH: Classic', value: 'dash-classic' },
-                  { label: 'Standard', value: 'standard' },
+                  { label: 'Recall Major/Minor', value: 'recall-mm' },
+                  { label: 'Standard Major/Minor', value: 'standard-mm' },
+                  { label: 'Full', value: 'full' },
                 ]}
                 name="item-split"
                 register={register}
@@ -201,7 +236,6 @@ export default function Form() {
               <Select
                 options={[
                   { label: 'Standard Vanilla', value: 'standard-vanilla' },
-                  { label: 'DASH Classic', value: 'dash-classic' },
                   { label: 'DASH Recall', value: 'dash-recall' },
                 ]}
                 name="map-layout"
@@ -210,6 +244,22 @@ export default function Form() {
               <p>
                 <Link href="/generate/info#map-layout">Map Layout</Link>{' '}
                 applies various tweaks, anti-soft lock patches and other quality of life improvements.
+              </p>
+            </Option>
+            <Option label="Beam Mode" name="beam-mode">
+              <Select
+                options={[
+                  { label: 'Vanilla', value: 'vanilla' },
+                  { label: 'Classic', value: 'classic' },
+                  { label: 'Recall', value: 'recall' },
+                  { label: 'New', value: 'new' },
+                ]}
+                name="beam-mode"
+                register={register}
+              />
+              <p>
+                <Link href="/generate/info#beam-mode">Beam Mode</Link>{' '}
+                alters the amount of damage caused by Charge Beam.
               </p>
             </Option>
             <Option label="Suit Properties" name="suit-properties">
@@ -258,8 +308,8 @@ export default function Form() {
               <Select
                 options={[
                   { label: 'None', value: 'none' },
-                  { label: 'On', value: 'on' },
-                  { label: 'Movement', value: 'movement' },
+                  { label: '1', value: 'one' },
+                  //{ label: '2', value: 'two' },
                 ]}
                 name="pressure-valve"
                 register={register}

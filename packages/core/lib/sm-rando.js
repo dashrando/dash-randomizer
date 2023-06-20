@@ -8,7 +8,7 @@ import {
   decompressFromEncodedURIComponent,
 } from "lz-string";
 import { mapLocation } from "./graph/util";
-import { MapLayout } from "./graph/params";
+import { MajorDistributionMode, MapLayout } from "./graph/params";
 import { ClassicPreset } from "./graph/data/classic/preset";
 import { RecallPreset } from "./graph/data/recall/preset";
 import { loadGraph } from "./graph/init";
@@ -25,6 +25,10 @@ export const generateSeedPatch = (seed, settings, nodes, options) => {
 
   const encodeBytes = (patch, offset, bytes) => {
     encodeRepeating(patch, offset, 1, bytes);
+  };
+
+  const U8toBytes = (u8) => {
+    return new Uint8Array([u8]);
   };
 
   const U16toBytes = (u16) => {
@@ -99,6 +103,12 @@ export const generateSeedPatch = (seed, settings, nodes, options) => {
     });
 
   //-----------------------------------------------------------------
+  // Settings.
+  //-----------------------------------------------------------------
+
+  encodeBytes(seedPatch, 0x2f8004, U8toBytes(settings.beamMode));
+
+  //-----------------------------------------------------------------
   // Other options.
   //-----------------------------------------------------------------
 
@@ -124,7 +134,7 @@ export const getFileName = (
   options
 ) => {
   const prefix =
-    mapLayout == MapLayout.Recall ? "DASH_Recall_" : "DASH_Classic";
+    mapLayout == MapLayout.Recall ? "DASH_Recall_" : "DASH_Standard_";
   let fileName = prefix + seed.toString().padStart(6, "0");
 
   if (options != null) {
@@ -198,24 +208,22 @@ export const generateFromPreset = (name, seedNumber) => {
     seedNumber == undefined || seedNumber == 0
       ? new DotNetRandom(timestamp).NextInRange(1, 1000000)
       : seedNumber;
-  let gameMode, restrictType, preset;
+  let gameMode, preset;
 
   if (name == "standard_mm" || name == "std_mm") {
     gameMode = game_modes.find((mode) => mode.name == "sm");
-    preset = ClassicPreset;
-    restrictType = true;
+    preset = { ...ClassicPreset };
   } else if (name == "standard_full" || name == "std_full") {
     gameMode = game_modes.find((mode) => mode.name == "sf");
-    preset = ClassicPreset;
-    restrictType = false;
+    preset = { ...ClassicPreset };
+    preset.itemPoolParams.majorDistribution.mode = MajorDistributionMode.Full;
   } else if (name == "mm" || name == "recall_mm") {
     gameMode = game_modes.find((mode) => mode.name == "rm");
-    preset = RecallPreset;
-    restrictType = true;
+    preset = { ...RecallPreset };
   } else if (name == "full" || name == "recall_full") {
     gameMode = game_modes.find((mode) => mode.name == "rf");
-    preset = RecallPreset;
-    restrictType = false;
+    preset = { ...RecallPreset };
+    preset.itemPoolParams.majorDistribution.mode = MajorDistributionMode.Full;
   } else {
     console.log("UNKNOWN PRESET: " + name);
     return ["", null, ""];
@@ -228,7 +236,7 @@ export const generateFromPreset = (name, seedNumber) => {
     mapLayout,
     itemPoolParams.majorDistribution.mode
   );
-  graphFill(seed, graph, itemPoolParams, settings, restrictType);
+  graphFill(seed, graph, itemPoolParams, settings);
 
   const nodes = getItemNodes(graph);
   const seedPatch = generateSeedPatch(seed, settings, nodes, null);

@@ -12,15 +12,7 @@ export const RecallPreset = {
   itemPoolParams: {
     majorDistribution: {
       mode: MajorDistributionMode.Recall,
-      extraItems: [
-        Item.DoubleJump,
-        Item.PressureValve,
-        Item.HeatShield,
-        Item.BeamUpgrade,
-        Item.BeamUpgrade,
-        Item.BeamUpgrade,
-        Item.BeamUpgrade,
-      ],
+      extraItems: [Item.DoubleJump, Item.PressureValve, Item.HeatShield],
     },
     minorDistribution: {
       mode: MinorDistributionMode.Dash,

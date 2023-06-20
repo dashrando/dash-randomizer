@@ -17,6 +17,7 @@ import { Logic as StandardLogic } from "./lib/modes/modeStandard";
 import fetchSignature from "./lib/signature";
 import { ClassicPreset } from "./lib/graph/data/classic/preset";
 import { RecallPreset } from "./lib/graph/data/recall/preset";
+import { Item } from "./lib/items";
 
 const vanilla = {
   vanillaROM,
@@ -52,4 +53,5 @@ export {
   fetchSignature,
   getItemNodes,
   presets,
+  Item,
 };

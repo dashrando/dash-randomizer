@@ -5,16 +5,19 @@ import { cloneGraph } from "./init";
 import Loadout from "../loadout";
 import { getFullPrePool, getMajorMinorPrePool } from "../itemPlacement.js";
 import { getItemPool } from "./items";
+import { MajorDistributionMode } from "./params";
 
-export const graphFill = (
-  seed,
-  graph,
-  itemPoolParams,
-  settings,
-  restrictType
-) => {
+export const graphFill = (seed, graph, itemPoolParams, settings) => {
   const solver = new GraphSolver(graph, settings);
   const rnd = new DotNetRandom(seed);
+
+  //-----------------------------------------------------------------
+  // Extract parameters.
+  //-----------------------------------------------------------------
+
+  const { beamMode } = settings;
+  const { majorDistribution, minorDistribution } = itemPoolParams;
+  const restrictType = majorDistribution.mode != MajorDistributionMode.Full;
 
   //-----------------------------------------------------------------
   // Utility routines for shuffling arrays.
@@ -93,8 +96,12 @@ export const graphFill = (
   //
   //-----------------------------------------------------------------
 
-  const { majorDistribution, minorDistribution } = itemPoolParams;
-  const itemPool = getItemPool(seed, majorDistribution, minorDistribution);
+  const itemPool = getItemPool(
+    seed,
+    majorDistribution,
+    minorDistribution,
+    beamMode
+  );
 
   //-----------------------------------------------------------------
   // Prefill locations with early items.

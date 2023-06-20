@@ -1,9 +1,22 @@
 import DotNetRandom from "../dotnet-random";
 import { Item, majorItem, minorItem } from "../items";
-import { MajorDistributionMode, MinorDistributionMode } from "./params";
+import {
+  BeamMode,
+  MajorDistributionMode,
+  MinorDistributionMode,
+} from "./params";
 
-export const getItemPool = (seed, majorDistribution, minorDistribution) => {
+export const getItemPool = (
+  seed,
+  majorDistribution,
+  minorDistribution,
+  beamMode
+) => {
   const rnd = new DotNetRandom(seed);
+
+  //-----------------------------------------------------------------
+  // Add one of each vanilla item.
+  //-----------------------------------------------------------------
 
   let itemPool = [
     majorItem(0x000000, Item.EnergyTank),
@@ -11,7 +24,6 @@ export const getItemPool = (seed, majorDistribution, minorDistribution) => {
     minorItem(0x000000, Item.Super),
     minorItem(0x000000, Item.PowerBomb),
     majorItem(0x2f8009, Item.Bombs),
-    majorItem(0x2f802b, Item.Charge),
     majorItem(0x2f800b, Item.Ice),
     majorItem(0x2f8017, Item.HJB),
     majorItem(0x2f801b, Item.Speed),
@@ -29,6 +41,30 @@ export const getItemPool = (seed, majorDistribution, minorDistribution) => {
     majorItem(0x2f801d, Item.ScrewAttack),
   ];
 
+  //-----------------------------------------------------------------
+  // Add the correct number of charge upgrades.
+  //-----------------------------------------------------------------
+
+  switch (beamMode) {
+    case BeamMode.Vanilla:
+    case BeamMode.DashClassic:
+      itemPool.push(majorItem(0x2f802b, Item.Charge));
+      break;
+
+    case BeamMode.DashRecall:
+      itemPool.push(
+        majorItem(0x2f802d, Item.BeamUpgrade),
+        majorItem(0x2f802f, Item.BeamUpgrade),
+        majorItem(0x2f8031, Item.BeamUpgrade),
+        majorItem(0x2f8033, Item.BeamUpgrade)
+      );
+      break;
+  }
+
+  //-----------------------------------------------------------------
+  // Add extra majors to the pool.
+  //-----------------------------------------------------------------
+
   majorDistribution.extraItems.forEach((i) => {
     if (i == Item.DoubleJump) {
       itemPool.push(majorItem(0x2f8029, Item.DoubleJump));
@@ -36,19 +72,6 @@ export const getItemPool = (seed, majorDistribution, minorDistribution) => {
       itemPool.push(majorItem(0x2f8027, Item.PressureValve));
     } else if (i == Item.HeatShield) {
       itemPool.push(majorItem(0x2f8025, Item.HeatShield));
-    } else if (i == Item.BeamUpgrade) {
-      const chargeBeam = itemPool.find((m) => m.type == Item.Charge);
-      if (chargeBeam != undefined) {
-        chargeBeam.name = "Beam Upgrade";
-        chargeBeam.type = Item.BeamUpgrade;
-        chargeBeam.spoilerAddress = 0x2f802d;
-      } else if (!itemPool.some((p) => p.spoilerAddress == 0x2f802f)) {
-        itemPool.push(majorItem(0x2f802f, Item.BeamUpgrade));
-      } else if (!itemPool.some((p) => p.spoilerAddress == 0x2f8031)) {
-        itemPool.push(majorItem(0x2f8031, Item.BeamUpgrade));
-      } else if (!itemPool.some((p) => p.spoilerAddress == 0x2f8033)) {
-        itemPool.push(majorItem(0x2f8033, Item.BeamUpgrade));
-      }
     }
   });
 
@@ -59,14 +82,29 @@ export const getItemPool = (seed, majorDistribution, minorDistribution) => {
     }
   };
 
-  const numMajors =
-    majorDistribution.mode == MajorDistributionMode.Recall ? 36 : 34;
-  const poolMajors = itemPool.filter((i) => i.isMajor).length;
-  const numReserves = Math.max(1, numMajors - poolMajors - 13) + 1;
-  const numEnergyTanks = numMajors - (poolMajors - 1) - numReserves + 1;
+  if (majorDistribution.mode == MajorDistributionMode.Full) {
+    setAmountInPool(Item.Reserve, 2);
+    setAmountInPool(Item.EnergyTank, 14);
+  } else {
+    const numMajors = majorDistribution.mode;
+    const numNonTanks = itemPool.filter((i) => i.isMajor).length - 2;
 
-  setAmountInPool(Item.Reserve, numReserves);
-  setAmountInPool(Item.EnergyTank, numEnergyTanks);
+    const numReserves = Math.max(2, Math.min(4, numMajors - numNonTanks - 14));
+    setAmountInPool(Item.Reserve, numReserves);
+
+    const numEnergyTanks = Math.min(14, numMajors - numNonTanks - numReserves);
+    setAmountInPool(Item.EnergyTank, numEnergyTanks);
+
+    const numMajorSupers =
+      numMajors - numNonTanks - numEnergyTanks - numReserves;
+    for (let i = 0; i < numMajorSupers; i++) {
+      itemPool.push(majorItem(0x0, Item.Super));
+    }
+    //console.log(
+    //`majors: ${numMajors} reserves: ${numReserves} ` +
+    //`tanks: ${numEnergyTanks} supers: ${numMajorSupers}`
+    //);
+  }
 
   if (minorDistribution.mode == MinorDistributionMode.Dash) {
     const { supers, powerbombs } = minorDistribution;
