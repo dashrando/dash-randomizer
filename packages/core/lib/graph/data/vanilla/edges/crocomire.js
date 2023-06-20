@@ -1,6 +1,6 @@
 export const crocomireEdges = {
   Door_Croc: {
-    PostCroc: () => HasCharge || MissilePacks >= 2 || SuperPacks >= 2,
+    PostCroc: () => CanKillCrocomire,
   },
 
   PostCroc: {
@@ -18,7 +18,9 @@ export const crocomireEdges = {
         HasIce ||
         HasDoubleJump),
     GrappleBeam: () =>
-      SuperPacks >= 1 || (HasMorph && CanFly) || (CanUsePowerBombs && HasSpeed),
+      SuperPacks >= 1 ||
+      (HasMorph && (CanFly || HasDoubleJump)) ||
+      (HasSpeed && (CanUsePowerBombs || HasHiJump)),
     Missiles_IndianaJones: () =>
       ((HasDoubleJump || CanFly) && (HasMorph || SuperPacks >= 1)) ||
       (CanUsePowerBombs && HasSpeed),

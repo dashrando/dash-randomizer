@@ -103,7 +103,7 @@ export const vanillaVertices = {
     BubbleMountainBottomLeftDoor: "",
     BubbleMountainKingCacLedge: "",
     BubbleMountainTopLeftDoor: "",
-    KronicBoostTop: "",
+    KronicBoostBottom: "",
     NutellaRefill: "",
     BusinessCenter: "",
     CathedralEntranceLeftDoor: "",

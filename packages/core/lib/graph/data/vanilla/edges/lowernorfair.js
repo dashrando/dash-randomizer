@@ -49,8 +49,7 @@ export const lowernorfairEdges = {
   RedKihunterShaftTop: {
     Wasteland: () => CanUsePowerBombs,
     EnergyTank_Firefleas: true,
-    WorstRoomTop: () =>
-      (HasGravity && EnergyTanks >= 3 && TotalTanks >= 6) || EnergyTanks >= 6,
+    WorstRoomTop: () => (HasGravity && TotalTanks >= 4) || TotalTanks >= 6,
     Missiles_Maze: true,
   },
 
@@ -61,7 +60,8 @@ export const lowernorfairEdges = {
   },
 
   EnergyTank_Firefleas: {
-    RedKihunterShaftTop: () => CanFly || HasHiJump || HasSpringBall,
+    //RedKihunterShaftTop: () => CanFly || HasHiJump || HasSpringBall,
+    RedKihunterShaftTop: true, // note: wall jump in logic
   },
 
   Missiles_Maze: {

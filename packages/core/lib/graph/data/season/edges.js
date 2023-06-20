@@ -30,20 +30,12 @@ const Crateria_Gauntlet_EnergyTank_to_BackSideLeftDoor = {
 
 const Crocomire_PostCroc_to_EnergyTank = {
   edges: ["PostCroc", "EnergyTank_Croc"],
-  requires: () =>
-    HasSpaceJump ||
-    HasGrapple ||
-    TotalTanks >= 2 ||
-    (HasVaria && TotalTanks >= 1),
+  requires: () => HasSpaceJump || HasGrapple || EnvDamageTanks >= 2,
 };
 
 const Crocomire_EnergyTank_to_PostCroc = {
   edges: ["EnergyTank_Croc", "PostCroc"],
-  requires: () =>
-    HasSpaceJump ||
-    HasGrapple ||
-    TotalTanks >= 3 ||
-    (HasVaria && TotalTanks >= 1),
+  requires: () => HasSpaceJump || HasGrapple || EnvDamageTanks >= 3,
 };
 
 const RedBrinstar_Xray_Hallway_to_Scope = {
@@ -53,7 +45,7 @@ const RedBrinstar_Xray_Hallway_to_Scope = {
     HasMorph &&
     (HasSpaceJump ||
       HasGrapple ||
-      (TotalTanks >= 6 &&
+      (EnvDamageTanks >= 6 &&
         (HasIce || CanUseBombs || (HasHiJump && (HasSpeed || HasSpringBall))))),
 };
 
@@ -64,28 +56,8 @@ const RedBrinstar_Xray_Scope_to_Hallway = {
     HasMorph &&
     (HasSpaceJump ||
       HasGrapple ||
-      (TotalTanks >= 6 &&
+      (EnvDamageTanks >= 6 &&
         (HasIce || CanUseBombs || (HasHiJump && (HasSpeed || HasSpringBall))))),
-};
-
-const UpperNorfair_KingCacLedge_to_SpeedMissiles = {
-  edges: ["BubbleMountainKingCacLedge", "Missiles_SpeedBooster"],
-  requires: () => HellRunTanks >= 4 || (HasSpeed && HellRunTanks >= 3),
-};
-
-const UpperNorfair_SpeedMissiles_to_KingCacLedge = {
-  edges: ["Missiles_SpeedBooster", "BubbleMountainKingCacLedge"],
-  requires: () => HellRunTanks >= 4 || (HasSpeed && HellRunTanks >= 3),
-};
-
-const UpperNorfair_KingCacLedge_to_KronicBoostTop = {
-  edges: ["BubbleMountainKingCacLedge", "KronicBoostTop"],
-  requires: () => HellRunTanks >= 8,
-};
-
-const UpperNorfair_KronicBoostTop_to_KingCacLedge = {
-  edges: ["KronicBoostTop", "BubbleMountainKingCacLedge"],
-  requires: () => HellRunTanks >= 6,
 };
 
 //-----------------------------------------------------------------
@@ -100,8 +72,4 @@ export const SeasonEdgeUpdates = CommonEdgeUpdates.concat([
   Crocomire_EnergyTank_to_PostCroc,
   RedBrinstar_Xray_Hallway_to_Scope,
   RedBrinstar_Xray_Scope_to_Hallway,
-  UpperNorfair_KingCacLedge_to_SpeedMissiles,
-  UpperNorfair_SpeedMissiles_to_KingCacLedge,
-  UpperNorfair_KingCacLedge_to_KronicBoostTop,
-  UpperNorfair_KronicBoostTop_to_KingCacLedge,
 ]);

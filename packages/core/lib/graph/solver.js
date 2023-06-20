@@ -1,5 +1,6 @@
 import { canReachStart, canReachVertex, searchAndCache } from "./search";
-import { ItemNames } from "../items";
+import { Item, ItemNames } from "../items";
+import { cloneGraph } from "./init";
 
 class GraphSolver {
   constructor(graph, settings, logMethods) {
@@ -44,8 +45,8 @@ class GraphSolver {
       SuperPacks,
       TotalTanks,
       HellRunTanks,
+      EnvDamageTanks,
       CanFly,
-      CanHellRun,
       CanDoSuitlessMaridia,
       CanPassBombPassages,
       CanDestroyBombWalls,
@@ -98,7 +99,6 @@ class GraphSolver {
 
   isValid(initLoad, legacyMode = false) {
     let samus = initLoad.clone();
-    let remainingItemCount = 104; //TODO: set using graph
 
     const printBoss = (boss) => {
       const door = this.graph.find(
@@ -139,10 +139,69 @@ class GraphSolver {
         }
 
         p.item = undefined;
-        remainingItemCount -= 1;
       });
 
       if (items.length == 0) {
+        //-----------------------------------------------------------------
+        // Utility function that attempts to reverse solve the remaining
+        // paths on the graph.
+        //-----------------------------------------------------------------
+
+        const reverseSolve = (filteredItemLocations) => {
+          for (let i = 0; i < filteredItemLocations.length; i++) {
+            const p = filteredItemLocations[i];
+            //console.log("try:", p.name);
+            const clonedGraph = cloneGraph(this.graph);
+            clonedGraph.forEach((e) => (e.from.pathToStart = false));
+            const clonedVertex = clonedGraph.find(
+              (e) => e.from.name == p.name
+            ).from;
+            clonedVertex.pathToStart = true;
+            const reverseSolver = new GraphSolver(clonedGraph, {
+              ...this.settings,
+            });
+            reverseSolver.startVertex = clonedVertex;
+            try {
+              if (reverseSolver.isValid(samus)) {
+                if (this.printCollectedItems) {
+                  this.printCollectedItems([p.item], true);
+                }
+                // Collect the item
+                samus.add(p.item.type);
+                p.item = undefined;
+                return true;
+              }
+            } catch (e) {
+              console.log("sub:", e);
+            }
+          }
+          return false;
+        };
+
+        //-----------------------------------------------------------------
+        // Try to reverse solve the majors first and then the reset.
+        //-----------------------------------------------------------------
+
+        const IsSingleton = (item) => {
+          switch (item.type) {
+            case Item.Super:
+            case Item.PowerBomb:
+            case Item.Missile:
+            case Item.EnergyTank:
+            case Item.Reserve:
+              return false;
+            default:
+              return true;
+          }
+        };
+
+        if (reverseSolve(itemLocations.filter((p) => IsSingleton(p.item)))) {
+          return true;
+        }
+        if (reverseSolve(itemLocations.filter((p) => !IsSingleton(p.item)))) {
+          return true;
+        }
+
         if (this.printUncollectedItems != undefined) {
           this.printUncollectedItems(this.graph);
         }
@@ -182,10 +241,6 @@ class GraphSolver {
           this.printUncollectedItems(this.graph);
         }
         throw new Error("Uncollected items");
-      }
-
-      if (remainingItemCount != 0) {
-        throw new Error(`Unplaced items: ${remainingItemCount}`);
       }
     } catch (e) {
       if (this.printMsg) {

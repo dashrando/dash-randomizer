@@ -14,10 +14,11 @@ export const eastmaridiaEdges = {
   Aqueduct: {
     Door_Aqueduct: () =>
       CanUsePowerBombs || (HasGravity && CanDestroyBombWalls),
-    //TODO: Snail clip is techincally in logic
+    //TODO: Snail clip is technically in logic
     Missiles_Aqueduct: () => HasGravity,
     Supers_Aqueduct: () => HasGravity,
-    BotwoonHallwayLeft: () => HasGravity || CanDoSuitlessMaridia,
+    //TODO: Snail climb is technically in logic
+    BotwoonHallwayLeft: () => HasGravity || HasHiJump,
     LeftSandPitBottom: () => HasGravity,
     RightSandPitBottom: () => HasGravity,
     OasisBottom: () => HasGravity,

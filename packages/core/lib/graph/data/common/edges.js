@@ -19,7 +19,7 @@ const RedBrinstar_RedTower_Bottom_to_Mid = {
 
 const UpperNorfair_CathedralEntrance_Main_to_TopRightDoor = {
   edges: ["CathedralEntranceMain", "CathedralEntranceRightDoor"],
-  requires: () => CanHellRun,
+  requires: () => HellRunTanks >= 2,
 };
 
 const UpperNorfair_HiJumpEnergyTankRoom_Missiles_to_EnergyTank = {
