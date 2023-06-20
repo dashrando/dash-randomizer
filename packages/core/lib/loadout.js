@@ -48,7 +48,6 @@ class Loadout {
   canOpenRedDoors = false;
   canOpenYellowDoors = false;
   canFly = false;
-  canCrystalFlash = false;
 
   constructor(inventory = {}) {
     const self = this;
@@ -89,15 +88,6 @@ class Loadout {
 
   static canOpenYellowDoors(load) {
     return Loadout.canUsePowerBombs(load);
-  }
-
-  static canCrystalFlash(load) {
-    return (
-      Loadout.canUsePowerBombs(load) &&
-      load.missilePacks >= 2 &&
-      load.superPacks >= 2 &&
-      load.powerPacks >= 3
-    );
   }
 
   static totalTanks(load) {
@@ -181,20 +171,17 @@ class Loadout {
       case Item.Missile:
         this.missilePacks += 1;
         this.canOpenRedDoors = Loadout.canOpenRedDoors(this);
-        this.canCrystalFlash = Loadout.canCrystalFlash(this);
         break;
       case Item.Super:
         this.superPacks += 1;
         this.canOpenRedDoors = Loadout.canOpenRedDoors(this);
         this.canOpenGreenDoors = Loadout.canOpenGreenDoors(this);
-        this.canCrystalFlash = Loadout.canCrystalFlash(this);
         break;
       case Item.PowerBomb:
         this.powerPacks += 1;
         this.canUsePowerBombs = Loadout.canUsePowerBombs(this);
         this.canPassBombPassages = Loadout.canPassBombPassages(this);
         this.canDestroyBombWalls = Loadout.canDestroyBombWalls(this);
-        this.canCrystalFlash = Loadout.canCrystalFlash(this);
         break;
 
       case Item.EnergyTank:
