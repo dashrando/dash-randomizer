@@ -7,7 +7,7 @@ import ModeRecall from "@/../../packages/core/lib/modes/modeRecall";
 import ModeStandard from "@/../../packages/core/lib/modes/modeStandard";
 import Loadout from "@/../../packages/core/lib/loadout";
 import { useState } from "react";
-import { getItemNodes } from "core";
+import { getItemNodes, presets } from "core";
 import {
   getFullPrePool,
   getMajorMinorPrePool,
@@ -20,10 +20,7 @@ import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
 import { graphFill } from "@/../../packages/core/lib/graph/fill";
-import { ClassicPreset } from "@/../../packages/core/lib/graph/data/classic/preset";
-import { RecallPreset } from "@/../../packages/core/lib/graph/data/recall/preset";
 import { loadGraph } from "@/../../packages/core/lib/graph/init";
-import { MajorDistributionMode } from "core/params";
 
 export type ItemLocation = {
   location: Location;
@@ -137,14 +134,26 @@ export default function StatsPage() {
     const { gameMode } = params;
     const progression: ItemProgression[] = [];
     const start = Date.now();
+    let preset;
+
+    switch (gameMode) {
+      case "sm":
+        preset = presets.ClassicMM;
+        break;
+      case "sf":
+        preset = presets.ClassicFull;
+        break;
+      case "rm":
+        preset = presets.RecallMM;
+        break;
+      case "rf":
+        preset = presets.RecallFull;
+        break;
+      default:
+        throw new Error(`Unknown preset: ${gameMode}`);
+    }
 
     for (let i = startSeed; i <= endSeed; i++) {
-      const preset = gameMode[0] == "s" ? ClassicPreset : RecallPreset;
-
-      if (gameMode[1] == "f") {
-        preset.itemPoolParams.majorDistribution.mode = MajorDistributionMode.Full;
-      }
-
       const { mapLayout, itemPoolParams, settings } = preset;
       const { majorDistribution } = itemPoolParams;
       const graph = loadGraph(i, mapLayout, majorDistribution.mode);

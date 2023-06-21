@@ -4,6 +4,7 @@ import {
   MinorDistributionMode,
   BeamMode,
   SuitMode,
+  GravityHeatReduction,
 } from "./lib/graph/params";
 
 export {
@@ -12,4 +13,5 @@ export {
   MinorDistributionMode,
   BeamMode,
   SuitMode,
+  GravityHeatReduction,
 };

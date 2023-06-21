@@ -9,8 +9,15 @@ import VanillaButton, { useVanilla } from './vanilla'
 import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
 import useMounted from '../hooks/useMounted'
-import { Item, presets, RandomizeRom } from 'core'
-import { BeamMode, MajorDistributionMode, MapLayout, MinorDistributionMode } from 'core/params'
+import { Item, RandomizeRom } from 'core'
+import {
+  BeamMode,
+  GravityHeatReduction,
+  MajorDistributionMode,
+  MapLayout,
+  MinorDistributionMode,
+  SuitMode
+} from 'core/params'
 
 const Sidebar = () => {
   const { data, isLoading } = useVanilla()
@@ -65,7 +72,7 @@ export type GenerateSeedParams = {
   minors: 'standard' | 'dash',
   'map-layout': 'standard-vanilla' | 'dash-recall',
   'beam-mode': 'vanilla' | 'classic' | 'recall' | 'new',
-  'suit-properties': 'dash' | 'varia',
+  'suit-properties': 'dash' | 'varia' | 'dash-gravity' | 'varia-gravity',
   'double-jump': 'off' | 'on',
   'heat-shield': 'off' | 'on',
   'pressure-valve': 'none' | 'one' | 'two'
@@ -77,9 +84,7 @@ export default function Form() {
   const onSubmit = async (data: GenerateSeedParams) => {
     try {
       console.log("submit", data);
-      const preset = {...presets.Recall};
       const config = { vanillaBytes: vanilla };
-      const { settings } = preset;
 
       //TODO: support fixed seed
       const [minSeed, maxSeed] = [1, 999999];
@@ -87,6 +92,11 @@ export default function Form() {
       const randomArray = new Uint32Array(1);
       window.crypto.getRandomValues(randomArray);
       const theSeed = minSeed + (randomArray[0] & numSeeds);
+
+      let mapLayout = MapLayout.Standard;
+      if (data['map-layout'] == 'dash-recall') {
+        mapLayout = MapLayout.Recall;
+      }
 
       const minorDistribution = {
         mode: MinorDistributionMode.Standard,
@@ -104,6 +114,7 @@ export default function Form() {
         mode: MajorDistributionMode.Standard,
         extraItems: [] as number[],
       };
+
       if (data['item-split'] == "full") {
         majorDistribution.mode = MajorDistributionMode.Full;
       } else if (data['item-split'] == "recall-mm") {
@@ -124,9 +135,13 @@ export default function Form() {
         minorDistribution: minorDistribution
       };
 
-      if (data['beam-mode'] == 'vanilla') {
-        settings.beamMode = BeamMode.Vanilla;
-      } else if (data['beam-mode'] == 'classic') {
+      const settings = {
+        beamMode: BeamMode.Vanilla,
+        suitMode: SuitMode.Dash,
+        gravityHeatReduction: GravityHeatReduction.On
+      };
+
+      if (data['beam-mode'] == 'classic') {
         settings.beamMode = BeamMode.DashClassic;
       } else if (data['beam-mode'] == 'recall') {
         settings.beamMode = BeamMode.DashRecall;
@@ -134,9 +149,13 @@ export default function Form() {
         settings.beamMode = BeamMode.New;
       }
 
-      let mapLayout = MapLayout.Standard;
-      if (data['map-layout'] == 'dash-recall') {
-        mapLayout = MapLayout.Recall;
+      if (data['suit-properties'] == 'dash') {
+        settings.gravityHeatReduction = GravityHeatReduction.Off;
+      } else if (data['suit-properties'] == 'varia') {
+        settings.suitMode = SuitMode.Standard;
+        settings.gravityHeatReduction = GravityHeatReduction.Off;
+      } else if (data['suit-properties'] == 'varia-gravity') {
+        settings.suitMode = SuitMode.Standard;
       }
 
       const { data: seed, name } = await RandomizeRom(
@@ -267,6 +286,8 @@ export default function Form() {
                 options={[
                   { label: 'DASH', value: 'dash' },
                   { label: 'Varia', value: 'varia' },
+                  { label: 'DASH + 25% Gravity', value: 'dash-gravity' },
+                  { label: 'Varia + 25% Gravity', value: 'varia-gravity' },
                 ]}
                 name="suit-properties"
                 register={register}

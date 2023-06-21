@@ -27,3 +27,8 @@ export const SuitMode = {
   Standard: 1,
   Dash: 2,
 };
+
+export const GravityHeatReduction = {
+  Off: 0x4000,
+  On: 0x3000,
+};

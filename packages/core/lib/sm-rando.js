@@ -8,11 +8,10 @@ import {
   decompressFromEncodedURIComponent,
 } from "lz-string";
 import { mapLocation } from "./graph/util";
-import { MajorDistributionMode, MapLayout } from "./graph/params";
-import { ClassicPreset } from "./graph/data/classic/preset";
-import { RecallPreset } from "./graph/data/recall/preset";
+import { MapLayout } from "./graph/params";
 import { loadGraph } from "./graph/init";
 import { graphFill } from "./graph/fill";
+import { presets } from "..";
 
 export const generateSeedPatch = (seed, settings, nodes, options) => {
   //-----------------------------------------------------------------
@@ -107,6 +106,8 @@ export const generateSeedPatch = (seed, settings, nodes, options) => {
   //-----------------------------------------------------------------
 
   encodeBytes(seedPatch, 0x2f8004, U8toBytes(settings.beamMode));
+  encodeBytes(seedPatch, 0x2f8005, U8toBytes(1)); // show charge damage on HUD
+  encodeBytes(seedPatch, 0x2f8b10, U16toBytes(settings.gravityHeatReduction));
 
   //-----------------------------------------------------------------
   // Other options.
@@ -212,18 +213,16 @@ export const generateFromPreset = (name, seedNumber) => {
 
   if (name == "standard_mm" || name == "std_mm") {
     gameMode = game_modes.find((mode) => mode.name == "sm");
-    preset = { ...ClassicPreset };
+    preset = presets.ClassicMM;
   } else if (name == "standard_full" || name == "std_full") {
     gameMode = game_modes.find((mode) => mode.name == "sf");
-    preset = { ...ClassicPreset };
-    preset.itemPoolParams.majorDistribution.mode = MajorDistributionMode.Full;
+    preset = presets.ClassicFull;
   } else if (name == "mm" || name == "recall_mm") {
     gameMode = game_modes.find((mode) => mode.name == "rm");
-    preset = { ...RecallPreset };
+    preset = presets.RecallMM;
   } else if (name == "full" || name == "recall_full") {
     gameMode = game_modes.find((mode) => mode.name == "rf");
-    preset = { ...RecallPreset };
-    preset.itemPoolParams.majorDistribution.mode = MajorDistributionMode.Full;
+    preset = presets.RecallFull;
   } else {
     console.log("UNKNOWN PRESET: " + name);
     return ["", null, ""];

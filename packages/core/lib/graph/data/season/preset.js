@@ -4,9 +4,10 @@ import {
   MajorDistributionMode,
   MinorDistributionMode,
   SuitMode,
+  GravityHeatReduction,
 } from "../../params";
 
-export const SeasonPreset = {
+export const Preset_Season_MM = {
   mapLayout: MapLayout.Standard,
   itemPoolParams: {
     majorDistribution: {
@@ -23,5 +24,27 @@ export const SeasonPreset = {
   settings: {
     beamMode: BeamMode.Vanilla,
     suitMode: SuitMode.Standard,
+    gravityHeatReduction: GravityHeatReduction.Off,
+  },
+};
+
+export const Preset_Season_Full = {
+  mapLayout: MapLayout.Standard,
+  itemPoolParams: {
+    majorDistribution: {
+      mode: MajorDistributionMode.Full,
+      extraItems: [],
+    },
+    minorDistribution: {
+      mode: MinorDistributionMode.Standard,
+      missiles: 3,
+      supers: 2,
+      powerbombs: 1,
+    },
+  },
+  settings: {
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Standard,
+    gravityHeatReduction: GravityHeatReduction.Off,
   },
 };
