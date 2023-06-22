@@ -195,11 +195,13 @@ class GraphSolver {
           }
         };
 
-        if (reverseSolve(itemLocations.filter((p) => IsSingleton(p.item)))) {
-          return true;
-        }
-        if (reverseSolve(itemLocations.filter((p) => !IsSingleton(p.item)))) {
-          return true;
+        if (!legacyMode) {
+          if (reverseSolve(itemLocations.filter((p) => IsSingleton(p.item)))) {
+            return true;
+          }
+          if (reverseSolve(itemLocations.filter((p) => !IsSingleton(p.item)))) {
+            return true;
+          }
         }
 
         if (this.printUncollectedItems != undefined) {

@@ -8,6 +8,7 @@ import {
 } from "../../params";
 
 export const Preset_Season_MM = {
+  title: "Season M/M",
   mapLayout: MapLayout.Standard,
   itemPoolParams: {
     majorDistribution: {
@@ -29,6 +30,7 @@ export const Preset_Season_MM = {
 };
 
 export const Preset_Season_Full = {
+  title: "Season Full",
   mapLayout: MapLayout.Standard,
   itemPoolParams: {
     majorDistribution: {

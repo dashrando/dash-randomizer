@@ -467,10 +467,7 @@ class ModeRecall {
     minor("Missiles (Croc Escape)", (load) => {
       return (
         canAccessCrocomire(load) &&
-        (load.hasVaria ||
-          load.hasHeatShield ||
-          (load.hasGravity && load.totalTanks >= 1) ||
-          load.totalTanks >= 2) &&
+        (load.hasVaria || load.hasHeatShield || load.totalTanks >= 2) &&
         (load.canFly ||
           load.hasGrapple ||
           load.hasDoubleJump ||
@@ -629,12 +626,7 @@ class ModeRecall {
 //-----------------------------------------------------------------
 
 const canHellRun = (load) => {
-  return (
-    load.totalTanks >= 4 ||
-    (load.totalTanks >= 3 && load.hasGravity) ||
-    load.hasVaria ||
-    load.hasHeatShield
-  );
+  return load.totalTanks >= 4 || load.hasVaria || load.hasHeatShield;
 };
 
 const canAccessGreenBrinstar = (load) => {

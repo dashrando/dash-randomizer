@@ -599,11 +599,7 @@ class ModeStandard {
 //-----------------------------------------------------------------
 
 const canHellRun = (load) => {
-  return (
-    load.totalTanks >= 4 ||
-    (load.totalTanks >= 3 && load.hasGravity) ||
-    load.hasVaria
-  );
+  return load.totalTanks >= 4 || load.hasVaria;
 };
 
 const canAccessGreenBrinstar = (load) => {

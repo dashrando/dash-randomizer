@@ -194,6 +194,8 @@ class Loadout {
         break;
 
       case Item.BeamUpgrade:
+        this.hasCharge = true;
+        break;
       case Item.Xray:
         break;
 
@@ -229,9 +231,7 @@ class Loadout {
   }
 
   getFlags(settings) {
-    const starterChargeInLogic = settings.beamMode == BeamMode.DashRecall;
-    const canDamageBosses =
-      starterChargeInLogic || this.hasCharge || this.canOpenRedDoors;
+    const canDamageBosses = this.hasCharge || this.canOpenRedDoors;
     const isHeatProof =
       this.hasVaria ||
       this.hasHeatShield ||
@@ -270,7 +270,7 @@ class Loadout {
       CanUsePowerBombs: this.canUsePowerBombs,
       CanOpenRedDoors: this.canOpenRedDoors,
       CanOpenGreenDoors: this.canOpenGreenDoors,
-      HasCharge: this.hasCharge || starterChargeInLogic,
+      HasCharge: this.hasCharge,
       HasDoubleJump: this.hasDoubleJump,
       HasGravity: this.hasGravity,
       HasGrapple: this.hasGrapple,
@@ -292,11 +292,7 @@ class Loadout {
       PowerBombPacks: this.powerPacks,
       SuperPacks: this.superPacks,
       TotalTanks: this.totalTanks,
-      HellRunTanks: isHeatProof
-        ? 9999
-        : settings.suitMode == SuitMode.Dash && this.hasGravity
-        ? this.totalTanks * 2
-        : this.totalTanks,
+      HellRunTanks: isHeatProof ? 9999 : this.totalTanks,
       EnvDamageTanks: getEnvDamageTanks(),
       CanFly: this.canFly,
       CanDoSuitlessMaridia:

@@ -4,9 +4,11 @@ import {
   MajorDistributionMode,
   MinorDistributionMode,
   SuitMode,
+  GravityHeatReduction,
 } from "../../params";
 
 export const VanillaPreset = {
+  title: "Vanilla",
   mapLayout: MapLayout.Vanilla,
   itemPoolParams: {
     majorDistribution: {
@@ -22,5 +24,6 @@ export const VanillaPreset = {
   settings: {
     beamMode: BeamMode.Vanilla,
     suitMode: SuitMode.Vanilla,
+    gravityHeatReduction: GravityHeatReduction.Off,
   },
 };

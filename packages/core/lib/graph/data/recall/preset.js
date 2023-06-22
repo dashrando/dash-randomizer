@@ -9,6 +9,7 @@ import {
 } from "../../params";
 
 export const Preset_Recall_MM = {
+  title: "Recall M/M",
   mapLayout: MapLayout.Recall,
   itemPoolParams: {
     majorDistribution: {
@@ -30,6 +31,7 @@ export const Preset_Recall_MM = {
 };
 
 export const Preset_Recall_Full = {
+  title: "Recall Full",
   mapLayout: MapLayout.Recall,
   itemPoolParams: {
     majorDistribution: {

@@ -8,6 +8,7 @@ import {
 } from "../../params";
 
 export const Preset_Classic_MM = {
+  title: "Classic M/M",
   mapLayout: MapLayout.Standard,
   itemPoolParams: {
     majorDistribution: {
@@ -29,6 +30,7 @@ export const Preset_Classic_MM = {
 };
 
 export const Preset_Classic_Full = {
+  title: "Classic Full",
   mapLayout: MapLayout.Standard,
   itemPoolParams: {
     majorDistribution: {
