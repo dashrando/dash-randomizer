@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { Heading } from '../components/text'
 import Select from '../components/select'
+import Numeric from '../components/numeric'
 import styles from './page.module.css'
 import { cn, downloadFile } from '@/lib/utils'
 import VanillaButton, { useVanilla } from './vanilla'
@@ -75,7 +76,8 @@ export type GenerateSeedParams = {
   'suit-properties': 'dash' | 'varia' | 'dash-gravity' | 'varia-gravity',
   'double-jump': 'off' | 'on',
   'heat-shield': 'off' | 'on',
-  'pressure-valve': 'none' | 'one' | 'two'
+  'pressure-valve': 'none' | 'one' | 'two',
+  seed: number
 }
 
 export default function Form() {
@@ -342,7 +344,13 @@ export default function Form() {
             </Option>
           </Section>
           <Section title="Options">
-
+            <Option label="Seed" name="seed">
+              <Numeric minVal={1} maxVal={999999} name="seed" register={register} />
+              <p>
+                <Link href="/generate/info#seed">Seed</Link>{' '}
+                refers to the random number seed.
+              </p>
+            </Option>
           </Section>
         </div>
         <Sidebar />
