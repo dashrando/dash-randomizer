@@ -77,7 +77,9 @@ export type GenerateSeedParams = {
   'double-jump': 'off' | 'on',
   'heat-shield': 'off' | 'on',
   'pressure-valve': 'none' | 'one' | 'two',
-  seed: number
+  'seed-mode': 'random' | 'fixed',
+  seed: number,
+  fanfare: boolean
 }
 
 export default function Form() {
@@ -344,11 +346,39 @@ export default function Form() {
             </Option>
           </Section>
           <Section title="Options">
+            <Option label="Seed Mode" name="seed-mode">
+              <Select
+                options={[
+                  { label: 'Random', value: 'random' },
+                  { label: 'Fixed', value: 'fixed' },
+                ]}
+                name="seed-mode"
+                register={register}
+              />
+              <p>
+                <Link href="/generate/info#seed-mode">Seed Mode</Link>{' '}
+                controls how the random number generator is initialized.
+              </p>
+            </Option>
             <Option label="Seed" name="seed">
               <Numeric minVal={1} maxVal={999999} name="seed" register={register} />
               <p>
                 <Link href="/generate/info#seed">Seed</Link>{' '}
                 refers to the random number seed.
+              </p>
+            </Option>
+            <Option label="Item Fanfare" name="fanfare">
+              <Select
+                options={[
+                  { label: 'On', value: 'on' },
+                  { label: 'Off', value: 'off' },
+                ]}
+                name="fanfare"
+                register={register}
+              />
+              <p>
+                <Link href="/generate/info#fanfare">Item Fanfare</Link>{' '}
+                is the music when an item is collected.
               </p>
             </Option>
           </Section>
