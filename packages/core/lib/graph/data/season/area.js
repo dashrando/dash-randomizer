@@ -36,7 +36,7 @@ const UpperNorfair_PreCrocomire_to_CrocEntry = {
 
 const UpperNorfair_KingCacLedge_to_SingleChamberPortal = {
   edges: ["BubbleMountainKingCacLedge", "Door_SingleChamber"],
-  requires: () => HasMorph && CanDestroyBombWalls && HellRunTanks >= 3,
+  requires: () => HasMorph && CanDestroyBombWalls && HellRunTanks >= 2,
 };
 
 const UpperNorfair_KronicBoostBottom_to_LavaDivePortal = {
@@ -100,6 +100,11 @@ const WestMaridia_MainStreet_to_MaridiaMapPortal = {
   requires: () => HasMorph,
 };
 
+const WestMaridia_EverestTopRight_to_PreAqueductPortal = {
+  edges: ["Door_EverestTopRight", "Door_PreAqueduct"],
+  requires: true,
+};
+
 //-----------------------------------------------------------------
 // Exports.
 //-----------------------------------------------------------------
@@ -123,5 +128,6 @@ export const SeasonAreaEdgeUpdates = SeasonEdgeUpdates.concat([
   EastMaridia_OasisBottom_to_MainStreet,
   WestMaridia_MainStreet_to_OasisBottom,
   WestMaridia_MainStreet_to_MaridiaMapPortal,
+  WestMaridia_EverestTopRight_to_PreAqueductPortal,
   EastMaridia_AqueductPortal_to_Aqueduct,
 ]);

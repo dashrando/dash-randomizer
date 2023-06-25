@@ -243,16 +243,16 @@ class Loadout {
     const getEnvDamageTanks = () => {
       if (settings.suitMode == SuitMode.Standard) {
         if (this.hasVaria) {
-          return Math.floor(this.totalTanks * 2.5);
+          return 3 + Math.floor(this.totalTanks * 2.5);
         }
         return this.totalTanks;
       }
       if (settings.suitMode == SuitMode.Dash) {
         if (this.hasVaria && this.hasGravity) {
-          return Math.floor(this.totalTanks * 2.5);
+          return 3 + Math.floor(this.totalTanks * 2.5);
         }
         if (this.hasVaria || this.hasGravity) {
-          return this.totalTanks * 2;
+          return 1 + this.totalTanks * 2;
         }
         return this.totalTanks;
       }
@@ -260,7 +260,7 @@ class Loadout {
         return Math.floor(this.totalTanks * 2.5);
       }
       if (this.hasVaria) {
-        return this.totalTanks * 2;
+        return 1 + this.totalTanks * 2;
       }
       return this.totalTanks;
     };

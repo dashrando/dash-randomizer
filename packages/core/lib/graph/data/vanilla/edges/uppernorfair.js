@@ -72,7 +72,7 @@ export const uppernorfairEdges = {
     Door_SingleChamber: () => false,
     Missiles_SpeedBooster: () =>
       HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
-    Missiles_Wave: () => HellRunTanks >= 3,
+    Missiles_Wave: () => HellRunTanks >= 2,
     BubbleMountainBottomLeftDoor: () => HellRunTanks >= 8,
   },
 
@@ -85,7 +85,7 @@ export const uppernorfairEdges = {
     BubbleMountainMain: () => CanPassBombPassages,
     BusinessCenterBottomRightDoor: () => HasSpeed,
     NutellaRefill: () => HellRunTanks >= 1 && (HasWave || CanOpenRedDoors),
-    KronicBoostBottom: () => HellRunTanks >= 3,
+    KronicBoostBottom: () => HellRunTanks >= 2,
     BubbleMountainKingCacLedge: () => HellRunTanks >= 6,
   },
 
@@ -108,8 +108,8 @@ export const uppernorfairEdges = {
   },
 
   Missiles_Wave: {
-    BubbleMountainKingCacLedge: () => HellRunTanks >= 4,
-    WaveBeam: () => HellRunTanks >= 4,
+    BubbleMountainKingCacLedge: () => HellRunTanks >= 2,
+    WaveBeam: () => HellRunTanks >= 3,
   },
 
   WaveBeam: {
@@ -122,7 +122,7 @@ export const uppernorfairEdges = {
   },
 
   Missiles_NorfairReserve2: {
-    Missiles_NorfairReserve1: () => HellRunTanks >= 4,
+    Missiles_NorfairReserve1: () => HellRunTanks >= 3,
   },
 
   ReserveTank_Norfair: {
@@ -131,7 +131,7 @@ export const uppernorfairEdges = {
 
   Door_SingleChamber: {
     BubbleMountainKingCacLedge: () =>
-      HellRunTanks >= 3 && CanDestroyBombWalls && HasMorph,
+      HellRunTanks >= 2 && CanDestroyBombWalls && HasMorph,
   },
 
   Door_LavaDive: {
@@ -140,7 +140,7 @@ export const uppernorfairEdges = {
 
   Missiles_SpeedBooster: {
     BubbleMountainKingCacLedge: () =>
-      HellRunTanks >= 4 || (HasSpeed && HellRunTanks >= 3),
+      HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
     SpeedBooster: true,
   },
 

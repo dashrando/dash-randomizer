@@ -12,6 +12,7 @@ export const eastmaridiaEdges = {
   },
 
   Aqueduct: {
+    //TODO: PB only = Snail climb, ugh
     Door_Aqueduct: () =>
       CanUsePowerBombs || (HasGravity && CanDestroyBombWalls),
     //TODO: Snail clip is technically in logic
@@ -45,6 +46,8 @@ export const eastmaridiaEdges = {
   BotwoonHallwayLeft: {
     BotwoonHallwayRight: () => (HasGravity && HasSpeed) || HasIce,
     Aqueduct: true,
+    Door_Aqueduct: () =>
+      CanUseBombs || CanUsePowerBombs || (HasGravity && HasScrewAttack),
   },
 
   Missiles_LeftSandPit: {

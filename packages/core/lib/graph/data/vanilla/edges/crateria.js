@@ -1,6 +1,6 @@
 export const crateriaEdges = {
   Ship: {
-    PBs_LandingSite: () => (CanFly || (HasSpeed && TotalTanks >= 1)) && CanUsePowerBombs,
+    PBs_LandingSite: () => (CanFly || HasSpeed) && CanUsePowerBombs,
     PreGauntlet: () => CanDestroyBombWalls,
     PreMoat: () => CanOpenGreenDoors,
     Parlor: true,
@@ -32,7 +32,8 @@ export const crateriaEdges = {
   PreGauntlet: {
     //more specifically, the door from landing site to gauntlet
     Ship: () => CanDestroyBombWalls,
-    EnergyTank_Gauntlet: () => CanUseBombs || (HasMorph && PowerBombPacks >= 2) || HasScrewAttack,
+    EnergyTank_Gauntlet: () =>
+      CanUseBombs || (HasMorph && PowerBombPacks >= 2) || HasScrewAttack,
   },
 
   EnergyTank_Gauntlet: {
@@ -109,7 +110,8 @@ export const crateriaEdges = {
   },
 
   Supers_Climb: {
-    Climb: () => HasGrapple || HasSpaceJump || (EnergyTanks >= 2 && TotalTanks >= 3),
+    Climb: () =>
+      HasGrapple || HasSpaceJump || (EnergyTanks >= 2 && TotalTanks >= 3),
   },
 
   Missiles_OldMB: {

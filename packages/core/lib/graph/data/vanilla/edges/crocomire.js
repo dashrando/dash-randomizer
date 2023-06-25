@@ -5,10 +5,7 @@ export const crocomireEdges = {
 
   PostCroc: {
     Door_Croc: true,
-    EnergyTank_Croc: () =>
-      //TODO: need to ask Kipp how many tanks should put this in logic
-      //TODO: also need to account for varia/gravity in tank count
-      (EnergyTanks >= 3 && TotalTanks >= 4) || HasSpaceJump || HasGrapple,
+    EnergyTank_Croc: () => HasSpaceJump || HasGrapple || EnvDamageTanks >= 2,
     PBs_Croc: () =>
       CanOpenRedDoors &&
       (CanFly ||
@@ -20,7 +17,8 @@ export const crocomireEdges = {
     GrappleBeam: () =>
       SuperPacks >= 1 ||
       (HasMorph && (CanFly || HasDoubleJump)) ||
-      (HasSpeed && (CanUsePowerBombs || HasHiJump)),
+      (CanUsePowerBombs && HasSpeed) ||
+      (HasHiJump && (HasSpeed || (HasMorph && HasSpringBall))),
     Missiles_IndianaJones: () =>
       ((HasDoubleJump || CanFly) && (HasMorph || SuperPacks >= 1)) ||
       (CanUsePowerBombs && HasSpeed),
@@ -28,7 +26,7 @@ export const crocomireEdges = {
   },
 
   EnergyTank_Croc: {
-    PostCroc: true,
+    PostCroc: () => HasSpaceJump || HasGrapple || EnvDamageTanks >= 3,
   },
 
   PBs_Croc: {

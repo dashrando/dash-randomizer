@@ -14,7 +14,8 @@ export const lowernorfairEdges = {
   },
 
   Missiles_Muskateers: {
-    Muskateers: () => CanUseBombs || CanUsePowerBombs,
+    Muskateers: () =>
+      (HasScrewAttack && HasMorph) || CanUseBombs || CanUsePowerBombs,
   },
 
   Ruins: {
