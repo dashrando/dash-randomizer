@@ -73,13 +73,13 @@ export type GenerateSeedParams = {
   minors: 'standard' | 'dash',
   'map-layout': 'standard-vanilla' | 'dash-recall',
   'beam-mode': 'vanilla' | 'classic' | 'recall' | 'new',
-  'suit-properties': 'dash' | 'varia' | 'dash-gravity' | 'varia-gravity',
+  'gravity-heat-reduction': 'off' | 'on',
   'double-jump': 'off' | 'on',
   'heat-shield': 'off' | 'on',
   'pressure-valve': 'none' | 'one' | 'two',
   'seed-mode': 'random' | 'fixed',
   seed: number,
-  fanfare: boolean
+  fanfare: 'off' | 'on', 
 }
 
 export default function Form() {
@@ -90,12 +90,17 @@ export default function Form() {
       console.log("submit", data);
       const config = { vanillaBytes: vanilla };
 
-      //TODO: support fixed seed
-      const [minSeed, maxSeed] = [1, 999999];
-      const numSeeds = maxSeed - minSeed + 1;
-      const randomArray = new Uint32Array(1);
-      window.crypto.getRandomValues(randomArray);
-      const theSeed = minSeed + (randomArray[0] & numSeeds);
+      const getSeed = () => {
+        if (data['seed-mode'] == 'fixed') {
+          return data.seed;
+        }
+
+        const [minSeed, maxSeed] = [1, 999999];
+        const numSeeds = maxSeed - minSeed + 1;
+        const randomArray = new Uint32Array(1);
+        window.crypto.getRandomValues(randomArray);
+        return minSeed + (randomArray[0] % numSeeds);
+      }
 
       let mapLayout = MapLayout.Standard;
       if (data['map-layout'] == 'dash-recall') {
@@ -153,21 +158,23 @@ export default function Form() {
         settings.beamMode = BeamMode.New;
       }
 
-      if (data['suit-properties'] == 'dash') {
+      if (data['gravity-heat-reduction'] == 'off') {
         settings.gravityHeatReduction = GravityHeatReduction.Off;
-      } else if (data['suit-properties'] == 'varia') {
-        settings.suitMode = SuitMode.Standard;
-        settings.gravityHeatReduction = GravityHeatReduction.Off;
-      } else if (data['suit-properties'] == 'varia-gravity') {
-        settings.suitMode = SuitMode.Standard;
       }
 
+      const options = {
+        DisableFanfare: 0,
+      };
+      if (data.fanfare == 'off') {
+        options.DisableFanfare = 1;
+      };
+
       const { data: seed, name } = await RandomizeRom(
-        theSeed,
+        getSeed(),
         mapLayout,
         itemPoolParams,
         settings,
-        {},
+        options,
         config
       )
       downloadFile(seed, name)
@@ -285,20 +292,18 @@ export default function Form() {
                 alters the amount of damage caused by Charge Beam.
               </p>
             </Option>
-            <Option label="Suit Properties" name="suit-properties">
+            <Option label="Gravity Heat Reduction" name="gravity-heat-reduction">
               <Select
                 options={[
-                  { label: 'DASH', value: 'dash' },
-                  { label: 'Varia', value: 'varia' },
-                  { label: 'DASH + 25% Gravity', value: 'dash-gravity' },
-                  { label: 'Varia + 25% Gravity', value: 'varia-gravity' },
+                  { label: 'On', value: 'on' },
+                  { label: 'Off', value: 'off' },
                 ]}
-                name="suit-properties"
+                name="gravity-heat-reduction"
                 register={register}
               />
               <p>
-                <Link href="/generate/info#suit-properties">Suit Properties</Link>{' '}
-                alters the defensive properties of both Gravity and Varia suit.
+                <Link href="/generate/info#gravity-heat-reduction">Gravity Heat Reduction</Link>{' '}
+                causes Gravity Suit to provide 25% heat damage reduction.
               </p>
             </Option>
             <Option label="Double Jump" name="double-jump">
