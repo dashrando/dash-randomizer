@@ -161,14 +161,34 @@ const findMode = (params: GenerateSeedSettings): keyof typeof MODES | null => {
   return mode || null
 }
 
+const prefillSettingsFromPreset = (value: GenerateFormParams, reset: any) => {
+  try {
+    const preset = value['mode']
+    if (preset && preset !== 'custom') {
+      const mode = MODES[preset];
+      const settings = { ...value, ...mode }
+      reset(settings);
+    }
+  } catch (error) {
+    console.error('Error with setting values for mode', error)
+  }
+}
+
 export default function Form() {
   const { register,
     handleSubmit,
     reset,
     setValue,
     watch,
-    formState: { errors }
-  } = useForm<GenerateFormParams>()
+    formState: {
+      errors,
+    }
+  } = useForm<GenerateFormParams>({
+    defaultValues: {
+      'mode': 'dash-recall-v2',
+      'seed-mode': 'random',
+    }
+  })
   const { data: vanilla } = useVanilla()
   const onSubmit = async (data: GenerateSeedParams) => {
     try {
@@ -267,27 +287,25 @@ export default function Form() {
       console.error('SEED ERROR', error)
     }
   };
-  const currentMode = watch('mode');
+  const seedMode = watch('seed-mode')
 
   useEffect(() => {
-    try {
-      if (currentMode && currentMode !== 'custom') {
-        const mode = MODES[currentMode];
-        // TODO: Add in current values for options not covered in mode
-        // @ts-ignore
-        reset(mode);
-      }
-    } catch (error) {
-      console.error('Error with setting values for mode', error)
-    }
-  }, [currentMode, reset])
-
-  useEffect(() => {
-    const subscription = watch((value, { name, type }) => {
-      // Listen for change events on settings other than 'mode'
-      if (type !== 'change' || name === 'mode') {
+    const subscription = watch((value: any, { name, type }) => {
+      // Listen for change events only
+      if (type !== 'change') {
         return
       }
+
+      if (name === 'seed-mode') {
+        return
+      }
+
+      if (name === 'mode') {
+        prefillSettingsFromPreset(value, reset)
+        return
+      }
+
+      // Update mode if necessary
       const data = value as GenerateFormParams
       const input = getModeFields(data)
       const matchedMode = findMode(input)
@@ -298,7 +316,7 @@ export default function Form() {
       }
     })
     return () => subscription.unsubscribe()
-  }, [setValue, watch])
+  }, [setValue, reset, watch])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -478,16 +496,12 @@ export default function Form() {
                 name="seed-mode"
                 register={register}
               />
+              {seedMode === 'fixed' && (
+                <Numeric minVal={1} maxVal={999999} defaultValue={1} name="seed" register={register} />
+              )}
               <p>
                 <Link href="/generate/info#seed-mode">Seed Mode</Link>{' '}
                 controls how the random number generator is initialized.
-              </p>
-            </Option>
-            <Option label="Seed" name="seed">
-              <Numeric minVal={1} maxVal={999999} name="seed" register={register} />
-              <p>
-                <Link href="/generate/info#seed">Seed</Link>{' '}
-                refers to the random number seed.
               </p>
             </Option>
             <Option label="Item Fanfare" name="fanfare">

@@ -6,6 +6,7 @@ export type NumericProps = {
    name?: string,
    register?: any,
    required?: boolean
+   defaultValue?: number
 }
 
 const Numeric = ({
@@ -14,15 +15,17 @@ const Numeric = ({
    name = '',
    register,
    required = false,
+   defaultValue = 1,
 }: NumericProps) => {
    return (
       <div className={styles.wrapper}>
          <div className={styles.numeric}>
             <input type="number"
-                   name={name} {...register(name, { required })}
-                   min={minVal}
-                   max={maxVal}>
-            </input>
+               name={name} {...register(name, { required })}
+               min={minVal}
+               max={maxVal}
+               defaultValue={defaultValue}
+            />
          </div>
       </div>
    )

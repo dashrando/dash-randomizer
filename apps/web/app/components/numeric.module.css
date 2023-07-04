@@ -9,7 +9,7 @@
   align-items: stretch;
 }
 
-.numeric {
+.numeric input {
   position: relative;
   display: flex;
   align-items: center;
