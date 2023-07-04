@@ -114,3 +114,13 @@
     background-color: #000;
   }
 }
+
+.mobileVanilla {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .mobileVanilla {
+    display: block;
+  }
+}

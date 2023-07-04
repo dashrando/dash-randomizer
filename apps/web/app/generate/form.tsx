@@ -86,8 +86,8 @@ const SectionHeading = ({ title = '' }) => (
   </div>
 )
 
-const Section = ({ children, title }: { children?: React.ReactNode, title: string }) => (
-  <section className={cn(styles.section, styles.open)}>
+const Section = ({ children, title, className = null }: { children?: React.ReactNode, title: string, className?: string | null }) => (
+  <section className={cn(styles.section, styles.open, className)}>
     <SectionHeading title={title} />
     <div>
       {children}
@@ -394,6 +394,15 @@ export default function Form() {
                 name="mode"
                 register={register}
               />
+            </Option>
+          </Section>
+          <Section title="Vanilla" className={styles.mobileVanilla}>
+            <Option label="Vanilla" name="vanilla">
+              {!vanilla ? (
+                <VanillaButton />
+              ) : (
+                <Button variant="secondary" disabled block>Vanilla ROM loaded</Button>
+              )}
             </Option>
           </Section>
           <Section title="Randomization">
