@@ -19,6 +19,7 @@ import {
   MinorDistributionMode,
   SuitMode
 } from 'core/params'
+import { useEffect } from 'react'
 
 const Sidebar = () => {
   const { data, isLoading } = useVanilla()
@@ -82,8 +83,69 @@ export type GenerateSeedParams = {
   fanfare: 'off' | 'on', 
 }
 
+export interface GenerateFormParams extends GenerateSeedParams {
+  mode: 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard',
+}
+
+const MODES = {
+  'dash-recall-v2': {
+    'item-split': 'recall-mm',
+    area: 'standard',
+    boss: 'standard',
+    minors: 'dash',
+    'map-layout': 'dash-recall',
+    'beam-mode': 'recall',
+    'gravity-heat-reduction': 'on',
+    'double-jump': 'on',
+    'heat-shield': 'on',
+    'pressure-valve': 'one',
+    // 'pressure-valve': 'two',
+  },
+  'dash-recall-v1': {
+    'item-split': 'recall-mm',
+    area: 'standard',
+    boss: 'standard',
+    minors: 'dash',
+    'map-layout': 'dash-recall',
+    'beam-mode': 'recall',
+    'gravity-heat-reduction': 'on',
+    'double-jump': 'on',
+    'heat-shield': 'on',
+    'pressure-valve': 'one',
+  },
+  'dash-classic': {
+    'item-split': 'standard-mm',
+    area: 'standard',
+    boss: 'standard',
+    minors: 'dash',
+    'map-layout': 'standard-vanilla',
+    'beam-mode': 'classic',
+    'gravity-heat-reduction': 'on',
+    'double-jump': 'off',
+    'heat-shield': 'off',
+    'pressure-valve': 'none',
+  },
+  'standard': {
+    'item-split': 'standard-mm',
+    area: 'standard',
+    boss: 'standard',
+    minors: 'standard',
+    'map-layout': 'standard-vanilla',
+    'beam-mode': 'vanilla',
+    'gravity-heat-reduction': 'off',
+    'double-jump': 'off',
+    'heat-shield': 'off',
+    'pressure-valve': 'none',
+  }
+}
+
 export default function Form() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<GenerateSeedParams>()
+  const { register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors }
+  } = useForm<GenerateFormParams>()
   const { data: vanilla } = useVanilla()
   const onSubmit = async (data: GenerateSeedParams) => {
     try {
@@ -182,6 +244,18 @@ export default function Form() {
       console.error('SEED ERROR', error)
     }
   };
+  const currentMode = watch('mode');
+
+  useEffect(() => {
+    if (currentMode) {
+      const mode = MODES[currentMode];
+      Object.keys(mode).forEach(k => {
+        const key = k as keyof typeof mode;
+        const value = mode[key] as any
+        setValue(key, value);
+      });
+    }
+  }, [currentMode, setValue])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
