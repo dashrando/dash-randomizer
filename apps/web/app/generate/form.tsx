@@ -473,8 +473,8 @@ export default function Form() {
             <Option label="Pressure Valve" name="pressure-valve">
               <Select
                 options={[
-                  { label: 'None', value: 'none' },
-                  { label: '1', value: 'one' },
+                  { label: 'Off', value: 'none' },
+                  { label: 'On', value: 'one' },
                   //{ label: '2', value: 'two' },
                 ]}
                 name="pressure-valve"
