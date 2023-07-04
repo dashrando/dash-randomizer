@@ -38,6 +38,7 @@
 .heading {
   padding-bottom: var(--spacer-4x);
   border-bottom: 1px solid #fff;
+  color: var(--color-highlight);
 }
 
 .label {
