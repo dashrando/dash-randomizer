@@ -61,6 +61,7 @@ const Numeric = ({
                max={maxVal}
                defaultValue={defaultValue}
                ref={inputRef}
+               pattern="[0-9]*"
             />
             <div>
                <button
