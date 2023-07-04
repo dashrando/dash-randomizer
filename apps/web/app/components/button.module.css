@@ -18,6 +18,7 @@
   text-align: center;
   border-radius: 4px;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  font-weight: 400;
 }
 
 .base svg {
