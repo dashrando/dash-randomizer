@@ -236,7 +236,7 @@ export default function Form() {
   })
   const [rolledSeed, setRolledSeed] = useState<RolledSeed | null>(null)
   const [signature, setSignature] = useState<string | null>(null)
-  const { data: vanilla } = useVanilla()
+  const { data: vanilla, isLoading: vanillaLoading } = useVanilla()
 
   const onSubmit = async (data: GenerateSeedParams) => {
     try {
@@ -398,7 +398,10 @@ export default function Form() {
           </Section>
           <Section title="Vanilla" className={styles.mobileVanilla}>
             <Option label="Vanilla" name="vanilla">
-              {!vanilla ? (
+              {(vanillaLoading || !vanilla) ? (
+                  <Button variant="secondary" disabled block>Loading...</Button>
+                ) :
+              !vanilla ? (
                 <VanillaButton />
               ) : (
                 <Button variant="secondary" disabled block>Vanilla ROM loaded</Button>
