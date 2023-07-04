@@ -46,4 +46,7 @@ export function fetchSignature(data) {
   return addresses.join(" ");
 }
 
+export const formatMonoSignature = (signature) =>
+  signature.split(' ').map(s => s.padEnd(8, ' ')).join('')
+
 export default fetchSignature;

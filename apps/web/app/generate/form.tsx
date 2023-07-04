@@ -19,20 +19,58 @@ import {
   MinorDistributionMode,
   SuitMode
 } from 'core/params'
-import { useEffect } from 'react'
+import { fetchSignature } from 'core'
+import { useEffect, useState } from 'react'
 
-const Sidebar = () => {
+const Sidebar = ({
+  name = null,
+  signature = null
+}: {
+  name: string | null
+  signature: string | null
+}) => {
   const { data, isLoading } = useVanilla()
   const mounted = useMounted()
-
+  
   // console.debug('sidebar', data, isLoading)
   return (
     <aside className={styles.sidebar}>
       {mounted ? (
         data ? (
-          <Button type="submit">
-            Download Seed
-          </Button>
+          <div>
+            <Button type="submit">
+              Download Seed
+            </Button>
+            {/* {name && (
+              <p>Filename: `{name}`</p>
+            )} */}
+            {signature && name && (
+              <>
+                <div style={{ margin: '2em 0' }}>
+                  <p style={{ fontSize: '14px', margin: 0 }}>
+                    <strong>Signature</strong>
+                  </p>
+                  <code>{signature}</code>
+                </div>
+                <div style={{ margin: '2em 0' }}>
+                  <p style={{ fontSize: '14px', margin: 0 }}>
+                    <strong>Filename</strong>
+                  </p>
+                  <code>{name}</code>
+                </div>
+                <div style={{ margin: '2em 0' }}>
+                  <p style={{ fontSize: '14px', margin: 0 }}>
+                    <strong>URL</strong>
+                  </p>
+                  <p style={{ fontSize: '14px', margin: 0 }}>
+                    <a href={`/seed/${name}`} style={{ color: 'white', fontWeight: 700 }}>
+                      {`dashrando.net/seed/${name}`}
+                    </a>
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
         ) : (
           <VanillaButton />
         )) : null}
@@ -174,6 +212,11 @@ const prefillSettingsFromPreset = (value: GenerateFormParams, reset: any) => {
   }
 }
 
+type RolledSeed = {
+  seed: any
+  name: string
+}
+
 export default function Form() {
   const { register,
     handleSubmit,
@@ -189,7 +232,10 @@ export default function Form() {
       'seed-mode': 'random',
     }
   })
+  const [rolledSeed, setRolledSeed] = useState<RolledSeed | null>(null)
+  const [signature, setSignature] = useState<string | null>(null)
   const { data: vanilla } = useVanilla()
+
   const onSubmit = async (data: GenerateSeedParams) => {
     try {
       console.log("submit", data);
@@ -283,6 +329,7 @@ export default function Form() {
         config
       )
       downloadFile(seed, name)
+      setRolledSeed({ seed, name })
     } catch (error) {
       console.error('SEED ERROR', error)
     }
@@ -317,6 +364,16 @@ export default function Form() {
     })
     return () => subscription.unsubscribe()
   }, [setValue, reset, watch])
+
+  useEffect(() => {
+    async function calculateSignature(data: any) {
+      const sig = await fetchSignature(data)
+      setSignature(sig)
+    }
+    if (rolledSeed) {
+      calculateSignature(rolledSeed?.seed)
+    }
+  }, [rolledSeed])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -520,7 +577,7 @@ export default function Form() {
             </Option>
           </Section>
         </div>
-        <Sidebar />
+        <Sidebar name={rolledSeed?.name || null} signature={signature} />
       </div>
     </form>
   )
