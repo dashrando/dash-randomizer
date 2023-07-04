@@ -21,6 +21,7 @@ import {
 } from 'core/params'
 import { fetchSignature } from 'core'
 import { useEffect, useState } from 'react'
+import { ArrowDown } from 'react-feather'
 
 const Sidebar = ({
   name = null,
@@ -40,6 +41,7 @@ const Sidebar = ({
           <div>
             <Button type="submit" block>
               Download Seed
+              <ArrowDown size={14} strokeWidth={2} />
             </Button>
             {/* {name && (
               <p>Filename: `{name}`</p>
