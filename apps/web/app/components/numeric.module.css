@@ -15,6 +15,7 @@
   align-items: center;
   color: #fff;
   box-sizing: border-box;
+  -moz-appearance: textfield;
   -webkit-appearance: none;
   appearance: none;
   font-size: 100%;
@@ -29,6 +30,12 @@
   background: #000;
   padding: 0 12px;
   padding-right: 36px;
+}
+
+.numeric input::-webkit-outer-spin-button,
+.numeric input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .suffix {
