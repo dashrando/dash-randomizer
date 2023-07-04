@@ -5,7 +5,7 @@ import { Heading } from '../components/text'
 import Select from '../components/select'
 import Numeric from '../components/numeric'
 import styles from './page.module.css'
-import { cn, downloadFile } from '@/lib/utils'
+import { cn, deepEqual, downloadFile } from '@/lib/utils'
 import VanillaButton, { useVanilla } from './vanilla'
 import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
@@ -26,7 +26,7 @@ const Sidebar = () => {
   const mounted = useMounted()
   if (!mounted) return null
 
-  console.debug('sidebar', data, isLoading)
+  // console.debug('sidebar', data, isLoading)
   return (
     <aside className={styles.sidebar}>
       {data ? (
@@ -67,7 +67,7 @@ const Option = (
   </div>
 )
 
-export type GenerateSeedParams = {
+export interface GenerateSeedSettings {
   'item-split': 'recall-mm' | 'standard-mm' | 'full',
   area: 'standard' | 'randomized',
   boss: 'standard' | 'randomized' | 'known',
@@ -78,13 +78,16 @@ export type GenerateSeedParams = {
   'double-jump': 'off' | 'on',
   'heat-shield': 'off' | 'on',
   'pressure-valve': 'none' | 'one' | 'two',
+}
+
+export interface GenerateSeedParams extends GenerateSeedSettings {
   'seed-mode': 'random' | 'fixed',
   seed: number,
   fanfare: 'off' | 'on', 
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
-  mode: 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard',
+  mode: 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom',
 }
 
 const MODES = {
@@ -139,9 +142,29 @@ const MODES = {
   }
 }
 
+const getModeFields = (input: GenerateFormParams): GenerateSeedSettings => {
+  const values = { ...input } as any
+  delete values.mode
+  delete values.seed
+  delete values['seed-mode']
+  delete values.fanfare
+  return values
+}
+
+const findMode = (params: GenerateSeedSettings): keyof typeof MODES | null => {
+  const modes = Object.keys(MODES) as (keyof typeof MODES)[]
+  const mode = modes.find(m => {
+    const mode = MODES[m]
+    const isEqual = deepEqual(params, mode)
+    return isEqual
+  })
+  return mode || null
+}
+
 export default function Form() {
   const { register,
     handleSubmit,
+    reset,
     setValue,
     watch,
     formState: { errors }
@@ -247,15 +270,35 @@ export default function Form() {
   const currentMode = watch('mode');
 
   useEffect(() => {
-    if (currentMode) {
-      const mode = MODES[currentMode];
-      Object.keys(mode).forEach(k => {
-        const key = k as keyof typeof mode;
-        const value = mode[key] as any
-        setValue(key, value);
-      });
+    try {
+      if (currentMode && currentMode !== 'custom') {
+        const mode = MODES[currentMode];
+        // TODO: Add in current values for options not covered in mode
+        // @ts-ignore
+        reset(mode);
+      }
+    } catch (error) {
+      console.error('Error with setting values for mode', error)
     }
-  }, [currentMode, setValue])
+  }, [currentMode, reset])
+
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      // Listen for change events on settings other than 'mode'
+      if (type !== 'change' || name === 'mode') {
+        return
+      }
+      const data = value as GenerateFormParams
+      const input = getModeFields(data)
+      const matchedMode = findMode(input)
+      if (matchedMode) {
+        setValue('mode', matchedMode)
+      } else {
+        setValue('mode', 'custom')
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [setValue, watch])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -269,6 +312,7 @@ export default function Form() {
                   { label: 'DASH: Recall v1', value: 'dash-recall-v1' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
                   { label: 'Standard', value: 'standard' },
+                  { label: 'Custom', value: 'custom' }
                 ]}
                 name="mode"
                 register={register}
