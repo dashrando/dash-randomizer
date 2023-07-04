@@ -112,6 +112,14 @@
     border-top: 1px solid #fff;
     z-index: 101;
     background-color: #000;
+    transform: translateY(100px);
+    transition: opacity 0.6s ease-in-out, transform 0.4s ease-in-out;
+    opacity: 0;
+  }
+
+  .sidebarMobileLoaded {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 

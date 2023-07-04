@@ -35,7 +35,7 @@ const Sidebar = ({
   
   // console.debug('sidebar', data, isLoading)
   return (
-    <aside className={styles.sidebar}>
+    <aside className={cn(styles.sidebar, { [styles.sidebarMobileLoaded]: data })}>
       {mounted ? (
         data ? (
           <div>
