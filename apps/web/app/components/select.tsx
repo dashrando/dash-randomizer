@@ -4,6 +4,7 @@ import styles from './select.module.css'
 export type SelectOption = {
   label: string
   value: string
+  hidden?: boolean
 }
 
 export type SelectProps = {
@@ -24,9 +25,9 @@ const Select = ({
     <div className={styles.wrapper}>
       <div className={styles.select}>
         <select id={`select-${name}`} name={name} {...register(name, { required })}>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
+          {options.map(({ value, label, hidden = false}) => (
+            <option key={value} value={value} hidden={hidden}>
+              {label}
             </option>
           ))}
         </select>

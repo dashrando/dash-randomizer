@@ -330,7 +330,7 @@ export default function Form() {
                   { label: 'DASH: Recall v1', value: 'dash-recall-v1' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
                   { label: 'Standard', value: 'standard' },
-                  { label: 'Custom', value: 'custom' }
+                  { label: 'Custom', value: 'custom', hidden: true }
                 ]}
                 name="mode"
                 register={register}
