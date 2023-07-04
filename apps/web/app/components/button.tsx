@@ -21,7 +21,9 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+      block?: boolean
+    }
 
 export const ButtonFileInput = ({ label = '', ...props }: any) => {
   return (
@@ -32,9 +34,9 @@ export const ButtonFileInput = ({ label = '', ...props }: any) => {
   )
 }
 
-export const Button = ({ variant = 'primary', size = 'medium', children, ...props }: ButtonProps) => {
+export const Button = ({ variant = 'primary', size = 'medium', block = false, children, ...props }: ButtonProps) => {
   return (
-    <button className={cn(buttonVariants({ variant, size }))} {...props}>
+    <button className={cn(buttonVariants({ variant, size }), block && styles.block)} {...props}>
       {children}
     </button>
   )

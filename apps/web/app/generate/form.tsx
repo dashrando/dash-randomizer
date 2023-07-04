@@ -38,7 +38,7 @@ const Sidebar = ({
       {mounted ? (
         data ? (
           <div>
-            <Button type="submit">
+            <Button type="submit" block>
               Download Seed
             </Button>
             {/* {name && (
@@ -62,7 +62,7 @@ const Sidebar = ({
                   <p style={{ fontSize: '14px', margin: 0 }}>
                     <strong>URL</strong>
                   </p>
-                  <p style={{ fontSize: '14px', margin: 0 }}>
+                  <p style={{ fontSize: '14px', margin: 0, wordWrap: 'break-word' }}>
                     <a href={`/seed/${name}`} style={{ color: 'white', fontWeight: 700 }}>
                       {`dashrando.net/seed/${name}`}
                     </a>
