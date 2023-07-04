@@ -24,18 +24,18 @@ import { useEffect } from 'react'
 const Sidebar = () => {
   const { data, isLoading } = useVanilla()
   const mounted = useMounted()
-  if (!mounted) return null
 
   // console.debug('sidebar', data, isLoading)
   return (
     <aside className={styles.sidebar}>
-      {data ? (
-        <Button type="submit">
-          Download Seed
-        </Button>
-      ) : (
-        <VanillaButton />
-      )}
+      {mounted ? (
+        data ? (
+          <Button type="submit">
+            Download Seed
+          </Button>
+        ) : (
+          <VanillaButton />
+        )) : null}
     </aside>
   )
 }

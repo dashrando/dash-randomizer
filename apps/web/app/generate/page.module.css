@@ -6,6 +6,7 @@
 
 .grid {
   display: flex;
+  justify-content: center;
 }
 
 .sections {
@@ -65,7 +66,8 @@
 }
 
 .sidebar {
-  width: 30%;
+  /* width: 30%; */
+  min-width: 230px;
   padding-left: 64px;
   position: sticky;
   top: 36px;
