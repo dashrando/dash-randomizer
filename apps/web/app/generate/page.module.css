@@ -119,6 +119,20 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .sidebarContent {
+    height: auto;
+    max-height: 0;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+  }
+
+  .open .sidebarContent {
+    height: auto;
+    max-height: 800px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
   .sidebar {
     position: fixed;
     bottom: 0;
@@ -141,6 +155,10 @@
   }
 }
 
+.sidebarButtons {
+  display: flex;
+}
+
 .mobileVanilla {
   display: none;
 }
@@ -148,5 +166,15 @@
 @media only screen and (max-width: 600px) {
   .mobileVanilla {
     display: block;
+  }
+}
+
+.mobile-sidebar-btn {
+  display: none !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .mobile-sidebar-btn {
+    display: block !important;
   }
 }

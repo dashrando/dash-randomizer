@@ -9,6 +9,7 @@ const buttonVariants = cva(
       variant: {
         primary: styles.primary,
         secondary: styles.secondary,
+        plain: styles.plain,
       },
       size: {
         small: styles.small,
@@ -34,9 +35,9 @@ export const ButtonFileInput = ({ label = '', ...props }: any) => {
   )
 }
 
-export const Button = ({ variant = 'primary', size = 'medium', block = false, children, ...props }: ButtonProps) => {
+export const Button = ({ variant = 'primary', size = 'medium', block = false, className = '', children, ...props }: ButtonProps) => {
   return (
-    <button className={cn(buttonVariants({ variant, size }), block && styles.block)} {...props}>
+    <button className={cn(buttonVariants({ variant, size }), block && styles.block, className)} {...props}>
       {children}
     </button>
   )

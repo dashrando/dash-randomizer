@@ -34,22 +34,38 @@ const Sidebar = ({
 }) => {
   const { data, isLoading } = useVanilla()
   const mounted = useMounted()
+  const [open, setOpen] = useState<Boolean>(false)
   
-  // console.debug('sidebar', data, isLoading)
+  useEffect(() => {
+    if (signature) {
+      setOpen(true)
+    }
+  }, [signature])
+
   return (
-    <aside className={cn(styles.sidebar, { [styles.sidebarMobileLoaded]: data })}>
+    <aside className={cn(styles.sidebar, { [styles.sidebarMobileLoaded]: data, [styles.open]: open })}>
       {mounted ? (
         data ? (
           <div>
-            <Button type="submit" block>
-              Download Seed
-              <ArrowDown size={14} strokeWidth={2} />
-            </Button>
-            {/* {name && (
-              <p>Filename: `{name}`</p>
-            )} */}
+            <div className={styles.sidebarButtons}>
+              <Button type="submit" block>
+                Download Seed
+                <ArrowDown size={14} strokeWidth={2} />
+              </Button>
+              {signature && name && (
+                <Button
+                  className={styles['mobile-sidebar-btn']}
+                  variant="plain"
+                  onClick={(evt) => {
+                  evt.preventDefault()
+                  setOpen(!open)
+                }}>
+                  {open ? 'Close' : 'Open'}
+                </Button>
+              )}
+            </div>
             {signature && name && (
-              <>
+              <div className={styles.sidebarContent}>
                 <div style={{ margin: '2em 0' }}>
                   <p style={{ fontSize: '14px', margin: 0 }}>
                     <strong>Signature</strong>
@@ -72,7 +88,7 @@ const Sidebar = ({
                     </a>
                   </p>
                 </div>
-              </>
+              </div>
             )}
           </div>
         ) : (
