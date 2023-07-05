@@ -9,6 +9,7 @@ import { cn, deepEqual, downloadFile } from '@/lib/utils'
 import VanillaButton, { useVanilla } from './vanilla'
 import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
+import Badge from '../components/badge'
 import useMounted from '../hooks/useMounted'
 import { Item, RandomizeRom } from 'core'
 import {
@@ -22,6 +23,7 @@ import {
 import { fetchSignature } from 'core'
 import { useEffect, useState } from 'react'
 import { ArrowDown } from 'react-feather'
+import Spacer from '../components/spacer'
 
 const Sidebar = ({
   name = null,
@@ -96,8 +98,8 @@ const Section = ({ children, title, className = null }: { children?: React.React
 )
 
 const Option = (
-  { children, label, name }:
-  { children?: React.ReactNode, label: string, name: string }
+  { children, label, name, badge = null }:
+  { children?: React.ReactNode, label: string, name: string, badge?: React.ReactNode }
 ) => {
   const labelAttr: any = {
     className: styles.label,
@@ -107,7 +109,11 @@ const Option = (
   }
   return (
     <div className={styles.option}>
-      <label {...labelAttr}>{label}</label>
+      <div className={styles.info}>
+        <label {...labelAttr}>{label}</label>
+        <Spacer y={2} />
+        {badge}
+      </div>
       <div className={styles.content}>
         {children}
       </div>
@@ -446,7 +452,11 @@ export default function Form() {
                 determines the available locations where major items can be placed.
               </p>
             </Option>
-            <Option label="Area" name="area">
+            <Option
+              label="Area"
+              name="area"
+              badge={<Badge variant="upcoming">Coming Soon</Badge>}
+            >
               <Select
                 options={[
                   { label: 'Standard', value: 'standard' },
@@ -460,7 +470,7 @@ export default function Form() {
                 will randomize the portals between certain areas or leave them as in the vanilla game.
               </p>
             </Option>
-            <Option label="Boss" name="boss">
+            <Option label="Boss" name="boss" badge={<Badge variant="early">In Canary</Badge>}>
               <Select
                 options={[
                   { label: 'Standard', value: 'standard' },

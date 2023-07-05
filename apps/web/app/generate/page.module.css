@@ -45,7 +45,25 @@
   font-size: 14px;
   font-weight: 400;
   text-transform: uppercase;
+  display: block;
+}
+
+@media only screen and (max-width: 600px) {
+  .label {
+    display: inline-block;
+  }
+}
+
+.info {
   width: 260px;
+}
+
+@media only screen and (max-width: 600px) {
+  .info {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacer-2x);
+  }
 }
 
 .content {
