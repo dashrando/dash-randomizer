@@ -124,7 +124,7 @@ const getBossPortals = (seed) => {
   };
 
   //
-  const shuffled = shuffleBosses();
+  let shuffled = shuffleBosses();
   while (samePortals(bosses, shuffled)) {
     shuffled = shuffleBosses();
   }
