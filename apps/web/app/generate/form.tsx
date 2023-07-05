@@ -301,7 +301,9 @@ export default function Form() {
       const settings = {
         beamMode: BeamMode.Vanilla,
         suitMode: SuitMode.Dash,
-        gravityHeatReduction: GravityHeatReduction.On
+        gravityHeatReduction: GravityHeatReduction.On,
+        randomizeAreas: false,
+        randomizeBosses: false,
       };
 
       if (data['beam-mode'] == 'classic') {
@@ -314,6 +316,14 @@ export default function Form() {
 
       if (data['gravity-heat-reduction'] == 'off') {
         settings.gravityHeatReduction = GravityHeatReduction.Off;
+      }
+
+      if (data.area == 'randomized') {
+        settings.randomizeAreas = true;
+      }
+
+      if (data.boss == 'randomized') {
+        settings.randomizeBosses = true;
       }
 
       const options = {

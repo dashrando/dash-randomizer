@@ -161,7 +161,7 @@ export const uppernorfairEdges = {
   },
 
   Missiles_CrumbleShaft: {
-    BusinessCenter: () => CanUsePowerBombs && HellRunTanks >= 3,
+    BusinessCenter: () => CanUsePowerBombs && HellRunTanks >= 2,
     PreCrocomire: () => HasSpeed && HellRunTanks >= 2,
   },
 

@@ -1,32 +1,43 @@
 import DotNetRandom from "../../dotnet-random";
 
-const shufflePortals = (seed, unshuffled) => {
-  if (seed == 0) {
-    return unshuffled;
+const samePortals = (unshuffled, shuffled) => {
+  if (unshuffled.length != shuffled.length) {
+    throw new Error(`Mismatch number of portals`);
   }
 
-  const rng = new DotNetRandom(seed);
+  for (let i = 0; i < unshuffled.length; i++) {
+    const pair = unshuffled[i];
+    const left = pair[0];
+    const right = pair[1];
+
+    for (let j = 0; j < shuffled.length; j++) {
+      if (shuffled[j][0] == left) {
+        if (shuffled[j][1] == right) {
+          continue;
+        }
+        return false;
+      } else if (shuffled[j][1] == left) {
+        if (shuffled[j][0] == right) {
+          continue;
+        }
+        return false;
+      }
+    }
+  }
+
+  return true;
+};
+
+const shuffle = (rng, arr) => {
   const swap = (arr, x, y) => {
     const tmp = arr[x];
     arr[x] = arr[y];
     arr[y] = tmp;
   };
 
-  const shuffle = (arr) => {
-    for (let i = 0; i < arr.length; i++) {
-      swap(arr, i, rng.NextInRange(i, arr.length));
-    }
-  };
-
-  const left = unshuffled.map((b) => b[0]);
-  while (left.every((value, index) => value == unshuffled[index][0])) {
-    shuffle(left);
+  for (let i = 0; i < arr.length; i++) {
+    swap(arr, i, rng.NextInRange(i, arr.length));
   }
-  const shuffled = new Array(left.length);
-  for (let i = 0; i < left.length; i++) {
-    shuffled[i] = [left[i], unshuffled[i][1]];
-  }
-  return shuffled;
 };
 
 const getAreaPortals = (seed) => {
@@ -54,7 +65,37 @@ const getAreaPortals = (seed) => {
     // West Maridia
     ["Door_PreAqueduct", "Door_Aqueduct"],
   ];
-  return shufflePortals(seed, areas);
+
+  if (seed == 0) {
+    return areas;
+  }
+
+  const rng = new DotNetRandom(seed);
+
+  const shuffleAreas = () => {
+    const all = [];
+    areas.forEach((a) => {
+      all.push(a[0]);
+      all.push(a[1]);
+    });
+    //console.log(all);
+    shuffle(rng, all);
+    //console.log(all);
+
+    const shuffled = [];
+    for (let i = 0; i < all.length; i += 2) {
+      shuffled.push([all[i], all[i + 1]]);
+    }
+    return shuffled;
+  };
+
+  //
+  const shuffled = shuffleAreas();
+  while (samePortals(areas, shuffled)) {
+    shuffled = shuffleAreas();
+  }
+
+  return shuffled;
 };
 
 const getBossPortals = (seed) => {
@@ -64,11 +105,35 @@ const getBossPortals = (seed) => {
     ["Door_DraygonBoss", "Exit_Draygon"],
     ["Door_RidleyBoss", "Exit_Ridley"],
   ];
-  return shufflePortals(seed, bosses);
+
+  if (seed == 0) {
+    return bosses;
+  }
+
+  const rng = new DotNetRandom(seed);
+
+  // Boss portals are specified in pairs
+  const shuffleBosses = () => {
+    // Split up the boss doors and exits
+    const doorPortals = bosses.map((b) => b[0]);
+    const exitPortals = bosses.map((b) => b[1]);
+
+    // Shuffle the exit portals and assign them to boss doors
+    shuffle(rng, exitPortals);
+    return doorPortals.map((d, idx) => [d, exitPortals[idx]]);
+  };
+
+  //
+  const shuffled = shuffleBosses();
+  while (samePortals(bosses, shuffled)) {
+    shuffled = shuffleBosses();
+  }
+
+  return shuffled;
 };
 
 export const mapPortals = (seed, area, boss) => {
-  const areaSeed = seed > 0 && area ? seed + 2e9 : 0;
-  const bossSeed = seed > 0 && boss ? seed + 1e9 : 0;
+  const areaSeed = seed > 0 && area ? seed + 2e7 : 0;
+  const bossSeed = seed > 0 && boss ? seed + 1e7 : 0;
   return getAreaPortals(areaSeed).concat(getBossPortals(bossSeed));
 };

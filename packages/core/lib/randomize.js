@@ -5,6 +5,13 @@ import { loadGraph } from "./graph/init";
 import { graphFill } from "./graph/fill";
 import { MapLayout } from "./graph/params";
 
+const getBasePatch = (mapLayout, area) => {
+  if (mapLayout == MapLayout.Recall) {
+    return area ? "dash_recall_area.bps" : "dash_recall.bps";
+  }
+  return area ? "dash_standard_area.bps" : "dash_standard.bps";
+};
+
 async function RandomizeRom(
   seed = 0,
   mapLayout,
@@ -21,13 +28,27 @@ async function RandomizeRom(
   const graph = loadGraph(
     seed,
     mapLayout,
-    itemPoolParams.majorDistribution.mode
+    itemPoolParams.majorDistribution.mode,
+    settings.randomizeAreas,
+    settings.randomizeBosses
   );
+  const bosses = graph
+    .filter(
+      (n) =>
+        n.from.name.startsWith("Door_") &&
+        n.from.name.endsWith("Boss") &&
+        n.to.name.startsWith("Exit_")
+    )
+    .map((n) => {
+      return {
+        door: n.from.name,
+        boss: n.to.name,
+      };
+    });
   graphFill(seed, graph, itemPoolParams, settings, true);
 
   // Load the base patch associated with the map layout.
-  const patch =
-    mapLayout == MapLayout.Recall ? "dash_working.bps" : "dash_std.bps";
+  const patch = getBasePatch(mapLayout, settings.randomizeAreas);
   const basePatch = await BpsPatch.Load(`patches/${patch}`);
 
   // Process options with defaults.
@@ -38,7 +59,7 @@ async function RandomizeRom(
 
   // Generate the seed specific patch (item placement, etc.)
   const nodes = getItemNodes(graph);
-  const seedPatch = generateSeedPatch(seed, settings, nodes, options);
+  const seedPatch = generateSeedPatch(seed, settings, nodes, options, bosses);
 
   // Create the rom by patching the vanilla rom.
   return {
