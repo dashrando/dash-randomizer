@@ -104,7 +104,8 @@ export default function VanillaButton() {
     accept: {
       "application/octet-stream": [".smc", ".sfc"],
       "application/binary": [".smc", ".sfc"],
-    }
+    },
+    useFsAccessApi: false,
   })
 
   return (
