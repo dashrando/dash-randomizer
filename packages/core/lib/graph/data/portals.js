@@ -90,7 +90,7 @@ const getAreaPortals = (seed) => {
   };
 
   //
-  const shuffled = shuffleAreas();
+  let shuffled = shuffleAreas();
   while (samePortals(areas, shuffled)) {
     shuffled = shuffleAreas();
   }
