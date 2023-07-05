@@ -114,8 +114,8 @@ const Section = ({ children, title, className = null }: { children?: React.React
 )
 
 const Option = (
-  { children, label, name, badge = null }:
-  { children?: React.ReactNode, label: string, name: string, badge?: React.ReactNode }
+  { children, label, name, badge = null, noLabel = false }:
+  { children?: React.ReactNode, label: string, name?: string, badge?: React.ReactNode, noLabel?: boolean }
 ) => {
   const labelAttr: any = {
     className: styles.label,
@@ -126,7 +126,12 @@ const Option = (
   return (
     <div className={styles.option}>
       <div className={styles.info}>
-        <label {...labelAttr}>{label}</label>
+        {noLabel ?
+          (
+            <div {...labelAttr}>{label}</div>
+          ) : (
+            <label {...labelAttr}>{label}</label>
+          )}
         <Spacer y={2} />
         {badge}
       </div>
@@ -438,7 +443,7 @@ export default function Form() {
             </Option>
           </Section>
           <Section title="Vanilla" className={styles.mobileVanilla}>
-            <Option label="Vanilla" name="vanilla">
+            <Option label="Vanilla" noLabel>
               {mounted ? (
                 (!vanillaLoading && vanilla) ? (
                   <Button id="select-vanilla" variant="secondary" disabled block>Vanilla ROM loaded</Button>

@@ -85,7 +85,7 @@
     justify-content: flex-start;
   }
 
-  .option label {
+  .option .label {
     margin-bottom: var(--spacer-2x);
   }
 }
