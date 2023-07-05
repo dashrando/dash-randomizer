@@ -111,8 +111,8 @@ export default function VanillaButton() {
   return (
     <div>
       <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
-        <div className={styles.wrapper}>
-          <div {...getRootProps()}>
+        <div {...getRootProps()}>
+          <div className={styles.wrapper}>
             <input {...getInputProps()} />
             Upload Vanilla ROM
           </div>
