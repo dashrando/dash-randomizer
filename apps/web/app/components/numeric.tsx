@@ -1,6 +1,7 @@
 import { InputWrapper } from './input'
 import styles from './numeric.module.css'
 import { useEffect, useRef, useState } from 'react'
+import { Minus, Plus } from 'react-feather'
 
 export type NumericProps = {
    minVal: number,
@@ -74,7 +75,9 @@ const Numeric = ({
                            inputRef.current.dispatchEvent(new Event('change'))
                         }
                      }}
-                  >+</button>
+                  >
+                     <Plus size={12} />
+                  </button>
                   <button
                      className={styles.btn}
                      disabled={status === 'min'}
@@ -85,7 +88,9 @@ const Numeric = ({
                            inputRef.current.dispatchEvent(new Event('change'))
                         }
                      }}
-                  >-</button>
+                  >
+                     <Minus size={12} />
+                  </button>
                </div>
             </div>
          </div>
