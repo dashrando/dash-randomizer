@@ -1,3 +1,4 @@
+import { InputWrapper } from './input'
 import styles from './numeric.module.css'
 import { useEffect, useRef, useState } from 'react'
 
@@ -25,13 +26,11 @@ const Numeric = ({
 
    useEffect(() => {
       const input = inputRef.current
-      console.log('sup', input)
-      
+
       const handleChange = () => {
          // Determine if at min or max
          const value = input?.value || '1'
          const number = parseInt(value)
-         console.log('onChange', value)
          switch(true) {
             case (number >= maxVal):
                setStatus('max')
@@ -53,46 +52,44 @@ const Numeric = ({
    }, [minVal, maxVal, setStatus])
 
    return (
-      <div className={styles.wrapper}>
-         <div className={styles.numeric}>
-            <input type="number"
-               name={name} {...register(name, { required })}
-               min={minVal}
-               max={maxVal}
-               defaultValue={defaultValue}
-               ref={inputRef}
-               pattern="[0-9]*"
-            />
-            <div>
-               <button
-                  className={styles.btn}
-                  disabled={status === 'max'}
-                  onClick={(evt) => {
-                     evt.preventDefault()
-                     if (inputRef?.current) {
-                        inputRef.current.stepUp()
-                        inputRef.current.dispatchEvent(new Event('change'))
-                     }
-                  }}
-               >
-                  up
-               </button>
-               <button
-                  className={styles.btn}
-                  disabled={status === 'min'}
-                  onClick={(evt) => {
-                     evt.preventDefault()
-                     if (inputRef?.current) {
-                        inputRef.current.stepDown()
-                        inputRef.current.dispatchEvent(new Event('change'))
-                     }
-                  }}
-               >
-                  down
-               </button>
+      <InputWrapper>
+         <div className={styles.wrapper}>
+            <div className={styles.numeric}>
+               <input type="number"
+                  name={name} {...register(name, { required })}
+                  min={minVal}
+                  max={maxVal}
+                  defaultValue={defaultValue}
+                  ref={inputRef}
+                  pattern="[0-9]*"
+               />
+               <div className={styles.suffix}>
+                  <button
+                     className={styles.btn}
+                     disabled={status === 'max'}
+                     onClick={(evt) => {
+                        evt.preventDefault()
+                        if (inputRef?.current) {
+                           inputRef.current.stepUp()
+                           inputRef.current.dispatchEvent(new Event('change'))
+                        }
+                     }}
+                  >+</button>
+                  <button
+                     className={styles.btn}
+                     disabled={status === 'min'}
+                     onClick={(evt) => {
+                        evt.preventDefault()
+                        if (inputRef?.current) {
+                           inputRef.current.stepDown()
+                           inputRef.current.dispatchEvent(new Event('change'))
+                        }
+                     }}
+                  >-</button>
+               </div>
             </div>
          </div>
-      </div>
+      </InputWrapper>
    )
 }
 
