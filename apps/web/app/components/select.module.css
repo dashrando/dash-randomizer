@@ -40,6 +40,16 @@
   border-color: #fff;
 }
 
+.select select:disabled {
+  cursor: default;
+  border-color: rgb(41, 41, 41);
+  color: rgb(51, 51, 51);
+}
+
+.select select:disabled + .suffix {
+  color: rgb(41, 41, 41);
+}
+
 .suffix {
   display: inline-flex;
   position: absolute;

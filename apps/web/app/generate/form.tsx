@@ -468,25 +468,7 @@ export default function Form() {
                 determines the available locations where major items can be placed.
               </p>
             </Option>
-            <Option
-              label="Area"
-              name="area"
-              badge={<Badge variant="upcoming">Coming Soon</Badge>}
-            >
-              <Select
-                options={[
-                  { label: 'Standard', value: 'standard' },
-                  { label: 'Randomized', value: 'randomized' },
-                ]}
-                name="area"
-                register={register}
-              />
-              <p>
-                <Link href="/generate/info#area">Area Randomization</Link>{' '}
-                will randomize the portals between certain areas or leave them as in the vanilla game.
-              </p>
-            </Option>
-            <Option label="Boss" name="boss" badge={<Badge variant="early">In Canary</Badge>}>
+            <Option label="Boss" name="boss" badge={<Badge variant="early">Canary</Badge>}>
               <Select
                 options={[
                   { label: 'Standard', value: 'standard' },
@@ -499,6 +481,25 @@ export default function Form() {
               <p>
                 <Link href="/generate/info#boss">Boss Randomization</Link>{' '}
                 can randomize the boss found at a given boss location.
+              </p>
+            </Option>
+            <Option
+              label="Area"
+              name="area"
+              badge={<Badge variant="upcoming">Coming Soon</Badge>}
+            >
+              <Select
+                disabled
+                options={[
+                  { label: 'Standard', value: 'standard' },
+                  { label: 'Randomized', value: 'randomized' },
+                ]}
+                name="area"
+                register={register}
+              />
+              <p>
+                <Link href="/generate/info#area">Area Randomization</Link>{' '}
+                will randomize the portals between certain areas or leave them as in the vanilla game.
               </p>
             </Option>
           </Section>

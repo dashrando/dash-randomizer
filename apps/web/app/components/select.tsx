@@ -12,6 +12,7 @@ export type SelectProps = {
   name?: string
   register?: any
   required?: boolean
+  disabled?: boolean
 }
 
 const Select = ({
@@ -19,12 +20,13 @@ const Select = ({
   name = '',
   register,
   required = false,
+  disabled = false,
 
 }: SelectProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.select}>
-        <select id={`select-${name}`} name={name} {...register(name, { required })}>
+        <select id={`select-${name}`} disabled={disabled} name={name} {...register(name, { required })}>
           {options.map(({ value, label, hidden = false}) => (
             <option key={value} value={value} hidden={hidden}>
               {label}
