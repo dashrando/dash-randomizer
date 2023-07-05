@@ -178,3 +178,16 @@
     display: block !important;
   }
 }
+
+.sidebarHeading {
+  color: #6a6a6a;
+  font-weight: 700;
+  margin: 0;
+  font-size: 14px;
+}
+
+.mono {
+  font-family: var(--type-mono);
+  font-size: 14px;
+  color: #fff;
+}

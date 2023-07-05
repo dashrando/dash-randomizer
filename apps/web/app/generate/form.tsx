@@ -67,21 +67,21 @@ const Sidebar = ({
             {signature && name && (
               <div className={styles.sidebarContent}>
                 <div style={{ margin: '2em 0' }}>
-                  <p style={{ fontSize: '14px', margin: 0 }}>
-                    <strong>Signature</strong>
-                  </p>
-                  <code>{signature}</code>
+                  <h4 className={styles.sidebarHeading}>
+                    Signature
+                  </h4>
+                  <code className={styles.mono}>{signature}</code>
                 </div>
                 <div style={{ margin: '2em 0' }}>
-                  <p style={{ fontSize: '14px', margin: 0 }}>
-                    <strong>Filename</strong>
-                  </p>
-                  <code>{name}</code>
+                  <h4 className={styles.sidebarHeading}>
+                    Filename
+                  </h4>
+                  <p style={{ margin: 0, fontSize: '14px', color: '#fff' }}>{name}</p>
                 </div>
                 <div style={{ margin: '2em 0' }}>
-                  <p style={{ fontSize: '14px', margin: 0 }}>
-                    <strong>URL</strong>
-                  </p>
+                  <h4 className={styles.sidebarHeading}>
+                    Seed URL
+                  </h4>
                   <p style={{ fontSize: '14px', margin: 0, wordWrap: 'break-word' }}>
                     <a href={`/seed/${name}`} style={{ color: 'white', fontWeight: 700 }}>
                       {`dashrando.net/seed/${name}`}
