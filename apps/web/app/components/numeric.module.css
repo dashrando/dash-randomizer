@@ -36,6 +36,12 @@
   padding-right: 36px;
 }
 
+@media only screen and (max-width: 600px) {
+  .numeric input {
+    width: 100%;
+  }
+}
+
 .numeric input::-webkit-outer-spin-button,
 .numeric input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -55,8 +61,7 @@
 
 @media only screen and (max-width: 600px) {
   .suffix {
-    flex-direction: row;
-    width: 80px;
+    display: none;
   }
 }
 
@@ -70,22 +75,8 @@
   height: 20px;
 }
 
-@media only screen and (max-width: 600px) {
-  .suffix button {
-    height: 40px;
-    width: 40px;
-  }
-}
-
 .suffix button + button {
   border-top: 1px solid rgb(51, 51, 51);
-}
-
-@media only screen and (max-width: 600px) {
-  .suffix button + button {
-    border-top: 0;
-    border-left: 1px solid rgb(51, 51, 51);
-  }
 }
 
 .suffix button:hover {
