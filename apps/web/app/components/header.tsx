@@ -1,5 +1,11 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import styles from './header.module.css'
+import DiscordLogo from './logos/discord'
+import GithubLogo from './logos/github'
+import { cn } from '@/lib/utils'
 
 export default function Header() {
   return (
@@ -14,24 +20,45 @@ export default function Header() {
   );
 }
 
-export const Navigation = () => (
-  <nav className={styles['navigation']}>
-    <ul>
-      <li>
-        <Link href="/generate">Generate</Link>
-      </li>
-      <li>
-        <Link href="/logic">Logic</Link>
-      </li>
-      <li>
-        <Link href="/changelog">Changelog</Link>
-      </li>
-      <li>
-        <Link href="/resources">Resources</Link>
-      </li>
-    </ul>
-  </nav>
-)
+export type HeaderLink = {
+  href: string
+  label: string
+}
+
+const LINKS: HeaderLink[] = [
+  {
+    href: '/generate',
+    label: 'Generate',
+  },
+  {
+    href: '/readable',
+    label: 'Logic',
+  },
+  {
+    href: '/resources',
+    label: 'Resources',
+  }
+]
+
+export const Navigation = () => {
+  const pathname = usePathname()
+  return (
+    <nav className={styles['navigation']}>
+      <ul>
+        {LINKS.map((link) => {
+          const isActive = pathname.startsWith(link.href)
+          return (
+            <li key={link.href}>
+              <Link href={link.href} className={cn(isActive && styles.active)}>
+                {link.label}
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </nav>
+  )
+}
 
 function Logo() {
   return (
@@ -46,17 +73,24 @@ function Logo() {
 function Social() {
   return (
     <div className={styles['social']}>
-
+      <a href="/discord" target="_blank" rel="noopenner noreferrer" className={styles.link}>
+        <DiscordLogo />
+      </a>
+      <a href="/github" target="_blank" rel="noopenner noreferrer" className={styles.link}>
+        <GithubLogo />
+      </a>
     </div>
   )
 }
 
 export const NewHeader = () => {
   return (
-    <div className={styles['container']}>
-      <Logo />
-      <Navigation />
-      <Social />
+    <div className={styles.wrapper}>
+      <div className={styles['container']}>
+        <Logo />
+        <Navigation />
+        <Social />
+      </div>
     </div>
   )
 }

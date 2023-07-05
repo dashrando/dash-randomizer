@@ -2,16 +2,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* max-width: 1100px; */
+  max-width: 930px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  border-bottom: 1px solid #222;
 }
 
 .logo {
   font-weight: 700;
-  font-size: 28px;
+  font-size: 24px;
   line-height: 1;
-  letter-spacing: -0.1px;
+  letter-spacing: 0.3px;
   text-transform: uppercase;
   font-style: italic;
-  padding: 24px;
+  padding: 12px;
   color: #fff;
   width: 200px;
   display: block;
@@ -27,7 +34,7 @@
   max-width: 450px;
   margin: 0 auto;
   padding: 0;
-  font-weight: 200;
+  font-weight: 400;
   letter-spacing: 0.32px;
   line-height: 1;
   font-size: 16px;
@@ -50,11 +57,22 @@
   transition: color 0.15s ease-in-out;
 }
 
-.navigation a:hover {
+.navigation a:hover,
+.navigation a.active {
   color: #fff;
 }
 
 .social {
-  display: block;
-  width: 200px;
+  display: flex;
+  justify-content: center;
+  gap: var(--spacer-4x);
+}
+
+.social .link {
+  transition: opacity 0.15s ease-in-out;
+  display: flex;
+}
+
+.social .link:hover {
+  opacity: 0.5;
 }

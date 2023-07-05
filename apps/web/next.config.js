@@ -42,6 +42,11 @@ const nextConfig = {
         permanent: false,
       },
       {
+        source: "/github",
+        destination: "https://github.com/dashrando",
+        permanent: false,
+      },
+      {
         source: "/readable",
         destination: "/readable/recall",
         permanent: false,
