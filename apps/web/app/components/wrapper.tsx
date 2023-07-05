@@ -1,8 +1,8 @@
 import { PropsWithChildren } from 'react'
 import { NewHeader } from './header'
-import styles from './layout.module.css'
+import styles from './wrapper.module.css'
 
-export const Layout = (props: PropsWithChildren) => {
+export const Wrapper = (props: PropsWithChildren) => {
   return (
     <div>
       <NewHeader />
