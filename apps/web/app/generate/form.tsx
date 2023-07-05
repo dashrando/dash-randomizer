@@ -20,7 +20,7 @@ import {
   SuitMode
 } from 'core/params'
 import { fetchSignature } from 'core'
-import { HtmlHTMLAttributes, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 
 const Sidebar = ({
@@ -238,7 +238,7 @@ export default function Form() {
     }
   } = useForm<GenerateFormParams>({
     defaultValues: {
-      'mode': 'dash-recall-v2',
+      'mode': 'dash-recall-v1',
       'seed-mode': 'random',
     }
   })
@@ -404,8 +404,8 @@ export default function Form() {
             <Option label="Mode" name="mode">
               <Select
                 options={[
-                  { label: 'DASH: Recall v2', value: 'dash-recall-v2' },
                   { label: 'DASH: Recall v1', value: 'dash-recall-v1' },
+                  { label: 'DASH: Recall v2', value: 'dash-recall-v2' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
                   { label: 'Standard', value: 'standard' },
                   { label: 'Custom', value: 'custom', hidden: true }
@@ -480,8 +480,8 @@ export default function Form() {
             <Option label="Minor Item Distribution" name="minors">
               <Select
                 options={[
-                  { label: 'Standard - 3:2:1', value: 'standard' },
                   { label: 'DASH - 2:1:1', value: 'dash' },
+                  { label: 'Standard - 3:2:1', value: 'standard' },
                 ]}
                 name="minors"
                 register={register}
@@ -494,8 +494,8 @@ export default function Form() {
             <Option label="Map Layout" name="map-layout">
               <Select
                 options={[
-                  { label: 'Standard Vanilla', value: 'standard-vanilla' },
                   { label: 'DASH Recall', value: 'dash-recall' },
+                  { label: 'Standard Vanilla', value: 'standard-vanilla' },
                 ]}
                 name="map-layout"
                 register={register}
@@ -508,9 +508,9 @@ export default function Form() {
             <Option label="Beam Mode" name="beam-mode">
               <Select
                 options={[
-                  { label: 'Vanilla', value: 'vanilla' },
-                  { label: 'Classic', value: 'classic' },
                   { label: 'Recall', value: 'recall' },
+                  { label: 'Classic', value: 'classic' },
+                  { label: 'Vanilla', value: 'vanilla' },
                   { label: 'New', value: 'new' },
                 ]}
                 name="beam-mode"
@@ -566,8 +566,8 @@ export default function Form() {
             <Option label="Pressure Valve" name="pressure-valve">
               <Select
                 options={[
-                  { label: 'Off', value: 'none' },
                   { label: 'On', value: 'one' },
+                  { label: 'Off', value: 'none' },
                   //{ label: '2', value: 'two' },
                 ]}
                 name="pressure-valve"
