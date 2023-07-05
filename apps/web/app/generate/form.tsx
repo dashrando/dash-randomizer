@@ -20,7 +20,7 @@ import {
   SuitMode
 } from 'core/params'
 import { fetchSignature } from 'core'
-import { useEffect, useState } from 'react'
+import { HtmlHTMLAttributes, useEffect, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 
 const Sidebar = ({
@@ -98,14 +98,22 @@ const Section = ({ children, title, className = null }: { children?: React.React
 const Option = (
   { children, label, name }:
   { children?: React.ReactNode, label: string, name: string }
-) => (
-  <div className={styles.option}>
-    <label className={styles.label} htmlFor={`select-${name}`}>{label}</label>
-    <div className={styles.content}>
-      {children}
+) => {
+  const labelAttr: any = {
+    className: styles.label,
+  }
+  if (name) {
+    labelAttr.htmlFor = `select-${name}`
+  }
+  return (
+    <div className={styles.option}>
+      <label {...labelAttr}>{label}</label>
+      <div className={styles.content}>
+        {children}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export interface GenerateSeedSettings {
   'item-split': 'recall-mm' | 'standard-mm' | 'full',
@@ -411,14 +419,14 @@ export default function Form() {
             <Option label="Vanilla" name="vanilla">
               {mounted ? (
                 (!vanillaLoading && vanilla) ? (
-                  <Button variant="secondary" disabled block>Vanilla ROM loaded</Button>
+                  <Button id="select-vanilla" variant="secondary" disabled block>Vanilla ROM loaded</Button>
                 ) : vanillaLoading ? (
-                  <Button variant="secondary" disabled block>Loading...</Button>
+                  <Button id="select-vanilla" variant="secondary" disabled block>Loading...</Button>
                 ) : (
                   <VanillaButton />
                 )
               ) : (
-                <Button variant="secondary" disabled block>Loading...</Button>
+                <Button id="select-vanilla" variant="secondary" disabled block>Loading...</Button>
               )}
             </Option>
           </Section>
