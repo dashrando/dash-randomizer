@@ -32,7 +32,7 @@ const Sidebar = ({
   name: string | null
   signature: string | null
 }) => {
-  const { data, isLoading } = useVanilla()
+  const { data } = useVanilla()
   const mounted = useMounted()
   const [open, setOpen] = useState<Boolean>(false)
   
@@ -48,9 +48,17 @@ const Sidebar = ({
         data ? (
           <div>
             <div className={styles.sidebarButtons}>
-              <Button type="submit" block>
-                Download Seed
-                <ArrowDown size={14} strokeWidth={2} />
+              <Button
+                type="submit"
+                block
+                variant={signature ? 'secondary' : 'primary'}
+              >
+                {signature ? (
+                  <>
+                    Download Seed
+                    <ArrowDown size={14} strokeWidth={2} />
+                  </>
+                ) : 'Generate Seed'}
               </Button>
               {signature && name && (
                 <Button
