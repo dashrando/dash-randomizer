@@ -197,7 +197,7 @@ const MODES = {
     boss: 'standard',
     minors: 'dash',
     'map-layout': 'dash-recall',
-    'beam-mode': 'recall',
+    'beam-mode': 'new',
     'gravity-heat-reduction': 'on',
     'double-jump': 'on',
     'heat-shield': 'on',
@@ -301,7 +301,7 @@ export default function Form() {
   const seedNum = watch('seed-mode')
   const isRandom = (seedNum === 'random')
 
-  const onSubmit = async (data: GenerateSeedParams) => {
+  const onSubmit = async (data: GenerateFormParams) => {
     try {
       console.log("submit", data);
       const config = { vanillaBytes: vanilla };
@@ -361,12 +361,23 @@ export default function Form() {
       };
 
       const settings = {
+        preset: "Custom",
         beamMode: BeamMode.Vanilla,
         suitMode: SuitMode.Dash,
         gravityHeatReduction: GravityHeatReduction.On,
         randomizeAreas: false,
         randomizeBosses: false,
       };
+
+      if (data.mode == 'dash-recall-v1') {
+        settings.preset = "RecallV1";
+      } else if (data.mode == 'dash-recall-v2') {
+        settings.preset = "RecallV2";
+      } else if (data.mode == 'dash-classic') {
+        settings.preset = "Classic";
+      } else if (data.mode == 'standard') {
+        settings.preset = "Standard";
+      }
 
       if (data['beam-mode'] == 'classic') {
         settings.beamMode = BeamMode.DashClassic;
@@ -643,7 +654,7 @@ export default function Form() {
               <Select
                 options={[
                   { label: 'Random', value: 'random' },
-                  { label: 'Fixed', value: 'fixed' },
+                  //{ label: 'Fixed', value: 'fixed' },
                 ]}
                 name="seed-mode"
                 register={register}

@@ -3,18 +3,23 @@ import game_modes from "../data/modes";
 import { Buffer } from "buffer";
 import { Area, AreaCounts, getLocations } from "./locations";
 import { Item } from "./items";
-import {
-  compressToEncodedURIComponent,
-  decompressFromEncodedURIComponent,
-} from "lz-string";
+import { decompressFromEncodedURIComponent } from "lz-string";
 import { mapLocation } from "./graph/util";
-import { MapLayout } from "./graph/params";
 import { loadGraph } from "./graph/init";
 import { graphFill } from "./graph/fill";
 import { presets } from "..";
 import boss_addresses from "../data/bosses";
+import { paramsToBytes, paramsToString } from "./graph/params";
 
-export const generateSeedPatch = (seed, settings, nodes, options, bosses) => {
+export const generateSeedPatch = (
+  seed,
+  mapLayout,
+  itemPoolParams,
+  settings,
+  nodes,
+  options,
+  bosses
+) => {
   //-----------------------------------------------------------------
   // Utility functions.
   //-----------------------------------------------------------------
@@ -43,7 +48,6 @@ export const generateSeedPatch = (seed, settings, nodes, options, bosses) => {
   // Encode the seed to show on the file select screen.
   //-----------------------------------------------------------------
 
-  let flags = 0x0; //TODO: fix me
   const seedPatch = [];
   const rnd = new DotNetRandom(seed);
   encodeBytes(seedPatch, 0x2f8000, U16toBytes(rnd.Next(0xffff)));
@@ -107,7 +111,7 @@ export const generateSeedPatch = (seed, settings, nodes, options, bosses) => {
   //-----------------------------------------------------------------
 
   encodeBytes(seedPatch, 0x2f8004, U8toBytes(settings.beamMode));
-  encodeBytes(seedPatch, 0x2f8005, U8toBytes(1)); // show charge damage on HUD
+  encodeBytes(seedPatch, 0x2f8005, U8toBytes(0x1)); // show charge damage on HUD
   encodeBytes(seedPatch, 0x2f8b10, U16toBytes(settings.gravityHeatReduction));
 
   //-----------------------------------------------------------------
@@ -204,14 +208,17 @@ export const generateSeedPatch = (seed, settings, nodes, options, bosses) => {
 
   if (options != null) {
     encodeBytes(seedPatch, 0x2f8b0c, U16toBytes(options.DisableFanfare));
-    //seedFlags |= options.DisableFanfare ? 0x0100 : 0x0000;
   }
 
   //-----------------------------------------------------------------
   // Encode seed flags from the website.
   //-----------------------------------------------------------------
 
-  encodeBytes(seedPatch, 0x2f8b00, U32toBytes(flags));
+  encodeBytes(
+    seedPatch,
+    0x2f8b00,
+    paramsToBytes(seed, mapLayout, itemPoolParams, settings, options)
+  );
 
   return seedPatch;
 };
@@ -223,17 +230,14 @@ export const getFileName = (
   settings,
   options
 ) => {
-  const prefix =
-    mapLayout == MapLayout.Recall ? "DASH_Recall_" : "DASH_Standard_";
-  let fileName = prefix + seed.toString().padStart(6, "0");
-
-  if (options != null) {
-    if (options.DisableFanfare == 1) {
-      fileName += "_no_fan";
-    }
-  }
-
-  return fileName + ".sfc";
+  const flags = paramsToString(
+    seed,
+    mapLayout,
+    itemPoolParams,
+    settings,
+    options
+  );
+  return `DASH_${settings.preset}_${flags}.sfc`;
 };
 
 export const getItemNodes = (graph) => {
@@ -283,14 +287,6 @@ export const getPresetOptions = (preset) => {
   }
 };
 
-export const optionsToFlags = (mode, options) => {
-  const gameMode = game_modes.find((m) => m.name == mode);
-  const bytes = new Uint8Array(12).fill(0);
-  bytes[0] |= gameMode.mask;
-  bytes[1] |= options.DisableFanfare == 1 ? 0x01 : 0x00;
-  return compressToEncodedURIComponent(Buffer.from(bytes).toString("base64"));
-};
-
 export const generateFromPreset = (name, seedNumber) => {
   const timestamp = Math.floor(new Date().getTime() / 1000);
 
@@ -327,7 +323,14 @@ export const generateFromPreset = (name, seedNumber) => {
   graphFill(seed, graph, itemPoolParams, settings);
 
   const nodes = getItemNodes(graph);
-  const seedPatch = generateSeedPatch(seed, settings, nodes, null);
+  const seedPatch = generateSeedPatch(
+    seed,
+    mapLayout,
+    itemPoolParams,
+    settings,
+    nodes,
+    null
+  );
   const fileName = getFileName(seed, mapLayout, itemPoolParams, settings, null);
 
   return [gameMode.patch, seedPatch, fileName];
