@@ -1,3 +1,4 @@
+import { BeamMode, SuitMode } from "./graph/params";
 import { Item, ItemNames } from "./items";
 
 class Loadout {
@@ -22,6 +23,15 @@ class Loadout {
   hasPlasma = false;
   hasGrapple = false;
 
+  hasDefeatedKraid = false;
+  hasDefeatedPhantoon = false;
+  hasDefeatedDraygon = false;
+  hasDefeatedRidley = false;
+  hasDefeatedSporeSpawn = false;
+  hasDefeatedCrocomire = false;
+  hasDefeatedBotwoon = false;
+  hasDefeatedGoldTorizo = false;
+
   missilePacks = 0;
   superPacks = 0;
   powerPacks = 0;
@@ -38,7 +48,6 @@ class Loadout {
   canOpenRedDoors = false;
   canOpenYellowDoors = false;
   canFly = false;
-  canCrystalFlash = false;
 
   constructor(inventory = {}) {
     const self = this;
@@ -79,15 +88,6 @@ class Loadout {
 
   static canOpenYellowDoors(load) {
     return Loadout.canUsePowerBombs(load);
-  }
-
-  static canCrystalFlash(load) {
-    return (
-      Loadout.canUsePowerBombs(load) &&
-      load.missilePacks >= 2 &&
-      load.superPacks >= 2 &&
-      load.powerPacks >= 3
-    );
   }
 
   static totalTanks(load) {
@@ -171,20 +171,17 @@ class Loadout {
       case Item.Missile:
         this.missilePacks += 1;
         this.canOpenRedDoors = Loadout.canOpenRedDoors(this);
-        this.canCrystalFlash = Loadout.canCrystalFlash(this);
         break;
       case Item.Super:
         this.superPacks += 1;
         this.canOpenRedDoors = Loadout.canOpenRedDoors(this);
         this.canOpenGreenDoors = Loadout.canOpenGreenDoors(this);
-        this.canCrystalFlash = Loadout.canCrystalFlash(this);
         break;
       case Item.PowerBomb:
         this.powerPacks += 1;
         this.canUsePowerBombs = Loadout.canUsePowerBombs(this);
         this.canPassBombPassages = Loadout.canPassBombPassages(this);
         this.canDestroyBombWalls = Loadout.canDestroyBombWalls(this);
-        this.canCrystalFlash = Loadout.canCrystalFlash(this);
         break;
 
       case Item.EnergyTank:
@@ -197,13 +194,132 @@ class Loadout {
         break;
 
       case Item.BeamUpgrade:
+        this.hasCharge = true;
+        break;
       case Item.Xray:
+        break;
+
+      case Item.DefeatedBotwoon:
+        this.hasDefeatedBotwoon = true;
+        break;
+      case Item.DefeatedCrocomire:
+        this.hasDefeatedCrocomire = true;
+        break;
+      case Item.DefeatedDraygon:
+        this.hasDefeatedDraygon = true;
+        break;
+      case Item.DefeatedKraid:
+        this.hasDefeatedKraid = true;
+        break;
+      case Item.DefeatedPhantoon:
+        this.hasDefeatedPhantoon = true;
+        break;
+      case Item.DefeatedRidley:
+        this.hasDefeatedRidley = true;
+        break;
+      case Item.DefeatedGoldTorizo:
+        this.hasDefeatedGoldTorizo = true;
+        break;
+      case Item.DefeatedSporeSpawn:
+        this.hasDefeatedSporeSpawn = true;
         break;
 
       default:
         console.error("[Loadout] Unknown item type:", ItemNames.get(itemType));
         break;
     }
+  }
+
+  getFlags(settings) {
+    const canDamageBosses = this.hasCharge || this.canOpenRedDoors;
+    const isHeatProof =
+      this.hasVaria ||
+      this.hasHeatShield ||
+      (settings.suitMode == SuitMode.Vanilla && this.hasGravity);
+    const ballisticPacks = this.superPacks + this.missilePacks;
+    const ridleyAmmoDamage =
+      this.missilePacks * 500 + this.superPacks * 3000 + this.powerPacks * 1000;
+
+    const getEnvDamageTanks = () => {
+      if (settings.suitMode == SuitMode.Standard) {
+        if (this.hasVaria) {
+          return 3 + Math.floor(this.totalTanks * 2.5);
+        }
+        return this.totalTanks;
+      }
+      if (settings.suitMode == SuitMode.Dash) {
+        if (this.hasVaria && this.hasGravity) {
+          return 3 + Math.floor(this.totalTanks * 2.5);
+        }
+        if (this.hasVaria || this.hasGravity) {
+          return 1 + this.totalTanks * 2;
+        }
+        return this.totalTanks;
+      }
+      if (this.hasGravity) {
+        return Math.floor(this.totalTanks * 2.5);
+      }
+      if (this.hasVaria) {
+        return 1 + this.totalTanks * 2;
+      }
+      return this.totalTanks;
+    };
+
+    return {
+      CanUseBombs: this.canUseBombs,
+      CanUsePowerBombs: this.canUsePowerBombs,
+      CanOpenRedDoors: this.canOpenRedDoors,
+      CanOpenGreenDoors: this.canOpenGreenDoors,
+      HasCharge: this.hasCharge,
+      HasDoubleJump: this.hasDoubleJump,
+      HasGravity: this.hasGravity,
+      HasGrapple: this.hasGrapple,
+      HasHeatShield: this.hasHeatShield,
+      HasHiJump: this.hasHiJump,
+      HasIce: this.hasIce,
+      HasMorph: this.hasMorph,
+      HasPlasma: this.hasPlasma,
+      HasPressureValve: this.hasPressureValve,
+      HasScrewAttack: this.hasScrewAttack,
+      HasSpaceJump: this.hasSpaceJump,
+      HasSpazer: this.hasSpazer,
+      HasSpeed: this.hasSpeed,
+      HasSpringBall: this.hasSpringBall,
+      HasVaria: this.hasVaria,
+      HasWave: this.hasWave,
+      EnergyTanks: this.energyTanks,
+      MissilePacks: this.missilePacks,
+      PowerBombPacks: this.powerPacks,
+      SuperPacks: this.superPacks,
+      TotalTanks: this.totalTanks,
+      HellRunTanks: isHeatProof ? 9999 : this.totalTanks,
+      EnvDamageTanks: getEnvDamageTanks(),
+      CanFly: this.canFly,
+      CanDoSuitlessMaridia:
+        this.hasHiJump &&
+        this.hasGrapple &&
+        (this.hasIce || this.hasSpringBall),
+      CanPassBombPassages: this.canPassBombPassages,
+      CanDestroyBombWalls: this.canDestroyBombWalls,
+      CanMoveInWestMaridia: this.hasGravity || this.hasPressureValve,
+      CanKillKraid: canDamageBosses,
+      CanKillPhantoon: canDamageBosses,
+      CanKillDraygon: canDamageBosses,
+      CanKillRidley:
+        this.hasVaria && (this.hasCharge || ridleyAmmoDamage >= 19000),
+      CanKillSporeSpawn: canDamageBosses,
+      CanKillCrocomire: this.hasCharge || ballisticPacks >= 2,
+      CanKillBotwoon: this.hasCharge || this.superPacks >= 3,
+      CanKillGoldTorizo: this.hasVaria && canDamageBosses,
+      HasDefeatedBotwoon: this.hasDefeatedBotwoon,
+      HasDefeatedCrocomire: this.hasDefeatedCrocomire,
+      HasDefeatedDraygon: this.hasDefeatedDraygon,
+      HasDefeatedKraid: this.hasDefeatedKraid,
+      HasDefeatedPhantoon: this.hasDefeatedPhantoon,
+      HasDefeatedRidley: this.hasDefeatedRidley,
+      HasDefeatedGoldTorizo: this.hasDefeatedGoldTorizo,
+      HasDefeatedSporeSpawn: this.hasDefeatedSporeSpawn,
+    };
   }
 }
 

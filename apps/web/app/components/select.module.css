@@ -1,0 +1,60 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 1px;
+  max-width: 100%;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.select select {
+  cursor: pointer;
+  font-size: 100%;
+  font: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  font-size: 14px;
+  height: 40px;
+  line-height: 20px;
+  text-rendering: auto;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid rgb(51, 51, 51);
+  background: #000;
+  color: #fff;
+  padding: 0 12px;
+  padding-right: 36px;
+  transition: border-color .15s ease;
+}
+
+.select:hover select {
+  border-color: #fff;
+}
+
+.select select:disabled {
+  cursor: default;
+  border-color: rgb(41, 41, 41);
+  color: rgb(51, 51, 51);
+}
+
+.select select:disabled + .suffix {
+  color: rgb(41, 41, 41);
+}
+
+.suffix {
+  display: inline-flex;
+  position: absolute;
+  pointer-events: none;
+  color: #888;
+  transition: color .15s ease;
+  right: 8px;
+}

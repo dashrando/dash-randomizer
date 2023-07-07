@@ -7,8 +7,7 @@ import ModeRecall from "@/../../packages/core/lib/modes/modeRecall";
 import ModeStandard from "@/../../packages/core/lib/modes/modeStandard";
 import Loadout from "@/../../packages/core/lib/loadout";
 import { useState } from "react";
-import { getSignature } from "core";
-import { Buffer } from "buffer";
+import { getItemNodes, presets } from "core";
 import {
   getFullPrePool,
   getMajorMinorPrePool,
@@ -20,6 +19,8 @@ import {
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
+import { graphFill } from "@/../../packages/core/lib/graph/fill";
+import { loadGraph } from "@/../../packages/core/lib/graph/init";
 
 export type ItemLocation = {
   location: Location;
@@ -32,6 +33,11 @@ export type Params = {
   gameMode: string;
   startSeed: number;
   endSeed: number;
+};
+
+type SeedStatus = {
+  progression: ItemProgression[];
+  totalTime: number;
 };
 
 const Parameters = ({ value, update }: { value: Params; update: any }) => {
@@ -96,19 +102,77 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 };
 
 export default function StatsPage() {
-  const [itemProgression, setItemProgression] = useState(
-    [] as ItemProgression[]
-  );
   const [params, setParams] = useState({
     gameMode: "rm",
     startSeed: 1,
     endSeed: 100,
   });
+  const [fill, setFill] = useState("graph");
   const [panel, setPanel] = useState("majors");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState<SeedStatus>({
+    progression: [],
+    totalTime: 1,
+  });
 
   const generateSeeds = () => {
-    const { gameMode, startSeed, endSeed } = params;
+    const { startSeed, endSeed } = params;
+    clearResults();
+    for (let i = startSeed; i <= endSeed; i += 100) {
+      generateStep(i, Math.min(endSeed, i + 99));
+    }
+  };
+
+  const generateStep = async (start: number, end: number) => {
+    if (fill == "graph") {
+      generateGraphFill(start, end);
+    } else {
+      generateVerifiedFill(start, end);
+    }
+  };
+
+  const generateGraphFill = (startSeed: number, endSeed: number) => {
+    const { gameMode } = params;
+    const progression: ItemProgression[] = [];
+    const start = Date.now();
+    let preset;
+
+    switch (gameMode) {
+      case "sm":
+        preset = presets.ClassicMM;
+        break;
+      case "sf":
+        preset = presets.ClassicFull;
+        break;
+      case "rm":
+        preset = presets.RecallMM;
+        break;
+      case "rf":
+        preset = presets.RecallFull;
+        break;
+      default:
+        throw new Error(`Unknown preset: ${gameMode}`);
+    }
+
+    for (let i = startSeed; i <= endSeed; i++) {
+      const { mapLayout, itemPoolParams, settings } = preset;
+      const { majorDistribution } = itemPoolParams;
+      const graph = loadGraph(i, mapLayout, majorDistribution.mode);
+      graphFill(i, graph, itemPoolParams, settings);
+
+      progression.push(getItemNodes(graph));
+    }
+
+    const delta = Date.now() - start;
+    setStatus((current: SeedStatus) => {
+      return {
+        progression: current.progression.concat(progression),
+        totalTime: current.totalTime + delta,
+      };
+    });
+  };
+
+  const generateVerifiedFill = (startSeed: number, endSeed: number) => {
+    const { gameMode } = params;
     const progression: ItemProgression[] = [];
     const start = Date.now();
 
@@ -142,19 +206,16 @@ export default function StatsPage() {
     }
 
     const delta = Date.now() - start;
-    setItemProgression(progression);
-    getSignature(Buffer.from(JSON.stringify(progression))).then((s) =>
-      console.log(s)
-    );
-
-    const num = progression.length;
-    const avg = (delta / num).toFixed(1);
-    setStatus(`${num} seeds ${delta}ms [ ${avg}ms avg ]`);
+    setStatus((current: SeedStatus) => {
+      return {
+        progression: current.progression.concat(progression),
+        totalTime: current.totalTime + delta,
+      };
+    });
   };
 
   const clearResults = () => {
-    setItemProgression([] as ItemProgression[]);
-    setStatus("");
+    setStatus({ progression: [], totalTime: 1 });
   };
 
   const updateParams = (newParams: Params) => {
@@ -177,30 +238,50 @@ export default function StatsPage() {
           id="clear_table"
           onClick={clearResults}
         />
-        <span id="action_status">{status}</span>
-        <span id="panels" className={styles.panel_selector}>
-          <label htmlFor="panel_selection">Panel:</label>
-          <select
-            name="panel_seletion"
-            id="panel_selection"
-            value={panel}
-            onChange={(e) => setPanel(e.target.value)}
-          >
-            <option value="majors">Majors</option>
-            <option value="progression">Progression</option>
-            <option value="noteworthy">Noteworthy</option>
-          </select>
+        <span id="action_status">
+          {status.progression.length <= 0
+            ? ""
+            : `${status.progression.length} seeds ${status.totalTime}ms [ ${
+                status.totalTime / status.progression.length
+              }ms avg]`}
+        </span>
+        <span id="right_side" className={styles.right_side}>
+          <span className={styles.fill_selector}>
+            <label htmlFor="fill_selection">Fill:</label>
+            <select
+              name="fill_seletion"
+              id="fill_selection"
+              value={fill}
+              onChange={(e) => setFill(e.target.value)}
+            >
+              <option value="graph">Graph</option>
+              <option value="verified">Verified</option>
+            </select>
+          </span>
+          <span className={styles.panel_selector}>
+            <label htmlFor="panel_selection">Panel:</label>
+            <select
+              name="panel_seletion"
+              id="panel_selection"
+              value={panel}
+              onChange={(e) => setPanel(e.target.value)}
+            >
+              <option value="majors">Majors</option>
+              <option value="progression">Progression</option>
+              <option value="noteworthy">Noteworthy</option>
+            </select>
+          </span>
         </span>
       </div>
       <div id="stats_panel" className={styles.stats_panel}>
         {panel == "majors" && (
-          <MajorItemTable itemProgression={itemProgression} />
+          <MajorItemTable itemProgression={status.progression} />
         )}
         {panel == "progression" && (
-          <ProgressionStats itemProgression={itemProgression} />
+          <ProgressionStats itemProgression={status.progression} />
         )}
         {panel == "noteworthy" && (
-          <NoteworthyStats itemProgression={itemProgression} />
+          <NoteworthyStats itemProgression={status.progression} />
         )}
       </div>
     </div>

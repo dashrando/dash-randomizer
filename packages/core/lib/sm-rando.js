@@ -1,24 +1,25 @@
 import DotNetRandom from "./dotnet-random";
 import game_modes from "../data/modes";
-import ModeStandard from "./modes/modeStandard";
-import ModeRecall from "./modes/modeRecall";
 import { Buffer } from "buffer";
 import { Area, AreaCounts, getLocations } from "./locations";
-import {
-  performVerifiedFill,
-  getMajorMinorPrePool,
-  isValidMajorMinor,
-  getFullPrePool,
-  isEmptyNode,
-} from "./itemPlacement";
 import { Item } from "./items";
-import Loadout from "./loadout";
-import {
-  compressToEncodedURIComponent,
-  decompressFromEncodedURIComponent,
-} from "lz-string";
+import { decompressFromEncodedURIComponent } from "lz-string";
+import { mapLocation } from "./graph/util";
+import { loadGraph } from "./graph/init";
+import { graphFill } from "./graph/fill";
+import { presets } from "..";
+import boss_addresses from "../data/bosses";
+import { paramsToBytes, paramsToString } from "./graph/params";
 
-export const generateSeedPatch = (seed, gameMode, nodes, options) => {
+export const generateSeedPatch = (
+  seed,
+  mapLayout,
+  itemPoolParams,
+  settings,
+  nodes,
+  options,
+  bosses
+) => {
   //-----------------------------------------------------------------
   // Utility functions.
   //-----------------------------------------------------------------
@@ -29,6 +30,10 @@ export const generateSeedPatch = (seed, gameMode, nodes, options) => {
 
   const encodeBytes = (patch, offset, bytes) => {
     encodeRepeating(patch, offset, 1, bytes);
+  };
+
+  const U8toBytes = (u8) => {
+    return new Uint8Array([u8]);
   };
 
   const U16toBytes = (u16) => {
@@ -43,8 +48,7 @@ export const generateSeedPatch = (seed, gameMode, nodes, options) => {
   // Encode the seed to show on the file select screen.
   //-----------------------------------------------------------------
 
-  let seedPatch = [];
-  let seedFlags = gameMode.mask;
+  const seedPatch = [];
   const rnd = new DotNetRandom(seed);
   encodeBytes(seedPatch, 0x2f8000, U16toBytes(rnd.Next(0xffff)));
   encodeBytes(seedPatch, 0x2f8002, U16toBytes(rnd.Next(0xffff)));
@@ -103,33 +107,147 @@ export const generateSeedPatch = (seed, gameMode, nodes, options) => {
     });
 
   //-----------------------------------------------------------------
+  // Settings.
+  //-----------------------------------------------------------------
+
+  encodeBytes(seedPatch, 0x2f8004, U8toBytes(settings.beamMode));
+  encodeBytes(seedPatch, 0x2f8005, U8toBytes(0x1)); // show charge damage on HUD
+  encodeBytes(seedPatch, 0x2f8b10, U16toBytes(settings.gravityHeatReduction));
+
+  //-----------------------------------------------------------------
+  // Update boss doors.
+  //-----------------------------------------------------------------
+
+  let count = 0;
+  bosses.forEach((b) => {
+    let door_to = null;
+    let to_boss = null;
+    let door_from = null;
+    let boss_from = null;
+
+    if (b.door == "Door_KraidBoss") {
+      door_to = boss_addresses.DoorToKraidBoss;
+      if (b.boss == "Exit_Kraid") {
+      } else if (b.boss == "Exit_Phantoon") {
+        to_boss = boss_addresses.DoorVectorToPhantoon;
+        door_from = boss_addresses.DoorFromPhantoonRoom;
+        boss_from = boss_addresses.DoorVectorToPreKraid;
+      } else if (b.boss == "Exit_Draygon") {
+        to_boss = boss_addresses.DoorVectorToDraygonFromRight;
+        door_from = boss_addresses.DoorFromDraygonRoom;
+        boss_from = boss_addresses.DoorVectorToPreKraidFromLeft;
+      } else if (b.boss == "Exit_Ridley") {
+        to_boss = boss_addresses.DoorVectorToRidleyFromRight;
+        door_from = boss_addresses.DoorFromRidleyRoom;
+        boss_from = boss_addresses.DoorVectorToPreKraidFromLeft;
+      }
+    } else if (b.door == "Door_PhantoonBoss") {
+      door_to = boss_addresses.DoorToPhantoonBoss;
+      if (b.boss == "Exit_Kraid") {
+        to_boss = boss_addresses.DoorVectorToKraid;
+        door_from = boss_addresses.DoorFromKraidRoom;
+        boss_from = boss_addresses.DoorVectorToPrePhantoon;
+      } else if (b.boss == "Exit_Phantoon") {
+      } else if (b.boss == "Exit_Draygon") {
+        to_boss = boss_addresses.DoorVectorToDraygonFromRight;
+        door_from = boss_addresses.DoorFromDraygonRoom;
+        boss_from = boss_addresses.DoorVectorToPrePhantoonFromLeft;
+      } else if (b.boss == "Exit_Ridley") {
+        to_boss = boss_addresses.DoorVectorToRidleyFromRight;
+        door_from = boss_addresses.DoorFromRidleyRoom;
+        boss_from = boss_addresses.DoorVectorToPrePhantoonFromLeft;
+      }
+    } else if (b.door == "Door_DraygonBoss") {
+      door_to = boss_addresses.DoorToDraygonBoss;
+      if (b.boss == "Exit_Kraid") {
+        to_boss = boss_addresses.DoorVectorToKraidFromLeft;
+        door_from = boss_addresses.DoorFromKraidRoom;
+        boss_from = boss_addresses.DoorVectorToPreDraygonFromRight;
+      } else if (b.boss == "Exit_Phantoon") {
+        to_boss = boss_addresses.DoorVectorToPhantoonFromLeft;
+        door_from = boss_addresses.DoorFromPhantoonRoom;
+        boss_from = boss_addresses.DoorVectorToPreDraygonFromRight;
+      } else if (b.boss == "Exit_Draygon") {
+      } else if (b.boss == "Exit_Ridley") {
+        to_boss = boss_addresses.DoorVectorToRidley;
+        door_from = boss_addresses.DoorFromRidleyRoom;
+        boss_from = boss_addresses.DoorVectorToPreDraygon;
+      }
+    } else if (b.door == "Door_RidleyBoss") {
+      door_to = boss_addresses.DoorToRidleyBoss;
+      if (b.boss == "Exit_Kraid") {
+        to_boss = boss_addresses.DoorVectorToKraidFromLeft;
+        door_from = boss_addresses.DoorFromKraidRoom;
+        boss_from = boss_addresses.DoorVectorToPreRidleyFromRight;
+      } else if (b.boss == "Exit_Phantoon") {
+        to_boss = boss_addresses.DoorVectorToPhantoonFromLeft;
+        door_from = boss_addresses.DoorFromPhantoonRoom;
+        boss_from = boss_addresses.DoorVectorToPreRidleyFromRight;
+      } else if (b.boss == "Exit_Draygon") {
+        to_boss = boss_addresses.DoorVectorToDraygon;
+        door_from = boss_addresses.DoorFromDraygonRoom;
+        boss_from = boss_addresses.DoorVectorToPreRidley;
+      } else if (b.boss == "Exit_Ridley") {
+      }
+    }
+
+    if (to_boss != null) {
+      //console.log((to_boss & 0xffff).toString(16));
+      encodeBytes(seedPatch, door_to, U16toBytes(to_boss & 0xffff));
+      //console.log((boss_from & 0xffff).toString(16));
+      encodeBytes(seedPatch, door_from, U16toBytes(boss_from & 0xffff));
+      count += 1;
+    }
+    console.debug(b);
+  });
+  console.log("shuffled bosses:", count);
+
+  //-----------------------------------------------------------------
   // Other options.
   //-----------------------------------------------------------------
 
   if (options != null) {
     encodeBytes(seedPatch, 0x2f8b0c, U16toBytes(options.DisableFanfare));
-    seedFlags |= options.DisableFanfare ? 0x0100 : 0x0000;
   }
 
   //-----------------------------------------------------------------
   // Encode seed flags from the website.
   //-----------------------------------------------------------------
 
-  encodeBytes(seedPatch, 0x2f8b00, U32toBytes(seedFlags));
+  encodeBytes(
+    seedPatch,
+    0x2f8b00,
+    paramsToBytes(seed, mapLayout, itemPoolParams, settings, options)
+  );
 
   return seedPatch;
 };
 
-export const getFileName = (seed, prefix, options) => {
-  let fileName = prefix + seed.toString().padStart(6, "0");
+export const getFileName = (
+  seed,
+  mapLayout,
+  itemPoolParams,
+  settings,
+  options
+) => {
+  const flags = paramsToString(
+    seed,
+    mapLayout,
+    itemPoolParams,
+    settings,
+    options
+  );
+  return `DASH_${settings.preset}_${flags}.sfc`;
+};
 
-  if (options != null) {
-    if (options.DisableFanfare == 1) {
-      fileName += "_no_fan";
-    }
-  }
-
-  return fileName + ".sfc";
+export const getItemNodes = (graph) => {
+  return getLocations().map((l) => {
+    const vertex = graph.find((e) => e.from.name == mapLocation(l.name)).from;
+    return {
+      location: l,
+      item: vertex.item,
+    };
+  });
 };
 
 export const flagsToOptions = (flags) => {
@@ -169,63 +287,51 @@ export const getPresetOptions = (preset) => {
   }
 };
 
-export const optionsToFlags = (mode, options) => {
-  const gameMode = game_modes.find((m) => m.name == mode);
-  const bytes = new Uint8Array(12).fill(0);
-  bytes[0] |= gameMode.mask;
-  bytes[1] |= options.DisableFanfare == 1 ? 0x01 : 0x00;
-  return compressToEncodedURIComponent(Buffer.from(bytes).toString("base64"));
-};
-
-export const generateFromPreset = (preset, seedNumber) => {
+export const generateFromPreset = (name, seedNumber) => {
   const timestamp = Math.floor(new Date().getTime() / 1000);
 
   const seed =
     seedNumber == undefined || seedNumber == 0
       ? new DotNetRandom(timestamp).NextInRange(1, 1000000)
       : seedNumber;
-  let gameMode, mode, getPrePool, canPlaceItem;
-  let initLoad = new Loadout();
+  let gameMode, preset;
 
-  if (preset == "standard_mm" || preset == "std_mm") {
+  if (name == "standard_mm" || name == "std_mm") {
     gameMode = game_modes.find((mode) => mode.name == "sm");
-    mode = new ModeStandard(seed, getLocations());
-    getPrePool = getMajorMinorPrePool;
-    canPlaceItem = isValidMajorMinor;
-  } else if (preset == "standard_full" || preset == "std_full") {
+    preset = presets.ClassicMM;
+  } else if (name == "standard_full" || name == "std_full") {
     gameMode = game_modes.find((mode) => mode.name == "sf");
-    mode = new ModeStandard(seed, getLocations());
-    getPrePool = getFullPrePool;
-    canPlaceItem = isEmptyNode;
-  } else if (preset == "mm" || preset == "recall_mm") {
+    preset = presets.ClassicFull;
+  } else if (name == "mm" || name == "recall_mm") {
     gameMode = game_modes.find((mode) => mode.name == "rm");
-    mode = new ModeRecall(seed, getLocations());
-    getPrePool = getMajorMinorPrePool;
-    canPlaceItem = isValidMajorMinor;
-    initLoad.hasCharge = true;
-  } else if (preset == "full" || preset == "recall_full") {
+    preset = presets.RecallMM;
+  } else if (name == "full" || name == "recall_full") {
     gameMode = game_modes.find((mode) => mode.name == "rf");
-    mode = new ModeRecall(seed, getLocations());
-    getPrePool = getFullPrePool;
-    canPlaceItem = isEmptyNode;
-    initLoad.hasCharge = true;
+    preset = presets.RecallFull;
   } else {
-    console.log("UNKNOWN PRESET: " + preset);
+    console.log("UNKNOWN PRESET: " + name);
     return ["", null, ""];
   }
 
   // Place the items.
-  performVerifiedFill(
+  const { mapLayout, itemPoolParams, settings } = preset;
+  const graph = loadGraph(
     seed,
-    mode.nodes,
-    mode.itemPool,
-    getPrePool,
-    initLoad,
-    canPlaceItem
+    mapLayout,
+    itemPoolParams.majorDistribution.mode
   );
+  graphFill(seed, graph, itemPoolParams, settings);
 
-  const seedPatch = generateSeedPatch(seed, gameMode, mode.nodes, null);
-  const fileName = getFileName(seed, gameMode.prefix, null);
+  const nodes = getItemNodes(graph);
+  const seedPatch = generateSeedPatch(
+    seed,
+    mapLayout,
+    itemPoolParams,
+    settings,
+    nodes,
+    null
+  );
+  const fileName = getFileName(seed, mapLayout, itemPoolParams, settings, null);
 
   return [gameMode.patch, seedPatch, fileName];
 };

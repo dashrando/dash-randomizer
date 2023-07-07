@@ -18,12 +18,12 @@ class ModeRecall {
     //-----------------------------------------------------------------
 
     let itemPool = [
-      majorItem(0x000000, Item.EnergyTank, false),
+      majorItem(0x000000, Item.EnergyTank),
       minorItem(0x000000, Item.Missile),
       minorItem(0x000000, Item.Super),
       minorItem(0x000000, Item.PowerBomb),
       majorItem(0x2f8009, Item.Bombs),
-      majorItem(0x2f802d, Item.BeamUpgrade, false),
+      majorItem(0x2f802d, Item.BeamUpgrade),
       majorItem(0x2f800b, Item.Ice),
       majorItem(0x2f8017, Item.HJB),
       majorItem(0x2f801b, Item.Speed),
@@ -36,15 +36,15 @@ class ModeRecall {
       majorItem(0x2f8007, Item.Morph),
       majorItem(0x000000, Item.Reserve),
       majorItem(0x2f8015, Item.Gravity),
-      majorItem(0x2f8021, Item.Xray, false),
+      majorItem(0x2f8021, Item.Xray),
       majorItem(0x2f8019, Item.SpaceJump),
       majorItem(0x2f801d, Item.ScrewAttack),
       majorItem(0x2f8029, Item.DoubleJump),
       majorItem(0x2f8027, Item.PressureValve),
       majorItem(0x2f8025, Item.HeatShield),
-      majorItem(0x2f802f, Item.BeamUpgrade, false),
-      majorItem(0x2f8031, Item.BeamUpgrade, false),
-      majorItem(0x2f8033, Item.BeamUpgrade, false),
+      majorItem(0x2f802f, Item.BeamUpgrade),
+      majorItem(0x2f8031, Item.BeamUpgrade),
+      majorItem(0x2f8033, Item.BeamUpgrade),
     ];
 
     const setAmountInPool = (type, count) => {
@@ -144,7 +144,7 @@ class ModeRecall {
       return load.canDestroyBombWalls;
     });
 
-    major("Morphing Ball", (load) => {
+    major("Morphing Ball", (_) => {
       return true;
     });
 
@@ -163,13 +163,18 @@ class ModeRecall {
       return (
         load.canUsePowerBombs &&
         load.hasSpeed &&
-        load.energyTanks >= 2 &&
-        load.totalTanks >= 3
+        load.energyTanks >= 1 &&
+        ((load.energyTanks >= 2 && load.totalTanks >= 3) ||
+          load.hasGrapple ||
+          load.hasSpaceJump)
       );
     });
 
     major("Energy Tank (Crocomire)", (load) => {
-      return canAccessCrocomire(load);
+      return (
+        canAccessCrocomire(load) &&
+        (load.totalTanks >= 4 || load.hasGrapple || load.hasSpaceJump)
+      );
     });
 
     major("Grapple Beam", (load) => {
@@ -181,11 +186,24 @@ class ModeRecall {
     });
 
     minor("Missiles (Indiana Jones)", (load) => {
-      return canAccessCrocomire(load) && (load.canFly || load.hasSpeed);
+      return (
+        canAccessCrocomire(load) &&
+        (load.canFly ||
+          (load.canUsePowerBombs && load.hasSpeed) ||
+          load.hasDoubleJump)
+      );
     });
 
     minor("Power Bombs (Crocomire)", (load) => {
-      return canAccessCrocomire(load);
+      return (
+        canAccessCrocomire(load) &&
+        (load.canFly ||
+          load.hasGrapple ||
+          (load.hasSpeed && load.totalTanks >= 1) ||
+          load.hasHiJump ||
+          load.hasIce ||
+          load.hasDoubleJump)
+      );
     });
 
     major("Energy Tank (Botwoon)", (load) => {
@@ -267,29 +285,29 @@ class ModeRecall {
     });
 
     minor("Missiles (Brin Reserve 1)", (load) => {
-      return load.canOpenRedDoors && load.canPassBombPassages;
+      return (
+        canAccessGreenBrinstar(load) && load.canOpenRedDoors && load.hasMorph
+      );
     });
 
     minor("Missiles (Brin Reserve 2)", (load) => {
-      return load.canOpenRedDoors && load.canDestroyBombWalls && load.hasMorph;
+      return (
+        canAccessGreenBrinstar(load) &&
+        load.canOpenRedDoors &&
+        load.canPassBombPassages
+      );
     });
 
     minor("Missiles (Brin Tube)", (load) => {
-      return (
-        load.canUsePowerBombs ||
-        (load.canPassBombPassages && load.canOpenGreenDoors)
-      );
+      return canAccessRedBrinstar(load) || load.canUsePowerBombs;
     });
 
     minor("Missiles (Charge)", (load) => {
-      return (
-        load.canUsePowerBombs ||
-        (load.canOpenRedDoors && (load.hasSpeed || load.canDestroyBombWalls))
-      );
+      return canAccessGreenBrinstar(load) && load.canOpenRedDoors;
     });
 
     minor("Missiles (Early Bridge)", (load) => {
-      return load.canOpenRedDoors && load.canDestroyBombWalls;
+      return canAccessGreenBrinstar(load) && load.canOpenRedDoors;
     });
 
     minor("Power Bombs (Etecoons)", (load) => {
@@ -301,11 +319,19 @@ class ModeRecall {
     });
 
     major("Reserve Tank (Brinstar)", (load) => {
-      return load.canOpenRedDoors && load.canDestroyBombWalls && load.hasMorph;
+      return (
+        canAccessGreenBrinstar(load) &&
+        load.canOpenRedDoors &&
+        (load.hasMorph || load.hasSpeed)
+      );
     });
 
     minor("Supers (Early Bridge)", (load) => {
-      return load.canOpenRedDoors && load.canDestroyBombWalls && load.hasMorph;
+      return (
+        canAccessGreenBrinstar(load) &&
+        load.canOpenRedDoors &&
+        (load.hasMorph || load.hasSpeed)
+      );
     });
 
     minor("Supers (Etecoons)", (load) => {
@@ -313,7 +339,11 @@ class ModeRecall {
     });
 
     minor("Supers (Spore Spawn)", (load) => {
-      return load.canPassBombPassages && load.superPacks > 0;
+      return (
+        canAccessGreenBrinstar(load) &&
+        load.canOpenGreenDoors &&
+        load.canPassBombPassages
+      );
     });
 
     minor("Energy Tank (Kraid)", (load) => {
@@ -424,7 +454,10 @@ class ModeRecall {
     });
 
     minor("Missiles (Bubble Mountain)", (load) => {
-      return canAccessHeatedNorfair(load);
+      return (
+        canAccessRedBrinstar(load) &&
+        (canHellRun(load) || (load.hasSpeed && load.canPassBombPassages))
+      );
     });
 
     minor("Missiles (Cathedral)", (load) => {
@@ -434,6 +467,7 @@ class ModeRecall {
     minor("Missiles (Croc Escape)", (load) => {
       return (
         canAccessCrocomire(load) &&
+        (load.hasVaria || load.hasHeatShield || load.totalTanks >= 2) &&
         (load.canFly ||
           load.hasGrapple ||
           load.hasDoubleJump ||
@@ -483,7 +517,11 @@ class ModeRecall {
         (load.hasGravity ||
           load.hasPressureValve ||
           (load.hasHiJump && (load.hasIce || load.hasSpringBall))) &&
-        (load.canFly || load.hasSpeed || load.hasGrapple || load.hasDoubleJump)
+        (load.canFly ||
+          (load.hasSpeed && (load.hasGravity || load.hasPressureValve)) ||
+          load.hasSpringBall ||
+          load.hasGrapple ||
+          load.hasDoubleJump)
       );
     });
 
@@ -588,18 +626,18 @@ class ModeRecall {
 //-----------------------------------------------------------------
 
 const canHellRun = (load) => {
-  return (
-    load.totalTanks >= 4 ||
-    (load.totalTanks >= 3 && load.hasGravity) ||
-    load.hasVaria ||
-    load.hasHeatShield
-  );
+  return load.totalTanks >= 4 || load.hasVaria || load.hasHeatShield;
+};
+
+const canAccessGreenBrinstar = (load) => {
+  return load.canDestroyBombWalls || load.hasSpeed;
 };
 
 const canAccessRedBrinstar = (load) => {
   return (
-    load.superPacks >= 1 &&
-    (load.canUsePowerBombs || (load.canDestroyBombWalls && load.hasMorph))
+    load.hasMorph &&
+    load.canOpenGreenDoors &&
+    (canAccessGreenBrinstar(load) || load.canUsePowerBombs)
   );
 };
 
@@ -629,11 +667,10 @@ const canAccessKraid = (load) => {
 
 const canAccessCrocomire = (load) => {
   return (
-    canAccessHeatedNorfair(load) ||
-    (canAccessKraid(load) &&
-      load.canUsePowerBombs &&
-      load.hasSpeed &&
-      load.totalTanks >= 2)
+    canAccessRedBrinstar(load) &&
+    ((canHellRun(load) && load.canPassBombPassages) ||
+      (load.hasSpeed &&
+        (load.hasVaria || load.hasHeatShield || load.totalTanks >= 1)))
   );
 };
 
@@ -679,6 +716,7 @@ const canEnterAndLeaveGauntlet = (load) => {
 };
 
 export const LogicChecks = {
+  canAccessGreenBrinstar,
   canHellRun,
   canAccessRedBrinstar,
   canAccessHeatedNorfair,
