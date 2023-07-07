@@ -654,7 +654,7 @@ export default function Form() {
               <Select
                 options={[
                   { label: 'Random', value: 'random' },
-                  //{ label: 'Fixed', value: 'fixed' },
+                  { label: 'Fixed', value: 'fixed' },
                 ]}
                 name="seed-mode"
                 register={register}
