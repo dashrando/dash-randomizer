@@ -59,7 +59,15 @@ async function RandomizeRom(
 
   // Generate the seed specific patch (item placement, etc.)
   const nodes = getItemNodes(graph);
-  const seedPatch = generateSeedPatch(seed, settings, nodes, options, bosses);
+  const seedPatch = generateSeedPatch(
+    seed,
+    mapLayout,
+    itemPoolParams,
+    settings,
+    nodes,
+    options,
+    bosses
+  );
 
   // Create the rom by patching the vanilla rom.
   return {
