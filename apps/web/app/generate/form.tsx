@@ -52,24 +52,10 @@ const Sidebar = ({
         data ? (
           <div>
             <div className={styles.sidebarButtons}>
-              {(seed && name) ? (
-                <Button
-                  block
-                  variant="secondary"
-                  onClick={(evt) => {
-                    evt.preventDefault()
-                    downloadFile(seed, name)
-                  }}
-                >
-                  Download Seed
-                  <ArrowDown size={14} strokeWidth={2} />
+              <Button type="submit" block variant="primary">
+                  Generate Seed
+                  {/* <ArrowDown size={14} strokeWidth={2} /> */}
               </Button>
-              ) : (
-                <Button type="submit" block variant="primary">
-                    Generate Seed
-                    <ArrowDown size={14} strokeWidth={2} />
-                </Button>
-              )}
               {(signature && name) && (
                 <Button
                   className={styles['mobile-sidebar-btn']}
@@ -105,13 +91,13 @@ const Sidebar = ({
                       {`dashrando.net/seed/${name}`}
                     </a>
                   </p>
-                  {isRandom && (
+                  {/* {isRandom && (
                     <div style={{ fontSize: '14px', margin: '2em 0 0', paddingTop: '1em', borderTop: '1px solid rgb(51, 51, 51)' }}>
                       <Button variant="plain" type="submit" style={{ padding: 0, textAlign: 'left' }}>
                         Generate another seed with these settings
                       </Button>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             )}
