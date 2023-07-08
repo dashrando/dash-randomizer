@@ -9,10 +9,10 @@ const BOSSES = {
   DoorVectorToDraygon: 0x1a840,
   DoorVectorToRidley: 0x198ca,
   //
-  DoorVectorToKraidFromLeft: 0x1ad70,
-  DoorVectorToPhantoonFromLeft: 0x1ad7c,
-  DoorVectorToDraygonFromRight: 0x1ad88,
-  DoorVectorToRidleyFromRight: 0x1ad94,
+  DoorVectorTeleportToKraid: 0x1ad70,
+  DoorVectorTeleportToPhantoon: 0x1ad7c,
+  DoorVectorTeleportToDraygon: 0x1ad88,
+  DoorVectorTeleportToRidley: 0x1ad94,
   //
   DoorFromKraidRoom: 0x7a5e5,
   DoorFromPhantoonRoom: 0x7cd59,
@@ -24,10 +24,10 @@ const BOSSES = {
   DoorVectorToPreDraygon: 0x1a96c,
   DoorVectorToPreRidley: 0x198be,
   //
-  DoorVectorToPreKraidFromLeft: 0x1ada0,
-  DoorVectorToPrePhantoonFromLeft: 0x1adac,
-  DoorVectorToPreDraygonFromRight: 0x1adb8,
-  DoorVectorToPreRidleyFromRight: 0x1adc4,
+  DoorVectorTeleportToPreKraid: 0x1ada0,
+  DoorVectorTeleportToPrePhantoon: 0x1adac,
+  DoorVectorTeleportToPreDraygon: 0x1adb8,
+  DoorVectorTeleportToPreRidley: 0x1adc4,
 };
 
 export default BOSSES;

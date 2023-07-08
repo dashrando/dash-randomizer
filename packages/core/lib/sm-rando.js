@@ -8,7 +8,7 @@ import { mapLocation } from "./graph/util";
 import { loadGraph } from "./graph/init";
 import { graphFill } from "./graph/fill";
 import { presets } from "..";
-import boss_addresses from "../data/bosses";
+import boss from "../data/bosses";
 import { paramsToBytes, paramsToString } from "./graph/params";
 
 export const generateSeedPatch = (
@@ -118,89 +118,118 @@ export const generateSeedPatch = (
   // Update boss doors.
   //-----------------------------------------------------------------
 
-  let count = 0;
-  bosses.forEach((b) => {
-    let door_to = null;
-    let to_boss = null;
-    let door_from = null;
-    let boss_from = null;
+  const getDoorUpdate = (door_in, dest_in, door_out, dest_out) => {
+    return [
+      { door: door_in, dest: dest_in },
+      { door: door_out, dest: dest_out },
+    ];
+  };
 
+  const getBossUpdates = (b) => {
     if (b.door == "Door_KraidBoss") {
-      door_to = boss_addresses.DoorToKraidBoss;
-      if (b.boss == "Exit_Kraid") {
-      } else if (b.boss == "Exit_Phantoon") {
-        to_boss = boss_addresses.DoorVectorToPhantoon;
-        door_from = boss_addresses.DoorFromPhantoonRoom;
-        boss_from = boss_addresses.DoorVectorToPreKraid;
+      if (b.boss == "Exit_Phantoon") {
+        return getDoorUpdate(
+          boss.DoorToKraidBoss,
+          boss.DoorVectorToPhantoon,
+          boss.DoorFromPhantoonRoom,
+          boss.DoorVectorToPreKraid
+        );
       } else if (b.boss == "Exit_Draygon") {
-        to_boss = boss_addresses.DoorVectorToDraygonFromRight;
-        door_from = boss_addresses.DoorFromDraygonRoom;
-        boss_from = boss_addresses.DoorVectorToPreKraidFromLeft;
+        return getDoorUpdate(
+          boss.DoorToKraidBoss,
+          boss.DoorVectorTeleportToDraygon,
+          boss.DoorFromDraygonRoom,
+          boss.DoorVectorTeleportToPreKraid
+        );
       } else if (b.boss == "Exit_Ridley") {
-        to_boss = boss_addresses.DoorVectorToRidleyFromRight;
-        door_from = boss_addresses.DoorFromRidleyRoom;
-        boss_from = boss_addresses.DoorVectorToPreKraidFromLeft;
+        return getDoorUpdate(
+          boss.DoorToKraidBoss,
+          boss.DoorVectorTeleportToRidley,
+          boss.DoorFromRidleyRoom,
+          boss.DoorVectorTeleportToPreKraid
+        );
       }
     } else if (b.door == "Door_PhantoonBoss") {
-      door_to = boss_addresses.DoorToPhantoonBoss;
       if (b.boss == "Exit_Kraid") {
-        to_boss = boss_addresses.DoorVectorToKraid;
-        door_from = boss_addresses.DoorFromKraidRoom;
-        boss_from = boss_addresses.DoorVectorToPrePhantoon;
-      } else if (b.boss == "Exit_Phantoon") {
+        return getDoorUpdate(
+          DoorToPhantoonBoss,
+          DoorVectorToKraid,
+          DoorFromKraidRoom,
+          DoorVectorToPrePhantoon
+        );
       } else if (b.boss == "Exit_Draygon") {
-        to_boss = boss_addresses.DoorVectorToDraygonFromRight;
-        door_from = boss_addresses.DoorFromDraygonRoom;
-        boss_from = boss_addresses.DoorVectorToPrePhantoonFromLeft;
+        return getDoorUpdate(
+          boss.DoorToPhantoonBoss,
+          boss.DoorVectorTeleportToDraygon,
+          boss.DoorFromDraygonRoom,
+          boss.DoorVectorTeleportToPrePhantoon
+        );
       } else if (b.boss == "Exit_Ridley") {
-        to_boss = boss_addresses.DoorVectorToRidleyFromRight;
-        door_from = boss_addresses.DoorFromRidleyRoom;
-        boss_from = boss_addresses.DoorVectorToPrePhantoonFromLeft;
+        return getDoorUpdate(
+          boss.DoorToPhantoonBoss,
+          boss.DoorVectorTeleportToRidley,
+          boss.DoorFromRidleyRoom,
+          boss.DoorVectorTeleportToPrePhantoon
+        );
       }
     } else if (b.door == "Door_DraygonBoss") {
-      door_to = boss_addresses.DoorToDraygonBoss;
       if (b.boss == "Exit_Kraid") {
-        to_boss = boss_addresses.DoorVectorToKraidFromLeft;
-        door_from = boss_addresses.DoorFromKraidRoom;
-        boss_from = boss_addresses.DoorVectorToPreDraygonFromRight;
+        return getDoorUpdate(
+          boss.DoorToDraygonBoss,
+          boss.DoorVectorTeleportToKraid,
+          boss.DoorFromKraidRoom,
+          boss.DoorVectorTeleportToPreDraygon
+        );
       } else if (b.boss == "Exit_Phantoon") {
-        to_boss = boss_addresses.DoorVectorToPhantoonFromLeft;
-        door_from = boss_addresses.DoorFromPhantoonRoom;
-        boss_from = boss_addresses.DoorVectorToPreDraygonFromRight;
-      } else if (b.boss == "Exit_Draygon") {
+        return getDoorUpdate(
+          boss.DoorToDraygonBoss,
+          boss.DoorVectorTeleportToPhantoon,
+          boss.DoorFromPhantoonRoom,
+          boss.DoorVectorTeleportToPreDraygon
+        );
       } else if (b.boss == "Exit_Ridley") {
-        to_boss = boss_addresses.DoorVectorToRidley;
-        door_from = boss_addresses.DoorFromRidleyRoom;
-        boss_from = boss_addresses.DoorVectorToPreDraygon;
+        return getDoorUpdate(
+          boss.DoorToDraygonBoss,
+          boss.DoorVectorToRidley,
+          boss.DoorFromRidleyRoom,
+          boss.DoorVectorToPreDraygon
+        );
       }
     } else if (b.door == "Door_RidleyBoss") {
-      door_to = boss_addresses.DoorToRidleyBoss;
       if (b.boss == "Exit_Kraid") {
-        to_boss = boss_addresses.DoorVectorToKraidFromLeft;
-        door_from = boss_addresses.DoorFromKraidRoom;
-        boss_from = boss_addresses.DoorVectorToPreRidleyFromRight;
+        return getDoorUpdate(
+          boss.DoorToRidleyBoss,
+          boss.DoorVectorTeleportToKraid,
+          boss.DoorFromKraidRoom,
+          boss.DoorVectorTeleportToPreRidley
+        );
       } else if (b.boss == "Exit_Phantoon") {
-        to_boss = boss_addresses.DoorVectorToPhantoonFromLeft;
-        door_from = boss_addresses.DoorFromPhantoonRoom;
-        boss_from = boss_addresses.DoorVectorToPreRidleyFromRight;
+        return getDoorUpdate(
+          boss.DoorToRidleyBoss,
+          boss.DoorVectorTeleportToPhantoon,
+          boss.DoorFromPhantoonRoom,
+          boss.DoorVectorTeleportToPreRidley
+        );
       } else if (b.boss == "Exit_Draygon") {
-        to_boss = boss_addresses.DoorVectorToDraygon;
-        door_from = boss_addresses.DoorFromDraygonRoom;
-        boss_from = boss_addresses.DoorVectorToPreRidley;
-      } else if (b.boss == "Exit_Ridley") {
+        return getDoorUpdate(
+          boss.DoorToRidleyBoss,
+          boss.DoorVectorToDraygon,
+          boss.DoorFromDraygonRoom,
+          boss.DoorVectorToPreRidley
+        );
       }
     }
+  };
 
-    if (to_boss != null) {
-      //console.log((to_boss & 0xffff).toString(16));
-      encodeBytes(seedPatch, door_to, U16toBytes(to_boss & 0xffff));
-      //console.log((boss_from & 0xffff).toString(16));
-      encodeBytes(seedPatch, door_from, U16toBytes(boss_from & 0xffff));
-      count += 1;
-    }
+  bosses.forEach((b) => {
+    const bossUpdates = getBossUpdates(b);
     console.debug(b);
+
+    bossUpdates.forEach((p) => {
+      encodeBytes(seedPatch, p.door, U16toBytes(p.dest & 0xffff));
+    });
   });
-  console.log("shuffled bosses:", count);
+  console.debug("shuffled bosses:", bosses.length / 2);
 
   //-----------------------------------------------------------------
   // Other options.
