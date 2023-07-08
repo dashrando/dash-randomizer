@@ -152,10 +152,10 @@ export const generateSeedPatch = (
     } else if (b.door == "Door_PhantoonBoss") {
       if (b.boss == "Exit_Kraid") {
         return getDoorUpdate(
-          DoorToPhantoonBoss,
-          DoorVectorToKraid,
-          DoorFromKraidRoom,
-          DoorVectorToPrePhantoon
+          boss.DoorToPhantoonBoss,
+          boss.DoorVectorToKraid,
+          boss.DoorFromKraidRoom,
+          boss.DoorVectorToPrePhantoon
         );
       } else if (b.boss == "Exit_Draygon") {
         return getDoorUpdate(
@@ -219,6 +219,7 @@ export const generateSeedPatch = (
         );
       }
     }
+    return [];
   };
 
   bosses.forEach((b) => {
@@ -277,19 +278,6 @@ export const getItemNodes = (graph) => {
       item: vertex.item,
     };
   });
-};
-
-export const flagsToOptions = (flags) => {
-  const bytes = Buffer.from(decompressFromEncodedURIComponent(flags), "base64");
-
-  let options = {};
-  const gameMode = game_modes.find((m) => m.mask == (bytes[0] & 0xff));
-  options.DisableFanfare = bytes[1] & 0x01;
-
-  return {
-    mode: gameMode.name,
-    options: options,
-  };
 };
 
 export const getPresetOptions = (preset) => {

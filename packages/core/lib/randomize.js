@@ -49,7 +49,7 @@ async function RandomizeRom(
 
   // Load the base patch associated with the map layout.
   const patch = getBasePatch(mapLayout, settings.randomizeAreas);
-  const basePatch = await BpsPatch.Load(`patches/${patch}`);
+  const basePatch = await BpsPatch.Load(`/patches/${patch}`);
 
   // Process options with defaults.
   const defaultOptions = {
