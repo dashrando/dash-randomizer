@@ -1,7 +1,7 @@
 #seed-container {
   --type-mono: var(--jetbrains-mono), monospace;
 
-  max-width: 400px;
+  max-width: 440px;
   margin: 80px auto 40px;
   text-align: center;
   -webkit-font-smoothing: antialiased;
@@ -56,15 +56,22 @@
   display: flex;
   justify-content: center;
   margin: 0;
-  padding: 0 0 0 14%;
+  padding: 0;
   list-style: none outside none;
   opacity: 0;
   transition: opacity 0.3s ease-in-out 0.15s;
 }
 
+@media only screen and (max-width: 600px) {
+  #seed-settings ul {
+    flex-direction: column;
+  }
+}
+
 #seed-settings h4 {
   opacity: 0;
   transition: opacity 0.3s ease-in-out 0.15s;
+  margin: 40px 0 8px;
 }
 
 .loaded #seed-settings h4 {
@@ -77,10 +84,17 @@
 
 #seed-settings ul li {
   margin: 16px 0;
-  padding: 0 16px;
+  padding: 0 4px;
   display: block;
   text-align: left;
   width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+  #seed-settings ul li {
+    margin: 8px 0;
+    text-align: center;
+  }
 }
 
 #seed-settings ul li span {
