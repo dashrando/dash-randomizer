@@ -27,12 +27,16 @@ import Spacer from '../components/spacer'
 
 const Sidebar = ({
   name = null,
-  signature = null
+  signature = null,
+  seed = null,
+  isRandom = false,
 }: {
-  name: string | null
-  signature: string | null
+  name?: string | null
+  signature?: string | null
+  seed?: string | null
+  isRandom: boolean
 }) => {
-  const { data, isLoading } = useVanilla()
+  const { data } = useVanilla()
   const mounted = useMounted()
   const [open, setOpen] = useState<Boolean>(false)
   
@@ -48,11 +52,11 @@ const Sidebar = ({
         data ? (
           <div>
             <div className={styles.sidebarButtons}>
-              <Button type="submit" block>
-                Download Seed
-                <ArrowDown size={14} strokeWidth={2} />
+              <Button type="submit" block variant="primary">
+                  Generate Seed
+                  {/* <ArrowDown size={14} strokeWidth={2} /> */}
               </Button>
-              {signature && name && (
+              {(signature && name) && (
                 <Button
                   className={styles['mobile-sidebar-btn']}
                   variant="plain"
@@ -87,6 +91,13 @@ const Sidebar = ({
                       {`dashrando.net/seed/${name}`}
                     </a>
                   </p>
+                  {/* {isRandom && (
+                    <div style={{ fontSize: '14px', margin: '2em 0 0', paddingTop: '1em', borderTop: '1px solid rgb(51, 51, 51)' }}>
+                      <Button variant="plain" type="submit" style={{ padding: 0, textAlign: 'left' }}>
+                        Generate another seed with these settings
+                      </Button>
+                    </div>
+                  )} */}
                 </div>
               </div>
             )}
@@ -114,8 +125,8 @@ const Section = ({ children, title, className = null }: { children?: React.React
 )
 
 const Option = (
-  { children, label, name, badge = null }:
-  { children?: React.ReactNode, label: string, name: string, badge?: React.ReactNode }
+  { children, label, name, badge = null, noLabel = false }:
+  { children?: React.ReactNode, label: string, name?: string, badge?: React.ReactNode, noLabel?: boolean }
 ) => {
   const labelAttr: any = {
     className: styles.label,
@@ -126,7 +137,12 @@ const Option = (
   return (
     <div className={styles.option}>
       <div className={styles.info}>
-        <label {...labelAttr}>{label}</label>
+        {noLabel ?
+          (
+            <div {...labelAttr}>{label}</div>
+          ) : (
+            <label {...labelAttr}>{label}</label>
+          )}
         <Spacer y={2} />
         {badge}
       </div>
@@ -167,7 +183,7 @@ const MODES = {
     boss: 'standard',
     minors: 'dash',
     'map-layout': 'dash-recall',
-    'beam-mode': 'recall',
+    'beam-mode': 'new',
     'gravity-heat-reduction': 'on',
     'double-jump': 'on',
     'heat-shield': 'on',
@@ -268,8 +284,10 @@ export default function Form() {
   const [signature, setSignature] = useState<string | null>(null)
   const { data: vanilla, isLoading: vanillaLoading } = useVanilla()
   const mounted = useMounted()
+  const seedNum = watch('seed-mode')
+  const isRandom = (seedNum === 'random')
 
-  const onSubmit = async (data: GenerateSeedParams) => {
+  const onSubmit = async (data: GenerateFormParams) => {
     try {
       console.log("submit", data);
       const config = { vanillaBytes: vanilla };
@@ -329,12 +347,23 @@ export default function Form() {
       };
 
       const settings = {
+        preset: "Custom",
         beamMode: BeamMode.Vanilla,
         suitMode: SuitMode.Dash,
         gravityHeatReduction: GravityHeatReduction.On,
         randomizeAreas: false,
         randomizeBosses: false,
       };
+
+      if (data.mode == 'dash-recall-v1') {
+        settings.preset = "RecallV1";
+      } else if (data.mode == 'dash-recall-v2') {
+        settings.preset = "RecallV2";
+      } else if (data.mode == 'dash-classic') {
+        settings.preset = "Classic";
+      } else if (data.mode == 'standard') {
+        settings.preset = "Standard";
+      }
 
       if (data['beam-mode'] == 'classic') {
         settings.beamMode = BeamMode.DashClassic;
@@ -438,7 +467,7 @@ export default function Form() {
             </Option>
           </Section>
           <Section title="Vanilla" className={styles.mobileVanilla}>
-            <Option label="Vanilla" name="vanilla">
+            <Option label="Vanilla" noLabel>
               {mounted ? (
                 (!vanillaLoading && vanilla) ? (
                   <Button id="select-vanilla" variant="secondary" disabled block>Vanilla ROM loaded</Button>
@@ -640,7 +669,12 @@ export default function Form() {
             </Option>
           </Section>
         </div>
-        <Sidebar name={rolledSeed?.name || null} signature={signature} />
+        <Sidebar
+          name={rolledSeed?.name || null}
+          signature={signature}
+          seed={rolledSeed?.seed}
+          isRandom={isRandom}
+        />
       </div>
     </form>
   )

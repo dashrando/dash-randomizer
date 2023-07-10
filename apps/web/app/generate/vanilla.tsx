@@ -1,11 +1,12 @@
 'use client'
 
 import useSWR from 'swr'
+import { useDropzone } from 'react-dropzone'
 import { get, set } from 'idb-keyval'
-import { ButtonFileInput } from '@/app/components/button'
 import { vanilla } from 'core'
 import { useCallback } from 'react'
 import useMounted from '../hooks/useMounted'
+import styles from './vanilla.module.css'
 
 async function parseContents(value: any): Promise<any> {
   const { getSignature, isVerified, isHeadered } = vanilla;
@@ -23,33 +24,6 @@ async function parseContents(value: any): Promise<any> {
   }
 
   throw Error("Vanilla Rom does not match checksum.");
-}
-
-function inputVanillaRom(el: HTMLInputElement, callback: (value: any) => void) {
-  if (!el || !el.files) {
-    return;
-  }
-  let vanillaRom = el.files[0];
-  let reader = new FileReader();
-  
-  reader.onload = async function () {
-    try {
-      const bytes = await parseContents(reader.result);
-      await callback(bytes);
-    } catch (e) {
-      const err = e as Error;
-      console.error(err.message);
-      // TODO: Present a friendly error message to the user instead of an alert.
-      alert(err.message);
-      el.value = "";
-    }
-  };
-
-  reader.onerror = function () {
-    alert("Failed to load file.");
-  };
-
-  reader.readAsArrayBuffer(vanillaRom);
 }
 
 async function fetcher() {
@@ -94,25 +68,55 @@ export const useVanilla = () => {
   }
 }
 
-export default function VanillaButton() {
-  const { data, set, isLoading } = useVanilla()
+const setVanillaFile = async (file: any, set: any) => {
+  let reader = new FileReader();
   
-  const onChange = useCallback((e: Event) => {
-    const target = e.target as HTMLInputElement
-    inputVanillaRom(target, async (value) => {
-      await set(value)
-    })
+  reader.onload = async function () {
+    try {
+      const bytes = await parseContents(reader.result);
+      await set(bytes);
+    } catch (e) {
+      const err = e as Error;
+      console.error(err.message);
+      // TODO: Present a friendly error message to the user instead of an alert.
+      alert(err.message);
+    }
+  };
+
+  reader.onerror = function () {
+    alert("Failed to load file.");
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+
+export default function VanillaButton() {
+  const { set, isLoading } = useVanilla()
+
+  const onDrop = useCallback((acceptedFiles: any) => {
+    const file = acceptedFiles[0]
+    setVanillaFile(file, set)
   }, [set])
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    multiple: false,
+    maxFiles: 1,
+    accept: {
+      "application/octet-stream": [".smc", ".sfc"],
+      "application/binary": [".smc", ".sfc"],
+    },
+    useFsAccessApi: false,
+  })
 
   return (
     <div>
       <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
-        <ButtonFileInput
-          label="Upload Vanilla ROM"
-          id="vanilla-file-input"
-          name="vanilla-file"
-          onChange={onChange}
-        />
+        <div {...getRootProps()}>
+          <div className={styles.wrapper}>
+            <input {...getInputProps()} />
+            Upload Vanilla ROM
+          </div>
+        </div>
         <p>You must set the vanilla ROM in order to be able to generate a randomized seed.</p>
       </div>
     </div>

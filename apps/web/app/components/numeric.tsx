@@ -57,14 +57,15 @@ const Numeric = ({
          <div className={styles.wrapper}>
             <div className={styles.numeric}>
                <input type="number"
-                  name={name} {...register(name, { required })}
+                  name={name}
                   min={minVal}
                   max={maxVal}
                   defaultValue={defaultValue}
                   ref={inputRef}
                   pattern="[0-9]*"
+                  {...register(name, { required })}
                />
-               <div className={styles.suffix}>
+               {/* <div className={styles.suffix}>
                   <button
                      className={styles.btn}
                      disabled={status === 'max'}
@@ -91,7 +92,7 @@ const Numeric = ({
                   >
                      <Minus size={12} />
                   </button>
-               </div>
+               </div> */}
             </div>
          </div>
       </InputWrapper>

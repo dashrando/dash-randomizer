@@ -59,6 +59,12 @@ export const getItemPool = (
         majorItem(0x2f8033, Item.BeamUpgrade)
       );
       break;
+    case BeamMode.New:
+      itemPool.push(
+        majorItem(0x2f802d, Item.BeamUpgrade),
+        majorItem(0x2f802f, Item.BeamUpgrade)
+      );
+      break;
   }
 
   //-----------------------------------------------------------------
