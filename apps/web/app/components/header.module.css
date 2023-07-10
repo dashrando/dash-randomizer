@@ -100,6 +100,11 @@
     transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, border-color 0.15s ease-in-out;
   }
 
+  .navigation a {
+    padding: 8px 12px;
+    margin: 16px 0;
+  }
+
   .open .navigation {
     max-height: 500px;
     opacity: 1;
