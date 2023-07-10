@@ -61,9 +61,13 @@ export const Navigation = () => {
           const isActive = pathname.startsWith(link.href)
           return (
             <li key={link.href} className={cn(link.mobileOnly && styles.mobileOnly)}>
-              <Link href={link.href} className={cn(isActive && styles.active)}>
+              {link.mobileOnly ? (
+                <a href={link.href} target="_blank" rel="noopenner noreferrer">{link.label}</a>
+              ) : (
+                <Link href={link.href} className={cn(isActive && styles.active)}>
                 {link.label}
               </Link>
+              )}
             </li>
           )
         })}
