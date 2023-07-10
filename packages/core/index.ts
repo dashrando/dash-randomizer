@@ -1,7 +1,6 @@
 import {
   generateFromPreset,
   getPresetOptions,
-  flagsToOptions,
   getItemNodes,
 } from "./lib/sm-rando";
 import RandomizeRom from "./lib/randomize";
@@ -23,7 +22,7 @@ import {
   Preset_Recall_Full,
 } from "./lib/graph/data/recall/preset";
 import { Item } from "./lib/items";
-import { paramsToString } from "./lib/graph/params";
+import { paramsToString, stringToParams } from "./lib/graph/params";
 
 const vanilla = {
   vanillaROM,
@@ -48,7 +47,6 @@ const presets = {
 };
 
 export {
-  flagsToOptions,
   gameModes,
   generateFromPreset,
   getPresetOptions,
@@ -57,6 +55,7 @@ export {
   BpsPatch,
   patchRom,
   paramsToString,
+  stringToParams,
   getSignature,
   fetchSignature,
   formatMonoSignature,

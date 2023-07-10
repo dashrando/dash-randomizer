@@ -47,21 +47,58 @@ export const GravityHeatReduction = {
 const majorModeToBits = (mode) => {
   switch (mode) {
     case MajorDistributionMode.Standard:
-      return 0;
+      return 0x0;
     case MajorDistributionMode.Recall:
-      return 1;
+      return 0x1;
     case MajorDistributionMode.Full:
-      return 2;
+      return 0x2;
   }
   throw new Error("unknown major mode");
 };
 
-const minorModeToBits = (mode) => {
-  switch (mode) {
-    case MinorDistributionMode.Standard:
-      return 0;
-    case MinorDistributionMode.Dash:
-      return 1;
+const bitsToMajorMode = (bits) => {
+  switch (bits) {
+    case 0x0:
+      return MajorDistributionMode.Standard;
+    case 0x1:
+      return MajorDistributionMode.Recall;
+    case 0x2:
+      return MajorDistributionMode.Full;
+  }
+  throw new Error("unknown major mode");
+};
+
+const minorModeToBits = (minorDistribution) => {
+  if (minorDistribution.mode == MinorDistributionMode.Dash) {
+    throw new Error("dash minor distro not supported");
+  }
+  const { missiles, supers, powerbombs } = minorDistribution;
+  if (missiles == 3 && supers == 2 && powerbombs == 1) {
+    return 0;
+  }
+  if (missiles == 2 && supers == 1 && powerbombs == 1) {
+    return 1;
+  }
+
+  throw new Error("unknown minor mode");
+};
+
+const bitsToMinorMode = (bits) => {
+  switch (bits) {
+    case 0x0:
+      return {
+        mode: MinorDistributionMode.Standard,
+        missiles: 3,
+        supers: 2,
+        powerbombs: 1,
+      };
+    case 0x1:
+      return {
+        mode: MinorDistributionMode.Standard,
+        missiles: 2,
+        supers: 1,
+        powerbombs: 1,
+      };
   }
   throw new Error("unknown minor mode");
 };
@@ -72,6 +109,16 @@ const mapLayoutToBits = (layout) => {
       return 0;
     case MapLayout.Recall:
       return 1;
+  }
+  throw new Error("unknown map layout");
+};
+
+const bitsToMapLayout = (bits) => {
+  switch (bits) {
+    case 0x0:
+      return MapLayout.Standard;
+    case 0x1:
+      return MapLayout.Recall;
   }
   throw new Error("unknown map layout");
 };
@@ -97,7 +144,7 @@ export const paramsToBytes = (
 
   const version = 0;
   const major = majorModeToBits(majorDistribution.mode) << 2;
-  const minor = minorModeToBits(minorDistribution.mode) << 4;
+  const minor = minorModeToBits(minorDistribution) << 4;
   const area = (settings.randomizeAreas ? 0x1 : 0x0) << 6;
   bytes[3] = version | major | minor | area;
 
@@ -113,8 +160,8 @@ export const paramsToBytes = (
   const beam = settings.beamMode << 2;
   const suit = settings.suitMode << 4;
   const gravity =
-    (settings.gravityHeatReduction == GravityHeatReduction.On ? 0x1 : 0x0) << 5;
-  const fanfare = (options.DisableFanfare ? 0x0 : 0x1) << 6;
+    (settings.gravityHeatReduction == GravityHeatReduction.On ? 0x1 : 0x0) << 6;
+  const fanfare = (options.DisableFanfare ? 0x0 : 0x1) << 7;
   bytes[5] = map | beam | suit | gravity | fanfare;
 
   return bytes;
@@ -135,4 +182,63 @@ export const paramsToString = (
     options
   );
   return Buffer.from(bytes).toString("base64");
+};
+
+export const bytesToParams = (bytes) => {
+  const seed = bytes[0] | (bytes[1] << 8) | (bytes[2] << 16);
+  const fanfare = (bytes[5] >> 7) & 0x1;
+  const gravity = (bytes[5] >> 6) & 0x1;
+  const area = (bytes[3] >> 6) & 0x3;
+  const boss = bytes[4] & 0xf;
+  const mapLayout = bitsToMapLayout(bytes[5] & 0x3);
+  const beam = (bytes[5] >> 2) & 0x3;
+  const suit = (bytes[5] >> 4) & 0x3;
+  const doubleJump = (bytes[4] >> 4) & 0x1;
+  const heatShield = (bytes[4] >> 5) & 0x1;
+  const pressureValve = (bytes[4] >> 6) & 0x3;
+
+  const settings = {
+    randomizeAreas: area == 0x1,
+    randomizeBosses: boss == 0x1,
+    beamMode: beam,
+    suitMode: suit,
+    gravityHeatReduction:
+      gravity == 0x0 ? GravityHeatReduction.Off : GravityHeatReduction.On,
+  };
+
+  const major = bitsToMajorMode((bytes[3] >> 2) & 0x3);
+  const minor = bitsToMinorMode((bytes[3] >> 4) & 0x3);
+  const extra = [];
+  if (doubleJump != 0x0) {
+    extra.push(Item.DoubleJump);
+  }
+  if (heatShield != 0x0) {
+    extra.push(Item.HeatShield);
+  }
+  if (pressureValve != 0x0) {
+    extra.push(Item.PressureValve);
+    if (pressureValve > 0x1) {
+      extra.push(Item.PressureValve);
+    }
+  }
+  const majorDistribution = {
+    mode: major,
+    extraItems: extra,
+  };
+
+  return {
+    seed: seed,
+    mapLayout: mapLayout,
+    itemPoolParams: {
+      majorDistribution: majorDistribution,
+      minorDistribution: minor,
+    },
+    settings: settings,
+    options: { DisableFanfare: fanfare == 0 },
+  };
+};
+
+export const stringToParams = (str) => {
+  const bytes = Buffer.from(str, "base64");
+  return bytesToParams(bytes);
 };

@@ -5,43 +5,26 @@ import "@/public/styles/seed.css";
 import { useEffect, useState } from "react";
 import { saveAs } from "file-saver";
 import {
-  flagsToOptions,
-  gameModes,
-  getPresetOptions,
+  stringToParams,
   RandomizeRom,
   vanilla,
   fetchSignature,
 } from "core";
+import { MajorDistributionMode, MapLayout, MinorDistributionMode } from "core/params";
 
-function getSeedOpts(): {
-  num: number;
-  mode: string;
-  options: {};
-  download: boolean;
-} {
-  const url = new URL(document.URL);
-  const flags = url.searchParams.get("flags");
-  const { mode, options } = (
-    !flags
-      ? getPresetOptions(url.searchParams.get("preset"))
-      : flagsToOptions(flags)
-  ) as { mode: string; options: {} };
-
-  return {
-    num: Number(url.searchParams.get("num")),
-    mode: mode,
-    options: options,
-    download: url.searchParams.get("download") !== null,
-  };
+type SeedParams = {
+  seed: string
 }
 
 function downloadFile(data: any, name: string) {
   saveAs(new Blob([data]), name);
 }
 
-export default function SeedPage() {
-  const [settings, setSettings] = useState({
-    gameMode: "",
+export default function SeedPage({ params }: { params: SeedParams}) {
+  const [pageSettings, setPageSettings] = useState({
+    mapLayout: 0,
+    itemPoolParams: {},
+    settings: {},
     seedNum: 0,
     options: {},
   });
@@ -50,26 +33,16 @@ export default function SeedPage() {
   const [downloading, setDownloading] = useState(false);
   const [romData, setRomData] = useState({
     data: null,
-    name: "DASH_v00r_AA_000000.sfc",
+    name: "DASH_Custom_AA000000.sfc",
   });
-
-  const updateSettings = (num: number, mode: string, options: {}) => {
-    const gameMode = gameModes.find(({ name }) => name === mode);
-    if (gameMode != null) {
-      setSettings({
-        gameMode: gameMode.title,
-        seedNum: num,
-        options: options,
-      });
-    }
-  };
 
   useEffect(() => {
     async function startup() {
       try {
         new vanilla.vanillaROM();
-        const { num, mode, options, download: autoDownload } = getSeedOpts();
-        if (!num || !mode) {
+        const{ seed, mapLayout, itemPoolParams, settings, options } = stringToParams(params.seed);
+        Object.assign(settings, {preset: "Custom"});
+        if (!seed || !mapLayout || !itemPoolParams || !settings || !options) {
           const missingEvt = new CustomEvent("seed:params-missing");
           document.dispatchEvent(missingEvt);
           return null;
@@ -78,17 +51,20 @@ export default function SeedPage() {
         const vanillaBytes = await vanilla.getVanilla();
         if (!vanillaBytes) {
           const vanillaEvt = new CustomEvent("seed:vanilla-missing", {
-            detail: { num, mode, options },
+            detail: { seed, mapLayout, itemPoolParams, settings, options },
           });
           document.dispatchEvent(vanillaEvt);
           return null;
         }
-        const { data, name } = (await RandomizeRom(num, mode, options, {
+        const { data, name } = (await RandomizeRom(
+          seed, mapLayout, itemPoolParams, settings, options, {
           vanillaBytes,
         })) as { data: any; name: string };
         const signature = fetchSignature(data);
+        const autoDownload = true;
         const readyEvt = new CustomEvent("seed:ready", {
-          detail: { data, name, num, mode, options, autoDownload, signature },
+          detail: { data, name, seed, mapLayout, itemPoolParams,
+                    settings, options, autoDownload, signature },
         });
         document.dispatchEvent(readyEvt);
 
@@ -112,13 +88,20 @@ export default function SeedPage() {
     });
 
     document.addEventListener("seed:vanilla-missing", (evt: any) => {
-      const { num, mode, options } = evt.detail;
-      updateSettings(num, mode, options);
+      const { seed, mapLayout, itemPoolParams, settings, options } = evt.detail;
+      setPageSettings({
+        seedNum: seed,
+        mapLayout: mapLayout,
+        itemPoolParams: itemPoolParams,
+        settings: {...settings, preset: "Custom"},
+        options: options
+      });
       setContainerClass("vanilla-missing loaded");
 
       document.addEventListener("vanillaRom:set", async (evt: any) => {
         const vanillaBytes = evt.detail.data;
-        const { data, name } = (await RandomizeRom(num, mode, options, {
+        const { data, name } = (await RandomizeRom(seed, mapLayout,
+          itemPoolParams, settings, options, {
           vanillaBytes,
         })) as { data: any; name: string };
         const signature = fetchSignature(data);
@@ -134,7 +117,14 @@ export default function SeedPage() {
         setDownloading(true);
       }
       setRomData({ data: evt.detail.data, name: evt.detail.name });
-      updateSettings(evt.detail.num, evt.detail.mode, evt.detail.options);
+      const { seed, mapLayout, itemPoolParams, settings, options } = evt.detail;
+      setPageSettings({
+        seedNum: seed,
+        mapLayout: mapLayout,
+        itemPoolParams: itemPoolParams,
+        settings: settings,
+        options: options
+      });
       setSignature(evt.detail.signature);
       setContainerClass("loaded");
     });
@@ -174,7 +164,7 @@ export default function SeedPage() {
       </div>
     );
   };
-
+  
   const SeedError = () => {
     return (
       <div id="seed-error">
@@ -191,7 +181,7 @@ export default function SeedPage() {
       </div>
     );
   };
-
+  
   const SeedFooter = () => {
     return (
       <footer id="seed-footer">
@@ -203,8 +193,9 @@ export default function SeedPage() {
       </footer>
     );
   };
-
-  const SeedOptions = ({ opts }: { opts: any }) => {
+  
+  const SeedOptions = ({ opts, num }: { opts: any; num: number }) => {
+    const numString = num <= 0 ? "" : num.toString().padStart(6, "0");
     let fanfareString = "";
 
     if (opts != null) {
@@ -214,17 +205,30 @@ export default function SeedPage() {
     return (
       <SeedParamList header="Options">
         <SeedParam name="Item Fanfare" value={fanfareString} />
+        <SeedParam name="Seed" value={numString} />
         <SeedSpacer />
       </SeedParamList>
     );
   };
+  
+  const SeedSettings = ({ mapLayout, itemPoolParams, settings }:
+    { mapLayout: number, itemPoolParams: any, settings: any }) => {
+    const mapString = mapLayout == MapLayout.Recall ? "Recall" : "Standard";
+    const majorMode = itemPoolParams?.majorDistribution?.mode;
+    const minorMode = itemPoolParams?.minorDistribution?.mode;
+    const itemSplit =
+      majorMode == MajorDistributionMode.Standard ? "Major/Minor" :
+      majorMode == MajorDistributionMode.Recall ? "Recall Major/Minor" :
+      "Full"
+    const minorSplit =
+      minorMode == MinorDistributionMode.Standard ? "Standard 3:2:1" :
+      "DASH 2:1:1";
 
-  const SeedSettings = ({ mode, num }: { mode: string; num: number }) => {
-    const numString = num <= 0 ? "" : num.toString().padStart(6, "0");
     return (
       <SeedParamList header="Settings">
-        <SeedParam name="Game Mode" value={mode} />
-        <SeedParam name="Seed" value={numString} />
+        <SeedParam name="Item Split" value={itemSplit} />
+        <SeedParam name="Map Layout" value={mapString} />
+        <SeedParam name="Minor Distro" value={minorSplit} />
       </SeedParamList>
     );
   };
@@ -262,7 +266,7 @@ export default function SeedPage() {
       </div>
     );
   };
-
+  
   const SeedSpacer = () => {
     return <li></li>;
   };
@@ -273,8 +277,10 @@ export default function SeedPage() {
       <SeedSignature sig={signature} />
       <DownloadButton />
       <SeedError />
-      <SeedSettings mode={settings.gameMode} num={settings.seedNum} />
-      <SeedOptions opts={settings.options} />
+      <SeedSettings mapLayout={pageSettings.mapLayout}
+                    itemPoolParams={pageSettings.itemPoolParams}
+                    settings={pageSettings.settings} />
+      <SeedOptions opts={pageSettings.options} num={pageSettings.seedNum} />
       <SeedFooter />
     </main>
   );

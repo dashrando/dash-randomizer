@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
 import Badge from '../components/badge'
 import useMounted from '../hooks/useMounted'
-import { Item, RandomizeRom } from 'core'
+import { Item, RandomizeRom, paramsToString } from 'core'
 import {
   BeamMode,
   GravityHeatReduction,
@@ -30,11 +30,13 @@ const Sidebar = ({
   signature = null,
   seed = null,
   isRandom = false,
+  hash = null
 }: {
   name?: string | null
   signature?: string | null
   seed?: string | null
   isRandom: boolean
+  hash?: string | null
 }) => {
   const { data } = useVanilla()
   const mounted = useMounted()
@@ -87,8 +89,8 @@ const Sidebar = ({
                     Seed URL
                   </h4>
                   <p style={{ fontSize: '14px', margin: 0, wordWrap: 'break-word' }}>
-                    <a href={`/seed/${name}`} style={{ color: 'white', fontWeight: 700 }}>
-                      {`dashrando.net/seed/${name}`}
+                    <a href={`/seed/${hash}`} style={{ color: 'white', fontWeight: 700 }}>
+                      {`${hash}`}
                     </a>
                   </p>
                   {/* {isRandom && (
@@ -263,6 +265,7 @@ const prefillSettingsFromPreset = (value: GenerateFormParams, reset: any) => {
 type RolledSeed = {
   seed: any
   name: string
+  hash: string
 }
 
 export default function Form() {
@@ -392,16 +395,24 @@ export default function Form() {
         options.DisableFanfare = 1;
       };
 
+      const seedNumber = getSeed();
       const { data: seed, name } = await RandomizeRom(
-        getSeed(),
+        seedNumber,
         mapLayout,
         itemPoolParams,
         settings,
         options,
         config
-      )
+      );
+      const hash = paramsToString(
+        seedNumber,
+        mapLayout,
+        itemPoolParams,
+        settings,
+        options
+      );
       downloadFile(seed, name)
-      setRolledSeed({ seed, name })
+      setRolledSeed({ seed, name, hash })
     } catch (error) {
       console.error('SEED ERROR', error)
     }
@@ -502,7 +513,7 @@ export default function Form() {
                 options={[
                   { label: 'Standard', value: 'standard' },
                   { label: 'Randomized', value: 'randomized' },
-                  { label: 'Known', value: 'known' },
+                  //{ label: 'Known', value: 'known' },
                 ]}
                 name="boss"
                 register={register}
@@ -673,6 +684,7 @@ export default function Form() {
           name={rolledSeed?.name || null}
           signature={signature}
           seed={rolledSeed?.seed}
+          hash={rolledSeed?.hash}
           isRandom={isRandom}
         />
       </div>
