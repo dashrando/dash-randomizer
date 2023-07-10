@@ -15,10 +15,12 @@
 
 @media only screen and (max-width: 600px) {
   .wrapper {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    background-color: #000;
+    z-index: 100;
   }
 }
 
@@ -60,6 +62,10 @@
   padding: 0;
 }
 
+.navigation ul li.mobileOnly {
+  display: none;
+}
+
 .navigation a {
   display: block;
   color: #b6b9b3;
@@ -73,6 +79,10 @@
   color: #fff;
 }
 
+.mobileNavBtn {
+  display: none;
+}
+
 @media only screen and (max-width: 600px) {
   .navigation {
     position: absolute;
@@ -83,6 +93,98 @@
     width: 100%;
     display: flex;
     max-width: 100%;
+    height: auto;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, border-color 0.15s ease-in-out;
+  }
+
+  .open .navigation {
+    max-height: 500px;
+    opacity: 1;
+    border-color: var(--color-foreground);
+  }
+
+  .wrapper + main {
+    transition: opacity 0.15s ease-in-out;
+  }
+
+  .open.wrapper + main {
+    opacity: 0.1;
+  }
+
+  .mobileNavBtn {
+    -webkit-appearance: button;
+    background-color: transparent;
+    background-image: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    height: 36px;
+    width: 36px;
+    padding: 0;
+    margin: 0 8px 0 0;
+    background-color: transparent;
+    border: none;
+    font-size: inherit;
+    line-height: inherit;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  .mobileNavInner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .mobileNavInner::before,
+  .mobileNavInner::after {
+    content: "";
+    display: block;
+    height: 1.5px;
+    width: 22px;
+    background-color: #fff;
+    transition: transform .15s ease;
+  }
+
+  .mobileNavInner::before {
+    transform: translateY(-4px) rotate(0deg);
+  }
+
+  .mobileNavInner::after {
+    transform: translateY(4px) rotate(0deg);
+  }
+
+  .open .mobileNavInner::before {
+    transform: translateY(1px) rotate(45deg);
+  }
+
+  .open .mobileNavInner::after {
+    transform: translateY(0) rotate(-45deg);
+  }
+
+  .navigation ul {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .navigation ul li {
+    display: block;
+  }
+
+  .navigation ul li.mobileOnly {
+    display: block;
   }
 }
 

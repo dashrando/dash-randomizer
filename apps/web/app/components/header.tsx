@@ -6,6 +6,7 @@ import styles from './header.module.css'
 import DiscordLogo from './logos/discord'
 import GithubLogo from './logos/github'
 import { cn } from '@/lib/utils'
+import { useState } from 'react'
 
 export default function Header() {
   return (
@@ -23,6 +24,7 @@ export default function Header() {
 export type HeaderLink = {
   href: string
   label: string
+  mobileOnly?: boolean
 }
 
 const LINKS: HeaderLink[] = [
@@ -37,7 +39,17 @@ const LINKS: HeaderLink[] = [
   {
     href: '/resources',
     label: 'Resources',
-  }
+  },
+  {
+    href: '/discord',
+    label: 'Discord',
+    mobileOnly: true,
+  },
+  {
+    href: '/github',
+    label: 'Github',
+    mobileOnly: true,
+  },
 ]
 
 export const Navigation = () => {
@@ -48,7 +60,7 @@ export const Navigation = () => {
         {LINKS.map((link) => {
           const isActive = pathname.startsWith(link.href)
           return (
-            <li key={link.href}>
+            <li key={link.href} className={cn(link.mobileOnly && styles.mobileOnly)}>
               <Link href={link.href} className={cn(isActive && styles.active)}>
                 {link.label}
               </Link>
@@ -84,12 +96,22 @@ function Social() {
 }
 
 export const NewHeader = () => {
+  const [menuOpen, setMenuOpen] = useState<boolean>(false)
   return (
-    <div className={styles.wrapper}>
+    <div className={cn(styles.wrapper, menuOpen && styles.open)}>
       <div className={styles['container']}>
         <Logo />
         <Navigation />
         <Social />
+        <button
+          className={styles.mobileNavBtn}
+          onClick={(evt) => {
+            evt.preventDefault()
+            setMenuOpen(!menuOpen)
+          }}
+        >
+          <div className={styles.mobileNavInner} />
+        </button>
       </div>
     </div>
   )
