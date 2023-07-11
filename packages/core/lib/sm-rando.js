@@ -1,14 +1,12 @@
 import DotNetRandom from "./dotnet-random";
 import game_modes from "../data/modes";
-import { Buffer } from "buffer";
 import { Area, AreaCounts, getLocations } from "./locations";
 import { Item } from "./items";
-import { decompressFromEncodedURIComponent } from "lz-string";
 import { mapLocation } from "./graph/util";
 import { loadGraph } from "./graph/init";
 import { graphFill } from "./graph/fill";
 import { presets } from "..";
-import boss from "../data/bosses";
+import doors from "../data/doors";
 import { paramsToBytes, paramsToString } from "./graph/params";
 
 export const generateSeedPatch = (
@@ -118,112 +116,31 @@ export const generateSeedPatch = (
   // Update boss doors.
   //-----------------------------------------------------------------
 
-  const getDoorUpdate = (door_in, dest_in, door_out, dest_out) => {
+  const getDoorUpdate = (a, b) => {
+    const x = doors.find((d) => d.door == a);
+    const y = doors.find((d) => d.door == b);
+
+    if (x == undefined) {
+      throw new Error(`Could not find: ${a}`);
+    }
+
+    if (y == undefined) {
+      throw new Error(`Could not find: ${b}`);
+    }
+    if (x.from == y.to) {
+      return [
+        { door: x.address, dest: y.aligned },
+        { door: y.address, dest: x.aligned },
+      ];
+    }
     return [
-      { door: door_in, dest: dest_in },
-      { door: door_out, dest: dest_out },
+      { door: x.address, dest: y.misaligned },
+      { door: y.address, dest: x.misaligned },
     ];
   };
 
-  const getBossUpdates = (b) => {
-    if (b.door == "Door_KraidBoss") {
-      if (b.boss == "Exit_Phantoon") {
-        return getDoorUpdate(
-          boss.DoorToKraidBoss,
-          boss.DoorVectorToPhantoon,
-          boss.DoorFromPhantoonRoom,
-          boss.DoorVectorToPreKraid
-        );
-      } else if (b.boss == "Exit_Draygon") {
-        return getDoorUpdate(
-          boss.DoorToKraidBoss,
-          boss.DoorVectorTeleportToDraygon,
-          boss.DoorFromDraygonRoom,
-          boss.DoorVectorTeleportToPreKraid
-        );
-      } else if (b.boss == "Exit_Ridley") {
-        return getDoorUpdate(
-          boss.DoorToKraidBoss,
-          boss.DoorVectorTeleportToRidley,
-          boss.DoorFromRidleyRoom,
-          boss.DoorVectorTeleportToPreKraid
-        );
-      }
-    } else if (b.door == "Door_PhantoonBoss") {
-      if (b.boss == "Exit_Kraid") {
-        return getDoorUpdate(
-          boss.DoorToPhantoonBoss,
-          boss.DoorVectorToKraid,
-          boss.DoorFromKraidRoom,
-          boss.DoorVectorToPrePhantoon
-        );
-      } else if (b.boss == "Exit_Draygon") {
-        return getDoorUpdate(
-          boss.DoorToPhantoonBoss,
-          boss.DoorVectorTeleportToDraygon,
-          boss.DoorFromDraygonRoom,
-          boss.DoorVectorTeleportToPrePhantoon
-        );
-      } else if (b.boss == "Exit_Ridley") {
-        return getDoorUpdate(
-          boss.DoorToPhantoonBoss,
-          boss.DoorVectorTeleportToRidley,
-          boss.DoorFromRidleyRoom,
-          boss.DoorVectorTeleportToPrePhantoon
-        );
-      }
-    } else if (b.door == "Door_DraygonBoss") {
-      if (b.boss == "Exit_Kraid") {
-        return getDoorUpdate(
-          boss.DoorToDraygonBoss,
-          boss.DoorVectorTeleportToKraid,
-          boss.DoorFromKraidRoom,
-          boss.DoorVectorTeleportToPreDraygon
-        );
-      } else if (b.boss == "Exit_Phantoon") {
-        return getDoorUpdate(
-          boss.DoorToDraygonBoss,
-          boss.DoorVectorTeleportToPhantoon,
-          boss.DoorFromPhantoonRoom,
-          boss.DoorVectorTeleportToPreDraygon
-        );
-      } else if (b.boss == "Exit_Ridley") {
-        return getDoorUpdate(
-          boss.DoorToDraygonBoss,
-          boss.DoorVectorToRidley,
-          boss.DoorFromRidleyRoom,
-          boss.DoorVectorToPreDraygon
-        );
-      }
-    } else if (b.door == "Door_RidleyBoss") {
-      if (b.boss == "Exit_Kraid") {
-        return getDoorUpdate(
-          boss.DoorToRidleyBoss,
-          boss.DoorVectorTeleportToKraid,
-          boss.DoorFromKraidRoom,
-          boss.DoorVectorTeleportToPreRidley
-        );
-      } else if (b.boss == "Exit_Phantoon") {
-        return getDoorUpdate(
-          boss.DoorToRidleyBoss,
-          boss.DoorVectorTeleportToPhantoon,
-          boss.DoorFromPhantoonRoom,
-          boss.DoorVectorTeleportToPreRidley
-        );
-      } else if (b.boss == "Exit_Draygon") {
-        return getDoorUpdate(
-          boss.DoorToRidleyBoss,
-          boss.DoorVectorToDraygon,
-          boss.DoorFromDraygonRoom,
-          boss.DoorVectorToPreRidley
-        );
-      }
-    }
-    return [];
-  };
-
   bosses.forEach((b) => {
-    const bossUpdates = getBossUpdates(b);
+    const bossUpdates = getDoorUpdate(b.door, b.boss);
     console.debug(b);
 
     bossUpdates.forEach((p) => {
