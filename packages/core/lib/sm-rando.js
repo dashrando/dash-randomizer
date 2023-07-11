@@ -16,7 +16,8 @@ export const generateSeedPatch = (
   settings,
   nodes,
   options,
-  bosses
+  bosses,
+  areas
 ) => {
   //-----------------------------------------------------------------
   // Utility functions.
@@ -148,6 +149,15 @@ export const generateSeedPatch = (
     });
   });
   console.debug("shuffled bosses:", bosses.length / 2);
+
+  areas.forEach((a) => {
+    const areaUpdates = getDoorUpdate(a.from, a.to);
+    console.debug(a);
+    areaUpdates.forEach((p) => {
+      encodeBytes(seedPatch, p.door, U16toBytes(p.dest & 0xffff));
+    });
+  });
+  console.debug("shuffled area portals:", areas.length / 2);
 
   //-----------------------------------------------------------------
   // Other options.

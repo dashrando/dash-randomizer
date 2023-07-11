@@ -523,13 +523,8 @@ export default function Form() {
                 can randomize the boss found at a given boss location.
               </p>
             </Option>
-            <Option
-              label="Area"
-              name="area"
-              badge={<Badge variant="upcoming">Coming Soon</Badge>}
-            >
+            <Option label="Area" name="area" badge={<Badge variant="early">Canary</Badge>}>
               <Select
-                disabled
                 options={[
                   { label: 'Standard', value: 'standard' },
                   { label: 'Randomized', value: 'randomized' },

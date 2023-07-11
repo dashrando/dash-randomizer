@@ -4,6 +4,7 @@ import { patchRom } from "../helpers/patcher";
 import { loadGraph } from "./graph/init";
 import { graphFill } from "./graph/fill";
 import { MapLayout } from "./graph/params";
+import { isAreaEdge, isBossEdge } from "../data/doors";
 
 const getBasePatch = (mapLayout, area) => {
   if (mapLayout == MapLayout.Recall) {
@@ -32,13 +33,16 @@ async function RandomizeRom(
     settings.randomizeAreas,
     settings.randomizeBosses
   );
+  const areas = graph
+    .filter((e) => isAreaEdge(e))
+    .map((n) => {
+      return {
+        from: n.from.name,
+        to: n.to.name,
+      };
+    });
   const bosses = graph
-    .filter(
-      (n) =>
-        n.from.name.startsWith("Door_") &&
-        n.from.name.endsWith("Boss") &&
-        n.to.name.startsWith("Exit_")
-    )
+    .filter((e) => isBossEdge(e))
     .map((n) => {
       return {
         door: n.from.name,
@@ -66,7 +70,8 @@ async function RandomizeRom(
     settings,
     nodes,
     options,
-    bosses
+    bosses,
+    areas
   );
 
   // Create the rom by patching the vanilla rom.
