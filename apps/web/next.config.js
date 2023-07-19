@@ -69,10 +69,6 @@ const nextConfig = {
         destination: "/updates.html",
       },
       {
-        source: "/resources",
-        destination: "/resources.html",
-      },
-      {
         source: "/sgl2020",
         destination: "/sgl2020.html",
       },
