@@ -8,6 +8,14 @@
   margin-bottom: 10px;
 }
 
+.seperator hr {
+  border: 1px solid rgb(90, 173, 54);
+  width: 100%;
+  text-align: left;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+
 .token {
   margin-bottom: 24px;
 }
@@ -28,6 +36,11 @@
 .nav_bar {
   margin: 0 0 var(--spacer-8x);
   font-size: 1.1em;
+}
+
+.nav_bar a {
+  color: rgb(90, 173, 54);
+  text-decoration: none;
 }
 
 .nav_title {

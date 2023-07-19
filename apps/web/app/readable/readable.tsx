@@ -1,4 +1,3 @@
-import "@/public/styles/dash.css";
 import styles from "./readable.module.css";
 
 import { Logic } from "core";
@@ -8,6 +7,12 @@ type Token = {
   name: string;
   criteria: string;
 };
+
+const Seperator = () => (
+  <div className={styles.seperator}>
+    <hr />
+  </div>
+)
 
 const formatCriteria = (criteria: string): string => {
   const formatted = criteria
@@ -133,9 +138,9 @@ const ReadableLogic = ({ type }: { type: string }) => {
 
   return (
     <>
-      <hr />
+      <Seperator />
       <div className={styles.logic_title}>{title}</div>
-      <hr />
+      <Seperator />
       <div className={styles.logic}>
         {tokens.map((t: Token) => {
           return (
@@ -146,7 +151,7 @@ const ReadableLogic = ({ type }: { type: string }) => {
           );
         })}
       </div>
-      <hr />
+      <Seperator />
     </>
   );
 };
