@@ -3,7 +3,6 @@ import styles from "./readable.module.css";
 
 import { Logic } from "core";
 import Link from "next/link";
-import Header from "../components/header";
 
 type Token = {
   name: string;
@@ -154,10 +153,9 @@ const ReadableLogic = ({ type }: { type: string }) => {
 
 export default function LogicPage({ type }: { type: string }) {
   return (
-    <div id="wrapper">
-      <Header />
+    <>
       <Navigation selected={type} />
       <ReadableLogic type={type} />
-    </div>
-  );
+    </>
+  )
 }
