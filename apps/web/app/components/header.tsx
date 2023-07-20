@@ -99,10 +99,10 @@ function Social() {
   )
 }
 
-export const NewHeader = () => {
+export const NewHeader = ({ borderless = false }: { borderless?: boolean }) => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false)
   return (
-    <div className={cn(styles.wrapper, menuOpen && styles.open)}>
+    <div className={cn(styles.wrapper, menuOpen && styles.open, borderless && styles.borderless)}>
       <div className={styles['container']}>
         <Logo />
         <Navigation />

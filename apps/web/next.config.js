@@ -61,7 +61,7 @@ const nextConfig = {
   rewrites: async () => {
     return [
       {
-        source: "/",
+        source: "/homepage",
         destination: "/index.html",
       },
       {
