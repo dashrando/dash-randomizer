@@ -57,6 +57,14 @@
   }
 }
 
+.show_fallback .fallback {
+  display: block;
+} 
+
+.show_fallback .video {
+  display: none;
+}
+
 .fallback:after {
   content: '';
   position: absolute;
