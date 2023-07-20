@@ -28,7 +28,7 @@
     z-index: 100;
   }
   .wrapper.borderless {
-    border-bottom-color: #222;
+    /* border-bottom-color: #222; */
     background-color: transparent;
   }
 }
@@ -122,6 +122,10 @@
     max-height: 500px;
     opacity: 1;
     border-color: var(--color-foreground);
+  }
+
+  .open.borderless .navigation {
+    border-color: #222;
   }
 
   .wrapper + main {
