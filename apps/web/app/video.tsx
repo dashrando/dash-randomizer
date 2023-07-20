@@ -20,6 +20,7 @@ const HomeVideo = () => {
         playing
         loop
         muted
+        playsinline
         controls={false}
         className={styles.video}
         width="100%"
