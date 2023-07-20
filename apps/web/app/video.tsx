@@ -34,7 +34,7 @@ const HomeVideo = () => {
         }}
       />
       <div className={styles.fallback}>
-        <img src="/recall-bg.png" alt="DASH Recall" />
+        <img src="/recall-bg.jpg" alt="DASH Recall" />
       </div>
     </div>
   )
