@@ -21,8 +21,7 @@
   },
   "dependencies": {
     "class-variance-authority": "^0.4.0",
-    "clsx": "^1.2.1",
-    "react-player": "^2.12.0"
+    "clsx": "^1.2.1"
   },
   "packageManager": "npm@8.19.4"
 }

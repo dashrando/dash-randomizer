@@ -29,6 +29,9 @@ const HomeVideo = () => {
           setReady(true)
         }}
       />
+      <div className={styles.fallback}>
+        <img src="/recall-bg.png" alt="DASH Recall" />
+      </div>
     </div>
   )
 }
