@@ -1,0 +1,80 @@
+.link {
+  color: rgb(90, 173, 54);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.link:hover {
+  text-decoration-color: #fff;
+  color: #fff;
+}
+
+.section {
+  margin: var(--spacer-10x) 0;
+}
+
+.section + .section {
+  margin-top: var(--spacer-20x);
+}
+
+.section h2 {
+  font-size: 32px;
+  line-height: 32px;
+  padding: var(--spacer-3x) 0;
+  border-top: 1px solid rgb(90, 173, 54);
+  border-bottom: 1px solid rgb(90, 173, 54);
+  display: block;
+  font-weight: normal;
+}
+
+.section h3 {
+  margin: var(--spacer-4x) 0;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.section p {
+  font-size: 16px;
+  line-height: 32px;
+}
+
+.seperator {
+  background-color: #222;
+  margin: var(--spacer-8x) 0;
+  height: 1px;
+}
+
+.resource {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.resource h3 {
+  flex-basis: 100%;
+}
+
+.resource .content {
+  width: 60%;
+  padding-right: var(--spacer-4x);
+}
+
+.resource .image {
+  width: 40%;
+}
+
+.resource .image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .resource .content {
+    width: 100%;
+    padding-right: 0;
+  }
+
+  .resource .image {
+    width: 100%;
+  }
+}

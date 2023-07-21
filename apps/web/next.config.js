@@ -42,6 +42,11 @@ const nextConfig = {
         permanent: false,
       },
       {
+        source: "/github",
+        destination: "https://github.com/dashrando",
+        permanent: false,
+      },
+      {
         source: "/readable",
         destination: "/readable/recall",
         permanent: false,
@@ -56,16 +61,12 @@ const nextConfig = {
   rewrites: async () => {
     return [
       {
-        source: "/",
+        source: "/homepage",
         destination: "/index.html",
       },
       {
         source: "/updates",
         destination: "/updates.html",
-      },
-      {
-        source: "/resources",
-        destination: "/resources.html",
       },
       {
         source: "/sgl2020",

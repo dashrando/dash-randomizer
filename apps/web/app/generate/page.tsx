@@ -1,14 +1,12 @@
 import type { Metadata, NextPage } from 'next'
-import styles from './page.module.css'
 import Form from './form'
+import { Wrapper } from '@/app/components/wrapper'
 
 const GeneratePage: NextPage = () => {
   return (
-    <div>
-      <main className={styles.container}>
-        <Form />
-      </main>
-    </div>
+    <Wrapper>
+      <Form />
+    </Wrapper>
   )
 }
 
