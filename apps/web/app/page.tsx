@@ -24,7 +24,7 @@ const Homepage: NextPage = () => {
               <ButtonLink href="/generate" variant="primary" className={styles.primaryCTA}>
                 Generate a Seed
               </ButtonLink>
-              <ButtonLink href="/info/recall" variant="secondary" className={styles.secondaryCTA}>
+              <ButtonLink href="/info" variant="secondary" className={styles.secondaryCTA}>
                 Learn more
               </ButtonLink>
             </div>
