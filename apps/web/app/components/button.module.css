@@ -17,7 +17,7 @@
   align-items: center;
   text-align: center;
   border-radius: 4px;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
   font-weight: 400;
 }
 
@@ -65,4 +65,9 @@
 .block {
   display: flex;
   width: 100%;
+}
+
+.buttonLink {
+  display: inline-flex;
+  text-decoration: none;
 }
