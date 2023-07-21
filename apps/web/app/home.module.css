@@ -75,22 +75,37 @@
 }
 
 .about {
-  max-width: 560px;
+  max-width: 480px;
   text-align: justify;
   margin: var(--spacer-20x) auto var(--spacer-8x);
 }
 
+@media (max-width: 600px) {
+  .about {
+    max-width: 340px;
+  }
 
+  .about p {
+    text-wrap: balance;
+    text-align: left;
+  }
+}
 
 .about h3 {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0 0 var(--space-2x);
   text-align: center;
 }
 
+.about strong {
+  font-weight: 700;
+  color: #fff;
+}
+
 .about a {
   color: #fff;
+  font-weight: 700;
   text-underline-offset: 2px;
   transition: text-decoration-color 0.15s ease-in-out;
 }
