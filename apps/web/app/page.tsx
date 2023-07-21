@@ -30,6 +30,10 @@ const Homepage: NextPage = () => {
             </div>
           </div>
         </div>
+        <div className={styles.about}>
+          <h3>About DASH</h3>
+          <p>The <strong>DASH</strong> (<em>Diversity and Selective Haste</em>) Super Metroid Randomizer seeks to provide more options for runners to complete seeds by limiting the gating potential of certain items and item locations. DASH is based on the <a href="https://itemrando.supermetroid.run/">Super Metroid Item Randomizer</a> developed by Total and featured in the 2017 Super Metroid Randomizer Tournament.</p>
+        </div>
       </Wrapper>
     </>
    )

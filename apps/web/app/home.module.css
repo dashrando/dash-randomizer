@@ -73,3 +73,28 @@
     width: 200px;
   }
 }
+
+.about {
+  max-width: 560px;
+  text-align: justify;
+  margin: var(--spacer-20x) auto var(--spacer-8x);
+}
+
+
+
+.about h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 var(--space-2x);
+  text-align: center;
+}
+
+.about a {
+  color: #fff;
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.15s ease-in-out;
+}
+
+.about a:hover {
+  text-decoration-color: transparent;
+}
