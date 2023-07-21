@@ -13,16 +13,16 @@ export const wreckedshipEdges = {
     Missiles_Spooky: () => CanPassBombPassages,
     Door_PhantoonBoss: () =>
       CanOpenGreenDoors && (HasSpeed || CanPassBombPassages),
-    Supers_LeftSide: () => HasDefeatedPhantoon,
-    Supers_RightSide: () => HasDefeatedPhantoon && CanPassBombPassages,
-    Missiles_Attic: () => HasDefeatedPhantoon,
-    SpongeBathLeft: () => HasDefeatedPhantoon,
+    Supers_LeftSide: () => HasDefeatedWreckedShipBoss,
+    Supers_RightSide: () => HasDefeatedWreckedShipBoss && CanPassBombPassages,
+    Missiles_Attic: () => HasDefeatedWreckedShipBoss,
+    SpongeBathLeft: () => HasDefeatedWreckedShipBoss,
   },
 
   SpongeBathLeft: {
     SpongeBathRight: () =>
-      !HasDefeatedPhantoon ||
-      (HasDefeatedPhantoon &&
+      !HasDefeatedWreckedShipBoss ||
+      (HasDefeatedWreckedShipBoss &&
         (CanFly || CanUsePowerBombs || HasSpeed || HasHiJump || HasGravity)),
     ShipHallway: true,
   },
@@ -37,7 +37,7 @@ export const wreckedshipEdges = {
   },
 
   ShipRearExit: {
-    EnergyTank_Ship: () => HasDefeatedPhantoon,
+    EnergyTank_Ship: () => HasDefeatedWreckedShipBoss,
     SpongeBathRight: true,
     //TODO: Should this change? Technically HJB+SpaceJump is enough
     //Door_HighwayExit: () => CanUsePowerBombs && (HasGravity || (HasHiJump && HasSpaceJump)),

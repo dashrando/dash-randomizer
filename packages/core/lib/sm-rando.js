@@ -6,18 +6,17 @@ import { mapLocation } from "./graph/util";
 import { loadGraph } from "./graph/init";
 import { graphFill } from "./graph/fill";
 import { presets } from "..";
-import doors from "../data/doors";
-import { paramsToBytes, paramsToString } from "./graph/params";
+import doors, { isAreaEdge, isBossEdge } from "../data/doors";
+import { BOSS_DOORS, BOSS_ITEMS } from "../data/interface";
+import { BossMode, paramsToBytes, paramsToString } from "./graph/params";
 
 export const generateSeedPatch = (
   seed,
   mapLayout,
   itemPoolParams,
   settings,
-  nodes,
-  options,
-  bosses,
-  areas
+  graph,
+  options
 ) => {
   //-----------------------------------------------------------------
   // Utility functions.
@@ -47,6 +46,7 @@ export const generateSeedPatch = (
   // Encode the seed to show on the file select screen.
   //-----------------------------------------------------------------
 
+  const nodes = getItemNodes(graph);
   const seedPatch = [];
   const rnd = new DotNetRandom(seed);
   encodeBytes(seedPatch, 0x2f8000, U16toBytes(rnd.Next(0xffff)));
@@ -140,24 +140,100 @@ export const generateSeedPatch = (
     ];
   };
 
-  bosses.forEach((b) => {
-    const bossUpdates = getDoorUpdate(b.door, b.boss);
-    console.debug(b);
-
-    bossUpdates.forEach((p) => {
-      encodeBytes(seedPatch, p.door, U16toBytes(p.dest & 0xffff));
+  let bossUpdates = [];
+  graph
+    .filter((e) => isBossEdge(e))
+    .forEach((b) => {
+      if (settings.bossMode == BossMode.ShuffleStandard) {
+        bossUpdates.concat(getDoorUpdate(b.from.name, b.to.name));
+        console.debug(`from: ${b.from.name} to: ${b.to.name}`);
+      } else if (settings.bossMode == BossMode.ShuffleDash) {
+        console.debug(`from: ${b.from.name} to: ${b.to.name}`);
+        if (b.from.name == "Door_KraidBoss") {
+          if (b.to.name == "Exit_Draygon") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToKraidBoss,
+              dest: BOSS_DOORS.DoorVectorToDraygonInBrinstar,
+            });
+          } else if (b.to.name == "Exit_Phantoon") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToKraidBoss,
+              dest: BOSS_DOORS.DoorVectorToPhantoonInBrinstar,
+            });
+          } else if (b.to.name == "Exit_Ridley") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToKraidBoss,
+              dest: BOSS_DOORS.DoorVectorToRidleyInBrinstar,
+            });
+          }
+        } else if (b.from.name == "Door_PhantoonBoss") {
+          if (b.to.name == "Exit_Draygon") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToPhantoonBoss,
+              dest: BOSS_DOORS.DoorVectorToDraygonInWreckedShip,
+            });
+          } else if (b.to.name == "Exit_Kraid") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToPhantoonBoss,
+              dest: BOSS_DOORS.DoorVectorToKraidInWreckedShip,
+            });
+          } else if (b.to.name == "Exit_Ridley") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToPhantoonBoss,
+              dest: BOSS_DOORS.DoorVectorToRidleyInWreckedShip,
+            });
+          }
+        } else if (b.from.name == "Door_DraygonBoss") {
+          if (b.to.name == "Exit_Kraid") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToDraygonBoss,
+              dest: BOSS_DOORS.DoorVectorToKraidInMaridia,
+            });
+          } else if (b.to.name == "Exit_Phantoon") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToDraygonBoss,
+              dest: BOSS_DOORS.DoorVectorToPhantoonInMaridia,
+            });
+          } else if (b.to.name == "Exit_Ridley") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToDraygonBoss,
+              dest: BOSS_DOORS.DoorVectorToRidleyInMaridia,
+            });
+          }
+        } else if (b.from.name == "Door_RidleyBoss") {
+          if (b.to.name == "Exit_Draygon") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToRidleyBoss,
+              dest: BOSS_DOORS.DoorVectorToDraygonInNorfair,
+            });
+          } else if (b.to.name == "Exit_Phantoon") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToRidleyBoss,
+              dest: BOSS_DOORS.DoorVectorToPhantoonInNorfair,
+            });
+          } else if (b.to.name == "Exit_Kraid") {
+            bossUpdates.push({
+              door: BOSS_DOORS.DoorToRidleyBoss,
+              dest: BOSS_DOORS.DoorVectorToKraidInNorfair,
+            });
+          }
+        }
+      }
     });
+  console.log(bossUpdates.length);
+  bossUpdates.forEach((p) => {
+    encodeBytes(seedPatch, p.door, U16toBytes(p.dest & 0xffff));
   });
-  console.debug("shuffled bosses:", bosses.length / 2);
 
-  areas.forEach((a) => {
-    const areaUpdates = getDoorUpdate(a.from, a.to);
-    console.debug(a);
-    areaUpdates.forEach((p) => {
-      encodeBytes(seedPatch, p.door, U16toBytes(p.dest & 0xffff));
+  graph
+    .filter((e) => isAreaEdge(e))
+    .forEach((a) => {
+      const areaUpdates = getDoorUpdate(a.from.name, a.to.name);
+      console.debug(`from: ${a.from.name} to: ${a.to.name}`);
+      areaUpdates.forEach((p) => {
+        encodeBytes(seedPatch, p.door, U16toBytes(p.dest & 0xffff));
+      });
     });
-  });
-  console.debug("shuffled area portals:", areas.length / 2);
 
   //-----------------------------------------------------------------
   // Other options.
@@ -198,13 +274,70 @@ export const getFileName = (
 };
 
 export const getItemNodes = (graph) => {
-  return getLocations().map((l) => {
+  const nodes = getLocations().map((l) => {
     const vertex = graph.find((e) => e.from.name == mapLocation(l.name)).from;
-    return {
+    const node = {
       location: l,
       item: vertex.item,
     };
+
+    // Space Jump?
+    if (node.location.address == 0x7c7a7) {
+      switch (vertex.area) {
+        case "KraidsLair":
+          node.location.area = Area.Kraid;
+          node.location.address = BOSS_ITEMS.SpaceJumpInBrinstar;
+          break;
+        case "WreckedShip":
+          node.location.area = Area.WreckedShip;
+          node.location.address = BOSS_ITEMS.SpaceJumpInWreckedShip;
+          break;
+        case "LowerNorfair":
+          node.location.area = Area.LowerNorfair;
+          node.location.address = BOSS_ITEMS.SpaceJumpInNorfair;
+          break;
+      }
+    }
+
+    // Varia Suit?
+    if (node.location.address == 0x78aca) {
+      switch (vertex.area) {
+        case "EastMaridia":
+          node.location.area = Area.EastMaridia;
+          node.location.address = BOSS_ITEMS.VariaSuitInMaridia;
+          break;
+        case "WreckedShip":
+          node.location.area = Area.WreckedShip;
+          node.location.address = BOSS_ITEMS.VariaSuitInWreckedShip;
+          break;
+        case "LowerNorfair":
+          node.location.area = Area.LowerNorfair;
+          node.location.address = BOSS_ITEMS.VariaSuitInNorfair;
+          break;
+      }
+    }
+
+    // Ridley Energy Tank?
+    if (node.location.address == 0x79108) {
+      switch (vertex.area) {
+        case "EastMaridia":
+          node.location.area = Area.EastMaridia;
+          node.location.address = BOSS_ITEMS.RidleyTankInMaridia;
+          break;
+        case "WreckedShip":
+          node.location.area = Area.WreckedShip;
+          node.location.address = BOSS_ITEMS.RidleyTankInWreckedShip;
+          break;
+        case "KraidsLair":
+          node.location.area = Area.Kraid;
+          node.location.address = BOSS_ITEMS.RidleyTankInBrinstar;
+          break;
+      }
+    }
+    return node;
   });
+
+  return nodes;
 };
 
 export const getPresetOptions = (preset) => {
@@ -266,13 +399,12 @@ export const generateFromPreset = (name, seedNumber) => {
   );
   graphFill(seed, graph, itemPoolParams, settings);
 
-  const nodes = getItemNodes(graph);
   const seedPatch = generateSeedPatch(
     seed,
     mapLayout,
     itemPoolParams,
     settings,
-    nodes,
+    graph,
     null
   );
   const fileName = getFileName(seed, mapLayout, itemPoolParams, settings, null);

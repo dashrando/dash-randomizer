@@ -85,14 +85,14 @@ export const eastmaridiaEdges = {
 
   PlasmaSparkRoomTop: {
     OasisTop: () => CanOpenGreenDoors,
-    PrePlasmaBeam: () => HasDefeatedDraygon,
+    PrePlasmaBeam: () => HasDefeatedMaridiaBoss,
     MaridiaHighway: () => HasGravity || HasHiJump || HasSpaceJump,
     PlasmaSparkRoomBottom: true,
   },
 
   PlasmaSparkRoomBottom: {
     PlasmaSparkRoomTop: () => HasGravity,
-    ColosseumTopLeft: () => HasDefeatedDraygon && HasGravity,
+    ColosseumTopLeft: () => HasDefeatedMaridiaBoss && HasGravity,
   },
 
   PrePlasmaBeam: {
@@ -131,7 +131,7 @@ export const eastmaridiaEdges = {
       HasMorph && (HasGravity || HasHiJump || HasSpringBall),
     ColosseumTopRight: () => HasGravity || HasSpaceJump || CanDoSuitlessMaridia,
     PlasmaSparkRoomBottom: () =>
-      HasDefeatedDraygon && (HasGravity || (HasHiJump && HasSpaceJump)),
+      HasDefeatedMaridiaBoss && (HasGravity || (HasHiJump && HasSpaceJump)),
   },
 
   ColosseumTopRight: {

@@ -1,4 +1,5 @@
 import DotNetRandom from "../../dotnet-random";
+import { BossMode } from "../params";
 
 const samePortals = (unshuffled, shuffled) => {
   if (unshuffled.length != shuffled.length) {
@@ -98,7 +99,7 @@ const getAreaPortals = (seed) => {
   return shuffled;
 };
 
-const getBossPortals = (seed) => {
+const getBossPortals = (mode, seed) => {
   const bosses = [
     ["Door_KraidBoss", "Exit_Kraid"],
     ["Door_PhantoonBoss", "Exit_Phantoon"],
@@ -106,11 +107,14 @@ const getBossPortals = (seed) => {
     ["Door_RidleyBoss", "Exit_Ridley"],
   ];
 
-  if (seed == 0) {
+  if (mode == BossMode.Vanilla) {
     return bosses;
   }
+  if (mode == BossMode.Randomized) {
+    throw new Error("True boss rando not implemented yet");
+  }
 
-  const rng = new DotNetRandom(seed);
+  const rng = new DotNetRandom(seed + 1e7);
 
   // Boss portals are specified in pairs
   const shuffleBosses = () => {
@@ -134,6 +138,5 @@ const getBossPortals = (seed) => {
 
 export const mapPortals = (seed, area, boss) => {
   const areaSeed = seed > 0 && area ? seed + 2e7 : 0;
-  const bossSeed = seed > 0 && boss ? seed + 1e7 : 0;
-  return getAreaPortals(areaSeed).concat(getBossPortals(bossSeed));
+  return getAreaPortals(areaSeed).concat(getBossPortals(boss, seed));
 };

@@ -10,7 +10,7 @@ import { uppernorfairEdges } from "./data/vanilla/edges/uppernorfair";
 import { lowernorfairEdges } from "./data/vanilla/edges/lowernorfair";
 import { wreckedshipEdges } from "./data/vanilla/edges/wreckedship";
 import { bossEdges } from "./data/vanilla/edges/boss";
-import { MapLayout, MajorDistributionMode } from "./params";
+import { BossMode, MapLayout, MajorDistributionMode } from "./params";
 import { SeasonVertexUpdates } from "./data/season/vertex";
 import { RecallVertexUpdates } from "./data/recall/vertex";
 import { SeasonEdgeUpdates } from "./data/season/edges";
@@ -37,23 +37,6 @@ const getVanillaEdges = () => {
 };
 
 const getAllVertices = () => {
-  const getItem = (name, type) => {
-    if (type != "boss") {
-      return undefined;
-    }
-    switch (name) {
-      case "Boss_Kraid":
-        return bossItem(Item.DefeatedKraid);
-      case "Boss_Phantoon":
-        return bossItem(Item.DefeatedPhantoon);
-      case "Boss_Draygon":
-        return bossItem(Item.DefeatedDraygon);
-      case "Boss_Ridley":
-        return bossItem(Item.DefeatedRidley);
-      default:
-        return undefined;
-    }
-  };
   return Object.entries(vanillaVertices)
     .map(([k, v]) => {
       return Object.entries(v).map(([name, type]) => {
@@ -61,7 +44,7 @@ const getAllVertices = () => {
           name: name,
           type: type,
           area: k,
-          item: getItem(name, type),
+          item: undefined,
           pathToStart: false,
         };
       });
@@ -236,12 +219,98 @@ const getEdgeUpdates = (mapLayout, areaShuffle) => {
   }
 };
 
+const addBossItems = (graph, mode) => {
+  const isUnique = (value, index, array) => {
+    return array.indexOf(value) === index;
+  };
+  const bosses = graph
+    .filter((e) => e.from.type == "boss")
+    .map((e) => e.from)
+    .filter(isUnique);
+
+  if (mode == BossMode.Vanilla || mode == BossMode.ShuffleStandard) {
+    bosses.forEach((b) => {
+      switch (b.name) {
+        case "Boss_Kraid":
+          b.item = bossItem(Item.DefeatedBrinstarBoss);
+          b.area = "KraidsLair";
+          break;
+        case "Boss_Phantoon":
+          b.item = bossItem(Item.DefeatedWreckedShipBoss);
+          b.area = "WreckedShip";
+          break;
+        case "Boss_Draygon":
+          b.item = bossItem(Item.DefeatedMaridiaBoss);
+          b.area = "EastMaridia";
+          break;
+        case "Boss_Ridley":
+          b.item = bossItem(Item.DefeatedNorfairBoss);
+          b.area = "LowerNorfair";
+          break;
+      }
+      const exitVertex = graph.find(
+        (e) => e.from.name.startsWith("Exit_") && e.to == b
+      ).from;
+      exitVertex.area = b.area;
+      const itemVertex = graph.find(
+        (e) =>
+          e.from == b &&
+          (e.to.name == "VariaSuit" ||
+            e.to.name == "SpaceJump" ||
+            e.to.name == "EnergyTank_Ridley")
+      );
+      if (itemVertex != undefined) {
+        itemVertex.to.area = b.area;
+      }
+    });
+  } else if (mode == BossMode.ShuffleDash) {
+    bosses.forEach((b) => {
+      const exitVertex = graph.find(
+        (e) => e.from.name.startsWith("Exit_") && e.to == b
+      ).from;
+      const doorVertex = graph.find(
+        (e) => e.from.name.startsWith("Door_") && e.to == exitVertex
+      ).from;
+
+      const itemVertex = graph.find(
+        (e) =>
+          e.from == b &&
+          (e.to.name == "VariaSuit" ||
+            e.to.name == "SpaceJump" ||
+            e.to.name == "EnergyTank_Ridley")
+      );
+      if (itemVertex != undefined) {
+        itemVertex.to.area = doorVertex.area;
+      }
+
+      exitVertex.area = doorVertex.area;
+      b.area = doorVertex.area;
+      switch (doorVertex.name) {
+        case "Door_KraidBoss":
+          b.item = bossItem(Item.DefeatedBrinstarBoss);
+          break;
+        case "Door_PhantoonBoss":
+          b.item = bossItem(Item.DefeatedWreckedShipBoss);
+          break;
+        case "Door_DraygonBoss":
+          b.item = bossItem(Item.DefeatedMaridiaBoss);
+          break;
+        case "Door_RidleyBoss":
+          b.item = bossItem(Item.DefeatedNorfairBoss);
+          break;
+      }
+    });
+  } else {
+    throw new Error("True boss rando not implemented yet");
+  }
+};
+
 export const loadGraph = (
   seed,
   mapLayout,
   majorDistributionMode,
   areaShuffle = false,
-  bossShuffle = false,
+  bossMode = BossMode.Vanilla,
   portals = undefined
 ) => {
   const edgeUpdates = getEdgeUpdates(mapLayout, areaShuffle);
@@ -251,12 +320,16 @@ export const loadGraph = (
       : RecallVertexUpdates;
 
   if (portals != undefined) {
-    return createGraph(portals, vertexUpdates, edgeUpdates);
+    const g = createGraph(portals, vertexUpdates, edgeUpdates);
+    addBossItems(g, bossMode);
+    return g;
   }
 
-  return createGraph(
-    mapPortals(seed, areaShuffle, bossShuffle),
+  const g = createGraph(
+    mapPortals(seed, areaShuffle, bossMode),
     vertexUpdates,
     edgeUpdates
   );
+  addBossItems(g, bossMode);
+  return g;
 };

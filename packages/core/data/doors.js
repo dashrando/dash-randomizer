@@ -1,5 +1,4 @@
-import area from "../data/areas";
-import boss from "../data/bosses";
+import { AREA_DOORS as area, BOSS_DOORS as boss } from "./interface";
 
 const DOORS = [
   {

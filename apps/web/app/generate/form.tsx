@@ -14,6 +14,7 @@ import useMounted from '../hooks/useMounted'
 import { Item, RandomizeRom, paramsToString } from 'core'
 import {
   BeamMode,
+  BossMode,
   GravityHeatReduction,
   MajorDistributionMode,
   MapLayout,
@@ -355,7 +356,7 @@ export default function Form() {
         suitMode: SuitMode.Dash,
         gravityHeatReduction: GravityHeatReduction.On,
         randomizeAreas: false,
-        randomizeBosses: false,
+        bossMode: BossMode.Vanilla,
       };
 
       if (data.mode == 'dash-recall-v1') {
@@ -385,7 +386,7 @@ export default function Form() {
       }
 
       if (data.boss == 'randomized') {
-        settings.randomizeBosses = true;
+        settings.bossMode = BossMode.ShuffleDash;
       }
 
       const options = {
