@@ -33,6 +33,10 @@ const LINKS: HeaderLink[] = [
     label: 'Generate',
   },
   {
+    href: '/info',
+    label: 'Info',
+  },
+  {
     href: '/readable',
     label: 'Logic',
   },
