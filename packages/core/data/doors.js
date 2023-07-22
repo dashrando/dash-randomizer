@@ -85,9 +85,9 @@ const DOORS = [
     door: "Door_Moat",
     from: "right",
     to: "left",
-    address: area.Door_RetroPBs,
-    aligned: area.DoorVectorToRetroPBs,
-    misaligned: area.DoorVectorTeleportToRetroPBs,
+    address: area.Door_Moat,
+    aligned: area.DoorVectorToMoat,
+    misaligned: area.DoorVectorTeleportToMoat,
   },
   {
     door: "Door_Ocean",
