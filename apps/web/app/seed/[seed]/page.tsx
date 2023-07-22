@@ -220,9 +220,18 @@ export default function SeedPage({ params }: { params: SeedParams}) {
       majorMode == MajorDistributionMode.Standard ? "Major/Minor" :
       majorMode == MajorDistributionMode.Recall ? "Recall Major/Minor" :
       "Full"
-    const minorSplit =
-      minorMode == MinorDistributionMode.Standard ? "Standard 3:2:1" :
-      "DASH 2:1:1";
+    let minorSplit = "Unknown";
+    if (minorMode ==MinorDistributionMode.Standard) {
+      const minorDistro = itemPoolParams.minorDistribution;
+      if (minorDistro.missiles == 2 && minorDistro.supers == 1 && minorDistro.powerbombs == 1) {
+        minorSplit = "DASH 2:1:1";
+      } else if (minorDistro.missiles == 2 && minorDistro.supers == 1 && minorDistro.powerbombs == 1) {
+        minorSplit = "Standard 3:2:1";
+      }
+      else {
+        minorSplit = `${minorDistro.missiles}:${minorDistro.supers}:${minorDistro.powerbombs}`;
+      }
+    } 
 
     return (
       <SeedParamList header="Settings">

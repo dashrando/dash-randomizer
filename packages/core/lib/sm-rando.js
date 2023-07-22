@@ -220,7 +220,6 @@ export const generateSeedPatch = (
         }
       }
     });
-  console.log(bossUpdates.length);
   bossUpdates.forEach((p) => {
     encodeBytes(seedPatch, p.door, U16toBytes(p.dest & 0xffff));
   });
