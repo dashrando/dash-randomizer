@@ -3,6 +3,7 @@ import {
   MajorDistributionMode,
   MinorDistributionMode,
   BeamMode,
+  BossMode,
   SuitMode,
   GravityHeatReduction,
 } from "./lib/graph/params";
@@ -12,6 +13,7 @@ export {
   MajorDistributionMode,
   MinorDistributionMode,
   BeamMode,
+  BossMode,
   SuitMode,
   GravityHeatReduction,
 };

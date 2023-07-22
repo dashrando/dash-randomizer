@@ -4,6 +4,7 @@ import { patchRom } from "../helpers/patcher";
 import { loadGraph } from "./graph/init";
 import { graphFill } from "./graph/fill";
 import { MapLayout } from "./graph/params";
+import { isAreaEdge, isBossEdge } from "../data/doors";
 
 const getBasePatch = (mapLayout, area) => {
   if (mapLayout == MapLayout.Recall) {
@@ -30,21 +31,8 @@ async function RandomizeRom(
     mapLayout,
     itemPoolParams.majorDistribution.mode,
     settings.randomizeAreas,
-    settings.randomizeBosses
+    settings.bossMode
   );
-  const bosses = graph
-    .filter(
-      (n) =>
-        n.from.name.startsWith("Door_") &&
-        n.from.name.endsWith("Boss") &&
-        n.to.name.startsWith("Exit_")
-    )
-    .map((n) => {
-      return {
-        door: n.from.name,
-        boss: n.to.name,
-      };
-    });
   graphFill(seed, graph, itemPoolParams, settings, true);
 
   // Load the base patch associated with the map layout.
@@ -58,15 +46,13 @@ async function RandomizeRom(
   const options = { ...defaultOptions, ...opts };
 
   // Generate the seed specific patch (item placement, etc.)
-  const nodes = getItemNodes(graph);
   const seedPatch = generateSeedPatch(
     seed,
     mapLayout,
     itemPoolParams,
     settings,
-    nodes,
-    options,
-    bosses
+    graph,
+    options
   );
 
   // Create the rom by patching the vanilla rom.
