@@ -1,6 +1,7 @@
 import { PropsWithChildren } from 'react'
 import { NewHeader } from './header'
 import styles from './wrapper.module.css'
+import FileDrop from './file-drop'
 
 export interface WrapperProps extends PropsWithChildren {
   borderless?: boolean
@@ -13,6 +14,7 @@ export const Wrapper = ({ borderless = false, ...props }: WrapperProps) => {
       <main className={styles.container}>
         {props.children}
       </main>
+      <FileDrop />
     </>
   )
 }
