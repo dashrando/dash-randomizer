@@ -118,10 +118,10 @@ const SectionHeading = ({ title = '' }) => (
   </div>
 )
 
-const Section = ({ children, title, className = null }: { children?: React.ReactNode, title: string, className?: string | null }) => (
+const Section = ({ children, title, className = null, noHeading = false }: { children?: React.ReactNode, title: string, className?: string | null, noHeading: boolean }) => (
   <section className={cn(styles.section, styles.open, className)}>
-    <SectionHeading title={title} />
-    <div>
+    {!noHeading && <SectionHeading title={title} />}
+    <div className={styles.section_content}>
       {children}
     </div>
   </section>
@@ -477,7 +477,7 @@ export default function Form() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.grid}>
         <div className={styles.sections}>
-          <Section title="Mode">
+          <Section title="Mode" noHeading>
             <Option label="Mode" name="mode">
               <Select
                 options={[
