@@ -6,7 +6,6 @@ import styles from './info.module.css'
 
 const Title = ({ id, children }: { id: string, children: React.ReactNode }) => (
   <h2 className={styles.title}>
-    <span className={styles.anchor_spacer} />
     <Link href={`#${id}`}>
       {children}
       <span className={styles.link_icon}>
@@ -27,8 +26,8 @@ const Article = ({
   badge?: React.ReactNode,
   children: React.ReactNode
 }) => (
-  <article className={styles.article}>
-    <header id={id}>
+  <article className={styles.article} id={id}>
+    <header>
       {badge ? (
         <div className={styles.titleWithBadge}>
           <span>
