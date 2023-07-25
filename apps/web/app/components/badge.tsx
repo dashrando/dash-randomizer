@@ -9,6 +9,8 @@ const badgeVariants = cva(
       variant: {
         upcoming: styles.upcoming,
         early: styles.early,
+        alpha: styles.alpha,
+        beta: styles.beta,
       }
     }
   }

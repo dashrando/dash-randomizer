@@ -524,7 +524,7 @@ export default function Form() {
                 determines the available locations where major items can be placed.
               </p>
             </Option>
-            <Option label="Boss" name="boss" badge={<Badge variant="early">Canary</Badge>}>
+            <Option label="Boss" name="boss" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
                   { label: 'Randomized', value: 'randomized' },
@@ -539,7 +539,7 @@ export default function Form() {
                 can randomize the boss found at a given boss location.
               </p>
             </Option>
-            <Option label="Area" name="area" badge={<Badge variant="early">Canary</Badge>}>
+            <Option label="Area" name="area" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
                   { label: 'Randomized', value: 'randomized' },
