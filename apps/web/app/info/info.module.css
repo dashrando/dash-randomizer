@@ -1,0 +1,18 @@
+.article {
+  max-width: 600px;
+}
+
+.article h2 {
+  color: #fff;
+  margin: 0;
+}
+
+.article strong {
+  color: #fff;
+}
+
+.article + .article {
+  margin-top: var(--spacer-8x);
+  padding-top: var(--spacer-8x);
+  border-top: 1px solid #222;
+}
