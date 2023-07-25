@@ -118,7 +118,7 @@ const SectionHeading = ({ title = '' }) => (
   </div>
 )
 
-const Section = ({ children, title, className = null, noHeading = false }: { children?: React.ReactNode, title: string, className?: string | null, noHeading: boolean }) => (
+const Section = ({ children, title, className = null, noHeading = false }: { children?: React.ReactNode, title: string, className?: string | null, noHeading?: boolean }) => (
   <section className={cn(styles.section, styles.open, className)}>
     {!noHeading && <SectionHeading title={title} />}
     <div className={styles.section_content}>
