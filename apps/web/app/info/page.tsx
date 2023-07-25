@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Wrapper } from '../components/wrapper'
 import { Link as LinkIcon } from 'react-feather'
 import styles from './info.module.css'
+import Spacer from '../components/spacer'
 
 const Title = ({ id, children }: { id: string, children: React.ReactNode }) => (
   <h2 className={styles.title}>
@@ -62,6 +63,61 @@ export default function Page() {
               <p>
                 <strong>Recall Major/minor</strong>: x
               </p>
+              <details>
+                <summary>Locations</summary>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Area</th>
+                      <th>Vanilla Item</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Bomb Torizo</td>
+                      <td>Crateria</td>
+                      <td>Bombs</td>
+                    </tr>
+                    <tr>
+                      <td>Morph Pedestal</td>
+                      <td>Crateria</td>
+                      <td>Morph Ball</td>
+                    </tr>
+                    <tr>
+                      <td>Ceiling E-Tank</td>
+                      <td>Crateria</td>
+                      <td>E-Tank</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </details>
+              <Spacer y={4} />
+              <details>
+                <summary>Items</summary>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th style={{ minWidth: '160px' }}>Name</th>
+                      <th>Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Morphing Ball</td>
+                      <td>Must be in either Morph Pedestal or Ceiling E-Tank in Crateria.</td>
+                    </tr>
+                    <tr>
+                      <td>Varia</td>
+                      <td>Cannot be in Crateria.</td>
+                    </tr>
+                    <tr>
+                      <td>E-Tank</td>
+                      <td>There are 12 total E-Tanks in this split.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </details>
             </li>
             <li>
               <p>
