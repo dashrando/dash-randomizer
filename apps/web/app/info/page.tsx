@@ -54,7 +54,7 @@ export default function Page() {
           <p><strong>NTSC</strong> and <strong>PAL</strong> are video standards. NTSC is most commonly used today as it runs at 60Hz whereas PAL runs at 50Hz.</p>
         </Article>
         <Article id="mode" title="Mode">
-          <p><strong>Mode</strong> is the combination of <Link href="/info#item-split">Item Split</Link>, <Link href="/info#boss-shuffle">Boss Shuffle</Link> and <Link href="/info#area">Area Randomization</Link>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
+          <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss-shuffle">Boss Shuffle</a> and <a href="#area">Area Randomization</a>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
         </Article>
         <Article id="item-split" title="Item Split">
           <p><strong>Item Split</strong> determines the available locations where major items can be placed.</p>
