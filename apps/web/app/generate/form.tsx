@@ -520,7 +520,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#item-split">Item Split</Link>{' '}
+                <a href="/info#item-split">Item Split</a>{' '}
                 determines the available locations where major items can be placed.
               </p>
             </Option>
@@ -535,7 +535,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#boss">Boss Randomization</Link>{' '}
+                <a href="/info#boss-shuffle">Boss Shuffle</a>{' '}
                 can randomize the boss found at a given boss location.
               </p>
             </Option>
@@ -549,7 +549,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#area">Area Randomization</Link>{' '}
+                <a href="/info#area" >Area Randomization</a>{' '}
                 will randomize the portals between certain areas or leave them as in the vanilla game.
               </p>
             </Option>
@@ -565,7 +565,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#minors">Minor Item Distribution</Link>{' '}
+                <a href="/info#minors">Minor Item Distribution</a>{' '}
                 determines the ratio of minor items placed throughout the game.
               </p>
             </Option>
@@ -579,7 +579,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#map-layout">Map Layout</Link>{' '}
+                <a href="/info#map-layout">Map Layout</a>{' '}
                 applies various tweaks, anti-soft lock patches and other quality of life improvements.
               </p>
             </Option>
@@ -595,7 +595,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#beam-mode">Beam Mode</Link>{' '}
+                <a href="/info#beam-mode">Beam Mode</a>{' '}
                 alters the amount of damage caused by Charge Beam.
               </p>
             </Option>
@@ -609,7 +609,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#gravity-heat-reduction">Gravity Heat Reduction</Link>{' '}
+                <a href="/info#gravity-heat-reduction">Gravity Heat Reduction</a>{' '}
                 causes Gravity Suit to provide 25% heat damage reduction.
               </p>
             </Option>
@@ -623,7 +623,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#double-jump">Double Jump</Link>{' '}
+                <a href="/info#double-jump">Double Jump</a>{' '}
                 is a new item that works as a single-use Space Jump.
               </p>
             </Option>
@@ -637,7 +637,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#heat-shield">Heat Shield</Link>{' '}
+                <a href="/info#heat-shield">Heat Shield</a>{' '}
                 is a new item that works as a mini-Varia.
               </p>
             </Option>
@@ -652,7 +652,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#pressure-valve">Pressure Valve</Link>{' '}
+                <a href="/info#pressure-valve">Pressure Valve</a>{' '}
                 is a new item that works as a mini-Gravity.
               </p>
             </Option>
@@ -671,7 +671,7 @@ export default function Form() {
                 <Numeric minVal={1} maxVal={999999} defaultValue={1} name="seed" register={register} />
               )}
               <p>
-                <Link href="/info#seed-mode">Seed Mode</Link>{' '}
+                <a href="/info#seed-mode">Seed Mode</a>{' '}
                 controls how the random number generator is initialized.
               </p>
             </Option>
@@ -685,7 +685,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#fanfare">Item Fanfare</Link>{' '}
+                <a href="/info#fanfare">Item Fanfare</a>{' '}
                 is the music when an item is collected.
               </p>
             </Option>

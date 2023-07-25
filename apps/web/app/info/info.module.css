@@ -29,6 +29,24 @@
   border-top: 1px solid #222;
 }
 
+.article p {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.article p a {
+  color: #fff;
+  font-weight: 700;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.article p a:hover {
+  color: #77e7be;
+  text-decoration-color: #77e7be;
+}
+
 .article ul {
   display: block;
   list-style: none;
