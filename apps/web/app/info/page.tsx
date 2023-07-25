@@ -1,19 +1,44 @@
 import Badge from '../components/badge'
 import { Wrapper } from '../components/wrapper'
+import { Link as LinkIcon } from 'react-feather'
 import styles from './info.module.css'
+
+const Title = ({ id, children }: { id: string, children: React.ReactNode }) => (
+  <h2 className={styles.title}>
+    <span id={id} className={styles.anchor_spacer} />
+    <a href={`#${id}`}>
+      {children}
+      <span className={styles.link_icon}>
+        <LinkIcon size={14} />
+      </span>
+    </a>
+  </h2>
+)
 
 const Article = ({
   id,
   title,
+  badge,
   children
 }: {
   id: string,
   title: string,
+  badge?: React.ReactNode,
   children: React.ReactNode
 }) => (
   <article className={styles.article}>
-    <a id={id} />
-    <h2>{title}</h2>
+    <header>
+      {badge ? (
+        <div className={styles.titleWithBadge}>
+          <span>
+            <Title id={id}>{title}</Title>
+          </span>
+          {badge}
+        </div>
+      ) : (
+        <Title id={id}>{title}</Title>
+      )}
+    </header>
     {children}
   </article>
 )
@@ -47,7 +72,17 @@ export default function Page() {
             </li>
           </ul>
         </Article>
-        <Article id="boss-shuffle" title="Boss Shuffle">
+        <Article
+          id="boss-shuffle"
+          badge={<Badge variant="alpha">Alpha</Badge>}
+          title="Boss Shuffle"
+          // title={(
+          //   <span className={styles.titleWithBadge}>
+          //     Boss Shuffle
+          //     <Badge variant="alpha">Alpha</Badge>
+          //   </span>
+          // )}
+        >
           <p>
             <strong>Boss Shuffle</strong> can randomize the G4 boss found at a given boss location. For example, going to the boss location at Kraid&apos; warehouse might lead to Kraid, Phantoon, Draygon or Ridley. While the encountered boss might be at its expected location, at least one of the G4 bosses will not be in their vanilla location.
           </p>
@@ -63,12 +98,11 @@ export default function Page() {
               </p>
             </li>
             <li>
-              <p>
+              <p style={{ marginBottom: 0 }}>
                 <strong>Known</strong> will enable this randomization and also allow the boss randomization to be viewable from the pause screen.
-                <br />
-                <span style={{ display: 'block', height: '4px' }} />
-                <Badge>Coming soon</Badge>
               </p>
+              <span style={{ display: 'block', height: 'var(--spacer-2x)' }} />
+              <Badge>Coming soon</Badge>
             </li>
           </ul>
         </Article>
