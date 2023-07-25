@@ -1,3 +1,4 @@
+import Badge from '../components/badge'
 import { Wrapper } from '../components/wrapper'
 import styles from './info.module.css'
 
@@ -64,6 +65,9 @@ export default function Page() {
             <li>
               <p>
                 <strong>Known</strong> will enable this randomization and also allow the boss randomization to be viewable from the pause screen.
+                <br />
+                <span style={{ display: 'block', height: '4px' }} />
+                <Badge>Coming soon</Badge>
               </p>
             </li>
           </ul>
