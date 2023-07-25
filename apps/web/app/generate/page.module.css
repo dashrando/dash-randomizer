@@ -22,11 +22,13 @@
 }
 
 .section.open {
-  margin-bottom: var(--spacer-16x);
+  margin-bottom: var(--spacer-8x);
 }
 
 .section + .section {
   margin-top: var(--spacer-4x);
+  padding-top: var(--spacer-8x);
+  border-top: 1px solid #222;
 }
 
 .heading {
