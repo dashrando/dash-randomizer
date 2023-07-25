@@ -83,9 +83,12 @@
   transition: color 0.15s ease-in-out;
 }
 
-.navigation a:hover,
-.navigation a.active {
+.navigation a:hover {
   color: #fff;
+}
+
+.navigation a.active {
+  color: #77e7be !important;
 }
 
 .mobileNavBtn {
