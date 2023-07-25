@@ -11,6 +11,7 @@
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
   font-weight: 400;
   font-size: 12px;
+  min-width: 60px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -27,6 +28,18 @@
 }
 
 .early {
+  color: #000;
+  border: 0;
+  background: linear-gradient(135deg,#11fec7,#06b3e7);
+}
+
+.alpha {
+  color: #000;
+  border: 0;
+  background: linear-gradient(135deg,#d611fe,#4088c0);
+}
+
+.beta {
   color: #000;
   border: 0;
   background: linear-gradient(135deg,#11fec7,#06b3e7);

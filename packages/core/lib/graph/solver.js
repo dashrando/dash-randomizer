@@ -59,10 +59,10 @@ class GraphSolver {
       CanKillCrocomire,
       CanKillBotwoon,
       CanKillGoldTorizo,
-      HasDefeatedKraid,
-      HasDefeatedPhantoon,
-      HasDefeatedDraygon,
-      HasDefeatedRidley,
+      HasDefeatedBrinstarBoss,
+      HasDefeatedWreckedShipBoss,
+      HasDefeatedMaridiaBoss,
+      HasDefeatedNorfairBoss,
     } = load.getFlags(this.settings);
 
     return (condition) => eval(`(${condition.toString()})()`);
@@ -100,11 +100,20 @@ class GraphSolver {
   isValid(initLoad, legacyMode = false) {
     let samus = initLoad.clone();
 
-    const printBoss = (boss) => {
-      const door = this.graph.find(
-        (n) => n.to.name == `Exit_${boss}` && n.from.name.startsWith("Door_")
-      ).from.name;
-      this.printDefeatedBoss(`Defeated ${boss} @ ${door}`);
+    const printBoss = (item) => {
+      const bossVertex = this.graph.find((e) => e.to.item == item).to;
+      const exitVertex = this.graph.find(
+        (e) => e.from.name.startsWith("Exit_") && e.to == bossVertex
+      ).from;
+      const doorVertex = this.graph.find(
+        (e) => e.from.name.startsWith("Door_") && e.to == exitVertex
+      ).from;
+
+      this.printDefeatedBoss(
+        `Defeated ${ItemNames.get(item.type)} - ${bossVertex.name} @ ${
+          doorVertex.name
+        }`
+      );
     };
 
     const findAll = () =>
@@ -135,7 +144,7 @@ class GraphSolver {
 
         items.push(p.item);
         if (this.printDefeatedBoss && p.type == "boss") {
-          printBoss(ItemNames.get(p.item.type));
+          printBoss(p.item);
         }
 
         p.item = undefined;

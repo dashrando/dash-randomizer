@@ -23,10 +23,10 @@ class Loadout {
   hasPlasma = false;
   hasGrapple = false;
 
-  hasDefeatedKraid = false;
-  hasDefeatedPhantoon = false;
-  hasDefeatedDraygon = false;
-  hasDefeatedRidley = false;
+  hasDefeatedBrinstarBoss = false;
+  hasDefeatedWreckedShipBoss = false;
+  hasDefeatedMaridiaBoss = false;
+  hasDefeatedNorfairBoss = false;
   hasDefeatedSporeSpawn = false;
   hasDefeatedCrocomire = false;
   hasDefeatedBotwoon = false;
@@ -205,17 +205,17 @@ class Loadout {
       case Item.DefeatedCrocomire:
         this.hasDefeatedCrocomire = true;
         break;
-      case Item.DefeatedDraygon:
-        this.hasDefeatedDraygon = true;
+      case Item.DefeatedMaridiaBoss:
+        this.hasDefeatedMaridiaBoss = true;
         break;
-      case Item.DefeatedKraid:
-        this.hasDefeatedKraid = true;
+      case Item.DefeatedBrinstarBoss:
+        this.hasDefeatedBrinstarBoss = true;
         break;
-      case Item.DefeatedPhantoon:
-        this.hasDefeatedPhantoon = true;
+      case Item.DefeatedWreckedShipBoss:
+        this.hasDefeatedWreckedShipBoss = true;
         break;
-      case Item.DefeatedRidley:
-        this.hasDefeatedRidley = true;
+      case Item.DefeatedNorfairBoss:
+        this.hasDefeatedNorfairBoss = true;
         break;
       case Item.DefeatedGoldTorizo:
         this.hasDefeatedGoldTorizo = true;
@@ -313,10 +313,10 @@ class Loadout {
       CanKillGoldTorizo: this.hasVaria && canDamageBosses,
       HasDefeatedBotwoon: this.hasDefeatedBotwoon,
       HasDefeatedCrocomire: this.hasDefeatedCrocomire,
-      HasDefeatedDraygon: this.hasDefeatedDraygon,
-      HasDefeatedKraid: this.hasDefeatedKraid,
-      HasDefeatedPhantoon: this.hasDefeatedPhantoon,
-      HasDefeatedRidley: this.hasDefeatedRidley,
+      HasDefeatedMaridiaBoss: this.hasDefeatedMaridiaBoss,
+      HasDefeatedBrinstarBoss: this.hasDefeatedBrinstarBoss,
+      HasDefeatedWreckedShipBoss: this.hasDefeatedWreckedShipBoss,
+      HasDefeatedNorfairBoss: this.hasDefeatedNorfairBoss,
       HasDefeatedGoldTorizo: this.hasDefeatedGoldTorizo,
       HasDefeatedSporeSpawn: this.hasDefeatedSporeSpawn,
     };

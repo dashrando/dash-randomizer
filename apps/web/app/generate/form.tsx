@@ -14,6 +14,7 @@ import useMounted from '../hooks/useMounted'
 import { Item, RandomizeRom, paramsToString } from 'core'
 import {
   BeamMode,
+  BossMode,
   GravityHeatReduction,
   MajorDistributionMode,
   MapLayout,
@@ -117,10 +118,10 @@ const SectionHeading = ({ title = '' }) => (
   </div>
 )
 
-const Section = ({ children, title, className = null }: { children?: React.ReactNode, title: string, className?: string | null }) => (
+const Section = ({ children, title, className = null, noHeading = false }: { children?: React.ReactNode, title: string, className?: string | null, noHeading?: boolean }) => (
   <section className={cn(styles.section, styles.open, className)}>
-    <SectionHeading title={title} />
-    <div>
+    {!noHeading && <SectionHeading title={title} />}
+    <div className={styles.section_content}>
       {children}
     </div>
   </section>
@@ -175,10 +176,22 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
-  mode: 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom',
+  mode: 'sgl23' | 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom',
 }
 
 const MODES = {
+  'sgl23': {
+    'item-split': 'full',
+    area: 'randomized',
+    boss: 'randomized',
+    minors: 'dash',
+    'map-layout': 'standard',
+    'beam-mode': 'new',
+    'gravity-heat-reduction': 'on',
+    'double-jump': 'on',
+    'heat-shield': 'off',
+    'pressure-valve': 'none',
+  },
   'dash-recall-v2': {
     'item-split': 'recall-mm',
     area: 'standard',
@@ -279,7 +292,7 @@ export default function Form() {
     }
   } = useForm<GenerateFormParams>({
     defaultValues: {
-      'mode': 'dash-recall-v1',
+      'mode': 'sgl23',
       'seed-mode': 'random',
     }
   })
@@ -355,7 +368,7 @@ export default function Form() {
         suitMode: SuitMode.Dash,
         gravityHeatReduction: GravityHeatReduction.On,
         randomizeAreas: false,
-        randomizeBosses: false,
+        bossMode: BossMode.Vanilla,
       };
 
       if (data.mode == 'dash-recall-v1') {
@@ -366,6 +379,8 @@ export default function Form() {
         settings.preset = "Classic";
       } else if (data.mode == 'standard') {
         settings.preset = "Standard";
+      } else if (data.mode == 'sgl23') {
+        settings.preset = "SGL23"
       }
 
       if (data['beam-mode'] == 'classic') {
@@ -385,7 +400,7 @@ export default function Form() {
       }
 
       if (data.boss == 'randomized') {
-        settings.randomizeBosses = true;
+        settings.bossMode = BossMode.ShuffleDash;
       }
 
       const options = {
@@ -462,10 +477,11 @@ export default function Form() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.grid}>
         <div className={styles.sections}>
-          <Section title="Mode">
+          <Section title="Mode" noHeading>
             <Option label="Mode" name="mode">
               <Select
                 options={[
+                  { label: 'SG Live 2023', value: 'sgl23' },
                   { label: 'DASH: Recall v1', value: 'dash-recall-v1' },
                   { label: 'DASH: Recall v2', value: 'dash-recall-v2' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
@@ -496,9 +512,9 @@ export default function Form() {
             <Option label="Item Split" name="item-split">
               <Select
                 options={[
+                  { label: 'Full', value: 'full' },
                   { label: 'Recall Major/Minor', value: 'recall-mm' },
                   { label: 'Standard Major/Minor', value: 'standard-mm' },
-                  { label: 'Full', value: 'full' },
                 ]}
                 name="item-split"
                 register={register}
@@ -508,11 +524,11 @@ export default function Form() {
                 determines the available locations where major items can be placed.
               </p>
             </Option>
-            <Option label="Boss" name="boss" badge={<Badge variant="early">Canary</Badge>}>
+            <Option label="Boss" name="boss" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
-                  { label: 'Standard', value: 'standard' },
                   { label: 'Randomized', value: 'randomized' },
+                  { label: 'Standard', value: 'standard' },
                   //{ label: 'Known', value: 'known' },
                 ]}
                 name="boss"
@@ -523,16 +539,11 @@ export default function Form() {
                 can randomize the boss found at a given boss location.
               </p>
             </Option>
-            <Option
-              label="Area"
-              name="area"
-              badge={<Badge variant="upcoming">Coming Soon</Badge>}
-            >
+            <Option label="Area" name="area" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
-                disabled
                 options={[
-                  { label: 'Standard', value: 'standard' },
                   { label: 'Randomized', value: 'randomized' },
+                  { label: 'Standard', value: 'standard' },
                 ]}
                 name="area"
                 register={register}
@@ -561,8 +572,8 @@ export default function Form() {
             <Option label="Map Layout" name="map-layout">
               <Select
                 options={[
-                  { label: 'DASH Recall', value: 'dash-recall' },
                   { label: 'Standard Vanilla', value: 'standard-vanilla' },
+                  { label: 'DASH Recall', value: 'dash-recall' },
                 ]}
                 name="map-layout"
                 register={register}
@@ -575,9 +586,9 @@ export default function Form() {
             <Option label="Beam Mode" name="beam-mode">
               <Select
                 options={[
+                  { label: 'Vanilla', value: 'vanilla' },
                   { label: 'Recall', value: 'recall' },
                   { label: 'Classic', value: 'classic' },
-                  { label: 'Vanilla', value: 'vanilla' },
                   { label: 'New', value: 'new' },
                 ]}
                 name="beam-mode"
@@ -619,8 +630,8 @@ export default function Form() {
             <Option label="Heat Shield" name="heat-shield">
               <Select
                 options={[
-                  { label: 'On', value: 'on' },
                   { label: 'Off', value: 'off' },
+                  { label: 'On', value: 'on' },
                 ]}
                 name="heat-shield"
                 register={register}
@@ -633,8 +644,8 @@ export default function Form() {
             <Option label="Pressure Valve" name="pressure-valve">
               <Select
                 options={[
-                  { label: 'On', value: 'one' },
                   { label: 'Off', value: 'none' },
+                  { label: 'On', value: 'one' },
                   //{ label: '2', value: 'two' },
                 ]}
                 name="pressure-valve"

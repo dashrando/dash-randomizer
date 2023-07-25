@@ -1,7 +1,8 @@
 export const kraidslairEdges = {
   Door_KraidsLair: {
     //beetoms are bomb walls and green doors, trust me
-    EnergyTank_Kraid: () => HasDefeatedKraid && (CanOpenGreenDoors || CanDestroyBombWalls),
+    EnergyTank_Kraid: () =>
+      HasDefeatedBrinstarBoss && (CanOpenGreenDoors || CanDestroyBombWalls),
     KraidsHallway: () => CanPassBombPassages,
   },
 

@@ -40,6 +40,13 @@ export const GravityHeatReduction = {
   On: 0x3000,
 };
 
+export const BossMode = {
+  Vanilla: 0,
+  ShuffleStandard: 1,
+  ShuffleDash: 2,
+  Randomized: 3,
+};
+
 //-----------------------------------------------------------------
 // Utility functions
 //-----------------------------------------------------------------
@@ -148,7 +155,7 @@ export const paramsToBytes = (
   const area = (settings.randomizeAreas ? 0x1 : 0x0) << 6;
   bytes[3] = version | major | minor | area;
 
-  const boss = settings.randomizeBosses ? 0x1 : 0x0;
+  const boss = settings.bossMode;
   const extra = majorDistribution.extraItems;
   const doubleJump = extra.filter((i) => i == Item.DoubleJump).length;
   const heatShield = extra.filter((i) => i == Item.HeatShield).length;
@@ -199,7 +206,7 @@ export const bytesToParams = (bytes) => {
 
   const settings = {
     randomizeAreas: area == 0x1,
-    randomizeBosses: boss == 0x1,
+    bossMode: boss,
     beamMode: beam,
     suitMode: suit,
     gravityHeatReduction:
