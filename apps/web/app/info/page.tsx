@@ -61,7 +61,8 @@ export default function Page() {
           <ul>
             <li>
               <p>
-                <strong>Recall Major/minor</strong>: x
+                <strong>Recall Major/minor</strong>:{' '}
+                Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations, with a few changes, dictated by the logic. Changes include the removal of the Kraid&apos;s Etank location and the additions of the Sky Missile, Watering Hole, and Mickey Mouse Missile locations.
               </p>
               <details>
                 <summary>Locations</summary>
@@ -121,7 +122,8 @@ export default function Page() {
             </li>
             <li>
               <p>
-                <strong>Standard major/minor</strong>: x
+                <strong>Standard major/minor</strong>:{' '}
+                Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations dictated by the logic.
               </p>
             </li>
             <li>
@@ -137,7 +139,7 @@ export default function Page() {
           title="Boss Shuffle"
         >
           <p>
-            <strong>Boss Shuffle</strong> can randomize the G4 boss found at a given boss location. For example, going to the boss location at Kraid&apos; warehouse might lead to Kraid, Phantoon, Draygon or Ridley. While the encountered boss might be at its expected location, at least one of the G4 bosses will not be in their vanilla location.
+            <strong>Boss Shuffle</strong> can shuffle the G4 bosses found at a given boss location. For example, going to the boss location at Kraid&apos; warehouse might lead to Kraid, Phantoon, Draygon or Ridley. While the encountered boss might be at its expected location, at least two of the G4 bosses will not be in their vanilla location.
           </p>
           <ul>
             <li>
@@ -147,12 +149,12 @@ export default function Page() {
             </li>
             <li>
               <p>
-                <strong>Randomized</strong> enables this randomization. At least one G4 boss will not be at its vanilla location.
+                <strong>Randomized</strong> enables this randomization. At least two G4 bosses will not be at its vanilla location.
               </p>
             </li>
             <li>
               <p style={{ marginBottom: 0 }}>
-                <strong>Known</strong> will enable this randomization and also allow the boss randomization to be viewable from the pause screen.
+                <strong>Known</strong> ensures at least two G4 bosses will not be at their vanilla locations, but the player will have the boss locations viewable from the pause screen.
               </p>
               <span style={{ display: 'block', height: 'var(--spacer-2x)' }} />
               <Badge>Coming soon</Badge>
