@@ -161,6 +161,142 @@ export default function Page() {
             </li>
           </ul>
         </Article>
+        <Article
+          id="area"
+          badge={<Badge variant="alpha">Alpha</Badge>}
+          title="Area"
+        >
+          <p>
+            <strong>Area Randomization</strong> will randomize connecting doors between Crateria, Green Brinstar, Red Brinstar, Kraid&apos;s Lair, Wrecked Ship, Upper Norfair, Crocomire, Lower Norfair, West Maridia, East Maridia and Tourian.
+          </p>
+          <ul>
+            <li>
+              <p>
+                <strong>Randomized</strong> enables this randomization. While the connections to areas are randomized, there is still a path to beating the game dictated by the logic.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Standard</strong> disables this randomization and all areas connect as in the vanilla game.
+              </p>
+            </li>
+          </ul>
+        </Article>
+        <Article
+          id="minors"
+          title="Minor Item Distribution"
+        >
+          <p>
+            <strong>Minor Item Distribution</strong> determines the ratio of minor items placed throughout the game.
+          </p>
+          <ul>
+            <li>
+              <p>
+                <strong>DASH</strong> provides 2 Missiles for every 1 Super Missile and 1 Power Bomb.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Standard</strong> provides 3 Missiles for every 2 Super Missiles and 1 Power Bomb.
+              </p>
+            </li>
+          </ul>
+        </Article>
+        <Article
+          id="map-layout"
+          title="Map Layout"
+        >
+          <p>
+            <strong>Map Layout</strong> applies various tweaks, anti-soft lock patches and other quality of life improvements.
+          </p>
+          <ul>
+            <li>
+              <p>
+                <strong>Standard Vanilla</strong> has the &quot;vanilla&quot; map that most randomizers use, such as Total&apos;s Randomizer and VARIA.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>DASH Recall</strong> has everything included in Standard Vanilla, but also includes a few changes specific to the DASH Recall logic.
+              </p>
+            </li>
+          </ul>
+        </Article>
+        <Article
+          id="beam-mode"
+          title="Beam Mode"
+        >
+          <p>
+            <em>Coming soon</em>
+          </p>
+        </Article>
+        <Article
+          id="gravity-heat-reduction"
+          title="Gravity Heat Reduction"
+        >
+          <p>
+            <em>Coming soon</em>
+          </p>
+        </Article>
+        <Article
+          id="double-jump"
+          title="Double Jump"
+        >
+          <p>
+            <strong>Double Jump</strong> is a new item introduced in DASH Recall. When equipped, it allows Samus to make one additional mid-air jump. This behaves like a single-use Space Jump.
+          </p>
+        </Article>
+        <Article
+          id="heat-shield"
+          title="Heat Shield"
+        >
+          <p>
+            <strong>Heat Shield</strong> is a new item introduced in DASH Recall. When equipped, it reduces environmental damage from heated rooms.
+          </p>
+          <ul>
+            <li>
+              <p>
+                In Upper Norfair, environmental damage is reduced 100%.
+              </p>
+            </li>
+            <li>
+              <p>
+                In Lower Norfair, environmental damage from heated rooms is reduced by 50%.
+              </p>
+            </li>
+            <li>
+              <p>
+                If Gravity Heat Reduction is enabled, Heat Shield can be paired with Gravity Suit for a total of 75% damage reduction.
+              </p>
+            </li>
+          </ul>
+          <p>Heat Shield is superseded by Varia Suit, and will become unavailable once Varia Suit has been picked up.</p>
+        </Article>
+        <Article
+          id="pressure-valve"
+          title="Pressure Valve"
+        >
+          <p>
+            <strong>Pressure Valve</strong> is a new item introduced in DASH Recall. When equipped, it allows for seamless underwater movement like Gravity Suit. However, it has no effect in Aquaduct and other rooms in East Maridia. It also offers no damage reduction.
+          </p>
+          <p>Pressure Valve is superseded by Gravity Suit, and will become unavailable once Gravity Suit has been picked up.</p>
+        </Article>
+        <Article
+          id="seed-mode"
+          title="Seed Mode"
+        >
+          <p>
+            <em>Coming soon</em>
+          </p>
+        </Article>
+        <Article
+          id="fanfare"
+          title="Item Fanfare"
+        >
+          <p>
+            <em>Coming soon</em>
+          </p>
+        </Article>
       </div>
     </Wrapper>
   )
