@@ -102,6 +102,12 @@
   transform: translateX(0);
 }
 
+@media (hover: none) {
+  .title a .link_icon {
+    display: none;
+  }
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
