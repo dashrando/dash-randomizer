@@ -24,6 +24,10 @@
   font-weight: 600;
 }
 
+.article details:last-child {
+  margin-bottom: var(--spacer-12x);
+}
+
 .article details summary {
   font-weight: 600;
 }

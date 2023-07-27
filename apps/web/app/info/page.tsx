@@ -122,9 +122,64 @@ export default function Page() {
             </li>
             <li>
               <p>
-                <strong>Standard major/minor</strong>:{' '}
+                <strong>Standard Major/minor</strong>:{' '}
                 Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations dictated by the logic.
               </p>
+              <details>
+                <summary>Locations</summary>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Area</th>
+                      <th>Vanilla Item</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Bomb Torizo</td>
+                      <td>Crateria</td>
+                      <td>Bombs</td>
+                    </tr>
+                    <tr>
+                      <td>Morph Pedestal</td>
+                      <td>Crateria</td>
+                      <td>Morph Ball</td>
+                    </tr>
+                    <tr>
+                      <td>Ceiling E-Tank</td>
+                      <td>Crateria</td>
+                      <td>E-Tank</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </details>
+              <Spacer y={4} />
+              <details>
+                <summary>Items</summary>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th style={{ minWidth: '160px' }}>Name</th>
+                      <th>Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Morphing Ball</td>
+                      <td>Must be in either Morph Pedestal or Ceiling E-Tank in Crateria.</td>
+                    </tr>
+                    <tr>
+                      <td>Varia</td>
+                      <td>Cannot be in Crateria.</td>
+                    </tr>
+                    <tr>
+                      <td>E-Tank</td>
+                      <td>There are 12 total E-Tanks in this split.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </details>
             </li>
             <li>
               <p>
@@ -266,7 +321,7 @@ export default function Page() {
             </li>
             <li>
               <p>
-                If Gravity Heat Reduction is enabled, Heat Shield can be paired with Gravity Suit for a total of 75% damage reduction.
+                If <a href="#gravity-heat-reduction">Gravity Heat Reduction</a> is enabled, Heat Shield can be paired with Gravity Suit for a total of 75% damage reduction.
               </p>
             </li>
           </ul>
