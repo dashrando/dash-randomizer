@@ -128,15 +128,9 @@ export const generateSeedPatch = (
     if (y == undefined) {
       throw new Error(`Could not find: ${b}`);
     }
-    if (x.from == y.to) {
-      return [
-        { door: x.address, dest: y.aligned },
-        { door: y.address, dest: x.aligned },
-      ];
-    }
     return [
-      { door: x.address, dest: y.misaligned },
-      { door: y.address, dest: x.misaligned },
+      { door: x.address, dest: y.vector },
+      { door: y.address, dest: x.vector },
     ];
   };
 
