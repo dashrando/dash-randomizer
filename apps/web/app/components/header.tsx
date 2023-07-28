@@ -80,12 +80,31 @@ export const Navigation = () => {
   )
 }
 
+function EnvironmentLabel() {
+  const {
+    NEXT_PUBLIC_VERCEL_ENV: vercelEnv,
+    NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF: branch,
+  } = process.env
+  const isPreview = vercelEnv === 'preview'
+  const isCanary = branch === 'canary'
+  const label = isCanary ? 'canary' : branch || 'preview'
+  if (isPreview) {
+    return (
+      <span className={cn(styles['environment-label'], isCanary ? styles.canary : styles.preview)}>
+        {label}
+      </span>
+    )
+  }
+  return null
+}
+
 function Logo() {
   return (
     <div className={styles['logo']}>
       <Link href="/">
         DASH
       </Link>
+      <EnvironmentLabel />
     </div>
   )
 }
