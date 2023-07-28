@@ -56,6 +56,21 @@ async function verifyVanilla(value: any): Promise<any> {
   throw Error("Vanilla Rom does not match checksum.")
 }
 
+function isDASHSeed(seed: Uint8Array): boolean {
+  // Test if DASH seed by checking for "Super Metroid DASH" at 0x007FC0
+  const offset = 0x007FC0
+  const searchString = 'Super Metroid DASH'
+  const searchBytes = new TextEncoder().encode(searchString)
+  let found = true
+  for (let i = 0; i < searchBytes.length; i++) {
+    if (seed[offset + i] !== searchBytes[i]) {
+      found = false
+      break
+    }
+  }
+  return found
+}
+
 const getFileContents = async (file: File): Promise<Uint8Array> => {
   return new Promise((resolve, reject) => {
     let reader = new FileReader()
@@ -111,12 +126,17 @@ const FileDrop = (props: React.PropsWithChildren) => {
       return null
     }
 
-    // TODO: Test if DASH seed
-    // if seed, go to seed page
-    const seedKey = getParamsFromFile(data)
-    if (seedKey) {
-      router.push(`/seed/${seedKey}?download=false`)
+    const isDASH = isDASHSeed(data)
+    if (isDASH) {
+      const seedKey = getParamsFromFile(data)
+      if (seedKey) {
+        router.push(`/seed/${seedKey}?download=false`)
+        return
+      }
     }
+    
+    // Not a vanilla or DASH file
+    // TODO: Handle error gracefully
   }, [router, setActive, vanilla, setVanilla])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
