@@ -7,6 +7,9 @@ import DiscordLogo from './logos/discord'
 import GithubLogo from './logos/github'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
+import getEnv from '@/lib/env'
+
+const env = getEnv()
 
 export default function Header() {
   return (
@@ -81,13 +84,11 @@ export const Navigation = () => {
 }
 
 function EnvironmentLabel() {
-  const {
-    NEXT_PUBLIC_VERCEL_ENV: vercelEnv,
-    NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF: branch,
-  } = process.env
+  const { vercelEnv, branch } = env
   const isPreview = vercelEnv === 'preview'
   const isCanary = branch === 'canary'
-  const label = isCanary ? 'canary' : branch || 'preview'
+  const label = isCanary ? 'canary' : 'preview'
+
   if (isPreview) {
     return (
       <span className={cn(styles['environment-label'], isCanary ? styles.canary : styles.preview)}>
