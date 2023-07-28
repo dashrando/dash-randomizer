@@ -22,7 +22,7 @@ import {
   Preset_Recall_Full,
 } from "./lib/graph/data/recall/preset";
 import { Item } from "./lib/items";
-import { paramsToString, stringToParams } from "./lib/graph/params";
+import { bytesToParams, paramsToString, stringToParams } from "./lib/graph/params";
 
 const vanilla = {
   vanillaROM,
@@ -54,6 +54,7 @@ export {
   vanilla,
   BpsPatch,
   patchRom,
+  bytesToParams,
   paramsToString,
   stringToParams,
   getSignature,

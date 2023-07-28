@@ -87,3 +87,11 @@ body {
   background-color: var(--selection-background);
   color: var(--selection-foreground);
 }
+
+[data-sonner-toast][data-styled=true] {
+  justify-content: center;
+}
+
+[data-sonner-toast] [data-title] {
+  text-align: center;
+}
