@@ -118,10 +118,10 @@ const SectionHeading = ({ title = '' }) => (
   </div>
 )
 
-const Section = ({ children, title, className = null }: { children?: React.ReactNode, title: string, className?: string | null }) => (
+const Section = ({ children, title, className = null, noHeading = false }: { children?: React.ReactNode, title: string, className?: string | null, noHeading?: boolean }) => (
   <section className={cn(styles.section, styles.open, className)}>
-    <SectionHeading title={title} />
-    <div>
+    {!noHeading && <SectionHeading title={title} />}
+    <div className={styles.section_content}>
       {children}
     </div>
   </section>
@@ -477,7 +477,7 @@ export default function Form() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.grid}>
         <div className={styles.sections}>
-          <Section title="Mode">
+          <Section title="Mode" noHeading>
             <Option label="Mode" name="mode">
               <Select
                 options={[
@@ -524,7 +524,7 @@ export default function Form() {
                 determines the available locations where major items can be placed.
               </p>
             </Option>
-            <Option label="Boss" name="boss" badge={<Badge variant="early">Canary</Badge>}>
+            <Option label="Boss" name="boss" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
                   { label: 'Randomized', value: 'randomized' },
@@ -539,7 +539,7 @@ export default function Form() {
                 can randomize the boss found at a given boss location.
               </p>
             </Option>
-            <Option label="Area" name="area" badge={<Badge variant="early">Canary</Badge>}>
+            <Option label="Area" name="area" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
                   { label: 'Randomized', value: 'randomized' },
