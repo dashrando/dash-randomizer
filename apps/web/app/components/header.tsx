@@ -80,11 +80,12 @@ export const Navigation = () => {
   )
 }
 
+const {
+  NEXT_PUBLIC_VERCEL_ENV: vercelEnv,
+  NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF: branch,
+} = process.env
+
 function EnvironmentLabel() {
-  const {
-    NEXT_PUBLIC_VERCEL_ENV: vercelEnv,
-    NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF: branch,
-  } = process.env
   const isPreview = vercelEnv === 'preview'
   const isCanary = branch === 'canary'
   const label = isCanary ? 'canary' : branch || 'preview'
