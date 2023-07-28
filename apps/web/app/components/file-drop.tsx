@@ -6,6 +6,7 @@ import { bytesToParams, paramsToString, vanilla as vanillaData } from 'core'
 import styles from './file-drop.module.css'
 import { useRouter } from 'next/navigation'
 import { useVanilla } from '../generate/vanilla'
+import { toast } from 'sonner'
 
 const getParamsFromFile = (bytes: Uint8Array) => {
   try {
@@ -120,14 +121,17 @@ const FileDrop = (props: React.PropsWithChildren) => {
     const isVanilla = await checkVanilla(data)
     if (isVanilla) {
       if (vanilla) {
+        toast('Vanilla ROM already set')
         return null
       }
       await setVanilla(data)
+      toast('Vanilla ROM loaded')
       return null
     }
 
     const isDASH = isDASHSeed(data)
     if (isDASH) {
+      toast('Loading DASH seed...')
       const seedKey = getParamsFromFile(data)
       if (seedKey) {
         router.push(`/seed/${seedKey}?download=false`)
