@@ -140,7 +140,7 @@ const FileDrop = (props: React.PropsWithChildren) => {
     }
     
     // Not a vanilla or DASH file
-    // TODO: Handle error gracefully
+    toast.error(`Could not load seed`)
   }, [router, setActive, vanilla, setVanilla])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
