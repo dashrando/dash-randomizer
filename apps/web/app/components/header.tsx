@@ -87,9 +87,13 @@ function EnvironmentLabel() {
   } = process.env
   const isPreview = vercelEnv === 'preview'
   const isCanary = branch === 'canary'
-  console.log({ isPreview, isCanary })
-  if (!isPreview) {
-    return null
+  const label = isCanary ? 'canary' : branch || 'preview'
+  if (isPreview) {
+    return (
+      <span className={cn(styles['environment-label'], isCanary ? styles.canary : styles.preview)}>
+        {label}
+      </span>
+    )
   }
   return null
 }

@@ -44,6 +44,7 @@
   color: #fff;
   /* width: 200px; */
   display: block;
+  position: relative;
 }
 
 .logo a {
@@ -232,4 +233,25 @@
   .social {
     display: none;
   }
+}
+
+.environment-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-left: var(--spacer-2x);
+  position: absolute;
+  top: 14px;
+  right: -40px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+}
+
+.environment-label.canary {
+  color: #6eb1af;
+}
+
+.environment-label.preview {
+  color: #c87dbb;
 }
