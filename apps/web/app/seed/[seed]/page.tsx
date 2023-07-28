@@ -2,6 +2,7 @@
 
 import "@/public/styles/dash.css";
 import "@/public/styles/seed.css";
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from "react";
 import { saveAs } from "file-saver";
 import {
@@ -35,6 +36,7 @@ export default function SeedPage({ params }: { params: SeedParams}) {
     data: null,
     name: "DASH_Custom_AA000000.sfc",
   });
+  const searchParams = useSearchParams()
 
   useEffect(() => {
     async function startup() {
@@ -61,7 +63,7 @@ export default function SeedPage({ params }: { params: SeedParams}) {
           vanillaBytes,
         })) as { data: any; name: string };
         const signature = fetchSignature(data);
-        const autoDownload = true;
+        const autoDownload = !searchParams.get("download");
         const readyEvt = new CustomEvent("seed:ready", {
           detail: { data, name, seed, mapLayout, itemPoolParams,
                     settings, options, autoDownload, signature },
@@ -134,7 +136,7 @@ export default function SeedPage({ params }: { params: SeedParams}) {
     });
 
     startup();
-  }, []);
+  }, [searchParams, params.seed]);
 
   const DownloadButton = () => {
     const btnText = downloading ? "Downloading..." : `Download ${romData.name}`;
