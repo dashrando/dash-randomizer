@@ -162,7 +162,7 @@ export const graphFill = (seed, graph, itemPoolParams, settings) => {
   //-----------------------------------------------------------------
 
   let attempts = 0;
-  while (attempts < 100) {
+  while (attempts < 150) {
     attempts += 1;
 
     nonPrefilled.forEach((n) => (n.item = undefined));

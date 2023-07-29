@@ -184,10 +184,10 @@ const MODES = {
     'item-split': 'full',
     area: 'randomized',
     boss: 'randomized',
-    minors: 'dash',
+    minors: 'standard',
     'map-layout': 'standard',
     'beam-mode': 'new',
-    'gravity-heat-reduction': 'on',
+    'gravity-heat-reduction': 'off',
     'double-jump': 'on',
     'heat-shield': 'off',
     'pressure-valve': 'none',
@@ -558,8 +558,8 @@ export default function Form() {
             <Option label="Minor Item Distribution" name="minors">
               <Select
                 options={[
-                  { label: 'DASH - 2:1:1', value: 'dash' },
                   { label: 'Standard - 3:2:1', value: 'standard' },
+                  { label: 'DASH - 2:1:1', value: 'dash' },
                 ]}
                 name="minors"
                 register={register}
@@ -602,8 +602,8 @@ export default function Form() {
             <Option label="Gravity Heat Reduction" name="gravity-heat-reduction">
               <Select
                 options={[
-                  { label: 'On', value: 'on' },
                   { label: 'Off', value: 'off' },
+                  { label: 'On', value: 'on' },
                 ]}
                 name="gravity-heat-reduction"
                 register={register}
