@@ -1,7 +1,8 @@
 "use client";
 
-import "@/public/styles/dash.css";
-import "@/public/styles/seed.css";
+// import "@/public/styles/dash.css";
+// import "@/public/styles/seed.css";
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from "react";
 import { saveAs } from "file-saver";
 import {
@@ -11,6 +12,8 @@ import {
   fetchSignature,
 } from "core";
 import { MajorDistributionMode, MapLayout, MinorDistributionMode } from "core/params";
+import Link from 'next/link'
+import styles from './seed.module.css'
 
 type SeedParams = {
   seed: string
@@ -29,112 +32,123 @@ export default function SeedPage({ params }: { params: SeedParams}) {
     options: {},
   });
   const [signature, setSignature] = useState("BEETOM BULL YARD GAMET");
-  const [containerClass, setContainerClass] = useState("");
   const [downloading, setDownloading] = useState(false);
   const [romData, setRomData] = useState({
     data: null,
     name: "DASH_Custom_AA000000.sfc",
   });
+  const searchParams = useSearchParams()
 
   useEffect(() => {
-    async function startup() {
-      try {
-        new vanilla.vanillaROM();
-        const{ seed, mapLayout, itemPoolParams, settings, options } = stringToParams(params.seed);
-        Object.assign(settings, {preset: "Custom"});
-        if (!seed || !mapLayout || !itemPoolParams || !settings || !options) {
-          const missingEvt = new CustomEvent("seed:params-missing");
-          document.dispatchEvent(missingEvt);
-          return null;
-        }
+    // Check for all params (server)
+    // Check for vanilla (client)
 
-        const vanillaBytes = await vanilla.getVanilla();
-        if (!vanillaBytes) {
-          const vanillaEvt = new CustomEvent("seed:vanilla-missing", {
-            detail: { seed, mapLayout, itemPoolParams, settings, options },
-          });
-          document.dispatchEvent(vanillaEvt);
-          return null;
-        }
-        const { data, name } = (await RandomizeRom(
-          seed, mapLayout, itemPoolParams, settings, options, {
-          vanillaBytes,
-        })) as { data: any; name: string };
-        const signature = fetchSignature(data);
-        const autoDownload = true;
-        const readyEvt = new CustomEvent("seed:ready", {
-          detail: { data, name, seed, mapLayout, itemPoolParams,
-                    settings, options, autoDownload, signature },
-        });
-        document.dispatchEvent(readyEvt);
+    // Randomize ROM (server)
+    // Fetch signature (server)
+    // Patch and set (server)
+    
+    // Auto-download by default (client)
+  }, [])
 
-        if (autoDownload) {
-          setTimeout(() => {
-            downloadFile(data, name);
-            const downloadEvt = new CustomEvent("seed:download", {
-              detail: { name },
-            });
-            document.dispatchEvent(downloadEvt);
-          }, 850);
-        }
-      } catch (e) {
-        const message = (e as Error).message;
-        console.error(message);
-      }
-    }
+  // useEffect(() => {
+  //   async function startup() {
+  //     try {
+  //       new vanilla.vanillaROM();
+  //       const{ seed, mapLayout, itemPoolParams, settings, options } = stringToParams(params.seed);
+  //       Object.assign(settings, {preset: "Custom"});
+  //       if (!seed || !mapLayout || !itemPoolParams || !settings || !options) {
+  //         const missingEvt = new CustomEvent("seed:params-missing");
+  //         document.dispatchEvent(missingEvt);
+  //         return null;
+  //       }
 
-    document.addEventListener("seed:params-missing", (_) => {
-      setContainerClass("params-missing");
-    });
+  //       const vanillaBytes = await vanilla.getVanilla();
+  //       if (!vanillaBytes) {
+  //         const vanillaEvt = new CustomEvent("seed:vanilla-missing", {
+  //           detail: { seed, mapLayout, itemPoolParams, settings, options },
+  //         });
+  //         document.dispatchEvent(vanillaEvt);
+  //         return null;
+  //       }
+  //       const { data, name } = (await RandomizeRom(
+  //         seed, mapLayout, itemPoolParams, settings, options, {
+  //         vanillaBytes,
+  //       })) as { data: any; name: string };
+  //       const signature = fetchSignature(data);
+  //       const autoDownload = !searchParams.get('download')
+  //       const readyEvt = new CustomEvent("seed:ready", {
+  //         detail: { data, name, seed, mapLayout, itemPoolParams,
+  //                   settings, options, autoDownload, signature },
+  //       });
+  //       document.dispatchEvent(readyEvt);
 
-    document.addEventListener("seed:vanilla-missing", (evt: any) => {
-      const { seed, mapLayout, itemPoolParams, settings, options } = evt.detail;
-      setPageSettings({
-        seedNum: seed,
-        mapLayout: mapLayout,
-        itemPoolParams: itemPoolParams,
-        settings: {...settings, preset: "Custom"},
-        options: options
-      });
-      setContainerClass("vanilla-missing loaded");
+  //       if (autoDownload) {
+  //         setTimeout(() => {
+  //           downloadFile(data, name);
+  //           const downloadEvt = new CustomEvent("seed:download", {
+  //             detail: { name },
+  //           });
+  //           document.dispatchEvent(downloadEvt);
+  //         }, 850);
+  //       }
+  //     } catch (e) {
+  //       const message = (e as Error).message;
+  //       console.error(message);
+  //     }
+  //   }
 
-      document.addEventListener("vanillaRom:set", async (evt: any) => {
-        const vanillaBytes = evt.detail.data;
-        const { data, name } = (await RandomizeRom(seed, mapLayout,
-          itemPoolParams, settings, options, {
-          vanillaBytes,
-        })) as { data: any; name: string };
-        const signature = fetchSignature(data);
-        setSignature(signature);
-        setRomData({ data: data, name: name });
-        setContainerClass("loaded");
-        downloadFile(data, name);
-      });
-    });
+  //   document.addEventListener("seed:params-missing", (_) => {
+  //     setContainerClass("params-missing");
+  //   });
 
-    document.addEventListener("seed:ready", (evt: any) => {
-      if (evt.detail.autoDownload) {
-        setDownloading(true);
-      }
-      setRomData({ data: evt.detail.data, name: evt.detail.name });
-      const { seed, mapLayout, itemPoolParams, settings, options } = evt.detail;
-      setPageSettings({
-        seedNum: seed,
-        mapLayout: mapLayout,
-        itemPoolParams: itemPoolParams,
-        settings: settings,
-        options: options
-      });
-      setSignature(evt.detail.signature);
-      setContainerClass("loaded");
-    });
+  //   document.addEventListener("seed:vanilla-missing", (evt: any) => {
+  //     const { seed, mapLayout, itemPoolParams, settings, options } = evt.detail;
+  //     setPageSettings({
+  //       seedNum: seed,
+  //       mapLayout: mapLayout,
+  //       itemPoolParams: itemPoolParams,
+  //       settings: {...settings, preset: "Custom"},
+  //       options: options
+  //     });
+  //     setContainerClass("vanilla-missing loaded");
 
-    document.addEventListener("seed:download", (evt: any) => {
-      setDownloading(false);
-    });
+  //     document.addEventListener("vanillaRom:set", async (evt: any) => {
+  //       const vanillaBytes = evt.detail.data;
+  //       const { data, name } = (await RandomizeRom(seed, mapLayout,
+  //         itemPoolParams, settings, options, {
+  //         vanillaBytes,
+  //       })) as { data: any; name: string };
+  //       const signature = fetchSignature(data);
+  //       setSignature(signature);
+  //       setRomData({ data: data, name: name });
+  //       setContainerClass("loaded");
+  //       downloadFile(data, name);
+  //     });
+  //   });
 
-    startup();
-  }, []);
+  //   document.addEventListener("seed:ready", (evt: any) => {
+  //     if (evt.detail.autoDownload) {
+  //       setDownloading(true);
+  //     }
+  //     setRomData({ data: evt.detail.data, name: evt.detail.name });
+  //     const { seed, mapLayout, itemPoolParams, settings, options } = evt.detail;
+  //     setPageSettings({
+  //       seedNum: seed,
+  //       mapLayout: mapLayout,
+  //       itemPoolParams: itemPoolParams,
+  //       settings: settings,
+  //       options: options
+  //     });
+  //     setSignature(evt.detail.signature);
+  //     setContainerClass("loaded");
+  //   });
+
+  //   document.addEventListener("seed:download", (evt: any) => {
+  //     setDownloading(false);
+  //   });
+
+  //   startup();
+  // }, [params.seed, searchParams]);
 
   const DownloadButton = () => {
     const btnText = downloading ? "Downloading..." : `Download ${romData.name}`;
@@ -184,11 +198,11 @@ export default function SeedPage({ params }: { params: SeedParams}) {
   
   const SeedFooter = () => {
     return (
-      <footer id="seed-footer">
+      <footer className={styles.footer}>
         <p>
           This seed was generated by
           <br />
-          <a href="/">DASH Randomizer</a>
+          <Link href="/">DASH Randomizer</Link>
         </p>
       </footer>
     );
@@ -243,7 +257,7 @@ export default function SeedPage({ params }: { params: SeedParams}) {
   };
 
   const SeedSignature = ({ sig }: { sig: string }) => {
-    return <div id="seed-signature">{sig}</div>;
+    return <div className={styles.signature}>{sig}</div>;
   };
 
   const SeedParam = ({ name, value }: { name: string; value: string }) => {
@@ -281,8 +295,8 @@ export default function SeedPage({ params }: { params: SeedParams}) {
   };
 
   return (
-    <main id="seed-container" className={containerClass}>
-      <h1>DASH Randomizer</h1>
+    <main id="seed-container" className={styles.container}>
+      <h1 className={styles.logo}>DASH</h1>
       <SeedSignature sig={signature} />
       <DownloadButton />
       <SeedError />
@@ -294,3 +308,5 @@ export default function SeedPage({ params }: { params: SeedParams}) {
     </main>
   );
 }
+
+// TODO: Generate ISR

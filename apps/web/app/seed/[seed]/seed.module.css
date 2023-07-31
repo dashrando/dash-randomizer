@@ -1,0 +1,57 @@
+.container {
+  --type-mono: var(--jetbrains-mono), monospace;
+  max-width: 440px;
+  margin: 80px auto 40px;
+  text-align: center;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  font-style: italic;
+  padding: 0;
+  margin: 0;
+  color: #fff;
+  /* width: 200px; */
+  display: block;
+}
+
+.logo a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.signature {
+  /* font-family: var(--type-mono), 'SF Mono', monospace; */
+  font-family: 'SF Mono', monospace;
+  font-size: 18px;
+  color: #fff;
+  text-transform: uppercase;
+  margin: var(--spacer) 0;
+  /* opacity: 0; */
+  transition: opacity 0.3s ease-in-out, filter 0.15s ease-in-out;
+  /* filter: blur(4px); */
+}
+
+.footer {
+  margin: 40px 0 0;
+  font-size: 14px;
+  line-height: 18px;
+  /* opacity: 0; */
+  transition: opacity 0.3s ease-in-out 0.6s;
+}
+
+.footer a {
+  color: rgb(90, 173, 54);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.footer a:hover {
+  color: #fff;
+  text-decoration-color: transparent;
+}
