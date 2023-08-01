@@ -188,7 +188,10 @@ export const paramsToString = (
     settings,
     options
   );
-  return Buffer.from(bytes).toString("base64");
+  return Buffer.from(bytes)
+    .toString("base64")
+    .replaceAll("/", "$")
+    .replaceAll("+", "-");
 };
 
 export const bytesToParams = (bytes) => {
@@ -246,6 +249,9 @@ export const bytesToParams = (bytes) => {
 };
 
 export const stringToParams = (str) => {
-  const bytes = Buffer.from(str, "base64");
+  const bytes = Buffer.from(
+    str.replaceAll("$", "/").replaceAll("-", "+"),
+    "base64"
+  );
   return bytesToParams(bytes);
 };

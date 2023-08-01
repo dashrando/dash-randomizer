@@ -310,7 +310,7 @@ export default function Form() {
 
       const getSeed = () => {
         if (data['seed-mode'] == 'fixed') {
-          return data.seed;
+          return parseInt(data.seed);
         }
 
         const [minSeed, maxSeed] = [1, 999999];
