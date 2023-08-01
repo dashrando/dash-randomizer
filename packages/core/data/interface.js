@@ -105,17 +105,17 @@ export const AREA_DOORS = {
 export const BOSS_ITEMS = {
   // Varia Suit Location
   VariaSuitInBrinstar: 0x78ACA,
-  VariaSuitInWreckedShip: 0x7EADA,
-  VariaSuitInMaridia: 0x7EB0B,
-  VariaSuitInNorfair: 0x7EAA9,
+  VariaSuitInWreckedShip: 0x7E9FA,
+  VariaSuitInMaridia: 0x7EA2B,
+  VariaSuitInNorfair: 0x7E9C9,
   // Space Jump Location
-  SpaceJumpInBrinstar: 0x7ECF2,
-  SpaceJumpInWreckedShip: 0x7ED54,
+  SpaceJumpInBrinstar: 0x7EC12,
+  SpaceJumpInWreckedShip: 0x7EC74,
   SpaceJumpInMaridia: 0x7C7A7,
-  SpaceJumpInNorfair: 0x7ED23,
+  SpaceJumpInNorfair: 0x7EC43,
   // Ridley Tank Location
-  RidleyTankInBrinstar: 0x7EE63,
-  RidleyTankInWreckedShip: 0x7EE94,
-  RidleyTankInMaridia: 0x7EEC5,
+  RidleyTankInBrinstar: 0x7ED83,
+  RidleyTankInWreckedShip: 0x7EDB4,
+  RidleyTankInMaridia: 0x7EDE5,
   RidleyTankInNorfair: 0x79108,
 };
