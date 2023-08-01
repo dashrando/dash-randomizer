@@ -63,7 +63,7 @@ const Numeric = ({
                   defaultValue={defaultValue}
                   ref={inputRef}
                   pattern="[0-9]*"
-                  {...register(name, { required })}
+                  {...register(name, { required, valueAsNumber: true })}
                />
                {/* <div className={styles.suffix}>
                   <button

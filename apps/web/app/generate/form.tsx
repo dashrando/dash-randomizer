@@ -171,7 +171,7 @@ export interface GenerateSeedSettings {
 
 export interface GenerateSeedParams extends GenerateSeedSettings {
   'seed-mode': 'random' | 'fixed',
-  seed: string,
+  seed: number,
   fanfare: 'off' | 'on', 
 }
 
@@ -309,8 +309,8 @@ export default function Form() {
       const config = { vanillaBytes: vanilla };
 
       const getSeed = () => {
-        if (data['seed-mode'] == 'fixed') {
-          return parseInt(data.seed);
+        if (data['seed-mode'] === 'fixed') {
+          return data.seed;
         }
 
         const [minSeed, maxSeed] = [1, 999999];
