@@ -171,7 +171,7 @@ export interface GenerateSeedSettings {
 
 export interface GenerateSeedParams extends GenerateSeedSettings {
   'seed-mode': 'random' | 'fixed',
-  seed: number,
+  seed: string,
   fanfare: 'off' | 'on', 
 }
 
