@@ -309,7 +309,7 @@ export default function Form() {
       const config = { vanillaBytes: vanilla };
 
       const getSeed = () => {
-        if (data['seed-mode'] == 'fixed') {
+        if (data['seed-mode'] === 'fixed') {
           return data.seed;
         }
 

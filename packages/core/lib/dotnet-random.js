@@ -26,6 +26,14 @@ class DotNetRandom {
     const Int32MinValue = -2147483648;
     const Int32MaxValue = 2147483647;
 
+    // Verify the seed is valid.
+    if (Seed < Int32MinValue) {
+      throw new Error(`DotNetRandom: Seed too small ${Seed}`);
+    }
+    if (Seed > Int32MaxValue) {
+      throw new Error(`DotNetRandom: Seed too large ${Seed}`);
+    }
+
     // Initialize our Seed array.
     // This algorithm comes from Numerical Recipes in C (2nd Ed.)
     let subtraction = Seed == Int32MinValue ? Int32MaxValue : Math.abs(Seed);
