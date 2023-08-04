@@ -119,3 +119,14 @@ export const BOSS_ITEMS = {
   RidleyTankInMaridia: 0x7EDE5,
   RidleyTankInNorfair: 0x79108,
 };
+
+export const TABLE_FLAGS = {
+  // Charge Modes: 0x00 = Vanilla  0x01 = Starter,
+  //               0x02 = Recall   0x03 = New
+  ChargeMode: 0x2F8004,
+  // HUD bits: 0x01 = Charge  0x02 = Item Counts,
+  //           0x04 = Area    0x08 = Dash Items
+  HUDBitField: 0x2F8005,
+  // Fanfare: 0x0000 = On  0x0001 = Off
+  NoFanfare: 0x2F8B0C,
+};

@@ -4,7 +4,6 @@ import { patchRom } from "../helpers/patcher";
 import { loadGraph } from "./graph/init";
 import { graphFill } from "./graph/fill";
 import { MapLayout } from "./graph/params";
-import { isAreaEdge, isBossEdge } from "../data/doors";
 
 const getBasePatch = (mapLayout, area) => {
   if (mapLayout == MapLayout.Recall) {
@@ -33,7 +32,7 @@ async function RandomizeRom(
     settings.randomizeAreas,
     settings.bossMode
   );
-  graphFill(seed, graph, itemPoolParams, settings, true);
+  graphFill(seed, graph, itemPoolParams, settings);
 
   // Load the base patch associated with the map layout.
   const patch = getBasePatch(mapLayout, settings.randomizeAreas);

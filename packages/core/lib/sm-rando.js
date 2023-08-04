@@ -7,8 +7,14 @@ import { loadGraph } from "./graph/init";
 import { graphFill } from "./graph/fill";
 import { presets } from "..";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
-import { BOSS_DOORS, BOSS_ITEMS } from "../data/interface";
-import { BossMode, paramsToBytes, paramsToString } from "./graph/params";
+import { BOSS_DOORS, BOSS_ITEMS, TABLE_FLAGS } from "../data/interface";
+import {
+  BeamMode,
+  BossMode,
+  MajorDistributionMode,
+  paramsToBytes,
+  paramsToString,
+} from "./graph/params";
 
 export const generateSeedPatch = (
   seed,
@@ -114,11 +120,23 @@ export const generateSeedPatch = (
     });
 
   //-----------------------------------------------------------------
+  // Setup HUD.
+  //-----------------------------------------------------------------
+
+  let hudBits = 0x0c; // Show Area and Dash Items
+  if (settings.beamMode != BeamMode.Vanilla) {
+    hudBits |= 0x01; // Show Charge Damage
+  }
+  if (itemPoolParams.majorDistribution.mode == MajorDistributionMode.Full) {
+    hudBits |= 0x02; // Show Item Counts
+  }
+  encodeBytes(seedPatch, TABLE_FLAGS.HUDBitField, U8toBytes(hudBits));
+
+  //-----------------------------------------------------------------
   // Settings.
   //-----------------------------------------------------------------
 
-  encodeBytes(seedPatch, 0x2f8004, U8toBytes(settings.beamMode));
-  encodeBytes(seedPatch, 0x2f8005, U8toBytes(0x1)); // show charge damage on HUD
+  encodeBytes(seedPatch, TABLE_FLAGS.ChargeMode, U8toBytes(settings.beamMode));
   encodeBytes(seedPatch, 0x2f8b10, U16toBytes(settings.gravityHeatReduction));
 
   //-----------------------------------------------------------------
@@ -241,7 +259,11 @@ export const generateSeedPatch = (
   //-----------------------------------------------------------------
 
   if (options != null) {
-    encodeBytes(seedPatch, 0x2f8b0c, U16toBytes(options.DisableFanfare));
+    encodeBytes(
+      seedPatch,
+      TABLE_FLAGS.NoFanfare,
+      U16toBytes(options.DisableFanfare)
+    );
   }
 
   //-----------------------------------------------------------------
