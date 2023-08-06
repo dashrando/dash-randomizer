@@ -8,6 +8,7 @@ import ModeStandard from "@/../../packages/core/lib/modes/modeStandard";
 import Loadout from "@/../../packages/core/lib/loadout";
 import { useState } from "react";
 import { getItemNodes, presets } from "core";
+import { BossMode } from "core/params";
 import {
   getFullPrePool,
   getMajorMinorPrePool,
@@ -38,6 +39,7 @@ export type Params = {
 type SeedStatus = {
   progression: ItemProgression[];
   totalTime: number;
+  attempts: number;
 };
 
 const Parameters = ({ value, update }: { value: Params; update: any }) => {
@@ -56,6 +58,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           })
         }
       >
+        <option value="sgl23">SGL23 - Full - Boss+Area</option>
         <option value="sm">Standard - Major / Minor</option>
         <option value="sf">Standard - Full</option>
         <option value="rm">Recall - Major / Minor</option>
@@ -103,7 +106,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 
 export default function StatsPage() {
   const [params, setParams] = useState({
-    gameMode: "rm",
+    gameMode: "sgl23",
     startSeed: 1,
     endSeed: 100,
   });
@@ -112,6 +115,7 @@ export default function StatsPage() {
   const [status, setStatus] = useState<SeedStatus>({
     progression: [],
     totalTime: 1,
+    attempts: 0
   });
 
   const generateSeeds = () => {
@@ -137,6 +141,9 @@ export default function StatsPage() {
     let preset;
 
     switch (gameMode) {
+      case "sgl23":
+        preset = presets.SGL23;
+        break;
       case "sm":
         preset = presets.ClassicMM;
         break;
@@ -153,11 +160,20 @@ export default function StatsPage() {
         throw new Error(`Unknown preset: ${gameMode}`);
     }
 
+    let totalAttempts = 0;
+
     for (let i = startSeed; i <= endSeed; i++) {
       const { mapLayout, itemPoolParams, settings } = preset;
       const { majorDistribution } = itemPoolParams;
-      const graph = loadGraph(i, mapLayout, majorDistribution.mode);
-      graphFill(i, graph, itemPoolParams, settings);
+      const { bossMode, randomizeAreas } = preset.settings;
+      const graph = loadGraph(i, mapLayout, majorDistribution.mode,
+        randomizeAreas, bossMode);
+
+      try {
+        totalAttempts += graphFill(i, graph, itemPoolParams, settings);
+      } catch (e) {
+        continue;
+      }
 
       progression.push(getItemNodes(graph));
     }
@@ -167,6 +183,7 @@ export default function StatsPage() {
       return {
         progression: current.progression.concat(progression),
         totalTime: current.totalTime + delta,
+        attempts: current.attempts + totalAttempts,
       };
     });
   };
@@ -210,12 +227,13 @@ export default function StatsPage() {
       return {
         progression: current.progression.concat(progression),
         totalTime: current.totalTime + delta,
+        attempts: 0,
       };
     });
   };
 
   const clearResults = () => {
-    setStatus({ progression: [], totalTime: 1 });
+    setStatus({ progression: [], totalTime: 1, attempts: 0 });
   };
 
   const updateParams = (newParams: Params) => {
@@ -242,8 +260,9 @@ export default function StatsPage() {
           {status.progression.length <= 0
             ? ""
             : `${status.progression.length} seeds ${status.totalTime}ms [ ${
-                status.totalTime / status.progression.length
-              }ms avg]`}
+                (status.totalTime / status.progression.length).toFixed(1)
+              }ms avg] [avg attempts ${
+                (status.attempts/status.progression.length).toFixed(1)}]`}
         </span>
         <span id="right_side" className={styles.right_side}>
           <span className={styles.fill_selector}>
