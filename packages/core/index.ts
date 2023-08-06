@@ -21,8 +21,13 @@ import {
   Preset_Recall_MM,
   Preset_Recall_Full,
 } from "./lib/graph/data/recall/preset";
+import { Preset_SGL23 } from "./lib/presets";
 import { Item } from "./lib/items";
-import { bytesToParams, paramsToString, stringToParams } from "./lib/graph/params";
+import {
+  bytesToParams,
+  paramsToString,
+  stringToParams,
+} from "./lib/graph/params";
 
 const vanilla = {
   vanillaROM,
@@ -44,6 +49,7 @@ const presets = {
   ClassicFull: Preset_Classic_Full,
   RecallMM: Preset_Recall_MM,
   RecallFull: Preset_Recall_Full,
+  SGL23: Preset_SGL23,
 };
 
 export {

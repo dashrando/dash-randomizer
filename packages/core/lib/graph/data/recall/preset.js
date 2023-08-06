@@ -1,6 +1,7 @@
 import { Item } from "../../../items";
 import {
   BeamMode,
+  BossMode,
   MapLayout,
   MajorDistributionMode,
   MinorDistributionMode,
@@ -27,6 +28,8 @@ export const Preset_Recall_MM = {
     beamMode: BeamMode.DashRecall,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
+    randomizeAreas: false,
+    bossMode: BossMode.Vanilla,
   },
 };
 
@@ -49,5 +52,7 @@ export const Preset_Recall_Full = {
     beamMode: BeamMode.DashRecall,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
+    randomizeAreas: false,
+    bossMode: BossMode.Vanilla,
   },
 };

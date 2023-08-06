@@ -1,5 +1,6 @@
 import {
   BeamMode,
+  BossMode,
   MapLayout,
   MajorDistributionMode,
   MinorDistributionMode,
@@ -26,6 +27,8 @@ export const Preset_Season_MM = {
     beamMode: BeamMode.Vanilla,
     suitMode: SuitMode.Standard,
     gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: false,
+    bossMode: BossMode.Vanilla,
   },
 };
 
@@ -48,5 +51,7 @@ export const Preset_Season_Full = {
     beamMode: BeamMode.Vanilla,
     suitMode: SuitMode.Standard,
     gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: false,
+    bossMode: BossMode.Vanilla,
   },
 };

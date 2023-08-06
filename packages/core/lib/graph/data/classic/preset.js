@@ -1,5 +1,6 @@
 import {
   BeamMode,
+  BossMode,
   MapLayout,
   MajorDistributionMode,
   MinorDistributionMode,
@@ -26,6 +27,8 @@ export const Preset_Classic_MM = {
     beamMode: BeamMode.DashClassic,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
+    randomizeAreas: false,
+    bossMode: BossMode.Vanilla,
   },
 };
 
@@ -48,5 +51,7 @@ export const Preset_Classic_Full = {
     beamMode: BeamMode.DashClassic,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
+    randomizeAreas: false,
+    bossMode: BossMode.Vanilla,
   },
 };

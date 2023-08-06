@@ -1,5 +1,6 @@
 import {
   BeamMode,
+  BossMode,
   MapLayout,
   MajorDistributionMode,
   MinorDistributionMode,
@@ -25,5 +26,7 @@ export const VanillaPreset = {
     beamMode: BeamMode.Vanilla,
     suitMode: SuitMode.Vanilla,
     gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: false,
+    bossMode: BossMode.Vanilla,
   },
 };
