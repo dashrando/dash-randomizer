@@ -109,7 +109,7 @@ export default function VanillaButton() {
   })
 
   return (
-    <div>
+    <div className={styles.vanilla}>
       <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
         <div {...getRootProps()}>
           <div className={styles.wrapper}>
@@ -117,7 +117,7 @@ export default function VanillaButton() {
             Upload Vanilla ROM
           </div>
         </div>
-        <p>You must set the vanilla ROM in order to be able to generate a randomized seed.</p>
+        <p>You must set the <a href="/info#vanilla">Vanilla ROM</a> in order to be able to generate a randomized seed.</p>
       </div>
     </div>
   )
