@@ -117,7 +117,7 @@ export default function VanillaButton() {
             Upload Vanilla ROM
           </div>
         </div>
-        <p>You must set the <a href="/info#vanilla">Vanilla ROM</a> in order to be able to generate a randomized seed.</p>
+        <p>You must set the <a href="/info/settings#vanilla">Vanilla ROM</a> in order to be able to generate a randomized seed.</p>
       </div>
     </div>
   )
