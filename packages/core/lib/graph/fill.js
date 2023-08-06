@@ -12,18 +12,21 @@ const canPlaceItem_Full = (item, vertex) => {
     return false;
   }
   if (item.type == Item.Gravity) {
-    //if (vertex.area == Area.Crateria) {
-    if (vertex.area == "Crateria") {
-      return false;
+    switch (vertex.area) {
+      case "Crateria":
+      case "BlueBrinstar":
+        return false;
+      default:
+        break;
     }
   } else if (item.type == Item.Varia) {
-    //if (vertex.area == Area.LowerNorfair || vertex.area == Area.Crateria) {
-    if (
-      vertex.area == "LowerNorfair" ||
-      vertex.area == "Crateria" ||
-      vertex.area == "BlueBrinstar"
-    ) {
-      return false;
+    switch (vertex.area) {
+      case "Crateria":
+      case "BlueBrinstar":
+      case "LowerNorfair":
+        return false;
+      default:
+        break;
     }
   }
   return true;
@@ -37,39 +40,24 @@ const canPlaceItem_MajorMinor = (item, vertex) => {
     return false;
   }
   if (item.type == Item.Gravity) {
-    //if (vertex.area == Area.Crateria) {
-    if (vertex.area == "Crateria") {
-      return false;
+    switch (vertex.area) {
+      case "Crateria":
+      case "BlueBrinstar":
+        return false;
+      default:
+        break;
     }
   } else if (item.type == Item.Varia) {
-    //if (vertex.area == Area.LowerNorfair || vertex.area == Area.Crateria) {
-    if (
-      vertex.area == "LowerNorfair" ||
-      vertex.area == "Crateria" ||
-      vertex.area == "BlueBrinstar"
-    ) {
-      return false;
+    switch (vertex.area) {
+      case "Crateria":
+      case "BlueBrinstar":
+      case "LowerNorfair":
+        return false;
+      default:
+        break;
     }
-  } else {
-    return true;
-  }
-
-  if (
-    vertex.name == "MorphBall" ||
-    vertex.name == "Missiles_Beta" ||
-    vertex.name == "EnergyTank_Ceiling"
-  ) {
-    return false;
   }
   return true;
-  //switch (node.location.address) {
-  //case 0x786de: // Morphing Ball
-  //case 0x78798: // Missiles (Beta)
-  //case 0x7879e: // Energy Tank (Brinstar Ceiling)
-  //return false;
-  //default:
-  //return true;
-  //}
 };
 
 export const graphFill = (seed, graph, itemPoolParams, settings) => {
@@ -189,7 +177,7 @@ export const graphFill = (seed, graph, itemPoolParams, settings) => {
   //-----------------------------------------------------------------
 
   let attempts = 0;
-  while (attempts < 5) {
+  while (attempts < 150) {
     attempts += 1;
 
     nonPrefilled.forEach((n) => (n.item = undefined));
