@@ -8,7 +8,6 @@ import ModeStandard from "@/../../packages/core/lib/modes/modeStandard";
 import Loadout from "@/../../packages/core/lib/loadout";
 import { useState } from "react";
 import { getItemNodes, presets } from "core";
-import { BossMode } from "core/params";
 import {
   getFullPrePool,
   getMajorMinorPrePool,
@@ -20,8 +19,7 @@ import {
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
-import { graphFill } from "@/../../packages/core/lib/graph/fill";
-import { loadGraph } from "@/../../packages/core/lib/graph/init";
+import { generateSeed } from "@/../../packages/core/lib/sm-rando";
 
 export type ItemLocation = {
   location: Location;
@@ -164,18 +162,14 @@ export default function StatsPage() {
 
     for (let i = startSeed; i <= endSeed; i++) {
       const { mapLayout, itemPoolParams, settings } = preset;
-      const { majorDistribution } = itemPoolParams;
-      const { bossMode, randomizeAreas } = preset.settings;
-      const graph = loadGraph(i, mapLayout, majorDistribution.mode,
-        randomizeAreas, bossMode);
 
       try {
-        totalAttempts += graphFill(i, graph, itemPoolParams, settings);
+        const graph = generateSeed(i, mapLayout, itemPoolParams, settings);
+        progression.push(getItemNodes(graph));
       } catch (e) {
+        console.log(e);
         continue;
       }
-
-      progression.push(getItemNodes(graph));
     }
 
     const delta = Date.now() - start;

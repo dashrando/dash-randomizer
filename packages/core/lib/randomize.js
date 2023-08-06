@@ -1,8 +1,6 @@
 import BpsPatch from "./bps-patch";
-import { getFileName, generateSeedPatch, getItemNodes } from "./sm-rando";
+import { getFileName, generateSeed, generateSeedPatch } from "./sm-rando";
 import { patchRom } from "../helpers/patcher";
-import { loadGraph } from "./graph/init";
-import { graphFill } from "./graph/fill";
 import { MapLayout } from "./graph/params";
 
 const getBasePatch = (mapLayout, area) => {
@@ -25,14 +23,7 @@ async function RandomizeRom(
   }
 
   // Place the items.
-  const graph = loadGraph(
-    seed,
-    mapLayout,
-    itemPoolParams.majorDistribution.mode,
-    settings.randomizeAreas,
-    settings.bossMode
-  );
-  graphFill(seed, graph, itemPoolParams, settings);
+  const graph = generateSeed(seed, mapLayout, itemPoolParams, settings);
 
   // Load the base patch associated with the map layout.
   const patch = getBasePatch(mapLayout, settings.randomizeAreas);

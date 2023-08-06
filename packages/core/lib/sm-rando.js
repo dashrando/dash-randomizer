@@ -16,6 +16,28 @@ import {
   paramsToString,
 } from "./graph/params";
 
+export const generateSeed = (seed, mapLayout, itemPoolParams, settings) => {
+  let attempts = 1;
+  while (attempts < 20) {
+    const graph = loadGraph(
+      seed,
+      attempts,
+      mapLayout,
+      itemPoolParams.majorDistribution.mode,
+      settings.randomizeAreas,
+      settings.bossMode
+    );
+
+    try {
+      graphFill(seed, graph, itemPoolParams, settings);
+      return graph;
+    } catch (e) {
+      attempts += 1;
+    }
+  }
+  throw new Error(`Failed to generate seed ${seed}`);
+};
+
 export const generateSeedPatch = (
   seed,
   mapLayout,
@@ -415,12 +437,7 @@ export const generateFromPreset = (name, seedNumber) => {
 
   // Place the items.
   const { mapLayout, itemPoolParams, settings } = preset;
-  const graph = loadGraph(
-    seed,
-    mapLayout,
-    itemPoolParams.majorDistribution.mode
-  );
-  graphFill(seed, graph, itemPoolParams, settings);
+  const graph = generateSeed(seed, mapLayout, itemPoolParams, settings);
 
   const seedPatch = generateSeedPatch(
     seed,
