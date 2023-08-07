@@ -2,12 +2,20 @@
   max-width: 600px;
 }
 
-.article h2 {
+.article .headline {
+  font-size: 36px;
+  line-height: 36px;
   color: #fff;
-  margin: 0;
 }
 
-.article h2 a {
+.article .title {
+  color: #fff;
+  margin: 0;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.article .title a {
   color: #fff;
   text-decoration-color: transparent;
   text-decoration-thickness: 1px;
@@ -15,7 +23,7 @@
   transition: text-decoration-color 0.15s ease-in-out;
 }
 
-.article h2 a:hover {
+.article .title a:hover {
   text-decoration-color: #fff;
 }
 
@@ -69,6 +77,11 @@
   position: absolute;
   margin-top: -1px;
   margin-left: -16px;
+}
+
+.article ol li {
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .titleWithBadge {
