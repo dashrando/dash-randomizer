@@ -65,7 +65,7 @@ export default function SettingsInfoPage() {
                 <strong>Recall Major/minor</strong>:{' '}
                 Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations, with a few changes, dictated by the logic. Changes include the removal of the Kraid&apos;s Etank location and the additions of the Sky Missile, Watering Hole, and Mickey Mouse Missile locations.
               </p>
-              <details>
+              {/* <details>
                 <summary>Locations</summary>
                 <table className={styles.table}>
                   <thead>
@@ -119,14 +119,14 @@ export default function SettingsInfoPage() {
                     </tr>
                   </tbody>
                 </table>
-              </details>
+              </details> */}
             </li>
             <li>
               <p>
                 <strong>Standard Major/minor</strong>:{' '}
                 Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations dictated by the logic.
               </p>
-              <details>
+              {/* <details>
                 <summary>Locations</summary>
                 <table className={styles.table}>
                   <thead>
@@ -180,7 +180,7 @@ export default function SettingsInfoPage() {
                     </tr>
                   </tbody>
                 </table>
-              </details>
+              </details> */}
             </li>
             <li>
               <p>
