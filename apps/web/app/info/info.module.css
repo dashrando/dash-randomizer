@@ -2,10 +2,15 @@
   max-width: 600px;
 }
 
-.article .headline {
+.headline + .article {
+  margin-top: var(--spacer-8x);
+}
+
+.headline {
   font-size: 36px;
   line-height: 36px;
   color: #fff;
+  margin: 0 0 var(--spacer-8x);
 }
 
 .article .title {

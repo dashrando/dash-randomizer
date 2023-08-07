@@ -48,6 +48,7 @@ export default function SettingsInfoPage() {
   return (
     <Wrapper>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <h1 className={styles.headline}>Settings</h1>
         <Article id="vanilla" title="Vanilla">
           <p><strong>Vanilla</strong> refers to the original and unmodified Super Metroid game. The vanilla game will either be NTSC or PAL and will also be headered or unheadered. DASH uses an unheadered NTSC vanilla file in order to generate a seed.</p>
           <p>The <strong>header</strong> is the first 512 bytes of data in many .sfc and .smc files. This contains miscellaneous data that is unused. If you upload a headered file, DASH will attempt to remove the header automatically.</p>
