@@ -5,7 +5,7 @@ import styles from '../info.module.css'
 export default function CanaryInfoPage() {
   return (
     <Wrapper>
-      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '620px', margin: '0 auto' }}>
         <article className={styles.article}>
           <h1 className={styles.headline}>Canary</h1>
           <p>Canary is the official preview environment for new changes to DASH and available publicly at <a href="https://canary.dashrando.net" target="_blank" rel="noopener noreferrer">canary.dashrando.net</a>. The goal of canary is to provide an early and playable preview of DASH to gather feedback and test new features while also providing reliability for tournaments and competitive racing.</p>

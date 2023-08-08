@@ -1,3 +1,38 @@
+.list {
+  display: flex;
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+  gap: var(--spacer-4x);
+  flex-direction: column;
+}
+
+.list_item {
+  display: block;
+  margin: 0;
+  width: 100%;
+  padding: var(--spacer-2x);
+}
+
+.list_item + .list_item {
+  border-top: 1px solid #222;
+}
+
+.list_link {
+  text-decoration: none;
+  color: var(--color-foreground);
+}
+
+.list_link:hover {
+  color: #fff;
+}
+
+.list_title {
+  color: #fff;
+  font-size: 24px;
+  line-height: 24px;
+}
+
 .article {
   max-width: 600px;
 }

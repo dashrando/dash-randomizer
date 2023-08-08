@@ -9,7 +9,7 @@ import Spacer from '@/app/components/spacer'
 export default function VerifiedFillInfoPage() {
   return (
     <Wrapper>
-      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '620px', margin: '0 auto' }}>
         <article className={styles.article}>
           <h1 className={styles.headline}>Verified Fill</h1>
           <p>Out of a desire to maximize randomness, DASH employs a fill method which involves placing very few initial items (details below) and then randomly placing all other items within the game based on an item pool consisting of the vanilla major item upgrades (morph, varia, gravity, etc.) and a randomly derived number of minor items (missiles, supers, power bombs). Once all items within the pool have been placed, a solver is used to verify that the seed can be completed. Internally we have referred to this as the <strong>Verified Fill</strong> method, but it is also commonly referred to as the <strong>Random Fill</strong> method.</p>
