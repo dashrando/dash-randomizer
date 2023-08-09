@@ -77,7 +77,8 @@ export default function VerifiedFillInfoPage() {
               Verify seed can be solved
               <ol type="a">
                 <li>Return to step 5 if the seed cannot be solved</li>
-                <li>Return to step 1 using a new initial seed value after 150 failed attempts</li>
+                <li>Return to step 2 after steps 5-6 have been repeated 10 times</li>
+                <li>Return to step 1 after steps 2-6 have been repeated 20 times and select a new seed</li>
               </ol>
             </li>
           </ol>

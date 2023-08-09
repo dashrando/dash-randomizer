@@ -216,6 +216,7 @@ export default function SettingsInfoPage() {
               <Badge>Coming soon</Badge>
             </li>
           </ul>
+          <p>NOTE: By design, bosses shuffled in DASH unlock the area in which they are located instead of their vanilla areas. For example, defeating Ridley at Wrecked Ship will awaken the ship.</p>
         </Article>
         <Article
           id="area"
@@ -283,15 +284,37 @@ export default function SettingsInfoPage() {
           title="Beam Mode"
         >
           <p>
-            <em>Coming soon</em>
+            DASH supports adjusting how beam damage is handled in the game. All modes other than Vanilla have Samus begin the game with a Starter Charge beam which does the same damage as uncharged shots while still allowing bosses to be damaged.
           </p>
+          <ul>
+            <li>
+              <p>
+                <strong>Vanilla</strong> does not modify beams in any way.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Recall</strong> includes the Starter Charge beam and 4 Charge Upgrades which scale the damage up to a maximum of 5x. Recall also includes updated beam damage tables in an attempt to improve balance.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Classic</strong> includes the Starter Charge beam and 1 Charge Upgrade which scales the damage up to 3x. The vanilla beam damage tables are used.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>New</strong> includes the Starter Charge beam and 2 Charge Upgrades which scale the damage up to a maximum of 3x. The vanilla beam damage tables are used.
+              </p>
+            </li>
+          </ul>
         </Article>
         <Article
           id="gravity-heat-reduction"
           title="Gravity Heat Reduction"
         >
           <p>
-            <em>Coming soon</em>
+              Enabling <strong>Gravity Heat Reduction</strong> causes Samus to receive 25% less environmental damage from heated rooms when Gravity Suit is equipped without Varia Suit. Note that Gravity Heat Reduction is not considered for logical item progression.
           </p>
         </Article>
         <Article
@@ -326,7 +349,7 @@ export default function SettingsInfoPage() {
               </p>
             </li>
           </ul>
-          <p>Heat Shield is superseded by Varia Suit, and will become unavailable once Varia Suit has been picked up.</p>
+          <p>Heat Shield is superseded by Varia Suit, and will become unavailable on the pause menu once Varia Suit has been picked up.</p>
         </Article>
         <Article
           id="pressure-valve"
@@ -342,7 +365,19 @@ export default function SettingsInfoPage() {
           title="Seed Mode"
         >
           <p>
-            <em>Coming soon</em>
+            <strong>Seed Mode</strong> determines how the random number generator used when shuffling areas, doors, and item locations is initialized.
+          <ul>
+            <li>
+              <p>
+                <strong>Random</strong> chooses the initial seed randomly. This is the default.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Fixed</strong> allows the user to provide a seed.
+              </p>
+            </li>
+          </ul>
           </p>
         </Article>
         <Article
@@ -350,7 +385,7 @@ export default function SettingsInfoPage() {
           title="Item Fanfare"
         >
           <p>
-            <em>Coming soon</em>
+            <strong>Item Fanfare</strong> is the ~7 second period after Samus acquires a new item in which the player loses control while heroic music plays. DASH supports disabling Item Fanfare, but they are enabled by default.
           </p>
         </Article>
       </div>
