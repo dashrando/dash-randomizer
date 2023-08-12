@@ -7,7 +7,7 @@ import ModeRecall from "@/../../packages/core/lib/modes/modeRecall";
 import ModeStandard from "@/../../packages/core/lib/modes/modeStandard";
 import Loadout from "@/../../packages/core/lib/loadout";
 import { useState } from "react";
-import { getItemNodes, presets } from "core";
+import { getItemNodes, getPreset } from "core";
 import {
   getFullPrePool,
   getMajorMinorPrePool,
@@ -43,10 +43,10 @@ type SeedStatus = {
 const Parameters = ({ value, update }: { value: Params; update: any }) => {
   return (
     <>
-      <label htmlFor="game_mode">Mode</label>
       <select
         name="game_mode"
         id="game_mode"
+        className={styles.mode_selector}
         value={value.gameMode}
         onChange={(e) =>
           update({
@@ -134,35 +134,25 @@ export default function StatsPage() {
 
   const generateGraphFill = (startSeed: number, endSeed: number) => {
     const { gameMode } = params;
-    const progression: ItemProgression[] = [];
-    const start = Date.now();
-    let preset;
+    const presetMap = new Map([
+      ["sgl23", "sgl23"],
+      ["sm", "standard_mm"],
+      ["sf", "standard_full"],
+      ["rm", "recall_mm"],
+      ["rf", "recall_full"]
+    ]);
+    const preset = getPreset(presetMap.get(gameMode)) as any;
 
-    switch (gameMode) {
-      case "sgl23":
-        preset = presets.SGL23;
-        break;
-      case "sm":
-        preset = presets.ClassicMM;
-        break;
-      case "sf":
-        preset = presets.ClassicFull;
-        break;
-      case "rm":
-        preset = presets.RecallMM;
-        break;
-      case "rf":
-        preset = presets.RecallFull;
-        break;
-      default:
-        throw new Error(`Unknown preset: ${gameMode}`);
+    if (preset == undefined) {
+      throw new Error(`Unknown preset: ${gameMode}`);
     }
 
+    const { mapLayout, itemPoolParams, settings } = preset;
     let totalAttempts = 0;
+    const progression: ItemProgression[] = [];
+    const start = Date.now();
 
     for (let i = startSeed; i <= endSeed; i++) {
-      const { mapLayout, itemPoolParams, settings } = preset;
-
       try {
         const graph = generateSeed(i, mapLayout, itemPoolParams, settings);
         progression.push(getItemNodes(graph));
@@ -186,6 +176,10 @@ export default function StatsPage() {
     const { gameMode } = params;
     const progression: ItemProgression[] = [];
     const start = Date.now();
+
+    if (gameMode == undefined || gameMode.length > 2) {
+      throw new Error(`Invalid game mode: ${gameMode}`);
+    }
 
     for (let i = startSeed; i <= endSeed; i++) {
       let mode =
