@@ -329,8 +329,8 @@ export const getItemNodes = (graph) => {
   const nodes = getLocations().map((l) => {
     const vertex = graph.find((e) => e.from.name == mapLocation(l.name)).from;
     const node = {
-      location: l,
-      item: vertex.item,
+      location: l.Clone(),
+      item: { ...vertex.item },
     };
 
     // Space Jump?

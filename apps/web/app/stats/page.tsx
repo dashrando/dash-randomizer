@@ -16,13 +16,16 @@ import {
   performVerifiedFill,
   verifyItemProgression,
 } from "@/../../packages/core/lib/itemPlacement";
+import { isAreaEdge, isBossEdge } from "@/../../packages/core/data/doors";
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
 import { generateSeed } from "@/../../packages/core/lib/sm-rando";
+import AreaDoorTable, { Transition } from "./areas";
+import { Zap } from "react-feather";
 
 export type ItemLocation = {
-  location: Location;
+  location: { address: any; modifier: any; name: any; area: any };
   item: any;
 };
 
@@ -36,6 +39,8 @@ export type Params = {
 
 type SeedStatus = {
   progression: ItemProgression[];
+  bosses: Transition[];
+  areas: Transition[];
   totalTime: number;
   attempts: number;
 };
@@ -112,8 +117,10 @@ export default function StatsPage() {
   const [panel, setPanel] = useState("majors");
   const [status, setStatus] = useState<SeedStatus>({
     progression: [],
+    bosses: [],
+    areas: [],
     totalTime: 1,
-    attempts: 0
+    attempts: 0,
   });
 
   const generateSeeds = () => {
@@ -139,7 +146,7 @@ export default function StatsPage() {
       ["sm", "standard_mm"],
       ["sf", "standard_full"],
       ["rm", "recall_mm"],
-      ["rf", "recall_full"]
+      ["rf", "recall_full"],
     ]);
     const preset = getPreset(presetMap.get(gameMode)) as any;
 
@@ -150,12 +157,42 @@ export default function StatsPage() {
     const { mapLayout, itemPoolParams, settings } = preset;
     let totalAttempts = 0;
     const progression: ItemProgression[] = [];
+    let bosses: Transition[] = [];
+    let areas: Transition[] = [];
     const start = Date.now();
+
+    const getAreaTransitions = (graph: any) => {
+      const graphAreas: Transition[] = [];
+      graph
+        .filter((n: any) => isAreaEdge(n))
+        .forEach((n: any) => {
+          graphAreas.push({
+            from: n.from.name.slice(),
+            to: n.to.name.slice(),
+          });
+        });
+      return graphAreas;
+    };
+
+    const getBossTransitions = (graph: any) => {
+      const graphBosses: Transition[] = [];
+      graph
+        .filter((n: any) => isBossEdge(n))
+        .forEach((n: any) => {
+          graphBosses.push({
+            from: n.from.name.slice(),
+            to: n.to.name.slice(),
+          });
+        });
+      return graphBosses;
+    };
 
     for (let i = startSeed; i <= endSeed; i++) {
       try {
         const graph = generateSeed(i, mapLayout, itemPoolParams, settings);
         progression.push(getItemNodes(graph));
+        bosses = bosses.concat(getBossTransitions(graph));
+        areas = areas.concat(getAreaTransitions(graph));
       } catch (e) {
         console.log(e);
         continue;
@@ -166,6 +203,8 @@ export default function StatsPage() {
     setStatus((current: SeedStatus) => {
       return {
         progression: current.progression.concat(progression),
+        bosses: current.bosses.concat(bosses),
+        areas: current.areas.concat(areas),
         totalTime: current.totalTime + delta,
         attempts: current.attempts + totalAttempts,
       };
@@ -214,6 +253,8 @@ export default function StatsPage() {
     setStatus((current: SeedStatus) => {
       return {
         progression: current.progression.concat(progression),
+        bosses: [],
+        areas: [],
         totalTime: current.totalTime + delta,
         attempts: 0,
       };
@@ -221,7 +262,13 @@ export default function StatsPage() {
   };
 
   const clearResults = () => {
-    setStatus({ progression: [], totalTime: 1, attempts: 0 });
+    setStatus({
+      progression: [],
+      bosses: [],
+      areas: [],
+      totalTime: 1,
+      attempts: 0,
+    });
   };
 
   const updateParams = (newParams: Params) => {
@@ -232,12 +279,9 @@ export default function StatsPage() {
     <div id="stats">
       <div className={styles.stats_nav}>
         <Parameters value={params} update={updateParams} />
-        <input
-          type="button"
-          value="Generate"
-          id="gen_seeds"
-          onClick={generateSeeds}
-        />
+        <span className={styles.button} onClick={generateSeeds}>
+          <Zap size="18" fill="none" className={styles.button_icon} />
+        </span>
         <input
           type="button"
           value="Clear"
@@ -247,10 +291,11 @@ export default function StatsPage() {
         <span id="action_status">
           {status.progression.length <= 0
             ? ""
-            : `${status.progression.length} seeds ${status.totalTime}ms [ ${
-                (status.totalTime / status.progression.length).toFixed(1)
-              }ms avg] [avg attempts ${
-                (status.attempts/status.progression.length).toFixed(1)}]`}
+            : `${status.progression.length} seeds ${status.totalTime}ms [ ${(
+                status.totalTime / status.progression.length
+              ).toFixed(1)}ms avg] [avg attempts ${(
+                status.attempts / status.progression.length
+              ).toFixed(1)}]`}
         </span>
         <span id="right_side" className={styles.right_side}>
           <span className={styles.fill_selector}>
@@ -274,6 +319,7 @@ export default function StatsPage() {
               onChange={(e) => setPanel(e.target.value)}
             >
               <option value="majors">Majors</option>
+              <option value="areas">Areas</option>
               <option value="progression">Progression</option>
               <option value="noteworthy">Noteworthy</option>
             </select>
@@ -283,6 +329,9 @@ export default function StatsPage() {
       <div id="stats_panel" className={styles.stats_panel}>
         {panel == "majors" && (
           <MajorItemTable itemProgression={status.progression} />
+        )}
+        {panel == "areas" && (
+          <AreaDoorTable areas={status.areas} bosses={status.bosses} seeds={status.progression.length} />
         )}
         {panel == "progression" && (
           <ProgressionStats itemProgression={status.progression} />
