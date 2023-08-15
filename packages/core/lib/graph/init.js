@@ -324,7 +324,7 @@ export const loadGraph = (
     for (let i = 0; i < attempt - 2; i++) {
       seedGen.Next();
     }
-    return seedGen.Next(1, 1000000);
+    return seedGen.NextInRange(1, 1000000);
   };
   const edgeUpdates = getEdgeUpdates(mapLayout, areaShuffle);
   const vertexUpdates =

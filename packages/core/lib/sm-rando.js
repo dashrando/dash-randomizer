@@ -145,10 +145,7 @@ export const generateSeedPatch = (
   // Setup HUD.
   //-----------------------------------------------------------------
 
-  let hudBits = 0x0c; // Show Area and Dash Items
-  if (settings.beamMode != BeamMode.Vanilla) {
-    hudBits |= 0x01; // Show Charge Damage
-  }
+  let hudBits = 0x0d; // Show Area, Change Damage, and Dash Items
   if (itemPoolParams.majorDistribution.mode == MajorDistributionMode.Full) {
     hudBits |= 0x02; // Show Item Counts
   }
