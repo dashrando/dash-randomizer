@@ -2,8 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* max-width: 1100px; */
-  max-width: 930px;
+  max-width: 640px;
   margin: 0 auto;
   position: relative;
 }

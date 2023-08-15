@@ -11,6 +11,7 @@
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
   font-weight: 400;
   font-size: 12px;
+  line-height: 13px;
   min-width: 60px;
 }
 

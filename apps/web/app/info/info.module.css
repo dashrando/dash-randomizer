@@ -1,13 +1,61 @@
+.list {
+  display: flex;
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+  gap: var(--spacer-4x);
+  flex-direction: column;
+}
+
+.list_item {
+  display: block;
+  margin: 0;
+  width: 100%;
+  padding: var(--spacer-2x);
+}
+
+.list_item + .list_item {
+  border-top: 1px solid #222;
+}
+
+.list_link {
+  text-decoration: none;
+  color: var(--color-foreground);
+}
+
+.list_link:hover {
+  color: #fff;
+}
+
+.list_title {
+  color: #fff;
+  font-size: 24px;
+  line-height: 24px;
+}
+
 .article {
   max-width: 600px;
 }
 
-.article h2 {
-  color: #fff;
-  margin: 0;
+.headline + .article {
+  margin-top: var(--spacer-8x);
 }
 
-.article h2 a {
+.headline {
+  font-size: 36px;
+  line-height: 36px;
+  color: #fff;
+  margin: 0 0 var(--spacer-8x);
+}
+
+.article .title {
+  color: #fff;
+  margin: 0;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.article .title a {
   color: #fff;
   text-decoration-color: transparent;
   text-decoration-thickness: 1px;
@@ -15,7 +63,7 @@
   transition: text-decoration-color 0.15s ease-in-out;
 }
 
-.article h2 a:hover {
+.article .title a:hover {
   text-decoration-color: #fff;
 }
 
@@ -61,6 +109,8 @@
   list-style: none;
   margin: 0;
   padding: 0 0 0 var(--spacer-4x);
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .article ul li:before {
@@ -69,6 +119,11 @@
   position: absolute;
   margin-top: -1px;
   margin-left: -16px;
+}
+
+.article ol li {
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .titleWithBadge {
