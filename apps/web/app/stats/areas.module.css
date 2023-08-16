@@ -19,12 +19,24 @@
 
 tr.header > th {
   font-weight: bold;
+  width: 16px;
 }
 
 .tan_cell {
   background-color: tan;
+  width: 16px;
 }
 
 .gray_cell {
   background-color: lightgrey;
+  width: 16px;
+}
+
+.area_cell {
+  width: 16px;
+}
+
+.fixed_table {
+  table-layout: fixed;
+  word-wrap: normal;
 }

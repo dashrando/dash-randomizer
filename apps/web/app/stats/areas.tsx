@@ -60,21 +60,24 @@ function TransitionTable({
 
   return (
     <div>
-      <table className={styles.legacy_style}>
+      <table className={`${styles.legacy_style} ${styles.fixed_table}`}>
         <tbody>
           <tr key="columnHeader">
-            <th className={styles.thin_border}></th>
+            <th className={`${styles.thin_border} ${styles.area_cell}`}></th>
             {columnHeaders.map((c) => (
               <th key={c} className={styles.thin_border}>
-                {c}
+                {c.substring(5)}
               </th>
             ))}
           </tr>
           {rowHeaders.map((r) => (
             <tr key={r}>
-              <td className={styles.thin_border}>{r}</td>
+              <td className={styles.thin_border}>{r.substring(5)}</td>
               {getColumns(r).map((c) => (
-                <td key={`${r}_${c.from}`} className={styles.thin_border}>{`${
+                <td key={`${r}_${c.from}`} className={c.count == 0 ?
+                  `${styles.thin_border} ${styles.gray_cell}` :
+                  `${styles.thin_border} ${styles.area_cell}`}>
+                {`${
                   total == 0 ? "" : (c.count / total * 100).toFixed(1) + "%"
                   /*+ "  " + c.count + "   " + total*/
                 }`}</td>
@@ -108,11 +111,28 @@ export default function AreaDoorTable({
     "Door_DraygonBoss",
     "Door_RidleyBoss"
   ]
+  const areaDoors = [
+    "Door_RetroPBs", "Door_GreenHills",
+    "Door_Moat", "Door_Ocean",
+    "Door_G4", "Door_Tourian",
+    "Door_Kago", "Door_GreenElevator",
+    "Door_Crabs", "Door_RedElevator",
+    "Door_HighwayExit", "Door_Highway",
+    "Door_NoobBridge", "Door_RedTower",
+    "Door_MaridiaEscape", "Door_RedFish",
+    "Door_MaridiaTube", "Door_MainStreet",
+    "Door_KraidEntry", "Door_ElevatorEntry",
+    "Door_AboveKraid", "Door_MaridiaMap",
+    "Door_KraidMouth", "Door_KraidsLair",
+    "Door_CrocEntry", "Door_Croc",
+    "Door_SingleChamber", "Door_Muskateers",
+    "Door_LavaDive", "Door_RidleyMouth",
+    "Door_PreAqueduct", "Door_Aqueduct",
+  ]
   return (
     <div>
       <TransitionTable transitions={bosses} columnHeaders={bossColumns} rowHeaders={bossRows} seeds={seeds} />
+      <TransitionTable transitions={areas} columnHeaders={areaDoors} rowHeaders={areaDoors} seeds={seeds} />
     </div>
   );
 }
-
-      //<TransitionTable transitions={areas} count={32} />
