@@ -16,11 +16,13 @@ function TransitionTable({
   columnHeaders,
   rowHeaders,
   seeds,
+  condense,
 }: {
   transitions: Transition[];
   columnHeaders: string[];
   rowHeaders: string[];
   seeds: number;
+  condense: boolean;
 }) {
   const temp: TransitionRow[] = [];
   let total = 0;
@@ -58,25 +60,36 @@ function TransitionTable({
     return columns;
   };
 
+  const def_style = `${styles.thin_border}` +
+    (condense ? ` ${styles.condensed_cell}` : "");
+
   return (
     <div>
       <table className={`${styles.legacy_style} ${styles.fixed_table}`}>
         <tbody>
+          {!condense ? 
           <tr key="columnHeader">
-            <th className={`${styles.thin_border} ${styles.area_cell}`}></th>
+            <th className={`${def_style} ${styles.area_cell}`}></th>
             {columnHeaders.map((c) => (
               <th key={c} className={styles.thin_border}>
                 {c.substring(5)}
               </th>
             ))}
           </tr>
+          : <></>
+          }
           {rowHeaders.map((r) => (
             <tr key={r}>
-              <td className={styles.thin_border}>{r.substring(5)}</td>
+              {!condense ? 
+              <td className={styles.thin_border}>{r}</td>
+              : <></>
+              }
               {getColumns(r).map((c) => (
-                <td key={`${r}_${c.from}`} className={c.count == 0 ?
-                  `${styles.thin_border} ${styles.gray_cell}` :
-                  `${styles.thin_border} ${styles.area_cell}`}>
+                <td key={`${r}_${c.from}`}
+                  className={c.count == 0 ?
+                    `${def_style} ${styles.gray_cell}` :
+                    `${def_style} ${styles.area_cell}`}
+                  title={`${r} to ${c.from.substring(5)}`}>
                 {`${
                   total == 0 ? "" : (c.count / total * 100).toFixed(1) + "%"
                   /*+ "  " + c.count + "   " + total*/
@@ -131,8 +144,20 @@ export default function AreaDoorTable({
   ]
   return (
     <div>
-      <TransitionTable transitions={bosses} columnHeaders={bossColumns} rowHeaders={bossRows} seeds={seeds} />
-      <TransitionTable transitions={areas} columnHeaders={areaDoors} rowHeaders={areaDoors} seeds={seeds} />
+      <h2>Bosses</h2>
+      <TransitionTable
+        transitions={bosses}
+        columnHeaders={bossColumns}
+        rowHeaders={bossRows}
+        seeds={seeds}
+        condense={false} />
+      <h2>Areas</h2>
+      <TransitionTable
+        transitions={areas}
+        columnHeaders={areaDoors}
+        rowHeaders={areaDoors}
+        seeds={seeds}
+        condense={true} />
     </div>
   );
 }
