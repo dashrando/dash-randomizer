@@ -137,6 +137,9 @@ const getBossPortals = (mode, seed) => {
 };
 
 export const mapPortals = (seed, area, boss) => {
+  if (seed == 0 && (area || boss)) {
+    throw new Error("Seed of 0 with areas or bosses randomized");
+  }
   const areaSeed = seed > 0 && area ? seed + 2e7 : 0;
   return getAreaPortals(areaSeed).concat(getBossPortals(boss, seed));
 };

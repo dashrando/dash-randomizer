@@ -7,7 +7,7 @@ import ModeRecall from "@/../../packages/core/lib/modes/modeRecall";
 import ModeStandard from "@/../../packages/core/lib/modes/modeStandard";
 import Loadout from "@/../../packages/core/lib/loadout";
 import { useState } from "react";
-import { getItemNodes, presets } from "core";
+import { getItemNodes, getPreset } from "core";
 import {
   getFullPrePool,
   getMajorMinorPrePool,
@@ -16,11 +16,13 @@ import {
   performVerifiedFill,
   verifyItemProgression,
 } from "@/../../packages/core/lib/itemPlacement";
+import { isAreaEdge, isBossEdge } from "@/../../packages/core/data/doors";
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
-import { graphFill } from "@/../../packages/core/lib/graph/fill";
-import { loadGraph } from "@/../../packages/core/lib/graph/init";
+import { generateSeed } from "@/../../packages/core/lib/sm-rando";
+import AreaDoorTable, { Transition } from "./areas";
+import { Zap } from "react-feather";
 
 export type ItemLocation = {
   location: Location;
@@ -37,16 +39,19 @@ export type Params = {
 
 type SeedStatus = {
   progression: ItemProgression[];
+  bosses: Transition[];
+  areas: Transition[];
   totalTime: number;
+  attempts: number;
 };
 
 const Parameters = ({ value, update }: { value: Params; update: any }) => {
   return (
     <>
-      <label htmlFor="game_mode">Mode</label>
       <select
         name="game_mode"
         id="game_mode"
+        className={styles.mode_selector}
         value={value.gameMode}
         onChange={(e) =>
           update({
@@ -56,13 +61,14 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           })
         }
       >
+        <option value="sgl23">SGL23 - Full - Boss+Area</option>
         <option value="sm">Standard - Major / Minor</option>
         <option value="sf">Standard - Full</option>
         <option value="rm">Recall - Major / Minor</option>
         <option value="rf">Recall - Full</option>
       </select>
 
-      <label htmlFor="start_seed">Start</label>
+      <label htmlFor="start_seed" style={{ paddingRight: '4px' }}>Start</label>
       <input
         name="start_seed"
         id="start_seed"
@@ -80,7 +86,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         }
       />
 
-      <label htmlFor="end_seed">End</label>
+      <label htmlFor="end_seed" style={{ padding: '0px 4px' }}>End</label>
       <input
         name="end_seed"
         id="end_seed"
@@ -103,7 +109,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 
 export default function StatsPage() {
   const [params, setParams] = useState({
-    gameMode: "rm",
+    gameMode: "sgl23",
     startSeed: 1,
     endSeed: 100,
   });
@@ -111,7 +117,10 @@ export default function StatsPage() {
   const [panel, setPanel] = useState("majors");
   const [status, setStatus] = useState<SeedStatus>({
     progression: [],
+    bosses: [],
+    areas: [],
     totalTime: 1,
+    attempts: 0,
   });
 
   const generateSeeds = () => {
@@ -132,41 +141,72 @@ export default function StatsPage() {
 
   const generateGraphFill = (startSeed: number, endSeed: number) => {
     const { gameMode } = params;
-    const progression: ItemProgression[] = [];
-    const start = Date.now();
-    let preset;
+    const presetMap = new Map([
+      ["sgl23", "sgl23"],
+      ["sm", "standard_mm"],
+      ["sf", "standard_full"],
+      ["rm", "recall_mm"],
+      ["rf", "recall_full"],
+    ]);
+    const preset = getPreset(presetMap.get(gameMode)) as any;
 
-    switch (gameMode) {
-      case "sm":
-        preset = presets.ClassicMM;
-        break;
-      case "sf":
-        preset = presets.ClassicFull;
-        break;
-      case "rm":
-        preset = presets.RecallMM;
-        break;
-      case "rf":
-        preset = presets.RecallFull;
-        break;
-      default:
-        throw new Error(`Unknown preset: ${gameMode}`);
+    if (preset == undefined) {
+      throw new Error(`Unknown preset: ${gameMode}`);
     }
 
-    for (let i = startSeed; i <= endSeed; i++) {
-      const { mapLayout, itemPoolParams, settings } = preset;
-      const { majorDistribution } = itemPoolParams;
-      const graph = loadGraph(i, mapLayout, majorDistribution.mode);
-      graphFill(i, graph, itemPoolParams, settings);
+    const { mapLayout, itemPoolParams, settings } = preset;
+    let totalAttempts = 0;
+    const progression: ItemProgression[] = [];
+    let bosses: Transition[] = [];
+    let areas: Transition[] = [];
+    const start = Date.now();
 
-      progression.push(getItemNodes(graph));
+    const getAreaTransitions = (graph: any) => {
+      const graphAreas: Transition[] = [];
+      graph
+        .filter((n: any) => isAreaEdge(n))
+        .forEach((n: any) => {
+          graphAreas.push({
+            from: n.from.name.slice(),
+            to: n.to.name.slice(),
+          });
+        });
+      return graphAreas;
+    };
+
+    const getBossTransitions = (graph: any) => {
+      const graphBosses: Transition[] = [];
+      graph
+        .filter((n: any) => isBossEdge(n))
+        .forEach((n: any) => {
+          graphBosses.push({
+            from: n.from.name.slice(),
+            to: n.to.name.slice(),
+          });
+        });
+      return graphBosses;
+    };
+
+    for (let i = startSeed; i <= endSeed; i++) {
+      try {
+        const graph = generateSeed(i, mapLayout, itemPoolParams, settings);
+        progression.push(getItemNodes(graph));
+        bosses = bosses.concat(getBossTransitions(graph));
+        areas = areas.concat(getAreaTransitions(graph));
+      } catch (e) {
+        console.log(e);
+        continue;
+      }
     }
 
     const delta = Date.now() - start;
     setStatus((current: SeedStatus) => {
       return {
         progression: current.progression.concat(progression),
+        bosses: current.bosses.concat(bosses),
+        areas: current.areas.concat(areas),
         totalTime: current.totalTime + delta,
+        attempts: current.attempts + totalAttempts,
       };
     });
   };
@@ -175,6 +215,10 @@ export default function StatsPage() {
     const { gameMode } = params;
     const progression: ItemProgression[] = [];
     const start = Date.now();
+
+    if (gameMode == undefined || gameMode.length > 2) {
+      throw new Error(`Invalid game mode: ${gameMode}`);
+    }
 
     for (let i = startSeed; i <= endSeed; i++) {
       let mode =
@@ -209,13 +253,22 @@ export default function StatsPage() {
     setStatus((current: SeedStatus) => {
       return {
         progression: current.progression.concat(progression),
+        bosses: [],
+        areas: [],
         totalTime: current.totalTime + delta,
+        attempts: 0,
       };
     });
   };
 
   const clearResults = () => {
-    setStatus({ progression: [], totalTime: 1 });
+    setStatus({
+      progression: [],
+      bosses: [],
+      areas: [],
+      totalTime: 1,
+      attempts: 0,
+    });
   };
 
   const updateParams = (newParams: Params) => {
@@ -238,12 +291,14 @@ export default function StatsPage() {
           id="clear_table"
           onClick={clearResults}
         />
-        <span id="action_status">
+        <span id="action_status" style={{ paddingLeft: '8px' }}>
           {status.progression.length <= 0
             ? ""
-            : `${status.progression.length} seeds ${status.totalTime}ms [ ${
+            : `${status.progression.length} seeds ${status.totalTime}ms [ ${(
                 status.totalTime / status.progression.length
-              }ms avg]`}
+              ).toFixed(1)}ms avg] [avg attempts ${(
+                status.attempts / status.progression.length
+              ).toFixed(1)}]`}
         </span>
         <span id="right_side" className={styles.right_side}>
           <span className={styles.fill_selector}>
@@ -267,6 +322,7 @@ export default function StatsPage() {
               onChange={(e) => setPanel(e.target.value)}
             >
               <option value="majors">Majors</option>
+              <option value="areas">Areas</option>
               <option value="progression">Progression</option>
               <option value="noteworthy">Noteworthy</option>
             </select>
@@ -276,6 +332,9 @@ export default function StatsPage() {
       <div id="stats_panel" className={styles.stats_panel}>
         {panel == "majors" && (
           <MajorItemTable itemProgression={status.progression} />
+        )}
+        {panel == "areas" && (
+          <AreaDoorTable areas={status.areas} bosses={status.bosses} seeds={status.progression.length} />
         )}
         {panel == "progression" && (
           <ProgressionStats itemProgression={status.progression} />

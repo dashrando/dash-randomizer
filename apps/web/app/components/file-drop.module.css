@@ -1,0 +1,23 @@
+.backdrop {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  padding: var(--spacer-4x);
+}
+
+.inner {
+  position: absolute;
+  top: var(--spacer-4x);
+  left: var(--spacer-4x);
+  border: 1px solid #fff;
+  width: calc(100% - var(--spacer-8x));
+  height: calc(100% - var(--spacer-8x));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+}

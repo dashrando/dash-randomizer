@@ -19,6 +19,7 @@ import { RecallAreaEdgeUpdates } from "./data/recall/area";
 import { SeasonAreaEdgeUpdates } from "./data/season/area";
 import { mapPortals } from "./data/portals";
 import { bossItem, Item } from "../items";
+import DotNetRandom from "../dotnet-random";
 
 const getVanillaEdges = () => {
   return {
@@ -307,12 +308,24 @@ const addBossItems = (graph, mode) => {
 
 export const loadGraph = (
   seed,
+  attempt,
   mapLayout,
   majorDistributionMode,
   areaShuffle = false,
   bossMode = BossMode.Vanilla,
   portals = undefined
 ) => {
+  const getSeed = () => {
+    if (attempt == 1) {
+      return seed;
+    }
+
+    const seedGen = new DotNetRandom(-seed);
+    for (let i = 0; i < attempt - 2; i++) {
+      seedGen.Next();
+    }
+    return seedGen.NextInRange(1, 1000000);
+  };
   const edgeUpdates = getEdgeUpdates(mapLayout, areaShuffle);
   const vertexUpdates =
     majorDistributionMode == MajorDistributionMode.Standard
@@ -326,7 +339,7 @@ export const loadGraph = (
   }
 
   const g = createGraph(
-    mapPortals(seed, areaShuffle, bossMode),
+    mapPortals(getSeed(), areaShuffle, bossMode),
     vertexUpdates,
     edgeUpdates
   );

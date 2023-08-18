@@ -4,7 +4,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "env": ["ENABLE_SENTRY"],
+      "env": ["ENABLE_SENTRY", "NEXT_PUBLIC_VERCEL_ENV", "NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {

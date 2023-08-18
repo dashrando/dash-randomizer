@@ -35,6 +35,10 @@ export class Location {
     this.name = name;
   }
 
+  Clone() {
+    return new Location(this.address, this.modifier, this.area, this.name);
+  }
+
   GetItemBytes(itemCode) {
     const code = itemCode + this.modifier;
     return new Uint8Array([code & 0xff, (code >> 8) & 0xff]);

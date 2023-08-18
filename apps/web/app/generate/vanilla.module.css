@@ -23,3 +23,15 @@
   background-color: transparent;
   border-color: rgb(51, 51, 51);
 }
+
+.vanilla p a {
+  color: #fff;
+  font-weight: 600;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.vanilla p a:hover {
+  color: #77e7be;
+  text-decoration-color: transparent;
+}

@@ -7,6 +7,59 @@ import { getFullPrePool, getMajorMinorPrePool } from "../itemPlacement.js";
 import { getItemPool } from "./items";
 import { MajorDistributionMode } from "./params";
 
+const canPlaceItem_Full = (item, vertex) => {
+  if (vertex.item != undefined) {
+    return false;
+  }
+  if (item.type == Item.Gravity) {
+    switch (vertex.area) {
+      case "Crateria":
+      case "BlueBrinstar":
+        return false;
+      default:
+        break;
+    }
+  } else if (item.type == Item.Varia) {
+    switch (vertex.area) {
+      case "Crateria":
+      case "BlueBrinstar":
+      case "LowerNorfair":
+        return false;
+      default:
+        break;
+    }
+  }
+  return true;
+};
+
+const canPlaceItem_MajorMinor = (item, vertex) => {
+  if (vertex.item != undefined) {
+    return false;
+  }
+  if (item.isMajor != (vertex.type == "major")) {
+    return false;
+  }
+  if (item.type == Item.Gravity) {
+    switch (vertex.area) {
+      case "Crateria":
+      case "BlueBrinstar":
+        return false;
+      default:
+        break;
+    }
+  } else if (item.type == Item.Varia) {
+    switch (vertex.area) {
+      case "Crateria":
+      case "BlueBrinstar":
+      case "LowerNorfair":
+        return false;
+      default:
+        break;
+    }
+  }
+  return true;
+};
+
 export const graphFill = (seed, graph, itemPoolParams, settings) => {
   const solver = new GraphSolver(graph, settings);
   const rnd = new DotNetRandom(seed);
@@ -50,47 +103,9 @@ export const graphFill = (seed, graph, itemPoolParams, settings) => {
   //
   //-----------------------------------------------------------------
 
-  const canPlaceItem = (item, vertex) => {
-    if (vertex.item != undefined) {
-      return false;
-    }
-    if (!restrictType) {
-      return true;
-    }
-    if (item.isMajor != (vertex.type == "major")) {
-      return false;
-    }
-    if (item.type == Item.Gravity) {
-      //if (vertex.area == Area.Crateria) {
-      if (vertex.area == "Crateria") {
-        return false;
-      }
-    } else if (item.type == Item.Varia) {
-      //if (vertex.area == Area.LowerNorfair || vertex.area == Area.Crateria) {
-      if (vertex.area == "LowerNorfair" || vertex.area == "Crateria") {
-        return false;
-      }
-    } else {
-      return true;
-    }
-
-    if (
-      vertex.name == "MorphBall" ||
-      vertex.name == "Missiles_Beta" ||
-      vertex.name == "EnergyTank_Ceiling"
-    ) {
-      return false;
-    }
-    return true;
-    //switch (node.location.address) {
-    //case 0x786de: // Morphing Ball
-    //case 0x78798: // Missiles (Beta)
-    //case 0x7879e: // Energy Tank (Brinstar Ceiling)
-    //return false;
-    //default:
-    //return true;
-    //}
-  };
+  const canPlaceItem = restrictType
+    ? canPlaceItem_MajorMinor
+    : canPlaceItem_Full;
 
   //-----------------------------------------------------------------
   //
@@ -162,7 +177,7 @@ export const graphFill = (seed, graph, itemPoolParams, settings) => {
   //-----------------------------------------------------------------
 
   let attempts = 0;
-  while (attempts < 100) {
+  while (attempts < 10) {
     attempts += 1;
 
     nonPrefilled.forEach((n) => (n.item = undefined));
@@ -173,8 +188,10 @@ export const graphFill = (seed, graph, itemPoolParams, settings) => {
 
     const tempSolver = new GraphSolver(cloneGraph(graph), settings);
     if (tempSolver.isValid(new Loadout())) {
-      return;
+      return attempts;
     }
   }
-  throw new Error(`Failed to fill graph for seed ${seed}`);
+  throw new Error(
+    `Failed to fill graph for seed ${seed} after ${attempts} attempts`
+  );
 };

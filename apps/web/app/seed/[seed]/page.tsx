@@ -1,7 +1,5 @@
 "use client";
 
-// import "@/public/styles/dash.css";
-// import "@/public/styles/seed.css";
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from "react";
 import { saveAs } from "file-saver";

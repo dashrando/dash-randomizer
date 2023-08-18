@@ -90,7 +90,7 @@ const Sidebar = ({
                     Seed URL
                   </h4>
                   <p style={{ fontSize: '14px', margin: 0, wordWrap: 'break-word' }}>
-                    <a href={`/seed/${hash}`} style={{ color: 'white', fontWeight: 700 }}>
+                    <a href={`/seed/${hash}?download=false`} style={{ color: 'white', fontWeight: 700 }}>
                       {`${hash}`}
                     </a>
                   </p>
@@ -176,7 +176,8 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
-  mode: 'sgl23' | 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom',
+  //mode: 'sgl23' | 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom',
+  mode: 'sgl23' | 'dash-recall-v1' | 'standard' | 'custom',
 }
 
 const MODES = {
@@ -184,15 +185,15 @@ const MODES = {
     'item-split': 'full',
     area: 'randomized',
     boss: 'randomized',
-    minors: 'dash',
-    'map-layout': 'standard',
-    'beam-mode': 'new',
-    'gravity-heat-reduction': 'on',
+    minors: 'standard',
+    'map-layout': 'standard-vanilla',
+    'beam-mode': 'vanilla',
+    'gravity-heat-reduction': 'off',
     'double-jump': 'on',
     'heat-shield': 'off',
     'pressure-valve': 'none',
   },
-  'dash-recall-v2': {
+  /*'dash-recall-v2': {
     'item-split': 'recall-mm',
     area: 'standard',
     boss: 'standard',
@@ -204,7 +205,7 @@ const MODES = {
     'heat-shield': 'on',
     'pressure-valve': 'one',
     // 'pressure-valve': 'two',
-  },
+  },*/
   'dash-recall-v1': {
     'item-split': 'recall-mm',
     area: 'standard',
@@ -217,7 +218,7 @@ const MODES = {
     'heat-shield': 'on',
     'pressure-valve': 'one',
   },
-  'dash-classic': {
+  /*'dash-classic': {
     'item-split': 'standard-mm',
     area: 'standard',
     boss: 'standard',
@@ -228,7 +229,7 @@ const MODES = {
     'double-jump': 'off',
     'heat-shield': 'off',
     'pressure-valve': 'none',
-  },
+  },*/
   'standard': {
     'item-split': 'standard-mm',
     area: 'standard',
@@ -309,7 +310,7 @@ export default function Form() {
       const config = { vanillaBytes: vanilla };
 
       const getSeed = () => {
-        if (data['seed-mode'] == 'fixed') {
+        if (data['seed-mode'] === 'fixed') {
           return data.seed;
         }
 
@@ -372,11 +373,11 @@ export default function Form() {
       };
 
       if (data.mode == 'dash-recall-v1') {
-        settings.preset = "RecallV1";
-      } else if (data.mode == 'dash-recall-v2') {
-        settings.preset = "RecallV2";
-      } else if (data.mode == 'dash-classic') {
-        settings.preset = "Classic";
+        settings.preset = "Recall";
+      //} else if (data.mode == 'dash-recall-v2') {
+        //settings.preset = "RecallV2";
+      //} else if (data.mode == 'dash-classic') {
+        //settings.preset = "Classic";
       } else if (data.mode == 'standard') {
         settings.preset = "Standard";
       } else if (data.mode == 'sgl23') {
@@ -482,9 +483,10 @@ export default function Form() {
               <Select
                 options={[
                   { label: 'SG Live 2023', value: 'sgl23' },
-                  { label: 'DASH: Recall v1', value: 'dash-recall-v1' },
-                  { label: 'DASH: Recall v2', value: 'dash-recall-v2' },
-                  { label: 'DASH: Classic', value: 'dash-classic' },
+                  { label: 'DASH: Recall', value: 'dash-recall-v1' },
+                  //{ label: 'DASH: Recall v1', value: 'dash-recall-v1' },
+                  //{ label: 'DASH: Recall v2', value: 'dash-recall-v2' },
+                  //{ label: 'DASH: Classic', value: 'dash-classic' },
                   { label: 'Standard', value: 'standard' },
                   { label: 'Custom', value: 'custom', hidden: true }
                 ]}
@@ -520,7 +522,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#item-split">Item Split</Link>{' '}
+                <a href="/info/settings#item-split">Item Split</a>{' '}
                 determines the available locations where major items can be placed.
               </p>
             </Option>
@@ -535,7 +537,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#boss">Boss Randomization</Link>{' '}
+                <a href="/info/settings#boss-shuffle">Boss Shuffle</a>{' '}
                 can randomize the boss found at a given boss location.
               </p>
             </Option>
@@ -549,7 +551,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#area">Area Randomization</Link>{' '}
+                <a href="/info/settings#area" >Area Randomization</a>{' '}
                 will randomize the portals between certain areas or leave them as in the vanilla game.
               </p>
             </Option>
@@ -558,14 +560,14 @@ export default function Form() {
             <Option label="Minor Item Distribution" name="minors">
               <Select
                 options={[
-                  { label: 'DASH - 2:1:1', value: 'dash' },
                   { label: 'Standard - 3:2:1', value: 'standard' },
+                  { label: 'DASH - 2:1:1', value: 'dash' },
                 ]}
                 name="minors"
                 register={register}
               />
               <p>
-                <Link href="/info#minors">Minor Item Distribution</Link>{' '}
+                <a href="/info/settings#minors">Minor Item Distribution</a>{' '}
                 determines the ratio of minor items placed throughout the game.
               </p>
             </Option>
@@ -579,7 +581,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#map-layout">Map Layout</Link>{' '}
+                <a href="/info/settings#map-layout">Map Layout</a>{' '}
                 applies various tweaks, anti-soft lock patches and other quality of life improvements.
               </p>
             </Option>
@@ -595,21 +597,21 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#beam-mode">Beam Mode</Link>{' '}
+                <a href="/info/settings#beam-mode">Beam Mode</a>{' '}
                 alters the amount of damage caused by Charge Beam.
               </p>
             </Option>
             <Option label="Gravity Heat Reduction" name="gravity-heat-reduction">
               <Select
                 options={[
-                  { label: 'On', value: 'on' },
                   { label: 'Off', value: 'off' },
+                  { label: 'On', value: 'on' },
                 ]}
                 name="gravity-heat-reduction"
                 register={register}
               />
               <p>
-                <Link href="/info#gravity-heat-reduction">Gravity Heat Reduction</Link>{' '}
+                <a href="/info/settings#gravity-heat-reduction">Gravity Heat Reduction</a>{' '}
                 causes Gravity Suit to provide 25% heat damage reduction.
               </p>
             </Option>
@@ -623,7 +625,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#double-jump">Double Jump</Link>{' '}
+                <a href="/info/settings#double-jump">Double Jump</a>{' '}
                 is a new item that works as a single-use Space Jump.
               </p>
             </Option>
@@ -637,7 +639,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#heat-shield">Heat Shield</Link>{' '}
+                <a href="/info/settings#heat-shield">Heat Shield</a>{' '}
                 is a new item that works as a mini-Varia.
               </p>
             </Option>
@@ -652,7 +654,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#pressure-valve">Pressure Valve</Link>{' '}
+                <a href="/info/settings#pressure-valve">Pressure Valve</a>{' '}
                 is a new item that works as a mini-Gravity.
               </p>
             </Option>
@@ -671,7 +673,7 @@ export default function Form() {
                 <Numeric minVal={1} maxVal={999999} defaultValue={1} name="seed" register={register} />
               )}
               <p>
-                <Link href="/info#seed-mode">Seed Mode</Link>{' '}
+                <a href="/info/settings#seed-mode">Seed Mode</a>{' '}
                 controls how the random number generator is initialized.
               </p>
             </Option>
@@ -685,7 +687,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <Link href="/info#fanfare">Item Fanfare</Link>{' '}
+                <a href="/info/settings#fanfare">Item Fanfare</a>{' '}
                 is the music when an item is collected.
               </p>
             </Option>

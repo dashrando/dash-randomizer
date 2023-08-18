@@ -1,17 +1,11 @@
 import BpsPatch from "./bps-patch";
-import { getFileName, generateSeedPatch, getItemNodes } from "./sm-rando";
+import {
+  getBasePatch,
+  getFileName,
+  generateSeed,
+  generateSeedPatch,
+} from "./sm-rando";
 import { patchRom } from "../helpers/patcher";
-import { loadGraph } from "./graph/init";
-import { graphFill } from "./graph/fill";
-import { MapLayout } from "./graph/params";
-import { isAreaEdge, isBossEdge } from "../data/doors";
-
-const getBasePatch = (mapLayout, area) => {
-  if (mapLayout == MapLayout.Recall) {
-    return area ? "dash_recall_area.bps" : "dash_recall.bps";
-  }
-  return area ? "dash_standard_area.bps" : "dash_standard.bps";
-};
 
 async function RandomizeRom(
   seed = 0,
@@ -26,14 +20,7 @@ async function RandomizeRom(
   }
 
   // Place the items.
-  const graph = loadGraph(
-    seed,
-    mapLayout,
-    itemPoolParams.majorDistribution.mode,
-    settings.randomizeAreas,
-    settings.bossMode
-  );
-  graphFill(seed, graph, itemPoolParams, settings, true);
+  const graph = generateSeed(seed, mapLayout, itemPoolParams, settings);
 
   // Load the base patch associated with the map layout.
   const patch = getBasePatch(mapLayout, settings.randomizeAreas);
