@@ -68,7 +68,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         <option value="rf">Recall - Full</option>
       </select>
 
-      <label htmlFor="start_seed">Start</label>
+      <label htmlFor="start_seed" style={{ paddingRight: '4px' }}>Start</label>
       <input
         name="start_seed"
         id="start_seed"
@@ -86,7 +86,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         }
       />
 
-      <label htmlFor="end_seed">End</label>
+      <label htmlFor="end_seed" style={{ padding: '0px 4px' }}>End</label>
       <input
         name="end_seed"
         id="end_seed"
@@ -279,16 +279,19 @@ export default function StatsPage() {
     <div id="stats">
       <div className={styles.stats_nav}>
         <Parameters value={params} update={updateParams} />
-        <span className={styles.button} onClick={generateSeeds}>
-          <Zap size="18" fill="none" className={styles.button_icon} />
-        </span>
+        <input
+          type="button"
+          value="Generate"
+          id="gen_seeds"
+          onClick={generateSeeds}
+        />
         <input
           type="button"
           value="Clear"
           id="clear_table"
           onClick={clearResults}
         />
-        <span id="action_status">
+        <span id="action_status" style={{ paddingLeft: '8px' }}>
           {status.progression.length <= 0
             ? ""
             : `${status.progression.length} seeds ${status.totalTime}ms [ ${(
