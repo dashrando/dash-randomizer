@@ -1,8 +1,4 @@
-import {
-  generateFromPreset,
-  getPresetOptions,
-  getItemNodes,
-} from "./lib/sm-rando";
+import { generateFromPreset, getItemNodes } from "./lib/sm-rando";
 import RandomizeRom from "./lib/randomize";
 import vanillaROM, { clearVanillaRom, getVanilla } from "./lib/vanilla/storage";
 import inputVanillaRom from "./lib/vanilla/input";
@@ -13,15 +9,7 @@ import { patchRom } from "./helpers/patcher";
 import { Logic as RecallLogic } from "./lib/modes/modeRecall";
 import { Logic as StandardLogic } from "./lib/modes/modeStandard";
 import fetchSignature, { formatMonoSignature } from "./lib/signature";
-import {
-  Preset_Classic_MM,
-  Preset_Classic_Full,
-} from "./lib/graph/data/classic/preset";
-import {
-  Preset_Recall_MM,
-  Preset_Recall_Full,
-} from "./lib/graph/data/recall/preset";
-import { Preset_SGL23 } from "./lib/presets";
+import { getPreset } from "./lib/presets";
 import { Item } from "./lib/items";
 import {
   bytesToParams,
@@ -44,18 +32,10 @@ export const Logic = {
   standard: StandardLogic,
 };
 
-const presets = {
-  ClassicMM: Preset_Classic_MM,
-  ClassicFull: Preset_Classic_Full,
-  RecallMM: Preset_Recall_MM,
-  RecallFull: Preset_Recall_Full,
-  SGL23: Preset_SGL23,
-};
-
 export {
   gameModes,
   generateFromPreset,
-  getPresetOptions,
+  getPreset,
   RandomizeRom,
   vanilla,
   BpsPatch,
@@ -67,6 +47,5 @@ export {
   fetchSignature,
   formatMonoSignature,
   getItemNodes,
-  presets,
   Item,
 };

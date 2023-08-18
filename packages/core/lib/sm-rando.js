@@ -1,17 +1,17 @@
 import DotNetRandom from "./dotnet-random";
-import game_modes from "../data/modes";
 import { Area, AreaCounts, getLocations } from "./locations";
 import { Item } from "./items";
 import { mapLocation } from "./graph/util";
 import { loadGraph } from "./graph/init";
 import { graphFill } from "./graph/fill";
-import { presets } from "..";
+import { getPreset } from "..";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
 import { BOSS_DOORS, BOSS_ITEMS, TABLE_FLAGS } from "../data/interface";
 import {
   BeamMode,
   BossMode,
   MajorDistributionMode,
+  MapLayout,
   paramsToBytes,
   paramsToString,
 } from "./graph/params";
@@ -298,6 +298,13 @@ export const generateSeedPatch = (
   return seedPatch;
 };
 
+export const getBasePatch = (mapLayout, area) => {
+  if (mapLayout == MapLayout.Recall) {
+    return area ? "dash_recall_area.bps" : "dash_recall.bps";
+  }
+  return area ? "dash_standard_area.bps" : "dash_standard.bps";
+};
+
 export const getFileName = (
   seed,
   mapLayout,
@@ -319,8 +326,8 @@ export const getItemNodes = (graph) => {
   const nodes = getLocations().map((l) => {
     const vertex = graph.find((e) => e.from.name == mapLocation(l.name)).from;
     const node = {
-      location: l,
-      item: vertex.item,
+      location: l.Clone(),
+      item: { ...vertex.item },
     };
 
     // Space Jump?
@@ -382,30 +389,6 @@ export const getItemNodes = (graph) => {
   return nodes;
 };
 
-export const getPresetOptions = (preset) => {
-  if (preset == "standard_mm" || preset == "std_mm") {
-    return {
-      mode: "sm",
-      options: {},
-    };
-  } else if (preset == "standard_full" || preset == "std_full") {
-    return {
-      mode: "sf",
-      options: {},
-    };
-  } else if (preset == "mm" || preset == "recall_mm") {
-    return {
-      mode: "rm",
-      options: {},
-    };
-  } else if (preset == "full" || preset == "recall_full") {
-    return {
-      mode: "rf",
-      options: {},
-    };
-  }
-};
-
 export const generateFromPreset = (name, seedNumber) => {
   const timestamp = Math.floor(new Date().getTime() / 1000);
 
@@ -413,21 +396,9 @@ export const generateFromPreset = (name, seedNumber) => {
     seedNumber == undefined || seedNumber == 0
       ? new DotNetRandom(timestamp).NextInRange(1, 1000000)
       : seedNumber;
-  let gameMode, preset;
+  const preset = getPreset(name);
 
-  if (name == "standard_mm" || name == "std_mm") {
-    gameMode = game_modes.find((mode) => mode.name == "sm");
-    preset = presets.ClassicMM;
-  } else if (name == "standard_full" || name == "std_full") {
-    gameMode = game_modes.find((mode) => mode.name == "sf");
-    preset = presets.ClassicFull;
-  } else if (name == "mm" || name == "recall_mm") {
-    gameMode = game_modes.find((mode) => mode.name == "rm");
-    preset = presets.RecallMM;
-  } else if (name == "full" || name == "recall_full") {
-    gameMode = game_modes.find((mode) => mode.name == "rf");
-    preset = presets.RecallFull;
-  } else {
+  if (preset == undefined) {
     console.log("UNKNOWN PRESET: " + name);
     return ["", null, ""];
   }
@@ -435,6 +406,9 @@ export const generateFromPreset = (name, seedNumber) => {
   // Place the items.
   const { mapLayout, itemPoolParams, settings } = preset;
   const graph = generateSeed(seed, mapLayout, itemPoolParams, settings);
+  const defaultOptions = {
+    DisableFanfare: 0,
+  };
 
   const seedPatch = generateSeedPatch(
     seed,
@@ -442,9 +416,16 @@ export const generateFromPreset = (name, seedNumber) => {
     itemPoolParams,
     settings,
     graph,
-    null
+    defaultOptions
   );
-  const fileName = getFileName(seed, mapLayout, itemPoolParams, settings, null);
+  const fileName = getFileName(
+    seed,
+    mapLayout,
+    itemPoolParams,
+    settings,
+    defaultOptions
+  );
+  const patch = getBasePatch(mapLayout, settings.randomizeAreas);
 
-  return [gameMode.patch, seedPatch, fileName];
+  return [`patches/${patch}`, seedPatch, fileName];
 };

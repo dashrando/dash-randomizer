@@ -1,14 +1,11 @@
 import BpsPatch from "./bps-patch";
-import { getFileName, generateSeed, generateSeedPatch } from "./sm-rando";
+import {
+  getBasePatch,
+  getFileName,
+  generateSeed,
+  generateSeedPatch,
+} from "./sm-rando";
 import { patchRom } from "../helpers/patcher";
-import { MapLayout } from "./graph/params";
-
-const getBasePatch = (mapLayout, area) => {
-  if (mapLayout == MapLayout.Recall) {
-    return area ? "dash_recall_area.bps" : "dash_recall.bps";
-  }
-  return area ? "dash_standard_area.bps" : "dash_standard.bps";
-};
 
 async function RandomizeRom(
   seed = 0,
