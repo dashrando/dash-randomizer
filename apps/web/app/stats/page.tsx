@@ -25,7 +25,7 @@ import AreaDoorTable, { Transition } from "./areas";
 import { Zap } from "react-feather";
 
 export type ItemLocation = {
-  location: { address: any; modifier: any; name: any; area: any };
+  location: Location;
   item: any;
 };
 
