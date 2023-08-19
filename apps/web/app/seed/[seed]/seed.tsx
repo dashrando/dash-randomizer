@@ -6,6 +6,7 @@ import useMounted from '@/app/hooks/useMounted'
 import { useVanilla } from '@/app/generate/vanilla'
 import styles from './seed.module.css'
 import { RandomizeRom, fetchSignature } from 'core'
+import { MajorDistributionMode } from 'core/params'
 import { cn } from '@/lib/utils'
 import Button from '@/app/components/button'
 
@@ -18,6 +19,31 @@ type Seed = {
   name: string
 }
 
+const getItemSplit = (value: number) => {
+  switch (value) {
+    case MajorDistributionMode.Standard:
+      return 'Major/Minor'
+    case MajorDistributionMode.Recall:
+      return 'Recall Major/Minor'
+    default:
+      return 'Full'
+  }
+}
+
+const getBossMode = (value: number) => {
+  return (value === 2) ? 'Randomized' : 'Standard'
+}
+
+const calculateSettings = (parameters: any) => {
+
+}
+
+const Settings = ({ items }: any) => {
+  return (
+    <div></div>
+  )
+}
+
 export default function Seed({ parameters }: any) {
   const mounted = useMounted()
   const { data: vanilla, isLoading } = useVanilla()
@@ -25,28 +51,8 @@ export default function Seed({ parameters }: any) {
   const [signature, setSignature] = useState<string|null>('BEETOM BULL YARD GAMET')
 
   useEffect(() => {
-    if (mounted) {
-      if (!isLoading) {
-        if (vanilla) {
-          console.log('vanilla loaded')
-        } else {
-          console.log('vanilla not loaded')
-        }
-      }
-      // Check for all params (server)
-      // Check for vanilla (client)
-    
-      // Randomize ROM (server)
-      // Fetch signature (server)
-      // Patch and set (server)
-      
-      // Auto-download by default (client)
-    }
-  }, [isLoading, mounted, parameters, vanilla])
-
-  useEffect(() => {
     const initialize = async () => {
-      if (vanilla) {
+      if (vanilla && !seed?.data) {
         const { seed: seedNum, mapLayout, itemPoolParams, settings, options } = parameters
         const seedData = await RandomizeRom(seedNum, mapLayout, itemPoolParams, settings, options, {
           vanillaBytes: vanilla,
@@ -57,13 +63,22 @@ export default function Seed({ parameters }: any) {
       }
     }
     initialize()
-  }, [isLoading, mounted, parameters, vanilla])
+  }, [parameters, vanilla, seed])
 
   const hasVanilla = Boolean(vanilla)
 
   if (isLoading || !mounted) {
     return null
   }
+
+  console.log(parameters)
+  const { bossMode, randomizeAreas, itemPoolParams } = parameters
+  const randomizeParams = {
+    itemSplit: getItemSplit(itemPoolParams.majorDistribution.mode),
+    bossMode: getBossMode(parameters.settings.bossMode)
+  }
+
+  console.log(randomizeParams)
 
   return (
     <div>
@@ -79,7 +94,7 @@ export default function Seed({ parameters }: any) {
           }}>Download {seed?.name}</Button>
         ) : <Button variant="secondary">Upload Vanilla</Button>}
       </div>
-      {/* <Settings /> */}
+      <Settings items={null} />
     </div>
   )
 }
