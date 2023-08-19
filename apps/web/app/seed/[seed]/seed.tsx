@@ -5,7 +5,7 @@ import { saveAs } from 'file-saver'
 import useMounted from '@/app/hooks/useMounted'
 import { useVanilla } from '@/app/generate/vanilla'
 import styles from './seed.module.css'
-import { RandomizeRom, fetchSignature } from 'core'
+import { RandomizeRom, fetchSignature, findPreset } from 'core'
 import { cn } from '@/lib/utils'
 import Button from '@/app/components/button'
 
@@ -48,6 +48,12 @@ export default function Seed({ parameters }: any) {
     const initialize = async () => {
       if (vanilla) {
         const { seed: seedNum, mapLayout, itemPoolParams, settings, options } = parameters
+        const preset = findPreset({ mapLayout, itemPoolParams, settings })
+        if (preset != undefined && preset.settings != undefined) {
+          settings.preset = preset.settings.preset
+        } else {
+          settings.preset = "Custom"
+        }
         const seedData = await RandomizeRom(seedNum, mapLayout, itemPoolParams, settings, options, {
           vanillaBytes: vanilla,
         })
