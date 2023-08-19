@@ -34,8 +34,16 @@ const getBossMode = (value: number) => {
   return (value === 2) ? 'Randomized' : 'Standard'
 }
 
-const calculateSettings = (parameters: any) => {
+const getAreaMode = (value: boolean) => value ? 'Randomized' : 'Standard'
 
+const parseSettings = (parameters: any) => {
+  const { bossMode, randomizeAreas, itemPoolParams } = parameters
+  const randomizeParams = {
+    'Item Split': getItemSplit(itemPoolParams.majorDistribution.mode),
+    'Boss': getBossMode(parameters.settings.bossMode),
+    'Area': getAreaMode(parameters.settings.randomizeAreas)
+  }
+  return { randomizeParams }
 }
 
 const Settings = ({ items }: any) => {
@@ -72,13 +80,9 @@ export default function Seed({ parameters }: any) {
   }
 
   console.log(parameters)
-  const { bossMode, randomizeAreas, itemPoolParams } = parameters
-  const randomizeParams = {
-    itemSplit: getItemSplit(itemPoolParams.majorDistribution.mode),
-    bossMode: getBossMode(parameters.settings.bossMode)
-  }
+  const parsedParams = parseSettings(parameters)
 
-  console.log(randomizeParams)
+  console.log(parsedParams.randomizeParams)
 
   return (
     <div>
