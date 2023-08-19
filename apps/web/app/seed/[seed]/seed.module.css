@@ -33,7 +33,16 @@
   margin: var(--spacer) 0;
   /* opacity: 0; */
   transition: opacity 0.3s ease-in-out, filter 0.15s ease-in-out;
-  /* filter: blur(4px); */
+}
+
+.signature.noVanilla {
+  filter: blur(4px);
+}
+
+.download {
+  display: flex;
+  justify-content: center;
+  margin: var(--spacer-8x) auto var(--spacer-4x);
 }
 
 .footer {
