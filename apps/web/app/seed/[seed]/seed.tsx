@@ -5,7 +5,7 @@ import { saveAs } from 'file-saver'
 import useMounted from '@/app/hooks/useMounted'
 import { useVanilla } from '@/app/generate/vanilla'
 import styles from './seed.module.css'
-import { RandomizeRom, fetchSignature } from 'core'
+import { RandomizeRom, fetchSignature, findPreset } from 'core'
 import { MajorDistributionMode } from 'core/params'
 import { cn } from '@/lib/utils'
 import Button from '@/app/components/button'
@@ -38,17 +38,29 @@ const getAreaMode = (value: boolean) => value ? 'Randomized' : 'Standard'
 
 const parseSettings = (parameters: any) => {
   const { bossMode, randomizeAreas, itemPoolParams } = parameters
-  const randomizeParams = {
-    'Item Split': getItemSplit(itemPoolParams.majorDistribution.mode),
-    'Boss': getBossMode(parameters.settings.bossMode),
-    'Area': getAreaMode(parameters.settings.randomizeAreas)
-  }
+  const randomizeParams = [
+    { label: 'Item Split', value: getItemSplit(itemPoolParams.majorDistribution.mode) },
+    { label: 'Boss', value: getBossMode(parameters.settings.bossMode) },
+    { label: 'Area', value: getAreaMode(parameters.settings.randomizeAreas) }
+  ]
   return { randomizeParams }
 }
 
-const Settings = ({ items }: any) => {
+const Parameters = ({ title, items }: { title: string, items: any[] }) => {
   return (
-    <div></div>
+    <div>
+      <h4>{title}</h4>
+      {items.length > 0 && (
+        <ul>
+          {items.map((item, index) => (
+            <li key={index}>
+              <div className={styles.label}>{item.label}</div>
+              <div>{item.value}</div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   )
 }
 
@@ -62,6 +74,12 @@ export default function Seed({ parameters }: any) {
     const initialize = async () => {
       if (vanilla && !seed?.data) {
         const { seed: seedNum, mapLayout, itemPoolParams, settings, options } = parameters
+        const preset = findPreset({ mapLayout, itemPoolParams, settings })
+        if (preset != undefined && preset.settings != undefined) {
+          settings.preset = preset.settings.preset
+        } else {
+          settings.preset = "Custom"
+        }
         const seedData = await RandomizeRom(seedNum, mapLayout, itemPoolParams, settings, options, {
           vanillaBytes: vanilla,
         })
@@ -98,7 +116,9 @@ export default function Seed({ parameters }: any) {
           }}>Download {seed?.name}</Button>
         ) : <Button variant="secondary">Upload Vanilla</Button>}
       </div>
-      <Settings items={null} />
+      <Parameters title="Randomization" items={parsedParams.randomizeParams} />
+      <Parameters title="Settings" items={[]} />
+      <Parameters title="Options" items={[]} />
     </div>
   )
 }

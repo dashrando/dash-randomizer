@@ -373,13 +373,13 @@ export default function Form() {
       };
 
       if (data.mode == 'dash-recall-v1') {
-        settings.preset = "Recall";
+        settings.preset = "RecallMM";
       //} else if (data.mode == 'dash-recall-v2') {
         //settings.preset = "RecallV2";
       //} else if (data.mode == 'dash-classic') {
         //settings.preset = "Classic";
       } else if (data.mode == 'standard') {
-        settings.preset = "Standard";
+        settings.preset = "StandardMM";
       } else if (data.mode == 'sgl23') {
         settings.preset = "SGL23"
       }

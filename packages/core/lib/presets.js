@@ -13,8 +13,8 @@ import {
 // Accessor Method
 //-----------------------------------------------------------------
 
-export const getPreset = (tag) => {
-  const presets = [
+export const getAllPresets = () => {
+  return [
     Preset_SGL23,
     Preset_Recall_MM,
     Preset_Recall_Full,
@@ -23,7 +23,28 @@ export const getPreset = (tag) => {
     Preset_Standard_MM,
     Preset_Standard_Full,
   ];
-  return presets.find((p) => p.tags.includes(tag));
+};
+
+export const getPreset = (tag) => {
+  return getAllPresets().find((p) => p.tags.includes(tag));
+};
+
+export const findPreset = (params) => {
+  const { itemPoolParams, settings } = params;
+  return getAllPresets().find((p) => {
+    if (
+      params.mapLayout != p.mapLayout ||
+      JSON.stringify(itemPoolParams) !== JSON.stringify(p.itemPoolParams) ||
+      settings.beamMode !== p.settings.beamMode ||
+      settings.suitMode !== p.settings.suitMode ||
+      settings.gravityHeatReduction !== p.settings.gravityHeatReduction ||
+      settings.randomizeAreas !== p.settings.randomizeAreas ||
+      settings.bossMode !== p.settings.bossMode
+    ) {
+      return false;
+    }
+    return true;
+  });
 };
 
 //-----------------------------------------------------------------
@@ -191,7 +212,7 @@ export const Preset_Standard_MM = {
   settings: {
     preset: "StandardMM",
     beamMode: BeamMode.Vanilla,
-    suitMode: SuitMode.Standard,
+    suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
@@ -217,7 +238,7 @@ export const Preset_Standard_Full = {
   settings: {
     preset: "StandardFull",
     beamMode: BeamMode.Vanilla,
-    suitMode: SuitMode.Standard,
+    suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
