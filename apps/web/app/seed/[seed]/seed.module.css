@@ -45,9 +45,49 @@
   margin: var(--spacer-8x) auto var(--spacer-4x);
 }
 
+.heading {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  /* color: #fff; */
+}
+
+.label {
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 18px;
+  color: #6a6a6a;
+}
+
+.value {
+  font-size: 14px;
+  line-height: 18px;
+  color: #fff;
+}
+
+.list {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style: none outside none;
+  /* opacity: 0; */
+  transition: opacity 0.3s ease-in-out 0.15s;
+  flex-wrap: wrap;
+}
+
+.list .item {
+  margin: 16px 0;
+  padding: 0 4px;
+  display: block;
+  text-align: center;
+  width: 50%;
+}
+
 .footer {
   margin: 40px 0 0;
   font-size: 14px;
+  font-weight: 400;
   line-height: 18px;
   /* opacity: 0; */
   transition: opacity 0.3s ease-in-out 0.6s;
