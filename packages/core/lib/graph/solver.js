@@ -45,7 +45,6 @@ class GraphSolver {
       SuperPacks,
       TotalTanks,
       HellRunTanks,
-      EnvDamageTanks,
       CanFly,
       CanDoSuitlessMaridia,
       CanPassBombPassages,

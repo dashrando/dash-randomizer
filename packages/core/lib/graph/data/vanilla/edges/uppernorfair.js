@@ -15,28 +15,17 @@ export const uppernorfairEdges = {
 
   BusinessCenterTopRightDoor: {
     BusinessCenter: true,
-    CathedralEntranceLeftDoor: true,
+    BubbleMountainMain: () =>
+      HellRunTanks >= 3 &&
+      CanOpenGreenDoors &&
+      (HasHiJump || CanFly || HasSpeed),
+    Missiles_Cathedral: () =>
+      HellRunTanks >= 5 && CanOpenRedDoors && (HasHiJump || CanFly || HasSpeed),
   },
 
   BusinessCenterBottomRightDoor: {
     BusinessCenter: true,
     BubbleMountainBottomLeftDoor: () => HasSpeed,
-  },
-
-  CathedralEntranceLeftDoor: {
-    BusinessCenterTopRightDoor: true,
-    CathedralEntranceMain: () => HellRunTanks >= 1,
-  },
-
-  CathedralEntranceMain: {
-    CathedralEntranceLeftDoor: () => HellRunTanks >= 3,
-    CathedralEntranceRightDoor: () =>
-      HellRunTanks >= 2 && (HasHiJump || CanFly || HasSpeed),
-  },
-
-  CathedralEntranceRightDoor: {
-    Missiles_Cathedral: () => HellRunTanks >= 3 && CanOpenRedDoors,
-    CathedralEntranceMain: true,
   },
 
   EnergyTank_HiJump: {
@@ -53,8 +42,8 @@ export const uppernorfairEdges = {
   },
 
   Missiles_Cathedral: {
-    CathedralEntranceRightDoor: () => HellRunTanks >= 3,
-    BubbleMountainMain: () => CanOpenGreenDoors && HellRunTanks >= 3,
+    BusinessCenterTopRightDoor: () => HellRunTanks >= 5,
+    BubbleMountainMain: () => CanOpenGreenDoors && HellRunTanks >= 5,
   },
 
   BubbleMountainMain: {
@@ -63,7 +52,8 @@ export const uppernorfairEdges = {
     BubbleMountainTopLeftDoor: () =>
       CanFly || HasIce || HasSpringBall || HasHiJump,
     BubbleMountainBottomLeftDoor: () => CanPassBombPassages,
-    Missiles_Cathedral: () => HellRunTanks >= 3,
+    Missiles_Cathedral: () => HellRunTanks >= 6,
+    BusinessCenterTopRightDoor: () => HellRunTanks >= 4,
   },
 
   BubbleMountainKingCacLedge: {
@@ -72,6 +62,7 @@ export const uppernorfairEdges = {
     Door_SingleChamber: () => false,
     Missiles_SpeedBooster: () =>
       HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
+    SpeedBooster: () => HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
     Missiles_Wave: () => HellRunTanks >= 2,
     BubbleMountainBottomLeftDoor: () => HellRunTanks >= 8,
   },
@@ -140,12 +131,12 @@ export const uppernorfairEdges = {
 
   Missiles_SpeedBooster: {
     BubbleMountainKingCacLedge: () =>
-      HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
-    SpeedBooster: true,
+      HellRunTanks >= 4 || (HasSpeed && HellRunTanks >= 2),
   },
 
   SpeedBooster: {
-    Missiles_SpeedBooster: true,
+    BubbleMountainKingCacLedge: () =>
+      HellRunTanks >= 4 || (HasSpeed && HellRunTanks >= 2),
   },
 
   Missiles_BubbleMountain: {

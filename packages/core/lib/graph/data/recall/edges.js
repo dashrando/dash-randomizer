@@ -55,27 +55,6 @@ const GreenBrinstar_ChargeBeam_to_Waterway = {
     CanUsePowerBombs && CanOpenRedDoors && (HasSpeed || HasSpazer),
 };
 
-const RedBrinstar_Xray_Hallway_to_Item = {
-  edges: ["XrayHallway", "XrayScope"],
-  requires: () =>
-    CanOpenRedDoors &&
-    HasMorph &&
-    (HasSpaceJump ||
-      HasGrapple ||
-      (((HasHiJump && HasSpeed) || HasIce || HasDoubleJump) &&
-        TotalTanks >= 4)),
-};
-
-const RedBrinstar_Xray_Item_to_Hallway = {
-  edges: ["XrayScope", "XrayHallway"],
-  requires: () =>
-    (CanUseBombs || CanUsePowerBombs) &&
-    (HasSpaceJump ||
-      HasGrapple ||
-      (((HasHiJump && HasSpeed) || HasIce || HasDoubleJump) &&
-        TotalTanks >= 4)),
-};
-
 const UpperNorfair_PreCrocomire_to_CrocEntry = {
   edges: ["PreCrocomire", "Door_CrocEntry"],
   requires: true,
@@ -104,8 +83,6 @@ export const RecallEdgeUpdates = SeasonEdgeUpdates.concat([
   EastMaridia_PlasmaSparkRoomTop_to_PrePlasmaBeam,
   GreenBrinstar_ChargeBeam_to_Waterway,
   EastMaridia_BotwoonHallway_Left_to_Right,
-  RedBrinstar_Xray_Hallway_to_Item,
-  RedBrinstar_Xray_Item_to_Hallway,
   UpperNorfair_PreCrocomire_to_CrocEntry,
   LowerNorfair_ScrewAttack_to_PrePillars,
 ]);

@@ -10,15 +10,20 @@ export const redbrinstarEdges = {
       HasMorph &&
       (HasSpaceJump ||
         HasGrapple ||
-        (((HasHiJump && HasSpeed) || HasIce) && TotalTanks >= 4)),
+        ((TotalTanks >= 6 || (HasVaria && TotalTanks >= 2)) &&
+          ((HasHiJump && (HasSpeed || HasSpringBall)) ||
+            HasIce ||
+            HasDoubleJump ||
+            CanUseBombs))),
   },
 
   XrayScope: {
     XrayHallway: () =>
-      (CanUseBombs || CanUsePowerBombs) &&
+      CanPassBombPassages &&
       (HasSpaceJump ||
         HasGrapple ||
-        (((HasHiJump && HasSpeed) || HasIce) && TotalTanks >= 4)),
+        TotalTanks >= 6 ||
+        (HasVaria && TotalTanks >= 2)),
   },
 
   Door_AboveKraid: {
@@ -30,7 +35,7 @@ export const redbrinstarEdges = {
   },
 
   Spazer: {
-    RedTowerBottom: () => HasMorph && CanOpenGreenDoors,
+    RedTowerBottom: () => HasMorph,
   },
 
   Door_MaridiaTube: {

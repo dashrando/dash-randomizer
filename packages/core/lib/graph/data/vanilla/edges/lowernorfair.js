@@ -85,12 +85,13 @@ export const lowernorfairEdges = {
   },
 
   Missiles_MickeyMouse: {
-    WorstRoomTop: () => HasHiJump || CanFly,
+    //TODO: check for SJ, DJ, or SB if only PBs available?
+    WorstRoomTop: () => HasMorph,
     Ruins: true,
   },
 
   Missiles_GT: {
-    Supers_GT: () => HasScrewAttack || CanUsePowerBombs,
+    Supers_GT: () => CanDestroyBombWalls,
     ScrewAttack: () => CanKillGoldTorizo,
   },
 
@@ -99,7 +100,7 @@ export const lowernorfairEdges = {
   },
 
   ScrewAttack: {
-    Supers_GT: () => HasScrewAttack || CanUsePowerBombs,
+    Supers_GT: () => CanDestroyBombWalls,
     PrePillars: () =>
       (HasSpaceJump && (HasScrewAttack || CanUsePowerBombs)) ||
       ((CanUseBombs || HasSpringBall) && CanPassBombPassages) ||

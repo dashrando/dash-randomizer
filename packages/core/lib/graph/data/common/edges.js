@@ -17,9 +17,14 @@ const RedBrinstar_RedTower_Bottom_to_Mid = {
   requires: true,
 };
 
-const UpperNorfair_CathedralEntrance_Main_to_TopRightDoor = {
-  edges: ["CathedralEntranceMain", "CathedralEntranceRightDoor"],
-  requires: () => HellRunTanks >= 2,
+const UpperNorfair_BusinessCenter_to_BubbleMountain = {
+  edges: ["BusinessCenterTopRightDoor", "BubbleMountainMain"],
+  requires: () => HellRunTanks >= 3 && CanOpenGreenDoors,
+};
+
+const UpperNorfair_BusinessCenter_to_Cathedral = {
+  edges: ["BusinessCenterTopRightDoor", "Missiles_Cathedral"],
+  requires: () => HellRunTanks >= 5 && CanOpenRedDoors,
 };
 
 const UpperNorfair_HiJumpEnergyTankRoom_Missiles_to_EnergyTank = {
@@ -35,6 +40,7 @@ export const CommonEdgeUpdates = [
   Crateria_ConstructionZoneToTacoTank,
   RedBrinstar_RedBrinstarElevatorRoomToPreMoat,
   RedBrinstar_RedTower_Bottom_to_Mid,
-  UpperNorfair_CathedralEntrance_Main_to_TopRightDoor,
+  UpperNorfair_BusinessCenter_to_BubbleMountain,
+  UpperNorfair_BusinessCenter_to_Cathedral,
   UpperNorfair_HiJumpEnergyTankRoom_Missiles_to_EnergyTank,
 ];
