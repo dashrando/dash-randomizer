@@ -322,7 +322,7 @@ export const loadGraph = (
 
     const seedGen = new DotNetRandom(-seed);
     for (let i = 0; i < attempt - 2; i++) {
-      seedGen.Next();
+      seedGen.InternalSample();
     }
     return seedGen.NextInRange(1, 1000000);
   };
