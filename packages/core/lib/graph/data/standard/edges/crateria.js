@@ -126,7 +126,7 @@ export const crateriaEdges = {
 
   ConstructionZone: {
     Missiles_Alpha: () => HasMorph,
-    TacoTankRoom: () => CanOpenRedDoors,
+    TacoTankRoom: true,
     MorphBall: true,
   },
 

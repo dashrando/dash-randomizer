@@ -1,5 +1,3 @@
-import { CommonEdgeUpdates } from "../common/edges";
-
 //-----------------------------------------------------------------
 // Edge definitions.
 //-----------------------------------------------------------------
@@ -32,8 +30,8 @@ const Crateria_Gauntlet_EnergyTank_to_BackSideLeftDoor = {
 // Exports.
 //-----------------------------------------------------------------
 
-export const SeasonEdgeUpdates = CommonEdgeUpdates.concat([
+export const SeasonEdgeUpdates = [
   Crateria_ClimbSupers_to_Climb,
   Crateria_Gauntlet_Pre_to_EnergyTank,
   Crateria_Gauntlet_EnergyTank_to_BackSideLeftDoor,
-]);
+];

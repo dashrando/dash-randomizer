@@ -15,12 +15,8 @@ export const uppernorfairEdges = {
 
   BusinessCenterTopRightDoor: {
     BusinessCenter: true,
-    BubbleMountainMain: () =>
-      HellRunTanks >= 3 &&
-      CanOpenGreenDoors &&
-      (HasHiJump || CanFly || HasSpeed),
-    Missiles_Cathedral: () =>
-      HellRunTanks >= 5 && CanOpenRedDoors && (HasHiJump || CanFly || HasSpeed),
+    BubbleMountainMain: () => HellRunTanks >= 3 && CanOpenGreenDoors,
+    Missiles_Cathedral: () => HellRunTanks >= 5 && CanOpenRedDoors,
   },
 
   BusinessCenterBottomRightDoor: {
@@ -38,7 +34,7 @@ export const uppernorfairEdges = {
   },
 
   Missiles_HiJump: {
-    EnergyTank_HiJump: () => CanPassBombPassages,
+    EnergyTank_HiJump: () => HasMorph,
   },
 
   Missiles_Cathedral: {

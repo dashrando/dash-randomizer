@@ -62,7 +62,7 @@ export default function SettingsInfoPage() {
           <ul>
             <li>
               <p>
-                <strong>Recall Major/minor</strong>:{' '}
+                <strong>Recall Major/Minor</strong>:{' '}
                 Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations, with a few changes, dictated by the logic. Changes include the removal of the Kraid&apos;s Etank location and the additions of the Sky Missile, Watering Hole, and Mickey Mouse Missile locations.
               </p>
               {/* <details>
@@ -123,7 +123,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Standard Major/minor</strong>:{' '}
+                <strong>Standard Major/Minor</strong>:{' '}
                 Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations dictated by the logic.
               </p>
               {/* <details>
@@ -269,7 +269,7 @@ export default function SettingsInfoPage() {
           <ul>
             <li>
               <p>
-                <strong>Standard Vanilla</strong> has the &quot;vanilla&quot; map that most randomizers use, such as Total&apos;s Randomizer and VARIA.
+                <strong>Standard</strong> has the &quot;vanilla&quot; map that most randomizers use, such as Total&apos;s Randomizer and VARIA.
               </p>
             </li>
             <li>

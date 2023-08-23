@@ -43,7 +43,7 @@ export const redbrinstarEdges = {
   },
 
   RedBrinstarElevatorRoom: {
-    Door_RedElevator: () => CanUsePowerBombs,
+    Door_RedElevator: true,
     RedTowerElevatorRoom: true,
   },
 
@@ -72,7 +72,7 @@ export const redbrinstarEdges = {
     Door_KraidEntry: true,
     Door_MaridiaTube: () =>
       CanUsePowerBombs && (HasHiJump || CanMoveInWestMaridia),
-    RedTowerMid: () => HasIce || HasHiJump || HasSpaceJump,
+    RedTowerMid: true,
     Spazer: () => HasMorph && CanOpenGreenDoors,
   },
 

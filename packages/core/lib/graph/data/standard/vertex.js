@@ -1,4 +1,4 @@
-export const vanillaVertices = {
+export const standardVertices = {
   Crateria: {
     Ship: "",
     PBs_LandingSite: "minor",
@@ -82,7 +82,7 @@ export const vanillaVertices = {
     Door_KraidMouth: "",
     IceBeam: "major",
     Missiles_CrumbleShaft: "minor",
-    EnergyTank_HiJump: "major",
+    EnergyTank_HiJump: "minor",
     HiJumpBoots: "major",
     Missiles_HiJump: "minor",
     Missiles_CrocEscape: "minor",
@@ -145,7 +145,7 @@ export const vanillaVertices = {
     Missiles_Spooky: "minor",
     Door_PhantoonBoss: "",
     Supers_LeftSide: "minor",
-    Supers_RightSide: "minor",
+    Supers_RightSide: "major",
     EnergyTank_Ship: "major",
     ReserveTank_Ship: "major",
     GravitySuit: "major",
