@@ -99,7 +99,7 @@ export const uppernorfairEdges = {
   },
 
   Missiles_Wave: {
-    BubbleMountainKingCacLedge: () => HellRunTanks >= 2,
+    BubbleMountainKingCacLedge: () => HellRunTanks >= 3,
     WaveBeam: () => HellRunTanks >= 3,
   },
 

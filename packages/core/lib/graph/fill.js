@@ -1,11 +1,15 @@
 import DotNetRandom from "../dotnet-random";
 import { Item } from "../items";
 import GraphSolver from "./solver";
-import { cloneGraph } from "./init";
+import { cloneGraph, loadGraph } from "./init";
 import Loadout from "../loadout";
 import { getFullPrePool, getMajorMinorPrePool } from "../itemPlacement.js";
 import { getItemPool } from "./items";
-import { MajorDistributionMode } from "./params";
+import { BossMode, MajorDistributionMode } from "./params";
+
+//-----------------------------------------------------------------
+// Utility routines.
+//-----------------------------------------------------------------
 
 const canPlaceItem_Full = (item, vertex) => {
   if (vertex.item != undefined) {
@@ -60,7 +64,11 @@ const canPlaceItem_MajorMinor = (item, vertex) => {
   return true;
 };
 
-export const graphFill = (seed, graph, itemPoolParams, settings) => {
+//-----------------------------------------------------------------
+// Place items within the graph.
+//-----------------------------------------------------------------
+
+const graphFill = (seed, graph, itemPoolParams, settings, maxAttempts = 10) => {
   const solver = new GraphSolver(graph, settings);
   const rnd = new DotNetRandom(seed);
 
@@ -177,7 +185,7 @@ export const graphFill = (seed, graph, itemPoolParams, settings) => {
   //-----------------------------------------------------------------
 
   let attempts = 0;
-  while (attempts < 10) {
+  while (attempts < maxAttempts) {
     attempts += 1;
 
     nonPrefilled.forEach((n) => (n.item = undefined));
@@ -194,4 +202,40 @@ export const graphFill = (seed, graph, itemPoolParams, settings) => {
   throw new Error(
     `Failed to fill graph for seed ${seed} after ${attempts} attempts`
   );
+};
+
+//-----------------------------------------------------------------
+// Performs multiple passes to generate a seed using a graph.
+//-----------------------------------------------------------------
+
+export const generateSeed = (seed, mapLayout, itemPoolParams, settings) => {
+  const maxOuterLoop = 20;
+  let maxInnerLoop = 10;
+
+  if (!settings.randomizeAreas) {
+    maxInnerLoop *= 10;
+  }
+  if (settings.bossMode == BossMode.Vanilla) {
+    maxInnerLoop *= 2;
+  }
+
+  let attempts = 1;
+  while (attempts < maxOuterLoop) {
+    const graph = loadGraph(
+      seed,
+      attempts,
+      mapLayout,
+      itemPoolParams.majorDistribution.mode,
+      settings.randomizeAreas,
+      settings.bossMode
+    );
+
+    try {
+      graphFill(seed, graph, itemPoolParams, settings, maxInnerLoop);
+      return graph;
+    } catch (e) {
+      attempts += 1;
+    }
+  }
+  throw new Error(`Failed to generate seed ${seed}`);
 };
