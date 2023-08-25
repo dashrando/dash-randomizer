@@ -1,4 +1,4 @@
-import { SeasonAreaEdgeUpdates } from "../season/area";
+import { StandardAreaEdgeUpdates } from "../standard/area";
 
 //-----------------------------------------------------------------
 // Edge definitions.
@@ -8,4 +8,4 @@ import { SeasonAreaEdgeUpdates } from "../season/area";
 // Exports.
 //-----------------------------------------------------------------
 
-export const RecallAreaEdgeUpdates = SeasonAreaEdgeUpdates.concat([]);
+export const RecallAreaEdgeUpdates = StandardAreaEdgeUpdates.concat([]);

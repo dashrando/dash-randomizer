@@ -6,7 +6,6 @@ import { Item } from "../items";
 //-----------------------------------------------------------------
 
 export const MapLayout = {
-  Vanilla: 0,
   Standard: 1,
   Recall: 3,
 };

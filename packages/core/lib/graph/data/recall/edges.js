@@ -1,5 +1,3 @@
-import { SeasonEdgeUpdates } from "../season/edges";
-
 //-----------------------------------------------------------------
 // Edge definitions.
 //-----------------------------------------------------------------
@@ -72,7 +70,7 @@ const LowerNorfair_ScrewAttack_to_PrePillars = {
 // Exports.
 //-----------------------------------------------------------------
 
-export const RecallEdgeUpdates = SeasonEdgeUpdates.concat([
+export const RecallEdgeUpdates = [
   WreckedShip_Bowling_Missiles_to_Reserve,
   WreckedShip_RearExit_to_HighwayExit,
   WestMaridia_MainStreet_to_OasisBottom,
@@ -85,4 +83,4 @@ export const RecallEdgeUpdates = SeasonEdgeUpdates.concat([
   EastMaridia_BotwoonHallway_Left_to_Right,
   UpperNorfair_PreCrocomire_to_CrocEntry,
   LowerNorfair_ScrewAttack_to_PrePillars,
-]);
+];

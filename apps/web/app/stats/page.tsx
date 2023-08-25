@@ -20,9 +20,8 @@ import { isAreaEdge, isBossEdge } from "@/../../packages/core/data/doors";
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
-import { generateSeed } from "@/../../packages/core/lib/sm-rando";
+import { generateSeed } from "@/../../packages/core/lib/graph/fill";
 import AreaDoorTable, { Transition } from "./areas";
-import { Zap } from "react-feather";
 
 export type ItemLocation = {
   location: Location;

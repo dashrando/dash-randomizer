@@ -93,19 +93,18 @@ export default function MajorItemTable({
   let majorLocations: MajorRowData[] = [];
 
   itemProgression.forEach((p) => {
-    p.forEach((c) => {
-      if (c.item.isMajor) {
-        const locationEntry = majorLocations.find(
-          (m) => m.locationName == c.location.name
-        );
-        if (locationEntry == undefined) {
-          majorLocations.push({
-            locationName: c.location.name,
-            itemTypes: [c.item.type],
-          });
-        } else {
-          locationEntry.itemTypes.push(c.item.type);
-        }
+    p.filter(c => c.item.isMajor).forEach((c) => {
+      const locationEntry = majorLocations.find(
+        (m) => m.locationName == c.location.name
+      );
+      if (locationEntry == undefined) {
+        majorLocations.push({
+          // copy string to avoid memory growth
+          locationName: c.location.name.slice(),
+          itemTypes: [c.item.type],
+        });
+      } else {
+        locationEntry.itemTypes.push(c.item.type);
       }
     });
   });
