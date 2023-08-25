@@ -12,10 +12,9 @@ import { wreckedshipEdges } from "./data/standard/edges/wreckedship";
 import { bossEdges } from "./data/standard/edges/boss";
 import { BossMode, MapLayout, MajorDistributionMode } from "./params";
 import { RecallVertexUpdates } from "./data/recall/vertex";
-import { SeasonEdgeUpdates } from "./data/season/edges";
 import { RecallEdgeUpdates } from "./data/recall/edges";
 import { RecallAreaEdgeUpdates } from "./data/recall/area";
-import { SeasonAreaEdgeUpdates } from "./data/season/area";
+import { StandardAreaEdgeUpdates } from "./data/standard/area";
 import { mapPortals } from "./data/portals";
 import { bossItem, Item } from "../items";
 import DotNetRandom from "../dotnet-random";
@@ -201,9 +200,9 @@ export const cloneGraph = (graph) => {
 
 const getEdgeUpdates = (mapLayout, areaShuffle) => {
   switch (mapLayout) {
-    case MapLayout.Vanilla:
+    case MapLayout.Standard:
       if (areaShuffle) {
-        throw new Error("Unsupport vanilla area shuffle");
+        return StandardAreaEdgeUpdates;
       }
       return [];
     case MapLayout.Recall:
@@ -212,10 +211,7 @@ const getEdgeUpdates = (mapLayout, areaShuffle) => {
       }
       return RecallEdgeUpdates;
     default:
-      if (areaShuffle) {
-        return SeasonAreaEdgeUpdates;
-      }
-      return SeasonEdgeUpdates;
+      throw new Error(`Unknown map layout: ${mapLayout}`);
   }
 };
 

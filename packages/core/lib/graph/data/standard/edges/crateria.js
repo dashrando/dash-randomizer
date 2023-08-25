@@ -33,7 +33,10 @@ export const crateriaEdges = {
     //more specifically, the door from landing site to gauntlet
     Ship: () => CanDestroyBombWalls,
     EnergyTank_Gauntlet: () =>
-      CanUseBombs || (HasMorph && PowerBombPacks >= 2) || HasScrewAttack,
+      (CanUseBombs && (TotalTanks >= 2 || HasVaria)) ||
+      (HasMorph && PowerBombPacks >= 2 && (TotalTanks >= 1 || HasVaria)) ||
+      HasScrewAttack ||
+      (TotalTanks >= 3 && HasSpeed),
   },
 
   EnergyTank_Gauntlet: {
@@ -41,10 +44,7 @@ export const crateriaEdges = {
       (CanUseBombs && TotalTanks >= 2) ||
       (HasMorph && PowerBombPacks >= 2 && TotalTanks >= 1) ||
       HasScrewAttack,
-    GauntletBackSideLeftDoor: () =>
-      (CanUseBombs && TotalTanks >= 2) ||
-      (HasMorph && PowerBombPacks >= 2 && TotalTanks >= 1) ||
-      (HasScrewAttack && CanPassBombPassages),
+    GauntletBackSideLeftDoor: () => CanPassBombPassages,
   },
 
   GauntletBackSideLeftDoor: {
@@ -111,7 +111,7 @@ export const crateriaEdges = {
 
   Supers_Climb: {
     Climb: () =>
-      HasGrapple || HasSpaceJump || (EnergyTanks >= 2 && TotalTanks >= 3),
+      HasGrapple || HasSpaceJump || (EnergyTanks >= 1 && TotalTanks >= 2),
   },
 
   Missiles_OldMB: {
