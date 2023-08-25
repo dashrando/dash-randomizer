@@ -105,7 +105,7 @@ const ReadableLogic = ({ type }: { type: string }) => {
   const Criteria = ({ value }: { value: string }) => {
     let parts: string[] = [" "];
 
-    value.split(" ").forEach((w: string) => {
+    value.split(/\s|\)|\(/).forEach((w: string) => {
       if (tokens.some((t) => t.name == w)) {
         parts.push(w);
         parts.push(" ");
