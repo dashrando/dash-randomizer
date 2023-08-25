@@ -141,6 +141,9 @@ const ReadableLogic = ({ type }: { type: string }) => {
       <Seperator />
       <div className={styles.logic_title}>{title}</div>
       <Seperator />
+      <div style={{ border: '1px solid #222', backgroundColor: '#010101', display: 'inline-flex', padding: '8px 16px', borderRadius: '8px', margin: '16px 0', maxWidth: '440px', fontSize: '16px', lineHeight: '24px' }}>
+        <p><strong style={{ color: '#fff' }}>Warning:</strong> The following logic does not account for Area Randomization or Boss Shuffle, both of which are in alpha.</p>
+      </div>
       <div className={styles.logic}>
         {tokens.map((t: Token) => {
           return (
