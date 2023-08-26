@@ -8,11 +8,22 @@ type Token = {
   criteria: string;
 };
 
-const Seperator = () => (
+export const Seperator = () => (
   <div className={styles.seperator}>
     <hr />
   </div>
 )
+
+export const Entry = ({ name, children }: any) => {
+  return (
+    <div key={name} className={styles.token}>
+      <div className={styles.token_name}>{name}</div>
+      <div className={styles.token_criteria}>
+      {children}
+      </div>
+    </div>
+  );
+};
 
 const formatCriteria = (criteria: string): string => {
   const formatted = criteria
@@ -77,7 +88,7 @@ const loadLogic = (logicType: string): { title: string; tokens: Token[] } => {
   }
 };
 
-const Navigation = ({ selected }: { selected: string }) => {
+export const Navigation = ({ selected }: { selected: string }) => {
   return (
     <div className={styles.nav_bar}>
       <span className={styles.nav_title}>Select Logic:</span>
