@@ -17,19 +17,19 @@ const StandardLogicPage: NextPage = () => {
       <div style={{ border: '1px solid #222', backgroundColor: '#010101', display: 'inline-flex', padding: '8px 16px', borderRadius: '8px', margin: '16px 0', maxWidth: '440px', fontSize: '16px', lineHeight: '24px' }}>
         <p><strong style={{ color: '#fff' }}>Warning:</strong> The following logic does not account for Area Randomization or Boss Shuffle, both of which are in alpha.</p>
       </div>
-      <h2>Utilities</h2>
+      <h2 style={{fontVariant: 'all-small-caps', fontSize: '2.0em'}}>Utilities</h2>
 <Entry name="canHellRun">
-  totalTanks &#8805; 4 <span style={{color: "aqua"}}>OR </span> hasVaria
+  TotalTanks &#8805; 4 <span style={{color: "aqua"}}>OR </span> HasVaria
 </Entry>
 
 <Entry name="canAccessGreenBrinstar">
-  canDestroyBombWalls <span style={{color: "aqua"}}>OR </span> hasSpeed
+  CanDestroyBombWalls <span style={{color: "aqua"}}>OR </span> HasSpeed
 </Entry>
 
 <Entry name="canAccessRedBrinstar">
-    hasMorph <span style={{color: "purple"}}>AND </span>
-    canOpenGreenDoors <span style={{color: "purple"}}>AND </span>
-    (canAccessGreenBrinstar <span style={{color: "aqua"}}>OR </span> canUsePowerBombs)
+    HasMorph <span style={{color: "purple"}}>AND </span>
+    CanOpenGreenDoors <span style={{color: "purple"}}>AND </span>
+    (canAccessGreenBrinstar <span style={{color: "aqua"}}>OR </span> CanUsePowerBombs)
 </Entry>
 
 <Entry name="canAccessHeatedNorfair">
@@ -38,75 +38,75 @@ const StandardLogicPage: NextPage = () => {
 
 <Entry name="canAccessLowerNorfair">
     canAccessHeatedNorfair <span style={{color: "purple"}}>AND </span>
-    canUsePowerBombs <span style={{color: "purple"}}>AND </span>
-    hasVaria <span style={{color: "purple"}}>AND </span>
-    (hasHiJump <span style={{color: "aqua"}}>OR </span> hasGravity)
+    CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+    HasVaria <span style={{color: "purple"}}>AND </span>
+    (HasHiJump <span style={{color: "aqua"}}>OR </span> HasGravity)
 </Entry>
 
 <Entry name="canPassWorstRoom">
     canAccessLowerNorfair <span style={{color: "purple"}}>AND </span>
-    (canFly <span style={{color: "aqua"}}>OR </span> hasHiJump <span style={{color: "aqua"}}>OR </span> hasSpringBall)
+    (CanFly <span style={{color: "aqua"}}>OR </span> HasHiJump <span style={{color: "aqua"}}>OR </span> HasSpringBall)
 </Entry>
 
 <Entry name="canAccessKraid">
-  canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> canPassBombPassages
+  canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> CanPassBombPassages
 </Entry>
 
 <Entry name="canAccessCrocomire">
     canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
-    ((canHellRun <span style={{color: "purple"}}>AND </span> canPassBombPassages) <span style={{color: "aqua"}}>OR </span>
-      (hasSpeed <span style={{color: "purple"}}>AND </span> (hasVaria <span style={{color: "aqua"}}>OR </span> totalTanks &#8805; 1)))
+    ((canHellRun <span style={{color: "purple"}}>AND </span> CanPassBombPassages) <span style={{color: "aqua"}}>OR </span>
+      (HasSpeed <span style={{color: "purple"}}>AND </span> (HasVaria <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 1)))
 </Entry>
 
 <Entry name="canDoSuitlessMaridia">
-    hasHiJump <span style={{color: "purple"}}>AND </span> hasGrapple <span style={{color: "purple"}}>AND </span> (hasIce <span style={{color: "aqua"}}>OR </span> hasSpringBall)
+    HasHiJump <span style={{color: "purple"}}>AND </span> HasGrapple <span style={{color: "purple"}}>AND </span> (HasIce <span style={{color: "aqua"}}>OR </span> HasSpringBall)
 </Entry>
 
 <Entry name="canAccessBotwoon">
     canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
-    canUsePowerBombs <span style={{color: "purple"}}>AND </span>
-    ((hasGravity <span style={{color: "purple"}}>AND </span> (hasIce <span style={{color: "aqua"}}>OR </span> hasSpeed)) <span style={{color: "aqua"}}>OR </span>
-      (canDoSuitlessMaridia <span style={{color: "purple"}}>AND </span> hasIce))
+    CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+    ((HasGravity <span style={{color: "purple"}}>AND </span> (HasIce <span style={{color: "aqua"}}>OR </span> HasSpeed)) <span style={{color: "aqua"}}>OR </span>
+      (canDoSuitlessMaridia <span style={{color: "purple"}}>AND </span> HasIce))
 </Entry>
 
 <Entry name="canDefeatDraygon">
-  canAccessBotwoon <span style={{color: "purple"}}>AND </span> hasGravity
+  canAccessBotwoon <span style={{color: "purple"}}>AND </span> HasGravity
 </Entry>
 
 <Entry name="canAccessWreckedShip">
-  canUsePowerBombs <span style={{color: "purple"}}>AND </span> superPacks &#8805; 1;
+  CanUsePowerBombs <span style={{color: "purple"}}>AND </span> superPacks &#8805; 1;
 </Entry>
 
 <Entry name="canAccessOuterMaridia">
     canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
-    canUsePowerBombs <span style={{color: "purple"}}>AND </span>
-    (hasGravity <span style={{color: "aqua"}}>OR </span> (hasHiJump <span style={{color: "purple"}}>AND </span> (hasIce <span style={{color: "aqua"}}>OR </span> hasSpringBall)))
+    CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+    (HasGravity <span style={{color: "aqua"}}>OR </span> (HasHiJump <span style={{color: "purple"}}>AND </span> (HasIce <span style={{color: "aqua"}}>OR </span> HasSpringBall)))
 </Entry>
 
 <Entry name="canAccessInnerMaridia">
-  canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> canUsePowerBombs <span style={{color: "purple"}}>AND </span> hasGravity
+  canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> CanUsePowerBombs <span style={{color: "purple"}}>AND </span> HasGravity
 </Entry>
 
 <Entry name="canEnterAndLeaveGauntlet">
-    (canUseBombs <span style={{color: "purple"}}>AND </span> totalTanks &#8805; 2) <span style={{color: "aqua"}}>OR </span>
-    hasScrewAttack <span style={{color: "aqua"}}>OR </span>
-    (canUsePowerBombs <span style={{color: "purple"}}>AND </span> powerPacks &#8805; 2 <span style={{color: "purple"}}>AND </span> totalTanks &#8805; 1)
+    (CanUseBombs <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 2) <span style={{color: "aqua"}}>OR </span>
+    HasScrewAttack <span style={{color: "aqua"}}>OR </span>
+    (CanUsePowerBombs <span style={{color: "purple"}}>AND </span> powerPacks &#8805; 2 <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 1)
 </Entry>
-      <h2>Locations</h2>
+      <h2 style={{fontVariant: 'all-small-caps', fontSize: '2.0em', paddingTop: '14px'}}>Locations</h2>
       <Entry name="Bombs">
          HasMorph <span style={{color: "purple"}}>AND </span>
          CanOpenRedDoors
       </Entry>
     <Entry name="Energy Tank (Brinstar Ceiling)">
-      return true
+      Always Accessible
     </Entry>
 
     <Entry name="Energy Tank (Gauntlet)">
-      return canEnterAndLeaveGauntlet
+      canEnterAndLeaveGauntlet
     </Entry>
 
     <Entry name="Energy Tank (Terminator)">
-      return canDestroyBombWalls <span style={{color: "aqua"}}>OR </span> hasSpeed
+      CanDestroyBombWalls <span style={{color: "aqua"}}>OR </span> HasSpeed
     </Entry>
 
     <Entry name="Missiles (230)">
@@ -130,11 +130,11 @@ const StandardLogicPage: NextPage = () => {
     </Entry>
 
     <Entry name="Missiles (Gauntlet Left)">
-      canEnterAndLeaveGauntlet <span style={{color: "purple"}}>AND </span> canPassBombPassages
+      canEnterAndLeaveGauntlet <span style={{color: "purple"}}>AND </span> CanPassBombPassages
     </Entry>
 
     <Entry name="Missiles (Gauntlet Right)">
-      canEnterAndLeaveGauntlet <span style={{color: "purple"}}>AND </span> canPassBombPassages
+      canEnterAndLeaveGauntlet <span style={{color: "purple"}}>AND </span> CanPassBombPassages
     </Entry>
 
     <Entry name="Missiles (Moat)">
@@ -142,34 +142,34 @@ const StandardLogicPage: NextPage = () => {
     </Entry>
 
     <Entry name="Missiles (Mother Brain)">
-      canDestroyBombWalls
+      CanDestroyBombWalls
     </Entry>
 
     <Entry name="Morphing Ball">
-      return true
+      Always Accessible
     </Entry>
 
     <Entry name="Power Bombs (Landing Site)">
-        canUsePowerBombs <span style={{color: "purple"}}>AND </span>
-        ((hasSpeed <span style={{color: "purple"}}>AND </span> totalTanks &#8805; 1) <span style={{color: "aqua"}}>OR </span> canFly)
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        ((HasSpeed <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 1) <span style={{color: "aqua"}}>OR </span> CanFly)
     </Entry>
 
     <Entry name="Power Bombs (Morph)">
-      canUsePowerBombs
+      CanUsePowerBombs
     </Entry>
 
     <Entry name="Supers (Climb)">
-        canUsePowerBombs <span style={{color: "purple"}}>AND </span>
-        hasSpeed <span style={{color: "purple"}}>AND </span>
-        energyTanks &#8805; 1 <span style={{color: "purple"}}>AND </span>
-        ((energyTanks &#8805; 2 <span style={{color: "purple"}}>AND </span> totalTanks &#8805; 3) <span style={{color: "aqua"}}>OR </span>
-          hasGrapple <span style={{color: "aqua"}}>OR </span>
-          hasSpaceJump)
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        HasSpeed <span style={{color: "purple"}}>AND </span>
+        EnergyTanks &#8805; 1 <span style={{color: "purple"}}>AND </span>
+        ((EnergyTanks &#8805; 2 <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 3) <span style={{color: "aqua"}}>OR </span>
+          HasGrapple <span style={{color: "aqua"}}>OR </span>
+          HasSpaceJump)
     </Entry>
 
     <Entry name="Energy Tank (Crocomire)">
         canAccessCrocomire <span style={{color: "purple"}}>AND </span>
-        (totalTanks &#8805; 4 <span style={{color: "aqua"}}>OR </span> hasGrapple <span style={{color: "aqua"}}>OR </span> hasSpaceJump)
+        (TotalTanks &#8805; 4 <span style={{color: "aqua"}}>OR </span> HasGrapple <span style={{color: "aqua"}}>OR </span> HasSpaceJump)
     </Entry>
 
     <Entry name="Grapple Beam">
@@ -182,16 +182,16 @@ const StandardLogicPage: NextPage = () => {
 
     <Entry name="Missiles (Indiana Jones)">
         canAccessCrocomire <span style={{color: "purple"}}>AND </span>
-        (canFly <span style={{color: "aqua"}}>OR </span> (canUsePowerBombs <span style={{color: "purple"}}>AND </span> hasSpeed))
+        (CanFly <span style={{color: "aqua"}}>OR </span> (CanUsePowerBombs <span style={{color: "purple"}}>AND </span> HasSpeed))
     </Entry>
 
     <Entry name="Power Bombs (Crocomire)">
         canAccessCrocomire <span style={{color: "purple"}}>AND </span>
-        (canFly <span style={{color: "aqua"}}>OR </span>
-          hasGrapple <span style={{color: "aqua"}}>OR </span>
-          (hasSpeed <span style={{color: "purple"}}>AND </span> totalTanks &#8805; 1) <span style={{color: "aqua"}}>OR </span>
-          hasHiJump <span style={{color: "aqua"}}>OR </span>
-          hasIce)
+        (CanFly <span style={{color: "aqua"}}>OR </span>
+          HasGrapple <span style={{color: "aqua"}}>OR </span>
+          (HasSpeed <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 1) <span style={{color: "aqua"}}>OR </span>
+          HasHiJump <span style={{color: "aqua"}}>OR </span>
+          HasIce)
     </Entry>
 
     <Entry name="Energy Tank (Botwoon)">
@@ -199,7 +199,7 @@ const StandardLogicPage: NextPage = () => {
     </Entry>
 
     <Entry name="Missiles (Aqueduct)">
-      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> hasGravity
+      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> HasGravity
     </Entry>
 
     <Entry name="Missiles (Precious)">
@@ -207,7 +207,7 @@ const StandardLogicPage: NextPage = () => {
     </Entry>
 
     <Entry name="Missiles (Sand Pit Left)">
-      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> hasGravity
+      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> HasGravity
     </Entry>
 
     <Entry name="Missiles (Sand Pit Right)">
@@ -216,239 +216,239 @@ const StandardLogicPage: NextPage = () => {
 
     <Entry name="Plasma Beam">
         canDefeatDraygon <span style={{color: "purple"}}>AND </span>
-        ((hasCharge <span style={{color: "purple"}}>AND </span> totalTanks &#8805; 3) <span style={{color: "aqua"}}>OR </span>
-          hasScrewAttack <span style={{color: "aqua"}}>OR </span>
-          hasPlasma) <span style={{color: "purple"}}>AND </span>
-        (hasHiJump <span style={{color: "aqua"}}>OR </span> hasSpringBall <span style={{color: "aqua"}}>OR </span> canFly <span style={{color: "aqua"}}>OR </span> hasSpeed)
+        ((HasCharge <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 3) <span style={{color: "aqua"}}>OR </span>
+          HasScrewAttack <span style={{color: "aqua"}}>OR </span>
+          HasPlasma) <span style={{color: "purple"}}>AND </span>
+        (HasHiJump <span style={{color: "aqua"}}>OR </span> HasSpringBall <span style={{color: "aqua"}}>OR </span> CanFly <span style={{color: "aqua"}}>OR </span> HasSpeed)
     </Entry>
 
     <Entry name="Power Bombs (Sand Pit Right)">
-      return canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> hasGravity
+      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> HasGravity
     </Entry>
 
     <Entry name="Reserve Tank (Maridia)">
-      return canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> hasGravity
+      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> HasGravity
     </Entry>
 
     <Entry name="Space Jump">
-      return canDefeatDraygon
+      canDefeatDraygon
     </Entry>
 
     <Entry name="Spring Ball">
         canAccessInnerMaridia <span style={{color: "purple"}}>AND </span>
-        (hasIce <span style={{color: "aqua"}}>OR </span> (hasGrapple <span style={{color: "purple"}}>AND </span> (canFly <span style={{color: "aqua"}}>OR </span> hasHiJump)))
+        (HasIce <span style={{color: "aqua"}}>OR </span> (HasGrapple <span style={{color: "purple"}}>AND </span> (CanFly <span style={{color: "aqua"}}>OR </span> HasHiJump)))
     </Entry>
 
     <Entry name="Supers (Aqueduct)">
-      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> hasGravity
+      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> HasGravity
     </Entry>
 
     <Entry name="Charge Beam">
-        canUsePowerBombs <span style={{color: "aqua"}}>OR </span>
-        (canOpenRedDoors <span style={{color: "purple"}}>AND </span> canPassBombPassages)
+        CanUsePowerBombs <span style={{color: "aqua"}}>OR </span>
+        (CanOpenRedDoors <span style={{color: "purple"}}>AND </span> CanPassBombPassages)
     </Entry>
 
     <Entry name="Energy Tank (Etecoons)">
-      return canUsePowerBombs
+      CanUsePowerBombs
     </Entry>
 
     <Entry name="Energy Tank (Waterway)">
-      canUsePowerBombs <span style={{color: "purple"}}>AND </span> canOpenRedDoors <span style={{color: "purple"}}>AND </span> hasSpeed
+      CanUsePowerBombs <span style={{color: "purple"}}>AND </span> CanOpenRedDoors <span style={{color: "purple"}}>AND </span> HasSpeed
     </Entry>
 
     <Entry name="Energy Tank (Wave Gate)">
-      canUsePowerBombs <span style={{color: "purple"}}>AND </span> (hasWave <span style={{color: "aqua"}}>OR </span> superPacks &#8805; 1)
+      CanUsePowerBombs <span style={{color: "purple"}}>AND </span> (HasWave <span style={{color: "aqua"}}>OR </span> superPacks &#8805; 1)
     </Entry>
 
     <Entry name="Missiles (Big Pink)">
-        canUsePowerBombs <span style={{color: "aqua"}}>OR </span>
-        (canOpenRedDoors <span style={{color: "purple"}}>AND </span> (hasSpeed <span style={{color: "aqua"}}>OR </span> canDestroyBombWalls))
+        CanUsePowerBombs <span style={{color: "aqua"}}>OR </span>
+        (CanOpenRedDoors <span style={{color: "purple"}}>AND </span> (HasSpeed <span style={{color: "aqua"}}>OR </span> CanDestroyBombWalls))
     </Entry>
 
     <Entry name="Missiles (Brin Reserve 1)">
-        canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span> canOpenRedDoors <span style={{color: "purple"}}>AND </span> hasMorph
+        canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span> CanOpenRedDoors <span style={{color: "purple"}}>AND </span> HasMorph
     </Entry>
 
     <Entry name="Missiles (Brin Reserve 2)">
         canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span>
-        canOpenRedDoors <span style={{color: "purple"}}>AND </span>
-        canPassBombPassages
+        CanOpenRedDoors <span style={{color: "purple"}}>AND </span>
+        CanPassBombPassages
     </Entry>
 
     <Entry name="Missiles (Brin Tube)">
-      return canAccessRedBrinstar <span style={{color: "aqua"}}>OR </span> canUsePowerBombs
+      canAccessRedBrinstar <span style={{color: "aqua"}}>OR </span> CanUsePowerBombs
     </Entry>
 
     <Entry name="Missiles (Charge)">
-      return canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span> canOpenRedDoors
+      canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span> CanOpenRedDoors
     </Entry>
 
     <Entry name="Missiles (Early Bridge)">
-      return canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span> canOpenRedDoors
+      canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span> CanOpenRedDoors
     </Entry>
 
     <Entry name="Power Bombs (Etecoons)">
-      return canUsePowerBombs
+      CanUsePowerBombs
     </Entry>
 
     <Entry name="Power Bombs (Mission Impossible)">
-      return canUsePowerBombs <span style={{color: "purple"}}>AND </span> superPacks &#8805; 1;
+      CanUsePowerBombs <span style={{color: "purple"}}>AND </span> superPacks &#8805; 1;
     </Entry>
 
     <Entry name="Reserve Tank (Brinstar)">
         canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span>
-        canOpenRedDoors <span style={{color: "purple"}}>AND </span>
-        (hasMorph <span style={{color: "aqua"}}>OR </span> hasSpeed)
+        CanOpenRedDoors <span style={{color: "purple"}}>AND </span>
+        (HasMorph <span style={{color: "aqua"}}>OR </span> HasSpeed)
     </Entry>
 
     <Entry name="Supers (Early Bridge)">
         canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span>
-        canOpenRedDoors <span style={{color: "purple"}}>AND </span>
-        (hasMorph <span style={{color: "aqua"}}>OR </span> hasSpeed)
+        CanOpenRedDoors <span style={{color: "purple"}}>AND </span>
+        (HasMorph <span style={{color: "aqua"}}>OR </span> HasSpeed)
     </Entry>
 
     <Entry name="Supers (Etecoons)">
-      return canUsePowerBombs <span style={{color: "purple"}}>AND </span> canOpenGreenDoors
+      CanUsePowerBombs <span style={{color: "purple"}}>AND </span> CanOpenGreenDoors
     </Entry>
 
     <Entry name="Supers (Spore Spawn)">
         canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span>
-        canOpenGreenDoors <span style={{color: "purple"}}>AND </span>
-        canPassBombPassages
+        CanOpenGreenDoors <span style={{color: "purple"}}>AND </span>
+        CanPassBombPassages
     </Entry>
 
     <Entry name="Energy Tank (Kraid)">
-      return canAccessKraid
+      canAccessKraid
     </Entry>
 
     <Entry name="Missiles (Kraid)">
-      return canAccessKraid <span style={{color: "purple"}}>AND </span> canUsePowerBombs
+      canAccessKraid <span style={{color: "purple"}}>AND </span> CanUsePowerBombs
     </Entry>
 
     <Entry name="Varia Suit">
-      return canAccessKraid
+      canAccessKraid
     </Entry>
 
     <Entry name="Energy Tank (Firefleas)">
-      return canPassWorstRoom
+      canPassWorstRoom
     </Entry>
 
     <Entry name="Energy Tank (Ridley)">
-      return canPassWorstRoom
+      canPassWorstRoom
     </Entry>
 
     <Entry name="Missiles (GT)">
-      return canAccessLowerNorfair <span style={{color: "purple"}}>AND </span> hasSpaceJump
+      canAccessLowerNorfair <span style={{color: "purple"}}>AND </span> HasSpaceJump
     </Entry>
 
     <Entry name="Missiles (Maze)">
-      return canPassWorstRoom
+      canPassWorstRoom
     </Entry>
 
     <Entry name="Missiles (Mickey Mouse)">
-      return canPassWorstRoom
+      canPassWorstRoom
     </Entry>
 
     <Entry name="Missiles (Three Muskateers)">
-      return canPassWorstRoom
+      canPassWorstRoom
     </Entry>
 
     <Entry name="Power Bombs (Maze)">
-      return canPassWorstRoom
+      canPassWorstRoom
     </Entry>
 
     <Entry name="Power Bombs (Shame)">
-      return canPassWorstRoom
+      canPassWorstRoom
     </Entry>
 
     <Entry name="Screw Attack">
         canAccessLowerNorfair <span style={{color: "purple"}}>AND </span>
-        (canFly <span style={{color: "aqua"}}>OR </span> hasSpringBall <span style={{color: "aqua"}}>OR </span> hasSpeed)
+        (CanFly <span style={{color: "aqua"}}>OR </span> HasSpringBall <span style={{color: "aqua"}}>OR </span> HasSpeed)
     </Entry>
 
     <Entry name="Supers (GT)">
         canAccessLowerNorfair <span style={{color: "purple"}}>AND </span>
-        (canFly <span style={{color: "aqua"}}>OR </span> hasSpringBall <span style={{color: "aqua"}}>OR </span> hasSpeed)
+        (CanFly <span style={{color: "aqua"}}>OR </span> HasSpringBall <span style={{color: "aqua"}}>OR </span> HasSpeed)
     </Entry>
 
     <Entry name="Missiles (Alpha PBs)">
-      return canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> canUsePowerBombs
+      canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> CanUsePowerBombs
     </Entry>
 
     <Entry name="Power Bombs (Alpha)">
-      return canAccessRedBrinstar
+      canAccessRedBrinstar
     </Entry>
 
     <Entry name="Power Bombs (Beta)">
-      return canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> canUsePowerBombs
+      canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> CanUsePowerBombs
     </Entry>
 
     <Entry name="Spazer">
-      return canAccessRedBrinstar
+      canAccessRedBrinstar
     </Entry>
 
     <Entry name="Xray Scope">
         canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
-        canUsePowerBombs <span style={{color: "purple"}}>AND </span>
-        (hasGrapple <span style={{color: "aqua"}}>OR </span>
-          hasSpaceJump <span style={{color: "aqua"}}>OR </span>
-          (hasHiJump <span style={{color: "purple"}}>AND </span> hasSpeed <span style={{color: "purple"}}>AND </span> totalTanks &#8805; 4) <span style={{color: "aqua"}}>OR </span>
-          (hasIce <span style={{color: "purple"}}>AND </span> totalTanks &#8805; 4))
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        (<br />&nbsp;&nbsp;HasGrapple <span style={{color: "aqua"}}>OR </span>
+          HasSpaceJump <span style={{color: "aqua"}}>OR </span>
+          (HasHiJump <span style={{color: "purple"}}>AND </span> HasSpeed <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 4) <span style={{color: "aqua"}}>OR </span>
+          (HasIce <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 4)<br />)
     </Entry>
 
     <Entry name="Energy Tank (HJB)">
-      return canAccessRedBrinstar
+      canAccessRedBrinstar
     </Entry>
 
     <Entry name="HiJump Boots">
-      return canAccessRedBrinstar
+      canAccessRedBrinstar
     </Entry>
 
     <Entry name="Ice Beam">
-      return canAccessKraid <span style={{color: "purple"}}>AND </span> (hasVaria <span style={{color: "aqua"}}>OR </span> totalTanks &#8805; 2);
+      canAccessKraid <span style={{color: "purple"}}>AND </span> (HasVaria <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 2)
     </Entry>
 
     <Entry name="Missiles (Bubble Mountain)">
         canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
-        (canHellRun <span style={{color: "aqua"}}>OR </span> (hasSpeed <span style={{color: "purple"}}>AND </span> canPassBombPassages))
+        (canHellRun <span style={{color: "aqua"}}>OR </span> (HasSpeed <span style={{color: "purple"}}>AND </span> CanPassBombPassages))
     </Entry>
 
     <Entry name="Missiles (Cathedral)">
-      return canAccessHeatedNorfair
+      canAccessHeatedNorfair
     </Entry>
 
     <Entry name="Missiles (Croc Escape)">
         canAccessCrocomire <span style={{color: "purple"}}>AND </span>
-        (hasVaria <span style={{color: "aqua"}}>OR </span> totalTanks &#8805; 2) <span style={{color: "purple"}}>AND </span>
-        (canFly <span style={{color: "aqua"}}>OR </span> hasGrapple <span style={{color: "aqua"}}>OR </span> (hasHiJump <span style={{color: "purple"}}>AND </span> hasSpeed))
+        (HasVaria <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 2) <span style={{color: "purple"}}>AND </span>
+        (CanFly <span style={{color: "aqua"}}>OR </span> HasGrapple <span style={{color: "aqua"}}>OR </span> (HasHiJump <span style={{color: "purple"}}>AND </span> HasSpeed))
     </Entry>
 
     <Entry name="Missiles (Crumble Shaft)">
-      return canAccessKraid <span style={{color: "purple"}}>AND </span> canUsePowerBombs <span style={{color: "purple"}}>AND </span> canHellRun
+      canAccessKraid <span style={{color: "purple"}}>AND </span> CanUsePowerBombs <span style={{color: "purple"}}>AND </span> canHellRun
     </Entry>
 
     <Entry name="Missiles (HJB)">
-      return canAccessRedBrinstar
+      canAccessRedBrinstar
     </Entry>
 
     <Entry name="Missiles (Norfair Reserve 1)">
-      return canAccessHeatedNorfair
+      canAccessHeatedNorfair
     </Entry>
 
     <Entry name="Missiles (Norfair Reserve 2)">
-      return canAccessHeatedNorfair
+      canAccessHeatedNorfair
     </Entry>
 
     <Entry name="Missiles (Speed)">
-      return canAccessHeatedNorfair
+      canAccessHeatedNorfair
     </Entry>
 
     <Entry name="Missiles (Wave)">
-      return canAccessHeatedNorfair
+      canAccessHeatedNorfair
     </Entry>
 
     <Entry name="Reserve Tank (Norfair)">
-      return canAccessHeatedNorfair
+      canAccessHeatedNorfair
     </Entry>
 
     <Entry name="Speed Booster">
@@ -461,23 +461,23 @@ const StandardLogicPage: NextPage = () => {
 
     <Entry name="Energy Tank (Mama Turtle)">
         canAccessOuterMaridia <span style={{color: "purple"}}>AND </span>
-        (canFly <span style={{color: "aqua"}}>OR </span>
-          (hasSpeed <span style={{color: "purple"}}>AND </span> hasGravity) <span style={{color: "aqua"}}>OR </span>
-          hasSpringBall <span style={{color: "aqua"}}>OR </span>
-          hasGrapple)
+        (CanFly <span style={{color: "aqua"}}>OR </span>
+          (HasSpeed <span style={{color: "purple"}}>AND </span> HasGravity) <span style={{color: "aqua"}}>OR </span>
+          HasSpringBall <span style={{color: "aqua"}}>OR </span>
+          HasGrapple)
     </Entry>
 
     <Entry name="Missiles (Beach)">
         canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
-        canUsePowerBombs <span style={{color: "purple"}}>AND </span>
-        (hasGravity <span style={{color: "aqua"}}>OR </span> canDoSuitlessMaridia)
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        (HasGravity <span style={{color: "aqua"}}>OR </span> canDoSuitlessMaridia)
     </Entry>
 
     <Entry name="Missiles (Mainstreet)">
         canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
-        canUsePowerBombs <span style={{color: "purple"}}>AND </span>
-        hasGravity <span style={{color: "purple"}}>AND </span>
-        hasSpeed
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        HasGravity <span style={{color: "purple"}}>AND </span>
+        HasSpeed
     </Entry>
 
     <Entry name="Missiles (Mama Turtle)">
@@ -486,8 +486,8 @@ const StandardLogicPage: NextPage = () => {
 
     <Entry name="Missiles (Watering Hole)">
         canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
-        canUsePowerBombs <span style={{color: "purple"}}>AND </span>
-        (hasGravity <span style={{color: "aqua"}}>OR </span> canDoSuitlessMaridia)
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        (HasGravity <span style={{color: "aqua"}}>OR </span> canDoSuitlessMaridia)
     </Entry>
 
     <Entry name="Supers (Crab)">
@@ -496,22 +496,22 @@ const StandardLogicPage: NextPage = () => {
 
     <Entry name="Supers (Watering Hole)">
         canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
-        canUsePowerBombs <span style={{color: "purple"}}>AND </span>
-        (hasGravity <span style={{color: "aqua"}}>OR </span> canDoSuitlessMaridia)
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        (HasGravity <span style={{color: "aqua"}}>OR </span> canDoSuitlessMaridia)
     </Entry>
 
     <Entry name="Energy Tank (Wrecked Ship)">
         canAccessWreckedShip <span style={{color: "purple"}}>AND </span>
-        (canUseBombs <span style={{color: "aqua"}}>OR </span>
-          canUsePowerBombs <span style={{color: "aqua"}}>OR </span>
-          hasHiJump <span style={{color: "aqua"}}>OR </span>
-          hasSpaceJump <span style={{color: "aqua"}}>OR </span>
-          hasSpeed <span style={{color: "aqua"}}>OR </span>
-          hasSpringBall)
+        (CanUseBombs <span style={{color: "aqua"}}>OR </span>
+          CanUsePowerBombs <span style={{color: "aqua"}}>OR </span>
+          HasHiJump <span style={{color: "aqua"}}>OR </span>
+          HasSpaceJump <span style={{color: "aqua"}}>OR </span>
+          HasSpeed <span style={{color: "aqua"}}>OR </span>
+          HasSpringBall)
     </Entry>
 
     <Entry name="Gravity Suit">
-        canAccessWreckedShip <span style={{color: "purple"}}>AND </span> (hasVaria <span style={{color: "aqua"}}>OR </span> totalTanks &#8805; 1)
+        canAccessWreckedShip <span style={{color: "purple"}}>AND </span> (HasVaria <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 1)
     </Entry>
 
     <Entry name="Missiles (Attic)">
@@ -519,7 +519,7 @@ const StandardLogicPage: NextPage = () => {
     </Entry>
 
     <Entry name="Missiles (Bowling)">
-        canAccessWreckedShip <span style={{color: "purple"}}>AND </span> (hasVaria <span style={{color: "aqua"}}>OR </span> totalTanks &#8805; 1)
+        canAccessWreckedShip <span style={{color: "purple"}}>AND </span> (HasVaria <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 1)
     </Entry>
 
     <Entry name="Missiles (Ocean Bottom)">
@@ -540,8 +540,8 @@ const StandardLogicPage: NextPage = () => {
 
     <Entry name="Reserve Tank (Wrecked Ship)">
         canAccessWreckedShip <span style={{color: "purple"}}>AND </span>
-        hasSpeed <span style={{color: "purple"}}>AND </span>
-        ((hasVaria <span style={{color: "purple"}}>AND </span> totalTanks &#8805; 1) <span style={{color: "aqua"}}>OR </span> totalTanks &#8805; 2)
+        HasSpeed <span style={{color: "purple"}}>AND </span>
+        ((HasVaria <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 1) <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 2)
     </Entry>
 
     <Entry name="Supers (WS Left)">

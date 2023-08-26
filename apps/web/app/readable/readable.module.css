@@ -21,8 +21,11 @@
 }
 
 .token_name {
-  text-decoration: underline;
-  padding-bottom: 6px;
+  font-style: italic;
+  font-size: 1.3em;
+  color: lightgreen;
+  padding-bottom: 8px;
+  padding-top: 10px;
 }
 
 .token_criteria {
