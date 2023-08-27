@@ -134,7 +134,7 @@ export default function ItemPoolsInfoPage() {
             </p>
           </section> */}
           <Spacer y={12} />
-          <h2>Extra DASH Items</h2>
+          <h2 className={styles.title}>Extra DASH Items</h2>
 
           <p>
             DASH introduces new major items which can optionally be included in
@@ -143,7 +143,7 @@ export default function ItemPoolsInfoPage() {
           </p>
 
           <Spacer y={12} />
-          <h2>Building Item Pools</h2>
+          <h2 className={styles.title}>Building Item Pools</h2>
 
           <p>This is the process followed when building an item pool:</p>
           <ol>
