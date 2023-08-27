@@ -32,6 +32,11 @@ const InfoArticles: InfoArticle[] = [
     description: 'Read about Verified Fill and how it ensures seeds are completable.',
   },
   {
+    title: 'Item Pools',
+    href: '/info/item-pools',
+    description: 'Learn how item pools are created in DASH.',
+  },
+  {
     title: 'Canary',
     href: '/info/canary',
     description: 'Canary is our official preview environment for new features.',
