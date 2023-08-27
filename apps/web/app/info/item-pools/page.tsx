@@ -19,11 +19,14 @@ export default function ItemPoolsInfoPage() {
         <article className={styles.article}>
           <h1 className={styles.headline}>Item Pools</h1>
           <p>
-            An important part of generating a DASH seed is the creation of an
-            item pool. In general, we talk about two item categories: major
-            (morph ball, gravity, energy/reserve tanks, etc.) and minor
-            (missiles, supers, and power bombs). There are two factors that are
-            considered related to major items: Item Split and Extra DASH Items.
+            An important part of generating a DASH seed is the random creation
+            of the <strong>Item Pool</strong>: the list of items to be
+            placed in the game. Generally speaking, the Item Pool is divided
+            into two item categories: <strong>Majors</strong> (Morph Ball,
+            Gravity Suit, Energy/Reserve Tanks, etc.) and Minors (Missiles,
+            Super Missiles, and Power Bombs). Major Items in the Item Pool can
+            be affected by both the chosen <strong>Item Split</strong> and
+            {' '}<strong>Extra DASH Items</strong>.
           </p>
           <Spacer y={12} />
           <h2 className={styles.title}>Item Split</h2>
