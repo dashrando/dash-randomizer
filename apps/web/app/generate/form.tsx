@@ -161,7 +161,7 @@ export interface GenerateSeedSettings {
   area: 'standard' | 'randomized',
   boss: 'standard' | 'randomized' | 'known',
   minors: 'standard' | 'dash',
-  'map-layout': 'standard-vanilla' | 'dash-recall',
+  'map-layout': 'standard' | 'dash-recall',
   'beam-mode': 'vanilla' | 'classic' | 'recall' | 'new',
   'gravity-heat-reduction': 'off' | 'on',
   'double-jump': 'off' | 'on',
@@ -186,7 +186,7 @@ const MODES = {
     area: 'randomized',
     boss: 'randomized',
     minors: 'standard',
-    'map-layout': 'standard-vanilla',
+    'map-layout': 'standard',
     'beam-mode': 'vanilla',
     'gravity-heat-reduction': 'off',
     'double-jump': 'on',
@@ -223,7 +223,7 @@ const MODES = {
     area: 'standard',
     boss: 'standard',
     minors: 'dash',
-    'map-layout': 'standard-vanilla',
+    'map-layout': 'standard',
     'beam-mode': 'classic',
     'gravity-heat-reduction': 'on',
     'double-jump': 'off',
@@ -235,7 +235,7 @@ const MODES = {
     area: 'standard',
     boss: 'standard',
     minors: 'standard',
-    'map-layout': 'standard-vanilla',
+    'map-layout': 'standard',
     'beam-mode': 'vanilla',
     'gravity-heat-reduction': 'off',
     'double-jump': 'off',
@@ -574,7 +574,7 @@ export default function Form() {
             <Option label="Map Layout" name="map-layout">
               <Select
                 options={[
-                  { label: 'Standard Vanilla', value: 'standard-vanilla' },
+                  { label: 'Standard', value: 'standard' },
                   { label: 'DASH Recall', value: 'dash-recall' },
                 ]}
                 name="map-layout"

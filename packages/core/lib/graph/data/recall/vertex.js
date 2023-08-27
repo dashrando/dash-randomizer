@@ -1,5 +1,3 @@
-import { SeasonVertexUpdates } from "../season/vertex";
-
 //-----------------------------------------------------------------
 // Vertex definitions.
 //-----------------------------------------------------------------
@@ -28,9 +26,9 @@ const WestMaridia_Missiles_WateringHole = {
 // Exports.
 //-----------------------------------------------------------------
 
-export const RecallVertexUpdates = SeasonVertexUpdates.concat([
+export const RecallVertexUpdates = [
   Kraid_EnergyTank,
   LowerNorfair_Missiles_MickeyMouse,
   WreckedShip_Missiles_Sky,
   WestMaridia_Missiles_WateringHole,
-]);
+];

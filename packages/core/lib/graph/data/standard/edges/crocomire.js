@@ -5,7 +5,8 @@ export const crocomireEdges = {
 
   PostCroc: {
     Door_Croc: true,
-    EnergyTank_Croc: () => HasSpaceJump || HasGrapple || EnvDamageTanks >= 2,
+    EnergyTank_Croc: () =>
+      HasSpaceJump || HasGrapple || HasVaria || TotalTanks >= 2,
     PBs_Croc: () =>
       CanOpenRedDoors &&
       (CanFly ||
@@ -26,7 +27,7 @@ export const crocomireEdges = {
   },
 
   EnergyTank_Croc: {
-    PostCroc: () => HasSpaceJump || HasGrapple || EnvDamageTanks >= 3,
+    PostCroc: () => HasSpaceJump || HasGrapple || HasVaria || TotalTanks >= 3,
   },
 
   PBs_Croc: {

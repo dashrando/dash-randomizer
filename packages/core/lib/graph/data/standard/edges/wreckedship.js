@@ -59,8 +59,7 @@ export const wreckedshipEdges = {
     GravitySuit: () =>
       HasMorph &&
       (CanPassBombPassages || HasSpringBall) &&
-      //like climb supers, the DASH logic doesn't seem to account for space/grapple
-      EnvDamageTanks >= 1,
+      (HasGrapple || HasSpaceJump || TotalTanks >= 1 || HasVaria),
   },
 
   Missiles_Sky: {

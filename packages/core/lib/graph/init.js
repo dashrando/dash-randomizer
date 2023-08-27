@@ -1,27 +1,25 @@
-import { vanillaVertices } from "./data/vanilla/vertex";
-import { crateriaEdges } from "./data/vanilla/edges/crateria";
-import { greenbrinstarEdges } from "./data/vanilla/edges/greenbrinstar";
-import { redbrinstarEdges } from "./data/vanilla/edges/redbrinstar";
-import { kraidslairEdges } from "./data/vanilla/edges/kraid";
-import { crocomireEdges } from "./data/vanilla/edges/crocomire";
-import { westmaridiaEdges } from "./data/vanilla/edges/westmaridia";
-import { eastmaridiaEdges } from "./data/vanilla/edges/eastmaridia";
-import { uppernorfairEdges } from "./data/vanilla/edges/uppernorfair";
-import { lowernorfairEdges } from "./data/vanilla/edges/lowernorfair";
-import { wreckedshipEdges } from "./data/vanilla/edges/wreckedship";
-import { bossEdges } from "./data/vanilla/edges/boss";
+import { standardVertices } from "./data/standard/vertex";
+import { crateriaEdges } from "./data/standard/edges/crateria";
+import { greenbrinstarEdges } from "./data/standard/edges/greenbrinstar";
+import { redbrinstarEdges } from "./data/standard/edges/redbrinstar";
+import { kraidslairEdges } from "./data/standard/edges/kraid";
+import { crocomireEdges } from "./data/standard/edges/crocomire";
+import { westmaridiaEdges } from "./data/standard/edges/westmaridia";
+import { eastmaridiaEdges } from "./data/standard/edges/eastmaridia";
+import { uppernorfairEdges } from "./data/standard/edges/uppernorfair";
+import { lowernorfairEdges } from "./data/standard/edges/lowernorfair";
+import { wreckedshipEdges } from "./data/standard/edges/wreckedship";
+import { bossEdges } from "./data/standard/edges/boss";
 import { BossMode, MapLayout, MajorDistributionMode } from "./params";
-import { SeasonVertexUpdates } from "./data/season/vertex";
 import { RecallVertexUpdates } from "./data/recall/vertex";
-import { SeasonEdgeUpdates } from "./data/season/edges";
 import { RecallEdgeUpdates } from "./data/recall/edges";
 import { RecallAreaEdgeUpdates } from "./data/recall/area";
-import { SeasonAreaEdgeUpdates } from "./data/season/area";
+import { StandardAreaEdgeUpdates } from "./data/standard/area";
 import { mapPortals } from "./data/portals";
 import { bossItem, Item } from "../items";
 import DotNetRandom from "../dotnet-random";
 
-const getVanillaEdges = () => {
+const getStandardEdges = () => {
   return {
     Crateria: crateriaEdges,
     GreenBrinstar: greenbrinstarEdges,
@@ -38,7 +36,7 @@ const getVanillaEdges = () => {
 };
 
 const getAllVertices = () => {
-  return Object.entries(vanillaVertices)
+  return Object.entries(standardVertices)
     .map(([k, v]) => {
       return Object.entries(v).map(([name, type]) => {
         return {
@@ -55,7 +53,7 @@ const getAllVertices = () => {
     }, []);
 };
 
-const allEdges = Object.entries(getVanillaEdges())
+const allEdges = Object.entries(getStandardEdges())
   .map(([_, v]) => {
     return Object.entries(v)
       .map(([from, w]) => {
@@ -202,9 +200,9 @@ export const cloneGraph = (graph) => {
 
 const getEdgeUpdates = (mapLayout, areaShuffle) => {
   switch (mapLayout) {
-    case MapLayout.Vanilla:
+    case MapLayout.Standard:
       if (areaShuffle) {
-        throw new Error("Unsupport vanilla area shuffle");
+        return StandardAreaEdgeUpdates;
       }
       return [];
     case MapLayout.Recall:
@@ -213,10 +211,7 @@ const getEdgeUpdates = (mapLayout, areaShuffle) => {
       }
       return RecallEdgeUpdates;
     default:
-      if (areaShuffle) {
-        return SeasonAreaEdgeUpdates;
-      }
-      return SeasonEdgeUpdates;
+      throw new Error(`Unknown map layout: ${mapLayout}`);
   }
 };
 
@@ -322,15 +317,15 @@ export const loadGraph = (
 
     const seedGen = new DotNetRandom(-seed);
     for (let i = 0; i < attempt - 2; i++) {
-      seedGen.Next();
+      seedGen.InternalSample();
     }
     return seedGen.NextInRange(1, 1000000);
   };
   const edgeUpdates = getEdgeUpdates(mapLayout, areaShuffle);
   const vertexUpdates =
-    majorDistributionMode == MajorDistributionMode.Standard
-      ? SeasonVertexUpdates
-      : RecallVertexUpdates;
+    majorDistributionMode == MajorDistributionMode.Recall
+      ? RecallVertexUpdates
+      : [];
 
   if (portals != undefined) {
     const g = createGraph(portals, vertexUpdates, edgeUpdates);

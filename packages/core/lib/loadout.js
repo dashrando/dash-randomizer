@@ -240,31 +240,6 @@ class Loadout {
     const ridleyAmmoDamage =
       this.missilePacks * 500 + this.superPacks * 3000 + this.powerPacks * 1000;
 
-    const getEnvDamageTanks = () => {
-      if (settings.suitMode == SuitMode.Standard) {
-        if (this.hasVaria) {
-          return 3 + Math.floor(this.totalTanks * 2.5);
-        }
-        return this.totalTanks;
-      }
-      if (settings.suitMode == SuitMode.Dash) {
-        if (this.hasVaria && this.hasGravity) {
-          return 3 + Math.floor(this.totalTanks * 2.5);
-        }
-        if (this.hasVaria || this.hasGravity) {
-          return 1 + this.totalTanks * 2;
-        }
-        return this.totalTanks;
-      }
-      if (this.hasGravity) {
-        return Math.floor(this.totalTanks * 2.5);
-      }
-      if (this.hasVaria) {
-        return 1 + this.totalTanks * 2;
-      }
-      return this.totalTanks;
-    };
-
     return {
       CanUseBombs: this.canUseBombs,
       CanUsePowerBombs: this.canUsePowerBombs,
@@ -293,7 +268,6 @@ class Loadout {
       SuperPacks: this.superPacks,
       TotalTanks: this.totalTanks,
       HellRunTanks: isHeatProof ? 9999 : this.totalTanks,
-      EnvDamageTanks: getEnvDamageTanks(),
       CanFly: this.canFly,
       CanDoSuitlessMaridia:
         this.hasHiJump &&

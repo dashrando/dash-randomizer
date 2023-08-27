@@ -1,5 +1,6 @@
 import type { Metadata, NextPage } from 'next'
-import LogicPage from "../readable"
+import { Entry, Navigation, Seperator } from "../readable"
+import styles from "../readable.module.css";
 
 export const metadata: Metadata = {
   title: 'Readable Logic - DASH Standard',
@@ -8,7 +9,549 @@ export const metadata: Metadata = {
 
 const StandardLogicPage: NextPage = () => {
    return (
-      <LogicPage type="standard" />
+      <>
+      <Navigation selected="standard" />
+      <Seperator />
+      <div className={styles.logic_title}>Standard</div>
+      <Seperator />
+      <div style={{ border: '1px solid #222', backgroundColor: '#010101', display: 'inline-flex', padding: '8px 16px', borderRadius: '8px', margin: '16px 0', maxWidth: '440px', fontSize: '16px', lineHeight: '24px' }}>
+        <p><strong style={{ color: '#fff' }}>Warning:</strong> The following logic does not account for Area Randomization or Boss Shuffle, both of which are in alpha.</p>
+      </div>
+      <h2 style={{fontVariant: 'all-small-caps', fontSize: '2.0em'}}>Utilities</h2>
+<Entry name="canHellRun">
+  TotalTanks &#8805; 4 <span style={{color: "aqua"}}>OR </span> HasVaria
+</Entry>
+
+<Entry name="canAccessGreenBrinstar">
+  CanDestroyBombWalls <span style={{color: "aqua"}}>OR </span> HasSpeed
+</Entry>
+
+<Entry name="canAccessRedBrinstar">
+    HasMorph <span style={{color: "purple"}}>AND </span>
+    CanOpenGreenDoors <span style={{color: "purple"}}>AND </span>
+    (canAccessGreenBrinstar <span style={{color: "aqua"}}>OR </span> CanUsePowerBombs)
+</Entry>
+
+<Entry name="canAccessHeatedNorfair">
+  canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> canHellRun
+</Entry>
+
+<Entry name="canAccessLowerNorfair">
+    canAccessHeatedNorfair <span style={{color: "purple"}}>AND </span>
+    CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+    HasVaria <span style={{color: "purple"}}>AND </span>
+    (HasHiJump <span style={{color: "aqua"}}>OR </span> HasGravity)
+</Entry>
+
+<Entry name="canPassWorstRoom">
+    canAccessLowerNorfair <span style={{color: "purple"}}>AND </span>
+    (CanFly <span style={{color: "aqua"}}>OR </span> HasHiJump <span style={{color: "aqua"}}>OR </span> HasSpringBall)
+</Entry>
+
+<Entry name="canAccessKraid">
+  canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> CanPassBombPassages
+</Entry>
+
+<Entry name="canAccessCrocomire">
+    canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
+    ((canHellRun <span style={{color: "purple"}}>AND </span> CanPassBombPassages) <span style={{color: "aqua"}}>OR </span>
+      (HasSpeed <span style={{color: "purple"}}>AND </span> (HasVaria <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 1)))
+</Entry>
+
+<Entry name="canDoSuitlessMaridia">
+    HasHiJump <span style={{color: "purple"}}>AND </span> HasGrapple <span style={{color: "purple"}}>AND </span> (HasIce <span style={{color: "aqua"}}>OR </span> HasSpringBall)
+</Entry>
+
+<Entry name="canAccessBotwoon">
+    canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
+    CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+    ((HasGravity <span style={{color: "purple"}}>AND </span> (HasIce <span style={{color: "aqua"}}>OR </span> HasSpeed)) <span style={{color: "aqua"}}>OR </span>
+      (canDoSuitlessMaridia <span style={{color: "purple"}}>AND </span> HasIce))
+</Entry>
+
+<Entry name="canDefeatDraygon">
+  canAccessBotwoon <span style={{color: "purple"}}>AND </span> HasGravity
+</Entry>
+
+<Entry name="canAccessWreckedShip">
+  CanUsePowerBombs <span style={{color: "purple"}}>AND </span> superPacks &#8805; 1;
+</Entry>
+
+<Entry name="canAccessOuterMaridia">
+    canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
+    CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+    (HasGravity <span style={{color: "aqua"}}>OR </span> (HasHiJump <span style={{color: "purple"}}>AND </span> (HasIce <span style={{color: "aqua"}}>OR </span> HasSpringBall)))
+</Entry>
+
+<Entry name="canAccessInnerMaridia">
+  canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> CanUsePowerBombs <span style={{color: "purple"}}>AND </span> HasGravity
+</Entry>
+
+<Entry name="canEnterAndLeaveGauntlet">
+    (CanUseBombs <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 2) <span style={{color: "aqua"}}>OR </span>
+    HasScrewAttack <span style={{color: "aqua"}}>OR </span>
+    (CanUsePowerBombs <span style={{color: "purple"}}>AND </span> powerPacks &#8805; 2 <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 1)
+</Entry>
+      <h2 style={{fontVariant: 'all-small-caps', fontSize: '2.0em', paddingTop: '14px'}}>Locations</h2>
+      <Entry name="Bombs">
+         HasMorph <span style={{color: "purple"}}>AND </span>
+         CanOpenRedDoors
+      </Entry>
+    <Entry name="Energy Tank (Brinstar Ceiling)">
+      Always Accessible
+    </Entry>
+
+    <Entry name="Energy Tank (Gauntlet)">
+      canEnterAndLeaveGauntlet
+    </Entry>
+
+    <Entry name="Energy Tank (Terminator)">
+      CanDestroyBombWalls <span style={{color: "aqua"}}>OR </span> HasSpeed
+    </Entry>
+
+    <Entry name="Missiles (230)">
+      CanPassBombPassages
+    </Entry>
+
+    <Entry name="Missiles (Alpha)">
+      HasMorph
+    </Entry>
+
+    <Entry name="Missiles (Beta)">
+      HasMorph
+    </Entry>
+
+    <Entry name="Missiles (Billy Mays 1)">
+      CanUsePowerBombs
+    </Entry>
+
+    <Entry name="Missiles (Billy Mays 2)">
+      CanUsePowerBombs
+    </Entry>
+
+    <Entry name="Missiles (Gauntlet Left)">
+      canEnterAndLeaveGauntlet <span style={{color: "purple"}}>AND </span> CanPassBombPassages
+    </Entry>
+
+    <Entry name="Missiles (Gauntlet Right)">
+      canEnterAndLeaveGauntlet <span style={{color: "purple"}}>AND </span> CanPassBombPassages
+    </Entry>
+
+    <Entry name="Missiles (Moat)">
+      canAccessWreckedShip
+    </Entry>
+
+    <Entry name="Missiles (Mother Brain)">
+      CanDestroyBombWalls
+    </Entry>
+
+    <Entry name="Morphing Ball">
+      Always Accessible
+    </Entry>
+
+    <Entry name="Power Bombs (Landing Site)">
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        ((HasSpeed <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 1) <span style={{color: "aqua"}}>OR </span> CanFly)
+    </Entry>
+
+    <Entry name="Power Bombs (Morph)">
+      CanUsePowerBombs
+    </Entry>
+
+    <Entry name="Supers (Climb)">
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        HasSpeed <span style={{color: "purple"}}>AND </span>
+        EnergyTanks &#8805; 1 <span style={{color: "purple"}}>AND </span>
+        ((EnergyTanks &#8805; 2 <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 3) <span style={{color: "aqua"}}>OR </span>
+          HasGrapple <span style={{color: "aqua"}}>OR </span>
+          HasSpaceJump)
+    </Entry>
+
+    <Entry name="Energy Tank (Crocomire)">
+        canAccessCrocomire <span style={{color: "purple"}}>AND </span>
+        (TotalTanks &#8805; 4 <span style={{color: "aqua"}}>OR </span> HasGrapple <span style={{color: "aqua"}}>OR </span> HasSpaceJump)
+    </Entry>
+
+    <Entry name="Grapple Beam">
+      canAccessCrocomire
+    </Entry>
+
+    <Entry name="Missiles (Cosine)">
+      canAccessCrocomire
+    </Entry>
+
+    <Entry name="Missiles (Indiana Jones)">
+        canAccessCrocomire <span style={{color: "purple"}}>AND </span>
+        (CanFly <span style={{color: "aqua"}}>OR </span> (CanUsePowerBombs <span style={{color: "purple"}}>AND </span> HasSpeed))
+    </Entry>
+
+    <Entry name="Power Bombs (Crocomire)">
+        canAccessCrocomire <span style={{color: "purple"}}>AND </span>
+        (CanFly <span style={{color: "aqua"}}>OR </span>
+          HasGrapple <span style={{color: "aqua"}}>OR </span>
+          (HasSpeed <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 1) <span style={{color: "aqua"}}>OR </span>
+          HasHiJump <span style={{color: "aqua"}}>OR </span>
+          HasIce)
+    </Entry>
+
+    <Entry name="Energy Tank (Botwoon)">
+      canAccessBotwoon
+    </Entry>
+
+    <Entry name="Missiles (Aqueduct)">
+      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> HasGravity
+    </Entry>
+
+    <Entry name="Missiles (Precious)">
+      canDefeatDraygon
+    </Entry>
+
+    <Entry name="Missiles (Sand Pit Left)">
+      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> HasGravity
+    </Entry>
+
+    <Entry name="Missiles (Sand Pit Right)">
+      canAccessInnerMaridia
+    </Entry>
+
+    <Entry name="Plasma Beam">
+        canDefeatDraygon <span style={{color: "purple"}}>AND </span>
+        ((HasCharge <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 3) <span style={{color: "aqua"}}>OR </span>
+          HasScrewAttack <span style={{color: "aqua"}}>OR </span>
+          HasPlasma) <span style={{color: "purple"}}>AND </span>
+        (HasHiJump <span style={{color: "aqua"}}>OR </span> HasSpringBall <span style={{color: "aqua"}}>OR </span> CanFly <span style={{color: "aqua"}}>OR </span> HasSpeed)
+    </Entry>
+
+    <Entry name="Power Bombs (Sand Pit Right)">
+      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> HasGravity
+    </Entry>
+
+    <Entry name="Reserve Tank (Maridia)">
+      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> HasGravity
+    </Entry>
+
+    <Entry name="Space Jump">
+      canDefeatDraygon
+    </Entry>
+
+    <Entry name="Spring Ball">
+        canAccessInnerMaridia <span style={{color: "purple"}}>AND </span>
+        (HasIce <span style={{color: "aqua"}}>OR </span> (HasGrapple <span style={{color: "purple"}}>AND </span> (CanFly <span style={{color: "aqua"}}>OR </span> HasHiJump)))
+    </Entry>
+
+    <Entry name="Supers (Aqueduct)">
+      canAccessOuterMaridia <span style={{color: "purple"}}>AND </span> HasGravity
+    </Entry>
+
+    <Entry name="Charge Beam">
+        CanUsePowerBombs <span style={{color: "aqua"}}>OR </span>
+        (CanOpenRedDoors <span style={{color: "purple"}}>AND </span> CanPassBombPassages)
+    </Entry>
+
+    <Entry name="Energy Tank (Etecoons)">
+      CanUsePowerBombs
+    </Entry>
+
+    <Entry name="Energy Tank (Waterway)">
+      CanUsePowerBombs <span style={{color: "purple"}}>AND </span> CanOpenRedDoors <span style={{color: "purple"}}>AND </span> HasSpeed
+    </Entry>
+
+    <Entry name="Energy Tank (Wave Gate)">
+      CanUsePowerBombs <span style={{color: "purple"}}>AND </span> (HasWave <span style={{color: "aqua"}}>OR </span> superPacks &#8805; 1)
+    </Entry>
+
+    <Entry name="Missiles (Big Pink)">
+        CanUsePowerBombs <span style={{color: "aqua"}}>OR </span>
+        (CanOpenRedDoors <span style={{color: "purple"}}>AND </span> (HasSpeed <span style={{color: "aqua"}}>OR </span> CanDestroyBombWalls))
+    </Entry>
+
+    <Entry name="Missiles (Brin Reserve 1)">
+        canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span> CanOpenRedDoors <span style={{color: "purple"}}>AND </span> HasMorph
+    </Entry>
+
+    <Entry name="Missiles (Brin Reserve 2)">
+        canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span>
+        CanOpenRedDoors <span style={{color: "purple"}}>AND </span>
+        CanPassBombPassages
+    </Entry>
+
+    <Entry name="Missiles (Brin Tube)">
+      canAccessRedBrinstar <span style={{color: "aqua"}}>OR </span> CanUsePowerBombs
+    </Entry>
+
+    <Entry name="Missiles (Charge)">
+      canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span> CanOpenRedDoors
+    </Entry>
+
+    <Entry name="Missiles (Early Bridge)">
+      canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span> CanOpenRedDoors
+    </Entry>
+
+    <Entry name="Power Bombs (Etecoons)">
+      CanUsePowerBombs
+    </Entry>
+
+    <Entry name="Power Bombs (Mission Impossible)">
+      CanUsePowerBombs <span style={{color: "purple"}}>AND </span> superPacks &#8805; 1;
+    </Entry>
+
+    <Entry name="Reserve Tank (Brinstar)">
+        canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span>
+        CanOpenRedDoors <span style={{color: "purple"}}>AND </span>
+        (HasMorph <span style={{color: "aqua"}}>OR </span> HasSpeed)
+    </Entry>
+
+    <Entry name="Supers (Early Bridge)">
+        canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span>
+        CanOpenRedDoors <span style={{color: "purple"}}>AND </span>
+        (HasMorph <span style={{color: "aqua"}}>OR </span> HasSpeed)
+    </Entry>
+
+    <Entry name="Supers (Etecoons)">
+      CanUsePowerBombs <span style={{color: "purple"}}>AND </span> CanOpenGreenDoors
+    </Entry>
+
+    <Entry name="Supers (Spore Spawn)">
+        canAccessGreenBrinstar <span style={{color: "purple"}}>AND </span>
+        CanOpenGreenDoors <span style={{color: "purple"}}>AND </span>
+        CanPassBombPassages
+    </Entry>
+
+    <Entry name="Energy Tank (Kraid)">
+      canAccessKraid
+    </Entry>
+
+    <Entry name="Missiles (Kraid)">
+      canAccessKraid <span style={{color: "purple"}}>AND </span> CanUsePowerBombs
+    </Entry>
+
+    <Entry name="Varia Suit">
+      canAccessKraid
+    </Entry>
+
+    <Entry name="Energy Tank (Firefleas)">
+      canPassWorstRoom
+    </Entry>
+
+    <Entry name="Energy Tank (Ridley)">
+      canPassWorstRoom
+    </Entry>
+
+    <Entry name="Missiles (GT)">
+      canAccessLowerNorfair <span style={{color: "purple"}}>AND </span> HasSpaceJump
+    </Entry>
+
+    <Entry name="Missiles (Maze)">
+      canPassWorstRoom
+    </Entry>
+
+    <Entry name="Missiles (Mickey Mouse)">
+      canPassWorstRoom
+    </Entry>
+
+    <Entry name="Missiles (Three Muskateers)">
+      canPassWorstRoom
+    </Entry>
+
+    <Entry name="Power Bombs (Maze)">
+      canPassWorstRoom
+    </Entry>
+
+    <Entry name="Power Bombs (Shame)">
+      canPassWorstRoom
+    </Entry>
+
+    <Entry name="Screw Attack">
+        canAccessLowerNorfair <span style={{color: "purple"}}>AND </span>
+        (CanFly <span style={{color: "aqua"}}>OR </span> HasSpringBall <span style={{color: "aqua"}}>OR </span> HasSpeed)
+    </Entry>
+
+    <Entry name="Supers (GT)">
+        canAccessLowerNorfair <span style={{color: "purple"}}>AND </span>
+        (CanFly <span style={{color: "aqua"}}>OR </span> HasSpringBall <span style={{color: "aqua"}}>OR </span> HasSpeed)
+    </Entry>
+
+    <Entry name="Missiles (Alpha PBs)">
+      canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> CanUsePowerBombs
+    </Entry>
+
+    <Entry name="Power Bombs (Alpha)">
+      canAccessRedBrinstar
+    </Entry>
+
+    <Entry name="Power Bombs (Beta)">
+      canAccessRedBrinstar <span style={{color: "purple"}}>AND </span> CanUsePowerBombs
+    </Entry>
+
+    <Entry name="Spazer">
+      canAccessRedBrinstar
+    </Entry>
+
+    <Entry name="Xray Scope">
+        canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        (<br />&nbsp;&nbsp;HasGrapple <span style={{color: "aqua"}}>OR </span>
+          HasSpaceJump <span style={{color: "aqua"}}>OR </span>
+          (HasHiJump <span style={{color: "purple"}}>AND </span> HasSpeed <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 4) <span style={{color: "aqua"}}>OR </span>
+          (HasIce <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 4)<br />)
+    </Entry>
+
+    <Entry name="Energy Tank (HJB)">
+      canAccessRedBrinstar
+    </Entry>
+
+    <Entry name="HiJump Boots">
+      canAccessRedBrinstar
+    </Entry>
+
+    <Entry name="Ice Beam">
+      canAccessKraid <span style={{color: "purple"}}>AND </span> (HasVaria <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 2)
+    </Entry>
+
+    <Entry name="Missiles (Bubble Mountain)">
+        canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
+        (canHellRun <span style={{color: "aqua"}}>OR </span> (HasSpeed <span style={{color: "purple"}}>AND </span> CanPassBombPassages))
+    </Entry>
+
+    <Entry name="Missiles (Cathedral)">
+      canAccessHeatedNorfair
+    </Entry>
+
+    <Entry name="Missiles (Croc Escape)">
+        canAccessCrocomire <span style={{color: "purple"}}>AND </span>
+        (HasVaria <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 2) <span style={{color: "purple"}}>AND </span>
+        (CanFly <span style={{color: "aqua"}}>OR </span> HasGrapple <span style={{color: "aqua"}}>OR </span> (HasHiJump <span style={{color: "purple"}}>AND </span> HasSpeed))
+    </Entry>
+
+    <Entry name="Missiles (Crumble Shaft)">
+      canAccessKraid <span style={{color: "purple"}}>AND </span> CanUsePowerBombs <span style={{color: "purple"}}>AND </span> canHellRun
+    </Entry>
+
+    <Entry name="Missiles (HJB)">
+      canAccessRedBrinstar
+    </Entry>
+
+    <Entry name="Missiles (Norfair Reserve 1)">
+      canAccessHeatedNorfair
+    </Entry>
+
+    <Entry name="Missiles (Norfair Reserve 2)">
+      canAccessHeatedNorfair
+    </Entry>
+
+    <Entry name="Missiles (Speed)">
+      canAccessHeatedNorfair
+    </Entry>
+
+    <Entry name="Missiles (Wave)">
+      canAccessHeatedNorfair
+    </Entry>
+
+    <Entry name="Reserve Tank (Norfair)">
+      canAccessHeatedNorfair
+    </Entry>
+
+    <Entry name="Speed Booster">
+      canAccessHeatedNorfair
+    </Entry>
+
+    <Entry name="Wave Beam">
+      canAccessHeatedNorfair
+    </Entry>
+
+    <Entry name="Energy Tank (Mama Turtle)">
+        canAccessOuterMaridia <span style={{color: "purple"}}>AND </span>
+        (CanFly <span style={{color: "aqua"}}>OR </span>
+          (HasSpeed <span style={{color: "purple"}}>AND </span> HasGravity) <span style={{color: "aqua"}}>OR </span>
+          HasSpringBall <span style={{color: "aqua"}}>OR </span>
+          HasGrapple)
+    </Entry>
+
+    <Entry name="Missiles (Beach)">
+        canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        (HasGravity <span style={{color: "aqua"}}>OR </span> canDoSuitlessMaridia)
+    </Entry>
+
+    <Entry name="Missiles (Mainstreet)">
+        canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        HasGravity <span style={{color: "purple"}}>AND </span>
+        HasSpeed
+    </Entry>
+
+    <Entry name="Missiles (Mama Turtle)">
+      canAccessOuterMaridia
+    </Entry>
+
+    <Entry name="Missiles (Watering Hole)">
+        canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        (HasGravity <span style={{color: "aqua"}}>OR </span> canDoSuitlessMaridia)
+    </Entry>
+
+    <Entry name="Supers (Crab)">
+      canAccessOuterMaridia
+    </Entry>
+
+    <Entry name="Supers (Watering Hole)">
+        canAccessRedBrinstar <span style={{color: "purple"}}>AND </span>
+        CanUsePowerBombs <span style={{color: "purple"}}>AND </span>
+        (HasGravity <span style={{color: "aqua"}}>OR </span> canDoSuitlessMaridia)
+    </Entry>
+
+    <Entry name="Energy Tank (Wrecked Ship)">
+        canAccessWreckedShip <span style={{color: "purple"}}>AND </span>
+        (CanUseBombs <span style={{color: "aqua"}}>OR </span>
+          CanUsePowerBombs <span style={{color: "aqua"}}>OR </span>
+          HasHiJump <span style={{color: "aqua"}}>OR </span>
+          HasSpaceJump <span style={{color: "aqua"}}>OR </span>
+          HasSpeed <span style={{color: "aqua"}}>OR </span>
+          HasSpringBall)
+    </Entry>
+
+    <Entry name="Gravity Suit">
+        canAccessWreckedShip <span style={{color: "purple"}}>AND </span> (HasVaria <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 1)
+    </Entry>
+
+    <Entry name="Missiles (Attic)">
+      canAccessWreckedShip
+    </Entry>
+
+    <Entry name="Missiles (Bowling)">
+        canAccessWreckedShip <span style={{color: "purple"}}>AND </span> (HasVaria <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 1)
+    </Entry>
+
+    <Entry name="Missiles (Ocean Bottom)">
+      canAccessWreckedShip
+    </Entry>
+
+    <Entry name="Missiles (Ocean Middle)">
+      canAccessWreckedShip
+    </Entry>
+
+    <Entry name="Missiles (Sky)">
+      canAccessWreckedShip
+    </Entry>
+
+    <Entry name="Missiles (Spooky)">
+      canAccessWreckedShip
+    </Entry>
+
+    <Entry name="Reserve Tank (Wrecked Ship)">
+        canAccessWreckedShip <span style={{color: "purple"}}>AND </span>
+        HasSpeed <span style={{color: "purple"}}>AND </span>
+        ((HasVaria <span style={{color: "purple"}}>AND </span> TotalTanks &#8805; 1) <span style={{color: "aqua"}}>OR </span> TotalTanks &#8805; 2)
+    </Entry>
+
+    <Entry name="Supers (WS Left)">
+      canAccessWreckedShip
+    </Entry>
+
+    <Entry name="Supers (WS Right)">
+      canAccessWreckedShip
+    </Entry>
+      </>
    )
 }
 

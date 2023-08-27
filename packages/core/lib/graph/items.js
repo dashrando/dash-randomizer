@@ -89,7 +89,7 @@ export const getItemPool = (
   };
 
   if (majorDistribution.mode == MajorDistributionMode.Full) {
-    setAmountInPool(Item.Reserve, 2);
+    setAmountInPool(Item.Reserve, 4);
     setAmountInPool(Item.EnergyTank, 14);
   } else {
     const numMajors = majorDistribution.mode;

@@ -8,11 +8,22 @@ type Token = {
   criteria: string;
 };
 
-const Seperator = () => (
+export const Seperator = () => (
   <div className={styles.seperator}>
     <hr />
   </div>
 )
+
+export const Entry = ({ name, children }: any) => {
+  return (
+    <div key={name} className={styles.token}>
+      <div className={styles.token_name}>{name}</div>
+      <div className={styles.token_criteria}>
+      {children}
+      </div>
+    </div>
+  );
+};
 
 const formatCriteria = (criteria: string): string => {
   const formatted = criteria
@@ -77,7 +88,7 @@ const loadLogic = (logicType: string): { title: string; tokens: Token[] } => {
   }
 };
 
-const Navigation = ({ selected }: { selected: string }) => {
+export const Navigation = ({ selected }: { selected: string }) => {
   return (
     <div className={styles.nav_bar}>
       <span className={styles.nav_title}>Select Logic:</span>
@@ -105,7 +116,7 @@ const ReadableLogic = ({ type }: { type: string }) => {
   const Criteria = ({ value }: { value: string }) => {
     let parts: string[] = [" "];
 
-    value.split(" ").forEach((w: string) => {
+    value.split(/\s|\)|\(/).forEach((w: string) => {
       if (tokens.some((t) => t.name == w)) {
         parts.push(w);
         parts.push(" ");
@@ -141,6 +152,9 @@ const ReadableLogic = ({ type }: { type: string }) => {
       <Seperator />
       <div className={styles.logic_title}>{title}</div>
       <Seperator />
+      <div style={{ border: '1px solid #222', backgroundColor: '#010101', display: 'inline-flex', padding: '8px 16px', borderRadius: '8px', margin: '16px 0', maxWidth: '440px', fontSize: '16px', lineHeight: '24px' }}>
+        <p><strong style={{ color: '#fff' }}>Warning:</strong> The following logic does not account for Area Randomization or Boss Shuffle, both of which are in alpha.</p>
+      </div>
       <div className={styles.logic}>
         {tokens.map((t: Token) => {
           return (

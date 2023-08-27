@@ -67,6 +67,14 @@
   text-decoration-color: #fff;
 }
 
+.article h3 {
+  font-size: 16px;
+  line-height: 24px;
+  color: #fff;
+  margin: 0;
+  font-weight: 600;
+}
+
 .article strong {
   color: #fff;
   font-weight: 600;
@@ -181,4 +189,9 @@
 
 .table tbody tr + tr {
   border-top: 1px solid #555;
+}
+
+.locationCount {
+  color: #aaffec;
+  font-weight: 600;
 }

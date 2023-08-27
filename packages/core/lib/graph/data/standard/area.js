@@ -1,5 +1,3 @@
-import { SeasonEdgeUpdates } from "./edges";
-
 //-----------------------------------------------------------------
 // Edge definitions.
 //-----------------------------------------------------------------
@@ -109,7 +107,7 @@ const WestMaridia_EverestTopRight_to_PreAqueductPortal = {
 // Exports.
 //-----------------------------------------------------------------
 
-export const SeasonAreaEdgeUpdates = SeasonEdgeUpdates.concat([
+export const StandardAreaEdgeUpdates = [
   Crateria_PreMoat_to_Crabs,
   Crateria_Terminator_to_G4,
   GreenBrinstar_Tube_to_GreenHillsPortal,
@@ -130,4 +128,4 @@ export const SeasonAreaEdgeUpdates = SeasonEdgeUpdates.concat([
   WestMaridia_MainStreet_to_MaridiaMapPortal,
   WestMaridia_EverestTopRight_to_PreAqueductPortal,
   EastMaridia_AqueductPortal_to_Aqueduct,
-]);
+];

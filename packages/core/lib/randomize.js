@@ -1,10 +1,6 @@
 import BpsPatch from "./bps-patch";
-import {
-  getBasePatch,
-  getFileName,
-  generateSeed,
-  generateSeedPatch,
-} from "./sm-rando";
+import { getBasePatch, getFileName, generateSeedPatch } from "./sm-rando";
+import { generateSeed } from "./graph/fill";
 import { patchRom } from "../helpers/patcher";
 
 async function RandomizeRom(
