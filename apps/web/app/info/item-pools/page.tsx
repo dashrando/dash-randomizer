@@ -1,10 +1,16 @@
 // Out of a desire to maximize randomness, DASH employs a fill method which involves placing very few initial items (details below) and then randomly placing all other items within the game based on an item pool consisting of the vanilla major item upgrades (morph, varia, gravity, etc.) and a randomly derived number of minor items (missiles, supers, power bombs). Once all items within the pool have been placed, a solver is used to verify that the seed can be completed. Internally we have referred to this as the Verified Fill method, but it is also commonly referred to as the Random Fill method.
 
 import Badge from "@/app/components/badge";
+import { Metadata } from "next"
 import Link from "next/link";
 import { Wrapper } from "@/app/components/wrapper";
 import styles from "../info.module.css";
 import Spacer from "@/app/components/spacer";
+
+export const metadata: Metadata = {
+  title: 'Item Pools - DASH Randomizer',
+  description: 'A brief explanation of the Item Pool in DASH and how it is used in the seed rolling logic.',
+}
 
 export default function ItemPoolsInfoPage() {
   return (
