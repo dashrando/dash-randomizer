@@ -191,14 +191,6 @@
   border-top: 1px solid #555;
 }
 
-.indent {
-  margin-left: var(--spacer-2x);
-}
-
-.hilight {
-  font-style: italic;
-}
-
 .locationCount {
   color: #aaffec;
   font-weight: 600;

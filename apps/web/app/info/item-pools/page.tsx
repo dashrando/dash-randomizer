@@ -170,14 +170,14 @@ export default function ItemPoolsInfoPage() {
               <p>
                 Add energy tanks and reserve tanks based on the Item Split
               </p>
-              <div className={styles.indent}>
+              <div>
                 <p>
-                  <span className={styles.hilight}>Full</span> - Add 14 energy
+                  <strong>Full</strong> - Add 14 energy
                   tanks and 4 reserve tanks
                 </p>
 
                 <p>
-                  <span className={styles.hilight}>Major/Minor</span> - With
+                  <strong>Major/Minor</strong> - With
                   only 34 major locations, we limit the number of energy and
                   reserve tanks to fit. We want to place all 14 energy tanks
                   so we initially reduce the number of reserve tanks down to a
@@ -186,7 +186,7 @@ export default function ItemPoolsInfoPage() {
                 </p>
 
                 <p>
-                  <span className={styles.hilight}>Recall Major/Minor</span> -
+                  <strong>Recall Major/Minor</strong> -
                   In general, this Item Split works like normal Major/Minor
                   but with 36 major item locations. However, it is possible
                   that we may end up with less than 36 major items even with 4
