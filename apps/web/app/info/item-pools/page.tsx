@@ -25,48 +25,65 @@ export default function ItemPoolsInfoPage() {
             (missiles, supers, and power bombs). There are two factors that are
             considered related to major items: Item Split and Extra DASH Items.
           </p>
-
-          <h2>Item Split</h2>
+          <Spacer y={12} />
+          <h2 className={styles.title}>Item Split</h2>
 
           <p>
             The Item Split determines the valid locations where major items can
-            be placed. DASH currently offers three Item Split options:
+            be placed. DASH currently offers three Item Split options:{' '}
+            <strong>Major/Minor</strong>, <strong>Recall Major/Minor</strong>,
+            and <strong>Full</strong>.
           </p>
-          <p className={styles.indent}>
-            <h3>
-              <span className={styles.hilight}>Major/Minor</span>
-              <span className={styles.locationCount}>
+          <Spacer y={12} />
+          <section>
+            <header>
+              <h3>
+                Major/Minor
+              </h3>
+              <div className={styles.locationCount}>
                 34 major item locations
-              </span>
-            </h3>
+              </div>
+            </header>
             <p>
               Major items can be placed at any of the vanilla major item
               locations. For balance, the Energy Tank location at HiJump Boots
               is considered a minor location and the Right Side Super Missile
               location in Wrecked Ship is considered a major location.
             </p>
-            <h3>
-              <span className={styles.hilight}>Recall Major/Minor </span>
-              <span className={styles.locationCount}>
+          </section>
+          <Spacer y={8} />
+          <section>
+            <header>
+              <h3>
+                Recall Major/Minor
+              </h3>
+              <div className={styles.locationCount}>
                 36 major item locations
-              </span>
-            </h3>
+              </div>
+            </header>
             <p>
-              Similar to normal{" "}
-              <span className={styles.hilight}>Major/Minor</span> with a few
-              tweaks. Mickey Mouse Missiles, Watering Hole Supers, and Sky
-              Missiles are now considered major item locations. Kraid Energy
-              Tank is considered a minor item location.
+              Similar to normal{' '}
+              <strong>Major/Minor</strong> with a few tweaks. Mickey Mouse
+              Missiles, Watering Hole Supers, and Sky Missiles are now
+              considered major item locations. Kraid Energy Tank is considered a
+              minor item location.
             </p>
-            <h3>
-              <span className={styles.hilight}>Full</span>
-              <span className={styles.locationCount}>
+          </section>
+          <Spacer y={8} />
+          <section>
+            <header>
+              <h3>
+                Full
+              </h3>
+              <div className={styles.locationCount}>
                 100 major item locations
-              </span>
-            </h3>
-            Any location can hold a major item.
-          </p>
-
+              </div>
+            </header>
+            <p>
+              Any location can hold a major item.
+            </p>
+          </section>
+          <Spacer y={12} />
           <h2>Extra DASH Items</h2>
 
           <p>
@@ -75,6 +92,7 @@ export default function ItemPoolsInfoPage() {
             Valve, and Charge Upgrades for certain Beam Modes.
           </p>
 
+          <Spacer y={12} />
           <h2>Building Item Pools</h2>
 
           <p>This is the process followed when building an item pool:</p>
@@ -101,31 +119,31 @@ export default function ItemPoolsInfoPage() {
             <li>
               <p>
                 Add energy tanks and reserve tanks based on the Item Split
-                <p className={styles.indent}>
-                  <p>
-                    <span className={styles.hilight}>Full</span> - Add 14 energy
-                    tanks and 4 reserve tanks
-                  </p>
-
-                  <p>
-                    <span className={styles.hilight}>Major/Minor</span> - With
-                    only 34 major locations, we limit the number of energy and
-                    reserve tanks to fit. We want to place all 14 energy tanks
-                    so we initially reduce the number of reserve tanks down to a
-                    minimum of 2. We then add energy tanks until we have exactly
-                    34 major items in the pool.
-                  </p>
-
-                  <p>
-                    <span className={styles.hilight}>Recall Major/Minor</span> -
-                    In general, this Item Split works like normal Major/Minor
-                    but with 36 major item locations. However, it is possible
-                    that we may end up with less than 36 major items even with 4
-                    reserve tanks and 14 energy tanks. In that case, Super
-                    Missile packs are added as major items.
-                  </p>
-                </p>
               </p>
+              <div className={styles.indent}>
+                <p>
+                  <span className={styles.hilight}>Full</span> - Add 14 energy
+                  tanks and 4 reserve tanks
+                </p>
+
+                <p>
+                  <span className={styles.hilight}>Major/Minor</span> - With
+                  only 34 major locations, we limit the number of energy and
+                  reserve tanks to fit. We want to place all 14 energy tanks
+                  so we initially reduce the number of reserve tanks down to a
+                  minimum of 2. We then add energy tanks until we have exactly
+                  34 major items in the pool.
+                </p>
+
+                <p>
+                  <span className={styles.hilight}>Recall Major/Minor</span> -
+                  In general, this Item Split works like normal Major/Minor
+                  but with 36 major item locations. However, it is possible
+                  that we may end up with less than 36 major items even with 4
+                  reserve tanks and 14 energy tanks. In that case, Super
+                  Missile packs are added as major items.
+                </p>
+              </div>
             </li>
             <li>
               <p>

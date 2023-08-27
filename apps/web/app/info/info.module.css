@@ -67,6 +67,14 @@
   text-decoration-color: #fff;
 }
 
+.article h3 {
+  font-size: 16px;
+  line-height: 24px;
+  color: #fff;
+  margin: 0;
+  font-weight: 600;
+}
+
 .article strong {
   color: #fff;
   font-weight: 600;
@@ -184,7 +192,7 @@
 }
 
 .indent {
-  margin-left: 12px;
+  margin-left: var(--spacer-2x);
 }
 
 .hilight {
@@ -192,6 +200,6 @@
 }
 
 .locationCount {
-  color: lightcoral;
-  margin-left: 20px;
+  color: #aaffec;
+  font-weight: 600;
 }
