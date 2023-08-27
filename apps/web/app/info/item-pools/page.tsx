@@ -27,7 +27,6 @@ export default function ItemPoolsInfoPage() {
           </p>
           <Spacer y={12} />
           <h2 className={styles.title}>Item Split</h2>
-
           <p>
             The Item Split determines the valid locations where major items can
             be placed. DASH currently offers three Item Split options:{' '}
@@ -35,7 +34,58 @@ export default function ItemPoolsInfoPage() {
             and <strong>Full</strong>.
           </p>
           <Spacer y={12} />
-          <section>
+          <ul>
+            <li>
+              <header>
+                <h3>
+                  Major/Minor
+                </h3>
+                <div className={styles.locationCount}>
+                  34 major item locations
+                </div>
+              </header>
+              <p>
+                Major items can be placed at any of the vanilla major item
+                locations. For balance, the Energy Tank location at HiJump Boots
+                is considered a minor location and the Right Side Super Missile
+                location in Wrecked Ship is considered a major location.
+              </p>
+              <Spacer y={8} />
+            </li>
+            <li>
+              <header>
+                <h3>
+                  Recall Major/Minor
+                </h3>
+                <div className={styles.locationCount}>
+                  36 major item locations
+                </div>
+              </header>
+              <p>
+                Similar to normal{' '}
+                <strong>Major/Minor</strong> with a few tweaks. Mickey Mouse
+                Missiles, Watering Hole Supers, and Sky Missiles are now
+                considered major item locations. Kraid Energy Tank is considered a
+                minor item location.
+              </p>
+              <Spacer y={8} />
+            </li>
+            <li>
+              <header>
+                <h3>
+                  Full
+                </h3>
+                <div className={styles.locationCount}>
+                  100 major item locations
+                </div>
+              </header>
+              <p>
+                Any location can hold a major item.
+              </p>
+              <Spacer y={8} />
+            </li>
+          </ul>
+          {/* <section>
             <header>
               <h3>
                 Major/Minor
@@ -82,7 +132,7 @@ export default function ItemPoolsInfoPage() {
             <p>
               Any location can hold a major item.
             </p>
-          </section>
+          </section> */}
           <Spacer y={12} />
           <h2>Extra DASH Items</h2>
 
