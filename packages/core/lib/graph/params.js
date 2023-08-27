@@ -189,7 +189,7 @@ export const paramsToString = (
   );
   return Buffer.from(bytes)
     .toString("base64")
-    .replaceAll("/", "$")
+    .replaceAll("/", "_")
     .replaceAll("+", "-");
 };
 
@@ -249,7 +249,7 @@ export const bytesToParams = (bytes) => {
 
 export const stringToParams = (str) => {
   const bytes = Buffer.from(
-    str.replaceAll("$", "/").replaceAll("-", "+"),
+    str.replaceAll("_", "/").replaceAll("-", "+"),
     "base64"
   );
   return bytesToParams(bytes);
