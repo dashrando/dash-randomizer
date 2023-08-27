@@ -1,8 +1,6 @@
 // Out of a desire to maximize randomness, DASH employs a fill method which involves placing very few initial items (details below) and then randomly placing all other items within the game based on an item pool consisting of the vanilla major item upgrades (morph, varia, gravity, etc.) and a randomly derived number of minor items (missiles, supers, power bombs). Once all items within the pool have been placed, a solver is used to verify that the seed can be completed. Internally we have referred to this as the Verified Fill method, but it is also commonly referred to as the Random Fill method.
 
-import Badge from "@/app/components/badge";
 import { Metadata } from "next"
-import Link from "next/link";
 import { Wrapper } from "@/app/components/wrapper";
 import styles from "../info.module.css";
 import Spacer from "@/app/components/spacer";
@@ -88,54 +86,6 @@ export default function ItemPoolsInfoPage() {
               <Spacer y={8} />
             </li>
           </ul>
-          {/* <section>
-            <header>
-              <h3>
-                Major/Minor
-              </h3>
-              <div className={styles.locationCount}>
-                34 major item locations
-              </div>
-            </header>
-            <p>
-              Major items can be placed at any of the vanilla major item
-              locations. For balance, the Energy Tank location at HiJump Boots
-              is considered a minor location and the Right Side Super Missile
-              location in Wrecked Ship is considered a major location.
-            </p>
-          </section>
-          <Spacer y={8} />
-          <section>
-            <header>
-              <h3>
-                Recall Major/Minor
-              </h3>
-              <div className={styles.locationCount}>
-                36 major item locations
-              </div>
-            </header>
-            <p>
-              Similar to normal{' '}
-              <strong>Major/Minor</strong> with a few tweaks. Mickey Mouse
-              Missiles, Watering Hole Supers, and Sky Missiles are now
-              considered major item locations. Kraid Energy Tank is considered a
-              minor item location.
-            </p>
-          </section>
-          <Spacer y={8} />
-          <section>
-            <header>
-              <h3>
-                Full
-              </h3>
-              <div className={styles.locationCount}>
-                100 major item locations
-              </div>
-            </header>
-            <p>
-              Any location can hold a major item.
-            </p>
-          </section> */}
           <Spacer y={12} />
           <h2 className={styles.title}>Extra DASH Items</h2>
 
