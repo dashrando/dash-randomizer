@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { saveAs } from 'file-saver'
 import useMounted from '@/app/hooks/useMounted'
 import { useVanilla } from '@/app/generate/vanilla'
 import styles from './seed.module.css'
@@ -13,11 +12,8 @@ import {
   GravityHeatReduction
 } from 'core/params'
 import { cn } from '@/lib/utils'
+import { downloadFile } from '@/lib/downloads'
 import Button from '@/app/components/button'
-
-function downloadFile(data: any, name: string) {
-  saveAs(new Blob([data]), name)
-}
 
 type Seed = {
   data: any
@@ -122,7 +118,7 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
   )
 }
 
-export default function Seed({ parameters }: any) {
+export default function Seed({ parameters, hash }: { parameters: any, hash: string }) {
   const mounted = useMounted()
   const { data: vanilla, isLoading } = useVanilla()
   const [seed, setSeed] = useState<Seed|null>(null)
@@ -169,7 +165,7 @@ export default function Seed({ parameters }: any) {
             evt.preventDefault()
             // TODO: Refactor to show loading state if still getting seed
             if (seed) {
-              downloadFile(seed?.data, seed?.name)
+              downloadFile(seed?.data, seed?.name, hash)
             }
           }}>Download {seed?.name}</Button>
         ) : <Button variant="secondary">Upload Vanilla</Button>}

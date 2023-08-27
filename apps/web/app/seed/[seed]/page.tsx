@@ -1,10 +1,4 @@
-import {
-  stringToParams,
-  RandomizeRom,
-  vanilla,
-  fetchSignature,
-} from "core";
-import { MajorDistributionMode, MapLayout, MinorDistributionMode } from "core/params";
+import { stringToParams } from "core";
 import Link from 'next/link'
 import styles from './seed.module.css'
 import Seed from './seed'
@@ -14,34 +8,6 @@ type SeedParams = {
 }
 
 export default function SeedPage({ params }: { params: SeedParams}) {
-  // const DownloadButton = () => {
-  //   const btnText = downloading ? "Downloading..." : `Download ${romData.name}`;
-  //   return (
-  //     <div id="download">
-  //       <button
-  //         id="download-btn"
-  //         className={downloading ? "btn downloading" : "btn"}
-  //         disabled={romData.data == null}
-  //         onClick={() => {
-  //           if (romData.data != null) {
-  //             downloadFile(romData.data, romData.name);
-  //           }
-  //         }}
-  //       >
-  //         {btnText}
-  //       </button>
-  //       <label id="vanilla-btn" className="btn" htmlFor="vanilla-file-input">
-  //         Enter your Vanilla ROM
-  //         <input
-  //           type="file"
-  //           id="vanilla-file-input"
-  //           name="vanilla-file"
-  //           onChange={(e) => vanilla.inputVanillaRom(e.target)}
-  //         />
-  //       </label>
-  //     </div>
-  //   );
-  // };
   
   const SeedFooter = () => {
     return (
@@ -54,109 +20,13 @@ export default function SeedPage({ params }: { params: SeedParams}) {
       </footer>
     );
   };
-  
-  // const SeedOptions = ({ opts, num }: { opts: any; num: number }) => {
-  //   const numString = num <= 0 ? "" : num.toString().padStart(6, "0");
-  //   let fanfareString = "";
-
-  //   if (opts != null) {
-  //     fanfareString = opts.DisableFanfare ? "Off" : "On";
-  //   }
-
-  //   return (
-  //     <SeedParamList header="Options">
-  //       <SeedParam name="Item Fanfare" value={fanfareString} />
-  //       <SeedParam name="Seed" value={numString} />
-  //       <SeedSpacer />
-  //     </SeedParamList>
-  //   );
-  // };
-  
-  // const SeedSettings = ({ mapLayout, itemPoolParams, settings }:
-  //   { mapLayout: number, itemPoolParams: any, settings: any }) => {
-  //   const mapString = mapLayout == MapLayout.Recall ? "Recall" : "Standard";
-  //   const majorMode = itemPoolParams?.majorDistribution?.mode;
-  //   const minorMode = itemPoolParams?.minorDistribution?.mode;
-  //   const itemSplit =
-  //     majorMode == MajorDistributionMode.Standard ? "Major/Minor" :
-  //     majorMode == MajorDistributionMode.Recall ? "Recall Major/Minor" :
-  //     "Full"
-  //   let minorSplit = "Unknown";
-  //   if (minorMode ==MinorDistributionMode.Standard) {
-  //     const minorDistro = itemPoolParams.minorDistribution;
-  //     if (minorDistro.missiles == 2 && minorDistro.supers == 1 && minorDistro.powerbombs == 1) {
-  //       minorSplit = "DASH 2:1:1";
-  //     } else if (minorDistro.missiles == 2 && minorDistro.supers == 1 && minorDistro.powerbombs == 1) {
-  //       minorSplit = "Standard 3:2:1";
-  //     }
-  //     else {
-  //       minorSplit = `${minorDistro.missiles}:${minorDistro.supers}:${minorDistro.powerbombs}`;
-  //     }
-  //   } 
-
-  //   return (
-  //     <SeedParamList header="Settings">
-  //       <SeedParam name="Item Split" value={itemSplit} />
-  //       <SeedParam name="Map Layout" value={mapString} />
-  //       <SeedParam name="Minor Distro" value={minorSplit} />
-  //     </SeedParamList>
-  //   );
-  // };
-
-  // const SeedSignature = ({ sig }: { sig: string }) => {
-  //   return <div className={styles.signature}>{sig}</div>;
-  // };
-
-  // const SeedParam = ({ name, value }: { name: string; value: string }) => {
-  //   return (
-  //     <li>
-  //       <span className="settings-label">{name}</span>
-  //       <span className="settings-value">
-  //         {value.length > 0 ? (
-  //           value
-  //         ) : (
-  //           <span className="settings-mdash">&mdash;</span>
-  //         )}
-  //       </span>
-  //     </li>
-  //   );
-  // };
-
-  // const SeedParamList = ({
-  //   header,
-  //   children,
-  // }: {
-  //   header: string;
-  //   children: any;
-  // }) => {
-  //   return (
-  //     <div id="seed-settings">
-  //       <h4>{header}</h4>
-  //       <ul>{children}</ul>
-  //     </div>
-  //   );
-  // };
-  
-  // const SeedSpacer = () => {
-  //   return <li></li>;
-  // };
 
   const settings = stringToParams(params.seed)
   return (
     <main id="seed-container" className={styles.container}>
       <h1 className={styles.logo}>DASH</h1>
-      <Seed parameters={settings} />
-      {/* <pre style={{ textAlign: 'left' }}><code>{JSON.stringify(stringToParams(params.seed), null, 2)}</code></pre> */}
-      {/* <SeedSignature sig={signature} />
-      <DownloadButton />
-      <SeedSettings mapLayout={pageSettings.mapLayout}
-                    itemPoolParams={pageSettings.itemPoolParams}
-                    settings={pageSettings.settings} />
-      <SeedOptions opts={pageSettings.options} num={pageSettings.seedNum} />
-      <SeedFooter /> */}
+      <Seed parameters={settings} hash={params.seed} />
       <SeedFooter />
     </main>
   );
 }
-
-// TODO: Generate ISR

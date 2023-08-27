@@ -5,7 +5,8 @@ import { Heading } from '../components/text'
 import Select from '../components/select'
 import Numeric from '../components/numeric'
 import styles from './page.module.css'
-import { cn, deepEqual, downloadFile } from '@/lib/utils'
+import { downloadFile } from '@/lib/downloads'
+import { cn, deepEqual  } from '@/lib/utils'
 import VanillaButton, { useVanilla } from './vanilla'
 import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
@@ -427,7 +428,7 @@ export default function Form() {
         settings,
         options
       );
-      downloadFile(seed, name)
+      downloadFile(seed, name, hash)
       setRolledSeed({ seed, name, hash })
     } catch (error) {
       console.error('SEED ERROR', error)

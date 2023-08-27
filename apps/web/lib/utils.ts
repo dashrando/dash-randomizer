@@ -5,10 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return clsx(inputs)
 }
 
-export function downloadFile(data: string, filename: string) {
-  saveAs(new Blob([data]), filename);
-}
-
 export function deepEqual(obj1: object, obj2: object) {
   if (obj1 === obj2) {
     return true;
