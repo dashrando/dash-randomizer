@@ -29,6 +29,80 @@ const samePortals = (unshuffled, shuffled) => {
   return true;
 };
 
+const areaLoopCount = (shuffled) => {
+  const zones = [
+    [
+      "Crateria",
+      ["Door_RetroPBs", "Door_Moat", "Door_G4", "Door_Kago", "Door_Crabs"],
+    ],
+    [
+      "Green Brinstar",
+      ["Door_GreenHills", "Door_GreenElevator", "Door_NoobBridge"],
+    ],
+    [
+      "Red Brinstar",
+      [
+        "Door_RedElevator",
+        "Door_RedTower",
+        "Door_MaridiaEscape",
+        "Door_MaridiaTube",
+        "Door_KraidEntry",
+        "Door_AboveKraid",
+      ],
+    ],
+    [
+      "Upper Norfair",
+      [
+        "Door_ElevatorEntry",
+        "Door_KraidMouth",
+        "Door_CrocEntry",
+        "Door_SingleChamber",
+        "Door_LavaDive",
+      ],
+    ],
+    ["Lower Norfair", ["Door_Muskateers", "Door_RidleyMouth"]],
+    ["Wrecked Ship", ["Door_Ocean", "Door_HighwayExit"]],
+    [
+      "West Maridia",
+      [
+        "Door_PreAqueduct",
+        "Door_RedFish",
+        "Door_MainStreet",
+        "Door_MaridiaMap",
+      ],
+    ],
+    ["East Maridia", ["Door_Aqueduct", "Door_Highway"]],
+    ["Kraid's Lair", ["Door_KraidsLair"]],
+    ["Crocomire's Lair", ["Door_Croc"]],
+    ["Tourian", ["Door_Tourian"]],
+  ];
+
+  //console.log("---");
+  let numLoops = 0;
+  zones.forEach((z) => {
+    for (let i = 0; i < z[1].length - 1; i++) {
+      const first = z[1][i];
+      shuffled.forEach((t) => {
+        let second = "";
+        if (t[0] == first) {
+          second = t[1];
+        } else if (t[1] == first) {
+          second = t[0];
+        } else {
+          return;
+        }
+        for (let j = i + 1; j < z[1].length; j++) {
+          //console.log("check", first, "->", z[1][j]);
+          if (second == z[1][j]) {
+            numLoops += 1;
+          }
+        }
+      });
+    }
+  });
+  return numLoops;
+};
+
 const vanillaCount = (vanilla, shuffled) => {
   let count = 0;
   vanilla.forEach((p) => {
@@ -107,12 +181,20 @@ const getAreaPortals = (seed) => {
 
   //
   let shuffled = shuffleAreas();
-  while (samePortals(areas, shuffled) || vanillaCount(areas, shuffled) > 1) {
+  while (
+    samePortals(areas, shuffled) ||
+    vanillaCount(areas, shuffled) > 1 ||
+    areaLoopCount(shuffled) > 1
+  ) {
     shuffled = shuffleAreas();
   }
 
   if (vanillaCount(areas, shuffled) > 1) {
     console.error("Too many vanilla connections!");
+  }
+
+  if (areaLoopCount(shuffled) > 1) {
+    console.error("Too many area loops!");
   }
 
   return shuffled;
