@@ -29,6 +29,23 @@ const samePortals = (unshuffled, shuffled) => {
   return true;
 };
 
+const vanillaCount = (vanilla, shuffled) => {
+  let count = 0;
+  vanilla.forEach((p) => {
+    shuffled.forEach((s) => {
+      if (s[0] == p[0] && s[1] == p[1]) {
+        count += 1;
+      } else if (s[1] == p[0] && s[0] == p[1]) {
+        count += 1;
+      }
+    });
+  });
+  //if (count > 1) {
+  //console.log(count);
+  //}
+  return count;
+};
+
 const shuffle = (rng, arr) => {
   const swap = (arr, x, y) => {
     const tmp = arr[x];
@@ -79,9 +96,7 @@ const getAreaPortals = (seed) => {
       all.push(a[0]);
       all.push(a[1]);
     });
-    //console.log(all);
     shuffle(rng, all);
-    //console.log(all);
 
     const shuffled = [];
     for (let i = 0; i < all.length; i += 2) {
@@ -92,8 +107,12 @@ const getAreaPortals = (seed) => {
 
   //
   let shuffled = shuffleAreas();
-  while (samePortals(areas, shuffled)) {
+  while (samePortals(areas, shuffled) || vanillaCount(areas, shuffled) > 1) {
     shuffled = shuffleAreas();
+  }
+
+  if (vanillaCount(areas, shuffled) > 1) {
+    console.error("Too many vanilla connections!");
   }
 
   return shuffled;
