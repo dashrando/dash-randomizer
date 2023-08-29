@@ -16,7 +16,7 @@ import {
   performVerifiedFill,
   verifyItemProgression,
 } from "@/../../packages/core/lib/itemPlacement";
-import { isAreaEdge, isBossEdge } from "@/../../packages/core/data/doors";
+import { isAreaEdge, isBossEdge } from "core/data";
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";

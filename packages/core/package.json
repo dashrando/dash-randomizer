@@ -12,6 +12,9 @@
     ".": {
       "import": "./index.ts"
     },
+    "./data": {
+      "import": "./data.ts"
+    },
     "./modes": {
       "import": "./modes.ts"
     },
