@@ -1,7 +1,7 @@
 "use client";
 
-import { getLocations, Location } from "@/../../packages/core/lib/locations";
-import { ItemNames } from "@/../../packages/core/lib/items";
+import { getLocations, Location } from "core/data";
+import { ItemNames } from "core/data";
 import { useRef, useState } from "react";
 import styles from "./page.module.css"
 
