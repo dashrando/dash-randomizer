@@ -91,7 +91,7 @@ const Sidebar = ({
                     Seed URL
                   </h4>
                   <p style={{ fontSize: '14px', margin: 0, wordWrap: 'break-word' }}>
-                    <a href={`/seed/${hash}?download=false`} style={{ color: 'white', fontWeight: 700 }}>
+                    <a href={`/seed/${hash}`} style={{ color: 'white', fontWeight: 700 }}>
                       {`${hash}`}
                     </a>
                   </p>
