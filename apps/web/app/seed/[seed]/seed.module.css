@@ -1,8 +1,14 @@
 .container {
   --type-mono: var(--jetbrains-mono), monospace;
   max-width: 440px;
-  margin: 80px auto 40px;
+  margin: var(--spacer-16x) auto;
   text-align: center;
+}
+
+@media (max-width: 600px) {
+  .container {
+    margin: var(--spacer-8x) auto var(--spacer-16x);
+  }
 }
 
 .logo {
@@ -42,7 +48,7 @@
 .download {
   display: flex;
   justify-content: center;
-  margin: var(--spacer-8x) auto var(--spacer-4x);
+  margin: var(--spacer-8x) auto;
 }
 
 .heading {
@@ -82,6 +88,16 @@
   display: block;
   text-align: center;
   width: 50%;
+}
+
+@media (max-width: 600px) {
+  .list .item {
+    width: 100%;
+  }
+}
+
+.parameters {
+  margin: var(--spacer-4x) 0;
 }
 
 .footer {

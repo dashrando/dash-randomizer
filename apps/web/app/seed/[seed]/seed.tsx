@@ -104,7 +104,7 @@ const parseSettings = (parameters: any) => {
 
 const Parameters = ({ title, items }: { title: string, items: any[] }) => {
   return (
-    <div>
+    <section className={styles.parameters}>
       <h4 className={styles.heading}>{title}</h4>
       {items.length > 0 && (
         <ul className={styles.list}>
@@ -116,7 +116,7 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
           ))}
         </ul>
       )}
-    </div>
+    </section>
   )
 }
 
@@ -192,103 +192,3 @@ export default function Seed({ parameters, hash }: { parameters: any, hash: stri
     </div>
   )
 }
-
-// useEffect(() => {
-//   async function startup() {
-//     try {
-//       new vanilla.vanillaROM();
-//       const{ seed, mapLayout, itemPoolParams, settings, options } = stringToParams(params.seed);
-//       Object.assign(settings, {preset: "Custom"});
-//       if (!seed || !mapLayout || !itemPoolParams || !settings || !options) {
-//         const missingEvt = new CustomEvent("seed:params-missing");
-//         document.dispatchEvent(missingEvt);
-//         return null;
-//       }
-
-//       const vanillaBytes = await vanilla.getVanilla();
-//       if (!vanillaBytes) {
-//         const vanillaEvt = new CustomEvent("seed:vanilla-missing", {
-//           detail: { seed, mapLayout, itemPoolParams, settings, options },
-//         });
-//         document.dispatchEvent(vanillaEvt);
-//         return null;
-//       }
-//       const { data, name } = (await RandomizeRom(
-//         seed, mapLayout, itemPoolParams, settings, options, {
-//         vanillaBytes,
-//       })) as { data: any; name: string };
-//       const signature = fetchSignature(data);
-//       const autoDownload = !searchParams.get('download')
-//       const readyEvt = new CustomEvent("seed:ready", {
-//         detail: { data, name, seed, mapLayout, itemPoolParams,
-//                   settings, options, autoDownload, signature },
-//       });
-//       document.dispatchEvent(readyEvt);
-
-//       if (autoDownload) {
-//         setTimeout(() => {
-//           downloadFile(data, name);
-//           const downloadEvt = new CustomEvent("seed:download", {
-//             detail: { name },
-//           });
-//           document.dispatchEvent(downloadEvt);
-//         }, 850);
-//       }
-//     } catch (e) {
-//       const message = (e as Error).message;
-//       console.error(message);
-//     }
-//   }
-
-//   document.addEventListener("seed:params-missing", (_) => {
-//     setContainerClass("params-missing");
-//   });
-
-//   document.addEventListener("seed:vanilla-missing", (evt: any) => {
-//     const { seed, mapLayout, itemPoolParams, settings, options } = evt.detail;
-//     setPageSettings({
-//       seedNum: seed,
-//       mapLayout: mapLayout,
-//       itemPoolParams: itemPoolParams,
-//       settings: {...settings, preset: "Custom"},
-//       options: options
-//     });
-//     setContainerClass("vanilla-missing loaded");
-
-//     document.addEventListener("vanillaRom:set", async (evt: any) => {
-//       const vanillaBytes = evt.detail.data;
-//       const { data, name } = (await RandomizeRom(seed, mapLayout,
-//         itemPoolParams, settings, options, {
-//         vanillaBytes,
-//       })) as { data: any; name: string };
-//       const signature = fetchSignature(data);
-//       setSignature(signature);
-//       setRomData({ data: data, name: name });
-//       setContainerClass("loaded");
-//       downloadFile(data, name);
-//     });
-//   });
-
-//   document.addEventListener("seed:ready", (evt: any) => {
-//     if (evt.detail.autoDownload) {
-//       setDownloading(true);
-//     }
-//     setRomData({ data: evt.detail.data, name: evt.detail.name });
-//     const { seed, mapLayout, itemPoolParams, settings, options } = evt.detail;
-//     setPageSettings({
-//       seedNum: seed,
-//       mapLayout: mapLayout,
-//       itemPoolParams: itemPoolParams,
-//       settings: settings,
-//       options: options
-//     });
-//     setSignature(evt.detail.signature);
-//     setContainerClass("loaded");
-//   });
-
-//   document.addEventListener("seed:download", (evt: any) => {
-//     setDownloading(false);
-//   });
-
-//   startup();
-// }, [params.seed, searchParams]);
