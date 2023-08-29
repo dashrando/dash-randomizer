@@ -35,7 +35,7 @@ const SIGNATURE_VALUES = [
   "BULL    ",
 ];
 
-export function fetchSignature(data) {
+export function fetchSignature(data: Uint8Array) {
   // the signature is stored in 4 bytes at 0x2f8000 - 0x2f8003
   // use bit mask of 0x1f to get the index in the signatures array
   // then trim the string to remove the extra spaces
@@ -46,7 +46,7 @@ export function fetchSignature(data) {
   return addresses.join(" ");
 }
 
-export const formatMonoSignature = (signature) =>
+export const formatMonoSignature = (signature: string) =>
   signature.split(' ').map(s => s.padEnd(8, ' ')).join('')
 
 export default fetchSignature;
