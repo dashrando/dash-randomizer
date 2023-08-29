@@ -1,8 +1,8 @@
 import { saveAs } from 'file-saver'
 import { get, set } from 'idb-keyval'
 
-export function downloadFile(data: string, filename: string, seedKey: string) {
-  saveAs(new Blob([data]), filename);
+export function downloadFile(data: Uint8Array, filename: string, seedKey: string) {
+  saveAs(new Blob([data!]), filename);
   // Save the seed's key to the browser
   const now = new Date()
   set(seedKey, now)

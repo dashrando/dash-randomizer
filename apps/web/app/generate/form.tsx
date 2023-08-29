@@ -428,7 +428,9 @@ export default function Form() {
         settings,
         options
       );
-      downloadFile(seed, name, hash)
+      if (seed !== null) {
+        downloadFile(seed, name, hash)
+      }
       setRolledSeed({ seed, name, hash })
     } catch (error) {
       console.error('SEED ERROR', error)

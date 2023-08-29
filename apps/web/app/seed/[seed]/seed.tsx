@@ -158,9 +158,11 @@ export default function Seed({ parameters, hash }: { parameters: any, hash: stri
         const seedData = await RandomizeRom(seedNum, mapLayout, itemPoolParams, settings, options, {
           vanillaBytes: vanilla,
         })
-        const signature = fetchSignature(seedData.data)
-        setSignature(signature)
-        setSeed(seedData)
+        if (seedData.data) {
+          const signature = fetchSignature(seedData.data)
+          setSignature(signature)
+          setSeed(seedData)
+        }
       }
     }
     initialize()
