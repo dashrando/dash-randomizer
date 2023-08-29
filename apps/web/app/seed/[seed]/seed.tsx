@@ -16,6 +16,7 @@ import { downloadFile } from '@/lib/downloads'
 import Button from '@/app/components/button'
 import { useSearchParams } from 'next/navigation'
 import { get as getKey } from 'idb-keyval'
+import { ArrowDown } from 'react-feather'
 
 type Seed = {
   data: any
@@ -176,13 +177,17 @@ export default function Seed({ parameters, hash }: { parameters: any, hash: stri
           </div>
         ) : (
           hasVanilla ? (
-            <Button onClick={(evt) => {
+            <Button variant="hero" onClick={(evt) => {
               evt.preventDefault()
               // TODO: Refactor to show loading state if still getting seed
               if (seed) {
                 downloadFile(seed?.data, seed?.name, hash)
               }
-            }}>Download {seed?.name}</Button>
+            }}>
+              <ArrowDown size={14} strokeWidth={2} />
+              <>&nbsp;</>
+              <span className={styles.mono}>{seed?.name}</span>
+            </Button>
           ) : <Button variant="secondary">Upload Vanilla</Button>
         )}
       </div>

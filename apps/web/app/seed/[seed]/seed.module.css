@@ -48,7 +48,7 @@
 .download {
   display: flex;
   justify-content: center;
-  margin: var(--spacer-8x) auto;
+  margin: var(--spacer-8x) auto var(--spacer-16x) auto;
 }
 
 .heading {
@@ -119,4 +119,8 @@
 .footer a:hover {
   color: #fff;
   text-decoration-color: transparent;
+}
+
+.mono {
+  font-family: 'SF Mono', monospace;
 }
