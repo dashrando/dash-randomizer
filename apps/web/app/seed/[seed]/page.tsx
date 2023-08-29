@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params : { seed: string }})
   const seedNum = settings.seed
   const sig = prefetchSignature(seedNum)
   return {
-    title: `DASH Randomizer - ${params.seed}`,
+    title: `DASH Randomizer Seed`,
     description: sig
   }
 }
