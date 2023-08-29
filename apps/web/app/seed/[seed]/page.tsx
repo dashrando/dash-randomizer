@@ -23,7 +23,7 @@ export default function SeedPage({ params }: { params: SeedParams}) {
 
   const settings = stringToParams(params.seed)
   return (
-    <main id="seed-container" className={styles.container}>
+    <main className={styles.container}>
       <h1 className={styles.logo}>DASH</h1>
       <Seed parameters={settings} hash={params.seed} />
       <SeedFooter />

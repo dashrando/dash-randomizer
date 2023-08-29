@@ -1,5 +1,4 @@
 .container {
-  --type-mono: var(--jetbrains-mono), monospace;
   max-width: 440px;
   margin: var(--spacer-16x) auto;
   text-align: center;
@@ -31,8 +30,7 @@
 }
 
 .signature {
-  /* font-family: var(--type-mono), 'SF Mono', monospace; */
-  font-family: 'SF Mono', monospace;
+  font-family: var(--type-mono), 'SF Mono', monospace;
   font-size: 18px;
   color: #fff;
   text-transform: uppercase;
@@ -122,5 +120,5 @@
 }
 
 .mono {
-  font-family: 'SF Mono', monospace;
+  font-family: var(--type-mono);
 }
