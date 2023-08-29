@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import useMounted from '@/app/hooks/useMounted'
 import { useVanilla } from '@/app/generate/vanilla'
 import styles from './seed.module.css'
-import { RandomizeRom, fetchSignature, findPreset, Item } from 'core'
+import { RandomizeRom, fetchSignature, findPreset, Item, vanilla } from 'core'
 import {
   BeamMode,
   MajorDistributionMode,
@@ -121,6 +121,24 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
   )
 }
 
+async function parseContents(value: any): Promise<any> {
+  const { getSignature, isVerified, isHeadered } = vanilla;
+  const signature = await getSignature(value);
+  if (isVerified(signature)) {
+    return new Uint8Array(value)
+  }
+
+  if (isHeadered(signature)) {
+    console.warn(
+      "You have entered a headered ROM. The header will now be removed."
+    );
+    const unheaderedContent = value.slice(512);
+    return parseContents(unheaderedContent);
+  }
+
+  throw Error("Vanilla Rom does not match checksum.");
+}
+
 export default function Seed({ parameters, hash }: { parameters: any, hash: string }) {
   const mounted = useMounted()
   const { data: vanilla, isLoading } = useVanilla()
@@ -171,12 +189,12 @@ export default function Seed({ parameters, hash }: { parameters: any, hash: stri
     <div>
       <div className={cn(styles.signature, !vanilla && styles.noVanilla)}>{signature || <>&nbsp;</>}</div>
       <div className={styles.download}>
-        {(isLoading || !mounted || !seed) ? (
+        {(isLoading || !mounted) ? (
           <div style={{ visibility: 'hidden' }}>
             <Button variant="secondary">Upload Vanilla</Button>
           </div>
         ) : (
-          hasVanilla ? (
+          (hasVanilla && seed) ? (
             <Button variant="hero" onClick={(evt) => {
               evt.preventDefault()
               // TODO: Refactor to show loading state if still getting seed
