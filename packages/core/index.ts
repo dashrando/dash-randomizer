@@ -1,8 +1,9 @@
-import RandomizeRom from "./lib/randomize";
-import gameModes from "./data/modes";
-import BpsPatch from "./lib/bps-patch";
-import { Logic as recall } from "./lib/modes/modeRecall";
-import { Logic as standard } from "./lib/modes/modeStandard";
+import RandomizeRom from './lib/randomize'
+import gameModes from './data/modes'
+import BpsPatch from './lib/bps-patch'
+
+import { Logic as recall } from './lib/modes/modeRecall'
+import { Logic as standard } from './lib/modes/modeStandard'
 
 export const Logic = { recall, standard }
 
@@ -19,7 +20,7 @@ export {
 } from './lib/graph/params'
 
 export {
-  gameModes,
   RandomizeRom,
+  gameModes,
   BpsPatch,
-};
+}
