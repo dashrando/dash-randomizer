@@ -14,6 +14,8 @@ import {
 import { cn } from '@/lib/utils'
 import { downloadFile } from '@/lib/downloads'
 import Button from '@/app/components/button'
+import { useSearchParams } from 'next/navigation'
+import { get as getKey } from 'idb-keyval'
 
 type Seed = {
   data: any
@@ -123,6 +125,22 @@ export default function Seed({ parameters, hash }: { parameters: any, hash: stri
   const { data: vanilla, isLoading } = useVanilla()
   const [seed, setSeed] = useState<Seed|null>(null)
   const [signature, setSignature] = useState<string|null>('BEETOM BULL YARD GAMET')
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams && mounted && seed) {
+      const autoDownload = async() => {
+        const downloadParam = searchParams.get('download')
+        const forceExit = downloadParam === 'false'
+        const hasDownloaded = await getKey(hash)
+        if (forceExit || hasDownloaded) {
+          return
+        }
+        downloadFile(seed?.data, seed?.name, hash)
+      }
+      autoDownload()
+    }
+  }, [hash, mounted, searchParams, seed])
 
   useEffect(() => {
     const initialize = async () => {
