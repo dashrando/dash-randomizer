@@ -124,7 +124,7 @@ export default function Seed({ parameters, hash }: { parameters: any, hash: stri
   const mounted = useMounted()
   const { data: vanilla, isLoading } = useVanilla()
   const [seed, setSeed] = useState<Seed|null>(null)
-  const [signature, setSignature] = useState<string|null>('BEETOM BULL YARD GAMET')
+  const [signature, setSignature] = useState<string|null>(null)
   const searchParams = useSearchParams()
 
   useEffect(() => {
@@ -164,29 +164,27 @@ export default function Seed({ parameters, hash }: { parameters: any, hash: stri
   }, [parameters, vanilla, seed])
 
   const hasVanilla = Boolean(vanilla)
-
-  if (isLoading || !mounted) {
-    return null
-  }
-
-  console.log(parameters)
   const parsedParams = parseSettings(parameters)
-
-  console.log(parsedParams.settingsParams)
 
   return (
     <div>
-      <div className={cn(styles.signature, !vanilla && styles.noVanilla)}>{signature}</div>
+      <div className={cn(styles.signature, !vanilla && styles.noVanilla)}>{signature || <>&nbsp;</>}</div>
       <div className={styles.download}>
-        {hasVanilla ? (
-          <Button onClick={(evt) => {
-            evt.preventDefault()
-            // TODO: Refactor to show loading state if still getting seed
-            if (seed) {
-              downloadFile(seed?.data, seed?.name, hash)
-            }
-          }}>Download {seed?.name}</Button>
-        ) : <Button variant="secondary">Upload Vanilla</Button>}
+        {(isLoading || !mounted || !seed) ? (
+          <div style={{ visibility: 'hidden' }}>
+            <Button variant="secondary">Upload Vanilla</Button>
+          </div>
+        ) : (
+          hasVanilla ? (
+            <Button onClick={(evt) => {
+              evt.preventDefault()
+              // TODO: Refactor to show loading state if still getting seed
+              if (seed) {
+                downloadFile(seed?.data, seed?.name, hash)
+              }
+            }}>Download {seed?.name}</Button>
+          ) : <Button variant="secondary">Upload Vanilla</Button>
+        )}
       </div>
       <Parameters title="Randomization" items={parsedParams.randomizeParams} />
       <Parameters title="Settings" items={parsedParams.settingsParams} />
