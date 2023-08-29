@@ -30,16 +30,7 @@ const getParamsFromFile = (bytes: Uint8Array) => {
   }
 }
 
-async function checkVanilla(value: Uint8Array): Promise<boolean> {
-  try {
-    await verifyVanilla(value)
-    return true
-  } catch (_) {
-    return false
-  }
-}
-
-async function verifyVanilla(value: any): Promise<any> {
+async function getVanilla(value: Uint8Array): Promise<any> {
   const { getSignature, isVerified, isHeadered } = vanillaData
   const signature = await getSignature(value)
   if (isVerified(signature)) {
@@ -51,7 +42,7 @@ async function verifyVanilla(value: any): Promise<any> {
       "You have entered a headered ROM. The header will now be removed."
     )
     const unheaderedContent = value.slice(512)
-    return verifyVanilla(unheaderedContent)
+    return getVanilla(unheaderedContent)
   }
 
   throw Error("Vanilla Rom does not match checksum.")
@@ -98,7 +89,7 @@ const getFileContents = async (file: File): Promise<Uint8Array> => {
 
 const FileDrop = (props: React.PropsWithChildren) => {
   const [active, setActive] = useState(false)
-  const { data: vanilla, set: setVanilla } = useVanilla()
+  const { data: vanillaDataSet, set: setVanilla } = useVanilla()
   const router = useRouter()
 
   const onDragEnter = useCallback((evt: Event) => {
@@ -118,15 +109,20 @@ const FileDrop = (props: React.PropsWithChildren) => {
     const file = acceptedFiles[0]
     const data = await getFileContents(file)
     
-    const isVanilla = await checkVanilla(data)
-    if (isVanilla) {
-      if (vanilla) {
-        toast('Vanilla ROM already set')
+    try {
+      const vanillaData = await getVanilla(data)
+      if (vanillaData) {
+        if (vanillaDataSet) {
+          toast('Vanilla ROM already set')
+          return null
+        }
+        await setVanilla(vanillaData)
+        toast('Vanilla ROM loaded')
         return null
       }
-      await setVanilla(data)
-      toast('Vanilla ROM loaded')
-      return null
+    } catch (_) {
+      // toast('you did not upload a vanilla rom')
+      // return null
     }
 
     const isDASH = isDASHSeed(data)
@@ -141,7 +137,7 @@ const FileDrop = (props: React.PropsWithChildren) => {
     
     // Not a vanilla or DASH file
     toast.error(`Could not load seed`)
-  }, [router, setActive, vanilla, setVanilla])
+  }, [router, setActive, vanillaDataSet, setVanilla])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     noClick: true,
