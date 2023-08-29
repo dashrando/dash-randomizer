@@ -11,6 +11,84 @@ type TransitionRow = {
   count: number;
 };
 
+const getNumLoops = (areas: Transition[]) => {
+  const zones = [
+    ["Crateria", [
+      "Door_RetroPBs",
+      "Door_Moat",
+      "Door_G4",
+      "Door_Kago",
+      "Door_Crabs"
+    ]],
+    ["Green Brinstar", [
+      "Door_GreenHills",
+      "Door_GreenElevator",
+      "Door_NoobBridge"
+    ]],
+    ["Red Brinstar", [
+      "Door_RedElevator",
+      "Door_RedTower",
+      "Door_MaridiaEscape",
+      "Door_MaridiaTube",
+      "Door_KraidEntry",
+      "Door_AboveKraid",
+    ]],
+    ["Upper Norfair", [
+      "Door_ElevatorEntry",
+      "Door_KraidMouth",
+      "Door_CrocEntry", 
+      "Door_SingleChamber",
+      "Door_LavaDive",
+    ]],
+    ["Lower Norfair", [
+      "Door_Muskateers",
+      "Door_RidleyMouth",
+    ]],
+    ["Wrecked Ship", [
+      "Door_Ocean",
+      "Door_HighwayExit",
+    ]],
+    ["West Maridia", [
+      "Door_PreAqueduct",
+      "Door_RedFish",
+      "Door_MainStreet",
+      "Door_MaridiaMap",
+    ]],
+    ["East Maridia", [
+      "Door_Aqueduct",
+      "Door_Highway",
+    ]],
+    ["Kraid's Lair", [
+      "Door_KraidsLair",
+    ]],
+    ["Crocomire's Lair", [
+      "Door_Croc"
+    ]],
+    ["Tourian", [
+      "Door_Tourian"
+    ]]
+  ]
+
+  let numLoops = 0;
+  zones.forEach(z => {
+    //console.log(z[0])
+    for (let i = 0; i < z[1].length - 1; i++) {
+      areas.forEach(t => {
+        if (t.from != z[1][i]) {
+          return;
+        }
+        for (let j = i + 1; j < z[1].length; j++) {
+          if (t.to == z[1][j]) {
+            //console.log(t.from, "->", t.to)
+            numLoops += 1;
+          }
+        }
+      });
+    }
+  })
+  return numLoops;
+}
+
 function TransitionTable({
   transitions,
   columnHeaders,
@@ -152,6 +230,8 @@ export default function AreaDoorTable({
         seeds={seeds}
         condense={false} />
       <h2>Areas</h2>
+      <p>Number of transitions: {areas.length}</p>
+      <p>Number of area loops: {getNumLoops(areas)}</p>
       <TransitionTable
         transitions={areas}
         columnHeaders={areaDoors}
