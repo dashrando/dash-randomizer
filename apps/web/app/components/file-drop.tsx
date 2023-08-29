@@ -134,7 +134,7 @@ const FileDrop = (props: React.PropsWithChildren) => {
       toast('Loading DASH seed...')
       const seedKey = getParamsFromFile(data)
       if (seedKey) {
-        router.push(`/seed/${seedKey}?download=false`)
+        router.push(`/seed/${seedKey}`)
         return
       }
     }

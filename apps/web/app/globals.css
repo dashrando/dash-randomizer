@@ -8,7 +8,7 @@
   --selection-background: var(--color-magenta);
   --selection-foreground: var(--color-background);
 
-  --type-mono: "SFMono Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  --type-mono: 'SF Mono', SFMono-Regular, ui-monospace, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
 
   --spacer: 4px;
   --spacer-2x: 8px;

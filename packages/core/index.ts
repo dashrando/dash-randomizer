@@ -9,7 +9,7 @@ import { patchRom } from "./helpers/patcher";
 import { Logic as RecallLogic } from "./lib/modes/modeRecall";
 import { Logic as StandardLogic } from "./lib/modes/modeStandard";
 import fetchSignature, { formatMonoSignature } from "./lib/signature";
-import { getPreset } from "./lib/presets";
+import { findPreset, getPreset } from "./lib/presets";
 import { Item } from "./lib/items";
 import {
   bytesToParams,
@@ -36,6 +36,7 @@ export {
   gameModes,
   generateFromPreset,
   getPreset,
+  findPreset,
   RandomizeRom,
   vanilla,
   BpsPatch,

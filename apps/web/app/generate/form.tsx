@@ -5,7 +5,8 @@ import { Heading } from '../components/text'
 import Select from '../components/select'
 import Numeric from '../components/numeric'
 import styles from './page.module.css'
-import { cn, deepEqual, downloadFile } from '@/lib/utils'
+import { downloadFile } from '@/lib/downloads'
+import { cn, deepEqual  } from '@/lib/utils'
 import VanillaButton, { useVanilla } from './vanilla'
 import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
@@ -90,7 +91,7 @@ const Sidebar = ({
                     Seed URL
                   </h4>
                   <p style={{ fontSize: '14px', margin: 0, wordWrap: 'break-word' }}>
-                    <a href={`/seed/${hash}?download=false`} style={{ color: 'white', fontWeight: 700 }}>
+                    <a href={`/seed/${hash}`} style={{ color: 'white', fontWeight: 700 }}>
                       {`${hash}`}
                     </a>
                   </p>
@@ -373,13 +374,13 @@ export default function Form() {
       };
 
       if (data.mode == 'dash-recall-v1') {
-        settings.preset = "Recall";
+        settings.preset = "RecallMM";
       //} else if (data.mode == 'dash-recall-v2') {
         //settings.preset = "RecallV2";
       //} else if (data.mode == 'dash-classic') {
         //settings.preset = "Classic";
       } else if (data.mode == 'standard') {
-        settings.preset = "Standard";
+        settings.preset = "StandardMM";
       } else if (data.mode == 'sgl23') {
         settings.preset = "SGL23"
       }
@@ -427,7 +428,7 @@ export default function Form() {
         settings,
         options
       );
-      downloadFile(seed, name)
+      downloadFile(seed, name, hash)
       setRolledSeed({ seed, name, hash })
     } catch (error) {
       console.error('SEED ERROR', error)
