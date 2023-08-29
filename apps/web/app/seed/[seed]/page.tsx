@@ -8,6 +8,16 @@ type SeedParams = {
   seed: string
 }
 
+export async function generateMetadata({ params }: { params : { seed: string }}) {
+  const settings = stringToParams(params.seed)
+  const seedNum = settings.seed
+  const sig = prefetchSignature(seedNum)
+  return {
+    title: `DASH Randomizer - ${params.seed}`,
+    description: sig
+  }
+}
+
 export default function SeedPage({ params }: { params: SeedParams}) {
   
   const SeedFooter = () => {
