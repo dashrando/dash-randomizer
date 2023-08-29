@@ -13,7 +13,7 @@ const U16toBytes = (u16) => {
 };
 
 // These signatures are taken from:
-// https://github.com/dashrando/dash-template-asm/blob/main/src/fileselect/gameoptions.asm#L85-L117
+// https://github.com/dashrando/dash-template-asm/blob/main/src/fileselect/gameoptions.asm#L63-L94
 const SIGNATURE_VALUES = [
   "GEEMER  ",
   "RIPPER  ",
