@@ -1,37 +1,25 @@
-import { generateFromPreset, getItemNodes } from "./lib/sm-rando";
 import RandomizeRom from "./lib/randomize";
 import gameModes from "./data/modes";
 import BpsPatch from "./lib/bps-patch";
-import { patchRom } from "./helpers/patcher";
-import { Logic as RecallLogic } from "./lib/modes/modeRecall";
-import { Logic as StandardLogic } from "./lib/modes/modeStandard";
-import { findPreset, getPreset } from "./lib/presets";
-import { Item } from "./lib/items";
-import {
-  bytesToParams,
-  paramsToString,
-  stringToParams,
-} from "./lib/graph/params";
+import { Logic as recall } from "./lib/modes/modeRecall";
+import { Logic as standard } from "./lib/modes/modeStandard";
 
-export const Logic = {
-  recall: RecallLogic,
-  standard: StandardLogic,
-};
+export const Logic = { recall, standard }
 
 export * from './lib/signature'
 export * as vanilla from './lib/vanilla'
-
+export { patchRom } from './helpers/patcher'
+export { findPreset, getPreset } from './lib/presets'
+export { Item } from './lib/items'
+export { generateFromPreset, getItemNodes } from './lib/sm-rando'
 export {
-  gameModes,
-  generateFromPreset,
-  getPreset,
-  findPreset,
-  RandomizeRom,
-  BpsPatch,
-  patchRom,
   bytesToParams,
   paramsToString,
   stringToParams,
-  getItemNodes,
-  Item,
+} from './lib/graph/params'
+
+export {
+  gameModes,
+  RandomizeRom,
+  BpsPatch,
 };
