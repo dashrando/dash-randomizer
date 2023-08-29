@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import useMounted from '@/app/hooks/useMounted'
 import { useVanilla } from '@/app/generate/vanilla'
 import styles from './seed.module.css'
-import { RandomizeRom, fetchSignature, findPreset, Item } from 'core'
+import { RandomizeRom, findPreset, Item } from 'core'
 import {
   BeamMode,
   MajorDistributionMode,
@@ -123,11 +123,18 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
   )
 }
 
-export default function Seed({ parameters, hash }: { parameters: any, hash: string }) {
+export default function Seed({
+  parameters,
+  hash,
+  signature
+}: {
+  parameters: any,
+  hash: string,
+  signature: string
+}) {
   const mounted = useMounted()
   const { data: vanilla, isLoading } = useVanilla()
   const [seed, setSeed] = useState<Seed|null>(null)
-  const [signature, setSignature] = useState<string|null>(null)
   const searchParams = useSearchParams()
 
   useEffect(() => {
@@ -159,8 +166,6 @@ export default function Seed({ parameters, hash }: { parameters: any, hash: stri
           vanillaBytes: vanilla,
         })
         if (seedData.data) {
-          const signature = fetchSignature(seedData.data)
-          setSignature(signature)
           setSeed(seedData)
         }
       }

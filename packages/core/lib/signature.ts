@@ -1,5 +1,20 @@
+// @ts-nocheck
+import DotNetRandom from "./dotnet-random";
+
+const encodeRepeating = (patch, offset, length, bytes) => {
+  patch.push([offset, length, bytes]);
+};
+
+const encodeBytes = (patch, offset, bytes) => {
+  encodeRepeating(patch, offset, 1, bytes);
+};
+
+const U16toBytes = (u16) => {
+  return new Uint8Array(new Uint16Array([u16]).buffer);
+};
+
 // These signatures are taken from:
-// https://github.com/dashrando/dash-template-asm/blob/main/src/fileselect/gameoptions.asm#L85-L117
+// https://github.com/dashrando/dash-template-asm/blob/main/src/fileselect/gameoptions.asm#L63-L94
 const SIGNATURE_VALUES = [
   "GEEMER  ",
   "RIPPER  ",
@@ -48,5 +63,20 @@ export function fetchSignature(data: Uint8Array) {
 
 export const formatMonoSignature = (signature: string) =>
   signature.split(' ').map(s => s.padEnd(8, ' ')).join('')
+
+export const prefetchSignature = (seed) => {
+  const seedPatch = [];
+  const rnd = new DotNetRandom(seed);
+  encodeBytes(seedPatch, 0x2f8000, U16toBytes(rnd.Next(0xffff)));
+  encodeBytes(seedPatch, 0x2f8002, U16toBytes(rnd.Next(0xffff)));
+  const signature = seedPatch
+    .map((patch) => (
+      [patch[2][0] & 0x1f, patch[2][1] & 0x1f]
+    ))
+    .flat()
+    .map((index) => SIGNATURE_VALUES[index].trim())
+    .join(' ')
+  return signature
+}
 
 export default fetchSignature;
