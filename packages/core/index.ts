@@ -8,7 +8,7 @@ import BpsPatch from "./lib/bps-patch";
 import { patchRom } from "./helpers/patcher";
 import { Logic as RecallLogic } from "./lib/modes/modeRecall";
 import { Logic as StandardLogic } from "./lib/modes/modeStandard";
-import fetchSignature, { formatMonoSignature } from "./lib/signature";
+import fetchSignature, { formatMonoSignature, prefetchSignature } from "./lib/signature";
 import { findPreset, getPreset } from "./lib/presets";
 import { Item } from "./lib/items";
 import {
@@ -46,6 +46,7 @@ export {
   stringToParams,
   getSignature,
   fetchSignature,
+  prefetchSignature,
   formatMonoSignature,
   getItemNodes,
   Item,

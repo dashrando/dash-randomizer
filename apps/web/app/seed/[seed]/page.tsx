@@ -2,9 +2,20 @@ import { stringToParams } from "core";
 import Link from 'next/link'
 import styles from './seed.module.css'
 import Seed from './seed'
+import { prefetchSignature } from 'core'
 
 type SeedParams = {
   seed: string
+}
+
+export async function generateMetadata({ params }: { params : { seed: string }}) {
+  const settings = stringToParams(params.seed)
+  const seedNum = settings.seed
+  const sig = prefetchSignature(seedNum)
+  return {
+    title: `DASH Randomizer Seed`,
+    description: sig
+  }
 }
 
 export default function SeedPage({ params }: { params: SeedParams}) {
@@ -22,10 +33,17 @@ export default function SeedPage({ params }: { params: SeedParams}) {
   };
 
   const settings = stringToParams(params.seed)
+  const seedNum = settings.seed
+  const sig = prefetchSignature(seedNum)
+
   return (
     <main className={styles.container}>
       <h1 className={styles.logo}>DASH</h1>
-      <Seed parameters={settings} hash={params.seed} />
+      <Seed
+        parameters={settings}
+        hash={params.seed}
+        signature={sig}
+      />
       <SeedFooter />
     </main>
   );
