@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./majors.module.css";
-import { Item } from "@/../../packages/core/lib/items";
+import { Item } from "core/data";
 import { ItemProgression } from "./page";
 
 const columns = [

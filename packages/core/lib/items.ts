@@ -75,18 +75,22 @@ export const ItemNames = new Map([
    [Item.DefeatedGoldTorizo, "Gold Torizo"],
 ]);
 
+// @ts-ignore
 export const bossItem = (type) => {
   return newItem(type, false, 0x0);
 };
 
+// @ts-ignore
 export const majorItem = (spoilerAddress, type) => {
   return newItem(type, true, spoilerAddress);
 };
 
+// @ts-ignore
 export const minorItem = (spoilerAddress, type) => {
   return newItem(type, false, spoilerAddress);
 };
 
+// @ts-ignore
 const newItem = (type, isMajor, spoilerAddress) => {
   return {
     type: type,
