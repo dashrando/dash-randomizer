@@ -49,8 +49,6 @@ async function RandomizeRom(
     throw Error("No vanilla ROM data found");
   }
 
-  console.log({ mapLayout, itemPoolParams, settings, opts })
-
   // Place the items.
   const graph = generateSeed(seed, mapLayout, itemPoolParams, settings);
 

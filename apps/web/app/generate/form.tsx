@@ -307,7 +307,6 @@ export default function Form() {
 
   const onSubmit = async (data: GenerateFormParams) => {
     try {
-      console.log("submit", data);
       const config = { vanillaBytes: vanilla };
 
       const getSeed = () => {
