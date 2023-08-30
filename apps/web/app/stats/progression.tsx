@@ -2,7 +2,7 @@
 
 import styles from "./progression.module.css";
 import { ItemLocation, ItemProgression } from "./page";
-import { Item } from "@/../../packages/core/lib/items";
+import { Item } from "core/data";
 
 export default function ProgressionStats({
   itemProgression,

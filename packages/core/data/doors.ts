@@ -283,6 +283,7 @@ const DOORS = [
   },
 ];
 
+// @ts-ignore
 export const isAreaEdge = (edge) => {
   const doors = [
     "Door_RetroPBs",
@@ -327,6 +328,7 @@ export const isAreaEdge = (edge) => {
   return true;
 };
 
+// @ts-ignore
 export const isBossEdge = (edge) => {
   const doors = [
     "Door_KraidBoss",

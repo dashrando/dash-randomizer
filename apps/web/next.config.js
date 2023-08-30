@@ -78,6 +78,7 @@ const nextConfig = {
       },
     ];
   },
+  transpilePackages: ['core']
 };
 
 module.exports = enableSentry

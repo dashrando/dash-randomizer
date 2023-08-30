@@ -165,7 +165,9 @@ export default function Seed({
         const seedData = await RandomizeRom(seedNum, mapLayout, itemPoolParams, settings, options, {
           vanillaBytes: vanilla,
         })
-        setSeed(seedData)
+        if (seedData.data) {
+          setSeed(seedData)
+        }
       }
     }
     initialize()

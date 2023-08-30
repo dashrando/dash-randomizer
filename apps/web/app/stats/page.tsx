@@ -1,26 +1,28 @@
 "use client";
 
 import styles from "./page.module.css";
-import { Item } from "@/../../packages/core/lib/items";
-import { getLocations, Location } from "@/../../packages/core/lib/locations";
-import ModeRecall from "@/../../packages/core/lib/modes/modeRecall";
-import ModeStandard from "@/../../packages/core/lib/modes/modeStandard";
-import Loadout from "@/../../packages/core/lib/loadout";
-import { useState } from "react";
-import { getItemNodes, getPreset } from "core";
 import {
+  isAreaEdge,
+  isBossEdge,
+  Item,
+  getLocations,
+  Loadout,
+  Location,
+  ModeRecall,
+  ModeStandard,
   getFullPrePool,
   getMajorMinorPrePool,
   isEmptyNode,
   isValidMajorMinor,
   performVerifiedFill,
   verifyItemProgression,
-} from "@/../../packages/core/lib/itemPlacement";
-import { isAreaEdge, isBossEdge } from "@/../../packages/core/data/doors";
+  generateSeed
+} from "core/data";
+import { useState } from "react";
+import { getItemNodes, getPreset } from "core";
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
-import { generateSeed } from "@/../../packages/core/lib/graph/fill";
 import AreaDoorTable, { Transition } from "./areas";
 
 export type ItemLocation = {

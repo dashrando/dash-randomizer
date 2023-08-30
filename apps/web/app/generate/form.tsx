@@ -307,7 +307,6 @@ export default function Form() {
 
   const onSubmit = async (data: GenerateFormParams) => {
     try {
-      console.log("submit", data);
       const config = { vanillaBytes: vanilla };
 
       const getSeed = () => {
@@ -416,6 +415,7 @@ export default function Form() {
       const { data: seed, name } = await RandomizeRom(
         seedNumber,
         mapLayout,
+        // @ts-ignore
         itemPoolParams,
         settings,
         options,
@@ -428,7 +428,9 @@ export default function Form() {
         settings,
         options
       );
-      downloadFile(seed, name, hash)
+      if (seed !== null) {
+        downloadFile(seed, name, hash)
+      }
       setRolledSeed({ seed, name, hash })
     } catch (error) {
       console.error('SEED ERROR', error)
