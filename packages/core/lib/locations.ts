@@ -28,7 +28,12 @@ export const AreaCounts = new Map([
 ]);
 
 export class Location {
-  constructor(address, modifier, area, name) {
+  address: number
+  modifier: number
+  area: number
+  name: string
+
+  constructor(address: any, modifier: any, area: any, name: any) {
     this.address = address;
     this.modifier = modifier;
     this.area = area;
@@ -39,12 +44,12 @@ export class Location {
     return new Location(this.address, this.modifier, this.area, this.name);
   }
 
-  GetItemBytes(itemCode) {
+  GetItemBytes(itemCode: number) {
     const code = itemCode + this.modifier;
     return new Uint8Array([code & 0xff, (code >> 8) & 0xff]);
   }
 
-  GetItemCode(bytes) {
+  GetItemCode(bytes: Uint8Array) {
     const code =
       ((bytes[this.address + 1] << 8) & 0xff00) |
       (bytes[this.address] & 0x00ff);
@@ -52,7 +57,8 @@ export class Location {
   }
 }
 
-const loc = (addr, modifier, area, id, name) => {
+// TODO: Remove _id
+const loc = (addr: number, modifier: number, area: number, _id: number, name: string) => {
   return new Location(addr, modifier, area, name);
 };
 

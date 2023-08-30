@@ -416,6 +416,7 @@ export default function Form() {
       const { data: seed, name } = await RandomizeRom(
         seedNumber,
         mapLayout,
+        // @ts-ignore
         itemPoolParams,
         settings,
         options,
