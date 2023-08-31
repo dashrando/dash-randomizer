@@ -63,6 +63,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         }
       >
         <option value="sgl23">SGL23 - Full - Boss+Area</option>
+        <option value="recall_area_mm">Recall - M/M - Boss+Area</option>
         <option value="sm">Standard - Major / Minor</option>
         <option value="sf">Standard - Full</option>
         <option value="rm">Recall - Major / Minor</option>
@@ -144,6 +145,7 @@ export default function StatsPage() {
     const { gameMode } = params;
     const presetMap = new Map([
       ["sgl23", "sgl23"],
+      ["recall_area_mm", "recall_area_mm"],
       ["sm", "standard_mm"],
       ["sf", "standard_full"],
       ["rm", "recall_mm"],

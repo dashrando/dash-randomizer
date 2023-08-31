@@ -18,6 +18,7 @@ export const getAllPresets = () => {
     Preset_SGL23,
     Preset_Recall_MM,
     Preset_Recall_Full,
+    Preset_Recall_Area_MM,
     Preset_Classic_MM,
     Preset_Classic_Full,
     Preset_Standard_MM,
@@ -185,6 +186,32 @@ export const Preset_Recall_Full = {
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
     randomizeAreas: false,
+    bossMode: BossMode.Vanilla,
+  },
+};
+
+export const Preset_Recall_Area_MM = {
+  title: "Recall Area M/M",
+  tags: ["recall_area_mm"],
+  mapLayout: MapLayout.Recall,
+  itemPoolParams: {
+    majorDistribution: {
+      mode: MajorDistributionMode.Recall,
+      extraItems: [Item.DoubleJump, Item.PressureValve, Item.HeatShield],
+    },
+    minorDistribution: {
+      mode: MinorDistributionMode.Standard,
+      missiles: 2,
+      supers: 1,
+      powerbombs: 1,
+    },
+  },
+  settings: {
+    preset: "RecallAreaMM",
+    beamMode: BeamMode.DashRecall,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.On,
+    randomizeAreas: true,
     bossMode: BossMode.Vanilla,
   },
 };

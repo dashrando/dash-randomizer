@@ -13,7 +13,6 @@ import { bossEdges } from "./data/standard/edges/boss";
 import { BossMode, MapLayout, MajorDistributionMode } from "./params";
 import { RecallVertexUpdates } from "./data/recall/vertex";
 import { RecallEdgeUpdates } from "./data/recall/edges";
-import { RecallAreaEdgeUpdates } from "./data/recall/area";
 import { StandardAreaEdgeUpdates } from "./data/standard/area";
 import { mapPortals } from "./data/portals";
 import { bossItem, Item } from "../items";
@@ -207,7 +206,7 @@ const getEdgeUpdates = (mapLayout, areaShuffle) => {
       return [];
     case MapLayout.Recall:
       if (areaShuffle) {
-        return RecallAreaEdgeUpdates;
+        return RecallEdgeUpdates.concat(StandardAreaEdgeUpdates);
       }
       return RecallEdgeUpdates;
     default:
