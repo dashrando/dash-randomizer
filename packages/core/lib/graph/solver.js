@@ -2,7 +2,7 @@ import { canReachStart, canReachVertex, searchAndCache } from "./search";
 import { Item, ItemNames } from "../items";
 import { cloneGraph } from "./init";
 
-const getFlags = (load) => {
+/*const getFlags = (load) => {
   const {
     CanUseBombs,
     CanUsePowerBombs,
@@ -66,7 +66,7 @@ const criteriaFunction = Function(
 
 const checkCriteria = (load, criteria) => {
   return criteriaFunction.call(load, criteria);
-};
+};*/
 
 class GraphSolver {
   constructor(graph, settings, logMethods) {
