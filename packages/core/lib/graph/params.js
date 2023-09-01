@@ -17,8 +17,8 @@ export const MajorDistributionMode = {
 };
 
 export const MinorDistributionMode = {
-  Standard: 0,
-  Dash: 1,
+  Standard: 0, // 3:2:1
+  Dash: 1, // 2:1:1
 };
 
 export const BeamMode = {
@@ -74,36 +74,22 @@ const bitsToMajorMode = (bits) => {
 };
 
 const minorModeToBits = (minorDistribution) => {
-  if (minorDistribution.mode == MinorDistributionMode.Dash) {
-    throw new Error("dash minor distro not supported");
+  switch (minorDistribution) {
+    case MinorDistributionMode.Standard:
+      return 0;
+    case MinorDistributionMode.Dash:
+      return 1;
+    default:
+      throw new Error("unknown minor mode");
   }
-  const { missiles, supers, powerbombs } = minorDistribution;
-  if (missiles == 3 && supers == 2 && powerbombs == 1) {
-    return 0;
-  }
-  if (missiles == 2 && supers == 1 && powerbombs == 1) {
-    return 1;
-  }
-
-  throw new Error("unknown minor mode");
 };
 
 const bitsToMinorMode = (bits) => {
   switch (bits) {
     case 0x0:
-      return {
-        mode: MinorDistributionMode.Standard,
-        missiles: 3,
-        supers: 2,
-        powerbombs: 1,
-      };
+      return MinorDistributionMode.Standard;
     case 0x1:
-      return {
-        mode: MinorDistributionMode.Standard,
-        missiles: 2,
-        supers: 1,
-        powerbombs: 1,
-      };
+      return MinorDistributionMode.Dash;
   }
   throw new Error("unknown minor mode");
 };
@@ -139,7 +125,7 @@ export const paramsToBytes = (
   settings,
   options
 ) => {
-  const { majorDistribution, minorDistribution } = itemPoolParams;
+  const { majorDistribution, minorDistribution, extraItems } = itemPoolParams;
 
   // Place the seed number in the first 3 bytes (max=16777215)
   let bytes = new Uint8Array(6);
@@ -148,13 +134,13 @@ export const paramsToBytes = (
   bytes[2] = (seed >> 16) & 0xff;
 
   const version = 0;
-  const major = majorModeToBits(majorDistribution.mode) << 2;
+  const major = majorModeToBits(majorDistribution) << 2;
   const minor = minorModeToBits(minorDistribution) << 4;
   const area = (settings.randomizeAreas ? 0x1 : 0x0) << 6;
   bytes[3] = version | major | minor | area;
 
   const boss = settings.bossMode;
-  const extra = majorDistribution.extraItems;
+  const extra = extraItems;
   const doubleJump = extra.filter((i) => i == Item.DoubleJump).length;
   const heatShield = extra.filter((i) => i == Item.HeatShield).length;
   const pressureValve = extra.filter((i) => i == Item.PressureValve).length;
@@ -229,17 +215,14 @@ export const bytesToParams = (bytes) => {
   if (heatShield != 0x0) {
     extra.push(Item.HeatShield);
   }
-  const majorDistribution = {
-    mode: major,
-    extraItems: extra,
-  };
 
   return {
     seed: seed,
     mapLayout: mapLayout,
     itemPoolParams: {
-      majorDistribution: majorDistribution,
+      majorDistribution: major,
       minorDistribution: minor,
+      extraItems: extra,
     },
     settings: settings,
     options: { DisableFanfare: fanfare == 0 },

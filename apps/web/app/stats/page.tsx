@@ -24,7 +24,7 @@ export type ItemProgression = ItemLocation[];
 export type Params = {
   gameMode: string;
   startSeed: number;
-  endSeed: number;
+  numSeeds: number;
 };
 
 type SeedStatus = {
@@ -47,7 +47,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           update({
             gameMode: e.target.value,
             startSeed: value.startSeed,
-            endSeed: value.endSeed,
+            numSeeds: value.numSeeds,
           })
         }
       >
@@ -72,25 +72,25 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           update({
             gameMode: value.gameMode,
             startSeed: e.target.valueAsNumber,
-            endSeed: value.endSeed,
+            numSeeds: value.numSeeds,
           })
         }
       />
 
-      <label htmlFor="end_seed" style={{ padding: '0px 4px' }}>End</label>
+      <label htmlFor="num_seeds" style={{ padding: '0px 4px' }}>Count</label>
       <input
-        name="end_seed"
-        id="end_seed"
+        name="num_seeds"
+        id="num_seeds"
         type="number"
         min="1"
         max="999999"
         step="100"
-        value={value.endSeed}
+        value={value.numSeeds}
         onChange={(e) =>
           update({
             gameMode: value.gameMode,
             startSeed: value.startSeed,
-            endSeed: e.target.valueAsNumber,
+            numSeeds: e.target.valueAsNumber,
           })
         }
       />
@@ -102,7 +102,7 @@ export default function StatsPage() {
   const [params, setParams] = useState({
     gameMode: "sgl23",
     startSeed: 1,
-    endSeed: 100,
+    numSeeds: 100,
   });
   const [panel, setPanel] = useState("majors");
   const [status, setStatus] = useState<SeedStatus>({
@@ -114,7 +114,8 @@ export default function StatsPage() {
   });
 
   const generateSeeds = () => {
-    const { startSeed, endSeed } = params;
+    const { startSeed, numSeeds } = params;
+    const endSeed = startSeed + numSeeds - 1;
     clearResults();
     for (let i = startSeed; i <= endSeed; i += 100) {
       generateStep(i, Math.min(endSeed, i + 99));

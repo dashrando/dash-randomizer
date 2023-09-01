@@ -143,8 +143,8 @@ const graphFill = (seed, graph, itemPoolParams, settings, maxAttempts = 10) => {
   //-----------------------------------------------------------------
 
   const { beamMode } = settings;
-  const { majorDistribution, minorDistribution } = itemPoolParams;
-  const restrictType = majorDistribution.mode != MajorDistributionMode.Full;
+  const { majorDistribution, minorDistribution, extraItems } = itemPoolParams;
+  const restrictType = majorDistribution != MajorDistributionMode.Full;
 
   //-----------------------------------------------------------------
   // Utility routines for shuffling arrays.
@@ -189,6 +189,7 @@ const graphFill = (seed, graph, itemPoolParams, settings, maxAttempts = 10) => {
     seed,
     majorDistribution,
     minorDistribution,
+    extraItems,
     beamMode
   );
 
@@ -291,7 +292,7 @@ export const generateSeed = (seed, mapLayout, itemPoolParams, settings) => {
       seed,
       attempts,
       mapLayout,
-      itemPoolParams.majorDistribution.mode,
+      itemPoolParams.majorDistribution,
       settings.randomizeAreas,
       settings.bossMode
     );

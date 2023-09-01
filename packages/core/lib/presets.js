@@ -57,16 +57,9 @@ export const Preset_SGL23 = {
   tags: ["sgl23"],
   mapLayout: MapLayout.Standard,
   itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Full,
-      extraItems: [Item.DoubleJump],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 3,
-      supers: 2,
-      powerbombs: 1,
-    },
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [Item.DoubleJump],
   },
   settings: {
     preset: "SGL23",
@@ -87,16 +80,9 @@ export const Preset_Classic_MM = {
   tags: ["classic_mm"],
   mapLayout: MapLayout.Standard,
   itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Standard,
-      extraItems: [],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 2,
-      supers: 1,
-      powerbombs: 1,
-    },
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Dash,
+    extraItems: [],
   },
   settings: {
     preset: "ClassicMM",
@@ -113,16 +99,9 @@ export const Preset_Classic_Full = {
   tags: ["classic_full"],
   mapLayout: MapLayout.Standard,
   itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Full,
-      extraItems: [],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 2,
-      supers: 1,
-      powerbombs: 1,
-    },
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Dash,
+    extraItems: [],
   },
   settings: {
     preset: "ClassicFull",
@@ -143,16 +122,9 @@ export const Preset_Recall_MM = {
   tags: ["recall_mm", "mm"],
   mapLayout: MapLayout.Recall,
   itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Recall,
-      extraItems: [Item.DoubleJump, Item.PressureValve, Item.HeatShield],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 2,
-      supers: 1,
-      powerbombs: 1,
-    },
+    majorDistribution: MajorDistributionMode.Recall,
+    minorDistribution: MinorDistributionMode.Dash,
+    extraItems: [Item.DoubleJump, Item.PressureValve, Item.HeatShield],
   },
   settings: {
     preset: "RecallMM",
@@ -169,16 +141,9 @@ export const Preset_Recall_Full = {
   tags: ["recall_full", "full"],
   mapLayout: MapLayout.Recall,
   itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Full,
-      extraItems: [Item.DoubleJump, Item.PressureValve, Item.HeatShield],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 2,
-      supers: 1,
-      powerbombs: 1,
-    },
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Dash,
+    extraItems: [Item.DoubleJump, Item.PressureValve, Item.HeatShield],
   },
   settings: {
     preset: "RecallFull",
@@ -195,16 +160,9 @@ export const Preset_Recall_Area_MM = {
   tags: ["recall_area_mm"],
   mapLayout: MapLayout.Recall,
   itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Recall,
-      extraItems: [Item.DoubleJump, Item.PressureValve, Item.HeatShield],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 2,
-      supers: 1,
-      powerbombs: 1,
-    },
+    majorDistribution: MajorDistributionMode.Recall,
+    minorDistribution: MinorDistributionMode.Dash,
+    extraItems: [Item.DoubleJump, Item.PressureValve, Item.HeatShield],
   },
   settings: {
     preset: "RecallAreaMM",
@@ -225,16 +183,9 @@ export const Preset_Standard_MM = {
   tags: ["standard_mm"],
   mapLayout: MapLayout.Standard,
   itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Standard,
-      extraItems: [],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 3,
-      supers: 2,
-      powerbombs: 1,
-    },
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
   },
   settings: {
     preset: "StandardMM",
@@ -251,16 +202,9 @@ export const Preset_Standard_Full = {
   tags: ["standard_full"],
   mapLayout: MapLayout.Standard,
   itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Full,
-      extraItems: [],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 3,
-      supers: 2,
-      powerbombs: 1,
-    },
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
   },
   settings: {
     preset: "StandardFull",

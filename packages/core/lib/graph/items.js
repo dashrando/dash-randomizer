@@ -10,6 +10,7 @@ export const getItemPool = (
   seed,
   majorDistribution,
   minorDistribution,
+  extraItems,
   beamMode
 ) => {
   const rnd = new DotNetRandom(seed);
@@ -71,7 +72,7 @@ export const getItemPool = (
   // Add extra majors to the pool.
   //-----------------------------------------------------------------
 
-  majorDistribution.extraItems.forEach((i) => {
+  extraItems.forEach((i) => {
     if (i == Item.DoubleJump) {
       itemPool.push(majorItem(0x2f8029, Item.DoubleJump));
     } else if (i == Item.PressureValve) {
@@ -88,11 +89,21 @@ export const getItemPool = (
     }
   };
 
-  if (majorDistribution.mode == MajorDistributionMode.Full) {
+  if (majorDistribution == MajorDistributionMode.Full) {
     setAmountInPool(Item.Reserve, 4);
     setAmountInPool(Item.EnergyTank, 14);
   } else {
-    const numMajors = majorDistribution.mode;
+    const getNumMajors = () => {
+      switch (majorDistribution) {
+        case MajorDistributionMode.Standard:
+          return 34;
+        case MajorDistributionMode.Recall:
+          return 36;
+        default:
+          throw new Error("Unknown major distribution");
+      }
+    };
+    const numMajors = getNumMajors();
     const numNonTanks = itemPool.filter((i) => i.isMajor).length - 2;
 
     const numReserves = Math.max(2, Math.min(4, numMajors - numNonTanks - 14));
@@ -106,51 +117,39 @@ export const getItemPool = (
     for (let i = 0; i < numMajorSupers; i++) {
       itemPool.push(majorItem(0x0, Item.Super));
     }
-    //console.log(
-    //`majors: ${numMajors} reserves: ${numReserves} ` +
-    //`tanks: ${numEnergyTanks} supers: ${numMajorSupers}`
-    //);
   }
 
-  if (minorDistribution.mode == MinorDistributionMode.Dash) {
-    const { supers, powerbombs } = minorDistribution;
-    const numSupers = supers.min + rnd.Next(supers.max - supers.min + 1);
-    const numPBs =
-      powerbombs.min + rnd.Next(powerbombs.max - powerbombs.min + 1);
-    const numMissiles = 100 - (itemPool.length - 3) - numSupers - numPBs;
+  let numMissiles = 1;
+  let numSupers = 1;
+  let numPBs = 1;
+  let itemCount = itemPool.length;
 
-    setAmountInPool(Item.Missile, numMissiles);
-    setAmountInPool(Item.Super, numSupers);
-    setAmountInPool(Item.PowerBomb, numPBs);
-  } else if (minorDistribution.mode == MinorDistributionMode.Standard) {
-    let numMissiles = 1;
-    let numSupers = 1;
-    let numPBs = 1;
-    let itemCount = itemPool.length;
-
-    const { missiles, supers, powerbombs } = minorDistribution;
-    const distribution = [
-      missiles,
-      missiles + supers,
-      missiles + supers + powerbombs,
-    ];
-    while (itemCount < 100) {
-      const draw = rnd.Next(distribution[distribution.length - 1]);
-      if (draw < distribution[0]) {
-        numMissiles += 1;
-      } else if (draw < distribution[1]) {
-        numSupers += 1;
-      } else {
-        numPBs += 1;
-      }
-      itemCount += 1;
+  const getDistribution = () => {
+    switch (minorDistribution) {
+      case MinorDistributionMode.Standard:
+        return [3, 5, 6];
+      case MinorDistributionMode.Dash:
+        return [2, 3, 4];
+      default:
+        throw new Error("Unknown minor distribution");
     }
-    setAmountInPool(Item.Missile, numMissiles);
-    setAmountInPool(Item.Super, numSupers);
-    setAmountInPool(Item.PowerBomb, numPBs);
-  } else {
-    throw new Error("Invalid minor distribution");
+  };
+  const distribution = getDistribution();
+
+  while (itemCount < 100) {
+    const draw = rnd.Next(distribution[distribution.length - 1]);
+    if (draw < distribution[0]) {
+      numMissiles += 1;
+    } else if (draw < distribution[1]) {
+      numSupers += 1;
+    } else {
+      numPBs += 1;
+    }
+    itemCount += 1;
   }
+  setAmountInPool(Item.Missile, numMissiles);
+  setAmountInPool(Item.Super, numSupers);
+  setAmountInPool(Item.PowerBomb, numPBs);
 
   if (itemPool.length != 100) {
     throw new Error("Not 100 items");
