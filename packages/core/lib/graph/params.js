@@ -29,7 +29,6 @@ export const BeamMode = {
 };
 
 export const SuitMode = {
-  Vanilla: 0,
   Standard: 1,
   Dash: 2,
 };

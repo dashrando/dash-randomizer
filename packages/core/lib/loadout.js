@@ -1,4 +1,3 @@
-import { BeamMode, SuitMode } from "./graph/params";
 import { Item, ItemNames } from "./items";
 
 class Loadout {
@@ -230,12 +229,9 @@ class Loadout {
     }
   }
 
-  getFlags(settings) {
+  getFlags() {
     const canDamageBosses = this.hasCharge || this.canOpenRedDoors;
-    const isHeatProof =
-      this.hasVaria ||
-      this.hasHeatShield ||
-      (settings.suitMode == SuitMode.Vanilla && this.hasGravity);
+    const isHeatProof = this.hasVaria || this.hasHeatShield;
     const ballisticPacks = this.superPacks + this.missilePacks;
     const ridleyAmmoDamage =
       this.missilePacks * 500 + this.superPacks * 3000 + this.powerPacks * 1000;

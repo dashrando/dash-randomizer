@@ -2,6 +2,72 @@ import { canReachStart, canReachVertex, searchAndCache } from "./search";
 import { Item, ItemNames } from "../items";
 import { cloneGraph } from "./init";
 
+const getFlags = (load) => {
+  const {
+    CanUseBombs,
+    CanUsePowerBombs,
+    CanOpenRedDoors,
+    CanOpenGreenDoors,
+    HasCharge,
+    HasDoubleJump,
+    HasGravity,
+    HasGrapple,
+    HasHeatShield,
+    HasHiJump,
+    HasIce,
+    HasMorph,
+    HasPlasma,
+    HasPressureValve,
+    HasScrewAttack,
+    HasSpazer,
+    HasSpaceJump,
+    HasSpeed,
+    HasSpringBall,
+    HasVaria,
+    HasWave,
+    EnergyTanks,
+    MissilePacks,
+    PowerBombPacks,
+    SuperPacks,
+    TotalTanks,
+    HellRunTanks,
+    CanFly,
+    CanDoSuitlessMaridia,
+    CanPassBombPassages,
+    CanDestroyBombWalls,
+    CanMoveInWestMaridia,
+    CanKillKraid,
+    CanKillPhantoon,
+    CanKillDraygon,
+    CanKillRidley,
+    CanKillSporeSpawn,
+    CanKillCrocomire,
+    CanKillBotwoon,
+    CanKillGoldTorizo,
+    HasDefeatedBrinstarBoss,
+    HasDefeatedWreckedShipBoss,
+    HasDefeatedMaridiaBoss,
+    HasDefeatedNorfairBoss,
+  } = load.getFlags();
+};
+
+const getBody = (func) => {
+  const full = func.toString().replace(/[\n\r]/g, "");
+  return full.slice(full.indexOf("{") + 1, full.lastIndexOf("}"));
+};
+
+const criteriaFunction = Function(
+  "criteria",
+  `"use strict";` +
+    `const x = Function("load",` +
+    `"${getBody(getFlags)} return (" + criteria + ")();");` +
+    `return x(this);`
+);
+
+const checkCriteria = (load, criteria) => {
+  return criteriaFunction.call(load, criteria);
+};
+
 class GraphSolver {
   constructor(graph, settings, logMethods) {
     this.graph = graph;
@@ -62,10 +128,14 @@ class GraphSolver {
       HasDefeatedWreckedShipBoss,
       HasDefeatedMaridiaBoss,
       HasDefeatedNorfairBoss,
-    } = load.getFlags(this.settings);
+    } = load.getFlags();
 
     return (condition) => eval(`(${condition.toString()})()`);
   }
+
+  /*checkFlags(load) {
+    return (condition) => checkCriteria(load, condition);
+  }*/
 
   isVertexAvailable(vertex, load, itemType, legacyMode = false) {
     if (
