@@ -3,6 +3,7 @@ import { Area, AreaCounts, getLocations } from "./locations";
 import { Item } from "./items";
 import { mapLocation } from "./graph/util";
 import { getPreset } from "..";
+import { generateSeed } from "../data";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
 import { BOSS_DOORS, BOSS_ITEMS, TABLE_FLAGS } from "../data/interface";
 import {
