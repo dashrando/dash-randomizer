@@ -6,7 +6,7 @@ import {
   MinorDistributionMode,
 } from "./params";
 
-export const getItemPool = (seed, settings) => {
+export const getItemPool = (seed: number, settings: any) => {
   const { majorDistribution, minorDistribution, extraItems, beamMode } =
     settings;
   const rnd = new DotNetRandom(seed);
@@ -68,7 +68,7 @@ export const getItemPool = (seed, settings) => {
   // Add extra majors to the pool.
   //-----------------------------------------------------------------
 
-  extraItems.forEach((i) => {
+  extraItems.forEach((i: number) => {
     if (i == Item.DoubleJump) {
       itemPool.push(majorItem(0x2f8029, Item.DoubleJump));
     } else if (i == Item.PressureValve) {
@@ -78,8 +78,8 @@ export const getItemPool = (seed, settings) => {
     }
   });
 
-  const setAmountInPool = (type, count) => {
-    const item = itemPool.find((i) => i.type == type);
+  const setAmountInPool = (type: any, count: number) => {
+    const item = itemPool.find((i) => i.type == type) as any;
     while (itemPool.filter((i) => i == item).length < count) {
       itemPool.unshift(item);
     }

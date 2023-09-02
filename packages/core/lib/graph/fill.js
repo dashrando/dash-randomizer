@@ -3,7 +3,7 @@ import { Item } from "../items";
 import GraphSolver from "./solver";
 import { cloneGraph, loadGraph } from "./init";
 import Loadout from "../loadout";
-import { getItemPool } from "./items";
+import { getItemPool } from "./itemPool";
 import { BossMode, MajorDistributionMode } from "./params";
 
 //-----------------------------------------------------------------
