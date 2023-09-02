@@ -13,14 +13,7 @@ import {
   paramsToString,
 } from "./graph/params";
 
-export const generateSeedPatch = (
-  seed,
-  mapLayout,
-  itemPoolParams,
-  settings,
-  graph,
-  options
-) => {
+export const generateSeedPatch = (seed, settings, graph, options) => {
   //-----------------------------------------------------------------
   // Verify inputs.
   //-----------------------------------------------------------------
@@ -121,7 +114,7 @@ export const generateSeedPatch = (
   //-----------------------------------------------------------------
 
   let hudBits = 0x0d; // Show Area, Change Damage, and Dash Items
-  if (itemPoolParams.majorDistribution.mode == MajorDistributionMode.Full) {
+  if (settings.majorDistribution == MajorDistributionMode.Full) {
     hudBits |= 0x02; // Show Item Counts
   }
   encodeBytes(seedPatch, TABLE_FLAGS.HUDBitField, U8toBytes(hudBits));
@@ -264,36 +257,20 @@ export const generateSeedPatch = (
   // Encode seed flags from the website.
   //-----------------------------------------------------------------
 
-  encodeBytes(
-    seedPatch,
-    0x2f8b00,
-    paramsToBytes(seed, mapLayout, itemPoolParams, settings, options)
-  );
+  encodeBytes(seedPatch, 0x2f8b00, paramsToBytes(seed, settings, options));
 
   return seedPatch;
 };
 
-export const getBasePatch = (mapLayout, area) => {
-  if (mapLayout == MapLayout.Recall) {
-    return area ? "dash_recall_area.bps" : "dash_recall.bps";
-  }
-  return area ? "dash_standard_area.bps" : "dash_standard.bps";
+export const getBasePatch = (settings) => {
+  const area = settings.randomizeAreas ? "_area" : "";
+  return settings.mapLayout == MapLayout.Recall
+    ? `dash_recall${area}.bps`
+    : `dash_standard${area}.bps`;
 };
 
-export const getFileName = (
-  seed,
-  mapLayout,
-  itemPoolParams,
-  settings,
-  options
-) => {
-  const flags = paramsToString(
-    seed,
-    mapLayout,
-    itemPoolParams,
-    settings,
-    options
-  );
+export const getFileName = (seed, settings, options) => {
+  const flags = paramsToString(seed, settings, options);
   return `DASH_${settings.preset}_${flags}.sfc`;
 };
 
@@ -379,28 +356,15 @@ export const generateFromPreset = (name, seedNumber) => {
   }
 
   // Place the items.
-  const { mapLayout, itemPoolParams, settings } = preset;
-  const graph = generateSeed(seed, mapLayout, itemPoolParams, settings);
+  const { settings } = preset;
+  const graph = generateSeed(seed, settings);
   const defaultOptions = {
     DisableFanfare: 0,
   };
 
-  const seedPatch = generateSeedPatch(
-    seed,
-    mapLayout,
-    itemPoolParams,
-    settings,
-    graph,
-    defaultOptions
-  );
-  const fileName = getFileName(
-    seed,
-    mapLayout,
-    itemPoolParams,
-    settings,
-    defaultOptions
-  );
-  const patch = getBasePatch(mapLayout, settings.randomizeAreas);
+  const seedPatch = generateSeedPatch(seed, settings, graph, defaultOptions);
+  const fileName = getFileName(seed, settings, defaultOptions);
+  const patch = getBasePatch(settings);
 
   return [`patches/${patch}`, seedPatch, fileName];
 };

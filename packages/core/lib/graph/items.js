@@ -6,13 +6,9 @@ import {
   MinorDistributionMode,
 } from "./params";
 
-export const getItemPool = (
-  seed,
-  majorDistribution,
-  minorDistribution,
-  extraItems,
-  beamMode
-) => {
+export const getItemPool = (seed, settings) => {
+  const { majorDistribution, minorDistribution, extraItems, beamMode } =
+    settings;
   const rnd = new DotNetRandom(seed);
 
   //-----------------------------------------------------------------

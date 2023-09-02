@@ -118,14 +118,9 @@ const bitsToMapLayout = (bits) => {
 // Parameter encoding
 //-----------------------------------------------------------------
 
-export const paramsToBytes = (
-  seed,
-  mapLayout,
-  itemPoolParams,
-  settings,
-  options
-) => {
-  const { majorDistribution, minorDistribution, extraItems } = itemPoolParams;
+export const paramsToBytes = (seed, settings, options) => {
+  const { mapLayout, majorDistribution, minorDistribution, extraItems } =
+    settings;
 
   // Place the seed number in the first 3 bytes (max=16777215)
   let bytes = new Uint8Array(6);
@@ -158,20 +153,8 @@ export const paramsToBytes = (
   return bytes;
 };
 
-export const paramsToString = (
-  seed,
-  mapLayout,
-  itemPoolParams,
-  settings,
-  options
-) => {
-  const bytes = paramsToBytes(
-    seed,
-    mapLayout,
-    itemPoolParams,
-    settings,
-    options
-  );
+export const paramsToString = (seed, settings, options) => {
+  const bytes = paramsToBytes(seed, settings, options);
   return Buffer.from(bytes)
     .toString("base64")
     .replaceAll("/", "_")
@@ -191,15 +174,6 @@ export const bytesToParams = (bytes) => {
   const heatShield = (bytes[4] >> 5) & 0x1;
   const pressureValve = (bytes[4] >> 6) & 0x3;
 
-  const settings = {
-    randomizeAreas: area == 0x1,
-    bossMode: boss,
-    beamMode: beam,
-    suitMode: suit,
-    gravityHeatReduction:
-      gravity == 0x0 ? GravityHeatReduction.Off : GravityHeatReduction.On,
-  };
-
   const major = bitsToMajorMode((bytes[3] >> 2) & 0x3);
   const minor = bitsToMinorMode((bytes[3] >> 4) & 0x3);
   const extra = [];
@@ -218,13 +192,18 @@ export const bytesToParams = (bytes) => {
 
   return {
     seed: seed,
-    mapLayout: mapLayout,
-    itemPoolParams: {
+    settings: {
+      mapLayout: mapLayout,
       majorDistribution: major,
       minorDistribution: minor,
       extraItems: extra,
+      randomizeAreas: area == 0x1,
+      bossMode: boss,
+      beamMode: beam,
+      suitMode: suit,
+      gravityHeatReduction:
+        gravity == 0x0 ? GravityHeatReduction.Off : GravityHeatReduction.On,
     },
-    settings: settings,
     options: { DisableFanfare: fanfare == 0 },
   };
 };

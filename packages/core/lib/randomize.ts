@@ -13,20 +13,11 @@ export type Config = {
   vanillaBytes: Uint8Array
 }
 
-export type ItemPoolParams = {
-  majorDistribution: {
-    extraItems: number[]
-    mode: number
-  }
-  minorDistribution: {
-    missiles: number
-    supers: number
-    powerbombs: number
-    mode: number
-  }
-}
-
 export type Settings = {
+  mapLayout: number,
+  majorDistribution: number,
+  minorDistribution: number,
+  extraItems: number[],
   beamMode: number
   bossMode: number
   gravityHeatReduction: number
@@ -37,8 +28,6 @@ export type Settings = {
 
 async function RandomizeRom(
   seed: number = 0,
-  mapLayout: number,
-  itemPoolParams: ItemPoolParams,
   settings: Settings,
   opts: Opts = {
     DisableFanfare: 0
@@ -50,10 +39,10 @@ async function RandomizeRom(
   }
 
   // Place the items.
-  const graph = generateSeed(seed, mapLayout, itemPoolParams, settings);
+  const graph = generateSeed(seed, settings);
 
   // Load the base patch associated with the map layout.
-  const patch = getBasePatch(mapLayout, settings.randomizeAreas);
+  const patch = getBasePatch(settings);
   const basePatch: any = await BpsPatch.Load(`/patches/${patch}`);
 
   // Process options with defaults.
@@ -64,18 +53,12 @@ async function RandomizeRom(
 
   // Generate the seed specific patch (item placement, etc.)
   const seedPatch: any = generateSeedPatch(
-    seed,
-    mapLayout,
-    itemPoolParams,
-    settings,
-    graph,
-    options
-  );
+    seed, settings, graph, options);
 
   // Create the rom by patching the vanilla rom.
   return {
     data: patchRom(config.vanillaBytes, basePatch, seedPatch),
-    name: getFileName(seed, mapLayout, itemPoolParams, settings, options),
+    name: getFileName(seed, settings, options),
   };
 }
 

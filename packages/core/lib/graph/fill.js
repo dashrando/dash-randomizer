@@ -134,7 +134,7 @@ const getMajorMinorPrePool = (rnd) => {
 // Place items within the graph.
 //-----------------------------------------------------------------
 
-const graphFill = (seed, graph, itemPoolParams, settings, maxAttempts = 10) => {
+const graphFill = (seed, graph, settings, maxAttempts = 10) => {
   const solver = new GraphSolver(graph, settings);
   const rnd = new DotNetRandom(seed);
 
@@ -142,9 +142,7 @@ const graphFill = (seed, graph, itemPoolParams, settings, maxAttempts = 10) => {
   // Extract parameters.
   //-----------------------------------------------------------------
 
-  const { beamMode } = settings;
-  const { majorDistribution, minorDistribution, extraItems } = itemPoolParams;
-  const restrictType = majorDistribution != MajorDistributionMode.Full;
+  const restrictType = settings.majorDistribution != MajorDistributionMode.Full;
 
   //-----------------------------------------------------------------
   // Utility routines for shuffling arrays.
@@ -185,13 +183,7 @@ const graphFill = (seed, graph, itemPoolParams, settings, maxAttempts = 10) => {
   //
   //-----------------------------------------------------------------
 
-  const itemPool = getItemPool(
-    seed,
-    majorDistribution,
-    minorDistribution,
-    extraItems,
-    beamMode
-  );
+  const itemPool = getItemPool(seed, settings);
 
   //-----------------------------------------------------------------
   // Prefill locations with early items.
@@ -275,7 +267,7 @@ const graphFill = (seed, graph, itemPoolParams, settings, maxAttempts = 10) => {
 // Performs multiple passes to generate a seed using a graph.
 //-----------------------------------------------------------------
 
-export const generateSeed = (seed, mapLayout, itemPoolParams, settings) => {
+export const generateSeed = (seed, settings) => {
   const maxOuterLoop = 20;
   let maxInnerLoop = 10;
 
@@ -291,14 +283,14 @@ export const generateSeed = (seed, mapLayout, itemPoolParams, settings) => {
     const graph = loadGraph(
       seed,
       attempts,
-      mapLayout,
-      itemPoolParams.majorDistribution,
+      settings.mapLayout,
+      settings.majorDistribution,
       settings.randomizeAreas,
       settings.bossMode
     );
 
     try {
-      graphFill(seed, graph, itemPoolParams, settings, maxInnerLoop);
+      graphFill(seed, graph, settings, maxInnerLoop);
       return graph;
     } catch (e) {
       attempts += 1;

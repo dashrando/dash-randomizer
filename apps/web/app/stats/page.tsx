@@ -134,7 +134,6 @@ export default function StatsPage() {
       throw new Error(`Unknown preset: ${gameMode}`);
     }
 
-    const { mapLayout, itemPoolParams, settings } = preset;
     let totalAttempts = 0;
     const progression: ItemProgression[] = [];
     let bosses: Transition[] = [];
@@ -169,7 +168,7 @@ export default function StatsPage() {
 
     for (let i = startSeed; i <= endSeed; i++) {
       try {
-        const graph = generateSeed(i, mapLayout, itemPoolParams, settings);
+        const graph = generateSeed(i, preset.settings);
         progression.push(getItemNodes(graph));
         bosses = bosses.concat(getBossTransitions(graph));
         areas = areas.concat(getAreaTransitions(graph));
