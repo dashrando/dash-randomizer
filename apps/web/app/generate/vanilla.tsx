@@ -1,10 +1,10 @@
 'use client'
 
 import useSWR from 'swr'
-import { useDropzone } from 'react-dropzone'
+import Button from '../components/button'
 import { get, set } from 'idb-keyval'
 import { vanilla } from 'core'
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import useMounted from '../hooks/useMounted'
 import styles from './vanilla.module.css'
 
@@ -46,7 +46,7 @@ async function fetcher() {
 
 export const useVanilla = () => {
   const mounted = useMounted()
-  const { data, isLoading, isValidating, error, mutate } = useSWR(
+  const { data, isLoading, error, mutate } = useSWR(
     mounted ? 'vanilla-rom' : null,
     fetcher,
     {
@@ -63,7 +63,6 @@ export const useVanilla = () => {
     data,
     set: setVanilla,
     isLoading,
-    isReady: !isLoading && !isValidating,
     error,
   }
 }
@@ -91,33 +90,29 @@ const setVanillaFile = async (file: any, set: any) => {
 }
 
 export default function VanillaButton() {
+  const inputRef = useRef<HTMLInputElement>(null)
   const { set, isLoading } = useVanilla()
 
-  const onDrop = useCallback((acceptedFiles: any) => {
-    const file = acceptedFiles[0]
+  const handleClick = (evt: any) => {
+    evt.preventDefault()
+    if (inputRef.current) {
+      inputRef.current?.click()
+    }
+  };
+
+  const handleFileChange = useCallback((evt: any) => {
+    const file = evt.target.files[0]
     setVanillaFile(file, set)
   }, [set])
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    multiple: false,
-    maxFiles: 1,
-    accept: {
-      "application/octet-stream": [".smc", ".sfc"],
-      "application/binary": [".smc", ".sfc"],
-    },
-    useFsAccessApi: false,
-  })
 
   return (
     <div className={styles.vanilla}>
       <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
-        <div {...getRootProps()}>
-          <div className={styles.wrapper}>
-            <input {...getInputProps()} />
-            Upload Vanilla ROM
-          </div>
-        </div>
+        <Button variant="secondary" onClick={handleClick}>
+          Upload Vanilla ROM
+        </Button>
         <p>You must set the <a href="/info/settings#vanilla">Vanilla ROM</a> in order to be able to generate a randomized seed.</p>
+        <input ref={inputRef} type="file" onChange={handleFileChange} />
       </div>
     </div>
   )
