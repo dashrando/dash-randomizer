@@ -180,14 +180,14 @@ export const bytesToParams = (bytes) => {
   if (doubleJump != 0x0) {
     extra.push(Item.DoubleJump);
   }
+  if (heatShield != 0x0) {
+    extra.push(Item.HeatShield);
+  }
   if (pressureValve != 0x0) {
     extra.push(Item.PressureValve);
     if (pressureValve > 0x1) {
       extra.push(Item.PressureValve);
     }
-  }
-  if (heatShield != 0x0) {
-    extra.push(Item.HeatShield);
   }
 
   return {
