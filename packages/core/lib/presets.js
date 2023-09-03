@@ -30,17 +30,19 @@ export const getPreset = (tag) => {
   return getAllPresets().find((p) => p.tags.includes(tag));
 };
 
-export const findPreset = (params) => {
-  const { itemPoolParams, settings } = params;
+export const findPreset = (settings) => {
   return getAllPresets().find((p) => {
+    const ps = p.settings;
     if (
-      params.mapLayout != p.mapLayout ||
-      JSON.stringify(itemPoolParams) !== JSON.stringify(p.itemPoolParams) ||
-      settings.beamMode !== p.settings.beamMode ||
-      settings.suitMode !== p.settings.suitMode ||
-      settings.gravityHeatReduction !== p.settings.gravityHeatReduction ||
-      settings.randomizeAreas !== p.settings.randomizeAreas ||
-      settings.bossMode !== p.settings.bossMode
+      settings.mapLayout != ps.mapLayout ||
+      settings.majorDistribution != ps.majorDistribution ||
+      settings.minorDistribution != ps.minorDistribution ||
+      JSON.stringify(settings.extraItems) !== JSON.stringify(ps.extraItems) ||
+      settings.beamMode !== ps.beamMode ||
+      settings.suitMode !== ps.suitMode ||
+      settings.gravityHeatReduction !== ps.gravityHeatReduction ||
+      settings.randomizeAreas !== ps.randomizeAreas ||
+      settings.bossMode !== ps.bossMode
     ) {
       return false;
     }
@@ -55,21 +57,12 @@ export const findPreset = (params) => {
 export const Preset_SGL23 = {
   title: "SGL23",
   tags: ["sgl23"],
-  mapLayout: MapLayout.Standard,
-  itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Full,
-      extraItems: [Item.DoubleJump],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 3,
-      supers: 2,
-      powerbombs: 1,
-    },
-  },
   settings: {
     preset: "SGL23",
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [Item.DoubleJump],
     beamMode: BeamMode.Vanilla,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
@@ -85,21 +78,12 @@ export const Preset_SGL23 = {
 export const Preset_Classic_MM = {
   title: "Classic M/M",
   tags: ["classic_mm"],
-  mapLayout: MapLayout.Standard,
-  itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Standard,
-      extraItems: [],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 2,
-      supers: 1,
-      powerbombs: 1,
-    },
-  },
   settings: {
     preset: "ClassicMM",
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Dash,
+    extraItems: [],
     beamMode: BeamMode.DashClassic,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
@@ -111,21 +95,12 @@ export const Preset_Classic_MM = {
 export const Preset_Classic_Full = {
   title: "Classic Full",
   tags: ["classic_full"],
-  mapLayout: MapLayout.Standard,
-  itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Full,
-      extraItems: [],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 2,
-      supers: 1,
-      powerbombs: 1,
-    },
-  },
   settings: {
     preset: "ClassicFull",
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Dash,
+    extraItems: [],
     beamMode: BeamMode.DashClassic,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
@@ -141,21 +116,12 @@ export const Preset_Classic_Full = {
 export const Preset_Recall_MM = {
   title: "Recall M/M",
   tags: ["recall_mm", "mm"],
-  mapLayout: MapLayout.Recall,
-  itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Recall,
-      extraItems: [Item.DoubleJump, Item.PressureValve, Item.HeatShield],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 2,
-      supers: 1,
-      powerbombs: 1,
-    },
-  },
   settings: {
     preset: "RecallMM",
+    mapLayout: MapLayout.Recall,
+    majorDistribution: MajorDistributionMode.Recall,
+    minorDistribution: MinorDistributionMode.Dash,
+    extraItems: [Item.DoubleJump, Item.HeatShield, Item.PressureValve],
     beamMode: BeamMode.DashRecall,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
@@ -167,21 +133,12 @@ export const Preset_Recall_MM = {
 export const Preset_Recall_Full = {
   title: "Recall Full",
   tags: ["recall_full", "full"],
-  mapLayout: MapLayout.Recall,
-  itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Full,
-      extraItems: [Item.DoubleJump, Item.PressureValve, Item.HeatShield],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 2,
-      supers: 1,
-      powerbombs: 1,
-    },
-  },
   settings: {
     preset: "RecallFull",
+    mapLayout: MapLayout.Recall,
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Dash,
+    extraItems: [Item.DoubleJump, Item.HeatShield, Item.PressureValve],
     beamMode: BeamMode.DashRecall,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
@@ -193,21 +150,12 @@ export const Preset_Recall_Full = {
 export const Preset_Recall_Area_MM = {
   title: "Recall Area M/M",
   tags: ["recall_area_mm"],
-  mapLayout: MapLayout.Recall,
-  itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Recall,
-      extraItems: [Item.DoubleJump, Item.PressureValve, Item.HeatShield],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 2,
-      supers: 1,
-      powerbombs: 1,
-    },
-  },
   settings: {
     preset: "RecallAreaMM",
+    mapLayout: MapLayout.Recall,
+    majorDistribution: MajorDistributionMode.Recall,
+    minorDistribution: MinorDistributionMode.Dash,
+    extraItems: [Item.DoubleJump, Item.HeatShield, Item.PressureValve],
     beamMode: BeamMode.DashRecall,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
@@ -223,21 +171,12 @@ export const Preset_Recall_Area_MM = {
 export const Preset_Standard_MM = {
   title: "Standard M/M",
   tags: ["standard_mm"],
-  mapLayout: MapLayout.Standard,
-  itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Standard,
-      extraItems: [],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 3,
-      supers: 2,
-      powerbombs: 1,
-    },
-  },
   settings: {
     preset: "StandardMM",
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
     beamMode: BeamMode.Vanilla,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
@@ -249,21 +188,12 @@ export const Preset_Standard_MM = {
 export const Preset_Standard_Full = {
   title: "Standard Full",
   tags: ["standard_full"],
-  mapLayout: MapLayout.Standard,
-  itemPoolParams: {
-    majorDistribution: {
-      mode: MajorDistributionMode.Full,
-      extraItems: [],
-    },
-    minorDistribution: {
-      mode: MinorDistributionMode.Standard,
-      missiles: 3,
-      supers: 2,
-      powerbombs: 1,
-    },
-  },
   settings: {
     preset: "StandardFull",
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
     beamMode: BeamMode.Vanilla,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
