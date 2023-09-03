@@ -688,9 +688,7 @@ export default function Form() {
         <Sidebar
           name={rolledSeed?.name || null}
           signature={signature}
-          seed={rolledSeed?.seed}
           hash={rolledSeed?.hash}
-          isRandom={isRandom}
         />
       </div>
     </form>
