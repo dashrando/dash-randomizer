@@ -3,6 +3,11 @@
   min-height: 43px;
 }
 
+.vanilla .loading {
+  visibility: hidden;
+  height: 43px;
+}
+
 .vanilla input {
   width: 0px;
   height: 0px;

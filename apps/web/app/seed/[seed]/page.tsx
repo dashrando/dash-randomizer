@@ -3,6 +3,7 @@ import Link from 'next/link'
 import styles from './seed.module.css'
 import Seed from './seed'
 import { prefetchSignature } from 'core'
+import Toaster from '../../components/toaster'
 
 type SeedParams = {
   seed: string
@@ -45,6 +46,7 @@ export default function SeedPage({ params }: { params: SeedParams}) {
         signature={sig}
       />
       <SeedFooter />
+      <Toaster />
     </main>
   );
 }

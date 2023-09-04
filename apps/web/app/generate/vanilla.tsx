@@ -4,7 +4,9 @@ import useSWR from 'swr'
 import Button from '../components/button'
 import { get, set } from 'idb-keyval'
 import { vanilla } from 'core'
+import { cn } from '@/lib/utils'
 import { useCallback, useRef } from 'react'
+import { toast } from 'sonner'
 import styles from './vanilla.module.css'
 
 async function parseContents(value: any): Promise<any> {
@@ -67,18 +69,18 @@ const setVanillaFile = async (file: any, set: any) => {
   
   reader.onload = async function () {
     try {
-      const bytes = await parseContents(reader.result);
-      await set(bytes);
+      const bytes = await parseContents(reader.result)
+      await set(bytes)
+      toast('Vanilla ROM loaded')
     } catch (e) {
-      const err = e as Error;
+      const err = e as Error
       console.error(err.message);
-      // TODO: Present a friendly error message to the user instead of an alert.
-      alert(err.message);
+      toast.error(err.message);
     }
   };
 
   reader.onerror = function () {
-    alert("Failed to load file.");
+    toast.error("Failed to load file.");
   };
 
   reader.readAsArrayBuffer(file);
@@ -100,22 +102,18 @@ export default function VanillaButton() {
     setVanillaFile(file, set)
   }, [set])
 
-  const shouldHide = isLoading && !data
-
-  // If data is found, show spacer
-  if (data) {
-    return (
-      <div style={{ visibility: 'hidden', height: '43px' }} />
-    )
-  }
+  // If the vanilla file has been loaded
+  // or if the form is loading
+  // then hide the button
+  const shouldHide = data || (isLoading && !data)
 
   return (
     <div className={styles.vanilla}>
-      <div style={{ visibility: shouldHide ? 'hidden' : 'visible' }}>
+      <div className={cn(shouldHide && styles.loading)}>
         <Button variant="secondary" onClick={handleClick}>
           Upload Vanilla ROM
         </Button>
-        {/* <p>You must set the <a href="/info/settings#vanilla">Vanilla ROM</a> in order to be able to generate a randomized seed.</p> */}
+        <p>You must set the <a href="/info/settings#vanilla">Vanilla ROM</a> in order to be able to generate a randomized seed.</p>
         <input ref={inputRef} type="file" onChange={handleFileChange} />
       </div>
     </div>
