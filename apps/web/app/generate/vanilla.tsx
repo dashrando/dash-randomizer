@@ -5,7 +5,6 @@ import Button from '../components/button'
 import { get, set } from 'idb-keyval'
 import { vanilla } from 'core'
 import { useCallback, useRef } from 'react'
-import useMounted from '../hooks/useMounted'
 import styles from './vanilla.module.css'
 
 async function parseContents(value: any): Promise<any> {
@@ -45,9 +44,7 @@ async function fetcher() {
 
 
 export const useVanilla = () => {
-  const mounted = useMounted()
-  const { data, isLoading, error, mutate } = useSWR(
-    mounted ? 'vanilla-rom' : null,
+  const { data, isLoading, error, mutate } = useSWR('vanilla-rom',
     fetcher,
     {
       revalidateIfStale: false,
@@ -55,7 +52,6 @@ export const useVanilla = () => {
   )
 
   const setVanilla = useCallback(async (value: any) => {
-    // TODO: validate value
     await set('vanilla-rom', value)
     mutate()
   }, [mutate])
@@ -91,7 +87,7 @@ const setVanillaFile = async (file: any, set: any) => {
 
 export default function VanillaButton() {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { set, isLoading } = useVanilla()
+  const { data, set, isLoading } = useVanilla()
 
   const handleClick = (evt: any) => {
     evt.preventDefault()
@@ -107,7 +103,7 @@ export default function VanillaButton() {
 
   return (
     <div className={styles.vanilla}>
-      <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
+      <div style={{ visibility: isLoading && !data ? 'hidden' : 'visible' }}>
         <Button variant="secondary" onClick={handleClick}>
           Upload Vanilla ROM
         </Button>
