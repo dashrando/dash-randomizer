@@ -82,18 +82,18 @@ const getExtraItems = (extraItems: number[]) => {
 }
 
 const parseSettings = (parameters: any) => {
-  const { itemPoolParams } = parameters
-  const extraItems = getExtraItems(itemPoolParams.majorDistribution.extraItems)
+  const { settings } = parameters
+  const extraItems = getExtraItems(settings.extraItems)
   const randomizeParams = [
-    { label: 'Item Split', value: getItemSplit(itemPoolParams.majorDistribution.mode) },
-    { label: 'Boss', value: getBossMode(parameters.settings.bossMode) },
-    { label: 'Area', value: getAreaMode(parameters.settings.randomizeAreas) }
+    { label: 'Item Split', value: getItemSplit(settings.majorDistribution) },
+    { label: 'Boss', value: getBossMode(settings.bossMode) },
+    { label: 'Area', value: getAreaMode(settings.randomizeAreas) }
   ]
   const settingsParams = [
-    { label: 'Minor Item Distribution', value: getMinorItemDistribution(itemPoolParams.minorDistribution.mode)},
-    { label: 'Map Layout', value: getMapLayout(parameters.mapLayout) },
-    { label: 'Beam Mode', value: getBeamMode(parameters.settings.beamMode), },
-    { label: 'Gravity Heat Reduction', value: getGravityMode(parameters.settings.gravityHeatReduction), },
+    { label: 'Minor Item Distribution', value: getMinorItemDistribution(settings.minorDistribution)},
+    { label: 'Map Layout', value: getMapLayout(settings.mapLayout) },
+    { label: 'Beam Mode', value: getBeamMode(settings.beamMode), },
+    { label: 'Gravity Heat Reduction', value: getGravityMode(settings.gravityHeatReduction), },
     { label: 'Double Jump', value: extraItems.doubleJump, },
     { label: 'Heat Shield', value: extraItems.heatShield, },
     { label: 'Pressure Valve', value: extraItems.pressureValve, },
@@ -155,14 +155,14 @@ export default function Seed({
   useEffect(() => {
     const initialize = async () => {
       if (vanilla && !seed?.data) {
-        const { seed: seedNum, mapLayout, itemPoolParams, settings, options } = parameters
-        const preset = findPreset({ mapLayout, itemPoolParams, settings })
+        const { seed: seedNum, settings, options } = parameters
+        const preset = findPreset(settings)
         if (preset != undefined && preset.settings != undefined) {
           settings.preset = preset.settings.preset
         } else {
           settings.preset = "Custom"
         }
-        const seedData = await RandomizeRom(seedNum, mapLayout, itemPoolParams, settings, options, {
+        const seedData = await RandomizeRom(seedNum, settings, options, {
           vanillaBytes: vanilla,
         })
         if (seedData.data) {

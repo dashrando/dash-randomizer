@@ -315,45 +315,35 @@ export default function Form() {
         mapLayout = MapLayout.Recall;
       }
 
-      const minorDistribution = {
-        mode: MinorDistributionMode.Standard,
-        missiles: 3,
-        supers: 2,
-        powerbombs: 1
-      };
-      if (data.minors == "dash") {
-        minorDistribution.missiles = 2;
-        minorDistribution.supers = 1;
-        minorDistribution.powerbombs = 1;
-      }
+      const minorDistribution =
+        data.minors == "dash" ?
+        MinorDistributionMode.Dash :
+        MinorDistributionMode.Standard
 
-      const majorDistribution = {
-        mode: MajorDistributionMode.Standard,
-        extraItems: [] as number[],
-      };
+      const majorDistribution =
+        data['item-split'] == "full" ?
+        MajorDistributionMode.Full :
+        data['item-split'] == "recall-mm" ?
+        MajorDistributionMode.Recall :
+        MajorDistributionMode.Standard;
 
-      if (data['item-split'] == "full") {
-        majorDistribution.mode = MajorDistributionMode.Full;
-      } else if (data['item-split'] == "recall-mm") {
-        majorDistribution.mode = MajorDistributionMode.Recall;
-      }
+      const extraItems = [];
       if (data['double-jump'] == "on") {
-        majorDistribution.extraItems.push(Item.DoubleJump);
+        extraItems.push(Item.DoubleJump);
       }
       if (data['heat-shield'] == "on") {
-        majorDistribution.extraItems.push(Item.HeatShield);
+        extraItems.push(Item.HeatShield);
       }
       if (data['pressure-valve'] == "one") {
-        majorDistribution.extraItems.push(Item.PressureValve);
+        extraItems.push(Item.PressureValve);
       }
-
-      const itemPoolParams = {
-        majorDistribution: majorDistribution,
-        minorDistribution: minorDistribution
-      };
 
       const settings = {
         preset: "Custom",
+        mapLayout: mapLayout,
+        majorDistribution: majorDistribution,
+        minorDistribution: minorDistribution,
+        extraItems: extraItems,
         beamMode: BeamMode.Vanilla,
         suitMode: SuitMode.Dash,
         gravityHeatReduction: GravityHeatReduction.On,
@@ -402,21 +392,8 @@ export default function Form() {
 
       const seedNumber = getSeed();
       const { data: seed, name } = await RandomizeRom(
-        seedNumber,
-        mapLayout,
-        // @ts-ignore
-        itemPoolParams,
-        settings,
-        options,
-        config
-      );
-      const hash = paramsToString(
-        seedNumber,
-        mapLayout,
-        itemPoolParams,
-        settings,
-        options
-      );
+        seedNumber, settings, options, config);
+      const hash = paramsToString(seedNumber, settings, options);
       if (seed !== null) {
         downloadFile(seed, name, hash)
       }

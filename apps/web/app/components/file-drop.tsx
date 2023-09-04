@@ -15,8 +15,6 @@ const getParamsFromFile = (bytes: Uint8Array) => {
     const byteParams = bytesToParams(paramBytes)
     const seedKey = paramsToString(
       byteParams.seed,
-      byteParams.mapLayout,
-      byteParams.itemPoolParams,
       byteParams.settings,
       byteParams.options
     )

@@ -4,18 +4,7 @@ import styles from "./page.module.css";
 import {
   isAreaEdge,
   isBossEdge,
-  Item,
-  getLocations,
-  Loadout,
   Location,
-  ModeRecall,
-  ModeStandard,
-  getFullPrePool,
-  getMajorMinorPrePool,
-  isEmptyNode,
-  isValidMajorMinor,
-  performVerifiedFill,
-  verifyItemProgression,
   generateSeed
 } from "core/data";
 import { useState } from "react";
@@ -35,7 +24,7 @@ export type ItemProgression = ItemLocation[];
 export type Params = {
   gameMode: string;
   startSeed: number;
-  endSeed: number;
+  numSeeds: number;
 };
 
 type SeedStatus = {
@@ -58,16 +47,16 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           update({
             gameMode: e.target.value,
             startSeed: value.startSeed,
-            endSeed: value.endSeed,
+            numSeeds: value.numSeeds,
           })
         }
       >
         <option value="sgl23">SGL23 - Full - Boss+Area</option>
         <option value="recall_area_mm">Recall - M/M - Boss+Area</option>
-        <option value="sm">Standard - Major / Minor</option>
-        <option value="sf">Standard - Full</option>
-        <option value="rm">Recall - Major / Minor</option>
-        <option value="rf">Recall - Full</option>
+        <option value="standard_mm">Standard - Major / Minor</option>
+        <option value="standard_full">Standard - Full</option>
+        <option value="recall_mm">Recall - Major / Minor</option>
+        <option value="recall_full">Recall - Full</option>
       </select>
 
       <label htmlFor="start_seed" style={{ paddingRight: '4px' }}>Start</label>
@@ -83,25 +72,25 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           update({
             gameMode: value.gameMode,
             startSeed: e.target.valueAsNumber,
-            endSeed: value.endSeed,
+            numSeeds: value.numSeeds,
           })
         }
       />
 
-      <label htmlFor="end_seed" style={{ padding: '0px 4px' }}>End</label>
+      <label htmlFor="num_seeds" style={{ padding: '0px 4px' }}>Count</label>
       <input
-        name="end_seed"
-        id="end_seed"
+        name="num_seeds"
+        id="num_seeds"
         type="number"
         min="1"
         max="999999"
         step="100"
-        value={value.endSeed}
+        value={value.numSeeds}
         onChange={(e) =>
           update({
             gameMode: value.gameMode,
             startSeed: value.startSeed,
-            endSeed: e.target.valueAsNumber,
+            numSeeds: e.target.valueAsNumber,
           })
         }
       />
@@ -113,9 +102,8 @@ export default function StatsPage() {
   const [params, setParams] = useState({
     gameMode: "sgl23",
     startSeed: 1,
-    endSeed: 100,
+    numSeeds: 100,
   });
-  const [fill, setFill] = useState("graph");
   const [panel, setPanel] = useState("majors");
   const [status, setStatus] = useState<SeedStatus>({
     progression: [],
@@ -126,7 +114,8 @@ export default function StatsPage() {
   });
 
   const generateSeeds = () => {
-    const { startSeed, endSeed } = params;
+    const { startSeed, numSeeds } = params;
+    const endSeed = startSeed + numSeeds - 1;
     clearResults();
     for (let i = startSeed; i <= endSeed; i += 100) {
       generateStep(i, Math.min(endSeed, i + 99));
@@ -134,30 +123,17 @@ export default function StatsPage() {
   };
 
   const generateStep = async (start: number, end: number) => {
-    if (fill == "graph") {
-      generateGraphFill(start, end);
-    } else {
-      generateVerifiedFill(start, end);
-    }
+    generateGraphFill(start, end);
   };
 
   const generateGraphFill = (startSeed: number, endSeed: number) => {
     const { gameMode } = params;
-    const presetMap = new Map([
-      ["sgl23", "sgl23"],
-      ["recall_area_mm", "recall_area_mm"],
-      ["sm", "standard_mm"],
-      ["sf", "standard_full"],
-      ["rm", "recall_mm"],
-      ["rf", "recall_full"],
-    ]);
-    const preset = getPreset(presetMap.get(gameMode)) as any;
+    const preset = getPreset(gameMode);
 
     if (preset == undefined) {
       throw new Error(`Unknown preset: ${gameMode}`);
     }
 
-    const { mapLayout, itemPoolParams, settings } = preset;
     let totalAttempts = 0;
     const progression: ItemProgression[] = [];
     let bosses: Transition[] = [];
@@ -192,7 +168,7 @@ export default function StatsPage() {
 
     for (let i = startSeed; i <= endSeed; i++) {
       try {
-        const graph = generateSeed(i, mapLayout, itemPoolParams, settings);
+        const graph = generateSeed(i, preset.settings);
         progression.push(getItemNodes(graph));
         bosses = bosses.concat(getBossTransitions(graph));
         areas = areas.concat(getAreaTransitions(graph));
@@ -210,56 +186,6 @@ export default function StatsPage() {
         areas: current.areas.concat(areas),
         totalTime: current.totalTime + delta,
         attempts: current.attempts + totalAttempts,
-      };
-    });
-  };
-
-  const generateVerifiedFill = (startSeed: number, endSeed: number) => {
-    const { gameMode } = params;
-    const progression: ItemProgression[] = [];
-    const start = Date.now();
-
-    if (gameMode == undefined || gameMode.length > 2) {
-      throw new Error(`Invalid game mode: ${gameMode}`);
-    }
-
-    for (let i = startSeed; i <= endSeed; i++) {
-      let mode =
-        gameMode[0] == "s"
-          ? new ModeStandard(i, getLocations())
-          : new ModeRecall(i, getLocations());
-
-      const [prePool, canPlaceItem] =
-        gameMode[1] == "m"
-          ? [getMajorMinorPrePool, isValidMajorMinor]
-          : [getFullPrePool, isEmptyNode];
-
-      let initLoad = new Loadout();
-      if (gameMode[0] == "r") {
-        initLoad.add(Item.Charge);
-      }
-
-      performVerifiedFill(
-        i,
-        mode.nodes,
-        mode.itemPool,
-        prePool,
-        initLoad,
-        canPlaceItem
-      );
-      const log: ItemLocation[] = [];
-      verifyItemProgression(initLoad, mode.nodes, log);
-      progression.push(log);
-    }
-
-    const delta = Date.now() - start;
-    setStatus((current: SeedStatus) => {
-      return {
-        progression: current.progression.concat(progression),
-        bosses: [],
-        areas: [],
-        totalTime: current.totalTime + delta,
-        attempts: 0,
       };
     });
   };
@@ -304,18 +230,6 @@ export default function StatsPage() {
               ).toFixed(1)}]`}
         </span>
         <span id="right_side" className={styles.right_side}>
-          <span className={styles.fill_selector}>
-            <label htmlFor="fill_selection">Fill:</label>
-            <select
-              name="fill_seletion"
-              id="fill_selection"
-              value={fill}
-              onChange={(e) => setFill(e.target.value)}
-            >
-              <option value="graph">Graph</option>
-              <option value="verified">Verified</option>
-            </select>
-          </span>
           <span className={styles.panel_selector}>
             <label htmlFor="panel_selection">Panel:</label>
             <select
