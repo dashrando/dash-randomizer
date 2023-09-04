@@ -1,7 +1,15 @@
+.vanilla {
+  position: relative;
+  min-height: 43px;
+}
+
 .vanilla input {
   width: 0px;
   height: 0px;
   visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .vanilla p a {

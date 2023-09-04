@@ -26,7 +26,6 @@ async function parseContents(value: any): Promise<any> {
 }
 
 async function fetcher() {
-  console.debug('fetcher')
   try {
     let vanilla = await get('vanilla-rom')
     if (vanilla instanceof ArrayBuffer) {
@@ -101,13 +100,22 @@ export default function VanillaButton() {
     setVanillaFile(file, set)
   }, [set])
 
+  const shouldHide = isLoading && !data
+
+  // If data is found, show spacer
+  if (data) {
+    return (
+      <div style={{ visibility: 'hidden', height: '43px' }} />
+    )
+  }
+
   return (
     <div className={styles.vanilla}>
-      <div style={{ visibility: isLoading && !data ? 'hidden' : 'visible' }}>
+      <div style={{ visibility: shouldHide ? 'hidden' : 'visible' }}>
         <Button variant="secondary" onClick={handleClick}>
           Upload Vanilla ROM
         </Button>
-        <p>You must set the <a href="/info/settings#vanilla">Vanilla ROM</a> in order to be able to generate a randomized seed.</p>
+        {/* <p>You must set the <a href="/info/settings#vanilla">Vanilla ROM</a> in order to be able to generate a randomized seed.</p> */}
         <input ref={inputRef} type="file" onChange={handleFileChange} />
       </div>
     </div>
