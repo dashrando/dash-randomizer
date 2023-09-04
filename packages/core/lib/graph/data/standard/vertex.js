@@ -22,7 +22,6 @@ export const standardVertices = {
     Supers_Climb: "minor",
     Missiles_OldMB: "minor",
     ConstructionZone: "",
-    TacoTankRoom: "",
   },
   BlueBrinstar: {
     MorphBall: "major",

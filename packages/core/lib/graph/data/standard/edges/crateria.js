@@ -126,14 +126,10 @@ export const crateriaEdges = {
 
   ConstructionZone: {
     Missiles_Alpha: () => HasMorph,
-    TacoTankRoom: true,
-    MorphBall: true,
-  },
-
-  TacoTankRoom: {
-    ConstructionZone: true,
-    EnergyTank_Ceiling: true,
     Missiles_Beta: () => HasMorph,
+    BoulderRoom: () => CanUsePowerBombs,
+    EnergyTank_Ceiling: true,
+    MorphBall: true,
   },
 
   PBs_Retro: {
@@ -150,21 +146,18 @@ export const crateriaEdges = {
   },
 
   EnergyTank_Ceiling: {
-    MorphBall: true,
-    Missiles_Beta: () => HasMorph,
-    BoulderRoom: () => CanUsePowerBombs,
-    Missiles_BillyMays1: () => CanUsePowerBombs,
-    Missiles_BillyMays2: () => CanUsePowerBombs,
+    ConstructionZone: true,
   },
 
   Missiles_Beta: {
-    TacoTankRoom: () => HasMorph,
+    ConstructionZone: () => HasMorph,
   },
 
   BoulderRoom: {
     Missiles_BillyMays1: () => true,
     Missiles_BillyMays2: () => true,
-    EnergyTank_Ceiling: () => CanUseBombs || CanUsePowerBombs || HasScrewAttack,
+    ConstructionZone: () =>
+      CanUseBombs || CanUsePowerBombs || (HasScrewAttack && HasMorph),
   },
 
   Missiles_BillyMays1: {
