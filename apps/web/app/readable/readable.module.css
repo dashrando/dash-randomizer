@@ -3,17 +3,47 @@
 }
 
 .logic_title {
-  text-align: center;
-  font-size: 1.5em;
-  margin-bottom: 10px;
+  font-size: 36px;
+  line-height: 36px;
+  margin: 0;
+  font-weight: 600;
+  color: #fff;
 }
 
-.seperator hr {
-  border: 1px solid rgb(90, 173, 54);
-  width: 100%;
-  text-align: left;
-  margin-left: 0px;
-  margin-top: 0px;
+.section {
+  margin-bottom: 100px;
+}
+
+.areaTitle {
+  font-size: 24px;
+  line-height: 36px;
+}
+
+.edge {
+
+}
+
+.edge + .edge {
+  margin-top: var(--spacer-16x);
+}
+
+.edge + .areaTitle {
+  margin-top: var(--spacer-32x);
+}
+
+.edge pre {
+  padding: var(--spacer-4x);
+  border: 1px solid #222;
+  border-radius: 3px;
+  font-size: 14px;
+  line-height: 24px;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.edge code {
+  overflow-x: scroll;
+  font-family: var(--type-mono);
 }
 
 .token {

@@ -1,4 +1,4 @@
-import { EdgeContent, Navigation, Seperator, mapArea } from "../readable";
+import { EdgeContent, Navigation, mapArea } from "../readable";
 import styles from "../readable.module.css";
 import { loadGraph } from "core";
 import { MajorDistributionMode, MapLayout } from "core/params";
@@ -61,19 +61,19 @@ const LogicPage = ({ params }: { params: { graph: string }}) => {
 
   const Edge = ({ edge }: any) => {
     // Hide constant conditions unless they are to get an item
-    if (
-      edge.to.type != "major" &&
-      edge.to.type != "minor" &&
-      (edge.condition === true || edge.condition === false)
-    ) {
+    const notMajorMinor = edge.to.type != "major" && edge.to.type != "minor"
+    const hideConstant = (edge.condition === true || edge.condition === false)
+    const hideEdge = (notMajorMinor && hideConstant)
+    if (hideEdge) {
       return null
     }
+
     const edgeArea = mapArea(edge.from.area);
     const showArea = edgeArea != area;
     area = edgeArea;
     return (
       <>
-        {showArea ? <h2>{area}</h2> : <></>}
+        {showArea && <h2 className={styles.areaTitle}>{area}</h2>}
         <EdgeContent edge={edge} />
       </>
     );
@@ -81,15 +81,13 @@ const LogicPage = ({ params }: { params: { graph: string }}) => {
 
   const displayName = getGraphName(params.graph)
   return (
-    <>
+    <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+      <div className={styles.logic_title}>{displayName} Logic</div>
       <Navigation selected={params.graph} />
-      <Seperator />
-      <div className={styles.logic_title}>{displayName}</div>
-      <Seperator />
       {graph.map((e, index) => (
         <Edge key={index} edge={e} />
       ))}
-    </>
+    </div>
   );
 };
 
