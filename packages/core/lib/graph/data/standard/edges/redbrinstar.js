@@ -48,7 +48,7 @@ export const redbrinstarEdges = {
   },
 
   RedTowerElevatorRoom: {
-    Door_MaridiaEscape: (_) => false, //for future use
+    Door_MaridiaEscape: () => false, //for future use
     RedBrinstarElevatorRoom: true,
     RedTowerTop: () => CanUsePowerBombs,
     PBs_Alpha: () => CanOpenGreenDoors,
