@@ -128,6 +128,9 @@ export const standardVertices = {
     Missiles_Muskateers: "minor",
     Muskateers: "",
     PBs_Shame: "minor",
+    GoldTorizoFight: "",
+    DefeatedGoldTorizo: "",
+    ScrewAttackTop: "",
   },
   KraidsLair: {
     Door_KraidsLair: "",

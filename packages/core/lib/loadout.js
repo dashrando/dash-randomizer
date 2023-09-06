@@ -280,7 +280,10 @@ class Loadout {
       CanKillCrocomire:
         this.hasCharge || this.missilePacks + this.superPacks >= 2,
       CanKillBotwoon: this.hasCharge || this.superPacks >= 3,
-      CanKillGoldTorizo: this.hasVaria && canDamageBosses,
+      CanKillGoldTorizo:
+        this.hasVaria &&
+        this.totalTanks >= 4 &&
+        (this.hasCharge || this.superPacks >= 3),
       HasDefeatedBotwoon: this.hasDefeatedBotwoon,
       HasDefeatedCrocomire: this.hasDefeatedCrocomire,
       HasDefeatedMaridiaBoss: this.hasDefeatedMaridiaBoss,
