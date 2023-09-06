@@ -102,7 +102,7 @@ export const lowernorfairEdges = {
   ScrewAttack: {
     Supers_GT: () => CanDestroyBombWalls,
     PrePillars: () =>
-      (HasSpaceJump && (HasScrewAttack || CanUsePowerBombs)) ||
+      ((HasSpaceJump || HasDoubleJump) && CanDestroyBombWalls) ||
       ((CanUseBombs || HasSpringBall) && CanPassBombPassages) ||
       (HasSpeed && ((HasHiJump && CanDestroyBombWalls) || CanKillGoldTorizo)),
   },

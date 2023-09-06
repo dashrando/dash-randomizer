@@ -231,8 +231,6 @@ class Loadout {
 
   getFlags() {
     const canDamageBosses = this.hasCharge || this.canOpenRedDoors;
-    const isHeatProof = this.hasVaria || this.hasHeatShield;
-    const ballisticPacks = this.superPacks + this.missilePacks;
     const ridleyAmmoDamage =
       this.missilePacks * 500 + this.superPacks * 3000 + this.powerPacks * 1000;
 
@@ -263,7 +261,8 @@ class Loadout {
       PowerBombPacks: this.powerPacks,
       SuperPacks: this.superPacks,
       TotalTanks: this.totalTanks,
-      HellRunTanks: isHeatProof ? 9999 : this.totalTanks,
+      HellRunTanks:
+        this.hasVaria || this.hasHeatShield ? 9999 : this.totalTanks,
       CanFly: this.canFly,
       CanDoSuitlessMaridia:
         this.hasHiJump &&
@@ -278,7 +277,8 @@ class Loadout {
       CanKillRidley:
         this.hasVaria && (this.hasCharge || ridleyAmmoDamage >= 19000),
       CanKillSporeSpawn: canDamageBosses,
-      CanKillCrocomire: this.hasCharge || ballisticPacks >= 2,
+      CanKillCrocomire:
+        this.hasCharge || this.missilePacks + this.superPacks >= 2,
       CanKillBotwoon: this.hasCharge || this.superPacks >= 3,
       CanKillGoldTorizo: this.hasVaria && canDamageBosses,
       HasDefeatedBotwoon: this.hasDefeatedBotwoon,
@@ -296,5 +296,5 @@ class Loadout {
 export default Loadout;
 
 export const Checks = Object.getOwnPropertyNames(Loadout).filter(
-  (name) => name.startsWith("can") && typeof Loadout[name] === "function"
+  (name) => name.startsWith("can") && typeof Loadout[name] === "function",
 );
