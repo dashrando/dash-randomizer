@@ -5,16 +5,17 @@ import { loadGraph } from "core";
 import { MajorDistributionMode, MapLayout } from "core/params";
 
 export const metadata: Metadata = {
-  title: "Readable Logic - DASH Recall",
-  description: "DASH Recall logic in a human readable format",
+  title: "Readable Logic - DASH Standard Area",
+  description: "DASH Standard Area logic in a human readable format",
 };
 
-const RecallLogicPage: NextPage = () => {
+const StandardAreaLogicPage: NextPage = () => {
   const graph = loadGraph(
     1,
     1,
-    MapLayout.Recall,
-    MajorDistributionMode.Recall,
+    MapLayout.Standard,
+    MajorDistributionMode.Standard,
+    true
   );
 
 let area = "";
@@ -41,9 +42,9 @@ const Edge = ({ edge }: any) => {
 
   return (
     <>
-      <Navigation selected="recall" />
+      <Navigation selected="standard-area" />
       <Seperator />
-      <div className={styles.logic_title}>Recall</div>
+      <div className={styles.logic_title}>Standard Area</div>
       <Seperator />
       {graph.map((e) => (
         <Edge edge={e} />
@@ -52,4 +53,4 @@ const Edge = ({ edge }: any) => {
   );
 };
 
-export default RecallLogicPage;
+export default StandardAreaLogicPage;
