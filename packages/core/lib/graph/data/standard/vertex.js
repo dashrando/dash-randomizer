@@ -201,6 +201,7 @@ export const standardVertices = {
     Missiles_Precious: "minor",
     Missiles_Aqueduct: "minor",
     Supers_Aqueduct: "minor",
+    PostBotwoon: "",
   },
   CrocomiresLair: {
     Door_Croc: "",

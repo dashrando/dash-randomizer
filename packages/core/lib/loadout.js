@@ -279,7 +279,9 @@ class Loadout {
       CanKillSporeSpawn: canDamageBosses,
       CanKillCrocomire:
         this.hasCharge || this.missilePacks + this.superPacks >= 2,
-      CanKillBotwoon: this.hasCharge || this.superPacks >= 3,
+      CanKillBotwoon:
+        this.hasCharge ||
+        this.superPacks * 1500 + this.missilePacks * 500 >= 6000,
       CanKillGoldTorizo:
         this.hasVaria &&
         this.totalTanks >= 4 &&
