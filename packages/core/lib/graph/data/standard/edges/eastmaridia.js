@@ -12,9 +12,10 @@ export const eastmaridiaEdges = {
   },
 
   Aqueduct: {
-    //TODO: PB only = Snail climb, ugh
+    //TODO: Snail climb is technically in logic
     Door_Aqueduct: () =>
-      CanUsePowerBombs || (HasGravity && CanDestroyBombWalls),
+      (HasGravity || HasHiJump) &&
+      (CanUseBombs || CanUsePowerBombs || (HasGravity && HasScrewAttack)),
     //TODO: Snail clip is technically in logic
     Missiles_Aqueduct: () => HasGravity,
     Supers_Aqueduct: () => HasGravity,
@@ -113,20 +114,22 @@ export const eastmaridiaEdges = {
   },
 
   BotwoonHallwayRight: {
-    Aqueduct: () => (HasGravity && HasSpeed) || HasIce,
-    //TODO: Should we include charge/missile/super criteria for Botwoon?
-    EnergyTank_Botwoon: () =>
-      HasMorph && (HasGravity || HasHiJump || HasSpringBall),
-    ColosseumTopLeft: () => HasGravity && (HasSpeed || HasMorph),
+    PostBotwoon: () => CanKillBotwoon,
+  },
+
+  PostBotwoon: {
+    Aqueduct: true,
+    EnergyTank_Botwoon: () => HasMorph && (HasGravity || HasHiJump),
+    ColosseumTopLeft: () => HasGravity && HasSpeed,
   },
 
   EnergyTank_Botwoon: {
-    BotwoonHallwayRight: () => HasMorph,
-    Aqueduct: true,
-    ColosseumTopLeft: () => HasGravity && HasMorph,
+    PostBotwoon: true, // if we got here, we can get back
+    ColosseumTopLeft: () => HasMorph && HasGravity,
   },
 
   ColosseumTopLeft: {
+    PostBotwoon: () => HasGravity && HasSpeed,
     EnergyTank_Botwoon: () =>
       HasMorph && (HasGravity || HasHiJump || HasSpringBall),
     ColosseumTopRight: () => HasGravity || HasSpaceJump || CanDoSuitlessMaridia,
