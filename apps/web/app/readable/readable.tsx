@@ -1,6 +1,7 @@
 import styles from "./readable.module.css";
 import * as prettier from "prettier";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export const Seperator = () => (
   <div className={styles.seperator}>
@@ -84,45 +85,33 @@ export const EdgeContent = ({ edge }: any) => {
 };
 
 export const Navigation = ({ selected }: { selected: string }) => {
+  const options = [
+    {
+      name: 'Standard',
+      slug: 'standard',
+    },
+    {
+      name: 'Standard Area',
+      slug: 'standard-area',
+    },
+    {
+      name: 'Recall',
+      slug: 'recall',
+    },
+    {
+      name: 'Recall Area',
+      slug: 'recall-area',
+    }
+  ]
   return (
-    <div className={styles.nav_bar}>
-      <span className={styles.nav_title}>Select Logic:</span>
-      <span
-        className={`${styles.nav_link} ${
-          selected == "standard" ? `${styles.selected}` : ""
-        }`}
-      >
-        <Link href="/readable/standard">Standard</Link>
-      </span>
-      <span
-        className={`${styles.nav_link} ${
-          selected == "standard-area" ? `${styles.selected}` : ""
-        }`}
-      >
-        <Link href="/readable/standard-area">Standard Area</Link>
-      </span>
-      <span
-        className={`${styles.nav_link} ${
-          selected == "recall" ? `${styles.selected}` : ""
-        }`}
-      >
-        <Link href="/readable/recall">Recall</Link>
-      </span>
-      <span
-        className={`${styles.nav_link} ${
-          selected == "recall-area" ? `${styles.selected}` : ""
-        }`}
-      >
-        <Link href="/readable/recall-area">Recall Area</Link>
-      </span>
-    </div>
+    <nav className={styles.nav_bar}>
+      <ul>
+        {options.map(({ name, slug }) => (
+          <li key={slug}>
+            <Link href={`/readable/${slug}`} className={cn(slug === selected && styles.active)}>{name}</Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 };
-
-export default function LogicPage({ type }: { type: string }) {
-  return (
-    <>
-      <Navigation selected={type} />
-    </>
-  )
-}

@@ -82,9 +82,35 @@
   font-size: 1.1em;
 }
 
+.nav_bar ul {
+  display: flex;
+  list-style: none outside none;
+  margin: var(--spacer-4x) 0;
+  padding: 0;
+  gap: var(--spacer-4x);
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .nav_bar ul {
+    flex-direction: column;
+  }
+}
+
+.nav_bar ul li {
+  margin: 0;
+  padding: 0;
+}
+
 .nav_bar a {
-  color: rgb(90, 173, 54);
+  color: #b6b9b3;
   text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+
+.nav_bar a:hover {
+  color: #fff;
 }
 
 .nav_title {
@@ -93,13 +119,8 @@
   font-size: 1.1em;
 }
 
-.nav_link {
-  margin: 10px;
-}
-
-.nav_link.selected {
-  font-weight: bold;
-  font-style: italic;
+.nav_bar a.active {
+  color: #77e7be !important;
 }
 
 /* Popup container. */
