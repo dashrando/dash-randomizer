@@ -1,7 +1,10 @@
+import Spacer from "@/app/components/spacer";
 import { EdgeContent, Navigation, mapArea } from "../readable";
 import styles from "../readable.module.css";
 import { loadGraph } from "core";
 import { MajorDistributionMode, MapLayout } from "core/params";
+import LoadoutChecks from "./loadout";
+import { cn } from "@/lib/utils";
 
 export async function generateMetadata ({ params }: { params: { graph: string } }) {
   const name = getGraphName(params.graph)
@@ -84,6 +87,17 @@ const LogicPage = ({ params }: { params: { graph: string }}) => {
     <div style={{ maxWidth: '628px', margin: '0 auto' }}>
       <div className={styles.logic_title}>{displayName} Logic</div>
       <Navigation selected={params.graph} />
+      <Spacer y={12} />
+      <h2 className={styles.areaTitle}>Utility Checks</h2>
+      {LoadoutChecks.map((check) => (
+        <div key={check.name} className={cn(styles.edge, styles.utilityCheck)}>
+          <strong>{check.name}</strong>
+          <pre>
+            <code>{check.condition}</code>
+          </pre>
+        </div>
+      ))}
+      
       {graph.map((e, index) => (
         <Edge key={index} edge={e} />
       ))}

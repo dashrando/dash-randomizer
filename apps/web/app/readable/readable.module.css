@@ -21,6 +21,10 @@
   line-height: 24px;
 }
 
+.utilityCheck strong {
+  font-family: var(--type-mono);
+}
+
 .edge + .edge {
   margin-top: var(--spacer-10x);
 }
