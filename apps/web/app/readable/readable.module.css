@@ -15,20 +15,18 @@
 }
 
 .areaTitle {
+  color: #fff;
+  margin: 0 0 var(--spacer-4x);
   font-size: 24px;
-  line-height: 36px;
-}
-
-.edge {
-
+  line-height: 24px;
 }
 
 .edge + .edge {
-  margin-top: var(--spacer-16x);
+  margin-top: var(--spacer-8x);
 }
 
 .edge + .areaTitle {
-  margin-top: var(--spacer-32x);
+  margin-top: var(--spacer-16x);
 }
 
 .edge pre {
@@ -39,11 +37,17 @@
   line-height: 24px;
   word-break: break-all;
   word-wrap: break-word;
+  overflow-x: auto;
 }
 
 .edge code {
-  overflow-x: scroll;
+  overflow-x: auto;
   font-family: var(--type-mono);
+  tab-size: 2;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  hyphens: none;
 }
 
 .token {

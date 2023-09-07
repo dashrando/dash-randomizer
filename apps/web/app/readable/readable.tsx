@@ -75,7 +75,7 @@ export const EdgeContent = ({ edge }: any) => {
   condition = condition.replace(/&&/g, "AND");
   return (
     <div className={styles.edge}>
-      From <b>{e.from.name}</b> to <b>{e.to.name}</b>
+      From <strong>{e.from.name}</strong> to <strong>{e.to.name}</strong>
       <pre>
         <code>{condition}</code>
       </pre>
