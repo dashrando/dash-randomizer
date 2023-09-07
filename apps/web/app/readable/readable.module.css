@@ -22,7 +22,7 @@
 }
 
 .edge + .edge {
-  margin-top: var(--spacer-8x);
+  margin-top: var(--spacer-10x);
 }
 
 .edge + .areaTitle {
@@ -38,6 +38,8 @@
   word-break: break-all;
   word-wrap: break-word;
   overflow-x: auto;
+  margin-top: var(--spacer-2x);
+  margin-bottom: 0;
 }
 
 .edge code {
