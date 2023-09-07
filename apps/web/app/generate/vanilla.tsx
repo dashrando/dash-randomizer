@@ -1,11 +1,12 @@
 'use client'
 
 import useSWR from 'swr'
-import { useDropzone } from 'react-dropzone'
+import Button from '../components/button'
 import { get, set } from 'idb-keyval'
 import { vanilla } from 'core'
-import { useCallback } from 'react'
-import useMounted from '../hooks/useMounted'
+import { cn } from '@/lib/utils'
+import { useCallback, useRef } from 'react'
+import { toast } from 'sonner'
 import styles from './vanilla.module.css'
 
 async function parseContents(value: any): Promise<any> {
@@ -27,7 +28,6 @@ async function parseContents(value: any): Promise<any> {
 }
 
 async function fetcher() {
-  console.debug('fetcher')
   try {
     let vanilla = await get('vanilla-rom')
     if (vanilla instanceof ArrayBuffer) {
@@ -45,9 +45,7 @@ async function fetcher() {
 
 
 export const useVanilla = () => {
-  const mounted = useMounted()
-  const { data, isLoading, isValidating, error, mutate } = useSWR(
-    mounted ? 'vanilla-rom' : null,
+  const { data, isLoading, error, mutate } = useSWR('vanilla-rom',
     fetcher,
     {
       revalidateIfStale: false,
@@ -55,7 +53,6 @@ export const useVanilla = () => {
   )
 
   const setVanilla = useCallback(async (value: any) => {
-    // TODO: validate value
     await set('vanilla-rom', value)
     mutate()
   }, [mutate])
@@ -63,7 +60,6 @@ export const useVanilla = () => {
     data,
     set: setVanilla,
     isLoading,
-    isReady: !isLoading && !isValidating,
     error,
   }
 }
@@ -73,51 +69,52 @@ const setVanillaFile = async (file: any, set: any) => {
   
   reader.onload = async function () {
     try {
-      const bytes = await parseContents(reader.result);
-      await set(bytes);
+      const bytes = await parseContents(reader.result)
+      await set(bytes)
+      toast('Vanilla ROM loaded')
     } catch (e) {
-      const err = e as Error;
+      const err = e as Error
       console.error(err.message);
-      // TODO: Present a friendly error message to the user instead of an alert.
-      alert(err.message);
+      toast.error(err.message);
     }
   };
 
   reader.onerror = function () {
-    alert("Failed to load file.");
+    toast.error("Failed to load file.");
   };
 
   reader.readAsArrayBuffer(file);
 }
 
 export default function VanillaButton() {
-  const { set, isLoading } = useVanilla()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const { data, set, isLoading } = useVanilla()
 
-  const onDrop = useCallback((acceptedFiles: any) => {
-    const file = acceptedFiles[0]
+  const handleClick = (evt: any) => {
+    evt.preventDefault()
+    if (inputRef.current) {
+      inputRef.current?.click()
+    }
+  };
+
+  const handleFileChange = useCallback((evt: any) => {
+    const file = evt.target.files[0]
     setVanillaFile(file, set)
   }, [set])
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    multiple: false,
-    maxFiles: 1,
-    accept: {
-      "application/octet-stream": [".smc", ".sfc"],
-      "application/binary": [".smc", ".sfc"],
-    },
-    useFsAccessApi: false,
-  })
+
+  // If the vanilla file has been loaded
+  // or if the form is loading
+  // then hide the button
+  const shouldHide = data || (isLoading && !data)
 
   return (
     <div className={styles.vanilla}>
-      <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
-        <div {...getRootProps()}>
-          <div className={styles.wrapper}>
-            <input {...getInputProps()} />
-            Upload Vanilla ROM
-          </div>
-        </div>
+      <div className={cn(shouldHide && styles.loading)}>
+        <Button variant="secondary" onClick={handleClick}>
+          Upload Vanilla ROM
+        </Button>
         <p>You must set the <a href="/info/settings#vanilla">Vanilla ROM</a> in order to be able to generate a randomized seed.</p>
+        <input ref={inputRef} type="file" onChange={handleFileChange} />
       </div>
     </div>
   )

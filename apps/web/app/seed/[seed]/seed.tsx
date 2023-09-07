@@ -133,7 +133,7 @@ export default function Seed({
   signature: string
 }) {
   const mounted = useMounted()
-  const { data: vanilla, isLoading } = useVanilla()
+  const { data: vanilla } = useVanilla()
   const [seed, setSeed] = useState<Seed|null>(null)
   const searchParams = useSearchParams()
 
@@ -180,28 +180,22 @@ export default function Seed({
     <div>
       <div className={cn(styles.signature, !vanilla && styles.noVanilla)}>{signature || <>&nbsp;</>}</div>
       <div className={styles.download}>
-        {(isLoading || !mounted) ? (
-          <div style={{ visibility: 'hidden' }}>
-            <Button variant="secondary">Upload Vanilla</Button>
-          </div>
+        {(hasVanilla && seed) ? (
+          <Button variant="hero" onClick={(evt) => {
+            evt.preventDefault()
+            // TODO: Refactor to show loading state if still getting seed
+            if (seed) {
+              downloadFile(seed?.data, seed?.name, hash)
+            }
+          }}>
+            <ArrowDown size={14} strokeWidth={2} />
+            <>&nbsp;</>
+            <span className={styles.mono}>{seed?.name}</span>
+          </Button>
         ) : (
-          (hasVanilla && seed) ? (
-            <Button variant="hero" onClick={(evt) => {
-              evt.preventDefault()
-              // TODO: Refactor to show loading state if still getting seed
-              if (seed) {
-                downloadFile(seed?.data, seed?.name, hash)
-              }
-            }}>
-              <ArrowDown size={14} strokeWidth={2} />
-              <>&nbsp;</>
-              <span className={styles.mono}>{seed?.name}</span>
-            </Button>
-          ) : (
-            <div style={{ maxWidth: '300px' }}>
-              <VanillaButton />
-            </div>
-          )
+          <div style={{ maxWidth: '300px' }}>
+            <VanillaButton />
+          </div>
         )}
       </div>
       <Parameters title="Randomization" items={parsedParams.randomizeParams} />

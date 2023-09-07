@@ -1,27 +1,20 @@
-.wrapper {
-  border: 1px solid #fff;
+.vanilla {
   position: relative;
-  padding: var(--spacer-2x) var(--spacer-6x);
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  border-radius: 4px;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
-  font-weight: 400;
-  color: #fff;
-  background-color: #000;
+  min-height: 43px;
 }
 
-.wrapper:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.vanilla .loading {
+  visibility: hidden;
+  height: 43px;
 }
 
-.wrapper:disabled {
-  color: rgb(99, 99, 99);
-  background-color: transparent;
-  border-color: rgb(51, 51, 51);
+.vanilla input {
+  width: 0px;
+  height: 0px;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .vanilla p a {
@@ -34,4 +27,9 @@
 .vanilla p a:hover {
   color: #77e7be;
   text-decoration-color: transparent;
+}
+
+.vanilla button {
+  width: 100%;
+  max-width: 400px;
 }
