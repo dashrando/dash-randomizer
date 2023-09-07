@@ -81,7 +81,7 @@ const LogicPage = ({ params }: { params: { graph: string }}) => {
 
   const displayName = getGraphName(params.graph)
   return (
-    <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+    <div style={{ maxWidth: '628px', margin: '0 auto' }}>
       <div className={styles.logic_title}>{displayName} Logic</div>
       <Navigation selected={params.graph} />
       {graph.map((e, index) => (
