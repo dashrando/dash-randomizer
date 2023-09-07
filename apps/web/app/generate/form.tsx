@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { Heading } from '../components/text'
 import Select from '../components/select'
 import Numeric from '../components/numeric'
@@ -24,20 +23,15 @@ import {
 } from 'core/params'
 import { fetchSignature } from 'core'
 import { useEffect, useState } from 'react'
-import { ArrowDown } from 'react-feather'
 import Spacer from '../components/spacer'
 
 const Sidebar = ({
   name = null,
   signature = null,
-  seed = null,
-  isRandom = false,
   hash = null
 }: {
   name?: string | null
   signature?: string | null
-  seed?: string | null
-  isRandom: boolean
   hash?: string | null
 }) => {
   const { data } = useVanilla()
@@ -53,13 +47,14 @@ const Sidebar = ({
   return (
     <aside className={cn(styles.sidebar, { [styles.sidebarMobileLoaded]: data, [styles.open]: open })}>
       {mounted ? (
-        data ? (
+        (data) ? (
           <div>
             <div className={styles.sidebarButtons}>
+              {/* Generate a seed */}
               <Button type="submit" block variant="primary">
-                  Generate Seed
-                  {/* <ArrowDown size={14} strokeWidth={2} /> */}
+                Generate Seed
               </Button>
+              {/* Has a seed */}
               {(signature && name) && (
                 <Button
                   className={styles['mobile-sidebar-btn']}
@@ -95,18 +90,12 @@ const Sidebar = ({
                       {`${hash}`}
                     </a>
                   </p>
-                  {/* {isRandom && (
-                    <div style={{ fontSize: '14px', margin: '2em 0 0', paddingTop: '1em', borderTop: '1px solid rgb(51, 51, 51)' }}>
-                      <Button variant="plain" type="submit" style={{ padding: 0, textAlign: 'left' }}>
-                        Generate another seed with these settings
-                      </Button>
-                    </div>
-                  )} */}
                 </div>
               </div>
             )}
           </div>
         ) : (
+          // no vanilla, no seed
           <VanillaButton />
         )) : null}
     </aside>
@@ -676,9 +665,7 @@ export default function Form() {
         <Sidebar
           name={rolledSeed?.name || null}
           signature={signature}
-          seed={rolledSeed?.seed}
           hash={rolledSeed?.hash}
-          isRandom={isRandom}
         />
       </div>
     </form>
