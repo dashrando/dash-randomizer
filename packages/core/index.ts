@@ -13,5 +13,8 @@ export {
   paramsToString,
   stringToParams,
 } from "./lib/graph/params";
+export {
+  loadGraph
+} from "./lib/graph/init";
 
 export { RandomizeRom, gameModes, BpsPatch };

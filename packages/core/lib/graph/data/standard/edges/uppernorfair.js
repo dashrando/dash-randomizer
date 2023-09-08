@@ -158,10 +158,10 @@ export const uppernorfairEdges = {
     Missiles_CrocEscape: () =>
       HellRunTanks >= 2 &&
       (CanFly ||
-        HasIce || //TODO: Remove getting across with ice
+        HasIce ||
         HasGrapple ||
         HasDoubleJump ||
-        (HasHiJump && (HasSpringBall || HasSpeed))),
+        (HasHiJump && (HasSpringBall || HasSpeed))), //TODO: Remove getting across with ice
   },
 
   Missiles_CrocEscape: {

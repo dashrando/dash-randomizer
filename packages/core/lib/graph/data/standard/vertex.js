@@ -22,7 +22,6 @@ export const standardVertices = {
     Supers_Climb: "minor",
     Missiles_OldMB: "minor",
     ConstructionZone: "",
-    TacoTankRoom: "",
   },
   BlueBrinstar: {
     MorphBall: "major",
@@ -129,6 +128,9 @@ export const standardVertices = {
     Missiles_Muskateers: "minor",
     Muskateers: "",
     PBs_Shame: "minor",
+    GoldTorizoFight: "",
+    DefeatedGoldTorizo: "",
+    ScrewAttackTop: "",
   },
   KraidsLair: {
     Door_KraidsLair: "",
@@ -199,6 +201,7 @@ export const standardVertices = {
     Missiles_Precious: "minor",
     Missiles_Aqueduct: "minor",
     Supers_Aqueduct: "minor",
+    PostBotwoon: "",
   },
   CrocomiresLair: {
     Door_Croc: "",

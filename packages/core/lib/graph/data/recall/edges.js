@@ -58,14 +58,6 @@ const UpperNorfair_PreCrocomire_to_CrocEntry = {
   requires: true,
 };
 
-const LowerNorfair_ScrewAttack_to_PrePillars = {
-  edges: ["ScrewAttack", "PrePillars"],
-  requires: () =>
-    ((HasSpaceJump || HasDoubleJump) && (HasScrewAttack || CanUsePowerBombs)) ||
-    ((CanUseBombs || HasSpringBall) && CanPassBombPassages) ||
-    (HasSpeed && ((HasHiJump && CanDestroyBombWalls) || CanKillGoldTorizo)),
-};
-
 //-----------------------------------------------------------------
 // Exports.
 //-----------------------------------------------------------------
@@ -82,5 +74,4 @@ export const RecallEdgeUpdates = [
   GreenBrinstar_ChargeBeam_to_Waterway,
   EastMaridia_BotwoonHallway_Left_to_Right,
   UpperNorfair_PreCrocomire_to_CrocEntry,
-  LowerNorfair_ScrewAttack_to_PrePillars,
 ];

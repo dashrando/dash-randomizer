@@ -48,12 +48,12 @@ const nextConfig = {
       },
       {
         source: "/readable",
-        destination: "/readable/recall",
+        destination: "/readable/standard",
         permanent: false,
       },
       {
         source: "/readable-logic",
-        destination: "/readable/recall",
+        destination: "/readable/standard",
         permanent: false,
       },
     ];

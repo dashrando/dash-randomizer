@@ -14,8 +14,7 @@ export const lowernorfairEdges = {
   },
 
   Missiles_Muskateers: {
-    Muskateers: () =>
-      (HasScrewAttack && HasMorph) || CanUseBombs || CanUsePowerBombs,
+    Muskateers: true, // If we got here, we can get back
   },
 
   Ruins: {
@@ -26,18 +25,17 @@ export const lowernorfairEdges = {
 
   PrePillars: {
     Ruins: () => CanUsePowerBombs,
-    ScrewAttack: () => SuperPacks >= 1 && CanDestroyBombWalls,
+    ScrewAttackTop: () => SuperPacks >= 1,
     WorstRoomBottom: () => CanDestroyBombWalls || HasSpeed,
   },
 
   WorstRoomBottom: {
     PrePillars: () => CanDestroyBombWalls,
     WorstRoomTop: () =>
-      //TODO: include killing pirates
       CanUseBombs ||
       (HasScrewAttack && (HasSpaceJump || HasDoubleJump)) ||
       (CanUsePowerBombs &&
-        (HasHiJump || HasSpringBall || HasSpaceJump || HasDoubleJump)),
+        (HasHiJump || HasSpringBall || HasSpaceJump || HasDoubleJump)), //TODO: include killing pirates
   },
 
   WorstRoomTop: {
@@ -91,19 +89,33 @@ export const lowernorfairEdges = {
   },
 
   Missiles_GT: {
-    Supers_GT: () => CanDestroyBombWalls,
-    ScrewAttack: () => CanKillGoldTorizo,
+    GoldTorizoFight: true,
   },
 
   Supers_GT: {
-    ScrewAttack: () => CanKillGoldTorizo,
+    GoldTorizoFight: true,
+  },
+
+  GoldTorizoFight: {
+    Supers_GT: () => CanDestroyBombWalls,
+    DefeatedGoldTorizo: () => CanKillGoldTorizo,
+  },
+
+  DefeatedGoldTorizo: {
+    ScrewAttack: true,
+    ScrewAttackTop: () => HasSpeed, // Charge a spark in GT room
+  },
+
+  ScrewAttackTop: {
+    ScrewAttack: () => CanDestroyBombWalls,
+    PrePillars: () => SuperPacks >= 1,
   },
 
   ScrewAttack: {
-    Supers_GT: () => CanDestroyBombWalls,
-    PrePillars: () =>
-      (HasSpaceJump && (HasScrewAttack || CanUsePowerBombs)) ||
+    ScrewAttackTop: () =>
+      ((HasSpaceJump || HasDoubleJump) && CanDestroyBombWalls) ||
       ((CanUseBombs || HasSpringBall) && CanPassBombPassages) ||
-      (HasSpeed && ((HasHiJump && CanDestroyBombWalls) || CanKillGoldTorizo)),
+      (HasSpeed && HasHiJump && HasScrewAttack),
+    GoldTorizoFight: true,
   },
 };
