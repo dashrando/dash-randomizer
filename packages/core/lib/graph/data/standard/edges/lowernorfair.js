@@ -19,7 +19,7 @@ export const lowernorfairEdges = {
 
   Ruins: {
     Door_RidleyMouth: true,
-    Missiles_GT: () => HasSpaceJump && CanUsePowerBombs,
+    Missiles_GT: () => CanUsePowerBombs, // Space Jump not required
     PrePillars: () => CanUsePowerBombs,
   },
 

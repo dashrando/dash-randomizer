@@ -231,8 +231,6 @@ class Loadout {
 
   getFlags() {
     const canDamageBosses = this.hasCharge || this.canOpenRedDoors;
-    const ridleyAmmoDamage =
-      this.missilePacks * 500 + this.superPacks * 3000 + this.powerPacks * 1000;
 
     return {
       CanUseBombs: this.canUseBombs,
@@ -275,7 +273,12 @@ class Loadout {
       CanKillPhantoon: canDamageBosses,
       CanKillDraygon: canDamageBosses,
       CanKillRidley:
-        this.hasVaria && (this.hasCharge || ridleyAmmoDamage >= 19000),
+        this.hasVaria &&
+        (this.hasCharge ||
+          this.missilePacks * 500 +
+            this.superPacks * 3000 +
+            this.powerPacks * 1000 >=
+            19000),
       CanKillSporeSpawn: canDamageBosses,
       CanKillCrocomire:
         this.hasCharge || this.missilePacks + this.superPacks >= 2,
