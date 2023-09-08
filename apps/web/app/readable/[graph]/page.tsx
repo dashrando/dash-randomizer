@@ -66,7 +66,8 @@ const LogicPage = ({ params }: { params: { graph: string }}) => {
     // Hide constant conditions unless they are to get an item
     const notMajorMinor = edge.to.type != "major" && edge.to.type != "minor"
     const hideConstant = (edge.condition === true || edge.condition === false)
-    const hideEdge = (notMajorMinor && hideConstant)
+    const hideBoss = edge.from.name.startsWith("Boss_")
+    const hideEdge = (notMajorMinor && hideConstant) || hideBoss
     if (hideEdge) {
       return null
     }

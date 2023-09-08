@@ -32,11 +32,10 @@ export const lowernorfairEdges = {
   WorstRoomBottom: {
     PrePillars: () => CanDestroyBombWalls,
     WorstRoomTop: () =>
-      //TODO: include killing pirates
       CanUseBombs ||
       (HasScrewAttack && (HasSpaceJump || HasDoubleJump)) ||
       (CanUsePowerBombs &&
-        (HasHiJump || HasSpringBall || HasSpaceJump || HasDoubleJump)),
+        (HasHiJump || HasSpringBall || HasSpaceJump || HasDoubleJump)), //TODO: include killing pirates
   },
 
   WorstRoomTop: {
