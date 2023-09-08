@@ -1,40 +1,85 @@
 const LoadoutChecks = [
   {
-    name: 'canDestroyBombWalls',
-    condition: 'canPassBombPassages OR hasScrewAttack',
+    name: 'CanUseBombs',
+    condition: 'HasMorph AND HasBombs',
   },
   {
-    name: 'canFly',
-    condition: 'canUseBombs OR hasSpaceJump',
+    name: 'CanUsePowerBombs',
+    condition: 'HasMorph AND PowerBombPacks >= 1',
   },
   {
-    name: 'canUseBombs',
-    condition: 'hasBombs && hasMorph',
+    name: 'CanPassBombPassages',
+    condition: 'CanUseBombs OR CanUsePowerBombs',
   },
   {
-    name: 'canUsePowerBombs',
-    condition: 'powerPacks > 0 && hasMorph',
+    name: 'CanDestroyBombWalls',
+    condition: 'CanPassBombPassages OR HasScrewAttack',
   },
   {
-    name: 'canPassBombPassages',
-    condition: 'canUseBomb OR canUsePowerBombs',
+    name: 'CanFly',
+    condition: 'CanUseBombs OR HasSpaceJump',
   },
   {
-    name: 'canOpenGreenDoors',
-    condition: 'superPacks > 0',
+    name: 'CanOpenRedDoors',
+    condition: 'MissilePacks >= 1 OR SuperPacks >= 1',
   },
   {
-    name: 'canOpenRedDoors',
-    condition: 'missilePacks > 0 OR superPacks > 0',
+    name: 'CanOpenGreenDoors',
+    condition: 'SuperPacks >= 1',
   },
   {
-    name: 'canOpenYellowDoors',
-    condition: 'canUsePowerBombs'
+    name: 'CanOpenYellowDoors',
+    condition: 'CanUsePowerBombs'
   },
   {
-    name: 'totalTanks',
-    condition: 'energyTanks + reserveTanks'
-  }
+    name: 'TotalTanks',
+    condition: 'EnergyTanks + ReserveTanks'
+  },
+  {
+    name: 'HellRunTanks',
+    condition:
+      'if (HasVaria OR HasHeatShield) {\n  return 9999\n} else {\n   return TotalTanks\n}'
+  },
+  {
+    name: 'CanDoSuitlessMaridia',
+    condition: 'HasHiJump AND HasGrapple AND (HasIce OR HasSpringBall)'
+  },
+  {
+    name: 'CanMoveInWestMaridia',
+    condition: 'HasGravity OR HasPressureValve'
+  },
+  {
+    name: 'CanKillKraid',
+    condition: 'HasCharge OR MissilePacks >= 1 OR SuperPacks >= 1'
+  },
+  {
+    name: 'CanKillPhantoon',
+    condition: 'HasCharge OR MissilePacks >= 1 OR SuperPacks >= 1'
+  },
+  {
+    name: 'CanKillDraygon',
+    condition: 'HasCharge OR MissilePacks >= 1 OR SuperPacks >= 1'
+  },
+  {
+    name: 'CanKillRidley',
+    condition: 'HasVaria AND (HasCharge OR (\n  MissilePacks * 500 +\n  SuperPacks * 3000 +\n  PowerBombPacks * 1000\n  >= 19000))'
+  },
+  {
+    name: 'CanKillSporeSpawn',
+    condition: 'HasCharge OR MissilePacks >= 1 OR SuperPacks >= 1'
+  },
+  {
+    name: 'CanKillCrocomire',
+    condition: 'HasCharge OR (MissilePacks + SuperPacks >= 2)'
+  },
+  {
+    name: 'CanKillBotwoon',
+    condition: 'HasCharge OR\n  MissilePacks * 500 + SuperPacks * 1500 >= 6000'
+  },
+  {
+    name: 'CanKillGoldTorizo',
+    condition: 'HasVaria AND TotalTanks >= 4 AND\n  (HasCharge OR SuperPacks >= 3)'
+  },
 ]
 
 export default LoadoutChecks

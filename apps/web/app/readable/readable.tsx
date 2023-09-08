@@ -68,7 +68,7 @@ export const EdgeContent = ({ edge }: any) => {
   if (condition.startsWith("()=>")) {
     condition = condition.slice(4);
   }
-  condition = prettier.format(condition, { semi: false, parser: "babel" });
+  condition = prettier.format(condition, { semi: false, parser: "babel", printWidth: 68 });
   if (condition[0] == ";") {
     condition = condition.slice(1);
   }
