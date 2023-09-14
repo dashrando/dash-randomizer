@@ -7,6 +7,7 @@ import { del } from 'idb-keyval'
 import { useVanilla } from '../generate/vanilla'
 import { toast } from 'sonner'
 import styles from './command.module.css'
+// import LoadoutChecks from '@/app/readable/[graph]/loadout'
 
 export default function CommandMenu() {
   const [open, setOpen] = useState(false)
@@ -51,12 +52,28 @@ export default function CommandMenu() {
               {pages.map((page) => (
                 <Command.Item
                   key={page.href}
-                  onSelect={(_) => router.push(page.href)}
+                  onSelect={(_) => {
+                    router.push(page.href)
+                    setOpen(false)
+                  }}
                 >
                   {page.name}
                 </Command.Item>
               ))}
             </Command.Group>
+            {/* <Command.Group heading="Logic">
+              {LoadoutChecks.map((check, index) => (
+                <Command.Item
+                  key={index}
+                  onSelect={(_) => {
+                    router.push(`/readable/standard-area#${check.name}`)
+                    setOpen(false)
+                  }}
+                >
+                  {check.name}
+                </Command.Item>
+              ))}
+            </Command.Group> */}
             {vanilla && (
               <Command.Group heading="Misc">
                 <Command.Item onSelect={async (_) => {
