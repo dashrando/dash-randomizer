@@ -59,6 +59,7 @@ export const useVanilla = () => {
   return {
     data,
     set: setVanilla,
+    refresh: mutate,
     isLoading,
     error,
   }
