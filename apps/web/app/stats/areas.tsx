@@ -71,7 +71,6 @@ const getNumLoops = (areas: Transition[]) => {
 
   let numLoops = 0;
   zones.forEach(z => {
-    //console.log(z[0])
     for (let i = 0; i < z[1].length - 1; i++) {
       areas.forEach(t => {
         if (t.from != z[1][i]) {
@@ -79,7 +78,6 @@ const getNumLoops = (areas: Transition[]) => {
         }
         for (let j = i + 1; j < z[1].length; j++) {
           if (t.to == z[1][j]) {
-            //console.log(t.from, "->", t.to)
             numLoops += 1;
           }
         }
@@ -87,6 +85,44 @@ const getNumLoops = (areas: Transition[]) => {
     }
   })
   return numLoops;
+}
+
+const getNumVanilla = (areas: Transition[]) => {
+  const vanilla = [
+    // Crateria / Blue Brinstar
+    ["Door_RetroPBs", "Door_GreenHills"],
+    ["Door_Moat", "Door_Ocean"],
+    ["Door_G4", "Door_Tourian"],
+    ["Door_Kago", "Door_GreenElevator"],
+    ["Door_Crabs", "Door_RedElevator"],
+    // Wrecked Ship
+    ["Door_HighwayExit", "Door_Highway"],
+    // Green / Pink Brinstar
+    ["Door_NoobBridge", "Door_RedTower"],
+    // Red Brinstar
+    ["Door_MaridiaEscape", "Door_RedFish"],
+    ["Door_MaridiaTube", "Door_MainStreet"],
+    ["Door_KraidEntry", "Door_ElevatorEntry"],
+    ["Door_AboveKraid", "Door_MaridiaMap"],
+    // Upper Norfair
+    ["Door_KraidMouth", "Door_KraidsLair"],
+    ["Door_CrocEntry", "Door_Croc"],
+    ["Door_SingleChamber", "Door_Muskateers"],
+    ["Door_LavaDive", "Door_RidleyMouth"],
+    // West Maridia
+    ["Door_PreAqueduct", "Door_Aqueduct"],
+  ];
+  let count = 0;
+  vanilla.forEach((p) => {
+    areas.forEach((t,i) => {
+      if (t.from == p[0] && t.to == p[1]) {
+        count += 1;
+      } else if (t.to == p[0] && t.from == p[1]) {
+        count += 1;
+      }
+    });
+  });
+  return count / 2;
 }
 
 function TransitionTable({
@@ -230,8 +266,11 @@ export default function AreaDoorTable({
         seeds={seeds}
         condense={false} />
       <h2>Areas</h2>
-      <p>Number of transitions: {areas.length}</p>
-      <p>Number of area loops: {getNumLoops(areas)}</p>
+      <p>Total Transitions: {areas.length}</p>
+      <p>
+        <span>Intra-Area Count: {getNumLoops(areas)}</span>
+        <span style={{paddingLeft: '20px'}}>Vanilla Count: {getNumVanilla(areas)}</span>
+        </p>
       <TransitionTable
         transitions={areas}
         columnHeaders={areaDoors}
