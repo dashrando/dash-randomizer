@@ -258,19 +258,19 @@ export default function AreaDoorTable({
   ]
   return (
     <div>
-      <h2>Bosses</h2>
+      <h3>Bosses</h3>
       <TransitionTable
         transitions={bosses}
         columnHeaders={bossColumns}
         rowHeaders={bossRows}
         seeds={seeds}
         condense={false} />
-      <h2>Areas</h2>
-      <p>Total Transitions: {areas.length}</p>
+      <h3>Areas</h3>
       <p>
-        <span>Intra-Area Count: {getNumLoops(areas)}</span>
+        <span>Total Transitions: {areas.length}</span>
+        <span style={{paddingLeft: '20px'}}>Intra-Area Count: {getNumLoops(areas)}</span>
         <span style={{paddingLeft: '20px'}}>Vanilla Count: {getNumVanilla(areas)}</span>
-        </p>
+      </p>
       <TransitionTable
         transitions={areas}
         columnHeaders={areaDoors}
