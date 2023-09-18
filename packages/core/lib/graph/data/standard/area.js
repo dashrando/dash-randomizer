@@ -13,17 +13,17 @@ const Crateria_Terminator_to_G4 = {
 };
 
 const GreenBrinstar_Tube_to_GreenHillsPortal = {
-  edges: ["Missiles_Tube", "Door_GreenHills"],
+  edges: ["Missiles (Brin Tube)", "Door_GreenHills"],
   requires: true,
 };
 
 const GreenBrinstar_Tube_to_NoobBridgePortal = {
-  edges: ["Missiles_Tube", "Door_NoobBridge"],
+  edges: ["Missiles (Brin Tube)", "Door_NoobBridge"],
   requires: true,
 };
 
 const GreenBrinstar_NoobBridgePortal_to_Tube = {
-  edges: ["Door_NoobBridge", "Missiles_Tube"],
+  edges: ["Door_NoobBridge", "Missiles (Brin Tube)"],
   requires: true,
 };
 

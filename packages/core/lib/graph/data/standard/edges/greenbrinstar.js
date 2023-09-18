@@ -1,47 +1,47 @@
 export const greenbrinstarEdges = {
   Door_GreenElevator: {
-    Missiles_EarlySupers: () => CanOpenRedDoors,
-    EnergyTank_Etecoons: () => CanUsePowerBombs,
+    "Missiles (Early Bridge)": () => CanOpenRedDoors,
+    "Energy Tank (Etecoons)": () => CanUsePowerBombs,
     DachoraRoomLeft: true,
   },
 
-  Missiles_EarlySupers: {
+  "Missiles (Early Bridge)": {
     Door_GreenElevator: true,
-    Supers_EarlySupers: () => HasMorph || HasSpeed,
+    "Supers (Early Bridge)": () => HasMorph || HasSpeed,
   },
 
-  Supers_EarlySupers: {
-    Missiles_EarlySupers: true,
-    ReserveTank_Brinstar: () => CanOpenRedDoors,
+  "Supers (Early Bridge)": {
+    "Missiles (Early Bridge)": true,
+    "Reserve Tank (Brinstar)": () => CanOpenRedDoors,
   },
 
-  ReserveTank_Brinstar: {
-    Supers_EarlySupers: true,
-    Missiles_BrinstarReserve1: () => HasMorph,
+  "Reserve Tank (Brinstar)": {
+    "Supers (Early Bridge)": true,
+    "Missiles (Brin Reserve 1)": () => HasMorph,
   },
 
-  Missiles_BrinstarReserve1: {
-    ReserveTank_Brinstar: () => HasMorph,
-    Missiles_BrinstarReserve2: () => CanUseBombs || CanUsePowerBombs,
+  "Missiles (Brin Reserve 1)": {
+    "Reserve Tank (Brinstar)": () => HasMorph,
+    "Missiles (Brin Reserve 2)": () => CanUseBombs || CanUsePowerBombs,
   },
 
-  Missiles_BrinstarReserve2: {
-    Missiles_BrinstarReserve1: true,
-    ReserveTank_Brinstar: () => HasMorph,
+  "Missiles (Brin Reserve 2)": {
+    "Missiles (Brin Reserve 1)": true,
+    "Reserve Tank (Brinstar)": () => HasMorph,
   },
 
-  EnergyTank_Etecoons: {
+  "Energy Tank (Etecoons)": {
     Door_GreenElevator: () => CanUsePowerBombs,
-    Supers_Etecoons: () => CanOpenGreenDoors,
-    PBs_Etecoons: () => HasMorph,
+    "Supers (Etecoons)": () => CanOpenGreenDoors,
+    "Power Bombs (Etecoons)": () => HasMorph,
   },
 
-  Supers_Etecoons: {
-    EnergyTank_Etecoons: true,
+  "Supers (Etecoons)": {
+    "Energy Tank (Etecoons)": true,
   },
 
-  PBs_Etecoons: {
-    EnergyTank_Etecoons: () => HasMorph,
+  "Power Bombs (Etecoons)": {
+    "Energy Tank (Etecoons)": () => HasMorph,
   },
 
   DachoraRoomLeft: {
@@ -51,33 +51,35 @@ export const greenbrinstarEdges = {
 
   DachoraRoomRight: {
     DachoraRoomLeft: () => CanDestroyBombWalls || HasSpeed,
-    Missiles_BigPink: true,
+    "Missiles (Big Pink)": true,
   },
 
-  Missiles_BigPink: {
+  "Missiles (Big Pink)": {
     DachoraRoomRight: true,
-    Missiles_Charge: true,
-    EnergyTank_WaveGate: () => CanUsePowerBombs && (SuperPacks >= 1 || HasWave),
-    Supers_SpoSpo: () => CanOpenRedDoors,
-    PBs_Impossible: () => CanUsePowerBombs && CanOpenGreenDoors,
+    "Missiles (Charge)": true,
+    "Energy Tank (Wave Gate)": () =>
+      CanUsePowerBombs && (SuperPacks >= 1 || HasWave),
+    "Supers (Spore Spawn)": () => CanOpenRedDoors,
+    "Power Bombs (Mission Impossible)": () =>
+      CanUsePowerBombs && CanOpenGreenDoors,
   },
 
-  PBs_Impossible: {
-    Missiles_BigPink: () => CanPassBombPassages,
+  "Power Bombs (Mission Impossible)": {
+    "Missiles (Big Pink)": () => CanPassBombPassages,
   },
 
-  Supers_SpoSpo: {
-    Missiles_BigPink: () => CanPassBombPassages && CanOpenGreenDoors,
+  "Supers (Spore Spawn)": {
+    "Missiles (Big Pink)": () => CanPassBombPassages && CanOpenGreenDoors,
   },
 
-  Missiles_Charge: {
-    Missiles_BigPink: true,
+  "Missiles (Charge)": {
+    "Missiles (Big Pink)": true,
     "Charge Beam": () => CanPassBombPassages,
-    Missiles_Tube: () => CanOpenGreenDoors,
+    "Missiles (Brin Tube)": () => CanOpenGreenDoors,
   },
 
   "Charge Beam": {
-    Missiles_Charge: () => CanPassBombPassages,
+    "Missiles (Charge)": () => CanPassBombPassages,
     "Energy Tank (Waterway)": () =>
       CanUsePowerBombs && CanOpenRedDoors && HasSpeed,
   },
@@ -86,21 +88,21 @@ export const greenbrinstarEdges = {
     "Charge Beam": () => CanUsePowerBombs,
   },
 
-  Missiles_Tube: {
-    Missiles_Charge: true,
+  "Missiles (Brin Tube)": {
+    "Missiles (Charge)": true,
     Door_NoobBridge: () => CanOpenGreenDoors,
     Door_GreenHills: () => CanUsePowerBombs,
   },
 
   Door_GreenHills: {
-    Missiles_Tube: true,
+    "Missiles (Brin Tube)": true,
   },
 
   Door_NoobBridge: {
-    Missiles_Tube: () => CanOpenRedDoors || HasWave,
+    "Missiles (Brin Tube)": () => CanOpenRedDoors || HasWave,
   },
 
-  EnergyTank_WaveGate: {
-    Missiles_BigPink: true,
+  "Energy Tank (Wave Gate)": {
+    "Missiles (Big Pink)": true,
   },
 };

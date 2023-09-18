@@ -9,17 +9,17 @@ export const lowernorfairEdges = {
 
   Muskateers: {
     Door_Muskateers: true,
-    Missiles_Muskateers: () => HasMorph && CanDestroyBombWalls,
-    Missiles_Maze: () => HasMorph,
+    "Missiles (Three Muskateers)": () => HasMorph && CanDestroyBombWalls,
+    "Missiles (Maze)": () => HasMorph,
   },
 
-  Missiles_Muskateers: {
+  "Missiles (Three Muskateers)": {
     Muskateers: true, // If we got here, we can get back
   },
 
   Ruins: {
     Door_RidleyMouth: true,
-    Missiles_GT: () => CanUsePowerBombs, // Space Jump not required
+    "Missiles (GT)": () => CanUsePowerBombs, // Space Jump not required
     PrePillars: () => CanUsePowerBombs,
   },
 
@@ -47,33 +47,33 @@ export const lowernorfairEdges = {
 
   RedKihunterShaftTop: {
     Wasteland: () => CanUsePowerBombs,
-    EnergyTank_Firefleas: true,
+    "Energy Tank (Firefleas)": true,
     WorstRoomTop: () => (HasGravity && TotalTanks >= 4) || TotalTanks >= 6,
-    Missiles_Maze: true,
+    "Missiles (Maze)": true,
   },
 
   Wasteland: {
-    PBs_Shame: () => CanDestroyBombWalls,
+    "Power Bombs (Shame)": () => CanDestroyBombWalls,
     Door_RidleyBoss: () => CanUsePowerBombs && CanOpenGreenDoors,
     RedKihunterShaftTop: () => CanPassBombPassages,
   },
 
-  EnergyTank_Firefleas: {
+  "Energy Tank (Firefleas)": {
     //RedKihunterShaftTop: () => CanFly || HasHiJump || HasSpringBall,
     RedKihunterShaftTop: true, // note: wall jump in logic
   },
 
-  Missiles_Maze: {
+  "Missiles (Maze)": {
     RedKihunterShaftTop: true,
-    PBs_Maze: () => CanPassBombPassages,
+    "Power Bombs (Maze)": () => CanPassBombPassages,
     Muskateers: () => HasMorph,
   },
 
-  PBs_Maze: {
+  "Power Bombs (Maze)": {
     RedKihunterShaftTop: true,
   },
 
-  PBs_Shame: {
+  "Power Bombs (Shame)": {
     Wasteland: () => CanPassBombPassages,
   },
 
@@ -88,30 +88,30 @@ export const lowernorfairEdges = {
     Ruins: true,
   },
 
-  Missiles_GT: {
+  "Missiles (GT)": {
     GoldTorizoFight: true,
   },
 
-  Supers_GT: {
+  "Supers (GT)": {
     GoldTorizoFight: true,
   },
 
   GoldTorizoFight: {
-    Supers_GT: () => CanDestroyBombWalls,
+    "Supers (GT)": () => CanDestroyBombWalls,
     DefeatedGoldTorizo: () => CanKillGoldTorizo,
   },
 
   DefeatedGoldTorizo: {
-    ScrewAttack: true,
+    "Screw Attack": true,
     ScrewAttackTop: () => HasSpeed, // Charge a spark in GT room
   },
 
   ScrewAttackTop: {
-    ScrewAttack: () => CanDestroyBombWalls,
+    "Screw Attack": () => CanDestroyBombWalls,
     PrePillars: () => SuperPacks >= 1,
   },
 
-  ScrewAttack: {
+  "Screw Attack": {
     ScrewAttackTop: () =>
       ((HasSpaceJump || HasDoubleJump) && CanDestroyBombWalls) ||
       ((CanUseBombs || HasSpringBall) && CanPassBombPassages) ||

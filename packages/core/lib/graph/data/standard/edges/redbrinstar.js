@@ -5,7 +5,7 @@ export const redbrinstarEdges = {
 
   XrayHallway: {
     RedTowerMid: () => CanUsePowerBombs,
-    XrayScope: () =>
+    "Xray Scope": () =>
       CanOpenRedDoors &&
       HasMorph &&
       (HasSpaceJump ||
@@ -17,7 +17,7 @@ export const redbrinstarEdges = {
             CanUseBombs))),
   },
 
-  XrayScope: {
+  "Xray Scope": {
     XrayHallway: () =>
       CanPassBombPassages &&
       (HasSpaceJump ||
@@ -51,8 +51,8 @@ export const redbrinstarEdges = {
     Door_MaridiaEscape: () => false, //for future use
     RedBrinstarElevatorRoom: true,
     RedTowerTop: () => CanUsePowerBombs,
-    PBs_Alpha: () => CanOpenGreenDoors,
-    PBs_Beta: () => CanOpenGreenDoors && CanUsePowerBombs,
+    "Power Bombs (Alpha)": () => CanOpenGreenDoors,
+    "Power Bombs (Beta)": () => CanOpenGreenDoors && CanUsePowerBombs,
   },
 
   RedTowerTop: {
@@ -80,16 +80,16 @@ export const redbrinstarEdges = {
     RedBrinstarElevatorRoom: true,
   },
 
-  PBs_Alpha: {
+  "Power Bombs (Alpha)": {
     RedTowerElevatorRoom: true,
-    Missiles_AlphaPBs: () => CanUsePowerBombs,
+    "Missiles (Alpha PBs)": () => CanUsePowerBombs,
   },
 
-  Missiles_AlphaPBs: {
-    PBs_Alpha: true,
+  "Missiles (Alpha PBs)": {
+    "Power Bombs (Alpha)": true,
   },
 
-  PBs_Beta: {
+  "Power Bombs (Beta)": {
     RedTowerElevatorRoom: true,
   },
 

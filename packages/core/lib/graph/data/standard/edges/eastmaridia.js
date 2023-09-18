@@ -17,8 +17,8 @@ export const eastmaridiaEdges = {
       (HasGravity || HasHiJump) &&
       (CanUseBombs || CanUsePowerBombs || (HasGravity && HasScrewAttack)),
     //TODO: Snail clip is technically in logic
-    Missiles_Aqueduct: () => HasGravity,
-    Supers_Aqueduct: () => HasGravity,
+    "Missiles (Aqueduct)": () => HasGravity,
+    "Supers (Aqueduct)": () => HasGravity,
     //TODO: Snail climb is technically in logic
     BotwoonHallwayLeft: () => HasGravity || HasHiJump,
     LeftSandPitBottom: () => HasGravity,
@@ -27,11 +27,11 @@ export const eastmaridiaEdges = {
   },
 
   LeftSandPitBottom: {
-    Missiles_LeftSandPit: () =>
+    "Missiles (Sand Pit Left)": () =>
       HasGravity &&
       HasMorph &&
       (CanUseBombs || CanUsePowerBombs || HasSpringBall),
-    ReserveTank_LeftSandPit: () =>
+    "Reserve Tank (Maridia)": () =>
       HasGravity &&
       HasMorph &&
       (CanUseBombs || CanUsePowerBombs || HasSpringBall),
@@ -39,8 +39,8 @@ export const eastmaridiaEdges = {
   },
 
   RightSandPitBottom: {
-    Missiles_RightSandPit: () => HasGravity,
-    PBs_RightSandPit: () => HasGravity && HasMorph,
+    "Missiles (Sand Pit Right)": () => HasGravity,
+    "Power Bombs (Sand Pit Right)": () => HasGravity && HasMorph,
     OasisBottom: () => HasGravity,
   },
 
@@ -51,19 +51,19 @@ export const eastmaridiaEdges = {
       CanUseBombs || CanUsePowerBombs || (HasGravity && HasScrewAttack),
   },
 
-  Missiles_LeftSandPit: {
+  "Missiles (Sand Pit Left)": {
     LeftSandPitBottom: () => HasGravity && HasMorph,
   },
 
-  ReserveTank_LeftSandPit: {
+  "Reserve Tank (Maridia)": {
     LeftSandPitBottom: () => HasGravity && HasMorph,
   },
 
-  Missiles_RightSandPit: {
+  "Missiles (Sand Pit Right)": {
     RightSandPitBottom: () => HasGravity,
   },
 
-  PBs_RightSandPit: {
+  "Power Bombs (Sand Pit Right)": {
     RightSandPitBottom: () => HasGravity && HasMorph,
   },
 
@@ -119,18 +119,18 @@ export const eastmaridiaEdges = {
 
   PostBotwoon: {
     Aqueduct: true,
-    EnergyTank_Botwoon: () => HasMorph && (HasGravity || HasHiJump),
+    "Energy Tank (Botwoon)": () => HasMorph && (HasGravity || HasHiJump),
     ColosseumTopLeft: () => HasGravity && HasSpeed,
   },
 
-  EnergyTank_Botwoon: {
+  "Energy Tank (Botwoon)": {
     PostBotwoon: true, // if we got here, we can get back
     ColosseumTopLeft: () => HasMorph && HasGravity,
   },
 
   ColosseumTopLeft: {
     PostBotwoon: () => HasGravity && HasSpeed,
-    EnergyTank_Botwoon: () =>
+    "Energy Tank (Botwoon)": () =>
       HasMorph && (HasGravity || HasHiJump || HasSpringBall),
     ColosseumTopRight: () => HasGravity || HasSpaceJump || CanDoSuitlessMaridia,
     PlasmaSparkRoomBottom: () =>
@@ -138,26 +138,26 @@ export const eastmaridiaEdges = {
   },
 
   ColosseumTopRight: {
-    Missiles_Precious: () => CanOpenGreenDoors,
+    "Missiles (Precious)": () => CanOpenGreenDoors,
     ColosseumTopLeft: () => HasGravity || HasSpaceJump || CanDoSuitlessMaridia,
   },
 
-  Missiles_Precious: {
+  "Missiles (Precious)": {
     ColosseumTopRight: () => HasGravity || CanDoSuitlessMaridia,
     Door_DraygonBoss: () => CanOpenRedDoors,
   },
 
   Door_DraygonBoss: {
-    Missiles_Precious: () => HasGravity || (HasHiJump && HasSpringBall),
+    "Missiles (Precious)": () => HasGravity || (HasHiJump && HasSpringBall),
   },
 
-  Missiles_Aqueduct: {
+  "Missiles (Aqueduct)": {
     Aqueduct: true,
-    Supers_Aqueduct: true,
+    "Supers (Aqueduct)": true,
   },
 
-  Supers_Aqueduct: {
-    Missiles_Aqueduct: true,
+  "Supers (Aqueduct)": {
+    "Missiles (Aqueduct)": true,
     Aqueduct: true,
   },
 

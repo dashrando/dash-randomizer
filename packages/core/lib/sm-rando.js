@@ -1,7 +1,6 @@
 import DotNetRandom from "./dotnet-random";
 import { Area, AreaCounts, getLocations } from "./locations";
 import { Item } from "./items";
-import { mapLocation } from "./graph/util";
 import { getPreset } from "..";
 import { generateSeed } from "../data";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
@@ -277,7 +276,7 @@ export const getFileName = (seed, settings, options) => {
 
 export const getItemNodes = (graph) => {
   const nodes = getLocations().map((l) => {
-    const vertex = graph.find((e) => e.from.name == mapLocation(l.name)).from;
+    const vertex = graph.find((e) => e.from.name == l.name).from;
     const node = {
       location: l.Clone(),
       item: { ...vertex.item },
