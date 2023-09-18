@@ -5,10 +5,10 @@ export const bossEdges = {
 
   Boss_Kraid: {
     Exit_Kraid: () => CanKillKraid,
-    VariaSuit: () => CanKillKraid,
+    "Varia Suit": () => CanKillKraid,
   },
 
-  VariaSuit: {
+  "Varia Suit": {
     Boss_Kraid: true,
   },
 

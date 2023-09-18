@@ -8,12 +8,12 @@ const LowerNorfair_Missiles_MickeyMouse = {
 };
 
 const Kraid_EnergyTank = {
-  name: "EnergyTank_Kraid",
+  name: "Energy Tank (Kraid)",
   type: "minor",
 };
 
 const WreckedShip_Missiles_Sky = {
-  name: "Missiles_Sky",
+  name: "Missiles (Sky)",
   type: "major",
 };
 

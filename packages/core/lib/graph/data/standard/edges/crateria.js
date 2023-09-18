@@ -1,18 +1,19 @@
 export const crateriaEdges = {
   Ship: {
-    PBs_LandingSite: () => (CanFly || HasSpeed) && CanUsePowerBombs,
+    "Power Bombs (Landing Site)": () =>
+      (CanFly || HasSpeed) && CanUsePowerBombs,
     PreGauntlet: () => CanDestroyBombWalls,
     PreMoat: () => CanOpenGreenDoors,
     Parlor: true,
   },
 
-  PBs_LandingSite: {
+  "Power Bombs (Landing Site)": {
     Ship: true,
   },
 
   PreMoat: {
     Ship: true,
-    Missiles_Moat: () => CanUsePowerBombs,
+    "Missiles (Moat)": () => CanUsePowerBombs,
     Door_Crabs: () => CanUsePowerBombs,
   },
 
@@ -20,26 +21,26 @@ export const crateriaEdges = {
     PreMoat: true,
   },
 
-  Missiles_Moat: {
+  "Missiles (Moat)": {
     Door_Crabs: true,
     Door_Moat: true,
   },
 
   Door_Moat: {
-    Missiles_Moat: true,
+    "Missiles (Moat)": true,
   },
 
   PreGauntlet: {
     //more specifically, the door from landing site to gauntlet
     Ship: () => CanDestroyBombWalls,
-    EnergyTank_Gauntlet: () =>
+    "Energy Tank (Gauntlet)": () =>
       (CanUseBombs && (TotalTanks >= 2 || HasVaria)) ||
       (HasMorph && PowerBombPacks >= 2 && (TotalTanks >= 1 || HasVaria)) ||
       HasScrewAttack ||
       (TotalTanks >= 3 && HasSpeed),
   },
 
-  EnergyTank_Gauntlet: {
+  "Energy Tank (Gauntlet)": {
     PreGauntlet: () =>
       (CanUseBombs && TotalTanks >= 2) ||
       (HasMorph && PowerBombPacks >= 2 && TotalTanks >= 1) ||
@@ -48,44 +49,37 @@ export const crateriaEdges = {
   },
 
   GauntletBackSideLeftDoor: {
-    EnergyTank_Gauntlet: () =>
-      (CanUseBombs && TotalTanks >= 2) ||
-      (HasMorph && PowerBombPacks >= 2 && TotalTanks >= 1) ||
-      (HasScrewAttack && CanPassBombPassages),
-    Missiles_GauntletLeft: true,
-    Missiles_GauntletRight: true,
-    EnergyTank_Terminator: true,
+    "Missiles (Gauntlet Left)": true,
+    "Missiles (Gauntlet Right)": true,
   },
 
-  Missiles_GauntletLeft: {
-    Missiles_GauntletRight: true,
-    EnergyTank_Terminator: true,
+  "Missiles (Gauntlet Left)": {
+    Parlor: true,
   },
 
-  Missiles_GauntletRight: {
-    Missiles_GauntletLeft: true,
-    EnergyTank_Terminator: true,
+  "Missiles (Gauntlet Right)": {
+    Parlor: true,
   },
 
-  EnergyTank_Terminator: {
+  "Energy Tank (Terminator)": {
     Parlor: () => CanDestroyBombWalls || HasSpeed,
     Door_G4: () => CanOpenRedDoors,
     Door_Kago: true,
   },
 
   Door_G4: {
-    EnergyTank_Terminator: true,
+    "Energy Tank (Terminator)": true,
   },
 
   Door_Kago: {
-    EnergyTank_Terminator: true,
+    "Energy Tank (Terminator)": true,
   },
 
   Parlor: {
-    EnergyTank_Terminator: () => CanDestroyBombWalls || HasSpeed,
+    "Energy Tank (Terminator)": () => CanDestroyBombWalls || HasSpeed,
     Bombs: () => HasMorph && CanOpenRedDoors,
     Climb: true,
-    Missiles_230: () => CanPassBombPassages,
+    "Missiles (230)": () => CanPassBombPassages,
     Ship: true,
   },
 
@@ -93,78 +87,78 @@ export const crateriaEdges = {
     Parlor: () => HasMorph,
   },
 
-  Missiles_230: {
+  "Missiles (230)": {
     Parlor: () => HasMorph,
   },
 
   Climb: {
     Parlor: true,
     ClimbSupersBottom: () => CanUsePowerBombs,
-    Missiles_OldMB: () => CanDestroyBombWalls,
-    MorphBall: true,
+    "Missiles (Mother Brain)": () => CanDestroyBombWalls,
+    "Morphing Ball": true,
   },
 
   ClimbSupersBottom: {
     Climb: () => CanPassBombPassages,
-    Supers_Climb: () => HasSpeed && EnergyTanks >= 1,
+    "Supers (Climb)": () => HasSpeed && EnergyTanks >= 1,
   },
 
-  Supers_Climb: {
+  "Supers (Climb)": {
     Climb: () =>
       HasGrapple || HasSpaceJump || (EnergyTanks >= 1 && TotalTanks >= 2),
   },
 
-  Missiles_OldMB: {
+  "Missiles (Mother Brain)": {
     Climb: () => CanDestroyBombWalls,
   },
 
-  MorphBall: {
+  "Morphing Ball": {
     Climb: true,
-    PBs_Retro: () => CanUsePowerBombs,
-    ConstructionZone: true,
+    "Power Bombs (Morph)": () => CanUsePowerBombs,
+    "Construction Zone": true,
   },
 
-  ConstructionZone: {
-    Missiles_Alpha: () => HasMorph,
-    Missiles_Beta: () => HasMorph,
+  "Construction Zone": {
+    "Missiles (Alpha)": () => HasMorph,
+    "Missiles (Beta)": () => HasMorph,
     BoulderRoom: () => CanUsePowerBombs,
-    EnergyTank_Ceiling: true,
-    MorphBall: true,
+    "Energy Tank (Brinstar Ceiling)": true,
+    "Morphing Ball": true,
   },
 
-  PBs_Retro: {
-    MorphBall: () => CanUsePowerBombs,
+  "Power Bombs (Morph)": {
+    "Morphing Ball": () => CanUsePowerBombs,
     Door_RetroPBs: () => CanPassBombPassages,
   },
 
   Door_RetroPBs: {
-    PBs_Retro: () => CanPassBombPassages,
+    "Power Bombs (Morph)": () => CanPassBombPassages,
   },
 
-  Missiles_Alpha: {
-    MorphBall: () => HasMorph,
+  "Missiles (Alpha)": {
+    "Morphing Ball": () => HasMorph,
   },
 
-  EnergyTank_Ceiling: {
-    ConstructionZone: true,
+  "Energy Tank (Brinstar Ceiling)": {
+    "Construction Zone": true,
   },
 
-  Missiles_Beta: {
-    ConstructionZone: () => HasMorph,
+  "Missiles (Beta)": {
+    "Construction Zone": () => HasMorph,
   },
 
   BoulderRoom: {
-    Missiles_BillyMays1: () => true,
-    Missiles_BillyMays2: () => true,
-    ConstructionZone: () =>
+    "Missiles (Billy Mays 1)": () => true,
+    "Missiles (Billy Mays 2)": () => true,
+    "Construction Zone": () =>
       CanUseBombs || CanUsePowerBombs || (HasScrewAttack && HasMorph),
   },
 
-  Missiles_BillyMays1: {
+  "Missiles (Billy Mays 1)": {
     BoulderRoom: true,
   },
 
-  Missiles_BillyMays2: {
+  "Missiles (Billy Mays 2)": {
     BoulderRoom: true,
   },
 };

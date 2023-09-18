@@ -8,7 +8,7 @@ const Crateria_PreMoat_to_Crabs = {
 };
 
 const Crateria_Terminator_to_G4 = {
-  edges: ["EnergyTank_Terminator", "Door_G4"],
+  edges: ["Energy Tank (Terminator)", "Door_G4"],
   requires: true,
 };
 
@@ -69,7 +69,7 @@ const WreckedShip_ShipHallway_to_SpongeBath = {
 
 const WreckedShip_RearExit_to_Highway = {
   edges: ["ShipRearExit", "Door_HighwayExit"],
-  requires: () => HasHiJump || HasGravity,
+  requires: () => (HasHiJump || HasGravity) && HasMorph,
 };
 
 const EastMaridia_OasisBottom_to_Aqueduct = {

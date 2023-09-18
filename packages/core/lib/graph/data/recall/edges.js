@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------
 
 const WreckedShip_Bowling_Missiles_to_Reserve = {
-  edges: ["Missiles_Bowling", "ReserveTank_Ship"],
+  edges: ["Missiles (Bowling)", "Reserve Tank (Wrecked Ship)"],
   requires: () => CanUsePowerBombs,
 };
 
