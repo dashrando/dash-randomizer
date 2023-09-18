@@ -164,6 +164,9 @@ const getAreaPortals = (seed) => {
 
   const rng = new DotNetRandom(seed);
 
+  const maxIntra = rng.NextDouble() < 0.1 ? 1 : 0;
+  const maxVanilla = rng.NextDouble() < 0.1 ? 1 : 0;
+
   const shuffleAreas = () => {
     const all = [];
     areas.forEach((a) => {
@@ -183,8 +186,8 @@ const getAreaPortals = (seed) => {
   let shuffled = shuffleAreas();
   while (
     samePortals(areas, shuffled) ||
-    vanillaCount(areas, shuffled) > 1 ||
-    areaLoopCount(shuffled) > 1
+    vanillaCount(areas, shuffled) > maxVanilla ||
+    areaLoopCount(shuffled) > maxIntra
   ) {
     shuffled = shuffleAreas();
   }
