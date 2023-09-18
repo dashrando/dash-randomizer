@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------
 
 const LowerNorfair_Missiles_MickeyMouse = {
-  name: "Missiles_MickeyMouse",
+  name: "Missiles (Mickey Mouse)",
   type: "major",
 };
 
@@ -18,7 +18,7 @@ const WreckedShip_Missiles_Sky = {
 };
 
 const WestMaridia_Missiles_WateringHole = {
-  name: "Missiles_WateringHole",
+  name: "Missiles (Watering Hole)",
   type: "major",
 };
 

@@ -69,7 +69,7 @@ export const eastmaridiaEdges = {
 
   OasisBottom: {
     MainStreet: () => (HasGravity || HasHiJump) && HasMorph,
-    SpringBall: () =>
+    "Spring Ball": () =>
       HasGravity &&
       CanUsePowerBombs &&
       ((HasGrapple && (CanFly || HasHiJump)) || HasIce),
@@ -97,11 +97,11 @@ export const eastmaridiaEdges = {
   },
 
   PrePlasmaBeam: {
-    PlasmaBeam: true,
+    "Plasma Beam": true,
     PlasmaSparkRoomTop: true,
   },
 
-  PlasmaBeam: {
+  "Plasma Beam": {
     PrePlasmaBeam: () =>
       (HasScrewAttack ||
         HasPlasma ||
@@ -109,7 +109,7 @@ export const eastmaridiaEdges = {
       (CanFly || HasHiJump || HasSpeed || HasSpringBall),
   },
 
-  SpringBall: {
+  "Spring Ball": {
     OasisBottom: () => HasGravity && HasMorph,
   },
 

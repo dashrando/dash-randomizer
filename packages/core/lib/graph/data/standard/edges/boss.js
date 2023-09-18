@@ -26,10 +26,10 @@ export const bossEdges = {
 
   Boss_Draygon: {
     Exit_Draygon: () => CanKillDraygon && HasGravity,
-    SpaceJump: () => CanKillDraygon,
+    "Space Jump": () => CanKillDraygon,
   },
 
-  SpaceJump: {
+  "Space Jump": {
     Boss_Draygon: true,
   },
 
@@ -39,10 +39,10 @@ export const bossEdges = {
 
   Boss_Ridley: {
     Exit_Ridley: () => CanKillRidley,
-    EnergyTank_Ridley: () => CanKillRidley,
+    "Energy Tank (Ridley)": () => CanKillRidley,
   },
 
-  EnergyTank_Ridley: {
+  "Energy Tank (Ridley)": {
     Boss_Ridley: true,
   },
 };

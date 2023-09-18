@@ -23,12 +23,12 @@ const WestMaridia_OasisBottom_to_MainStreet = {
 };
 
 const EastMaridia_OasisBottom_to_SpringBall = {
-  edges: ["OasisBottom", "SpringBall"],
+  edges: ["OasisBottom", "Spring Ball"],
   requires: () => CanMoveInWestMaridia && CanUsePowerBombs,
 };
 
 const EastMaridia_SpringBall_to_OasisBottom = {
-  edges: ["SpringBall", "OasisBottom"],
+  edges: ["Spring Ball", "OasisBottom"],
   requires: () => CanMoveInWestMaridia && HasMorph,
 };
 
@@ -38,7 +38,7 @@ const EastMaridia_PlasmaSparkRoomTop_to_PrePlasmaBeam = {
 };
 
 const EastMaridia_PlasmaBeam_to_PrePlasmaBeam = {
-  edges: ["PlasmaBeam", "PrePlasmaBeam"],
+  edges: ["Plasma Beam", "PrePlasmaBeam"],
   requires: true,
 };
 
@@ -48,7 +48,7 @@ const EastMaridia_BotwoonHallway_Left_to_Right = {
 };
 
 const GreenBrinstar_ChargeBeam_to_Waterway = {
-  edges: ["ChargeBeam", "EnergyTank_Waterway"],
+  edges: ["Charge Beam", "Energy Tank (Waterway)"],
   requires: () =>
     CanUsePowerBombs && CanOpenRedDoors && (HasSpeed || HasSpazer),
 };

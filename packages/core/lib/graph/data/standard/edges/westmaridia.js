@@ -32,20 +32,20 @@ export const westmaridiaEdges = {
 
   Missiles_Beach: {
     Door_EverestTopRight: true,
-    Missiles_WateringHole: () =>
+    "Missiles (Watering Hole)": () =>
       CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall)),
     Supers_WateringHole: () =>
       CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall)),
   },
 
-  Missiles_WateringHole: {
+  "Missiles (Watering Hole)": {
     Missiles_Beach: true,
     Supers_WateringHole: true,
   },
 
   Supers_WateringHole: {
     Missiles_Beach: true,
-    Missiles_WateringHole: true,
+    "Missiles (Watering Hole)": true,
   },
 
   Door_MaridiaMap: {

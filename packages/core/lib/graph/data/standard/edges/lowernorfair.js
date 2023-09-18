@@ -40,7 +40,7 @@ export const lowernorfairEdges = {
 
   WorstRoomTop: {
     WorstRoomBottom: () => CanDestroyBombWalls,
-    Missiles_MickeyMouse: () => CanDestroyBombWalls && HasMorph,
+    "Missiles (Mickey Mouse)": () => CanDestroyBombWalls && HasMorph,
     Ruins: () => CanDestroyBombWalls,
     RedKihunterShaftTop: true,
   },
@@ -82,7 +82,7 @@ export const lowernorfairEdges = {
     Wasteland: () => CanUsePowerBombs,
   },
 
-  Missiles_MickeyMouse: {
+  "Missiles (Mickey Mouse)": {
     //TODO: check for SJ, DJ, or SB if only PBs available?
     WorstRoomTop: () => HasMorph,
     Ruins: true,

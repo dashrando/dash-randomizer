@@ -72,17 +72,18 @@ export const greenbrinstarEdges = {
 
   Missiles_Charge: {
     Missiles_BigPink: true,
-    ChargeBeam: () => CanPassBombPassages,
+    "Charge Beam": () => CanPassBombPassages,
     Missiles_Tube: () => CanOpenGreenDoors,
   },
 
-  ChargeBeam: {
+  "Charge Beam": {
     Missiles_Charge: () => CanPassBombPassages,
-    EnergyTank_Waterway: () => CanUsePowerBombs && CanOpenRedDoors && HasSpeed,
+    "Energy Tank (Waterway)": () =>
+      CanUsePowerBombs && CanOpenRedDoors && HasSpeed,
   },
 
-  EnergyTank_Waterway: {
-    ChargeBeam: () => CanUsePowerBombs,
+  "Energy Tank (Waterway)": {
+    "Charge Beam": () => CanUsePowerBombs,
   },
 
   Missiles_Tube: {
