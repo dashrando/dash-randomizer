@@ -1,21 +1,22 @@
 export const wreckedshipEdges = {
   Door_Ocean: {
-    Missiles_Ocean: true,
+    "Missiles (Ocean Bottom)": true,
   },
 
-  Missiles_Ocean: {
+  "Missiles (Ocean Bottom)": {
     Door_Ocean: true,
     ShipHallway: () => CanOpenGreenDoors,
   },
 
   ShipHallway: {
-    Missiles_Ocean: true,
-    Missiles_Spooky: () => CanPassBombPassages,
+    "Missiles (Ocean Bottom)": true,
+    "Missiles (Spooky)": () => CanPassBombPassages,
     Door_PhantoonBoss: () =>
       CanOpenGreenDoors && (HasSpeed || CanPassBombPassages),
-    Supers_LeftSide: () => HasDefeatedWreckedShipBoss,
-    Supers_RightSide: () => HasDefeatedWreckedShipBoss && CanPassBombPassages,
-    Missiles_Attic: () => HasDefeatedWreckedShipBoss,
+    "Supers (WS Left)": () => HasDefeatedWreckedShipBoss,
+    "Supers (WS Right)": () =>
+      HasDefeatedWreckedShipBoss && CanPassBombPassages,
+    "Missiles (Attic)": () => HasDefeatedWreckedShipBoss,
     SpongeBathLeft: () => HasDefeatedWreckedShipBoss,
   },
 
@@ -32,68 +33,68 @@ export const wreckedshipEdges = {
     ShipRearExit: true,
   },
 
-  Missiles_Spooky: {
+  "Missiles (Spooky)": {
     ShipHallway: true,
   },
 
   ShipRearExit: {
-    EnergyTank_Ship: () => HasDefeatedWreckedShipBoss,
+    "Energy Tank (Wrecked Ship)": () => HasDefeatedWreckedShipBoss,
     SpongeBathRight: true,
-    //TODO: Should this change? Technically HJB+SpaceJump is enough
-    //Door_HighwayExit: () => CanUsePowerBombs && (HasGravity || (HasHiJump && HasSpaceJump)),
-    Door_HighwayExit: () => CanUsePowerBombs && HasGravity,
+    Door_HighwayExit: () =>
+      CanUsePowerBombs &&
+      (HasGravity || (HasHiJump && (HasSpaceJump || HasSpringBall))),
   },
 
-  EnergyTank_Ship: {
+  "Energy Tank (Wrecked Ship)": {
     ShipRearExit: true,
   },
 
   Door_HighwayExit: {
-    ShipRearExit: () => HasGravity || HasHiJump || HasSpaceJump,
+    ShipRearExit: () => (HasGravity || HasHiJump) && HasMorph,
   },
 
-  Missiles_Attic: {
+  "Missiles (Attic)": {
     ShipHallway: true,
-    Missiles_Sky: true,
-    Missiles_OceanMiddle: () => SuperPacks >= 1 && HasMorph,
-    GravitySuit: () =>
+    "Missiles (Sky)": true,
+    "Missiles (Ocean Middle)": () => SuperPacks >= 1 && HasMorph,
+    "Gravity Suit": () =>
       HasMorph &&
       (CanPassBombPassages || HasSpringBall) &&
       (HasGrapple || HasSpaceJump || TotalTanks >= 1 || HasVaria),
   },
 
-  Missiles_Sky: {
-    Missiles_Attic: true,
+  "Missiles (Sky)": {
+    "Missiles (Attic)": true,
   },
 
-  Missiles_OceanMiddle: {
-    Missiles_Attic: () => HasMorph && SuperPacks >= 1,
-    Missiles_Ocean: () => HasMorph,
+  "Missiles (Ocean Middle)": {
+    "Missiles (Attic)": () => HasMorph && SuperPacks >= 1,
+    "Missiles (Ocean Bottom)": () => HasMorph,
   },
 
-  GravitySuit: {
-    Missiles_Bowling: () => CanDestroyBombWalls,
-    Missiles_Ocean: true,
+  "Gravity Suit": {
+    "Missiles (Bowling)": () => CanDestroyBombWalls,
+    "Missiles (Ocean Bottom)": true,
   },
 
-  Missiles_Bowling: {
-    ReserveTank_Ship: () => CanUsePowerBombs && HasSpeed,
-    GravitySuit: () => CanPassBombPassages,
+  "Missiles (Bowling)": {
+    "Reserve Tank (Wrecked Ship)": () => CanUsePowerBombs && HasSpeed,
+    "Gravity Suit": () => CanPassBombPassages,
   },
 
-  ReserveTank_Ship: {
-    Missiles_Bowling: true,
+  "Reserve Tank (Wrecked Ship)": {
+    "Missiles (Bowling)": true,
   },
 
   Door_PhantoonBoss: {
     ShipHallway: () => CanPassBombPassages,
   },
 
-  Supers_LeftSide: {
+  "Supers (WS Left)": {
     ShipHallway: true,
   },
 
-  Supers_RightSide: {
+  "Supers (WS Right)": {
     ShipHallway: () => CanPassBombPassages,
   },
 };

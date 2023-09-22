@@ -8,22 +8,22 @@ const Crateria_PreMoat_to_Crabs = {
 };
 
 const Crateria_Terminator_to_G4 = {
-  edges: ["EnergyTank_Terminator", "Door_G4"],
+  edges: ["Energy Tank (Terminator)", "Door_G4"],
   requires: true,
 };
 
 const GreenBrinstar_Tube_to_GreenHillsPortal = {
-  edges: ["Missiles_Tube", "Door_GreenHills"],
+  edges: ["Missiles (Brin Tube)", "Door_GreenHills"],
   requires: true,
 };
 
 const GreenBrinstar_Tube_to_NoobBridgePortal = {
-  edges: ["Missiles_Tube", "Door_NoobBridge"],
+  edges: ["Missiles (Brin Tube)", "Door_NoobBridge"],
   requires: true,
 };
 
 const GreenBrinstar_NoobBridgePortal_to_Tube = {
-  edges: ["Door_NoobBridge", "Missiles_Tube"],
+  edges: ["Door_NoobBridge", "Missiles (Brin Tube)"],
   requires: true,
 };
 
@@ -69,7 +69,7 @@ const WreckedShip_ShipHallway_to_SpongeBath = {
 
 const WreckedShip_RearExit_to_Highway = {
   edges: ["ShipRearExit", "Door_HighwayExit"],
-  requires: () => HasHiJump || HasGravity,
+  requires: () => (HasHiJump || HasGravity) && HasMorph,
 };
 
 const EastMaridia_OasisBottom_to_Aqueduct = {

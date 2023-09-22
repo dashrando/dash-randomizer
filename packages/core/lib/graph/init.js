@@ -247,15 +247,9 @@ const addBossItems = (graph, mode) => {
         (e) => e.from.name.startsWith("Exit_") && e.to == b
       ).from;
       exitVertex.area = b.area;
-      const itemVertex = graph.find(
-        (e) =>
-          e.from == b &&
-          (e.to.name == "VariaSuit" ||
-            e.to.name == "SpaceJump" ||
-            e.to.name == "EnergyTank_Ridley")
-      );
-      if (itemVertex != undefined) {
-        itemVertex.to.area = b.area;
+      const itemEdge = graph.find((e) => e.from == b && e.to.type == "major");
+      if (itemEdge != undefined) {
+        itemEdge.to.area = b.area;
       }
     });
   } else if (mode == BossMode.ShuffleDash) {
@@ -267,15 +261,9 @@ const addBossItems = (graph, mode) => {
         (e) => e.from.name.startsWith("Door_") && e.to == exitVertex
       ).from;
 
-      const itemVertex = graph.find(
-        (e) =>
-          e.from == b &&
-          (e.to.name == "VariaSuit" ||
-            e.to.name == "SpaceJump" ||
-            e.to.name == "EnergyTank_Ridley")
-      );
-      if (itemVertex != undefined) {
-        itemVertex.to.area = doorVertex.area;
+      const itemEdge = graph.find((e) => e.from == b && e.to.type == "major");
+      if (itemEdge != undefined) {
+        itemEdge.to.area = doorVertex.area;
       }
 
       exitVertex.area = doorVertex.area;

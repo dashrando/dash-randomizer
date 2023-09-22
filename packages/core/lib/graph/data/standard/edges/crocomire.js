@@ -5,9 +5,9 @@ export const crocomireEdges = {
 
   PostCroc: {
     Door_Croc: true,
-    EnergyTank_Croc: () =>
+    "Energy Tank (Crocomire)": () =>
       HasSpaceJump || HasGrapple || HasVaria || TotalTanks >= 2,
-    PBs_Croc: () =>
+    "Power Bombs (Crocomire)": () =>
       CanOpenRedDoors &&
       (CanFly ||
         HasGrapple ||
@@ -15,34 +15,34 @@ export const crocomireEdges = {
         HasHiJump ||
         HasIce ||
         HasDoubleJump),
-    GrappleBeam: () =>
+    "Grapple Beam": () =>
       SuperPacks >= 1 ||
       (HasMorph && (CanFly || HasDoubleJump)) ||
       (CanUsePowerBombs && HasSpeed) ||
       (HasHiJump && (HasSpeed || (HasMorph && HasSpringBall))),
-    Missiles_IndianaJones: () =>
+    "Missiles (Indiana Jones)": () =>
       ((HasDoubleJump || CanFly) && (HasMorph || SuperPacks >= 1)) ||
       (CanUsePowerBombs && HasSpeed),
-    Missiles_Cosine: () => CanOpenRedDoors,
+    "Missiles (Cosine)": () => CanOpenRedDoors,
   },
 
-  EnergyTank_Croc: {
+  "Energy Tank (Crocomire)": {
     PostCroc: () => HasSpaceJump || HasGrapple || HasVaria || TotalTanks >= 3,
   },
 
-  PBs_Croc: {
+  "Power Bombs (Crocomire)": {
     PostCroc: true,
   },
 
-  GrappleBeam: {
+  "Grapple Beam": {
     PostCroc: () => SuperPacks >= 1 || HasMorph,
   },
 
-  Missiles_IndianaJones: {
+  "Missiles (Indiana Jones)": {
     PostCroc: () => HasMorph || (CanFly && SuperPacks >= 1),
   },
 
-  Missiles_Cosine: {
+  "Missiles (Cosine)": {
     PostCroc: true,
   },
 };

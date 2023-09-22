@@ -274,7 +274,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>DASH Recall</strong> has everything included in Standard Vanilla, but also includes a few changes specific to the DASH Recall logic.
+                <strong>DASH Recall</strong> has everything included in Standard, but also includes a few changes specific to the DASH Recall logic.
               </p>
             </li>
           </ul>
@@ -356,7 +356,7 @@ export default function SettingsInfoPage() {
           title="Pressure Valve"
         >
           <p>
-            <strong>Pressure Valve</strong> is a new item introduced in DASH Recall. When equipped, it allows for seamless underwater movement like Gravity Suit. However, it has no effect in Aquaduct and other rooms in East Maridia. It also offers no damage reduction.
+            <strong>Pressure Valve</strong> is a new item introduced in DASH Recall. When equipped, it allows for seamless underwater movement like Gravity Suit. However, it has no effect in Aqueduct and other rooms in East Maridia. It also offers no damage reduction.
           </p>
           <p>Pressure Valve is superseded by Gravity Suit, and will become unavailable once Gravity Suit has been picked up.</p>
         </Article>
