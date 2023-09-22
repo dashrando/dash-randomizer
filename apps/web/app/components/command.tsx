@@ -79,8 +79,10 @@ export default function CommandMenu() {
                 <Command.Item onSelect={async (_) => {
                   await del('vanilla-rom')
                   toast('Vanilla ROM unset')
+                  refresh(null, {
+                    revalidate: true,
+                  })
                   setOpen(false)
-                  refresh()
                 }}>
                   Unset Vanilla ROM
                 </Command.Item>
