@@ -3,7 +3,7 @@ import styles from './select.module.css'
 
 export type SelectOption = {
   label: string
-  value: string
+  value: string | undefined
   hidden?: boolean
 }
 

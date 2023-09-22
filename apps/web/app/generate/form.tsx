@@ -167,7 +167,7 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 
 export interface GenerateFormParams extends GenerateSeedParams {
   //mode: 'sgl23' | 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom',
-  mode: 'sgl23' | 'dash-recall-v1' | 'standard' | 'custom',
+  mode: 'sgl23' | 'dash-recall-v1' | 'standard' | 'custom' | null,
 }
 
 const MODES = {
@@ -285,7 +285,7 @@ export default function Form() {
     }
   } = useForm<GenerateFormParams>({
     defaultValues: {
-      'mode': '',
+      'mode': undefined,
       'seed-mode': 'random',
     }
   })
