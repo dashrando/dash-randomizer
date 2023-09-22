@@ -22,7 +22,7 @@ import {
   SuitMode
 } from 'core/params'
 import { fetchSignature } from 'core'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Spacer from '../components/spacer'
 
 const Sidebar = ({
@@ -167,7 +167,7 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 
 export interface GenerateFormParams extends GenerateSeedParams {
   //mode: 'sgl23' | 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom',
-  mode: 'sgl23' | 'dash-recall-v1' | 'standard' | 'custom',
+  mode: 'sgl23' | 'dash-recall-v1' | 'standard' | 'custom' | null,
 }
 
 const MODES = {
@@ -273,7 +273,9 @@ type RolledSeed = {
 }
 
 export default function Form() {
-  const { register,
+  const {
+    getValues,
+    register,
     handleSubmit,
     reset,
     setValue,
@@ -283,7 +285,7 @@ export default function Form() {
     }
   } = useForm<GenerateFormParams>({
     defaultValues: {
-      'mode': 'sgl23',
+      'mode': undefined,
       'seed-mode': 'random',
     }
   })
@@ -293,6 +295,18 @@ export default function Form() {
   const mounted = useMounted()
   const seedNum = watch('seed-mode')
   const isRandom = (seedNum === 'random')
+
+  const updateMode = useCallback((value: unknown) => {
+    const data = value as GenerateFormParams
+    const input = getModeFields(data)
+    const matchedMode = findMode(input)
+    if (matchedMode) {
+      setValue('mode', matchedMode)
+    } else {
+      setValue('mode', 'custom')
+    }
+    console.log('updating mode', value, matchedMode || 'custom')
+  }, [setValue])
 
   const onSubmit = async (data: GenerateFormParams) => {
     try {
@@ -421,17 +435,10 @@ export default function Form() {
       }
 
       // Update mode if necessary
-      const data = value as GenerateFormParams
-      const input = getModeFields(data)
-      const matchedMode = findMode(input)
-      if (matchedMode) {
-        setValue('mode', matchedMode)
-      } else {
-        setValue('mode', 'custom')
-      }
+      updateMode(value)
     })
     return () => subscription.unsubscribe()
-  }, [setValue, reset, watch])
+  }, [reset, updateMode, watch])
 
   useEffect(() => {
     async function calculateSignature(data: any) {
@@ -443,6 +450,15 @@ export default function Form() {
     }
   }, [rolledSeed])
 
+  useEffect(() => {
+    // Once mounted, update the mode if necessary
+    // - this is for back button consistency
+    if (mounted) {
+      const values = getValues()
+      updateMode(values)
+    }
+  }, [mounted, getValues, updateMode])
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.grid}>
@@ -451,6 +467,7 @@ export default function Form() {
             <Option label="Mode" name="mode">
               <Select
                 options={[
+                  { label: '', value: '', hidden: true },
                   { label: 'SG Live 2023', value: 'sgl23' },
                   { label: 'DASH: Recall', value: 'dash-recall-v1' },
                   //{ label: 'DASH: Recall v1', value: 'dash-recall-v1' },
