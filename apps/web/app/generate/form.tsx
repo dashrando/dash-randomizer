@@ -285,7 +285,7 @@ export default function Form() {
     }
   } = useForm<GenerateFormParams>({
     defaultValues: {
-      'mode': 'sgl23',
+      'mode': '',
       'seed-mode': 'random',
     }
   })
@@ -467,6 +467,7 @@ export default function Form() {
             <Option label="Mode" name="mode">
               <Select
                 options={[
+                  { label: '', value: '', hidden: true },
                   { label: 'SG Live 2023', value: 'sgl23' },
                   { label: 'DASH: Recall', value: 'dash-recall-v1' },
                   //{ label: 'DASH: Recall v1', value: 'dash-recall-v1' },
