@@ -49,16 +49,16 @@ export const crateriaEdges = {
   },
 
   GauntletBackSideLeftDoor: {
+    "Energy Tank (Gauntlet)": () => CanPassBombPassages,
     "Missiles (Gauntlet Left)": true,
-    "Missiles (Gauntlet Right)": true,
   },
 
   "Missiles (Gauntlet Left)": {
-    Parlor: true,
+    "Missiles (Gauntlet Right)": true,
   },
 
   "Missiles (Gauntlet Right)": {
-    Parlor: true,
+    "Energy Tank (Terminator)": true,
   },
 
   "Energy Tank (Terminator)": {
