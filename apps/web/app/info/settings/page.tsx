@@ -277,6 +277,11 @@ export default function SettingsInfoPage() {
                 <strong>DASH Recall</strong> has everything included in Standard, but also includes a few changes specific to the DASH Recall logic.
               </p>
             </li>
+            <li>
+              <p>
+                <strong>DASH Classic</strong> has everything included in Standard, and also includes accessing Waterway and Botwoon Hallway using Spazer beam plus accessing Wrecked Ship Reserve with Bombs.
+              </p>
+            </li>
           </ul>
         </Article>
         <Article
