@@ -200,6 +200,7 @@ export const cloneGraph = (graph) => {
 const getEdgeUpdates = (mapLayout, areaShuffle) => {
   switch (mapLayout) {
     case MapLayout.Standard:
+    case MapLayout.Classic:
       if (areaShuffle) {
         return StandardAreaEdgeUpdates;
       }

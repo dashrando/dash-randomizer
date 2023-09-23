@@ -7,6 +7,7 @@ import styles from './seed.module.css'
 import { RandomizeRom, findPreset, Item } from 'core'
 import {
   BeamMode,
+  MapLayout,
   MajorDistributionMode,
   MinorDistributionMode,
   GravityHeatReduction
@@ -46,7 +47,14 @@ const getMinorItemDistribution = (value: number) => {
 }
 
 const getMapLayout = (value: number) => {
-  return value === 1 ? 'Standard' : 'DASH Recall'
+  switch (value) {
+    case MapLayout.Standard:
+      return "Standard"
+    case MapLayout.Recall:
+      return "DASH Recall"
+    case MapLayout.Classic:
+      return "DASH Classic"
+  }
 }
 
 const getBossMode = (value: number) => {

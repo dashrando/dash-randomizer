@@ -7,6 +7,7 @@ import { Item } from "../items";
 
 export const MapLayout = {
   Standard: 1,
+  Classic: 2,
   Recall: 3,
 };
 
@@ -100,6 +101,8 @@ const mapLayoutToBits = (layout) => {
       return 0;
     case MapLayout.Recall:
       return 1;
+    case MapLayout.Classic:
+      return 2;
   }
   throw new Error("unknown map layout");
 };
@@ -110,6 +113,8 @@ const bitsToMapLayout = (bits) => {
       return MapLayout.Standard;
     case 0x1:
       return MapLayout.Recall;
+    case 0x2:
+      return MapLayout.Classic;
   }
   throw new Error("unknown map layout");
 };

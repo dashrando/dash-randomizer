@@ -129,4 +129,35 @@ export const TABLE_FLAGS = {
   HUDBitField: 0x2F8005,
   // Fanfare: 0x0000 = On  0x0001 = Off
   NoFanfare: 0x2F8B0C,
+  // LN Chozo Trigger: 0x0000 = Require Space Jump
+  //                   0x0001 = Nothing Required
+  LNChozoTrigger: 0x2F8B20,
 };
+
+export const PATCHES = {
+  Room_Waterway_Patch_01: 0xCEB442,
+  Room_WreckedShipReserve_Patch_01: 0xCEB5A0,
+  Room_WreckedShipReserve_Patch_02: 0xCEB556,
+  Room_PreBotwoon_Patch_01: 0xCEB4F5,
+};
+
+export const ROOM_PATCH_ADDR = {
+  Waterway: 0x2F8C9C,
+  WreckedShipReserve: 0x2F8E64,
+  PreBotwoon: 0x2F8F54,
+};
+
+export const DASH_CLASSIC_PATCHES = [
+  {
+    room: ROOM_PATCH_ADDR.Waterway,
+    patch: PATCHES.Room_Waterway_Patch_01
+  },
+  {
+    room: ROOM_PATCH_ADDR.WreckedShipReserve,
+    patch: PATCHES.Room_WreckedShipReserve_Patch_01
+  },
+  {
+    room: ROOM_PATCH_ADDR.PreBotwoon,
+    patch: PATCHES.Room_PreBotwoon_Patch_01
+  },
+];

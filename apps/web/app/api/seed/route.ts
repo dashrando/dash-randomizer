@@ -3,7 +3,7 @@ import { generateFromPreset } from "core";
 
 export const runtime = "edge";
 
-const validPresets = ["sgl23", "recall_mm", "standard_mm"];
+const validPresets = ["sgl23", "recall_mm", "classic_mm", "standard_mm"];
 
 export type HTTPError = Error & { status?: number };
 
