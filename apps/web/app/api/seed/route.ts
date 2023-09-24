@@ -1,9 +1,7 @@
 import type { NextRequest } from "next/server";
-import { generateFromPreset } from "core";
+import { generateFromPreset, getAllPresets } from "core";
 
 export const runtime = "edge";
-
-const validPresets = ["sgl23", "recall_mm", "classic_mm", "standard_mm"];
 
 export type HTTPError = Error & { status?: number };
 
@@ -20,6 +18,9 @@ export async function POST(req: NextRequest) {
       throw new Error("Missing preset");
     }
     const { preset, seedNumber } = body;
+    const validPresets = getAllPresets().map(p => p.tags).reduce((acc, cur) => {
+      return acc.concat(cur)
+    }, []);
     const isValidPreset = validPresets.includes(preset);
     if (!isValidPreset) {
       const msg = `Invalid preset. Valid presets are: ${validPresets
