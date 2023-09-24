@@ -80,7 +80,7 @@ export const Preset_Classic_MM = {
   tags: ["classic_mm"],
   settings: {
     preset: "ClassicMM",
-    mapLayout: MapLayout.Standard,
+    mapLayout: MapLayout.Classic,
     majorDistribution: MajorDistributionMode.Standard,
     minorDistribution: MinorDistributionMode.Dash,
     extraItems: [],
@@ -97,7 +97,7 @@ export const Preset_Classic_Full = {
   tags: ["classic_full"],
   settings: {
     preset: "ClassicFull",
-    mapLayout: MapLayout.Standard,
+    mapLayout: MapLayout.Classic,
     majorDistribution: MajorDistributionMode.Full,
     minorDistribution: MinorDistributionMode.Dash,
     extraItems: [],

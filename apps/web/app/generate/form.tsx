@@ -151,7 +151,7 @@ export interface GenerateSeedSettings {
   area: 'standard' | 'randomized',
   boss: 'standard' | 'randomized' | 'known',
   minors: 'standard' | 'dash',
-  'map-layout': 'standard' | 'dash-recall',
+  'map-layout': 'standard' | 'dash-recall' | 'dash-classic',
   'beam-mode': 'vanilla' | 'classic' | 'recall' | 'new',
   'gravity-heat-reduction': 'off' | 'on',
   'double-jump': 'off' | 'on',
@@ -167,7 +167,7 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 
 export interface GenerateFormParams extends GenerateSeedParams {
   //mode: 'sgl23' | 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom',
-  mode: 'sgl23' | 'dash-recall-v1' | 'standard' | 'custom' | null,
+  mode: 'sgl23' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom' | null,
 }
 
 const MODES = {
@@ -208,18 +208,18 @@ const MODES = {
     'heat-shield': 'on',
     'pressure-valve': 'one',
   },
-  /*'dash-classic': {
+  'dash-classic': {
     'item-split': 'standard-mm',
     area: 'standard',
     boss: 'standard',
     minors: 'dash',
-    'map-layout': 'standard',
+    'map-layout': 'dash-classic',
     'beam-mode': 'classic',
     'gravity-heat-reduction': 'on',
     'double-jump': 'off',
     'heat-shield': 'off',
     'pressure-valve': 'none',
-  },*/
+  },
   'standard': {
     'item-split': 'standard-mm',
     area: 'standard',
@@ -328,6 +328,9 @@ export default function Form() {
       if (data['map-layout'] == 'dash-recall') {
         mapLayout = MapLayout.Recall;
       }
+      if (data['map-layout'] == 'dash-classic') {
+        mapLayout = MapLayout.Classic;
+      }
 
       const minorDistribution =
         data.minors == "dash" ?
@@ -369,8 +372,8 @@ export default function Form() {
         settings.preset = "RecallMM";
       //} else if (data.mode == 'dash-recall-v2') {
         //settings.preset = "RecallV2";
-      //} else if (data.mode == 'dash-classic') {
-        //settings.preset = "Classic";
+      } else if (data.mode == 'dash-classic') {
+        settings.preset = "ClassicMM";
       } else if (data.mode == 'standard') {
         settings.preset = "StandardMM";
       } else if (data.mode == 'sgl23') {
@@ -470,9 +473,8 @@ export default function Form() {
                   { label: '', value: '', hidden: true },
                   { label: 'SG Live 2023', value: 'sgl23' },
                   { label: 'DASH: Recall', value: 'dash-recall-v1' },
-                  //{ label: 'DASH: Recall v1', value: 'dash-recall-v1' },
                   //{ label: 'DASH: Recall v2', value: 'dash-recall-v2' },
-                  //{ label: 'DASH: Classic', value: 'dash-classic' },
+                  { label: 'DASH: Classic', value: 'dash-classic' },
                   { label: 'Standard', value: 'standard' },
                   { label: 'Custom', value: 'custom', hidden: true }
                 ]}
@@ -562,6 +564,7 @@ export default function Form() {
                 options={[
                   { label: 'Standard', value: 'standard' },
                   { label: 'DASH Recall', value: 'dash-recall' },
+                  { label: 'DASH Classic', value: 'dash-classic' },
                 ]}
                 name="map-layout"
                 register={register}

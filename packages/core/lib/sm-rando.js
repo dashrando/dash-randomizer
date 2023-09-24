@@ -4,7 +4,7 @@ import { Item } from "./items";
 import { getPreset } from "..";
 import { generateSeed } from "../data";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
-import { BOSS_DOORS, BOSS_ITEMS, TABLE_FLAGS } from "../data/interface";
+import { BOSS_DOORS, BOSS_ITEMS, DASH_CLASSIC_PATCHES, TABLE_FLAGS } from "../data/interface";
 import {
   BossMode,
   MajorDistributionMode,
@@ -55,6 +55,16 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
   const rnd = new DotNetRandom(seed);
   encodeBytes(seedPatch, 0x2f8000, U16toBytes(rnd.Next(0xffff)));
   encodeBytes(seedPatch, 0x2f8002, U16toBytes(rnd.Next(0xffff)));
+
+  //-----------------------------------------------------------------
+  // Handle map layout.
+  //-----------------------------------------------------------------
+
+  if (settings.mapLayout == MapLayout.Classic) {
+    DASH_CLASSIC_PATCHES.forEach(p => {
+      encodeBytes(seedPatch, p.room, U16toBytes(p.patch));
+    });
+  }
 
   //-----------------------------------------------------------------
   // Write the items at the appropriate locations.
