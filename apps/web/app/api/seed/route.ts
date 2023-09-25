@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { generateFromPreset, getAllPresets } from "core";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export type HTTPError = Error & { status?: number };
 
