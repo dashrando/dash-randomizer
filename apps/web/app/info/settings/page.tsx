@@ -303,17 +303,17 @@ export default function SettingsInfoPage() {
           title="Charge Beam"
         >
           <p>
-            DASH supports adjusting how charge beam is managed in the game. All modes other than Vanilla have Samus begin the game with a Starter Charge beam which does the same damage as uncharged shots while still allowing bosses to be damaged.
+            DASH supports adjusting how charge beam is managed in the game.
           </p>
           <ul>
             <li>
               <p>
-                <strong>Vanilla</strong> does not modify beams in any way.
+                <strong>Vanilla</strong> does not modify charge beam in any way.
               </p>
             </li>
             <li>
               <p>
-                <strong>Starter</strong> has Samus begin the game with a Starter Charge Beam which does the same amount of damage as uncharged shots while still allowing bosses to be damaged. The normal Charge Beam item is still placed in the game which upgrades damages to 3x.
+                <strong>Starter</strong> has Samus begin the game with a Starter Charge Beam which does the same amount of damage as uncharged shots while allowing bosses to be damaged. Acquiring the vanilla Charge Beam item increases damage to 3x.
               </p>
             </li>
             <li>
