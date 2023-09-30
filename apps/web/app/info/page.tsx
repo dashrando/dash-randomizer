@@ -21,11 +21,11 @@ const InfoArticles: InfoArticle[] = [
     href: '/info/about',
     description: 'Learn about DASH.',
   },
-  {
+  /*{
     title: 'DASH: Recall',
     href: '/info/recall',
     description: 'DASH: Recall is a new preset that tries to rebalance logic.',
-  },
+  },*/
   {
     title: 'Verified Fill',
     href: '/info/verified-fill',

@@ -18,8 +18,8 @@ export async function generateStaticParams() {
   return [
     { graph: 'standard' },
     { graph: 'standard-area' },
-    { graph: 'recall' },
-    { graph: 'recall-area' },
+    /*{ graph: 'recall' },
+    { graph: 'recall-area' },*/
   ]
 }
 
@@ -28,7 +28,8 @@ const getGraphName = (graph: any) => {
     case 'standard':
       return 'Standard';
     case 'standard-area':
-      return 'Standard Area';
+      //return 'Standard Area';
+      return 'Area';
     case 'recall':
       return 'Recall';
     case 'recall-area':

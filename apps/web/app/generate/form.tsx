@@ -472,7 +472,7 @@ export default function Form() {
                 options={[
                   { label: '', value: '', hidden: true },
                   { label: 'SG Live 2023', value: 'sgl23' },
-                  { label: 'DASH: Recall', value: 'dash-recall-v1' },
+                  //{ label: 'DASH: Recall', value: 'dash-recall-v1' },
                   //{ label: 'DASH: Recall v2', value: 'dash-recall-v2' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
                   { label: 'Standard', value: 'standard' },
@@ -503,8 +503,8 @@ export default function Form() {
               <Select
                 options={[
                   { label: 'Full', value: 'full' },
-                  { label: 'Recall Major/Minor', value: 'recall-mm' },
-                  { label: 'Standard Major/Minor', value: 'standard-mm' },
+                  //{ label: 'Recall Major/Minor', value: 'recall-mm' },
+                  { label: 'Major/Minor', value: 'standard-mm' },
                 ]}
                 name="item-split"
                 register={register}
@@ -514,11 +514,11 @@ export default function Form() {
                 determines the available locations where major items can be placed.
               </p>
             </Option>
-            <Option label="Boss" name="boss" badge={<Badge variant="alpha">Alpha</Badge>}>
+            <Option label="Boss Locations" name="boss" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
-                  { label: 'Randomized', value: 'randomized' },
-                  { label: 'Standard', value: 'standard' },
+                  { label: 'Scattered', value: 'randomized' },
+                  { label: 'Vanilla', value: 'standard' },
                   //{ label: 'Known', value: 'known' },
                 ]}
                 name="boss"
@@ -529,11 +529,11 @@ export default function Form() {
                 can randomize the boss found at a given boss location.
               </p>
             </Option>
-            <Option label="Area" name="area" badge={<Badge variant="alpha">Alpha</Badge>}>
+            <Option label="Map Layout" name="area" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
-                  { label: 'Randomized', value: 'randomized' },
-                  { label: 'Standard', value: 'standard' },
+                  { label: 'Area', value: 'randomized' },
+                  { label: 'Vanilla', value: 'standard' },
                 ]}
                 name="area"
                 register={register}
@@ -559,35 +559,34 @@ export default function Form() {
                 determines the ratio of minor items placed throughout the game.
               </p>
             </Option>
-            <Option label="Map Layout" name="map-layout">
+            <Option label="Room Tweaks" name="map-layout">
               <Select
                 options={[
                   { label: 'Standard', value: 'standard' },
-                  { label: 'DASH Recall', value: 'dash-recall' },
-                  { label: 'DASH Classic', value: 'dash-classic' },
+                  //{ label: 'DASH Recall', value: 'dash-recall' },
+                  { label: 'DASH', value: 'dash-classic' },
                 ]}
                 name="map-layout"
                 register={register}
               />
               <p>
-                <a href="/info/settings#map-layout">Map Layout</a>{' '}
-                applies various tweaks, anti-soft lock patches and other quality of life improvements.
+                <a href="/info/settings#room-tweaks">Room Tweaks</a>{' '}
+                include anti-soft lock patches and other quality of life improvements.
               </p>
             </Option>
-            <Option label="Beam Mode" name="beam-mode">
+            <Option label="Charge Beam" name="beam-mode">
               <Select
                 options={[
                   { label: 'Vanilla', value: 'vanilla' },
-                  { label: 'Recall', value: 'recall' },
-                  { label: 'Classic', value: 'classic' },
-                  { label: 'New', value: 'new' },
+                  //{ label: 'Recall', value: 'recall' },
+                  { label: 'Starter', value: 'classic' },
+                  { label: 'Starter+', value: 'new' },
                 ]}
                 name="beam-mode"
                 register={register}
               />
               <p>
-                <a href="/info/settings#beam-mode">Beam Mode</a>{' '}
-                alters the amount of damage caused by Charge Beam.
+                Alters the upgrade path for <a href="/info/settings#charge-beam">Charge Beam</a>.
               </p>
             </Option>
             <Option label="Gravity Heat Reduction" name="gravity-heat-reduction">
@@ -649,7 +648,7 @@ export default function Form() {
             </Option>
           </Section>
           <Section title="Options">
-            <Option label="Seed Mode" name="seed-mode">
+            {/*<Option label="Seed Mode" name="seed-mode">
               <Select
                 options={[
                   { label: 'Random', value: 'random' },
@@ -665,7 +664,7 @@ export default function Form() {
                 <a href="/info/settings#seed-mode">Seed Mode</a>{' '}
                 controls how the random number generator is initialized.
               </p>
-            </Option>
+              </Option>*/}
             <Option label="Item Fanfare" name="fanfare">
               <Select
                 options={[

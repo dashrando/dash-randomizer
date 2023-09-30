@@ -91,17 +91,17 @@ export const Navigation = ({ selected }: { selected: string }) => {
       slug: 'standard',
     },
     {
-      name: 'Standard Area',
+      name: 'Area',
       slug: 'standard-area',
     },
-    {
+    /*{
       name: 'Recall',
       slug: 'recall',
     },
     {
       name: 'Recall Area',
       slug: 'recall-area',
-    }
+    }*/
   ]
   return (
     <nav className={styles.nav_bar}>

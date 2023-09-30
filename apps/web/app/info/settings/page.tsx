@@ -260,11 +260,11 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
-          id="map-layout"
-          title="Map Layout"
+          id="room-tweaks"
+          title="Room Tweaks"
         >
           <p>
-            <strong>Map Layout</strong> applies various tweaks, anti-soft lock patches and other quality of life improvements.
+            <strong>Room Tweaks</strong> include anti-soft lock patches and other quality of life improvements.
           </p>
           <ul>
             <li>
@@ -272,24 +272,24 @@ export default function SettingsInfoPage() {
                 <strong>Standard</strong> has the &quot;vanilla&quot; map that most randomizers use, such as Total&apos;s Randomizer and VARIA.
               </p>
             </li>
-            <li>
+            {/*<li>
               <p>
                 <strong>DASH Recall</strong> has everything included in Standard, but also includes a few changes specific to the DASH Recall logic.
               </p>
-            </li>
+            </li>*/}
             <li>
               <p>
-                <strong>DASH Classic</strong> has everything included in Standard, and also includes accessing Waterway and Botwoon Hallway using Spazer beam plus accessing Wrecked Ship Reserve with Bombs.
+                <strong>DASH</strong> has everything included in Standard, and also includes accessing Waterway and Botwoon Hallway using Spazer beam plus accessing Wrecked Ship Reserve with Bombs.
               </p>
             </li>
           </ul>
         </Article>
         <Article
-          id="beam-mode"
-          title="Beam Mode"
+          id="charge-beam"
+          title="Charge Beam"
         >
           <p>
-            DASH supports adjusting how beam damage is handled in the game. All modes other than Vanilla have Samus begin the game with a Starter Charge beam which does the same damage as uncharged shots while still allowing bosses to be damaged.
+            DASH supports adjusting how charge beam is managed in the game. All modes other than Vanilla have Samus begin the game with a Starter Charge beam which does the same damage as uncharged shots while still allowing bosses to be damaged.
           </p>
           <ul>
             <li>
@@ -299,9 +299,20 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Recall</strong> includes the Starter Charge beam and 4 Charge Upgrades which scale the damage up to a maximum of 5x. Recall also includes updated beam damage tables in an attempt to improve balance.
+                <strong>Starter</strong> has Samus begin the game with a Starter Charge Beam which does the same amount of damage as uncharged shots while still allowing bosses to be damaged. The normal Charge Beam item is still placed in the game which upgrades damages to 3x.
               </p>
             </li>
+            <li>
+              <p>
+                <strong>Starter+</strong> has Samus begin the game with Starter Charge Beam and includes 2 Charge Upgrades which increase charge damage to 2x and then 3x.
+              </p>
+            </li>
+
+            {/*<li>
+              <p>
+                <strong>Recall</strong> includes the Starter Charge beam and 4 Charge Upgrades which scale the damage up to a maximum of 5x. Recall also includes updated beam damage tables in an attempt to improve balance.
+              </p>
+          </li>
             <li>
               <p>
                 <strong>Classic</strong> includes the Starter Charge beam and 1 Charge Upgrade which scales the damage up to 3x. The vanilla beam damage tables are used.
@@ -311,7 +322,7 @@ export default function SettingsInfoPage() {
               <p>
                 <strong>New</strong> includes the Starter Charge beam and 2 Charge Upgrades which scale the damage up to a maximum of 3x. The vanilla beam damage tables are used.
               </p>
-            </li>
+            </li>*/}
           </ul>
         </Article>
         <Article

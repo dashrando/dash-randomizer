@@ -14,9 +14,8 @@ export default function AboutInfoPage() {
             about the growth in popularity of racing Super Metroid randomizer
             seeds but felt that matches were too <em>swingy</em> due to the hard
             gating requirements of certain items and that clear metas were
-            forming. With DASH, we wanted to experiment with new options to
-            allow runners to complete seeds by limiting the gating potential of
-            certain items and item locations.
+            forming. With DASH, we want to experiment with increased options to
+            complete seeds given the wide range of skill in the community.
           </p>
           <h2>History</h2>
           <p>
