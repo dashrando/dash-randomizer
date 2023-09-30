@@ -12,8 +12,8 @@ export default function AboutInfoPage() {
             game Super Metroid with a specific focus of achieving competitive
             balance for racing. At the time of inception, our team was excited
             about the growth in popularity of racing Super Metroid randomizer
-            seeds but felt that matches were too <em>swinging</em> due to the
-            hard gating requirements of certain items and that clear metas were
+            seeds but felt that matches were too <em>swingy</em> due to the hard
+            gating requirements of certain items and that clear metas were
             forming. With DASH, we wanted to experiment with new options to
             allow runners to complete seeds by limiting the gating potential of
             certain items and item locations.
@@ -22,6 +22,8 @@ export default function AboutInfoPage() {
           <p>
             Our original release, known now as <strong>DASH: Classic</strong>,
             introduced the following in game modifications:
+          </p>
+          <p>
             <ul>
               <li>
                 Samus begins the game with a Starter Charge Beam which does the
@@ -41,15 +43,16 @@ export default function AboutInfoPage() {
             </ul>
           </p>
           <p>
-            More recently, the team released <a href="/info/recall">DASH: Recall</a> which
-            was a more ambitious set of changes focused on reimagining and
-            rebalancing vanilla map seeds through adjusting major/minor item
-            locations, introducing new progression items, and modifying the map
-            to open access to <em>dead</em> locations.
+            More recently, the team released{" "}
+            <a href="/info/recall">DASH: Recall</a> which was a more ambitious
+            set of changes focused on reimagining and rebalancing vanilla map
+            seeds through adjusting major/minor item locations, introducing new
+            progression items, and modifying the map to open access to{" "}
+            <em>dead</em> locations.
           </p>
           <h2>Credits</h2>
           <p>
-            DASH is actively maintained by: <code>Kipp</code>,{" "}
+            DASH is actively maintained by <code>Kipp</code>,{" "}
             <code>MassHesteria</code>, <code>cassidymoen</code>,{" "}
             <code>kupppo</code>, <code>PapaSchmo</code>, and <code>derp</code>
           </p>
