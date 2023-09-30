@@ -525,11 +525,11 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <a href="/info/settings#boss-shuffle">Boss Shuffle</a>{' '}
-                can randomize the boss found at a given boss location.
+                <a href="/info/settings#boss-locations">Boss Locations</a>{' '}
+                can be updated.
               </p>
             </Option>
-            <Option label="Map Layout" name="area" badge={<Badge variant="alpha">Alpha</Badge>}>
+            <Option label="Map Layout" name="map-layout" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
                   { label: 'Area', value: 'randomized' },
@@ -539,7 +539,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <a href="/info/settings#area" >Area Randomization</a>{' '}
+                <a href="/info/settings#map-layout">Area Randomization</a>{' '}
                 will randomize the portals between certain areas or leave them as in the vanilla game.
               </p>
             </Option>
@@ -559,7 +559,7 @@ export default function Form() {
                 determines the ratio of minor items placed throughout the game.
               </p>
             </Option>
-            <Option label="Room Tweaks" name="map-layout">
+            <Option label="Room Tweaks" name="room-tweaks">
               <Select
                 options={[
                   { label: 'Standard', value: 'standard' },

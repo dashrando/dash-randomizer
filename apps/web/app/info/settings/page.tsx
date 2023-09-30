@@ -55,17 +55,17 @@ export default function SettingsInfoPage() {
           <p><strong>NTSC</strong> and <strong>PAL</strong> are video standards. NTSC is most commonly used today as it runs at 60Hz whereas PAL runs at 50Hz.</p>
         </Article>
         <Article id="mode" title="Mode">
-          <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss-shuffle">Boss Shuffle</a> and <a href="#area">Area Randomization</a>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
+          <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss-locations">Boss Locations</a> and <a href="#map-layout">Map Layout</a>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
         </Article>
         <Article id="item-split" title="Item Split">
           <p><strong>Item Split</strong> determines the available locations where major items can be placed.</p>
           <ul>
-            <li>
+            {/*<li>
               <p>
                 <strong>Recall Major/Minor</strong>:{' '}
                 Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations, with a few changes, dictated by the logic. Changes include the removal of the Kraid&apos;s Etank location and the additions of the Sky Missile, Watering Hole, and Mickey Mouse Missile locations.
               </p>
-              {/* <details>
+               <details>
                 <summary>Locations</summary>
                 <table className={styles.table}>
                   <thead>
@@ -119,11 +119,11 @@ export default function SettingsInfoPage() {
                     </tr>
                   </tbody>
                 </table>
-              </details> */}
-            </li>
+              </details> 
+            </li>*/}
             <li>
               <p>
-                <strong>Standard Major/Minor</strong>:{' '}
+                <strong>Major/Minor</strong>:{' '}
                 Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations dictated by the logic.
               </p>
               {/* <details>
@@ -190,40 +190,54 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
-          id="boss-shuffle"
+          id="boss-locations"
           badge={<Badge variant="alpha">Alpha</Badge>}
-          title="Boss Shuffle"
+          title="Boss Locations"
         >
           <p>
-            <strong>Boss Shuffle</strong> can shuffle the G4 bosses found at a given boss location. For example, going to the boss location at Kraid&apos; warehouse might lead to Kraid, Phantoon, Draygon or Ridley. While the encountered boss might be at its expected location, at least two of the G4 bosses will not be in their vanilla location.
+            <strong>Boss Locations</strong> can be updated for the G4 bosses. For example, going to the boss location in Lower Norfair could lead to Kraid, Phantoon, Draygon or Ridley.
           </p>
           <ul>
             <li>
               <p>
-                <strong>Standard</strong> disables this randomization and all G4 bosses will be at their vanilla locations.
+                <strong>Vanilla</strong> means that all G4 bosses will be at their vanilla locations.
               </p>
             </li>
             <li>
               <p>
-                <strong>Randomized</strong> enables this randomization. At least two G4 bosses will not be at its vanilla location.
+                <strong>Scattered</strong> means the G4 bosses will be moved randomly. In this mode, defeating a boss unlocks the area where the boss is physically located (e.g., defeating Ridley at Wrecked Ship will activate the ship).<br /><em>Note: At least two bosses will not be vanilla.</em>
               </p>
             </li>
-            <li>
+            {/*<li>
               <p style={{ marginBottom: 0 }}>
                 <strong>Known</strong> ensures at least two G4 bosses will not be at their vanilla locations, but the player will have the boss locations viewable from the pause screen.
               </p>
               <span style={{ display: 'block', height: 'var(--spacer-2x)' }} />
               <Badge>Coming soon</Badge>
-            </li>
+            </li>*/}
           </ul>
-          <p>NOTE: By design, bosses shuffled in DASH unlock the area in which they are located instead of their vanilla areas. For example, defeating Ridley at Wrecked Ship will awaken the ship.</p>
         </Article>
         <Article
-          id="area"
+          id="map-layout"
           badge={<Badge variant="alpha">Alpha</Badge>}
-          title="Area"
+          title="Map Layout"
         >
           <p>
+            <strong>Map Layout</strong> refers to the physical connections between Crateria, Green Brinstar, Red Brinstar, Kraid&apos;s Lair, Wrecked Ship, Upper Norfair, Crocomire, Lower Norfair, West Maridia, East Maridia and Tourian.
+          </p>
+          <ul>
+            <li>
+              <p>
+                <strong>Vanilla</strong> means that all areas connect as in the vanilla game.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Area</strong> means the connections between areas have been randomized. It is possible for areas to loop back to themselves, but this is limited to a single looped connection per seed. This same single instance restriction is applied to vanilla connections.
+              </p>
+            </li>
+          </ul>
+          {/*<p>
             <strong>Area Randomization</strong> will randomize connecting doors between Crateria, Green Brinstar, Red Brinstar, Kraid&apos;s Lair, Wrecked Ship, Upper Norfair, Crocomire, Lower Norfair, West Maridia, East Maridia and Tourian.
           </p>
           <ul>
@@ -237,7 +251,7 @@ export default function SettingsInfoPage() {
                 <strong>Standard</strong> disables this randomization and all areas connect as in the vanilla game.
               </p>
             </li>
-          </ul>
+          </ul>*/}
         </Article>
         <Article
           id="minors"
@@ -279,7 +293,7 @@ export default function SettingsInfoPage() {
             </li>*/}
             <li>
               <p>
-                <strong>DASH</strong> has everything included in Standard, and also includes accessing Waterway and Botwoon Hallway using Spazer beam plus accessing Wrecked Ship Reserve with Bombs.
+                <strong>DASH</strong> has everything included in Standard, and also includes accessing Waterway and Botwoon Hallway using Spazer beam plus accessing Wrecked Ship Reserve with Bombs.<br /><em>Note: DASH room tweaks are not considered for logical item progression.</em>
               </p>
             </li>
           </ul>
@@ -330,7 +344,7 @@ export default function SettingsInfoPage() {
           title="Gravity Heat Reduction"
         >
           <p>
-              Enabling <strong>Gravity Heat Reduction</strong> causes Samus to receive 25% less environmental damage from heated rooms when Gravity Suit is equipped without Varia Suit. Note that Gravity Heat Reduction is not considered for logical item progression.
+              Enabling <strong>Gravity Heat Reduction</strong> causes Samus to receive 25% less environmental damage from heated rooms when Gravity Suit is equipped without Varia Suit.<br /> <em>Note: Gravity Heat Reduction is not considered for logical item progression.</em>
           </p>
         </Article>
         <Article
@@ -376,7 +390,7 @@ export default function SettingsInfoPage() {
           </p>
           <p>Pressure Valve is superseded by Gravity Suit, and will become unavailable once Gravity Suit has been picked up.</p>
         </Article>
-        <Article
+        {/*<Article
           id="seed-mode"
           title="Seed Mode"
         >
@@ -395,7 +409,7 @@ export default function SettingsInfoPage() {
             </li>
           </ul>
           </p>
-        </Article>
+          </Article>*/}
         <Article
           id="fanfare"
           title="Item Fanfare"
