@@ -649,7 +649,7 @@ export default function Form() {
             </Option>
           </Section>
           <Section title="Options">
-            <Option label="Seed Mode" name="seed-mode">
+            {/*<Option label="Seed Mode" name="seed-mode">
               <Select
                 options={[
                   { label: 'Random', value: 'random' },
@@ -665,7 +665,7 @@ export default function Form() {
                 <a href="/info/settings#seed-mode">Seed Mode</a>{' '}
                 controls how the random number generator is initialized.
               </p>
-            </Option>
+              </Option>*/}
             <Option label="Item Fanfare" name="fanfare">
               <Select
                 options={[

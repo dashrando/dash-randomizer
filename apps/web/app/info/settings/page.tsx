@@ -192,10 +192,10 @@ export default function SettingsInfoPage() {
         <Article
           id="boss"
           badge={<Badge variant="alpha">Alpha</Badge>}
-          title="Boss Shuffle"
+          title="Boss"
         >
           <p>
-            <strong>Boss Randomization</strong> can shift the G4 bosses found at a given boss location. For example, going to the boss location at Kraid&apos; warehouse might lead to Kraid, Phantoon, Draygon or Ridley. While the encountered boss might be at its expected location, at least two of the G4 bosses will not be in their vanilla location.
+            <strong>Boss Randomization</strong> can swap the locations of the G4 bosses. For example, going to the boss location in Lower Norfair might lead to Kraid, Phantoon, Draygon or Ridley. While the encountered boss might be at its expected location, at least two of the G4 bosses will not be in their vanilla location.
           </p>
           <ul>
             <li>
@@ -205,7 +205,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Randomized</strong> enables this randomization. At least two G4 bosses will not be at its vanilla location.
+                <strong>Shifted</strong> enables this randomization. At least two G4 bosses will not be at its vanilla location.
               </p>
             </li>
             <li>
@@ -365,7 +365,7 @@ export default function SettingsInfoPage() {
           </p>
           <p>Pressure Valve is superseded by Gravity Suit, and will become unavailable once Gravity Suit has been picked up.</p>
         </Article>
-        <Article
+        {/*<Article
           id="seed-mode"
           title="Seed Mode"
         >
@@ -384,7 +384,7 @@ export default function SettingsInfoPage() {
             </li>
           </ul>
           </p>
-        </Article>
+            </Article>*/}
         <Article
           id="fanfare"
           title="Item Fanfare"
