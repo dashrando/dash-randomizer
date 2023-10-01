@@ -233,7 +233,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Area Shuffle</strong> means the connections between areas have been randomized. Areas can loop back to themselves, but this is limited to a single looped connection per seed. This same single instance restriction is applied to vanilla connections.
+                <strong>Area Randomization</strong> means the connections between areas have been randomized. Areas can loop back to themselves, but this is limited to a single looped connection per seed. This same single instance restriction is applied to vanilla connections.
               </p>
             </li>
           </ul>

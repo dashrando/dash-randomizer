@@ -532,7 +532,7 @@ export default function Form() {
             <Option label="Map Layout" name="map-layout" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
-                  { label: 'Area Shuffle', value: 'randomized' },
+                  { label: 'Area Randomization', value: 'randomized' },
                   { label: 'Vanilla', value: 'standard' },
                 ]}
                 name="area"
