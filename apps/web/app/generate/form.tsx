@@ -525,7 +525,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <a href="/info/settings#boss-shuffle">Boss Shuffle</a>{' '}
+                <a href="/info/settings#boss">Boss Randomization</a>{' '}
                 can randomize the boss found at a given boss location.
               </p>
             </Option>
@@ -539,7 +539,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <a href="/info/settings#area" >Area Randomization</a>{' '}
+                <a href="/info/settings#area">Area Randomization</a>{' '}
                 will randomize the portals between certain areas or leave them as in the vanilla game.
               </p>
             </Option>
