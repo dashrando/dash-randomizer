@@ -205,7 +205,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Scattered</strong> means the G4 bosses will be moved randomly. In this mode, defeating a boss unlocks the area where the boss is physically located (e.g., defeating Ridley at Wrecked Ship will activate the ship).<br /><em>Note: At least two bosses will not be vanilla.</em>
+                <strong>Shifted</strong> means the G4 bosses will be moved randomly. In this mode, defeating a boss unlocks the area where the boss is physically located (e.g., defeating Ridley at Wrecked Ship will activate the ship).<br /><em>Note: At least two bosses will not be vanilla.</em>
               </p>
             </li>
             {/*<li>
@@ -233,7 +233,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Area</strong> means the connections between areas have been randomized. It is possible for areas to loop back to themselves, but this is limited to a single looped connection per seed. This same single instance restriction is applied to vanilla connections.
+                <strong>Area Shuffle</strong> means the connections between areas have been randomized. Areas can loop back to themselves, but this is limited to a single looped connection per seed. This same single instance restriction is applied to vanilla connections.
               </p>
             </li>
           </ul>

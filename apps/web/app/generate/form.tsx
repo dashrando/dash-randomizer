@@ -511,13 +511,13 @@ export default function Form() {
               />
               <p>
                 <a href="/info/settings#item-split">Item Split</a>{' '}
-                determines the available locations where major items can be placed.
+                determines the locations where major items can be placed.
               </p>
             </Option>
             <Option label="Boss Locations" name="boss" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
-                  { label: 'Scattered', value: 'randomized' },
+                  { label: 'Shifted', value: 'randomized' },
                   { label: 'Vanilla', value: 'standard' },
                   //{ label: 'Known', value: 'known' },
                 ]}
@@ -526,21 +526,21 @@ export default function Form() {
               />
               <p>
                 <a href="/info/settings#boss-locations">Boss Locations</a>{' '}
-                can be updated.
+                can be randomly moved within the game.
               </p>
             </Option>
             <Option label="Map Layout" name="map-layout" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
-                  { label: 'Area', value: 'randomized' },
+                  { label: 'Area Shuffle', value: 'randomized' },
                   { label: 'Vanilla', value: 'standard' },
                 ]}
                 name="area"
                 register={register}
               />
               <p>
-                <a href="/info/settings#map-layout">Area Randomization</a>{' '}
-                will randomize the portals between certain areas or leave them as in the vanilla game.
+                <a href="/info/settings#map-layout">Map Layout</a>{' '}
+                determines how areas in the game are connected to each other.
               </p>
             </Option>
           </Section>
@@ -586,7 +586,7 @@ export default function Form() {
                 register={register}
               />
               <p>
-                Alters the upgrade path for <a href="/info/settings#charge-beam">Charge Beam</a>.
+                <a href="/info/settings#charge-beam">Charge Beam</a> controls how that item is upgraded.
               </p>
             </Option>
             <Option label="Gravity Heat Reduction" name="gravity-heat-reduction">
