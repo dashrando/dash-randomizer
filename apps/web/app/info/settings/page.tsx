@@ -55,7 +55,7 @@ export default function SettingsInfoPage() {
           <p><strong>NTSC</strong> and <strong>PAL</strong> are video standards. NTSC is most commonly used today as it runs at 60Hz whereas PAL runs at 50Hz.</p>
         </Article>
         <Article id="mode" title="Mode">
-          <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss-shuffle">Boss Shuffle</a> and <a href="#area">Area Randomization</a>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
+          <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss">Boss Randomization</a> and <a href="#area">Area Randomization</a>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
         </Article>
         <Article id="item-split" title="Item Split">
           <p><strong>Item Split</strong> determines the available locations where major items can be placed.</p>
@@ -190,12 +190,12 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
-          id="boss-shuffle"
+          id="boss"
           badge={<Badge variant="alpha">Alpha</Badge>}
-          title="Boss Shuffle"
+          title="Boss"
         >
           <p>
-            <strong>Boss Shuffle</strong> can shuffle the G4 bosses found at a given boss location. For example, going to the boss location at Kraid&apos; warehouse might lead to Kraid, Phantoon, Draygon or Ridley. While the encountered boss might be at its expected location, at least two of the G4 bosses will not be in their vanilla location.
+            <strong>Boss Randomization</strong> can swap the locations of the G4 bosses. For example, going to the boss location in Lower Norfair might lead to Kraid, Phantoon, Draygon or Ridley. While the encountered boss might be at its expected location, at least two of the G4 bosses will not be in their vanilla location.
           </p>
           <ul>
             <li>
@@ -205,7 +205,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Randomized</strong> enables this randomization. At least two G4 bosses will not be at its vanilla location.
+                <strong>Shifted</strong> enables this randomization. At least two G4 bosses will not be at its vanilla location.
               </p>
             </li>
             <li>
@@ -216,7 +216,7 @@ export default function SettingsInfoPage() {
               <Badge>Coming soon</Badge>
             </li>
           </ul>
-          <p>NOTE: By design, bosses shuffled in DASH unlock the area in which they are located instead of their vanilla areas. For example, defeating Ridley at Wrecked Ship will awaken the ship.</p>
+          <p>NOTE: By design, bosses shifted in DASH unlock the area in which they are located instead of their vanilla areas. For example, defeating Ridley at Wrecked Ship will awaken the ship.</p>
         </Article>
         <Article
           id="area"
@@ -285,8 +285,8 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
-          id="beam-mode"
-          title="Beam Mode"
+          id="charge-beam"
+          title="Chage Beam"
         >
           <p>
             DASH supports adjusting how beam damage is handled in the game. All modes other than Vanilla have Samus begin the game with a Starter Charge beam which does the same damage as uncharged shots while still allowing bosses to be damaged.
@@ -299,17 +299,17 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
+                <strong>Starter</strong> includes the Starter Charge beam and 1 Charge Upgrade which scales the damage up to 3x. The vanilla beam damage tables are used.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Starter+</strong> includes the Starter Charge beam and 2 Charge Upgrades which scale the damage up to a maximum of 3x. The vanilla beam damage tables are used.
+              </p>
+            </li>
+            <li>
+              <p>
                 <strong>Recall</strong> includes the Starter Charge beam and 4 Charge Upgrades which scale the damage up to a maximum of 5x. Recall also includes updated beam damage tables in an attempt to improve balance.
-              </p>
-            </li>
-            <li>
-              <p>
-                <strong>Classic</strong> includes the Starter Charge beam and 1 Charge Upgrade which scales the damage up to 3x. The vanilla beam damage tables are used.
-              </p>
-            </li>
-            <li>
-              <p>
-                <strong>New</strong> includes the Starter Charge beam and 2 Charge Upgrades which scale the damage up to a maximum of 3x. The vanilla beam damage tables are used.
               </p>
             </li>
           </ul>
@@ -365,7 +365,7 @@ export default function SettingsInfoPage() {
           </p>
           <p>Pressure Valve is superseded by Gravity Suit, and will become unavailable once Gravity Suit has been picked up.</p>
         </Article>
-        <Article
+        {/*<Article
           id="seed-mode"
           title="Seed Mode"
         >
@@ -384,7 +384,7 @@ export default function SettingsInfoPage() {
             </li>
           </ul>
           </p>
-        </Article>
+            </Article>*/}
         <Article
           id="fanfare"
           title="Item Fanfare"

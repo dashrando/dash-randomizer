@@ -18,8 +18,8 @@ const Homepage: NextPage = () => {
       <Wrapper borderless>
         <div className={styles.container}>
           <div className={styles.hero}>
-            <h1>DASH: Recall</h1>
-            <h2>A reimagining and rebalancing logic</h2>
+            <h1>DASH at SGL 2023</h1>
+            <h2>An on-site tournament for all runners November 9-12</h2>
             <div className={styles.actions}>
               <ButtonLink href="/generate" variant="primary" className={styles.primaryCTA}>
                 Generate a Seed
