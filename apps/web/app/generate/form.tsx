@@ -574,20 +574,20 @@ export default function Form() {
                 applies various tweaks, anti-soft lock patches and other quality of life improvements.
               </p>
             </Option>
-            <Option label="Beam Mode" name="beam-mode">
+            <Option label="Charge Beam" name="charge-beam">
               <Select
                 options={[
                   { label: 'Vanilla', value: 'vanilla' },
+                  { label: 'Starter', value: 'classic' },
+                  { label: 'Starter+', value: 'new' },
                   { label: 'Recall', value: 'recall' },
-                  { label: 'Classic', value: 'classic' },
-                  { label: 'New', value: 'new' },
                 ]}
                 name="beam-mode"
                 register={register}
               />
               <p>
-                <a href="/info/settings#beam-mode">Beam Mode</a>{' '}
-                alters the amount of damage caused by Charge Beam.
+                The <a href="/info/settings#charge-beam">Charge Beam</a>{' '}
+                setting alters the amount of damage caused by Charge Beam.
               </p>
             </Option>
             <Option label="Gravity Heat Reduction" name="gravity-heat-reduction">

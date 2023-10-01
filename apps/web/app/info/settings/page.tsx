@@ -285,8 +285,8 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
-          id="beam-mode"
-          title="Beam Mode"
+          id="charge-beam"
+          title="Chage Beam"
         >
           <p>
             DASH supports adjusting how beam damage is handled in the game. All modes other than Vanilla have Samus begin the game with a Starter Charge beam which does the same damage as uncharged shots while still allowing bosses to be damaged.
@@ -299,17 +299,17 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
+                <strong>Starter</strong> includes the Starter Charge beam and 1 Charge Upgrade which scales the damage up to 3x. The vanilla beam damage tables are used.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Starter+</strong> includes the Starter Charge beam and 2 Charge Upgrades which scale the damage up to a maximum of 3x. The vanilla beam damage tables are used.
+              </p>
+            </li>
+            <li>
+              <p>
                 <strong>Recall</strong> includes the Starter Charge beam and 4 Charge Upgrades which scale the damage up to a maximum of 5x. Recall also includes updated beam damage tables in an attempt to improve balance.
-              </p>
-            </li>
-            <li>
-              <p>
-                <strong>Classic</strong> includes the Starter Charge beam and 1 Charge Upgrade which scales the damage up to 3x. The vanilla beam damage tables are used.
-              </p>
-            </li>
-            <li>
-              <p>
-                <strong>New</strong> includes the Starter Charge beam and 2 Charge Upgrades which scale the damage up to a maximum of 3x. The vanilla beam damage tables are used.
               </p>
             </li>
           </ul>
