@@ -1,0 +1,124 @@
+.container {
+  max-width: 440px;
+  margin: var(--spacer-16x) auto;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .container {
+    margin: var(--spacer-8x) auto var(--spacer-16x);
+  }
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  font-style: italic;
+  padding: 0;
+  margin: 0;
+  color: #fff;
+  /* width: 200px; */
+  display: block;
+}
+
+.logo a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.signature {
+  font-family: var(--type-mono), 'SF Mono', monospace;
+  font-size: 18px;
+  color: #fff;
+  text-transform: uppercase;
+  margin: var(--spacer) 0;
+  /* opacity: 0; */
+  transition: opacity 0.3s ease-in-out, filter 0.15s ease-in-out;
+}
+
+.signature.noVanilla {
+  filter: blur(4px);
+}
+
+.download {
+  display: flex;
+  justify-content: center;
+  margin: var(--spacer-8x) auto var(--spacer-16x) auto;
+}
+
+.heading {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  /* color: #fff; */
+}
+
+.label {
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 18px;
+  color: #6a6a6a;
+}
+
+.value {
+  font-size: 14px;
+  line-height: 18px;
+  color: #fff;
+}
+
+.list {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style: none outside none;
+  /* opacity: 0; */
+  transition: opacity 0.3s ease-in-out 0.15s;
+  flex-wrap: wrap;
+}
+
+.list .item {
+  margin: 16px 0;
+  padding: 0 4px;
+  display: block;
+  text-align: center;
+  width: 50%;
+}
+
+@media (max-width: 600px) {
+  .list .item {
+    width: 100%;
+  }
+}
+
+.parameters {
+  margin: var(--spacer-4x) 0;
+}
+
+.footer {
+  margin: 40px 0 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  /* opacity: 0; */
+  transition: opacity 0.3s ease-in-out 0.6s;
+}
+
+.footer a {
+  color: rgb(90, 173, 54);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.footer a:hover {
+  color: #fff;
+  text-decoration-color: transparent;
+}
+
+.mono {
+  font-family: var(--type-mono);
+}

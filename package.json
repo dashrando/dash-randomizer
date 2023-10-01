@@ -1,39 +1,27 @@
 {
-  "name": "dash-rando",
-  "version": "1.0.0",
-  "description": "Website for the DASH Randomizer.",
-  "main": "dash.cli.js",
-  "engines": {
-    "node": "18.x"
-  },
-  "type": "module",
+  "name": "dash-turbo",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "build": "node build.js",
-    "format": "prettier --write .",
-    "redirects": "node redirect/index.mjs"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dashrando/dashrando.github.io.git"
-  },
-  "bugs": {
-    "url": "https://github.com/dashrando/dashrando.github.io/issues"
-  },
-  "homepage": "https://dashrando.net",
   "devDependencies": {
-    "@types/node": "^18.15.10",
-    "@vercel/ncc": "^0.36.1",
-    "chalk": "^4.1.2",
-    "commander": "^10.0.0",
-    "esbuild": "^0.17.11",
-    "esbuild-serve": "^1.0.1",
-    "glob": "^9.3.2",
-    "prettier": "2.8.7",
-    "typescript": "^5.0.2"
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   },
   "dependencies": {
-    "file-saver": "^2.0.5",
-    "got": "^12.6.0",
-    "idb-keyval": "^6.2.0"
-  }
+    "class-variance-authority": "^0.4.0",
+    "clsx": "^1.2.1"
+  },
+  "packageManager": "npm@8.19.4"
 }

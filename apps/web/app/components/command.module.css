@@ -1,0 +1,154 @@
+.cmd [cmdk-root] {
+  max-width: 640px;
+  width: 100%;
+  background: #000;
+  border-radius: var(--spacer);
+  padding: var(--spacer-2x) 0;
+  font-family: var(--font-sans);
+  box-shadow: 0 16px 70px rgb(0 0 0 / 10%);
+  border: 1px solid #222;
+  position: relative;
+}
+
+.cmd [cmdk-overlay] {
+  background: rgba(0,0,0,.8);
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.cmd [cmdk-overlay][data-state="closed"] {
+  animation: fadeOut 0.3s ease-out;
+}
+
+.cmd [cmdk-overlay][data-state="open"] {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.cmd [cmdk-dialog] {
+  z-index: var(--layer-portal);
+  position: fixed;
+  left: 50%;
+  top: var(--spacer-24x);
+  transform: translateX(-50%);
+}
+
+.cmd [cmdk-dialog] [cmdk-root] {
+  width: 640px;
+  transform-origin: center center;
+  animation: dialogIn 0.3s forwards;
+}
+
+.cmd [cmdk-dialog][data-state='closed'] [cmdk-root] {
+  animation: dialogOut 0.3s forwards;
+}
+
+.cmd hr {
+  border: 0;
+  width: 100%;
+  left: 0;
+  height: 1px;
+  background: #222;
+  position: relative;
+  overflow: visible;
+  display: block;
+  margin-top: var(--spacer-2x);
+  margin-bottom: var(--spacer-2x);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialogOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+}
+
+.cmd [cmdk-input] {
+  font-family: var(--font-sans);
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  padding: var(--spacer-2x) var(--spacer-4x);
+  outline: none;
+  background: transparent;
+  color: #fff;
+}
+
+.cmd [cmdk-input]&::placeholder {
+  color: #555;
+}
+
+.cmd [cmdk-list] {
+  padding: 0;
+  height: 393px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scroll-padding-block-end: var(--spacer-10x);
+  transition: 0.1s ease;
+  transition-property: height;
+  padding-bottom: var(--spacer-10x);
+}
+
+.cmd [cmdk-group-heading] {
+  padding: var(--spacer-2x);
+  font-size: 12px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.cmd [cmdk-item] {
+  height: 40px;
+  cursor: pointer;
+  height: 40px;
+  border-radius: 0;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 var(--spacer-4x);
+  color: var(--gray12);
+  user-select: none;
+  will-change: background, color;
+  transition: all 150ms ease;
+  transition-property: none;
+}
+
+.cmd [cmdk-item][data-selected] {
+  background: #222;
+}

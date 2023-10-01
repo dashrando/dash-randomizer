@@ -1,0 +1,180 @@
+.logic {
+  padding-top: 20px;
+}
+
+.logic_title {
+  font-size: 36px;
+  line-height: 36px;
+  margin: 0;
+  font-weight: 600;
+  color: #fff;
+}
+
+.section {
+  margin-bottom: 100px;
+}
+
+.areaTitle {
+  color: #fff;
+  margin: 0 0 var(--spacer-4x);
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.utilityCheck strong {
+  font-family: var(--type-mono);
+}
+
+.edge + .edge {
+  margin-top: var(--spacer-10x);
+}
+
+.edge + .areaTitle {
+  margin-top: var(--spacer-16x);
+}
+
+.edge pre {
+  padding: var(--spacer-4x);
+  border: 1px solid #222;
+  border-radius: 3px;
+  font-size: 14px;
+  line-height: 24px;
+  word-break: break-all;
+  word-wrap: break-word;
+  overflow-x: auto;
+  margin-top: var(--spacer-2x);
+  margin-bottom: 0;
+}
+
+.edge code {
+  overflow-x: auto;
+  font-family: var(--type-mono);
+  tab-size: 2;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.token {
+  margin-bottom: 24px;
+}
+
+.token_name {
+  font-style: italic;
+  font-size: 1.3em;
+  color: lightgreen;
+  padding-bottom: 8px;
+  padding-top: 10px;
+}
+
+.token_criteria {
+  text-decoration: none;
+}
+
+.token_reference {
+  color: rgb(90, 173, 54);
+  font-weight: bold;
+}
+
+.nav_bar {
+  margin: 0 0 var(--spacer-8x);
+  font-size: 1.1em;
+}
+
+.nav_bar ul {
+  display: flex;
+  list-style: none outside none;
+  margin: var(--spacer-4x) 0;
+  padding: 0;
+  gap: var(--spacer-4x);
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .nav_bar ul {
+    flex-direction: column;
+  }
+}
+
+.nav_bar ul li {
+  margin: 0;
+  padding: 0;
+}
+
+.nav_bar a {
+  color: #b6b9b3;
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+
+.nav_bar a:hover {
+  color: #fff;
+}
+
+.nav_title {
+  text-decoration: none;
+  font-variant-caps: all-petite-caps;
+  font-size: 1.1em;
+}
+
+.nav_bar a.active {
+  color: #77e7be !important;
+}
+
+/* Popup container. */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup window. */
+.popup .popuptext {
+  visibility: hidden;
+  width: 300px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: limegreen;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Toggle this class to show and hide the popup window. */
+.popup:hover > .popuptext {
+  visibility: visible;
+  -webkit-animation: fadeIn 0.2s;
+  animation: fadeIn 0.2s;
+}
+
+/* Popup fade in */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,14 @@
+.progression_table {
+  display: table;
+  table-layout: fixed;
+}
+
+.location_cell {
+  display: table-cell;
+  width: 250px;
+}
+
+.count_cell {
+  display: table-cell;
+  width: 150px;
+}

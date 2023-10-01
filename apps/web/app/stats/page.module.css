@@ -1,0 +1,38 @@
+.stats_panel {
+  padding-top: 6px;
+}
+
+.stats_nav {
+  padding-top: 6px;
+}
+
+.right_side {
+  float: right;
+  padding-right: 1em;
+}
+
+.fill_selector {
+  padding-right: 6px;
+}
+
+.mode_selector {
+  margin: 0px 6px;
+}
+
+.button {
+  display: inline-block;
+  border-style: solid;
+  border-color: whitesmoke;
+  border-width: 1px;
+  cursor: pointer;
+  width: 30px;
+}
+
+.button:hover {
+  background-color: teal;
+}
+
+.button_icon {
+  color: whitesmoke;
+  width: 100%;
+}

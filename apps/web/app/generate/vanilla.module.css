@@ -1,0 +1,35 @@
+.vanilla {
+  position: relative;
+  min-height: 43px;
+}
+
+.vanilla .loading {
+  visibility: hidden;
+  height: 43px;
+}
+
+.vanilla input {
+  width: 0px;
+  height: 0px;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.vanilla p a {
+  color: #fff;
+  font-weight: 600;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.vanilla p a:hover {
+  color: #77e7be;
+  text-decoration-color: transparent;
+}
+
+.vanilla button {
+  width: 100%;
+  max-width: 400px;
+}
