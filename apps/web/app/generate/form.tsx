@@ -517,8 +517,8 @@ export default function Form() {
             <Option label="Boss" name="boss" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
-                  { label: 'Randomized', value: 'randomized' },
-                  { label: 'Standard', value: 'standard' },
+                  { label: 'Shifted', value: 'randomized' },
+                  { label: 'Vanilla', value: 'standard' },
                   //{ label: 'Known', value: 'known' },
                 ]}
                 name="boss"
@@ -533,7 +533,7 @@ export default function Form() {
               <Select
                 options={[
                   { label: 'Randomized', value: 'randomized' },
-                  { label: 'Standard', value: 'standard' },
+                  { label: 'Vanilla', value: 'standard' },
                 ]}
                 name="area"
                 register={register}
