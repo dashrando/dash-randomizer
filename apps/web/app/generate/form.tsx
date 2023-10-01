@@ -167,7 +167,7 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 
 export interface GenerateFormParams extends GenerateSeedParams {
   //mode: 'sgl23' | 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom',
-  mode: 'sgl23' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom' | null,
+  mode: 'sgl23' | 'dash-recall-v1' | 'dash-classic' | '2017' | 'custom' | null,
 }
 
 const MODES = {
@@ -220,7 +220,7 @@ const MODES = {
     'heat-shield': 'off',
     'pressure-valve': 'none',
   },
-  'standard': {
+  '2017': {
     'item-split': 'standard-mm',
     area: 'standard',
     boss: 'standard',
@@ -374,8 +374,8 @@ export default function Form() {
         //settings.preset = "RecallV2";
       } else if (data.mode == 'dash-classic') {
         settings.preset = "ClassicMM";
-      } else if (data.mode == 'standard') {
-        settings.preset = "StandardMM";
+      } else if (data.mode == '2017') {
+        settings.preset = "2017MM";
       } else if (data.mode == 'sgl23') {
         settings.preset = "SGL23"
       }
@@ -475,7 +475,7 @@ export default function Form() {
                   //{ label: 'DASH: Recall', value: 'dash-recall-v1' },
                   //{ label: 'DASH: Recall v2', value: 'dash-recall-v2' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
-                  { label: 'Standard', value: 'standard' },
+                  { label: 'Throwback 2017', value: '2017' },
                   { label: 'Custom', value: 'custom', hidden: true }
                 ]}
                 name="mode"
