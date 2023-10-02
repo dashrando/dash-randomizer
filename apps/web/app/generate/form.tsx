@@ -503,8 +503,8 @@ export default function Form() {
               <Select
                 options={[
                   { label: 'Full', value: 'full' },
+                  { label: 'Major/Minor', value: 'standard-mm' },
                   { label: 'Recall Major/Minor', value: 'recall-mm' },
-                  { label: 'Standard Major/Minor', value: 'standard-mm' },
                 ]}
                 name="item-split"
                 register={register}
