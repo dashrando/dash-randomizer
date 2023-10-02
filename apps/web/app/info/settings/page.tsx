@@ -200,23 +200,22 @@ export default function SettingsInfoPage() {
           <ul>
             <li>
               <p>
-                <strong>Standard</strong> disables this randomization and all G4 bosses will be at their vanilla locations.
+                <strong>Vanilla </strong> bosses are found in their normal locations.
               </p>
             </li>
             <li>
               <p>
-                <strong>Shifted</strong> enables this randomization. At least two G4 bosses will not be at its vanilla location.
+                <strong>Shifted</strong> bosses open access to the location in which they are placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair).
               </p>
             </li>
-            <li>
+            {/*<li>
               <p style={{ marginBottom: 0 }}>
                 <strong>Known</strong> ensures at least two G4 bosses will not be at their vanilla locations, but the player will have the boss locations viewable from the pause screen.
               </p>
               <span style={{ display: 'block', height: 'var(--spacer-2x)' }} />
               <Badge>Coming soon</Badge>
-            </li>
+            </li>*/}
           </ul>
-          <p>NOTE: By design, bosses shifted in DASH unlock the area in which they are located instead of their vanilla areas. For example, defeating Ridley at Wrecked Ship will awaken the ship.</p>
         </Article>
         <Article
           id="area"
@@ -234,7 +233,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Standard</strong> disables this randomization and all areas connect as in the vanilla game.
+                <strong>Vanilla</strong> disables this randomization and all areas connect as in the vanilla game.
               </p>
             </li>
           </ul>
@@ -289,27 +288,27 @@ export default function SettingsInfoPage() {
           title="Charge Beam"
         >
           <p>
-            DASH supports adjusting how beam damage is handled in the game. All modes other than Vanilla have Samus begin the game with a Starter Charge beam which does the same damage as uncharged shots while still allowing bosses to be damaged.
+            DASH supports adjusting how charge beam is managed in the game.
           </p>
           <ul>
             <li>
               <p>
-                <strong>Vanilla</strong> does not modify beams in any way.
+                <strong>Vanilla</strong> does not modify Charge Beam in any way.
               </p>
             </li>
             <li>
               <p>
-                <strong>Starter</strong> includes the Starter Charge beam and 1 Charge Upgrade which scales the damage up to 3x. The vanilla beam damage tables are used.
+                <strong>Starter</strong> provides a baseline Charge Beam that does regular beam damage. There is one Charge Beam upgrade in the game that will upgrade to the standard 3x beam damage from the vanilla game.
               </p>
             </li>
             <li>
               <p>
-                <strong>Starter+</strong> includes the Starter Charge beam and 2 Charge Upgrades which scale the damage up to a maximum of 3x. The vanilla beam damage tables are used.
+                <strong>Starter+</strong> is the same except it includes two Charge Beam upgrades that increase the Charge Beam damage to 2x and 3x progressively.
               </p>
             </li>
             <li>
               <p>
-                <strong>Recall</strong> includes the Starter Charge beam and 4 Charge Upgrades which scale the damage up to a maximum of 5x. Recall also includes updated beam damage tables in an attempt to improve balance.
+                <strong>Recall</strong> includes the Starter Charge Beam and 4 Charge Upgrades which scale the damage up to a maximum of 5x. Recall also includes updated beam damage tables in an attempt to improve balance.
               </p>
             </li>
           </ul>
@@ -335,22 +334,22 @@ export default function SettingsInfoPage() {
           title="Heat Shield"
         >
           <p>
-            <strong>Heat Shield</strong> is a new item introduced in DASH Recall. When equipped, it reduces environmental damage from heated rooms.
+            <strong>Heat Shield</strong> is a new item introduced in DASH Recall. When equipped, it reduces heat damage from heated rooms.
           </p>
           <ul>
             <li>
               <p>
-                In Upper Norfair, environmental damage is reduced 100%.
+                Provides 100% reduction to heat damage in Upper Norfair heated rooms.
               </p>
             </li>
             <li>
               <p>
-                In Lower Norfair, environmental damage from heated rooms is reduced by 50%.
+                Provides 50% reduction to heat damage in Lower Norfair heated rooms.
               </p>
             </li>
             <li>
               <p>
-                If <a href="#gravity-heat-reduction">Gravity Heat Reduction</a> is enabled, Heat Shield can be paired with Gravity Suit for a total of 75% damage reduction.
+                Does NOT stack heat reduction with Gravity Suit.
               </p>
             </li>
           </ul>
