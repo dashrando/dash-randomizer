@@ -123,7 +123,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Standard Major/Minor</strong>:{' '}
+                <strong>Major/Minor</strong>:{' '}
                 Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations dictated by the logic.
               </p>
               {/* <details>
@@ -286,7 +286,7 @@ export default function SettingsInfoPage() {
         </Article>
         <Article
           id="charge-beam"
-          title="Chage Beam"
+          title="Charge Beam"
         >
           <p>
             DASH supports adjusting how beam damage is handled in the game. All modes other than Vanilla have Samus begin the game with a Starter Charge beam which does the same damage as uncharged shots while still allowing bosses to be damaged.
