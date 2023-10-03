@@ -55,72 +55,17 @@ export default function SettingsInfoPage() {
           <p><strong>NTSC</strong> and <strong>PAL</strong> are video standards. NTSC is most commonly used today as it runs at 60Hz whereas PAL runs at 50Hz.</p>
         </Article>
         <Article id="mode" title="Mode">
-          <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss">Boss Randomization</a> and <a href="#area">Area Randomization</a>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
+          <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss-locations">Boss Locations</a> and <a href="#map-layout">Map Layout</a>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
         </Article>
         <Article id="item-split" title="Item Split">
           <p><strong>Item Split</strong> determines the available locations where major items can be placed.</p>
           <ul>
-            <li>
+            {/*<li>
               <p>
                 <strong>Recall Major/Minor</strong>:{' '}
                 Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations, with a few changes, dictated by the logic. Changes include the removal of the Kraid&apos;s Etank location and the additions of the Sky Missile, Watering Hole, and Mickey Mouse Missile locations.
               </p>
-              {/* <details>
-                <summary>Locations</summary>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Area</th>
-                      <th>Vanilla Item</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Bomb Torizo</td>
-                      <td>Crateria</td>
-                      <td>Bombs</td>
-                    </tr>
-                    <tr>
-                      <td>Morph Pedestal</td>
-                      <td>Crateria</td>
-                      <td>Morph Ball</td>
-                    </tr>
-                    <tr>
-                      <td>Ceiling E-Tank</td>
-                      <td>Crateria</td>
-                      <td>E-Tank</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </details>
-              <Spacer y={4} />
-              <details>
-                <summary>Items</summary>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th style={{ minWidth: '160px' }}>Name</th>
-                      <th>Notes</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Morphing Ball</td>
-                      <td>Must be in either Morph Pedestal or Ceiling E-Tank in Crateria.</td>
-                    </tr>
-                    <tr>
-                      <td>Varia</td>
-                      <td>Cannot be in Crateria.</td>
-                    </tr>
-                    <tr>
-                      <td>E-Tank</td>
-                      <td>There are 12 total E-Tanks in this split.</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </details> */}
-            </li>
+            </li>*/}
             <li>
               <p>
                 <strong>Major/Minor</strong>:{' '}
@@ -190,12 +135,12 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
-          id="boss"
-          badge={<Badge variant="alpha">Alpha</Badge>}
-          title="Boss"
+          id="boss-locations"
+          badge={<Badge variant="beta">Beta</Badge>}
+          title="Boss Locations"
         >
           <p>
-            <strong>Boss Randomization</strong> can swap the locations of the G4 bosses. For example, going to the boss location in Lower Norfair might lead to Kraid, Phantoon, Draygon or Ridley. While the encountered boss might be at its expected location, at least two of the G4 bosses will not be in their vanilla location.
+            <strong>Boss Locations</strong> can be updated for the G4 bosses. For example, going to the boss location in Lower Norfair might lead to Kraid, Phantoon, Draygon or Ridley.
           </p>
           <ul>
             <li>
@@ -205,7 +150,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Shifted</strong> bosses open access to the location in which they are placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair).
+                <strong>Shifted</strong> bosses open access to the location in which they are placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair). At least two bosses will not be in their vanilla locations.
               </p>
             </li>
             {/*<li>
@@ -218,22 +163,27 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
-          id="area"
-          badge={<Badge variant="alpha">Alpha</Badge>}
-          title="Area"
+          id="map-layout"
+          badge={<Badge variant="beta">Beta</Badge>}
+          title="Map Layout"
         >
           <p>
-            <strong>Area Randomization</strong> will randomize connecting doors between Crateria, Green Brinstar, Red Brinstar, Kraid&apos;s Lair, Wrecked Ship, Upper Norfair, Crocomire, Lower Norfair, West Maridia, East Maridia and Tourian.
+            <strong>Map Layout</strong> determines how the doors around the map are connected.
           </p>
           <ul>
             <li>
               <p>
-                <strong>Randomized</strong> enables this randomization. While the connections to areas are randomized, there is still a path to beating the game dictated by the logic.
+                <strong>Area Randomization</strong> uses 32 specific doors as portals and randomizes the portal connections, producing a unique map layout.
               </p>
             </li>
             <li>
               <p>
-                <strong>Vanilla</strong> disables this randomization and all areas connect as in the vanilla game.
+                <strong>DASH: Recall</strong> rebalances vanilla map by unlocking certain doors and removing obstacles.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Vanilla</strong> makes no changes to the door connections.
               </p>
             </li>
           </ul>
@@ -259,28 +209,28 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
-          id="map-layout"
-          title="Map Layout"
+          id="environment"
+          title="Environment Updates"
         >
           <p>
-            <strong>Map Layout</strong> applies various tweaks, anti-soft lock patches and other quality of life improvements.
+            <strong>Environment Updates</strong> applies various tweaks, anti-soft lock patches and other quality of life improvements.
           </p>
           <ul>
             <li>
               <p>
-                <strong>Standard</strong> has the &quot;vanilla&quot; map that most randomizers use, such as Total&apos;s Randomizer and VARIA.
+                <strong>Standard</strong> has the normal map that most randomizers use, such as Total&apos;s Randomizer and VARIA.
               </p>
             </li>
             <li>
+              <p>
+                The <strong>DASH</strong> setting includes everything from Standard while adding Spazer-breakable blocks at the Waterway location as well as in Botwoon’s Hallway. It also allows the speed block at the Wrecked Ship Reserve location to be broken by the Bombs major item.
+              </p>
+            </li>
+            {/*<li>
               <p>
                 <strong>DASH Recall</strong> has everything included in Standard, but also includes a few changes specific to the DASH Recall logic.
               </p>
-            </li>
-            <li>
-              <p>
-                <strong>DASH Classic</strong> has everything included in Standard, and also includes accessing Waterway and Botwoon Hallway using Spazer beam plus accessing Wrecked Ship Reserve with Bombs.
-              </p>
-            </li>
+          </li>*/}
           </ul>
         </Article>
         <Article
@@ -306,11 +256,11 @@ export default function SettingsInfoPage() {
                 <strong>Starter+</strong> is the same except it includes two Charge Beam upgrades that increase the Charge Beam damage to 2x and 3x progressively.
               </p>
             </li>
-            <li>
+            {/*<li>
               <p>
                 <strong>Recall</strong> includes the Starter Charge Beam and 4 Charge Upgrades which scale the damage up to a maximum of 5x. Recall also includes updated beam damage tables in an attempt to improve balance.
               </p>
-            </li>
+          </li>*/}
           </ul>
         </Article>
         <Article

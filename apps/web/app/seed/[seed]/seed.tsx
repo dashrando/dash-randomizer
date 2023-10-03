@@ -29,9 +29,8 @@ type Seed = {
 const getItemSplit = (value: number) => {
   switch (value) {
     case MajorDistributionMode.Standard:
-      return 'Major/Minor'
     case MajorDistributionMode.Recall:
-      return 'Recall Major/Minor'
+      return 'Major/Minor'
     default:
       return 'Full'
   }
@@ -46,33 +45,41 @@ const getMinorItemDistribution = (value: number) => {
   }
 }
 
-const getMapLayout = (value: number) => {
+const getEnvironmentUpdates = (value: number) => {
   switch (value) {
     case MapLayout.Standard:
       return "Standard"
     case MapLayout.Recall:
-      return "DASH Recall"
+      return "DASH: Recall"
     case MapLayout.Classic:
-      return "DASH Classic"
+      return "DASH"
   }
 }
 
 const getBossMode = (value: number) => {
-  return (value === 2) ? 'Randomized' : 'Standard'
+  return (value === 2) ? 'Shifted' : 'Vanilla'
 }
 
-const getAreaMode = (value: boolean) => value ? 'Randomized' : 'Standard'
+const getAreaMode = (environment: number, area: boolean) => {
+  if (area) {
+    return 'Area Randomization';
+  }
+  if (environment == MapLayout.Recall) {
+    return 'DASH: Recall';
+  }
+  return 'Vanilla';
+}
 
 const getBeamMode = (value: number) => {
   switch (value) {
     case BeamMode.Vanilla:
       return 'Vanilla'
     case BeamMode.DashClassic:
-      return 'Classic'
+      return 'Starter'
     case BeamMode.DashRecall:
       return 'Recall'
     case BeamMode.New:
-      return 'New'
+      return 'Starter+'
   }
 }
 
@@ -94,13 +101,13 @@ const parseSettings = (parameters: any) => {
   const extraItems = getExtraItems(settings.extraItems)
   const randomizeParams = [
     { label: 'Item Split', value: getItemSplit(settings.majorDistribution) },
-    { label: 'Boss', value: getBossMode(settings.bossMode) },
-    { label: 'Area', value: getAreaMode(settings.randomizeAreas) }
+    { label: 'Boss Locations', value: getBossMode(settings.bossMode) },
+    { label: 'Map Layout', value: getAreaMode(settings.mapLayout, settings.randomizeAreas) }
   ]
   const settingsParams = [
     { label: 'Minor Item Distribution', value: getMinorItemDistribution(settings.minorDistribution)},
-    { label: 'Map Layout', value: getMapLayout(settings.mapLayout) },
-    { label: 'Beam Mode', value: getBeamMode(settings.beamMode), },
+    { label: 'Environment Updates', value: getEnvironmentUpdates(settings.mapLayout) },
+    { label: 'Charge Beam', value: getBeamMode(settings.beamMode), },
     { label: 'Gravity Heat Reduction', value: getGravityMode(settings.gravityHeatReduction), },
     { label: 'Double Jump', value: extraItems.doubleJump, },
     { label: 'Heat Shield', value: extraItems.heatShield, },

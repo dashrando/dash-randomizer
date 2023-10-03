@@ -147,12 +147,12 @@ const Option = (
 }
 
 export interface GenerateSeedSettings {
-  'item-split': 'recall-mm' | 'standard-mm' | 'full',
-  area: 'standard' | 'randomized',
+  'item-split': 'standard-mm' | 'full',
+  'map-layout': 'standard' | 'randomized' | 'recall',
   boss: 'standard' | 'randomized' | 'known',
   minors: 'standard' | 'dash',
-  'map-layout': 'standard' | 'dash-recall' | 'dash-classic',
-  'beam-mode': 'vanilla' | 'classic' | 'recall' | 'new',
+  'environment': 'standard' | 'dash-recall' | 'dash-classic',
+  'charge-beam': 'vanilla' | 'starter' | 'starter-plus',
   'gravity-heat-reduction': 'off' | 'on',
   'double-jump': 'off' | 'on',
   'heat-shield': 'off' | 'on',
@@ -166,43 +166,29 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
-  //mode: 'sgl23' | 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom',
-  mode: 'sgl23' | 'dash-recall-v1' | 'dash-classic' | '2017' | 'custom' | null,
+  mode: 'sgl23' | 'dash-recall' | 'dash-classic' | '2017' | 'custom' | null,
 }
 
 const MODES = {
   'sgl23': {
     'item-split': 'full',
-    area: 'randomized',
+    'map-layout': 'randomized',
     boss: 'randomized',
     minors: 'standard',
-    'map-layout': 'standard',
-    'beam-mode': 'vanilla',
+    'environment': 'standard',
+    'charge-beam': 'vanilla',
     'gravity-heat-reduction': 'off',
     'double-jump': 'on',
     'heat-shield': 'off',
     'pressure-valve': 'none',
   },
-  /*'dash-recall-v2': {
-    'item-split': 'recall-mm',
-    area: 'standard',
+  'dash-recall': {
+    'item-split': 'standard-mm',
+    'map-layout': 'recall',
     boss: 'standard',
     minors: 'dash',
-    'map-layout': 'dash-recall',
-    'beam-mode': 'new',
-    'gravity-heat-reduction': 'on',
-    'double-jump': 'on',
-    'heat-shield': 'on',
-    'pressure-valve': 'one',
-    // 'pressure-valve': 'two',
-  },*/
-  'dash-recall-v1': {
-    'item-split': 'recall-mm',
-    area: 'standard',
-    boss: 'standard',
-    minors: 'dash',
-    'map-layout': 'dash-recall',
-    'beam-mode': 'recall',
+    'environment': 'dash-recall',
+    'charge-beam': 'starter-plus',
     'gravity-heat-reduction': 'on',
     'double-jump': 'on',
     'heat-shield': 'on',
@@ -210,11 +196,11 @@ const MODES = {
   },
   'dash-classic': {
     'item-split': 'standard-mm',
-    area: 'standard',
+    'map-layout': 'standard',
     boss: 'standard',
     minors: 'dash',
-    'map-layout': 'dash-classic',
-    'beam-mode': 'classic',
+    'environment': 'dash-classic',
+    'charge-beam': 'starter',
     'gravity-heat-reduction': 'on',
     'double-jump': 'off',
     'heat-shield': 'off',
@@ -222,11 +208,11 @@ const MODES = {
   },
   '2017': {
     'item-split': 'standard-mm',
-    area: 'standard',
+    'map-layout': 'standard',
     boss: 'standard',
     minors: 'standard',
-    'map-layout': 'standard',
-    'beam-mode': 'vanilla',
+    'environment': 'standard',
+    'charge-beam': 'vanilla',
     'gravity-heat-reduction': 'off',
     'double-jump': 'off',
     'heat-shield': 'off',
@@ -293,8 +279,7 @@ export default function Form() {
   const [signature, setSignature] = useState<string | null>(null)
   const { data: vanilla, isLoading: vanillaLoading } = useVanilla()
   const mounted = useMounted()
-  const seedNum = watch('seed-mode')
-  const isRandom = (seedNum === 'random')
+  const layout = watch('map-layout');
 
   const updateMode = useCallback((value: unknown) => {
     const data = value as GenerateFormParams
@@ -325,10 +310,10 @@ export default function Form() {
       }
 
       let mapLayout = MapLayout.Standard;
-      if (data['map-layout'] == 'dash-recall') {
+      if (data['environment'] == 'dash-recall') {
         mapLayout = MapLayout.Recall;
       }
-      if (data['map-layout'] == 'dash-classic') {
+      if (data['environment'] == 'dash-classic') {
         mapLayout = MapLayout.Classic;
       }
 
@@ -337,12 +322,13 @@ export default function Form() {
         MinorDistributionMode.Dash :
         MinorDistributionMode.Standard
 
-      const majorDistribution =
-        data['item-split'] == "full" ?
-        MajorDistributionMode.Full :
-        data['item-split'] == "recall-mm" ?
-        MajorDistributionMode.Recall :
-        MajorDistributionMode.Standard;
+      let majorDistribution = MajorDistributionMode.Standard;
+      if (data['map-layout'] == 'recall') {
+        majorDistribution = MajorDistributionMode.Recall;
+      }
+      if (data['item-split'] == "full") {
+        majorDistribution = MajorDistributionMode.Full;
+      }
 
       const extraItems = [];
       if (data['double-jump'] == "on") {
@@ -368,10 +354,8 @@ export default function Form() {
         bossMode: BossMode.Vanilla,
       };
 
-      if (data.mode == 'dash-recall-v1') {
+      if (data.mode == 'dash-recall') {
         settings.preset = "RecallMM";
-      //} else if (data.mode == 'dash-recall-v2') {
-        //settings.preset = "RecallV2";
       } else if (data.mode == 'dash-classic') {
         settings.preset = "ClassicMM";
       } else if (data.mode == '2017') {
@@ -380,11 +364,9 @@ export default function Form() {
         settings.preset = "SGL23"
       }
 
-      if (data['beam-mode'] == 'classic') {
+      if (data['charge-beam'] == 'starter') {
         settings.beamMode = BeamMode.DashClassic;
-      } else if (data['beam-mode'] == 'recall') {
-        settings.beamMode = BeamMode.DashRecall;
-      } else if (data['beam-mode'] == 'new') {
+      } else if (data['charge-beam'] == 'starter-plus') {
         settings.beamMode = BeamMode.New;
       }
 
@@ -392,7 +374,7 @@ export default function Form() {
         settings.gravityHeatReduction = GravityHeatReduction.Off;
       }
 
-      if (data.area == 'randomized') {
+      if (data['map-layout'] == 'randomized') {
         settings.randomizeAreas = true;
       }
 
@@ -437,6 +419,17 @@ export default function Form() {
         return
       }
 
+      if (name === 'map-layout') {
+        if (value['environment'] === 'dash-recall' && value['map-layout'] !== 'recall') {
+          setValue('environment', 'standard');
+          value['environment'] = 'standard';
+        }
+        if (value['environment'] !== 'dash-recall' && value['map-layout'] === 'recall') {
+          setValue('environment', 'dash-recall');
+          value['environment'] = 'dash-recall';
+        }
+      }
+
       // Update mode if necessary
       updateMode(value)
     })
@@ -472,8 +465,7 @@ export default function Form() {
                 options={[
                   { label: '', value: '', hidden: true },
                   { label: 'SG Live 2023', value: 'sgl23' },
-                  { label: 'DASH: Recall', value: 'dash-recall-v1' },
-                  //{ label: 'DASH: Recall v2', value: 'dash-recall-v2' },
+                  { label: 'DASH: Recall', value: 'dash-recall' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
                   { label: 'Throwback 2017', value: '2017' },
                   { label: 'Custom', value: 'custom', hidden: true }
@@ -504,7 +496,6 @@ export default function Form() {
                 options={[
                   { label: 'Full', value: 'full' },
                   { label: 'Major/Minor', value: 'standard-mm' },
-                  { label: 'Recall Major/Minor', value: 'recall-mm' },
                 ]}
                 name="item-split"
                 register={register}
@@ -514,7 +505,7 @@ export default function Form() {
                 determines the available locations where major items can be placed.
               </p>
             </Option>
-            <Option label="Boss" name="boss" badge={<Badge variant="alpha">Alpha</Badge>}>
+            <Option label="Boss Locations" name="boss" badge={<Badge variant="beta">Beta</Badge>}>
               <Select
                 options={[
                   { label: 'Shifted', value: 'randomized' },
@@ -525,22 +516,23 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <a href="/info/settings#boss">Boss Randomization</a>{' '}
-                can randomize the boss found at a given boss location.
+                <a href="/info/settings#boss-locations">Boss Locations</a>{' '}
+                determines if major bosses will be in their vanilla location or potentially moved.
               </p>
             </Option>
-            <Option label="Area" name="area" badge={<Badge variant="alpha">Alpha</Badge>}>
+            <Option label="Map Layout" name="map-layout" badge={<Badge variant="beta">Beta</Badge>}>
               <Select
                 options={[
-                  { label: 'Randomized', value: 'randomized' },
+                  { label: 'Area Randomization', value: 'randomized' },
+                  { label: 'DASH: Recall', value: 'recall' },
                   { label: 'Vanilla', value: 'standard' },
                 ]}
-                name="area"
+                name="map-layout"
                 register={register}
               />
               <p>
-                <a href="/info/settings#area">Area Randomization</a>{' '}
-                will randomize the portals between certain areas or leave them as in the vanilla game.
+                <a href="/info/settings#map-layout">Map Layout</a>{' '}
+                determines how the doors around the map are connected.
               </p>
             </Option>
           </Section>
@@ -559,18 +551,20 @@ export default function Form() {
                 determines the ratio of minor items placed throughout the game.
               </p>
             </Option>
-            <Option label="Map Layout" name="map-layout">
+            <Option label="Environment Updates" name="environment">
               <Select
-                options={[
-                  { label: 'Standard', value: 'standard' },
-                  { label: 'DASH Recall', value: 'dash-recall' },
-                  { label: 'DASH Classic', value: 'dash-classic' },
-                ]}
-                name="map-layout"
+                options={layout == 'recall' ?
+                  [{ label: 'DASH: Recall', value: 'dash-recall' }] :
+                  [
+                    { label: 'Standard', value: 'standard' },
+                    { label: 'DASH', value: 'dash-classic' },
+                  ]}
+                disabled={layout == 'recall'}
+                name="environment"
                 register={register}
               />
               <p>
-                <a href="/info/settings#map-layout">Map Layout</a>{' '}
+                <a href="/info/settings#environment">Environment Updates</a>{' '}
                 applies various tweaks, anti-soft lock patches and other quality of life improvements.
               </p>
             </Option>
@@ -578,11 +572,10 @@ export default function Form() {
               <Select
                 options={[
                   { label: 'Vanilla', value: 'vanilla' },
-                  { label: 'Starter', value: 'classic' },
-                  { label: 'Starter+', value: 'new' },
-                  { label: 'Recall', value: 'recall' },
+                  { label: 'Starter', value: 'starter' },
+                  { label: 'Starter+', value: 'starter-plus' },
                 ]}
-                name="beam-mode"
+                name="charge-beam"
                 register={register}
               />
               <p>
