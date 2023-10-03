@@ -259,26 +259,26 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
-          id="map-layout"
-          title="Map Layout"
+          id="environment"
+          title="Environment Updates"
         >
           <p>
-            <strong>Map Layout</strong> applies various tweaks, anti-soft lock patches and other quality of life improvements.
+            <strong>Environment Updates</strong> applies various tweaks, anti-soft lock patches and other quality of life improvements.
           </p>
           <ul>
             <li>
               <p>
-                <strong>Standard</strong> has the &quot;vanilla&quot; map that most randomizers use, such as Total&apos;s Randomizer and VARIA.
+                <strong>Standard</strong> has the normal map that most randomizers use, such as Total&apos;s Randomizer and VARIA.
+              </p>
+            </li>
+            <li>
+              <p>
+                The <strong>DASH</strong> setting includes everything from Standard while adding Spazer-breakable blocks at the Waterway location as well as in Botwoon’s Hallway. It also allows the speed block at the Wrecked Ship Reserve location to be broken by the Bombs major item.
               </p>
             </li>
             <li>
               <p>
                 <strong>DASH Recall</strong> has everything included in Standard, but also includes a few changes specific to the DASH Recall logic.
-              </p>
-            </li>
-            <li>
-              <p>
-                <strong>DASH Classic</strong> has everything included in Standard, and also includes accessing Waterway and Botwoon Hallway using Spazer beam plus accessing Wrecked Ship Reserve with Bombs.
               </p>
             </li>
           </ul>

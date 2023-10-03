@@ -151,7 +151,7 @@ export interface GenerateSeedSettings {
   area: 'standard' | 'randomized',
   boss: 'standard' | 'randomized' | 'known',
   minors: 'standard' | 'dash',
-  'map-layout': 'standard' | 'dash-recall' | 'dash-classic',
+  'environment': 'standard' | 'dash-recall' | 'dash-classic',
   'beam-mode': 'vanilla' | 'classic' | 'recall' | 'new',
   'gravity-heat-reduction': 'off' | 'on',
   'double-jump': 'off' | 'on',
@@ -176,7 +176,7 @@ const MODES = {
     area: 'randomized',
     boss: 'randomized',
     minors: 'standard',
-    'map-layout': 'standard',
+    'environment': 'standard',
     'beam-mode': 'vanilla',
     'gravity-heat-reduction': 'off',
     'double-jump': 'on',
@@ -188,7 +188,7 @@ const MODES = {
     area: 'standard',
     boss: 'standard',
     minors: 'dash',
-    'map-layout': 'dash-recall',
+    'environment': 'dash-recall',
     'beam-mode': 'new',
     'gravity-heat-reduction': 'on',
     'double-jump': 'on',
@@ -201,7 +201,7 @@ const MODES = {
     area: 'standard',
     boss: 'standard',
     minors: 'dash',
-    'map-layout': 'dash-recall',
+    'environment': 'dash-recall',
     'beam-mode': 'recall',
     'gravity-heat-reduction': 'on',
     'double-jump': 'on',
@@ -213,7 +213,7 @@ const MODES = {
     area: 'standard',
     boss: 'standard',
     minors: 'dash',
-    'map-layout': 'dash-classic',
+    'environment': 'dash-classic',
     'beam-mode': 'classic',
     'gravity-heat-reduction': 'on',
     'double-jump': 'off',
@@ -225,7 +225,7 @@ const MODES = {
     area: 'standard',
     boss: 'standard',
     minors: 'standard',
-    'map-layout': 'standard',
+    'environment': 'standard',
     'beam-mode': 'vanilla',
     'gravity-heat-reduction': 'off',
     'double-jump': 'off',
@@ -325,10 +325,10 @@ export default function Form() {
       }
 
       let mapLayout = MapLayout.Standard;
-      if (data['map-layout'] == 'dash-recall') {
+      if (data['environment'] == 'dash-recall') {
         mapLayout = MapLayout.Recall;
       }
-      if (data['map-layout'] == 'dash-classic') {
+      if (data['environment'] == 'dash-classic') {
         mapLayout = MapLayout.Classic;
       }
 
@@ -559,18 +559,18 @@ export default function Form() {
                 determines the ratio of minor items placed throughout the game.
               </p>
             </Option>
-            <Option label="Map Layout" name="map-layout">
+            <Option label="Environment Updates" name="environment">
               <Select
                 options={[
                   { label: 'Standard', value: 'standard' },
+                  { label: 'DASH', value: 'dash-classic' },
                   { label: 'DASH Recall', value: 'dash-recall' },
-                  { label: 'DASH Classic', value: 'dash-classic' },
                 ]}
-                name="map-layout"
+                name="environment"
                 register={register}
               />
               <p>
-                <a href="/info/settings#map-layout">Map Layout</a>{' '}
+                <a href="/info/settings#environment">Environment Updates</a>{' '}
                 applies various tweaks, anti-soft lock patches and other quality of life improvements.
               </p>
             </Option>
