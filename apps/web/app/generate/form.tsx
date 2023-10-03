@@ -419,6 +419,17 @@ export default function Form() {
         return
       }
 
+      if (name === 'map-layout') {
+        if (value['environment'] === 'dash-recall' && value['map-layout'] !== 'recall') {
+          setValue('environment', 'standard');
+          value['environment'] = 'standard';
+        }
+        if (value['environment'] !== 'dash-recall' && value['map-layout'] === 'recall') {
+          setValue('environment', 'dash-recall');
+          value['environment'] = 'dash-recall';
+        }
+      }
+
       // Update mode if necessary
       updateMode(value)
     })
