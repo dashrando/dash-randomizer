@@ -53,7 +53,7 @@ const getMapLayout = (value: number) => {
     case MapLayout.Recall:
       return "DASH Recall"
     case MapLayout.Classic:
-      return "DASH Classic"
+      return "DASH"
   }
 }
 
@@ -61,7 +61,7 @@ const getBossMode = (value: number) => {
   return (value === 2) ? 'Shifted' : 'Vanilla'
 }
 
-const getAreaMode = (value: boolean) => value ? 'Randomized' : 'Vanilla'
+const getAreaMode = (value: boolean) => value ? 'Area Randomization' : 'Vanilla'
 
 const getBeamMode = (value: number) => {
   switch (value) {
@@ -95,7 +95,7 @@ const parseSettings = (parameters: any) => {
   const randomizeParams = [
     { label: 'Item Split', value: getItemSplit(settings.majorDistribution) },
     { label: 'Boss Locations', value: getBossMode(settings.bossMode) },
-    { label: 'Area', value: getAreaMode(settings.randomizeAreas) }
+    { label: 'Map Layout', value: getAreaMode(settings.randomizeAreas) }
   ]
   const settingsParams = [
     { label: 'Minor Item Distribution', value: getMinorItemDistribution(settings.minorDistribution)},

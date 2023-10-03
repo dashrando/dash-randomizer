@@ -55,7 +55,7 @@ export default function SettingsInfoPage() {
           <p><strong>NTSC</strong> and <strong>PAL</strong> are video standards. NTSC is most commonly used today as it runs at 60Hz whereas PAL runs at 50Hz.</p>
         </Article>
         <Article id="mode" title="Mode">
-          <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss">Boss Locations</a> and <a href="#area">Area Randomization</a>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
+          <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss-locations">Boss Locations</a> and <a href="#map-layout">Map Layout</a>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
         </Article>
         <Article id="item-split" title="Item Split">
           <p><strong>Item Split</strong> determines the available locations where major items can be placed.</p>
@@ -218,22 +218,22 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
-          id="area"
+          id="map-layout"
           badge={<Badge variant="alpha">Alpha</Badge>}
-          title="Area"
+          title="Map Layout"
         >
           <p>
-            <strong>Area Randomization</strong> will randomize connecting doors between Crateria, Green Brinstar, Red Brinstar, Kraid&apos;s Lair, Wrecked Ship, Upper Norfair, Crocomire, Lower Norfair, West Maridia, East Maridia and Tourian.
+            <strong>Map Layout</strong> determines how the doors around the map are connected.
           </p>
           <ul>
             <li>
               <p>
-                <strong>Randomized</strong> enables this randomization. While the connections to areas are randomized, there is still a path to beating the game dictated by the logic.
+                <strong>Area Randomization</strong> uses 32 specific doors as portals and randomizes the portal connections, producing a unique map layout.
               </p>
             </li>
             <li>
               <p>
-                <strong>Vanilla</strong> disables this randomization and all areas connect as in the vanilla game.
+                <strong>Vanilla</strong> makes no changes to the door connections.
               </p>
             </li>
           </ul>

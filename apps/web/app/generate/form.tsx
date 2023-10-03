@@ -148,7 +148,7 @@ const Option = (
 
 export interface GenerateSeedSettings {
   'item-split': 'recall-mm' | 'standard-mm' | 'full',
-  area: 'standard' | 'randomized',
+  'map-layout': 'standard' | 'randomized',
   boss: 'standard' | 'randomized' | 'known',
   minors: 'standard' | 'dash',
   'environment': 'standard' | 'dash-recall' | 'dash-classic',
@@ -173,7 +173,7 @@ export interface GenerateFormParams extends GenerateSeedParams {
 const MODES = {
   'sgl23': {
     'item-split': 'full',
-    area: 'randomized',
+    'map-layout': 'randomized',
     boss: 'randomized',
     minors: 'standard',
     'environment': 'standard',
@@ -185,7 +185,7 @@ const MODES = {
   },
   /*'dash-recall-v2': {
     'item-split': 'recall-mm',
-    area: 'standard',
+    'map-layout': 'standard',
     boss: 'standard',
     minors: 'dash',
     'environment': 'dash-recall',
@@ -198,7 +198,7 @@ const MODES = {
   },*/
   'dash-recall-v1': {
     'item-split': 'recall-mm',
-    area: 'standard',
+    'map-layout': 'standard',
     boss: 'standard',
     minors: 'dash',
     'environment': 'dash-recall',
@@ -210,7 +210,7 @@ const MODES = {
   },
   'dash-classic': {
     'item-split': 'standard-mm',
-    area: 'standard',
+    'map-layout': 'standard',
     boss: 'standard',
     minors: 'dash',
     'environment': 'dash-classic',
@@ -222,7 +222,7 @@ const MODES = {
   },
   '2017': {
     'item-split': 'standard-mm',
-    area: 'standard',
+    'map-layout': 'standard',
     boss: 'standard',
     minors: 'standard',
     'environment': 'standard',
@@ -390,7 +390,7 @@ export default function Form() {
         settings.gravityHeatReduction = GravityHeatReduction.Off;
       }
 
-      if (data.area == 'randomized') {
+      if (data['map-layout'] == 'randomized') {
         settings.randomizeAreas = true;
       }
 
@@ -527,18 +527,18 @@ export default function Form() {
                 determines if major bosses will be in their vanilla location or potentially moved.
               </p>
             </Option>
-            <Option label="Area" name="area" badge={<Badge variant="alpha">Alpha</Badge>}>
+            <Option label="Map Layout" name="map-layout" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
-                  { label: 'Randomized', value: 'randomized' },
+                  { label: 'Area Randomization', value: 'randomized' },
                   { label: 'Vanilla', value: 'standard' },
                 ]}
-                name="area"
+                name="map-layout"
                 register={register}
               />
               <p>
-                <a href="/info/settings#area">Area Randomization</a>{' '}
-                will randomize the portals between certain areas or leave them as in the vanilla game.
+                <a href="/info/settings#map-layout">Map Layout</a>{' '}
+                determines how the doors around the map are connected.
               </p>
             </Option>
           </Section>
