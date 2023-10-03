@@ -50,7 +50,7 @@ const getEnvironmentUpdates = (value: number) => {
     case MapLayout.Standard:
       return "Standard"
     case MapLayout.Recall:
-      return "DASH Recall"
+      return "DASH: Recall"
     case MapLayout.Classic:
       return "DASH"
   }

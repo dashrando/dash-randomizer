@@ -279,8 +279,7 @@ export default function Form() {
   const [signature, setSignature] = useState<string | null>(null)
   const { data: vanilla, isLoading: vanillaLoading } = useVanilla()
   const mounted = useMounted()
-  const seedNum = watch('seed-mode')
-  const isRandom = (seedNum === 'random')
+  const layout = watch('map-layout');
 
   const updateMode = useCallback((value: unknown) => {
     const data = value as GenerateFormParams
@@ -543,11 +542,13 @@ export default function Form() {
             </Option>
             <Option label="Environment Updates" name="environment">
               <Select
-                options={[
-                  { label: 'Standard', value: 'standard' },
-                  { label: 'DASH', value: 'dash-classic' },
-                  { label: 'DASH Recall', value: 'dash-recall' },
-                ]}
+                options={layout == 'recall' ?
+                  [{ label: 'DASH: Recall', value: 'dash-recall' }] :
+                  [
+                    { label: 'Standard', value: 'standard' },
+                    { label: 'DASH', value: 'dash-classic' },
+                  ]}
+                disabled={layout == 'recall'}
                 name="environment"
                 register={register}
               />
