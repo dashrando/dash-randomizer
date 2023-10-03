@@ -306,11 +306,11 @@ export default function SettingsInfoPage() {
                 <strong>Starter+</strong> is the same except it includes two Charge Beam upgrades that increase the Charge Beam damage to 2x and 3x progressively.
               </p>
             </li>
-            <li>
+            {/*<li>
               <p>
                 <strong>Recall</strong> includes the Starter Charge Beam and 4 Charge Upgrades which scale the damage up to a maximum of 5x. Recall also includes updated beam damage tables in an attempt to improve balance.
               </p>
-            </li>
+          </li>*/}
           </ul>
         </Article>
         <Article

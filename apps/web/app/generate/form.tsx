@@ -152,7 +152,7 @@ export interface GenerateSeedSettings {
   boss: 'standard' | 'randomized' | 'known',
   minors: 'standard' | 'dash',
   'environment': 'standard' | 'dash-recall' | 'dash-classic',
-  'beam-mode': 'vanilla' | 'classic' | 'recall' | 'new',
+  'charge-beam': 'vanilla' | 'starter' | 'starter-plus',
   'gravity-heat-reduction': 'off' | 'on',
   'double-jump': 'off' | 'on',
   'heat-shield': 'off' | 'on',
@@ -177,7 +177,7 @@ const MODES = {
     boss: 'randomized',
     minors: 'standard',
     'environment': 'standard',
-    'beam-mode': 'vanilla',
+    'charge-beam': 'vanilla',
     'gravity-heat-reduction': 'off',
     'double-jump': 'on',
     'heat-shield': 'off',
@@ -189,7 +189,7 @@ const MODES = {
     boss: 'standard',
     minors: 'dash',
     'environment': 'dash-recall',
-    'beam-mode': 'new',
+    'charge-beam': 'starter-plus',
     'gravity-heat-reduction': 'on',
     'double-jump': 'on',
     'heat-shield': 'on',
@@ -202,7 +202,7 @@ const MODES = {
     boss: 'standard',
     minors: 'dash',
     'environment': 'dash-recall',
-    'beam-mode': 'recall',
+    'charge-beam': 'starter-plus',
     'gravity-heat-reduction': 'on',
     'double-jump': 'on',
     'heat-shield': 'on',
@@ -214,7 +214,7 @@ const MODES = {
     boss: 'standard',
     minors: 'dash',
     'environment': 'dash-classic',
-    'beam-mode': 'classic',
+    'charge-beam': 'starter',
     'gravity-heat-reduction': 'on',
     'double-jump': 'off',
     'heat-shield': 'off',
@@ -226,7 +226,7 @@ const MODES = {
     boss: 'standard',
     minors: 'standard',
     'environment': 'standard',
-    'beam-mode': 'vanilla',
+    'charge-beam': 'vanilla',
     'gravity-heat-reduction': 'off',
     'double-jump': 'off',
     'heat-shield': 'off',
@@ -380,11 +380,9 @@ export default function Form() {
         settings.preset = "SGL23"
       }
 
-      if (data['beam-mode'] == 'classic') {
+      if (data['charge-beam'] == 'starter') {
         settings.beamMode = BeamMode.DashClassic;
-      } else if (data['beam-mode'] == 'recall') {
-        settings.beamMode = BeamMode.DashRecall;
-      } else if (data['beam-mode'] == 'new') {
+      } else if (data['charge-beam'] == 'starter-plus') {
         settings.beamMode = BeamMode.New;
       }
 
@@ -578,11 +576,10 @@ export default function Form() {
               <Select
                 options={[
                   { label: 'Vanilla', value: 'vanilla' },
-                  { label: 'Starter', value: 'classic' },
-                  { label: 'Starter+', value: 'new' },
-                  { label: 'Recall', value: 'recall' },
+                  { label: 'Starter', value: 'starter' },
+                  { label: 'Starter+', value: 'starter-plus' },
                 ]}
-                name="beam-mode"
+                name="charge-beam"
                 register={register}
               />
               <p>
