@@ -55,7 +55,7 @@ export default function SettingsInfoPage() {
           <p><strong>NTSC</strong> and <strong>PAL</strong> are video standards. NTSC is most commonly used today as it runs at 60Hz whereas PAL runs at 50Hz.</p>
         </Article>
         <Article id="mode" title="Mode">
-          <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss">Boss Randomization</a> and <a href="#area">Area Randomization</a>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
+          <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss">Boss Locations</a> and <a href="#area">Area Randomization</a>. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
         </Article>
         <Article id="item-split" title="Item Split">
           <p><strong>Item Split</strong> determines the available locations where major items can be placed.</p>
@@ -190,12 +190,12 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
-          id="boss"
+          id="boss-locations"
           badge={<Badge variant="alpha">Alpha</Badge>}
-          title="Boss"
+          title="Boss Locations"
         >
           <p>
-            <strong>Boss Randomization</strong> can swap the locations of the G4 bosses. For example, going to the boss location in Lower Norfair might lead to Kraid, Phantoon, Draygon or Ridley. While the encountered boss might be at its expected location, at least two of the G4 bosses will not be in their vanilla location.
+            <strong>Boss Locations</strong> can be updated for the G4 bosses. For example, going to the boss location in Lower Norfair might lead to Kraid, Phantoon, Draygon or Ridley.
           </p>
           <ul>
             <li>
@@ -205,7 +205,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Shifted</strong> bosses open access to the location in which they are placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair).
+                <strong>Shifted</strong> bosses open access to the location in which they are placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair). At least two bosses will not be in their vanilla locations.
               </p>
             </li>
             {/*<li>

@@ -514,7 +514,7 @@ export default function Form() {
                 determines the available locations where major items can be placed.
               </p>
             </Option>
-            <Option label="Boss" name="boss" badge={<Badge variant="alpha">Alpha</Badge>}>
+            <Option label="Boss Locations" name="boss" badge={<Badge variant="alpha">Alpha</Badge>}>
               <Select
                 options={[
                   { label: 'Shifted', value: 'randomized' },
@@ -525,8 +525,8 @@ export default function Form() {
                 register={register}
               />
               <p>
-                <a href="/info/settings#boss">Boss Randomization</a>{' '}
-                can randomize the boss found at a given boss location.
+                <a href="/info/settings#boss-locations">Boss Locations</a>{' '}
+                determines if major bosses will be in their vanilla location or potentially moved.
               </p>
             </Option>
             <Option label="Area" name="area" badge={<Badge variant="alpha">Alpha</Badge>}>
