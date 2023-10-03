@@ -29,9 +29,8 @@ type Seed = {
 const getItemSplit = (value: number) => {
   switch (value) {
     case MajorDistributionMode.Standard:
-      return 'Major/Minor'
     case MajorDistributionMode.Recall:
-      return 'Recall Major/Minor'
+      return 'Major/Minor'
     default:
       return 'Full'
   }
@@ -46,7 +45,7 @@ const getMinorItemDistribution = (value: number) => {
   }
 }
 
-const getMapLayout = (value: number) => {
+const getEnvironmentUpdates = (value: number) => {
   switch (value) {
     case MapLayout.Standard:
       return "Standard"
@@ -61,7 +60,15 @@ const getBossMode = (value: number) => {
   return (value === 2) ? 'Shifted' : 'Vanilla'
 }
 
-const getAreaMode = (value: boolean) => value ? 'Area Randomization' : 'Vanilla'
+const getAreaMode = (environment: number, area: boolean) => {
+  if (area) {
+    return 'Area Randomization';
+  }
+  if (environment == MapLayout.Recall) {
+    return 'DASH: Recall';
+  }
+  return 'Vanilla';
+}
 
 const getBeamMode = (value: number) => {
   switch (value) {
@@ -95,11 +102,11 @@ const parseSettings = (parameters: any) => {
   const randomizeParams = [
     { label: 'Item Split', value: getItemSplit(settings.majorDistribution) },
     { label: 'Boss Locations', value: getBossMode(settings.bossMode) },
-    { label: 'Map Layout', value: getAreaMode(settings.randomizeAreas) }
+    { label: 'Map Layout', value: getAreaMode(settings.mapLayout, settings.randomizeAreas) }
   ]
   const settingsParams = [
     { label: 'Minor Item Distribution', value: getMinorItemDistribution(settings.minorDistribution)},
-    { label: 'Environment Updates', value: getMapLayout(settings.mapLayout) },
+    { label: 'Environment Updates', value: getEnvironmentUpdates(settings.mapLayout) },
     { label: 'Charge Beam', value: getBeamMode(settings.beamMode), },
     { label: 'Gravity Heat Reduction', value: getGravityMode(settings.gravityHeatReduction), },
     { label: 'Double Jump', value: extraItems.doubleJump, },

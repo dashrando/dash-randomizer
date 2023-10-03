@@ -60,67 +60,12 @@ export default function SettingsInfoPage() {
         <Article id="item-split" title="Item Split">
           <p><strong>Item Split</strong> determines the available locations where major items can be placed.</p>
           <ul>
-            <li>
+            {/*<li>
               <p>
                 <strong>Recall Major/Minor</strong>:{' '}
                 Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations, with a few changes, dictated by the logic. Changes include the removal of the Kraid&apos;s Etank location and the additions of the Sky Missile, Watering Hole, and Mickey Mouse Missile locations.
               </p>
-              {/* <details>
-                <summary>Locations</summary>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Area</th>
-                      <th>Vanilla Item</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Bomb Torizo</td>
-                      <td>Crateria</td>
-                      <td>Bombs</td>
-                    </tr>
-                    <tr>
-                      <td>Morph Pedestal</td>
-                      <td>Crateria</td>
-                      <td>Morph Ball</td>
-                    </tr>
-                    <tr>
-                      <td>Ceiling E-Tank</td>
-                      <td>Crateria</td>
-                      <td>E-Tank</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </details>
-              <Spacer y={4} />
-              <details>
-                <summary>Items</summary>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th style={{ minWidth: '160px' }}>Name</th>
-                      <th>Notes</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Morphing Ball</td>
-                      <td>Must be in either Morph Pedestal or Ceiling E-Tank in Crateria.</td>
-                    </tr>
-                    <tr>
-                      <td>Varia</td>
-                      <td>Cannot be in Crateria.</td>
-                    </tr>
-                    <tr>
-                      <td>E-Tank</td>
-                      <td>There are 12 total E-Tanks in this split.</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </details> */}
-            </li>
+            </li>*/}
             <li>
               <p>
                 <strong>Major/Minor</strong>:{' '}
@@ -233,6 +178,11 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
+                <strong>DASH: Recall</strong> rebalances vanilla map by unlocking certain doors and removing obstacles.
+              </p>
+            </li>
+            <li>
+              <p>
                 <strong>Vanilla</strong> makes no changes to the door connections.
               </p>
             </li>
@@ -276,11 +226,11 @@ export default function SettingsInfoPage() {
                 The <strong>DASH</strong> setting includes everything from Standard while adding Spazer-breakable blocks at the Waterway location as well as in Botwoon’s Hallway. It also allows the speed block at the Wrecked Ship Reserve location to be broken by the Bombs major item.
               </p>
             </li>
-            <li>
+            {/*<li>
               <p>
                 <strong>DASH Recall</strong> has everything included in Standard, but also includes a few changes specific to the DASH Recall logic.
               </p>
-            </li>
+          </li>*/}
           </ul>
         </Article>
         <Article

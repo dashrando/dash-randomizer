@@ -147,8 +147,8 @@ const Option = (
 }
 
 export interface GenerateSeedSettings {
-  'item-split': 'recall-mm' | 'standard-mm' | 'full',
-  'map-layout': 'standard' | 'randomized',
+  'item-split': 'standard-mm' | 'full',
+  'map-layout': 'standard' | 'randomized' | 'recall',
   boss: 'standard' | 'randomized' | 'known',
   minors: 'standard' | 'dash',
   'environment': 'standard' | 'dash-recall' | 'dash-classic',
@@ -166,8 +166,7 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
-  //mode: 'sgl23' | 'dash-recall-v2' | 'dash-recall-v1' | 'dash-classic' | 'standard' | 'custom',
-  mode: 'sgl23' | 'dash-recall-v1' | 'dash-classic' | '2017' | 'custom' | null,
+  mode: 'sgl23' | 'dash-recall' | 'dash-classic' | '2017' | 'custom' | null,
 }
 
 const MODES = {
@@ -183,22 +182,9 @@ const MODES = {
     'heat-shield': 'off',
     'pressure-valve': 'none',
   },
-  /*'dash-recall-v2': {
-    'item-split': 'recall-mm',
-    'map-layout': 'standard',
-    boss: 'standard',
-    minors: 'dash',
-    'environment': 'dash-recall',
-    'charge-beam': 'starter-plus',
-    'gravity-heat-reduction': 'on',
-    'double-jump': 'on',
-    'heat-shield': 'on',
-    'pressure-valve': 'one',
-    // 'pressure-valve': 'two',
-  },*/
-  'dash-recall-v1': {
-    'item-split': 'recall-mm',
-    'map-layout': 'standard',
+  'dash-recall': {
+    'item-split': 'standard-mm',
+    'map-layout': 'recall',
     boss: 'standard',
     minors: 'dash',
     'environment': 'dash-recall',
@@ -337,12 +323,13 @@ export default function Form() {
         MinorDistributionMode.Dash :
         MinorDistributionMode.Standard
 
-      const majorDistribution =
-        data['item-split'] == "full" ?
-        MajorDistributionMode.Full :
-        data['item-split'] == "recall-mm" ?
-        MajorDistributionMode.Recall :
-        MajorDistributionMode.Standard;
+      let majorDistribution = MajorDistributionMode.Standard;
+      if (data['map-layout'] == 'recall') {
+        majorDistribution = MajorDistributionMode.Recall;
+      }
+      if (data['item-split'] == "full") {
+        majorDistribution = MajorDistributionMode.Full;
+      }
 
       const extraItems = [];
       if (data['double-jump'] == "on") {
@@ -368,10 +355,8 @@ export default function Form() {
         bossMode: BossMode.Vanilla,
       };
 
-      if (data.mode == 'dash-recall-v1') {
+      if (data.mode == 'dash-recall') {
         settings.preset = "RecallMM";
-      //} else if (data.mode == 'dash-recall-v2') {
-        //settings.preset = "RecallV2";
       } else if (data.mode == 'dash-classic') {
         settings.preset = "ClassicMM";
       } else if (data.mode == '2017') {
@@ -470,8 +455,7 @@ export default function Form() {
                 options={[
                   { label: '', value: '', hidden: true },
                   { label: 'SG Live 2023', value: 'sgl23' },
-                  { label: 'DASH: Recall', value: 'dash-recall-v1' },
-                  //{ label: 'DASH: Recall v2', value: 'dash-recall-v2' },
+                  { label: 'DASH: Recall', value: 'dash-recall' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
                   { label: 'Throwback 2017', value: '2017' },
                   { label: 'Custom', value: 'custom', hidden: true }
@@ -502,7 +486,6 @@ export default function Form() {
                 options={[
                   { label: 'Full', value: 'full' },
                   { label: 'Major/Minor', value: 'standard-mm' },
-                  { label: 'Recall Major/Minor', value: 'recall-mm' },
                 ]}
                 name="item-split"
                 register={register}
@@ -531,6 +514,7 @@ export default function Form() {
               <Select
                 options={[
                   { label: 'Area Randomization', value: 'randomized' },
+                  { label: 'DASH: Recall', value: 'recall' },
                   { label: 'Vanilla', value: 'standard' },
                 ]}
                 name="map-layout"
