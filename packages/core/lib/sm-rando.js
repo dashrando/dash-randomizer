@@ -108,14 +108,35 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
   // Write the spoiler in the credits.
   //-----------------------------------------------------------------
 
+  const getSortAddress = (loc) => {
+    switch (loc.address) {
+      case BOSS_ITEMS.VariaSuitInWreckedShip:
+      case BOSS_ITEMS.VariaSuitInMaridia:
+      case BOSS_ITEMS.VariaSuitInNorfair:
+        return BOSS_ITEMS.VariaSuitInBrinstar;
+
+      case BOSS_ITEMS.RidleyTankInBrinstar:
+      case BOSS_ITEMS.RidleyTankInWreckedShip:
+      case BOSS_ITEMS.RidleyTankInMaridia:
+        return BOSS_ITEMS.RidleyTankInNorfair;
+
+      case BOSS_ITEMS.SpaceJumpInBrinstar:
+      case BOSS_ITEMS.SpaceJumpInWreckedShip:
+      case BOSS_ITEMS.SpaceJumpInNorfair:
+        return BOSS_ITEMS.SpaceJumpInMaridia;
+
+      default:
+        return loc.address;
+    }
+  }
+
   const sortedLocations = getLocations().sort((a, b) => a.address - b.address);
 
   nodes
     .filter((n) => n.item.spoilerAddress > 0)
     .forEach((n) => {
-      const locIndex = sortedLocations.findIndex(
-        (l) => l.address == n.location.address
-      );
+      const addr = getSortAddress(n.location);
+      const locIndex = sortedLocations.findIndex((l) => l.address == addr);
       encodeBytes(seedPatch, n.item.spoilerAddress, U16toBytes(locIndex + 1));
     });
 
