@@ -1,0 +1,19 @@
+.text_hidden > * {
+  background-color: white;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.text_notHidden > * {
+  background-color: unset;
+  color: unset;
+  cursor: unset;
+  transition: all 1s;
+}
+
+.text_hidden > *::selection {
+  color: white;
+  border-radius: 6px;
+}

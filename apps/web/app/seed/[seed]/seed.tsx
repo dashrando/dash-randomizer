@@ -17,8 +17,9 @@ import { downloadFile } from '@/lib/downloads'
 import Button from '@/app/components/button'
 import { useSearchParams } from 'next/navigation'
 import { get as getKey } from 'idb-keyval'
-import { ArrowDown } from 'react-feather'
+import { ArrowDown, Eye } from 'react-feather'
 import VanillaButton from '@/app/generate/vanilla'
+import SpoilerText from '@/app/components/spoiler'
 
 
 type Seed = {
@@ -99,7 +100,7 @@ const getExtraItems = (extraItems: number[]) => {
 const parseSettings = (parameters: any) => {
   const { settings } = parameters
   const extraItems = getExtraItems(settings.extraItems)
-  const randomizeParams = [
+  let randomizeParams: any[] = [
     { label: 'Item Split', value: getItemSplit(settings.majorDistribution) },
     { label: 'Boss Locations', value: getBossMode(settings.bossMode) },
     { label: 'Map Layout', value: getAreaMode(settings.mapLayout, settings.randomizeAreas) }
@@ -117,10 +118,35 @@ const parseSettings = (parameters: any) => {
     { label: 'Seed Number', value: parameters.seed },
     { label: 'Disable Fanfare', value: displayOnOff(parameters.options.DisableFanfare), }
   ]
+  randomizeParams = randomizeParams.concat(
+    { label: 'Seed Speed', value: '   medium   ', spoiler: true }
+  )
+    
   return { randomizeParams, settingsParams, optionsParams }
 }
 
 const Parameters = ({ title, items }: { title: string, items: any[] }) => {
+  const getValue = (item: any) => {
+    if (item.spoiler == undefined || !item.spoiler) {
+      return (
+        <div className={styles.value}>{item.value}</div>
+      )
+    }
+
+    return (
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <span style={{marginTop: '1px'}}>
+        <Eye height='16'></Eye>
+      </span>
+      <span>
+        <SpoilerText>
+          <span className={styles.value} style={{width: '80px'}}>{item.value}</span>
+        </SpoilerText>
+      </span>
+      </div>
+    )
+  }
+
   return (
     <section className={styles.parameters}>
       <h4 className={styles.heading}>{title}</h4>
@@ -129,7 +155,7 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
           {items.map((item, index) => (
             <li key={index} className={styles.item}>
               <div className={styles.label}>{item.label}</div>
-              <div className={styles.value}>{item.value}</div>
+              {getValue(item)}
             </li>
           ))}
         </ul>
