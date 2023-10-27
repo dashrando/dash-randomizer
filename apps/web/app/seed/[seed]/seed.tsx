@@ -115,7 +115,7 @@ const parseSettings = (parameters: any) => {
   ]
   const optionsParams = [
     { label: 'Seed Number', value: parameters.seed },
-    { label: 'Disable Fanfare', value: displayOnOff(parameters.options.DisableFanfare), }
+    { label: 'Item Fanfare', value: displayOnOff(!parameters.options.DisableFanfare), }
   ]
   return { randomizeParams, settingsParams, optionsParams }
 }
