@@ -24,15 +24,19 @@ import {
 import { fetchSignature } from 'core'
 import { useCallback, useEffect, useState } from 'react'
 import Spacer from '../components/spacer'
+import SpoilerText from '../components/spoiler'
+import { Eye } from 'react-feather'
 
 const Sidebar = ({
   name = null,
   signature = null,
-  hash = null
+  hash = null,
+  speed = null
 }: {
   name?: string | null
   signature?: string | null
   hash?: string | null
+  speed?: string | null
 }) => {
   const { data } = useVanilla()
   const mounted = useMounted()
@@ -91,7 +95,24 @@ const Sidebar = ({
                     </a>
                   </p>
                 </div>
-              </div>
+                {speed && (
+                  <div style={{ margin: '2em 0' }} key={hash}>
+                    <h4 className={styles.sidebarHeading}>
+                      Predicted Speed
+                    </h4>
+                    <p style={{ margin: 0, fontSize: '14px', color: '#fff',
+                                display: 'flex', alignItems: 'center', marginTop: '2px' }}>
+                      <Eye height='18'></Eye>
+                      <SpoilerText>
+                        <span style={{ width: '80px', display: 'inline-flex',
+                                       marginLeft: '2px', paddingLeft: '8px'}}>
+                          {speed}
+                        </span>
+                      </SpoilerText>
+                    </p>
+                  </div>
+                )}
+                </div>
             )}
           </div>
         ) : (
@@ -256,6 +277,7 @@ type RolledSeed = {
   seed: any
   name: string
   hash: string
+  speed: string
 }
 
 export default function Form() {
@@ -390,13 +412,29 @@ export default function Form() {
       };
 
       const seedNumber = getSeed();
-      const { data: seed, name } = await RandomizeRom(
+      const { data: seed, name, locs } = await RandomizeRom(
         seedNumber, settings, options, config);
       const hash = paramsToString(seedNumber, settings, options);
       if (seed !== null) {
         downloadFile(seed, name, hash)
       }
-      setRolledSeed({ seed, name, hash })
+
+      let speed = null;
+      if (settings.preset == "2017MM") {
+        const input = {'type': 'standard_mm', 'locations': locs};
+        //console.log(input);
+        const response = await fetch("https://python-api-testing.vercel.app/api", {
+          method: "POST",
+          body: JSON.stringify(input),
+          headers: { "Content-Type": "application/json", },
+        })
+
+        const res_json = await response.json();
+        speed = res_json['speed'];
+      }
+ 
+      setRolledSeed({ seed, name, hash, speed })
+
     } catch (error) {
       console.error('SEED ERROR', error)
     }
@@ -679,6 +717,7 @@ export default function Form() {
           name={rolledSeed?.name || null}
           signature={signature}
           hash={rolledSeed?.hash}
+          speed={rolledSeed?.speed}
         />
       </div>
     </form>

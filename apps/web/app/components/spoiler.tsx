@@ -6,7 +6,6 @@ function SpoilerText(props: any) {
 
   const reveal = () => {
     setHidden(false);
-    console.log('revealed')
   };
 
   return (

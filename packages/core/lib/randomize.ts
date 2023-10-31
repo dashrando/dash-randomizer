@@ -1,7 +1,8 @@
 import BpsPatch from "./bps-patch";
-import { getBasePatch, getFileName, generateSeedPatch } from "./sm-rando";
+import { getBasePatch, getFileName, generateSeedPatch, getItemNodes } from "./sm-rando";
 import { generateSeed } from "./graph/fill";
 import { patchRom } from "../helpers/patcher";
+import { getLocations } from "./locations";
 
 export type Opts = {
   DisableFanfare: number
@@ -26,6 +27,30 @@ export type Settings = {
   suitMode: number
 }
 
+const ITEM_TYPES: { [id:string] : number }  = {
+  "Missile": 0,
+  "Super Missile": 1,
+  "Power Bomb": 2,
+  "Morph Ball": 3,
+  "Wave Beam": 4,
+  "Plasma Beam": 5,
+  "Ice Beam": 6,
+  "Charge Beam": 7,
+  "Energy Tank": 8,
+  "Reserve Tank": 9,
+  "Varia Suit": 10,
+  "Gravity Suit": 11,
+  "Grappling Beam": 12,
+  "Space Jump": 13,
+  "Screw Attack": 14,
+  "Spring Ball": 15,
+  "Bomb": 16,
+  "Spazer": 17,
+  "Xray Scope": 18,
+  "HiJump Boots": 19,
+  "Speed Booster": 20
+}
+
 async function RandomizeRom(
   seed: number = 0,
   settings: Settings,
@@ -40,6 +65,16 @@ async function RandomizeRom(
 
   // Place the items.
   const graph = generateSeed(seed, settings);
+  const nodes = getItemNodes(graph)
+
+  let encoded = ''
+  getLocations().forEach(l => {
+    const node = nodes.find(n => n.location.name == l.name);
+    if (node == undefined) {
+      return;
+    }
+    encoded += String.fromCharCode(65 + ITEM_TYPES[node.item.name])
+  })
 
   // Load the base patch associated with the map layout.
   const patch = getBasePatch(settings);
@@ -59,6 +94,7 @@ async function RandomizeRom(
   return {
     data: patchRom(config.vanillaBytes, basePatch, seedPatch),
     name: getFileName(seed, settings, options),
+    locs: encoded
   };
 }
 
