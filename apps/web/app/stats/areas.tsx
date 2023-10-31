@@ -87,6 +87,37 @@ const getNumLoops = (areas: Transition[]) => {
   return numLoops;
 }
 
+const getNumSeeds_DuoToDead = (areas: Transition[],num: number) => {
+  const duos = [
+    "Door_Muskateers",
+    "Door_RidleyMouth",
+    "Door_Aqueduct",
+    "Door_HighwayExit",
+    "Door_Highway",
+    "Door_Ocean",
+  ];
+  const deads = [
+    "Door_KraidsLair",
+    "Door_Croc",
+    "Door_Tourian",
+  ];
+
+  let seeds = Array(areas.length).fill(0);
+  areas.forEach((t,i) => {
+    if (duos.includes(t.from)) {
+      if (deads.includes(t.to)) {
+        seeds[Math.floor(i / 32)] += 1;
+      }
+    } else if (duos.includes(t.to)) {
+      if (deads.includes(t.from)) {
+        seeds[Math.floor(i / 32)] += 1;
+      }
+    }
+  })
+
+  return seeds.reduce((partial, x) => partial + (x/2 == num ? 1 : 0), 0);
+}
+
 const getNumVanilla = (areas: Transition[]) => {
   const vanilla = [
     // Crateria / Blue Brinstar
@@ -270,6 +301,9 @@ export default function AreaDoorTable({
         <span>Total Transitions: {areas.length}</span>
         <span style={{paddingLeft: '20px'}}>Intra-Area Count: {getNumLoops(areas)}</span>
         <span style={{paddingLeft: '20px'}}>Vanilla Count: {getNumVanilla(areas)}</span>
+        <span style={{paddingLeft: '20px'}}>1 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas,1)}</span>
+        <span style={{paddingLeft: '20px'}}>2 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas,2)}</span>
+        <span style={{paddingLeft: '20px'}}>3 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas,3)}</span>
       </p>
       <TransitionTable
         transitions={areas}
