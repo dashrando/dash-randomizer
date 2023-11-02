@@ -5,7 +5,7 @@ import Button from '../components/button'
 import { get, set } from 'idb-keyval'
 import { vanilla } from 'core'
 import { cn } from '@/lib/utils'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { toast } from 'sonner'
 import styles from './vanilla.module.css'
 
@@ -39,10 +39,10 @@ async function fetcher() {
     const hasCookies = navigator.cookieEnabled
     const hasStorageAccess = await document.hasStorageAccess()
     if (!hasStorageAccess) {
-      // The user has not granted storage access.
       // This happens when a user blocks cookies.
-      // Request access can only be granted by user on click  
-      toast.error('Cookies must be enabled', { duration: Infinity  })
+      setTimeout(() => {
+        toast.error('Cookies must be enabled to generate a seed', { duration: Infinity  })
+      }, 100)
       return
     }
 
