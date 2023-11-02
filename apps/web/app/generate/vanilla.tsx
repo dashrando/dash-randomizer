@@ -41,7 +41,7 @@ async function fetcher() {
     if (!hasStorageAccess) {
       // This happens when a user blocks cookies.
       setTimeout(() => {
-        toast.error('Cookies must be enabled to generate a seed', { duration: Infinity  })
+        toast.error('Cookies must be enabled', { duration: Infinity })
       }, 100)
       return
     }
