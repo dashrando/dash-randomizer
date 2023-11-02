@@ -36,10 +36,24 @@ async function fetcher() {
     return vanilla
   } catch (e) {
     const err = e as Error
-    console.error('Vanilla ROM Error', err.message)
+    console.error(err)
+    const hasCookies = navigator.cookieEnabled
+    const hasStorageAccess = await document.hasStorageAccess()
+    if (!hasStorageAccess) {
+      // The user has not granted storage access.
+      // This happens when a user blocks cookies.
+      // Request access can only be granted by user on click
+      // const access = await document.requestStorageAccess()
+      // console.log('access', access)
+      return
+    }
+
     // This happens when a user deletes the IndexedDB database.
     // Refreshing the page works for whatever reason.
-    window.location.reload()
+    console.error('Vanilla ROM Error', err.message)
+    if (hasCookies) {
+      window.location.reload()
+    }
   }
 }
 
