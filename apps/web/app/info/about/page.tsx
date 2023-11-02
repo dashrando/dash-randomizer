@@ -17,6 +17,11 @@ export default function AboutInfoPage() {
             forming. With DASH, we want to experiment with increased options to
             complete seeds given the wide range of skill in the community.
           </p>
+          <h2>Key Values</h2>
+          <p><strong>Competition</strong>: There are many reasons to randomize. Some randomizations are done for casual play, some are done as puzzles, some are done to test skill level to their limits. The key motivator for DASH is to provide the most interesting racing opportunities.</p>
+          <p><strong>Transparency</strong>: For honest competition, all participants must be able to have access and reason about the same information.</p>
+          <p><strong>Simplicity</strong>: There are many different things that can be randomized, but how do they change the competitive landscape? We believe that less (but better) is more.</p>
+          <p><strong>Iterative</strong>: The only way to see if something provides interesting racing opportunities is to race it. We favor exploring ideas in the field instead of in the lab.</p>
           <h2>History</h2>
           <p>
             Our original release, known now as <strong>DASH: Classic</strong>,
