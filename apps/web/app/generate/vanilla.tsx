@@ -5,9 +5,10 @@ import Button from '../components/button'
 import { get, set } from 'idb-keyval'
 import { vanilla } from 'core'
 import { cn } from '@/lib/utils'
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import styles from './vanilla.module.css'
+import useCookies from '../hooks/useCookies'
 
 async function parseContents(value: any): Promise<any> {
   const { getSignature, isVerified, isHeadered } = vanilla;
@@ -36,15 +37,13 @@ async function fetcher() {
     return vanilla
   } catch (e) {
     const err = e as Error
-    console.error(err)
     const hasCookies = navigator.cookieEnabled
     const hasStorageAccess = await document.hasStorageAccess()
     if (!hasStorageAccess) {
       // The user has not granted storage access.
       // This happens when a user blocks cookies.
-      // Request access can only be granted by user on click
-      // const access = await document.requestStorageAccess()
-      // console.log('access', access)
+      // Request access can only be granted by user on click  
+      toast.error('Cookies must be enabled', { duration: Infinity  })
       return
     }
 
@@ -90,12 +89,12 @@ const setVanillaFile = async (file: any, set: any) => {
     } catch (e) {
       const err = e as Error
       console.error(err.message);
-      toast.error(err.message);
+      toast.error('Failed to load file');
     }
   };
 
   reader.onerror = function () {
-    toast.error("Failed to load file.");
+    toast.error('Failed to load file');
   };
 
   reader.readAsArrayBuffer(file);
