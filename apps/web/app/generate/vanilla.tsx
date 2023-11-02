@@ -8,7 +8,6 @@ import { cn } from '@/lib/utils'
 import { useCallback, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import styles from './vanilla.module.css'
-import useCookies from '../hooks/useCookies'
 
 async function parseContents(value: any): Promise<any> {
   const { getSignature, isVerified, isHeadered } = vanilla;
