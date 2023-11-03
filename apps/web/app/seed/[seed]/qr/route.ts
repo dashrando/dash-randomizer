@@ -7,9 +7,12 @@ export async function GET(req: NextRequest, { params }: { params: { seed: string
   const svg = await QRCode.toString(url, { type: 'svg', margin: 0 })
   const headers = new Headers()
   headers.set('Content-Type', 'image/svg+xml')
-  // This will cause the qr code to download
-  // headers.set('Content-Disposition', `attachment; filename="${params.seed}.svg"`)
   headers.set('X-Cache-Control', 's-maxage=86400')
+  // Adding `?download` to the URL will cause the QR code to download
+  const download = req.nextUrl.searchParams.has('download')
+  if (download) {
+    headers.set('Content-Disposition', `attachment; filename="dash-${params.seed}.svg"`)
+  }
   return new Response(svg, {
     status: 200,
     headers,
