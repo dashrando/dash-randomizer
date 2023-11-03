@@ -1,5 +1,5 @@
+import { ImageResponse } from 'next/og'
 import { prefetchSignature, stringToParams } from 'core'
-import { ImageResponse, NextRequest } from 'next/server'
 import { parseSettings } from '@/lib/settings'
 
 export const runtime = 'edge'
