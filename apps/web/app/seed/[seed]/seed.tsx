@@ -10,7 +10,7 @@ import { downloadFile } from '@/lib/downloads'
 import Button from '@/app/components/button'
 import { useSearchParams } from 'next/navigation'
 import { get as getKey } from 'idb-keyval'
-import { ArrowDown } from 'react-feather'
+import { ArrowDown, ExternalLink } from 'react-feather'
 import VanillaButton from '@/app/generate/vanilla'
 import { parseSettings } from '@/lib/settings'
 
@@ -41,11 +41,13 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
 export default function Seed({
   parameters,
   hash,
-  signature
+  signature,
+  slug
 }: {
   parameters: any,
   hash: string,
-  signature: string
+  signature: string,
+  slug: string
 }) {
   const mounted = useMounted()
   const { data: vanilla } = useVanilla()
@@ -116,6 +118,15 @@ export default function Seed({
       <Parameters title="Randomization" items={parsedParams.randomizeParams} />
       <Parameters title="Settings" items={parsedParams.settingsParams} />
       <Parameters title="Options" items={parsedParams.optionsParams} />
+      <div className={styles.qr}>
+        <button onClick={(evt) => {
+          evt.preventDefault()
+          window.open(`/seed/${slug}/qr-popup`, '_blank', 'width=300,height=340')
+        }}>
+          Display QR Code
+        </button>
+        <ExternalLink size={12} strokeWidth={2} />
+      </div>
     </div>
   )
 }
