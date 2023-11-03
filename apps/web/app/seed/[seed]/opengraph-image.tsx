@@ -4,7 +4,7 @@ import { parseSettings } from '@/lib/settings'
 
 export const runtime = 'edge'
 
-export async function GET(req: NextRequest, { params }: { params: { seed: string } }) {
+export default async function Image({ params }: { params: { seed: string } }) {
   const { seed } = params
   const seedParams = stringToParams(seed)
   const settings = parseSettings(seedParams)
@@ -14,16 +14,16 @@ export async function GET(req: NextRequest, { params }: { params: { seed: string
   const secondPart = settings.settingsParams.slice(4);
 
   const inter = await fetch(
-    new URL('../../../../../public/fonts/inter-latin-ext-400-normal.woff', import.meta.url),
+    new URL('../../../public/fonts/inter-latin-ext-400-normal.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
   const interBold = await fetch(
-    new URL('../../../../../public/fonts/inter-latin-ext-700-normal.woff', import.meta.url),
+    new URL('../../../public/fonts/inter-latin-ext-700-normal.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
   const interBoldItalic = await fetch(
-    new URL('../../../../../public/fonts/Inter-BoldItalic.woff', import.meta.url),
+    new URL('../../../public/fonts/Inter-BoldItalic.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
   const mono = await fetch(
-    new URL('../../../../../public/fonts/GeistMono-Regular.otf', import.meta.url),
+    new URL('../../../public/fonts/GeistMono-Regular.otf', import.meta.url),
   ).then((res) => res.arrayBuffer());
   return new ImageResponse(
     (
