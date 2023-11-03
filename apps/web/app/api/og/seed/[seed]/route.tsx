@@ -45,39 +45,39 @@ export async function GET(req: NextRequest, { params }: { params: { seed: string
       >
         <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center', justifyContent: 'center',
           alignItems: 'center', }}>
-          <h1 style={{ margin: 0, fontStyle: 'italic' }}>DASH</h1>
-          <div style={{ fontFamily: '"Geist Mono"', fontSize: '24px' }}>{signature}</div>
+          <h1 style={{ margin: 0, fontStyle: 'italic', fontSize: '102px' }}>DASH</h1>
+          <div style={{ fontFamily: '"Geist Mono"', fontSize: '28px' }}>{signature}</div>
         </div>
-        <div style={{ display: 'flex', height: '48px' }} />
+        <div style={{ display: 'flex', height: '72px' }} />
         <div style={{ display: 'flex' }}>
-          <div style={{ display: 'flex', gap: '48px' }}>
+          <div style={{ display: 'flex', gap: '72px' }}>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {settings.randomizeParams.map((item: any, index: number) => (
                 <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '14px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
-                  <div style={{ fontSize: '14px', color: '#ffffff', marginBottom: '18px' }}>{item.value}</div>
+                  <div style={{ fontSize: '20px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
+                  <div style={{ fontSize: '20px', color: '#ffffff', marginBottom: '32px' }}>{item.value}</div>
                 </div>
               ))}
               {settings.optionsParams.filter(({ label }) => label !== 'Seed Number').map((item: any, index: number) => (
                 <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '14px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
-                  <div style={{ fontSize: '14px', color: '#ffffff', marginBottom: '18px' }}>{String(item.value)}</div>
+                  <div style={{ fontSize: '20px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
+                  <div style={{ fontSize: '20px', color: '#ffffff', marginBottom: '32px' }}>{String(item.value)}</div>
                 </div>
               ))}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {firstPart.map((item: any, index: number) => (
                 <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '14px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
-                  <div style={{ fontSize: '14px', color: '#ffffff', marginBottom: '18px' }}>{item.value}</div>
+                  <div style={{ fontSize: '20px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
+                  <div style={{ fontSize: '20px', color: '#ffffff', marginBottom: '32px' }}>{item.value}</div>
                 </div>
               ))}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {secondPart.map((item: any, index: number) => (
                 <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '14px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
-                  <div style={{ fontSize: '14px', color: '#ffffff', marginBottom: '18px' }}>{item.value}</div>
+                  <div style={{ fontSize: '20px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
+                  <div style={{ fontSize: '20px', color: '#ffffff', marginBottom: '32px' }}>{item.value}</div>
                 </div>
               ))}
             </div>
