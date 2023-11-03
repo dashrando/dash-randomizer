@@ -1,0 +1,17 @@
+.wrapper {
+  padding: 10px;
+  max-width: 900px;
+  width: 100%;
+  font-size: 12px;
+}
+
+.wrapper img {
+  width: 100%;
+}
+
+.wrapper a {
+  color: #fff;
+  font-weight: 600;
+  display: block;
+  margin-top: 18px;
+}
