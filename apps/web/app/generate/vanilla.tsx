@@ -36,10 +36,22 @@ async function fetcher() {
     return vanilla
   } catch (e) {
     const err = e as Error
-    console.error('Vanilla ROM Error', err.message)
+    const hasCookies = navigator.cookieEnabled
+    const hasStorageAccess = await document.hasStorageAccess()
+    if (!hasStorageAccess) {
+      // This happens when a user blocks cookies.
+      setTimeout(() => {
+        toast.error('Cookies must be enabled', { duration: Infinity })
+      }, 100)
+      return
+    }
+
     // This happens when a user deletes the IndexedDB database.
     // Refreshing the page works for whatever reason.
-    window.location.reload()
+    console.error('Vanilla ROM Error', err.message)
+    if (hasCookies) {
+      window.location.reload()
+    }
   }
 }
 
@@ -76,12 +88,12 @@ const setVanillaFile = async (file: any, set: any) => {
     } catch (e) {
       const err = e as Error
       console.error(err.message);
-      toast.error(err.message);
+      toast.error('Failed to load file');
     }
   };
 
   reader.onerror = function () {
-    toast.error("Failed to load file.");
+    toast.error('Failed to load file');
   };
 
   reader.readAsArrayBuffer(file);
