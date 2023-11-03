@@ -16,9 +16,6 @@ export default async function Image({ params }: { params: { seed: string } }) {
   const inter = await fetch(
     new URL('../../../public/fonts/inter-latin-ext-400-normal.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
-  const interBold = await fetch(
-    new URL('../../../public/fonts/inter-latin-ext-700-normal.woff', import.meta.url),
-  ).then((res) => res.arrayBuffer());
   const interBoldItalic = await fetch(
     new URL('../../../public/fonts/Inter-BoldItalic.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
@@ -93,12 +90,6 @@ export default async function Image({ params }: { params: { seed: string } }) {
           name: 'Inter',
           data: inter,
           weight: 400,
-          style: 'normal',
-        },
-        {
-          name: 'Inter',
-          data: interBold,
-          weight: 700,
           style: 'normal',
         },
         {
