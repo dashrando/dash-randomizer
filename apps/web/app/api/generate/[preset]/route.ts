@@ -39,7 +39,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
     };
     const hash = paramsToString(seedNum, preset.settings, defaultOptions);
     const url = new URL(`seed/${hash}`, req.nextUrl.origin);
-    return NextResponse.json({ seed: url })
+    return new Response(url.toString(), { status: 307, headers: {} });
    } catch (err: unknown) {
     console.error(err);
     const error = err as HTTPError;
