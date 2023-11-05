@@ -373,12 +373,7 @@ export const getItemNodes = (graph) => {
 };
 
 export const generateFromPreset = (name, seedNumber) => {
-  const timestamp = Math.floor(new Date().getTime() / 1000);
-
-  const seed =
-    seedNumber == undefined || seedNumber == 0
-      ? new DotNetRandom(timestamp).NextInRange(1, 1000000)
-      : seedNumber;
+  const seed = getSeedNumber(seedNumber);
   const preset = getPreset(name);
 
   if (preset == undefined) {
@@ -399,3 +394,11 @@ export const generateFromPreset = (name, seedNumber) => {
 
   return [`patches/${patch}`, seedPatch, fileName];
 };
+
+export const getSeedNumber = (seedNumber) => {
+  if (seedNumber != undefined && seedNumber != 0) {
+    return seedNumber;
+  }
+  const timestamp = Math.floor(new Date().getTime() / 1000);
+  return new DotNetRandom(timestamp).NextInRange(1, 1000000);
+}
