@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params : { seed: string }})
   }
 }
 
-export default function SeedPage({ params }: { params: SeedParams}) {
+export default function SeedPage({ params }: { params: SeedParams }) {
   
   const SeedFooter = () => {
     return (
@@ -44,6 +44,7 @@ export default function SeedPage({ params }: { params: SeedParams}) {
         parameters={settings}
         hash={params.seed}
         signature={sig}
+        slug={params.seed}
       />
       <SeedFooter />
       <Toaster />

@@ -122,3 +122,26 @@
 .mono {
   font-family: var(--type-mono);
 }
+
+.qr {
+  margin: 40px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.qr button {
+  all: unset;
+  cursor: pointer;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 4px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  display: inline-block;
+  transition: text-decoration-color 0.15s ease-in-out;
+}
+
+.qr button:hover {
+  text-decoration-color: transparent;
+}
