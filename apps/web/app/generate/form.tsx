@@ -290,7 +290,7 @@ export default function Form() {
     } else {
       setValue('mode', 'custom')
     }
-    console.log('updating mode', value, matchedMode || 'custom')
+    //console.log('updating mode', value, matchedMode || 'custom')
   }, [setValue])
 
   const onSubmit = async (data: GenerateFormParams) => {
