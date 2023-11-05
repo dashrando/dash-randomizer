@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { getAllPresets, getPreset, getSeedNumber, paramsToString } from "core";
 
 export const runtime = "edge";
