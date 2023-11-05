@@ -9,12 +9,6 @@ type GenerateParams = {
   preset: string
 }
 
-const resJSON = (data: any, status = 200, headers = {}) =>
-  new Response(JSON.stringify(data), {
-    status,
-    headers,
-  });
-
 export async function GET(req: NextRequest, { params }: { params: GenerateParams} ) {
    try {
     const seedNum = getSeedNumber();
@@ -45,6 +39,6 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
     console.error(err);
     const error = err as HTTPError;
     const status = error.status || 500;
-    return resJSON({ error: error.message }, status);
+    return new Response(error.message, { status } );
    }
 }
