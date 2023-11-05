@@ -184,9 +184,7 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
     .forEach((b) => {
       if (settings.bossMode == BossMode.ShuffleStandard) {
         bossUpdates.concat(getDoorUpdate(b.from.name, b.to.name));
-        console.debug(`from: ${b.from.name} to: ${b.to.name}`);
       } else if (settings.bossMode == BossMode.ShuffleDash) {
-        console.debug(`from: ${b.from.name} to: ${b.to.name}`);
         if (b.from.name == "Door_KraidBoss") {
           if (b.to.name == "Exit_Draygon") {
             bossUpdates.push({
@@ -266,7 +264,6 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
     .filter((e) => isAreaEdge(e))
     .forEach((a) => {
       const areaUpdates = getDoorUpdate(a.from.name, a.to.name);
-      console.debug(`from: ${a.from.name} to: ${a.to.name}`);
       areaUpdates.forEach((p) => {
         encodeBytes(seedPatch, p.door, U16toBytes(p.dest & 0xffff));
       });
