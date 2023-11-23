@@ -19,7 +19,6 @@ export async function generateStaticParams() {
     { graph: 'standard' },
     { graph: 'standard-area' },
     { graph: 'recall' },
-    { graph: 'recall-area' },
   ]
 }
 
@@ -28,11 +27,9 @@ const getGraphName = (graph: any) => {
     case 'standard':
       return 'Standard';
     case 'standard-area':
-      return 'Standard Area';
+      return 'Area Rando';
     case 'recall':
-      return 'Recall';
-    case 'recall-area':
-      return 'Recall Area';
+      return 'DASH Recall';
   }
 }
 
@@ -42,7 +39,6 @@ const getMode = (graph: string) => {
     case 'standard-area':
       return 'Standard';
     case 'recall':
-      case 'recall-area':
       return 'Recall';
     default:
       throw Error('Invalid graph')
