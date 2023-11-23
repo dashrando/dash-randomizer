@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
 export async function generateMetadata ({ params }: { params: { graph: string } }) {
   const name = getGraphName(params.graph)
   return {
-    title: `Readable Logic - DASH ${name}`,
-    description: `DASH ${name} logic in a human readable format`,
+    title: `Readable Logic - ${name} - DASH`,
+    description: `${name} logic in a human readable format`,
   }
 };
 
