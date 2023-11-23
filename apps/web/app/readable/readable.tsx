@@ -92,7 +92,7 @@ export const Navigation = ({ selected }: { selected: string }) => {
     },
     {
       name: 'Area Rando',
-      slug: 'standard-area',
+      slug: 'area',
     },
     {
       name: 'DASH Recall',

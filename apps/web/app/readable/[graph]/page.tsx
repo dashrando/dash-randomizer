@@ -17,7 +17,7 @@ export async function generateMetadata ({ params }: { params: { graph: string } 
 export async function generateStaticParams() {
   return [
     { graph: 'standard' },
-    { graph: 'standard-area' },
+    { graph: 'area' },
     { graph: 'recall' },
   ]
 }
@@ -26,7 +26,7 @@ const getGraphName = (graph: any) => {
   switch (graph) {
     case 'standard':
       return 'Standard';
-    case 'standard-area':
+    case 'area':
       return 'Area Rando';
     case 'recall':
       return 'DASH Recall';
@@ -36,7 +36,7 @@ const getGraphName = (graph: any) => {
 const getMode = (graph: string) => {
   switch (graph) {
     case 'standard':
-    case 'standard-area':
+    case 'area':
       return 'Standard';
     case 'recall':
       return 'Recall';
