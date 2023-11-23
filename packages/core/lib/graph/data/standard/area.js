@@ -95,11 +95,19 @@ const WestMaridia_MainStreet_to_OasisBottom = {
 
 const WestMaridia_MainStreet_to_MaridiaMapPortal = {
   edges: ["MainStreet", "Door_MaridiaMap"],
-  requires: () => HasMorph,
+  // Removes the requirement for supers to open the green gate
+  requires: () => HasMorph && CanOpenRedDoors,
+};
+
+const WestMaridia_MaridiaMapPortal_to_MainStreet = {
+  edges: ["Door_MaridiaMap", "MainStreet"],
+  // Removes the requirement for supers to green gate glitch
+  requires: () => HasMorph &&
+    (CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall))),
 };
 
 const WestMaridia_EverestTopRight_to_PreAqueductPortal = {
-  edges: ["Door_EverestTopRight", "Door_PreAqueduct"],
+  edges: ["EverestTopRight", "Door_PreAqueduct"],
   requires: true,
 };
 
@@ -126,6 +134,7 @@ export const StandardAreaEdgeUpdates = [
   EastMaridia_OasisBottom_to_MainStreet,
   WestMaridia_MainStreet_to_OasisBottom,
   WestMaridia_MainStreet_to_MaridiaMapPortal,
+  WestMaridia_MaridiaMapPortal_to_MainStreet,
   WestMaridia_EverestTopRight_to_PreAqueductPortal,
   EastMaridia_AqueductPortal_to_Aqueduct,
 ];

@@ -68,11 +68,16 @@ export const eastmaridiaEdges = {
   },
 
   OasisBottom: {
+    // Missing pressure valve plus I don't think HJB alone is enough.
+    // Also, why morph? Must be saying that you go down through map
+    // station. That should not be represented this way though.
     MainStreet: () => (HasGravity || HasHiJump) && HasMorph,
+    // Missing pressure valve
     "Spring Ball": () =>
       HasGravity &&
       CanUsePowerBombs &&
       ((HasGrapple && (CanFly || HasHiJump)) || HasIce),
+    // Missing pressure valve
     OasisTop: () =>
       CanUsePowerBombs || CanUseBombs || (HasGravity && HasScrewAttack),
     Aqueduct: () => false,
@@ -80,6 +85,7 @@ export const eastmaridiaEdges = {
 
   OasisTop: {
     PlasmaSparkRoomTop: () => CanOpenGreenDoors,
+    // Missing pressure valve
     OasisBottom: () =>
       CanUsePowerBombs || CanUseBombs || (HasGravity && HasScrewAttack),
   },
@@ -110,7 +116,7 @@ export const eastmaridiaEdges = {
   },
 
   "Spring Ball": {
-    OasisBottom: () => HasGravity && HasMorph,
+    OasisBottom: () => CanMoveInWestMaridia && HasMorph,
   },
 
   BotwoonHallwayRight: {
