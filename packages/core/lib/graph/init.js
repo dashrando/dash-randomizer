@@ -79,7 +79,8 @@ export const createGraph = (
   startVertex
 ) => {
   //-----------------------------------------------------------------
-  //
+  // Get all vertices for the graph. Vertices represent locations
+  // within the game world.
   //-----------------------------------------------------------------
 
   const allVertices = getAllVertices();
@@ -102,7 +103,8 @@ export const createGraph = (
   });
 
   //-----------------------------------------------------------------
-  //
+  // Set a flag on the start vertex. This flag exists on all
+  // vertices and is used for caching to speed up solving.
   //-----------------------------------------------------------------
 
   if (startVertex != undefined) {
@@ -112,7 +114,8 @@ export const createGraph = (
   }
 
   //-----------------------------------------------------------------
-  //
+  // Get all edges for the graph. Edges establish the condition to
+  // travel from one vertex to another.
   //-----------------------------------------------------------------
 
   const edges = allEdges
@@ -157,14 +160,12 @@ export const createGraph = (
   });
 
   //-----------------------------------------------------------------
-  // Update boss areas.
+  // Return all valid edges. Some edges are placeholders and may
+  // not be available for the current graph. There is no reason
+  // to include those as it will slow down solving.
   //-----------------------------------------------------------------
 
-  //const updateArea = (entry, newArea) => {
-
-  //}
-
-  return edges;
+  return edges.filter(e => e.condition !== false);
 };
 
 export const cloneGraph = (graph) => {

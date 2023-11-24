@@ -80,7 +80,7 @@ export const eastmaridiaEdges = {
     // Missing pressure valve
     OasisTop: () =>
       CanUsePowerBombs || CanUseBombs || (HasGravity && HasScrewAttack),
-    Aqueduct: () => false,
+    Aqueduct: false,
   },
 
   OasisTop: {

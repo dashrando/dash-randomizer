@@ -85,12 +85,12 @@ const EastMaridia_AqueductPortal_to_Aqueduct = {
 
 const EastMaridia_OasisBottom_to_MainStreet = {
   edges: ["OasisBottom", "MainStreet"],
-  requires: () => false,
+  requires: false,
 };
 
 const WestMaridia_MainStreet_to_OasisBottom = {
   edges: ["MainStreet", "OasisBottom"],
-  requires: () => false,
+  requires: false,
 };
 
 const WestMaridia_MainStreet_to_MaridiaMapPortal = {
