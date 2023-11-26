@@ -423,7 +423,7 @@ export default function Form() {
       if (settings.preset == "2017MM") {
         const input = {'type': 'standard_mm', 'locations': locs};
         //console.log(input);
-        const response = await fetch("https://python-api-testing.vercel.app/api", {
+        const response = await fetch("https://masshesteria.pythonanywhere.com/api/speed", {
           method: "POST",
           body: JSON.stringify(input),
           headers: { "Content-Type": "application/json", },
