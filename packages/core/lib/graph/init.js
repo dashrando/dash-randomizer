@@ -170,24 +170,17 @@ export const createGraph = (
 
 export const cloneGraph = (graph) => {
   const newVertices = getAllVertices();
-  const remap = (vertex) => {
-    return newVertices.find((v) => v.name == vertex.name);
-  };
 
-  newVertices.forEach((v) => {
-    const orig = graph.map((o) => o.from).find((t) => t.name == v.name);
+  const remap = (orig) => {
+    let v = newVertices.find((v) => v.name == orig.name);
     v.type = orig.type;
     v.area = orig.area;
     v.pathToStart = orig.pathToStart;
     if (orig.item != undefined) {
-      v.item = {
-        type: orig.item.type,
-        name: orig.item.name,
-        isMajor: orig.item.isMajor,
-        spoilerAddress: orig.item.spoilerAddress,
-      };
+      v.item = {...orig.item};
     }
-  });
+    return v;
+  }
 
   return graph.map((e) => {
     return {
