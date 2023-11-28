@@ -220,20 +220,20 @@ const addBossItems = (graph, mode) => {
 
   if (mode == BossMode.Vanilla || mode == BossMode.ShuffleStandard) {
     bosses.forEach((b) => {
-      switch (b.name) {
-        case "Boss_Kraid":
+      switch (b.area) {
+        case "Kraid":
           b.item = bossItem(Item.DefeatedBrinstarBoss);
           b.area = "KraidsLair";
           break;
-        case "Boss_Phantoon":
+        case "Phantoon":
           b.item = bossItem(Item.DefeatedWreckedShipBoss);
           b.area = "WreckedShip";
           break;
-        case "Boss_Draygon":
+        case "Draygon":
           b.item = bossItem(Item.DefeatedMaridiaBoss);
           b.area = "EastMaridia";
           break;
-        case "Boss_Ridley":
+        case "Ridley":
           b.item = bossItem(Item.DefeatedNorfairBoss);
           b.area = "LowerNorfair";
           break;
@@ -263,17 +263,17 @@ const addBossItems = (graph, mode) => {
 
       exitVertex.area = doorVertex.area;
       b.area = doorVertex.area;
-      switch (doorVertex.name) {
-        case "Door_KraidBoss":
+      switch (b.area) {
+        case "KraidsLair":
           b.item = bossItem(Item.DefeatedBrinstarBoss);
           break;
-        case "Door_PhantoonBoss":
+        case "WreckedShip":
           b.item = bossItem(Item.DefeatedWreckedShipBoss);
           break;
-        case "Door_DraygonBoss":
+        case "EastMaridia":
           b.item = bossItem(Item.DefeatedMaridiaBoss);
           break;
-        case "Door_RidleyBoss":
+        case "LowerNorfair":
           b.item = bossItem(Item.DefeatedNorfairBoss);
           break;
       }
