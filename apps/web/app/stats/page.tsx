@@ -35,7 +35,10 @@ type SeedStatus = {
 };
 
 function getHash(status: SeedStatus) {
-  const string = JSON.stringify(status);
+  const string =
+    JSON.stringify(status.progression) +
+    JSON.stringify(status.bosses) + 
+    JSON.stringify(status.areas);
   let hash = 0;
 
   for (let i = 0; i < string.length; i++) {
