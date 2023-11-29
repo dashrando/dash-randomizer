@@ -218,7 +218,7 @@ const addBossItems = (graph, mode) => {
     .map((e) => e.from)
     .filter(isUnique);
 
-  if (mode == BossMode.Vanilla || mode == BossMode.ShuffleStandard) {
+  if (mode == BossMode.Vanilla || mode == BossMode.Shuffled) {
     bosses.forEach((b) => {
       switch (b.area) {
         case "Kraid":
@@ -247,7 +247,7 @@ const addBossItems = (graph, mode) => {
         itemEdge.to.area = b.area;
       }
     });
-  } else if (mode == BossMode.ShuffleDash) {
+  } else if (mode == BossMode.Shifted) {
     bosses.forEach((b) => {
       const exitVertex = graph.find(
         (e) => e.from.name.startsWith("Exit_") && e.to == b

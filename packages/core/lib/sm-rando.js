@@ -182,9 +182,9 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
   graph
     .filter((e) => isBossEdge(e))
     .forEach((b) => {
-      if (settings.bossMode == BossMode.ShuffleStandard) {
-        bossUpdates.concat(getDoorUpdate(b.from.name, b.to.name));
-      } else if (settings.bossMode == BossMode.ShuffleDash) {
+      if (settings.bossMode == BossMode.Shuffled) {
+        bossUpdates.push(...getDoorUpdate(b.from.name, b.to.name));
+      } else if (settings.bossMode == BossMode.Shifted) {
         if (b.from.name == "Door_KraidBoss") {
           if (b.to.name == "Exit_Draygon") {
             bossUpdates.push({

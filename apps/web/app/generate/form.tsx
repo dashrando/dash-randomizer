@@ -149,7 +149,7 @@ const Option = (
 export interface GenerateSeedSettings {
   'item-split': 'standard-mm' | 'full',
   'map-layout': 'standard' | 'randomized' | 'recall',
-  boss: 'standard' | 'randomized' | 'known',
+  boss: 'vanilla' | 'shifted' | 'shuffled' | 'randomized',
   minors: 'standard' | 'dash',
   'environment': 'standard' | 'dash-recall' | 'dash-classic',
   'charge-beam': 'vanilla' | 'starter' | 'starter-plus',
@@ -173,7 +173,7 @@ const MODES = {
   'sgl23': {
     'item-split': 'full',
     'map-layout': 'randomized',
-    boss: 'randomized',
+    boss: 'shifted',
     minors: 'standard',
     'environment': 'standard',
     'charge-beam': 'vanilla',
@@ -185,7 +185,7 @@ const MODES = {
   'dash-recall': {
     'item-split': 'standard-mm',
     'map-layout': 'recall',
-    boss: 'standard',
+    boss: 'vanilla',
     minors: 'dash',
     'environment': 'dash-recall',
     'charge-beam': 'starter-plus',
@@ -197,7 +197,7 @@ const MODES = {
   'dash-classic': {
     'item-split': 'standard-mm',
     'map-layout': 'standard',
-    boss: 'standard',
+    boss: 'vanilla',
     minors: 'dash',
     'environment': 'dash-classic',
     'charge-beam': 'starter',
@@ -209,7 +209,7 @@ const MODES = {
   '2017': {
     'item-split': 'standard-mm',
     'map-layout': 'standard',
-    boss: 'standard',
+    boss: 'vanilla',
     minors: 'standard',
     'environment': 'standard',
     'charge-beam': 'vanilla',
@@ -378,8 +378,12 @@ export default function Form() {
         settings.randomizeAreas = true;
       }
 
-      if (data.boss == 'randomized') {
-        settings.bossMode = BossMode.ShuffleDash;
+      if (data.boss == 'shifted') {
+        settings.bossMode = BossMode.Shifted;
+      } else if (data.boss == 'shuffled') {
+        settings.bossMode = BossMode.Shuffled;
+      } else if (data.boss == 'randomized') {
+        settings.bossMode = BossMode.Randomized;
       }
 
       const options = {
@@ -508,9 +512,10 @@ export default function Form() {
             <Option label="Boss Locations" name="boss" badge={<Badge variant="beta">Beta</Badge>}>
               <Select
                 options={[
-                  { label: 'Shifted', value: 'randomized' },
+                  { label: 'Shifted', value: 'shifted' },
+                  { label: 'Shuffled', value: 'shuffled' },
+                  //{ label: 'Randomized', value: 'randomized' },
                   { label: 'Vanilla', value: 'standard' },
-                  //{ label: 'Known', value: 'known' },
                 ]}
                 name="boss"
                 register={register}

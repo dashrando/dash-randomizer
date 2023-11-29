@@ -65,7 +65,7 @@ export const Preset_SGL23 = {
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: true,
-    bossMode: BossMode.ShuffleDash,
+    bossMode: BossMode.Shifted,
   },
 };
 

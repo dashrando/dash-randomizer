@@ -41,8 +41,8 @@ export const GravityHeatReduction = {
 
 export const BossMode = {
   Vanilla: 0,
-  ShuffleStandard: 1,
-  ShuffleDash: 2,
+  Shuffled: 1,
+  Shifted: 2,
   Randomized: 3,
 };
 
