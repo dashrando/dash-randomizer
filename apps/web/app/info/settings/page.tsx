@@ -150,7 +150,12 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Shifted</strong> bosses open access to the location in which they are placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair). At least two bosses will not be in their vanilla locations.
+                <strong>Shifted</strong> bosses open access to the area in which they are placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair). At least two bosses will not be at their vanilla locations.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Shuffled</strong> bosses open access to their vanilla area regardless of where they are placed (example: Kraid's etank will only be accessible after defeating Kraid). At least two bosses will not be at their vanilla locations.
               </p>
             </li>
             {/*<li>
