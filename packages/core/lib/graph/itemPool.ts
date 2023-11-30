@@ -78,16 +78,31 @@ export const getItemPool = (seed: number, settings: any) => {
     }
   });
 
-  const setAmountInPool = (type: any, count: number) => {
-    const item = itemPool.find((i) => i.type == type) as any;
+  const setAmountInPool = (type: any, count: number, isMajor: boolean) => {
+    const item = itemPool.find((i) => i.type == type && i.isMajor == isMajor) as any;
     while (itemPool.filter((i) => i == item).length < count) {
       itemPool.unshift(item);
     }
   };
 
   if (majorDistribution == MajorDistributionMode.Full) {
-    setAmountInPool(Item.Reserve, 4);
-    setAmountInPool(Item.EnergyTank, 14);
+    setAmountInPool(Item.Reserve, 4, true);
+    setAmountInPool(Item.EnergyTank, 14, true);
+  } else if (majorDistribution == MajorDistributionMode.Chozo) {
+    itemPool.forEach(i => i.isMajor = true);
+    setAmountInPool(Item.EnergyTank, 3, true);
+    setAmountInPool(Item.Missile, 2, true);
+    setAmountInPool(Item.Super, 2, true);
+
+    itemPool.push(minorItem(0x000000, Item.EnergyTank));
+    setAmountInPool(Item.EnergyTank, 11, false);
+
+    itemPool.push(minorItem(0x000000, Item.Reserve));
+    setAmountInPool(Item.EnergyTank, 3, false);
+
+    itemPool.push(minorItem(0x000000, Item.Missile));
+    itemPool.push(minorItem(0x000000, Item.Super));
+    itemPool.push(minorItem(0x000000, Item.PowerBomb));
   } else {
     const getNumMajors = () => {
       switch (majorDistribution) {
@@ -103,10 +118,10 @@ export const getItemPool = (seed: number, settings: any) => {
     const numNonTanks = itemPool.filter((i) => i.isMajor).length - 2;
 
     const numReserves = Math.max(2, Math.min(4, numMajors - numNonTanks - 14));
-    setAmountInPool(Item.Reserve, numReserves);
+    setAmountInPool(Item.Reserve, numReserves, true);
 
     const numEnergyTanks = Math.min(14, numMajors - numNonTanks - numReserves);
-    setAmountInPool(Item.EnergyTank, numEnergyTanks);
+    setAmountInPool(Item.EnergyTank, numEnergyTanks, true);
 
     const numMajorSupers =
       numMajors - numNonTanks - numEnergyTanks - numReserves;
@@ -143,9 +158,9 @@ export const getItemPool = (seed: number, settings: any) => {
     }
     itemCount += 1;
   }
-  setAmountInPool(Item.Missile, numMissiles);
-  setAmountInPool(Item.Super, numSupers);
-  setAmountInPool(Item.PowerBomb, numPBs);
+  setAmountInPool(Item.Missile, numMissiles, false);
+  setAmountInPool(Item.Super, numSupers, false);
+  setAmountInPool(Item.PowerBomb, numPBs, false);
 
   if (itemPool.length != 100) {
     throw new Error("Not 100 items");

@@ -64,6 +64,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           })
         }
       >
+        <option value="chozo_bozo">Chozo Bozo</option>
         <option value="sgl23">SGL23 - Full - Boss+Area</option>
         <option value="recall_area_mm">Recall - M/M - Boss+Area</option>
         <option value="standard_mm">Standard - Major / Minor</option>

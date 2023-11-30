@@ -17,6 +17,7 @@ import { StandardAreaEdgeUpdates } from "./data/standard/area";
 import { mapPortals } from "./data/portals";
 import { bossItem, Item } from "../items";
 import DotNetRandom from "../dotnet-random";
+import { ChozoVertexUpdates } from "./data/chozo/vertex";
 
 const getStandardEdges = () => {
   return {
@@ -218,6 +219,9 @@ const addBossItems = (graph, mode) => {
     .map((e) => e.from)
     .filter(isUnique);
 
+  //TODO: Technically, this only needs to be for Boss Shuffle since
+  //      vanilla could be handled below. This should probably be
+  //      just an "if/else" instead of "if/else if"
   if (mode == BossMode.Vanilla || mode == BossMode.Shuffled) {
     bosses.forEach((b) => {
       switch (b.area) {
@@ -239,7 +243,7 @@ const addBossItems = (graph, mode) => {
           break;
       }
       const exitVertex = graph.find(
-        (e) => e.from.name.startsWith("Exit_") && e.to == b
+        (e) => e.from.type == "exit" && e.to == b
       ).from;
       exitVertex.area = b.area;
       const itemEdge = graph.find((e) => e.from == b && e.to.type == "major");
@@ -250,10 +254,10 @@ const addBossItems = (graph, mode) => {
   } else if (mode == BossMode.Shifted) {
     bosses.forEach((b) => {
       const exitVertex = graph.find(
-        (e) => e.from.name.startsWith("Exit_") && e.to == b
+        (e) => e.from.type == "exit" && e.to == b
       ).from;
       const doorVertex = graph.find(
-        (e) => e.from.name.startsWith("Door_") && e.to == exitVertex
+        (e) => e.from.type != "boss" && e.to == exitVertex
       ).from;
 
       const itemEdge = graph.find((e) => e.from == b && e.to.type == "major");
@@ -304,10 +308,17 @@ export const loadGraph = (
     return seedGen.NextInRange(1, 1000000);
   };
   const edgeUpdates = getEdgeUpdates(mapLayout, areaShuffle);
-  const vertexUpdates =
-    majorDistributionMode == MajorDistributionMode.Recall
-      ? RecallVertexUpdates
-      : [];
+  const getVertexUpdates = (mode) => {
+    switch(mode) {
+      case MajorDistributionMode.Recall:
+        return RecallVertexUpdates;
+      case MajorDistributionMode.Chozo:
+        return ChozoVertexUpdates;
+      default:
+        return [];
+    }
+  }
+  const vertexUpdates = getVertexUpdates(majorDistributionMode);
 
   if (portals != undefined) {
     const g = createGraph(portals, vertexUpdates, edgeUpdates);

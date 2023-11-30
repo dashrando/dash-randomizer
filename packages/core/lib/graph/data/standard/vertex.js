@@ -213,21 +213,21 @@ export const standardVertices = {
     "Missiles (Cosine)": "minor",
   },
   Kraid: {
-    Exit_Kraid: "",
+    Exit_Kraid: "exit",
     Boss_Kraid: "boss",
     "Varia Suit": "major",
   },
   Phantoon: {
-    Exit_Phantoon: "",
+    Exit_Phantoon: "exit",
     Boss_Phantoon: "boss",
   },
   Draygon: {
-    Exit_Draygon: "",
+    Exit_Draygon: "exit",
     Boss_Draygon: "boss",
     "Space Jump": "major",
   },
   Ridley: {
-    Exit_Ridley: "",
+    Exit_Ridley: "exit",
     Boss_Ridley: "boss",
     "Energy Tank (Ridley)": "major",
   },

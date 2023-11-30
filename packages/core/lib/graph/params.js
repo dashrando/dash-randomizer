@@ -12,6 +12,7 @@ export const MapLayout = {
 };
 
 export const MajorDistributionMode = {
+  Chozo: 25,
   Standard: 34,
   Recall: 36,
   Full: 38,
@@ -58,6 +59,8 @@ const majorModeToBits = (mode) => {
       return 0x1;
     case MajorDistributionMode.Full:
       return 0x2;
+    case MajorDistributionMode.Chozo:
+      return 0x3;
   }
   throw new Error("unknown major mode");
 };
@@ -70,6 +73,8 @@ const bitsToMajorMode = (bits) => {
       return MajorDistributionMode.Recall;
     case 0x2:
       return MajorDistributionMode.Full;
+    case 0x3:
+      return MajorDistributionMode.Chozo;
   }
   throw new Error("unknown major mode");
 };
