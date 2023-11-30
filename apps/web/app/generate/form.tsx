@@ -515,7 +515,7 @@ export default function Form() {
                   { label: 'Shifted', value: 'shifted' },
                   { label: 'Shuffled', value: 'shuffled' },
                   //{ label: 'Randomized', value: 'randomized' },
-                  { label: 'Vanilla', value: 'standard' },
+                  { label: 'Vanilla', value: 'vanilla' },
                 ]}
                 name="boss"
                 register={register}
