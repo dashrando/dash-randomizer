@@ -39,6 +39,16 @@ export const getItemPool = (seed: number, settings: any) => {
   ];
 
   //-----------------------------------------------------------------
+  // Special processing for chozo.
+  //-----------------------------------------------------------------
+
+  let extraItem = majorItem;
+  if (majorDistribution == MajorDistributionMode.Chozo) {
+    itemPool.forEach(i => i.isMajor = true);
+    extraItem = minorItem;
+  }
+
+  //-----------------------------------------------------------------
   // Add the correct number of charge upgrades.
   //-----------------------------------------------------------------
 
@@ -51,15 +61,15 @@ export const getItemPool = (seed: number, settings: any) => {
     case BeamMode.DashRecall:
       itemPool.push(
         majorItem(0x2f802d, Item.BeamUpgrade),
-        majorItem(0x2f802f, Item.BeamUpgrade),
-        majorItem(0x2f8031, Item.BeamUpgrade),
-        majorItem(0x2f8033, Item.BeamUpgrade)
+        extraItem(0x2f802f, Item.BeamUpgrade),
+        extraItem(0x2f8031, Item.BeamUpgrade),
+        extraItem(0x2f8033, Item.BeamUpgrade)
       );
       break;
     case BeamMode.New:
       itemPool.push(
         majorItem(0x2f802d, Item.BeamUpgrade),
-        majorItem(0x2f802f, Item.BeamUpgrade)
+        extraItem(0x2f802f, Item.BeamUpgrade)
       );
       break;
   }
@@ -70,11 +80,11 @@ export const getItemPool = (seed: number, settings: any) => {
 
   extraItems.forEach((i: number) => {
     if (i == Item.DoubleJump) {
-      itemPool.push(majorItem(0x2f8029, Item.DoubleJump));
+      itemPool.push(extraItem(0x2f8029, Item.DoubleJump));
     } else if (i == Item.PressureValve) {
-      itemPool.push(majorItem(0x2f8027, Item.PressureValve));
+      itemPool.push(extraItem(0x2f8027, Item.PressureValve));
     } else if (i == Item.HeatShield) {
-      itemPool.push(majorItem(0x2f8025, Item.HeatShield));
+      itemPool.push(extraItem(0x2f8025, Item.HeatShield));
     }
   });
 
@@ -89,7 +99,6 @@ export const getItemPool = (seed: number, settings: any) => {
     setAmountInPool(Item.Reserve, 4, true);
     setAmountInPool(Item.EnergyTank, 14, true);
   } else if (majorDistribution == MajorDistributionMode.Chozo) {
-    itemPool.forEach(i => i.isMajor = true);
     setAmountInPool(Item.EnergyTank, 3, true);
     setAmountInPool(Item.Missile, 2, true);
     setAmountInPool(Item.Super, 2, true);
@@ -100,9 +109,13 @@ export const getItemPool = (seed: number, settings: any) => {
     itemPool.push(minorItem(0x000000, Item.Reserve));
     setAmountInPool(Item.EnergyTank, 3, false);
 
-    itemPool.push(minorItem(0x000000, Item.Missile));
-    itemPool.push(minorItem(0x000000, Item.Super));
-    itemPool.push(minorItem(0x000000, Item.PowerBomb));
+    // Add one of each ammo pack as a minor item so that our
+    // logic for placing minors works correctly
+    itemPool.push(
+      minorItem(0x000000, Item.Missile),
+      minorItem(0x000000, Item.Super),
+      minorItem(0x000000, Item.PowerBomb)
+    );
   } else {
     const getNumMajors = () => {
       switch (majorDistribution) {
