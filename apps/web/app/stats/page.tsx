@@ -256,7 +256,7 @@ export default function StatsPage() {
       </div>
       <div id="stats_panel" className={styles.stats_panel}>
         {panel == "majors" && (
-          <MajorItemTable itemProgression={status.progression} />
+          <MajorItemTable itemProgression={status.progression} preset={params.gameMode}/>
         )}
         {panel == "areas" && (
           <AreaDoorTable areas={status.areas} bosses={status.bosses} seeds={status.progression.length} />

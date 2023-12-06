@@ -3,8 +3,15 @@
 import styles from "./majors.module.css";
 import { Item } from "core/data";
 import { ItemProgression } from "./page";
+import { getAllPresets } from "core";
+import { BeamMode, MajorDistributionMode } from "core/params";
 
-const columns = [
+type ColumnData = {
+  header: string;
+  item: number;
+};
+
+const allColumns: ColumnData[] = [
   { header: "Heat Shield", item: Item.HeatShield },
   { header: "Varia", item: Item.Varia },
   { header: "Pressure Valve", item: Item.PressureValve },
@@ -27,6 +34,9 @@ const columns = [
   { header: "Morph", item: Item.Morph },
   { header: "Energy Tank", item: Item.EnergyTank },
   { header: "Reserve", item: Item.Reserve },
+  { header: "Missile", item: Item.Missile },
+  { header: "Super", item: Item.Super },
+  { header: "Power Bomb", item: Item.PowerBomb },
 ];
 
 type MajorRowData = {
@@ -34,7 +44,46 @@ type MajorRowData = {
   itemTypes: any[];
 };
 
-function MajorItemHeader(props: any) {
+function getColumns(preset: string) {
+  const presets = getAllPresets();
+  const data = presets.find(p => p.tags.includes(preset));
+  if (data == null) {
+    return [...allColumns];
+  }
+  return [...allColumns].filter(c => {
+    if (c.header == "Charge" &&
+      data.settings.beamMode != BeamMode.Vanilla) {
+      return false;
+    }
+    if (c.header == "Beam Upgrade" &&
+      data.settings.beamMode == BeamMode.Vanilla) {
+      return false;
+    }
+    if (c.header == "Heat Shield" &&
+      !data.settings.extraItems.includes(Item.HeatShield)) {
+      return false;
+    }
+    if (c.header == "Pressure Valve" &&
+      !data.settings.extraItems.includes(Item.PressureValve)) {
+      return false;
+    }
+    if (c.header == "Double Jump" &&
+      !data.settings.extraItems.includes(Item.DoubleJump)) {
+      return false;
+    }
+    if ((c.header == "Missile" || c.header == "Super" ||
+      c.header == "Power Bomb") && data.settings.majorDistribution != MajorDistributionMode.Chozo) {
+      return false;
+    }
+    return true;
+  })
+}
+
+function MajorItemHeader({
+  columns
+}: {
+  columns: ColumnData[];
+}) {
   return (
     <tr id="header">
       <th key="location" className={styles.thin_border}>
@@ -52,9 +101,11 @@ function MajorItemHeader(props: any) {
 function MajorItemRow({
   row = { locationName: "", itemTypes: [] },
   numSeeds = 1,
+  columns = [],
 }: {
   row: MajorRowData;
   numSeeds: number;
+  columns: ColumnData[];
 }) {
   return (
     <tr className="majorItemRow">
@@ -86,11 +137,14 @@ function MajorItemRow({
 
 export default function MajorItemTable({
   itemProgression,
+  preset
 }: {
   itemProgression: ItemProgression[];
+  preset: string;
 }) {
   const numSeeds = itemProgression.length;
   let majorLocations: MajorRowData[] = [];
+  const columns = getColumns(preset);
 
   itemProgression.forEach((p) => {
     p.filter(c => c.item.isMajor).forEach((c) => {
@@ -116,13 +170,13 @@ export default function MajorItemTable({
   return (
     <table className={styles.legacy_style}>
       <tbody>
-        <MajorItemHeader />
+        <MajorItemHeader columns={columns} />
         {majorLocations
           .filter((r) =>
             r.itemTypes.some((t) => columns.findIndex((c) => c.item == t) >= 0)
           )
           .map((r) => (
-            <MajorItemRow key={r.locationName} row={r} numSeeds={numSeeds} />
+            <MajorItemRow key={r.locationName} row={r} numSeeds={numSeeds} columns={columns} />
           ))}
       </tbody>
     </table>
