@@ -131,6 +131,37 @@ const getMajorMinorPrePool = (rnd) => {
 };
 
 //-----------------------------------------------------------------
+// Generates the default prefill pool for Chozo seeds.
+//-----------------------------------------------------------------
+
+const getChozoPrePool = (rnd) => {
+  const prePool = [Item.Morph];
+
+  switch (rnd.Next(10)) {
+    case 0:
+      prePool.push(Item.ScrewAttack);
+      break;
+    case 1:
+      prePool.push(Item.Bombs);
+      break;
+    case 2:
+    case 3:
+      prePool.push(Item.PowerBomb);
+      break;
+    case 4:
+    case 5:
+    case 6:
+      prePool.push(Item.Super);
+      break;
+    default:
+      prePool.push(Item.Missile);
+      break;
+  }
+
+  return prePool;
+};
+
+//-----------------------------------------------------------------
 // Place items within the graph.
 //-----------------------------------------------------------------
 
@@ -190,7 +221,9 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
   // Prefill locations with early items.
   //-----------------------------------------------------------------
 
-  const getPrePool = restrictType ? getMajorMinorPrePool : getFullPrePool;
+  const getPrePool = restrictType
+  ? (settings.majorDistribution == MajorDistributionMode.Chozo ? getChozoPrePool : getMajorMinorPrePool)
+  : getFullPrePool;
   let prefillLoadout = new Loadout();
 
   getPrePool(rnd).forEach((itemType) => {
