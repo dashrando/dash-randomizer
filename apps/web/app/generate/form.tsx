@@ -163,6 +163,7 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
   'seed-mode': 'random' | 'fixed',
   seed: number,
   fanfare: 'off' | 'on', 
+  'race-mode': 'off' | 'on', 
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
@@ -238,6 +239,7 @@ const getModeFields = (input: GenerateFormParams): GenerateSeedSettings => {
   delete values.seed
   delete values['seed-mode']
   delete values.fanfare
+  delete values['race-mode']
   return values
 }
 
@@ -405,10 +407,14 @@ export default function Form() {
 
       const options = {
         DisableFanfare: 0,
+        RaceMode: 0,
       };
       if (data.fanfare == 'off') {
         options.DisableFanfare = 1;
       };
+      if (data['race-mode'] == 'on') {
+        options.RaceMode = 1;
+      }
 
       const seedNumber = getSeed();
       const { data: seed, name } = await RandomizeRom(
@@ -695,6 +701,20 @@ export default function Form() {
               <p>
                 <a href="/info/settings#fanfare">Item Fanfare</a>{' '}
                 is the music when an item is collected.
+              </p>
+            </Option>
+            <Option label="Race Mode" name="race-mode">
+              <Select
+                options={[
+                  { label: 'Off', value: 'off' },
+                  { label: 'On', value: 'on' },
+                ]}
+                name="race-mode"
+                register={register}
+              />
+              <p>
+                <a href="/info/settings#race-mode">Race Mode</a>{' '}
+                prevents seeds from working with solvers.
               </p>
             </Option>
           </Section>

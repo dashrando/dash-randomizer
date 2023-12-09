@@ -1,23 +1,10 @@
 import DotNetRandom from "./dotnet-random";
 import { getLocations } from "./locations";
-import RandomizeRom from "./randomize";
-import type { Config, Opts, Settings } from "./randomize";
 
 async function ProtectRom(
-  seed: number = 0,
-  settings: Settings,
-  opts: Opts = {
-    DisableFanfare: 0,
-  },
-  config: Config
+  seed: number,
+  block: Uint8Array
 ) {
-  const res = await RandomizeRom(seed, settings, opts, config);
-  const block = res.data;
-
-  if (block == null) {
-    return res;
-  }
-
   const rnd = new DotNetRandom(seed);
   const getRandomNumber = (maxValue: number) => rnd.Next(maxValue);
   const getRandomByte = () => rnd.Next(256);
@@ -77,7 +64,7 @@ async function ProtectRom(
   //console.log('items:',verifiedBytes)
   //console.log('final:',position.toString(16))
 
-  return res;
+  return block;
 }
 
 export default ProtectRom;

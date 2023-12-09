@@ -1,5 +1,4 @@
 import RandomizeRom from "./lib/randomize";
-import ProtectRom from "./lib/protect";
 import gameModes from "./data/modes";
 import BpsPatch from "./lib/bps-patch";
 
@@ -18,4 +17,4 @@ export {
   loadGraph
 } from "./lib/graph/init";
 
-export { RandomizeRom, ProtectRom, gameModes, BpsPatch };
+export { RandomizeRom, gameModes, BpsPatch };

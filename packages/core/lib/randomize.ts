@@ -2,9 +2,11 @@ import BpsPatch from "./bps-patch";
 import { getBasePatch, getFileName, generateSeedPatch } from "./sm-rando";
 import { generateSeed } from "./graph/fill";
 import { patchRom } from "../helpers/patcher";
+import ProtectRom from "./protect";
 
 export type Opts = {
   DisableFanfare: number
+  RaceMode: number
 }
 
 export type Config = {
@@ -30,7 +32,8 @@ async function RandomizeRom(
   seed: number = 0,
   settings: Settings,
   opts: Opts = {
-    DisableFanfare: 0
+    DisableFanfare: 0,
+    RaceMode: 0
   },
   config: Config
 ) {
@@ -48,6 +51,7 @@ async function RandomizeRom(
   // Process options with defaults.
   const defaultOptions = {
     DisableFanfare: 0,
+    RaceMode: 0
   };
   const options = { ...defaultOptions, ...opts };
 
@@ -56,8 +60,13 @@ async function RandomizeRom(
     seed, settings, graph, options);
 
   // Create the rom by patching the vanilla rom.
+  const data = patchRom(config.vanillaBytes, basePatch, seedPatch);
+  if (options.RaceMode && data != null) {
+    ProtectRom(seed, data);
+  }
+
   return {
-    data: patchRom(config.vanillaBytes, basePatch, seedPatch),
+    data,
     name: getFileName(seed, settings, options),
   };
 }

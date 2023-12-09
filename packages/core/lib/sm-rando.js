@@ -383,6 +383,7 @@ export const generateFromPreset = (name, seedNumber) => {
   const graph = generateSeed(seed, settings);
   const defaultOptions = {
     DisableFanfare: 0,
+    RaceMode: 0
   };
 
   const seedPatch = generateSeedPatch(seed, settings, graph, defaultOptions);
