@@ -125,7 +125,28 @@ const bitsToMapLayout = (bits) => {
 };
 
 //-----------------------------------------------------------------
-// Parameter encoding
+// Parameter encoding (12 bytes available)
+//
+// bytes 0-2 = 24-bit seed number
+//
+// byte 3 = rr-ii-aa-vv
+//    r: randomize areas
+//    i: minor distribution mode
+//    a: major distribution mode
+//    v: version
+//
+// byte 4 = pp-h-d-bbbb
+//    p: pressurve valve
+//    h: heat shield
+//    d: double jump
+//    b: boss mode
+//
+// byte 5 = f-g-ss-bb-mm
+//    f: fanfare
+//    g: gravity heat reduction
+//    s: suit mode
+//    b: beam mode
+//    m: map layout
 //-----------------------------------------------------------------
 
 export const paramsToBytes = (seed, settings, options) => {
