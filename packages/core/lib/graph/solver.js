@@ -3,72 +3,6 @@ import { Item, ItemNames } from "../items";
 import { cloneGraph } from "./init";
 import { MajorDistributionMode } from "./params";
 
-/*const getFlags = (load) => {
-  const {
-    CanUseBombs,
-    CanUsePowerBombs,
-    CanOpenRedDoors,
-    CanOpenGreenDoors,
-    HasCharge,
-    HasDoubleJump,
-    HasGravity,
-    HasGrapple,
-    HasHeatShield,
-    HasHiJump,
-    HasIce,
-    HasMorph,
-    HasPlasma,
-    HasPressureValve,
-    HasScrewAttack,
-    HasSpazer,
-    HasSpaceJump,
-    HasSpeed,
-    HasSpringBall,
-    HasVaria,
-    HasWave,
-    EnergyTanks,
-    MissilePacks,
-    PowerBombPacks,
-    SuperPacks,
-    TotalTanks,
-    HellRunTanks,
-    CanFly,
-    CanDoSuitlessMaridia,
-    CanPassBombPassages,
-    CanDestroyBombWalls,
-    CanMoveInWestMaridia,
-    CanKillKraid,
-    CanKillPhantoon,
-    CanKillDraygon,
-    CanKillRidley,
-    CanKillSporeSpawn,
-    CanKillCrocomire,
-    CanKillBotwoon,
-    CanKillGoldTorizo,
-    HasDefeatedBrinstarBoss,
-    HasDefeatedWreckedShipBoss,
-    HasDefeatedMaridiaBoss,
-    HasDefeatedNorfairBoss,
-  } = load.getFlags();
-};
-
-const getBody = (func) => {
-  const full = func.toString().replace(/[\n\r]/g, "");
-  return full.slice(full.indexOf("{") + 1, full.lastIndexOf("}"));
-};
-
-const criteriaFunction = Function(
-  "criteria",
-  `"use strict";` +
-    `const x = Function("load",` +
-    `"${getBody(getFlags)} return (" + criteria + ")();");` +
-    `return x(this);`
-);
-
-const checkCriteria = (load, criteria) => {
-  return criteriaFunction.call(load, criteria);
-};*/
-
 class GraphSolver {
   constructor(graph, settings, logMethods) {
     this.graph = graph;
@@ -133,10 +67,6 @@ class GraphSolver {
 
     return (condition) => eval(`(${condition.toString()})()`);
   }
-
-  /*checkFlags(load) {
-    return (condition) => checkCriteria(load, condition);
-  }*/
 
   isVertexAvailable(vertex, load, itemType, legacyMode = false) {
     if (
@@ -222,24 +152,30 @@ class GraphSolver {
 
       if (items.length == 0) {
         //-----------------------------------------------------------------
-        // Utility function that attempts to reverse solve the remaining
-        // paths on the graph.
+        // Utility function that determines if collecting an available
+        // item that does not have a round trip to the starting vertex
+        // would result in a valid graph.
         //-----------------------------------------------------------------
 
         const reverseSolve = (filteredItemLocations) => {
           for (let i = 0; i < filteredItemLocations.length; i++) {
             const p = filteredItemLocations[i];
-            //console.log("try:", p.name);
+
+            // Setup a graph with the item location as the start vertex
             const clonedGraph = cloneGraph(this.graph);
             clonedGraph.forEach((e) => (e.from.pathToStart = false));
             const clonedVertex = clonedGraph.find(
               (e) => e.from.name == p.name
             ).from;
             clonedVertex.pathToStart = true;
+
+            // Create a solver for the new graph
             const reverseSolver = new GraphSolver(clonedGraph, {
               ...this.settings,
             });
             reverseSolver.startVertex = clonedVertex;
+
+            // Collect the item if the graph can be solved
             try {
               if (reverseSolver.isValid(samus)) {
                 if (this.printCollectedItems) {
@@ -258,7 +194,7 @@ class GraphSolver {
         };
 
         //-----------------------------------------------------------------
-        // Try to reverse solve the majors first and then the reset.
+        // Try to reverse solve the majors first and then the rest.
         //-----------------------------------------------------------------
 
         const IsSingleton = (item) => {
