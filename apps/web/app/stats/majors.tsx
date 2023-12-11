@@ -147,18 +147,18 @@ export default function MajorItemTable({
   const columns = getColumns(preset);
 
   itemProgression.forEach((p) => {
-    p.filter(c => c.item.isMajor).forEach((c) => {
+    p.filter(c => c.isMajor).forEach((c) => {
       const locationEntry = majorLocations.find(
-        (m) => m.locationName == c.location.name
+        (m) => m.locationName == c.locationName
       );
       if (locationEntry == undefined) {
         majorLocations.push({
           // copy string to avoid memory growth
-          locationName: c.location.name.slice(),
-          itemTypes: [c.item.type],
+          locationName: c.locationName.slice(),
+          itemTypes: [c.itemType],
         });
       } else {
-        locationEntry.itemTypes.push(c.item.type);
+        locationEntry.itemTypes.push(c.itemType);
       }
     });
   });

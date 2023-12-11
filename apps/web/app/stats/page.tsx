@@ -4,19 +4,19 @@ import styles from "./page.module.css";
 import {
   isAreaEdge,
   isBossEdge,
-  Location,
-  generateSeed
+  generateSeed,
 } from "core/data";
 import { useState } from "react";
-import { getItemNodes, getPreset } from "core";
+import { getItemProgression, getPreset } from "core";
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
 import AreaDoorTable, { Transition } from "./areas";
 
 export type ItemLocation = {
-  location: Location;
-  item: any;
+  itemType: number;
+  locationName: string;
+  isMajor: boolean;
 };
 
 export type ItemProgression = ItemLocation[];
@@ -115,7 +115,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 
 export default function StatsPage() {
   const [params, setParams] = useState({
-    gameMode: "sgl23",
+    gameMode: "chozo",
     startSeed: 1,
     numSeeds: 100,
   });
@@ -182,7 +182,7 @@ export default function StatsPage() {
     for (let i = startSeed; i <= endSeed; i++) {
       try {
         const graph = generateSeed(i, preset.settings);
-        progression.push(getItemNodes(graph));
+        progression.push(getItemProgression(graph, preset.settings));
         bosses = bosses.concat(getBossTransitions(graph));
         areas = areas.concat(getAreaTransitions(graph));
       } catch (e) {

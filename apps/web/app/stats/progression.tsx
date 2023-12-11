@@ -11,18 +11,18 @@ export default function ProgressionStats({
 }) {
   let numSeeds = itemProgression.length;
   let firstSuper = itemProgression.map((p) =>
-    p.find((c) => c.item.type == Item.Super)
+    p.find((c) => c.itemType == Item.Super)
   );
   let firstPB = itemProgression.map((p) =>
-    p.find((c) => c.item.type == Item.PowerBomb)
+    p.find((c) => c.itemType == Item.PowerBomb)
   );
   const countUniqueLocations = (itemLocations: ItemLocation[]) => {
     let unique: { [key: string]: number } = {};
     itemLocations.forEach((i) => {
-      if (unique.hasOwnProperty(i.location.name)) {
-        unique[i.location.name] += 1;
+      if (unique.hasOwnProperty(i.locationName)) {
+        unique[i.locationName] += 1;
       } else {
-        unique[i.location.name] = 1;
+        unique[i.locationName] = 1;
       }
     });
 
@@ -37,7 +37,7 @@ export default function ProgressionStats({
 
   return (
     <div>
-      <p>First Super</p>
+      <p className={styles.header}>First Super</p>
       <div className={styles.progression_table}>
         {supers.map((s) => {
           return (
@@ -50,7 +50,7 @@ export default function ProgressionStats({
           );
         })}
       </div>
-      <p>First PB</p>
+      <p className={styles.header}>First Power Bomb</p>
       <div className={styles.progression_table}>
         {bombs.map((s) => {
           return (
