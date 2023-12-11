@@ -8,6 +8,8 @@ class GraphSolver {
     this.graph = graph;
     this.settings = settings;
     this.startVertex = graph[0].from;
+    this.trackProgression = false;
+    this.progression = [];
     if (logMethods != undefined) {
       this.printAvailableItems = logMethods.printAvailableItems;
       this.printCollectedItems = logMethods.printCollectedItems;
@@ -15,6 +17,17 @@ class GraphSolver {
       this.printUncollectedItems = logMethods.printUncollectedItems;
       this.printMsg = logMethods.printMsg;
     }
+  }
+
+  recordProgression(itemNode) {
+    if (!this.trackProgression) {
+      return;
+    }
+    this.progression.push({
+      itemType: itemNode.item.type,
+      locationName: itemNode.name,
+      isMajor: itemNode.item.isMajor
+    })
   }
 
   checkFlags(load) {
@@ -100,6 +113,8 @@ class GraphSolver {
   isValid(initLoad, legacyMode = false) {
     let samus = initLoad.clone();
 
+    this.progression = [];
+
     const printBoss = (item) => {
       const bossVertex = this.graph.find((e) => e.to.item == item).to;
       const exitVertex = this.graph.find(
@@ -133,6 +148,7 @@ class GraphSolver {
             return;
           }
           samus.add(p.item.type);
+          this.recordProgression(p);
         } else {
           const load = samus.clone();
           load.add(p.item.type);
@@ -140,6 +156,7 @@ class GraphSolver {
             return;
           }
           samus = load;
+          this.recordProgression(p);
         }
 
         items.push(p.item);
@@ -183,6 +200,7 @@ class GraphSolver {
                 }
                 // Collect the item
                 samus.add(p.item.type);
+                this.recordProgression(p);
                 p.item = undefined;
                 return true;
               }
