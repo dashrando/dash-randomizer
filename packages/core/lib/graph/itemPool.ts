@@ -39,6 +39,16 @@ export const getItemPool = (seed: number, settings: any) => {
   ];
 
   //-----------------------------------------------------------------
+  // Special processing for chozo.
+  //-----------------------------------------------------------------
+
+  let extraItem = majorItem;
+  if (majorDistribution == MajorDistributionMode.Chozo) {
+    itemPool.forEach(i => i.isMajor = true);
+    extraItem = minorItem;
+  }
+
+  //-----------------------------------------------------------------
   // Add the correct number of charge upgrades.
   //-----------------------------------------------------------------
 
@@ -51,15 +61,15 @@ export const getItemPool = (seed: number, settings: any) => {
     case BeamMode.DashRecall:
       itemPool.push(
         majorItem(0x2f802d, Item.BeamUpgrade),
-        majorItem(0x2f802f, Item.BeamUpgrade),
-        majorItem(0x2f8031, Item.BeamUpgrade),
-        majorItem(0x2f8033, Item.BeamUpgrade)
+        extraItem(0x2f802f, Item.BeamUpgrade),
+        extraItem(0x2f8031, Item.BeamUpgrade),
+        extraItem(0x2f8033, Item.BeamUpgrade)
       );
       break;
     case BeamMode.New:
       itemPool.push(
         majorItem(0x2f802d, Item.BeamUpgrade),
-        majorItem(0x2f802f, Item.BeamUpgrade)
+        extraItem(0x2f802f, Item.BeamUpgrade)
       );
       break;
   }
@@ -70,24 +80,42 @@ export const getItemPool = (seed: number, settings: any) => {
 
   extraItems.forEach((i: number) => {
     if (i == Item.DoubleJump) {
-      itemPool.push(majorItem(0x2f8029, Item.DoubleJump));
+      itemPool.push(extraItem(0x2f8029, Item.DoubleJump));
     } else if (i == Item.PressureValve) {
-      itemPool.push(majorItem(0x2f8027, Item.PressureValve));
+      itemPool.push(extraItem(0x2f8027, Item.PressureValve));
     } else if (i == Item.HeatShield) {
-      itemPool.push(majorItem(0x2f8025, Item.HeatShield));
+      itemPool.push(extraItem(0x2f8025, Item.HeatShield));
     }
   });
 
-  const setAmountInPool = (type: any, count: number) => {
-    const item = itemPool.find((i) => i.type == type) as any;
+  const setAmountInPool = (type: any, count: number, isMajor: boolean) => {
+    const item = itemPool.find((i) => i.type == type && i.isMajor == isMajor) as any;
     while (itemPool.filter((i) => i == item).length < count) {
       itemPool.unshift(item);
     }
   };
 
   if (majorDistribution == MajorDistributionMode.Full) {
-    setAmountInPool(Item.Reserve, 4);
-    setAmountInPool(Item.EnergyTank, 14);
+    setAmountInPool(Item.Reserve, 4, true);
+    setAmountInPool(Item.EnergyTank, 14, true);
+  } else if (majorDistribution == MajorDistributionMode.Chozo) {
+    setAmountInPool(Item.EnergyTank, 3, true);
+    setAmountInPool(Item.Missile, 2, true);
+    setAmountInPool(Item.Super, 2, true);
+
+    itemPool.push(minorItem(0x000000, Item.EnergyTank));
+    setAmountInPool(Item.EnergyTank, 11, false);
+
+    itemPool.push(minorItem(0x000000, Item.Reserve));
+    setAmountInPool(Item.EnergyTank, 3, false);
+
+    // Add one of each ammo pack as a minor item so that our
+    // logic for placing minors works correctly
+    itemPool.push(
+      minorItem(0x000000, Item.Missile),
+      minorItem(0x000000, Item.Super),
+      minorItem(0x000000, Item.PowerBomb)
+    );
   } else {
     const getNumMajors = () => {
       switch (majorDistribution) {
@@ -103,10 +131,10 @@ export const getItemPool = (seed: number, settings: any) => {
     const numNonTanks = itemPool.filter((i) => i.isMajor).length - 2;
 
     const numReserves = Math.max(2, Math.min(4, numMajors - numNonTanks - 14));
-    setAmountInPool(Item.Reserve, numReserves);
+    setAmountInPool(Item.Reserve, numReserves, true);
 
     const numEnergyTanks = Math.min(14, numMajors - numNonTanks - numReserves);
-    setAmountInPool(Item.EnergyTank, numEnergyTanks);
+    setAmountInPool(Item.EnergyTank, numEnergyTanks, true);
 
     const numMajorSupers =
       numMajors - numNonTanks - numEnergyTanks - numReserves;
@@ -143,9 +171,9 @@ export const getItemPool = (seed: number, settings: any) => {
     }
     itemCount += 1;
   }
-  setAmountInPool(Item.Missile, numMissiles);
-  setAmountInPool(Item.Super, numSupers);
-  setAmountInPool(Item.PowerBomb, numPBs);
+  setAmountInPool(Item.Missile, numMissiles, false);
+  setAmountInPool(Item.Super, numSupers, false);
+  setAmountInPool(Item.PowerBomb, numPBs, false);
 
   if (itemPool.length != 100) {
     throw new Error("Not 100 items");

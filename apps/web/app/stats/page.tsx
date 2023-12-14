@@ -64,6 +64,8 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           })
         }
       >
+        <option value="chozo">Chozo</option>
+        <option value="chozo_bozo">Chozo Bozo</option>
         <option value="sgl23">SGL23 - Full - Boss+Area</option>
         <option value="recall_area_mm">Recall - M/M - Boss+Area</option>
         <option value="standard_mm">Standard - Major / Minor</option>
@@ -255,7 +257,7 @@ export default function StatsPage() {
       </div>
       <div id="stats_panel" className={styles.stats_panel}>
         {panel == "majors" && (
-          <MajorItemTable itemProgression={status.progression} />
+          <MajorItemTable itemProgression={status.progression} preset={params.gameMode}/>
         )}
         {panel == "areas" && (
           <AreaDoorTable areas={status.areas} bosses={status.bosses} seeds={status.progression.length} />

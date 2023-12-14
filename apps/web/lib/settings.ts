@@ -10,6 +10,8 @@ import {
 
 const getItemSplit = (value: number) => {
   switch (value) {
+    case MajorDistributionMode.Chozo:
+      return 'Chozo'
     case MajorDistributionMode.Standard:
     case MajorDistributionMode.Recall:
       return 'Major/Minor'

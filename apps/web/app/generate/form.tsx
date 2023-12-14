@@ -147,7 +147,7 @@ const Option = (
 }
 
 export interface GenerateSeedSettings {
-  'item-split': 'standard-mm' | 'full',
+  'item-split': 'standard-mm' | 'full' | 'chozo',
   'map-layout': 'standard' | 'randomized' | 'recall',
   boss: 'vanilla' | 'shifted' | 'shuffled' | 'randomized',
   minors: 'standard' | 'dash',
@@ -166,10 +166,22 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
-  mode: 'sgl23' | 'dash-recall' | 'dash-classic' | '2017' | 'custom' | null,
+  mode: 'chozo-bozo' | 'sgl23' | 'dash-recall' | 'dash-classic' | '2017' | 'custom' | null,
 }
 
 const MODES = {
+  'chozo-bozo': {
+    'item-split': 'chozo',
+    'map-layout': 'standard',
+    boss: 'shuffled',
+    minors: 'standard',
+    'environment': 'standard',
+    'charge-beam': 'vanilla',
+    'gravity-heat-reduction': 'off',
+    'double-jump': 'off',
+    'heat-shield': 'off',
+    'pressure-valve': 'none',
+  },
   'sgl23': {
     'item-split': 'full',
     'map-layout': 'randomized',
@@ -329,6 +341,9 @@ export default function Form() {
       if (data['item-split'] == "full") {
         majorDistribution = MajorDistributionMode.Full;
       }
+      if (data['item-split'] == "chozo") {
+        majorDistribution = MajorDistributionMode.Chozo;
+      }
 
       const extraItems = [];
       if (data['double-jump'] == "on") {
@@ -362,6 +377,8 @@ export default function Form() {
         settings.preset = "2017MM";
       } else if (data.mode == 'sgl23') {
         settings.preset = "SGL23"
+      } else if (data.mode == 'chozo-bozo') {
+        settings.preset = "ChozoBozo"
       }
 
       if (data['charge-beam'] == 'starter') {
@@ -468,6 +485,7 @@ export default function Form() {
               <Select
                 options={[
                   { label: '', value: '', hidden: true },
+                  { label: 'Chozo Bozo', value: 'chozo-bozo' },
                   { label: 'SG Live 2023', value: 'sgl23' },
                   { label: 'DASH: Recall', value: 'dash-recall' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
@@ -498,6 +516,7 @@ export default function Form() {
             <Option label="Item Split" name="item-split">
               <Select
                 options={[
+                  { label: 'Chozo', value: 'chozo' },
                   { label: 'Full', value: 'full' },
                   { label: 'Major/Minor', value: 'standard-mm' },
                 ]}
@@ -512,8 +531,8 @@ export default function Form() {
             <Option label="Boss Locations" name="boss" badge={<Badge variant="beta">Beta</Badge>}>
               <Select
                 options={[
-                  { label: 'Shifted', value: 'shifted' },
                   { label: 'Shuffled', value: 'shuffled' },
+                  { label: 'Shifted', value: 'shifted' },
                   //{ label: 'Randomized', value: 'randomized' },
                   { label: 'Vanilla', value: 'vanilla' },
                 ]}
@@ -528,9 +547,9 @@ export default function Form() {
             <Option label="Map Layout" name="map-layout" badge={<Badge variant="beta">Beta</Badge>}>
               <Select
                 options={[
+                  { label: 'Vanilla', value: 'standard' },
                   { label: 'Area Randomization', value: 'randomized' },
                   { label: 'DASH: Recall', value: 'recall' },
-                  { label: 'Vanilla', value: 'standard' },
                 ]}
                 name="map-layout"
                 register={register}
@@ -605,8 +624,8 @@ export default function Form() {
             <Option label="Double Jump" name="double-jump">
               <Select
                 options={[
-                  { label: 'On', value: 'on' },
                   { label: 'Off', value: 'off' },
+                  { label: 'On', value: 'on' },
                 ]}
                 name="double-jump"
                 register={register}

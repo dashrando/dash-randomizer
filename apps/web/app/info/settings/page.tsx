@@ -132,6 +132,150 @@ export default function SettingsInfoPage() {
                 <strong>Full</strong>: All items are able to be placed in any location dictated by the logic.
               </p>
             </li>
+            <li>
+              <p>
+                <strong>Chozo</strong>: Sufficient items to beat the game are placed at Chozo item locations. This includes each unique major item plus 3 energy tanks, 1 reserve tank, 2 missile packs, 2 super missile packs, and 1 power bomb pack.
+              </p>
+              <details>
+                <summary>Chozo Locations</summary>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Area</th>
+                      <th>Vanilla Item</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Morph Pedestal</td>
+                      <td>Crateria</td>
+                      <td>Morph Ball</td>
+                    </tr>
+                    <tr>
+                      <td>Missiles (Alpha)</td>
+                      <td>Crateria</td>
+                      <td>Missile Pack</td>
+                    </tr>
+                    <tr>
+                      <td>Missiles (230)</td>
+                      <td>Crateria</td>
+                      <td>Missile Pack</td>
+                    </tr>
+                    <tr>
+                      <td>Bomb Torizo</td>
+                      <td>Crateria</td>
+                      <td>Bombs</td>
+                    </tr>
+                    <tr>
+                      <td>Energy Tank (Gauntlet)</td>
+                      <td>Crateria</td>
+                      <td>Energy Tank</td>
+                    </tr>
+                    <tr>
+                      <td>Grapple Beam</td>
+                      <td>Crocomire</td>
+                      <td>Grapple Beam</td>
+                    </tr>
+                    <tr>
+                      <td>Space Jump</td>
+                      <td>East Maridia</td>
+                      <td>Space Jump</td>
+                    </tr>
+                    <tr>
+                      <td>Brinstar Reserve</td>
+                      <td>Green Brinstar</td>
+                      <td>Reserve Tank</td>
+                    </tr>
+                    <tr>
+                      <td>Charge Beam</td>
+                      <td>Green Brinstar</td>
+                      <td>Charge Beam</td>
+                    </tr>
+                    <tr>
+                      <td>Spo Spo Supers</td>
+                      <td>Green Brinstar</td>
+                      <td>Super Missile</td>
+                    </tr>
+                    <tr>
+                      <td>Varia Suit</td>
+                      <td>Kraid's Lair</td>
+                      <td>Varia Suit</td>
+                    </tr>
+                    <tr>
+                      <td>Ridley Energy Tank</td>
+                      <td>Lower Norfair</td>
+                      <td>Energy Tank</td>
+                    </tr>
+                    <tr>
+                      <td>Screw Attack</td>
+                      <td>Lower Norfair</td>
+                      <td>Screw Attack</td>
+                    </tr>
+                    <tr>
+                      <td>X-Ray</td>
+                      <td>Red Brinstar</td>
+                      <td>X-Ray Scope</td>
+                    </tr>
+                    <tr>
+                      <td>Alpha Power Bombs</td>
+                      <td>Red Brinstar</td>
+                      <td>Power Bomb Pack</td>
+                    </tr>
+                    <tr>
+                      <td>Spazer Beam</td>
+                      <td>Red Brinstar</td>
+                      <td>Spazer Beam</td>
+                    </tr>
+                    <tr>
+                      <td>Ice Beam</td>
+                      <td>Upper Norfair</td>
+                      <td>Ice Beam</td>
+                    </tr>
+                    <tr>
+                      <td>High Jump Boots</td>
+                      <td>Upper Norfair</td>
+                      <td>High Jump Boots</td>
+                    </tr>
+                    <tr>
+                      <td>Speed Booster</td>
+                      <td>Upper Norfair</td>
+                      <td>Speed Booster</td>
+                    </tr>
+                    <tr>
+                      <td>Wave Beam </td>
+                      <td>Upper Norfair</td>
+                      <td>Wave Beam</td>
+                    </tr>
+                    <tr>
+                      <td>Plasma Beam</td>
+                      <td>West Maridia</td>
+                      <td>Plasma Beam</td>
+                    </tr>
+                    <tr>
+                      <td>Spring Ball</td>
+                      <td>West Maridia</td>
+                      <td>Spring Ball</td>
+                    </tr>
+                    <tr>
+                      <td>Right Side Supers</td>
+                      <td>Wrecked Ship</td>
+                      <td>Super Missile Pack</td>
+                    </tr>
+                    <tr>
+                      <td>Wrecked Ship Energy Tank</td>
+                      <td>Wrecked Ship</td>
+                      <td>Energy Tank</td>
+                    </tr>
+                    <tr>
+                      <td>Bowling Missiles</td>
+                      <td>Wrecked Ship</td>
+                      <td>Missile Pack</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </details>
+            </li>
           </ul>
         </Article>
         <Article

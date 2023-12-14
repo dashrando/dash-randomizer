@@ -131,12 +131,42 @@ const getMajorMinorPrePool = (rnd) => {
 };
 
 //-----------------------------------------------------------------
+// Generates the default prefill pool for Chozo seeds.
+//-----------------------------------------------------------------
+
+const getChozoPrePool = (rnd) => {
+  const prePool = [Item.Morph];
+
+  switch (rnd.Next(10)) {
+    case 0:
+      prePool.push(Item.ScrewAttack);
+      break;
+    case 1:
+      prePool.push(Item.Bombs);
+      break;
+    case 2:
+    case 3:
+      prePool.push(Item.PowerBomb);
+      break;
+    case 4:
+    case 5:
+    case 6:
+      prePool.push(Item.Super);
+      break;
+    default:
+      prePool.push(Item.Missile);
+      break;
+  }
+
+  return prePool;
+};
+
+//-----------------------------------------------------------------
 // Place items within the graph.
 //-----------------------------------------------------------------
 
-const graphFill = (seed, graph, settings, maxAttempts = 10) => {
+const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
   const solver = new GraphSolver(graph, settings);
-  const rnd = new DotNetRandom(seed);
 
   //-----------------------------------------------------------------
   // Extract parameters.
@@ -164,7 +194,9 @@ const graphFill = (seed, graph, settings, maxAttempts = 10) => {
   // Shuffle item locations.
   //-----------------------------------------------------------------
 
-  let itemVertices = graph.map((e) => e.from).filter((v) => v.type != "");
+  let itemVertices = graph.map((e) => e.from).filter((v) => {
+    return v.type == "major" || v.type == "minor"
+  });
   const isUnique = (value, index, array) => {
     return array.indexOf(value) === index;
   };
@@ -189,11 +221,18 @@ const graphFill = (seed, graph, settings, maxAttempts = 10) => {
   // Prefill locations with early items.
   //-----------------------------------------------------------------
 
-  const getPrePool = restrictType ? getMajorMinorPrePool : getFullPrePool;
+  const getPrePool = restrictType
+  ? (settings.majorDistribution == MajorDistributionMode.Chozo ? getChozoPrePool : getMajorMinorPrePool)
+  : getFullPrePool;
   let prefillLoadout = new Loadout();
 
   getPrePool(rnd).forEach((itemType) => {
-    const itemIndex = itemPool.findIndex((i) => i.type == itemType);
+    const itemIndex = itemPool.findIndex((i) => {
+      if (settings.majorDistribution != MajorDistributionMode.Chozo) {
+        return i.type == itemType;
+      }
+      return i.isMajor && i.type == itemType;
+    });
     const item = itemPool.splice(itemIndex, 1)[0];
     const available = shuffledLocations.find(
       (v) =>
@@ -270,7 +309,11 @@ const graphFill = (seed, graph, settings, maxAttempts = 10) => {
 export const generateSeed = (seed, settings) => {
   const maxOuterLoop = 20;
   let maxInnerLoop = 10;
+  const rnd = new DotNetRandom(seed);
 
+  if (settings.majorDistribution == MajorDistributionMode.Chozo) {
+    maxInnerLoop = 50;
+  }
   if (!settings.randomizeAreas) {
     maxInnerLoop *= 10;
   }
@@ -290,7 +333,7 @@ export const generateSeed = (seed, settings) => {
     );
 
     try {
-      graphFill(seed, graph, settings, maxInnerLoop);
+      graphFill(seed, rnd, graph, settings, maxInnerLoop);
       return graph;
     } catch (e) {
       attempts += 1;
