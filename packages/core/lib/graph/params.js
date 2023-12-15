@@ -147,6 +147,10 @@ const bitsToMapLayout = (bits) => {
 //    s: suit mode
 //    b: beam mode
 //    m: map layout
+//
+// byte 6 = ppppppp-r
+//    p: padding
+//    r: race mode
 //-----------------------------------------------------------------
 
 export const paramsToBytes = (seed, settings, options) => {
@@ -154,7 +158,7 @@ export const paramsToBytes = (seed, settings, options) => {
     settings;
 
   // Place the seed number in the first 3 bytes (max=16777215)
-  let bytes = new Uint8Array(6);
+  let bytes = new Uint8Array(7);
   bytes[0] = seed & 0xff;
   bytes[1] = (seed >> 8) & 0xff;
   bytes[2] = (seed >> 16) & 0xff;
@@ -181,6 +185,9 @@ export const paramsToBytes = (seed, settings, options) => {
   const fanfare = (options.DisableFanfare ? 0x0 : 0x1) << 7;
   bytes[5] = map | beam | suit | gravity | fanfare;
 
+  const raceMode = options.RaceMode;
+  bytes[6] = raceMode;
+
   return bytes;
 };
 
@@ -194,6 +201,7 @@ export const paramsToString = (seed, settings, options) => {
 
 export const bytesToParams = (bytes) => {
   const seed = bytes[0] | (bytes[1] << 8) | (bytes[2] << 16);
+  const raceMode = bytes[6] & 0x1;
   const fanfare = (bytes[5] >> 7) & 0x1;
   const gravity = (bytes[5] >> 6) & 0x1;
   const area = (bytes[3] >> 6) & 0x3;
@@ -235,7 +243,10 @@ export const bytesToParams = (bytes) => {
       gravityHeatReduction:
         gravity == 0x0 ? GravityHeatReduction.Off : GravityHeatReduction.On,
     },
-    options: { DisableFanfare: fanfare == 0 },
+    options: {
+      DisableFanfare: fanfare == 0,
+      RaceMode: raceMode == 1
+    },
   };
 };
 

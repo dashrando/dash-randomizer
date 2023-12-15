@@ -11,7 +11,7 @@ import { toast } from 'sonner'
 const getParamsFromFile = (bytes: Uint8Array) => {
   try {
     const offset = 0x2f8b00
-    const paramBytes = bytes.subarray(offset, offset + 6)
+    const paramBytes = bytes.subarray(offset, offset + 7)
     const byteParams = bytesToParams(paramBytes)
     const seedKey = paramsToString(
       byteParams.seed,

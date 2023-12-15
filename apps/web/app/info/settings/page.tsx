@@ -491,6 +491,14 @@ export default function SettingsInfoPage() {
             <strong>Item Fanfare</strong> is the ~7 second period after Samus acquires a new item in which the player loses control while heroic music plays. DASH supports disabling Item Fanfare, but they are enabled by default.
           </p>
         </Article>
+        <Article
+          id="race-mode"
+          title="Race Mode"
+        >
+          <p>
+            <strong>Race Mode</strong> prevents the seed from working with solvers.
+          </p>
+        </Article>
       </div>
     </Wrapper>
   )

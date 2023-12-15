@@ -30,6 +30,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
     
     const defaultOptions = {
       DisableFanfare: 0,
+      RaceMode: 0,
     };
     const hash = paramsToString(seedNum, preset.settings, defaultOptions);
     const url = new URL(`seed/${hash}`, req.nextUrl.origin);
