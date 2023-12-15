@@ -379,6 +379,7 @@ export const getItemProgression = (graph, settings) => {
   }
   return solver.progression;
 }
+
 export const generateFromPreset = (name, seedNumber) => {
   const seed = getSeedNumber(seedNumber);
   const preset = getPreset(name);
