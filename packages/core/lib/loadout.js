@@ -271,7 +271,7 @@ class Loadout {
       CanMoveInWestMaridia: this.hasGravity || this.hasPressureValve,
       CanKillKraid: canDamageBosses,
       CanKillPhantoon: canDamageBosses,
-      CanKillDraygon: canDamageBosses,
+      CanKillDraygon: this.hasGravity && canDamageBosses,
       CanKillRidley:
         this.hasVaria &&
         (this.hasCharge ||
