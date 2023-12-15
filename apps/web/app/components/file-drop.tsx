@@ -2,7 +2,7 @@
 
 import { useDropzone } from 'react-dropzone'
 import { useCallback, useEffect, useState } from 'react'
-import { bytesToParams, paramsToString, vanilla as vanillaData } from 'core'
+import { paramsToString, readParams, vanilla as vanillaData } from 'core'
 import styles from './file-drop.module.css'
 import { useRouter } from 'next/navigation'
 import { useVanilla } from '../generate/vanilla'
@@ -10,9 +10,7 @@ import { toast } from 'sonner'
 
 const getParamsFromFile = (bytes: Uint8Array) => {
   try {
-    const offset = 0x2f8b00
-    const paramBytes = bytes.subarray(offset, offset + 6)
-    const byteParams = bytesToParams(paramBytes)
+    const byteParams = readParams(bytes)
     const seedKey = paramsToString(
       byteParams.seed,
       byteParams.settings,

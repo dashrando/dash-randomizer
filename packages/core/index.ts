@@ -17,5 +17,10 @@ export {
 export {
   loadGraph
 } from "./lib/graph/init";
+export {
+  readParams,
+  readPortals,
+  readGraph
+} from "./helpers/reader"
 
 export { RandomizeRom, ProtectRom, gameModes, BpsPatch };

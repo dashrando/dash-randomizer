@@ -1,6 +1,14 @@
 import { AREA_DOORS as area, BOSS_DOORS as boss } from "./interface";
 
-const DOORS = [
+export type DoorTransition = {
+  door: string;
+  from: string;
+  to: string;
+  address: number;
+  vector: number;
+}
+
+const DOORS: DoorTransition[] = [
   {
     door: "Door_KraidBoss",
     from: "right",
