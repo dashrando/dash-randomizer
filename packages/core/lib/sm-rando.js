@@ -313,7 +313,7 @@ export const getItemNodes = (graph) => {
     };
 
     // Space Jump?
-    if (node.location.address == 0x7c7a7) {
+    if (node.location.address == BOSS_ITEMS.SpaceJumpInMaridia) {
       switch (vertex.area) {
         case "KraidsLair":
           node.location.area = Area.Kraid;
@@ -331,7 +331,7 @@ export const getItemNodes = (graph) => {
     }
 
     // Varia Suit?
-    if (node.location.address == 0x78aca) {
+    if (node.location.address == BOSS_ITEMS.VariaSuitInBrinstar) {
       switch (vertex.area) {
         case "EastMaridia":
           node.location.area = Area.EastMaridia;
@@ -349,7 +349,7 @@ export const getItemNodes = (graph) => {
     }
 
     // Ridley Energy Tank?
-    if (node.location.address == 0x79108) {
+    if (node.location.address == BOSS_ITEMS.RidleyTankInNorfair) {
       switch (vertex.area) {
         case "EastMaridia":
           node.location.area = Area.EastMaridia;
