@@ -8,40 +8,40 @@ import { BeamMode, MajorDistributionMode } from "core/params";
 
 type ColumnData = {
   header: string;
-  item: number;
+  itemType: number;
 };
 
 const allColumns: ColumnData[] = [
-  { header: "Heat Shield", item: Item.HeatShield },
-  { header: "Varia", item: Item.Varia },
-  { header: "Pressure Valve", item: Item.PressureValve },
-  { header: "Gravity", item: Item.Gravity },
-  { header: "Double Jump", item: Item.DoubleJump },
-  { header: "Space Jump", item: Item.SpaceJump },
-  { header: "Bombs", item: Item.Bombs },
-  { header: "Speed", item: Item.Speed },
-  { header: "Charge", item: Item.Charge },
-  { header: "Beam Upgrade", item: Item.BeamUpgrade },
-  { header: "Ice Beam", item: Item.Ice },
-  { header: "HiJump Boots", item: Item.HJB },
-  { header: "Wave Beam", item: Item.Wave },
-  { header: "Spazer", item: Item.Spazer },
-  { header: "Spring Ball", item: Item.SpringBall },
-  { header: "Plasma", item: Item.Plasma },
-  { header: "Grapple", item: Item.Grapple },
-  { header: "Screw Attack", item: Item.ScrewAttack },
-  { header: "Xray", item: Item.Xray },
-  { header: "Morph", item: Item.Morph },
-  { header: "Energy Tank", item: Item.EnergyTank },
-  { header: "Reserve", item: Item.Reserve },
-  { header: "Missile", item: Item.Missile },
-  { header: "Super", item: Item.Super },
-  { header: "Power Bomb", item: Item.PowerBomb },
+  { header: "Heat Shield", itemType: Item.HeatShield },
+  { header: "Varia", itemType: Item.Varia },
+  { header: "Pressure Valve", itemType: Item.PressureValve },
+  { header: "Gravity", itemType: Item.Gravity },
+  { header: "Double Jump", itemType: Item.DoubleJump },
+  { header: "Space Jump", itemType: Item.SpaceJump },
+  { header: "Bombs", itemType: Item.Bombs },
+  { header: "Speed", itemType: Item.Speed },
+  { header: "Charge", itemType: Item.Charge },
+  { header: "Beam Upgrade", itemType: Item.BeamUpgrade },
+  { header: "Ice Beam", itemType: Item.Ice },
+  { header: "HiJump Boots", itemType: Item.HJB },
+  { header: "Wave Beam", itemType: Item.Wave },
+  { header: "Spazer", itemType: Item.Spazer },
+  { header: "Spring Ball", itemType: Item.SpringBall },
+  { header: "Plasma", itemType: Item.Plasma },
+  { header: "Grapple", itemType: Item.Grapple },
+  { header: "Screw Attack", itemType: Item.ScrewAttack },
+  { header: "Xray", itemType: Item.Xray },
+  { header: "Morph", itemType: Item.Morph },
+  { header: "Energy Tank", itemType: Item.EnergyTank },
+  { header: "Reserve", itemType: Item.Reserve },
+  { header: "Missile", itemType: Item.Missile },
+  { header: "Super", itemType: Item.Super },
+  { header: "Power Bomb", itemType: Item.PowerBomb },
 ];
 
 type MajorRowData = {
   locationName: string;
-  itemTypes: any[];
+  itemTypes: number[];
 };
 
 function getColumns(preset: string) {
@@ -117,7 +117,7 @@ function MajorItemRow({
         {row.locationName}
       </td>
       {columns.map((c) => {
-        const count = row.itemTypes.filter((t) => t == c.item).length;
+        const count = row.itemTypes.filter((t) => t == c.itemType).length;
         const percent = (count / numSeeds) * 100;
         let rowStyle = styles.thin_border;
         if (percent > 5) {
@@ -172,9 +172,6 @@ export default function MajorItemTable({
       <tbody>
         <MajorItemHeader columns={columns} />
         {majorLocations
-          .filter((r) =>
-            r.itemTypes.some((t) => columns.findIndex((c) => c.item == t) >= 0)
-          )
           .map((r) => (
             <MajorItemRow key={r.locationName} row={r} numSeeds={numSeeds} columns={columns} />
           ))}
