@@ -73,7 +73,11 @@ const allEdges = Object.entries(getStandardEdges())
     return acc.concat(cur);
   }, []);
 
-export const createGraph = (
+//-----------------------------------------------------------------
+// Build a graph representing the game world.
+//-----------------------------------------------------------------
+
+const createGraph = (
   portalMapping,
   vertexUpdates,
   edgeUpdates,
@@ -169,6 +173,12 @@ export const createGraph = (
   return edges.filter(e => e.condition !== false);
 };
 
+//-----------------------------------------------------------------
+// Creates a copy of the graph. New memory is allocated for the
+// vertices and edges so that changes can be made to the cloned
+// graph without changing the original.
+//-----------------------------------------------------------------
+
 export const cloneGraph = (graph) => {
   const newVertices = getAllVertices();
 
@@ -192,6 +202,10 @@ export const cloneGraph = (graph) => {
   });
 };
 
+//-----------------------------------------------------------------
+// Gets an array of edge updates based on the settings.
+//-----------------------------------------------------------------
+
 const getEdgeUpdates = (mapLayout, areaShuffle) => {
   switch (mapLayout) {
     case MapLayout.Standard:
@@ -209,6 +223,27 @@ const getEdgeUpdates = (mapLayout, areaShuffle) => {
       throw new Error(`Unknown map layout: ${mapLayout}`);
   }
 };
+
+//-----------------------------------------------------------------
+// Gets an array of vertex updates based on the settings.
+//-----------------------------------------------------------------
+
+const getVertexUpdates = (mode) => {
+  switch(mode) {
+    case MajorDistributionMode.Recall:
+      return RecallVertexUpdates;
+    case MajorDistributionMode.Chozo:
+      return ChozoVertexUpdates;
+    default:
+      return [];
+  }
+}
+
+//-----------------------------------------------------------------
+// Adds pseudo items to a graph for defeating bosses based on the
+// settings provided. Updates the areas of boss nodes and related
+// nodes like the exit and prize nodes.
+//-----------------------------------------------------------------
 
 const addBossItems = (graph, mode) => {
   const isUnique = (value, index, array) => {
@@ -284,6 +319,10 @@ const addBossItems = (graph, mode) => {
   }
 };
 
+//-----------------------------------------------------------------
+// Loads a graph using the specified settings.
+//-----------------------------------------------------------------
+
 export const loadGraph = (
   seed,
   attempt,
@@ -304,29 +343,14 @@ export const loadGraph = (
     }
     return seedGen.NextInRange(1, 1000000);
   };
-  const edgeUpdates = getEdgeUpdates(mapLayout, areaShuffle);
-  const getVertexUpdates = (mode) => {
-    switch(mode) {
-      case MajorDistributionMode.Recall:
-        return RecallVertexUpdates;
-      case MajorDistributionMode.Chozo:
-        return ChozoVertexUpdates;
-      default:
-        return [];
-    }
-  }
-  const vertexUpdates = getVertexUpdates(majorDistributionMode);
 
-  if (portals != undefined) {
-    const g = createGraph(portals, vertexUpdates, edgeUpdates);
-    addBossItems(g, bossMode);
-    return g;
-  }
+  const getPortals = () =>
+    portals ? portals : mapPortals(getSeed(), areaShuffle, bossMode);
 
   const g = createGraph(
-    mapPortals(getSeed(), areaShuffle, bossMode),
-    vertexUpdates,
-    edgeUpdates
+    getPortals(),
+    getVertexUpdates(majorDistributionMode),
+    getEdgeUpdates(mapLayout, areaShuffle)
   );
   addBossItems(g, bossMode);
   return g;
