@@ -23,10 +23,18 @@ class GraphSolver {
     if (!this.trackProgression) {
       return;
     }
+    let locationName = itemNode.name;
+
+    if (itemNode.type == "boss") {
+      const bossName = itemNode.name.substring(5)
+      locationName = `${bossName} @ ${itemNode.area}`;
+    }
+
     this.progression.push({
+      itemName: itemNode.item.name,
       itemType: itemNode.item.type,
-      locationName: itemNode.name,
-      isMajor: itemNode.item.isMajor
+      locationName: locationName,
+      isMajor: itemNode.item.isMajor,
     })
   }
 
