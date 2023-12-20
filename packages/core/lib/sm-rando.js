@@ -82,12 +82,13 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
   //-----------------------------------------------------------------
 
   const mapArea = (n) => {
-    if (n.location.area == Area.BlueBrinstar) {
-      return Area.Crateria;
-    } else if (n.location.area == Area.GreenBrinstar) {
-      return Area.PinkBrinstar;
-    } else {
-      return n.location.area;
+    switch(n.location.area) {
+      case Area.BlueBrinstar:
+        return Area.Crateria;
+      case Area.GreenBrinstar:
+        return Area.PinkBrinstar;
+      default:
+        return n.location.area;
     }
   };
 

@@ -219,54 +219,53 @@ const addBossItems = (graph, mode) => {
     .map((e) => e.from)
     .filter(isUnique);
 
-  //TODO: Technically, this only needs to be for Boss Shuffle since
-  //      vanilla could be handled below. This should probably be
-  //      just an "if/else" instead of "if/else if"
-  if (mode == BossMode.Vanilla || mode == BossMode.Shuffled) {
+  const getAdjacent = (boss) => {
+    const exit = graph.find(
+      (e) => e.from.type == "exit" && e.to == boss
+    ).from;
+    const doorEdge = graph.find((e) => e.from != boss && e.to == exit);
+    const itemEdge = graph.find((e) => e.from == boss && e.to.type == "major");
+
+    return {
+      exit,
+      door: doorEdge.from,
+      prize: itemEdge?.to
+    }
+  }
+
+  if (mode == BossMode.Shuffled) {
     bosses.forEach((b) => {
+      const { exit, door, prize } = getAdjacent(b);
       switch (b.area) {
         case "Kraid":
           b.item = bossItem(Item.DefeatedBrinstarBoss);
-          b.area = "KraidsLair";
+          prize.area = "KraidsLair";
           break;
         case "Phantoon":
           b.item = bossItem(Item.DefeatedWreckedShipBoss);
-          b.area = "WreckedShip";
           break;
         case "Draygon":
           b.item = bossItem(Item.DefeatedMaridiaBoss);
-          b.area = "EastMaridia";
+          prize.area = "EastMaridia";
           break;
         case "Ridley":
           b.item = bossItem(Item.DefeatedNorfairBoss);
-          b.area = "LowerNorfair";
+          prize.area = "LowerNorfair";
           break;
       }
-      const exitVertex = graph.find(
-        (e) => e.from.type == "exit" && e.to == b
-      ).from;
-      exitVertex.area = b.area;
-      const itemEdge = graph.find((e) => e.from == b && e.to.type == "major");
-      if (itemEdge != undefined) {
-        itemEdge.to.area = b.area;
-      }
+      exit.area = door.area;
+      b.area = door.area;
     });
-  } else if (mode == BossMode.Shifted) {
+  } else {
     bosses.forEach((b) => {
-      const exitVertex = graph.find(
-        (e) => e.from.type == "exit" && e.to == b
-      ).from;
-      const doorVertex = graph.find(
-        (e) => e.from.type != "boss" && e.to == exitVertex
-      ).from;
+      const { exit, door, prize } = getAdjacent(b);
 
-      const itemEdge = graph.find((e) => e.from == b && e.to.type == "major");
-      if (itemEdge != undefined) {
-        itemEdge.to.area = doorVertex.area;
+      if (prize != undefined) {
+        prize.area = door.area;
       }
 
-      exitVertex.area = doorVertex.area;
-      b.area = doorVertex.area;
+      exit.area = door.area;
+      b.area = door.area;
       switch (b.area) {
         case "KraidsLair":
           b.item = bossItem(Item.DefeatedBrinstarBoss);
@@ -282,8 +281,6 @@ const addBossItems = (graph, mode) => {
           break;
       }
     });
-  } else {
-    throw new Error("True boss rando not implemented yet");
   }
 };
 
