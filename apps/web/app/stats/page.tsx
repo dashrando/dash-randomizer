@@ -7,7 +7,7 @@ import {
   generateSeed,
 } from "core/data";
 import { useState } from "react";
-import { getItemProgression, getPreset } from "core";
+import { computeCRC32, getItemProgression, getPreset } from "core";
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
@@ -35,17 +35,12 @@ type SeedStatus = {
 };
 
 function getHash(status: SeedStatus) {
-  const string =
+  const encoder = new TextEncoder();
+  const data = encoder.encode(
     JSON.stringify(status.progression) +
     JSON.stringify(status.bosses) + 
-    JSON.stringify(status.areas);
-  let hash = 0;
-
-  for (let i = 0; i < string.length; i++) {
-    hash += string.charCodeAt(i);
-  }
-
-  return hash.toString(16).toUpperCase();
+    JSON.stringify(status.areas));
+  return computeCRC32(data).toString(16).toUpperCase();
 }
 
 const Parameters = ({ value, update }: { value: Params; update: any }) => {

@@ -3,6 +3,8 @@ import ProtectRom from "./lib/protect";
 import gameModes from "./data/modes";
 import BpsPatch from "./lib/bps-patch";
 
+export const computeCRC32 = BpsPatch.CRC32;
+
 export * from "./lib/signature";
 export * as vanilla from "./lib/vanilla";
 export { patchRom } from "./helpers/patcher";
