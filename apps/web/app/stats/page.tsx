@@ -207,6 +207,9 @@ export default function StatsPage() {
   };
 
   const updateParams = (newParams: Params) => {
+    if (newParams.gameMode != params.gameMode) {
+      clearResults();
+    }
     setParams(newParams);
   };
 
