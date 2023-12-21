@@ -19,6 +19,10 @@ import { bossItem, Item } from "../items";
 import DotNetRandom from "../dotnet-random";
 import { ChozoVertexUpdates } from "./data/chozo/vertex";
 
+//-----------------------------------------------------------------
+// Returns a structure containing all edges grouped by area.
+//-----------------------------------------------------------------
+
 const getStandardEdges = () => {
   return {
     Crateria: crateriaEdges,
@@ -34,6 +38,10 @@ const getStandardEdges = () => {
     Bosses: bossEdges,
   };
 };
+
+//-----------------------------------------------------------------
+// Returns an array of all vertices on the game world.
+//-----------------------------------------------------------------
 
 const getAllVertices = () => {
   return Object.entries(standardVertices)
@@ -52,6 +60,12 @@ const getAllVertices = () => {
       return acc.concat(cur);
     }, []);
 };
+
+//-----------------------------------------------------------------
+// Converts the edge data into an array of edges which will be
+// used to actually create graph objects. This code runs only
+// once when the module is loaded.
+//-----------------------------------------------------------------
 
 const allEdges = Object.entries(getStandardEdges())
   .map(([_, v]) => {
