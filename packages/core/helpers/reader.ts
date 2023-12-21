@@ -47,25 +47,25 @@ const readItemCode = (rom: Uint8Array, loc: Location, area: string) => {
   if (clone.address == BOSS_ITEMS.VariaSuitInBrinstar) {
     if (area == "WreckedShip") {
       clone.address = BOSS_ITEMS.VariaSuitInWreckedShip;
-    } else if (area == "Maridia") {
+    } else if (area == "EastMaridia") {
       clone.address = BOSS_ITEMS.VariaSuitInMaridia;
-    } else if (area == "Norfair") {
+    } else if (area == "LowerNorfair") {
       clone.address = BOSS_ITEMS.VariaSuitInNorfair;
     }
   } else if (clone.address == BOSS_ITEMS.SpaceJumpInMaridia) {
     if (area == "WreckedShip") {
       clone.address = BOSS_ITEMS.SpaceJumpInWreckedShip;
-    } else if (area == "Brinstar") {
+    } else if (area == "KraidsLair") {
       clone.address = BOSS_ITEMS.SpaceJumpInBrinstar;
-    } else if (area == "Norfair") {
+    } else if (area == "LowerNorfair") {
       clone.address = BOSS_ITEMS.SpaceJumpInNorfair;
     }
   } else if (clone.address == BOSS_ITEMS.RidleyTankInNorfair) {
     if (area == "WreckedShip") {
       clone.address = BOSS_ITEMS.RidleyTankInWreckedShip;
-    } else if (area == "Brinstar") {
+    } else if (area == "KraidsLair") {
       clone.address = BOSS_ITEMS.RidleyTankInBrinstar;
-    } else if (area == "Maridia") {
+    } else if (area == "EastMaridia") {
       clone.address = BOSS_ITEMS.RidleyTankInMaridia;
     }
   } 

@@ -254,6 +254,23 @@ const addBossItems = (graph, mode) => {
     .map((e) => e.from)
     .filter(isUnique);
 
+  const addItem = (boss) => {
+    switch (boss.area) {
+      case "KraidsLair":
+        boss.item = bossItem(Item.DefeatedBrinstarBoss);
+        break;
+      case "WreckedShip":
+        boss.item = bossItem(Item.DefeatedWreckedShipBoss);
+        break;
+      case "EastMaridia":
+        boss.item = bossItem(Item.DefeatedMaridiaBoss);
+        break;
+      case "LowerNorfair":
+        boss.item = bossItem(Item.DefeatedNorfairBoss);
+        break;
+    }
+  }
+
   const getAdjacent = (boss) => {
     const exit = graph.find(
       (e) => e.from.type == "exit" && e.to == boss
@@ -270,24 +287,22 @@ const addBossItems = (graph, mode) => {
 
   if (mode == BossMode.Shuffled) {
     bosses.forEach((b) => {
-      const { exit, door, prize } = getAdjacent(b);
-      switch (b.area) {
-        case "Kraid":
-          b.item = bossItem(Item.DefeatedBrinstarBoss);
-          prize.area = "KraidsLair";
-          break;
-        case "Phantoon":
-          b.item = bossItem(Item.DefeatedWreckedShipBoss);
-          break;
-        case "Draygon":
-          b.item = bossItem(Item.DefeatedMaridiaBoss);
-          prize.area = "EastMaridia";
-          break;
-        case "Ridley":
-          b.item = bossItem(Item.DefeatedNorfairBoss);
-          prize.area = "LowerNorfair";
-          break;
-      }
+      const { exit, door } = getAdjacent(b);
+
+      //-----------------------------------------------------------------
+      // Add the pseudo item for defeating the boss before updating the
+      // area associated with the boss node because defeating the boss
+      // will unlock its vanilla area.
+      //-----------------------------------------------------------------
+
+      addItem(b);
+
+      //-----------------------------------------------------------------
+      // Update the area of the boss and exit nodes to match the area
+      // of the boss door. The prize node is NOT updated because it
+      // should reference its vanilla area.
+      //-----------------------------------------------------------------
+
       exit.area = door.area;
       b.area = door.area;
     });
@@ -295,26 +310,25 @@ const addBossItems = (graph, mode) => {
     bosses.forEach((b) => {
       const { exit, door, prize } = getAdjacent(b);
 
+      //-----------------------------------------------------------------
+      // Update the area of the boss, prize, and exit nodes to match
+      // the area of the boss door.
+      //-----------------------------------------------------------------
+
       if (prize != undefined) {
         prize.area = door.area;
       }
 
       exit.area = door.area;
       b.area = door.area;
-      switch (b.area) {
-        case "KraidsLair":
-          b.item = bossItem(Item.DefeatedBrinstarBoss);
-          break;
-        case "WreckedShip":
-          b.item = bossItem(Item.DefeatedWreckedShipBoss);
-          break;
-        case "EastMaridia":
-          b.item = bossItem(Item.DefeatedMaridiaBoss);
-          break;
-        case "LowerNorfair":
-          b.item = bossItem(Item.DefeatedNorfairBoss);
-          break;
-      }
+
+      //-----------------------------------------------------------------
+      // Add the pseudo item for defeating the boss after updating the
+      // area associated with the boss node because defeating the boss
+      // will unlock the area where it is located.
+      //-----------------------------------------------------------------
+
+      addItem(b);
     });
   }
 };
