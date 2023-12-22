@@ -48,13 +48,7 @@ class Loadout {
   canOpenYellowDoors = false;
   canFly = false;
 
-  constructor(inventory = {}) {
-    const self = this;
-    const keys = Object.keys(inventory);
-    keys.forEach((key) => {
-      const value = inventory[key];
-      self[key] = value;
-    });
+  constructor() {
   }
 
   static canDestroyBombWalls(load) {
@@ -74,7 +68,7 @@ class Loadout {
   }
 
   static canPassBombPassages(load) {
-    return Loadout.canUseBombs(load) || Loadout.canUsePowerBombs(load);
+    return load.hasMorph && (load.hasBombs || load.powerPacks > 0);
   }
 
   static canOpenGreenDoors(load) {
@@ -94,8 +88,11 @@ class Loadout {
   }
 
   clone() {
-    const state = { ...this };
-    return new Loadout(state);
+    const copy = new Loadout();
+    Object.entries(this).forEach(a => {
+      copy[a[0]] = a[1];
+    })
+    return copy;
   }
 
   add(itemType) {
