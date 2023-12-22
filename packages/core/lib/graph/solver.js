@@ -123,22 +123,6 @@ class GraphSolver {
 
     this.progression = [];
 
-    const printBoss = (item) => {
-      const bossVertex = this.graph.find((e) => e.to.item == item).to;
-      const exitVertex = this.graph.find(
-        (e) => e.from.type == "exit" && e.to == bossVertex
-      ).from;
-      const doorVertex = this.graph.find(
-        (e) => e.from.type != "boss" && e.to == exitVertex
-      ).from;
-
-      this.printDefeatedBoss(
-        `Defeated ${ItemNames.get(item.type)} (${bossVertex.name}) in ${
-          doorVertex.area
-        }`
-      );
-    };
-
     const findAll = () =>
       searchAndCache(this.graph, this.startVertex, this.checkFlags(samus));
 
@@ -169,7 +153,7 @@ class GraphSolver {
 
         items.push(p.item);
         if (this.printDefeatedBoss && p.type == "boss") {
-          printBoss(p.item);
+          this.printDefeatedBoss(`Defeated ${p.item.name} (${p.name}) in ${p.area}`);
         }
 
         p.item = undefined;

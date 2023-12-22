@@ -5,25 +5,24 @@
 export const searchAndCache = (graph, vertex, test) => {
   // Use breadth first search
   let queue = [vertex];
-  let visited = [];
+  let pos = 0;
 
-  while (queue.length > 0) {
-    const v = queue.shift();
-    visited.push(v);
+  while (pos < queue.length) {
+    const v = queue[pos++];
 
     const connections = graph.filter((c) => c.from == v);
     connections.forEach((c) => {
       if (c.condition === true || test(c.condition)) {
         // Cache that the edge is open
         c.condition = true;
-        if (!visited.includes(c.to) && !queue.includes(c.to)) {
+        if (!queue.includes(c.to)) {
           queue.push(c.to);
         }
       }
     });
   }
 
-  return visited;
+  return queue;
 };
 
 export const canReachStart = (graph, vertex, test) => {
@@ -32,11 +31,10 @@ export const canReachStart = (graph, vertex, test) => {
   }
 
   let queue = [vertex];
-  let visited = [];
+  let pos = 0;
 
-  while (queue.length > 0) {
-    const v = queue.shift();
-    visited.push(v);
+  while (pos < queue.length) {
+    const v = queue[pos++];
 
     const connections = graph.filter((c) => c.from == v);
     for (let i = 0; i < connections.length; i++) {
@@ -46,7 +44,7 @@ export const canReachStart = (graph, vertex, test) => {
           c.from.pathToStart = true;
           return true;
         }
-        if (!visited.includes(c.to) && !queue.includes(c.to)) {
+        if (!queue.includes(c.to)) {
           queue.push(c.to);
         }
       }
@@ -61,11 +59,10 @@ export const canReachVertex = (graph, startVertex, endVertex, test) => {
   }
 
   let queue = [startVertex];
-  let visited = [];
+  let pos = 0;
 
-  while (queue.length > 0) {
-    const v = queue.shift();
-    visited.push(v);
+  while (pos < queue.length) {
+    const v = queue[pos++];
 
     const connections = graph.filter((c) => c.from == v);
     for (let i = 0; i < connections.length; i++) {
@@ -74,7 +71,7 @@ export const canReachVertex = (graph, startVertex, endVertex, test) => {
         if (c.to == endVertex) {
           return true;
         }
-        if (!visited.includes(c.to) && !queue.includes(c.to)) {
+        if (!queue.includes(c.to)) {
           queue.push(c.to);
         }
       }
