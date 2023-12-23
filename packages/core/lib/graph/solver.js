@@ -2,7 +2,7 @@ import { canReachStart, searchAndCache } from "./search";
 import { Item } from "../items";
 import { cloneGraph } from "./init";
 import { MajorDistributionMode } from "./params";
-import { cloneLoadout, checkFlags } from "../loadout";
+import { addItem, cloneLoadout, checkFlags } from "../loadout";
 
 const isFungible = (item) => {
   switch (item.type) {
@@ -24,6 +24,11 @@ class GraphSolver {
     this.startVertex = graph[0].from;
     this.trackProgression = false;
     this.progression = [];
+    if (settings.majorDistribution == MajorDistributionMode.Chozo) {
+      this.checkItem = v => v.item != undefined && v.type != "minor";
+    } else {
+      this.checkItem = v => v.item != undefined;
+    }
     if (logMethods != undefined) {
       this.printAvailableItems = logMethods.printAvailableItems;
       this.printCollectedItems = logMethods.printCollectedItems;
@@ -54,6 +59,7 @@ class GraphSolver {
 
   isValid(initLoad, legacyMode = false) {
     let samus = cloneLoadout(initLoad);
+    let collected = [];
 
     this.progression = [];
 
@@ -74,31 +80,28 @@ class GraphSolver {
     }
 
     const collectEasyItems = (itemLocations) => {
-      let items = [];
+      collected.length = 0;
 
       itemLocations.forEach((p) => {
         if (legacyMode) {
           if (!canReachStart(this.graph, p, checkFlags(samus))) {
             return;
           }
-          samus.add(p.item.type);
+          addItem(samus, p.item.type);
         } else {
-          const load = samus.clone();
-          load.add(p.item.type);
+          const load = cloneLoadout(samus);
+          addItem(load, p.item.type);
           if (!canReachStart(this.graph, p, checkFlags(load))) {
             return;
           }
           samus = load;
         }
 
-        items.push(p.item);
+        collected.push(p.item);
         collectItem(p);
       });
 
-      if (items.length > 0) {
-        if (this.printCollectedItems) {
-          this.printCollectedItems(items);
-        }
+      if (collected.length > 0) {
         return true;
       }
 
@@ -129,11 +132,9 @@ class GraphSolver {
           // Collect the item if the graph can be solved
           try {
             if (reverseSolver.isValid(samus)) {
-              if (this.printCollectedItems) {
-                this.printCollectedItems([p.item], true);
-              }
               // Collect the item
-              samus.add(p.item.type);
+              addItem(samus, p.item.type);
+              collected.push(p.item);
               collectItem(p);
               return true;
             }
@@ -160,17 +161,10 @@ class GraphSolver {
       throw new Error("no round trip locations");
     };
 
-    const checkItem = (v) => {
-      if (this.settings.majorDistribution == MajorDistributionMode.Chozo) {
-        return v.item != undefined && v.type != "minor";
-      }
-      return v.item != undefined;
-    }
-
     try {
       while (true) {
         const all = findAll();
-        const uncollected = all.filter((v) => checkItem(v));
+        const uncollected = all.filter((v) => this.checkItem(v));
         if (uncollected.length == 0) {
           break;
         }
@@ -180,6 +174,9 @@ class GraphSolver {
 
         // Collect all items where we can make a round trip back to the start
         if (collectEasyItems(uncollected)) {
+          if (this.printCollectedItems) {
+            this.printCollectedItems(collected);
+          }
           continue;
         }
 
@@ -190,7 +187,7 @@ class GraphSolver {
       // Check for uncollected items. This indicates an invalid graph.
       //-----------------------------------------------------------------
 
-      const leftovers = this.graph.filter((n) => checkItem(n.from));
+      const leftovers = this.graph.filter((n) => this.checkItem(n.from));
       if (leftovers.length > 0) {
         if (this.printUncollectedItems != undefined) {
           this.printUncollectedItems(this.graph);
