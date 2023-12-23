@@ -1,8 +1,8 @@
-import { canReachStart, canReachVertex, searchAndCache } from "./search";
+import { canReachStart, searchAndCache } from "./search";
 import { Item } from "../items";
 import { cloneGraph } from "./init";
 import { MajorDistributionMode } from "./params";
-import { checkFlags } from "../loadout";
+import { cloneLoadout, checkFlags } from "../loadout";
 
 const isFungible = (item) => {
   switch (item.type) {
@@ -52,37 +52,8 @@ class GraphSolver {
     })
   }
 
-  isVertexAvailable(vertex, load, itemType, legacyMode = false) {
-    if (
-      !canReachVertex(
-        this.graph,
-        this.startVertex,
-        vertex,
-        checkFlags(load)
-      )
-    ) {
-      return false;
-    }
-    if (legacyMode || itemType == undefined) {
-      return canReachVertex(
-        this.graph,
-        vertex,
-        this.startVertex,
-        checkFlags(load)
-      );
-    }
-    let temp = load.clone();
-    temp.add(itemType);
-    return canReachVertex(
-      this.graph,
-      vertex,
-      this.startVertex,
-      checkFlags(temp)
-    );
-  }
-
   isValid(initLoad, legacyMode = false) {
-    let samus = initLoad.clone();
+    let samus = cloneLoadout(initLoad);
 
     this.progression = [];
 

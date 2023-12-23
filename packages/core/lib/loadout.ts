@@ -1,6 +1,18 @@
 // @ts-nocheck
 import { Item } from "./items";
 
+export function createLoadout(): Loadout {
+  return new Loadout();
+}
+
+export function cloneLoadout(load: Loadout): Loadout {
+  return load.clone();
+}
+
+export function addItem(load: Loadout, itemType: number) {
+  load.add(itemType);
+}
+
 class Loadout {
   hasBombs = false;
   hasMorph = false;
