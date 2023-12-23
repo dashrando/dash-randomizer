@@ -2,9 +2,10 @@ import DotNetRandom from "../dotnet-random";
 import { Item } from "../items";
 import GraphSolver from "./solver";
 import { cloneGraph, loadGraph } from "./init";
-import Loadout from "../loadout";
+import { addItem, checkFlags, createLoadout } from "../loadout";
 import { getItemPool } from "./itemPool";
 import { BossMode, MajorDistributionMode } from "./params";
+import { canReachVertex } from "./search";
 
 //-----------------------------------------------------------------
 // Utility routines.
@@ -224,7 +225,8 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
   const getPrePool = restrictType
   ? (settings.majorDistribution == MajorDistributionMode.Chozo ? getChozoPrePool : getMajorMinorPrePool)
   : getFullPrePool;
-  let prefillLoadout = new Loadout();
+  let prefillLoadout = createLoadout();
+  const startVertex = graph[0].from;
 
   getPrePool(rnd).forEach((itemType) => {
     const itemIndex = itemPool.findIndex((i) => {
@@ -234,14 +236,15 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
       return i.isMajor && i.type == itemType;
     });
     const item = itemPool.splice(itemIndex, 1)[0];
+    const checker = checkFlags(prefillLoadout);
     const available = shuffledLocations.find(
       (v) =>
         canPlaceItem(item, v) &&
-        solver.isVertexAvailable(v, prefillLoadout, itemType, settings)
-    );
+        canReachVertex(graph, startVertex, v, checker) &&
+        canReachVertex(graph, v, startVertex, checker));
 
     available.item = item;
-    prefillLoadout.add(itemType);
+    addItem(prefillLoadout, itemType);
   });
 
   //-----------------------------------------------------------------
@@ -293,7 +296,7 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
     }
 
     const tempSolver = new GraphSolver(cloneGraph(graph), settings);
-    if (tempSolver.isValid(new Loadout())) {
+    if (tempSolver.isValid(createLoadout())) {
       return attempts;
     }
   }
