@@ -2,7 +2,7 @@ import DotNetRandom from "./dotnet-random";
 import { Area, AreaCounts, getLocations } from "./locations";
 import { Item } from "./items";
 import { getPreset } from "..";
-import { Loadout, generateSeed } from "../data";
+import { createLoadout, generateSeed } from "../data";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
 import { BOSS_DOORS, BOSS_ITEMS, DASH_CLASSIC_PATCHES, TABLE_FLAGS } from "../data/interface";
 import {
@@ -375,7 +375,7 @@ export const getItemNodes = (graph) => {
 export const getItemProgression = (graph, settings) => {
   const solver = new GraphSolver(cloneGraph(graph), settings);
   solver.trackProgression = true;
-  if (!solver.isValid(new Loadout())) {
+  if (!solver.isValid(createLoadout())) {
     return [];
   }
   return solver.progression;

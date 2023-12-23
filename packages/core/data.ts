@@ -1,7 +1,4 @@
-import Loadout from "./lib/loadout";
-
-export { Loadout };
-
+export { createLoadout } from "./lib/loadout";
 export { generateSeed } from "./lib/graph/fill";
 export * from "./data/doors";
 export { Item, ItemNames } from "./lib/items";

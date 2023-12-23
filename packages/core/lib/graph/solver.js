@@ -2,7 +2,7 @@ import { canReachStart, searchAndCache } from "./search";
 import { Item } from "../items";
 import { cloneGraph } from "./init";
 import { MajorDistributionMode } from "./params";
-import { addItem, cloneLoadout, checkFlags } from "../loadout";
+import { addItem, cloneLoadout, checkFlags, copyLoadout } from "../loadout";
 
 const isFungible = (item) => {
   switch (item.type) {
@@ -15,6 +15,28 @@ const isFungible = (item) => {
     default:
       return false;
   }
+};
+
+const revSolve = (solver, load, node) => {
+  // Setup a graph with the item location as the start vertex
+  const clonedGraph = cloneGraph(solver.graph);
+  clonedGraph.forEach((e) => (e.from.pathToStart = false));
+  const clonedVertex = clonedGraph.find(
+    (e) => e.from.name == node.name
+  ).from;
+  clonedVertex.pathToStart = true;
+
+  // Create a solver for the new graph
+  const reverseSolver = new GraphSolver(clonedGraph, solver.settings);
+  reverseSolver.startVertex = clonedVertex;
+
+  try {
+    if (reverseSolver.isValid(load)) {
+      return true;
+    }
+  } catch (e) {
+  }
+  return false;
 };
 
 class GraphSolver {
@@ -80,6 +102,8 @@ class GraphSolver {
     }
 
     const collectEasyItems = (itemLocations) => {
+      const load = cloneLoadout(samus);
+
       collected.length = 0;
 
       itemLocations.forEach((p) => {
@@ -89,12 +113,12 @@ class GraphSolver {
           }
           addItem(samus, p.item.type);
         } else {
-          const load = cloneLoadout(samus);
           addItem(load, p.item.type);
           if (!canReachStart(this.graph, p, checkFlags(load))) {
+            copyLoadout(load, samus);
             return;
           }
-          samus = load;
+          addItem(samus, p.item.type);
         }
 
         collected.push(p.item);
@@ -111,38 +135,18 @@ class GraphSolver {
       // would result in a valid graph.
       //-----------------------------------------------------------------
 
-      const reverseSolve = (filteredItemLocations) => {
-        for (let i = 0; i < filteredItemLocations.length; i++) {
-          const p = filteredItemLocations[i];
+      const reverseSolve = (filtered) => {
+        const p = filtered.find(n => revSolve(this, samus, n));
 
-          // Setup a graph with the item location as the start vertex
-          const clonedGraph = cloneGraph(this.graph);
-          clonedGraph.forEach((e) => (e.from.pathToStart = false));
-          const clonedVertex = clonedGraph.find(
-            (e) => e.from.name == p.name
-          ).from;
-          clonedVertex.pathToStart = true;
-
-          // Create a solver for the new graph
-          const reverseSolver = new GraphSolver(clonedGraph, {
-            ...this.settings,
-          });
-          reverseSolver.startVertex = clonedVertex;
-
-          // Collect the item if the graph can be solved
-          try {
-            if (reverseSolver.isValid(samus)) {
-              // Collect the item
-              addItem(samus, p.item.type);
-              collected.push(p.item);
-              collectItem(p);
-              return true;
-            }
-          } catch (e) {
-            console.log("sub:", e);
-          }
+        if (p == undefined) {
+          return false;
         }
-        return false;
+
+        // Collect the item
+        addItem(samus, p.item.type);
+        collected.push(p.item);
+        collectItem(p);
+        return true;
       };
 
       //-----------------------------------------------------------------
