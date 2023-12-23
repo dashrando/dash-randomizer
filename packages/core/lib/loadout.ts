@@ -1,242 +1,310 @@
-// @ts-nocheck
 import { Item } from "./items";
 
+type Loadout = {
+  hasBombs: boolean;
+  hasMorph: boolean;
+  hasGravity: boolean;
+  hasVaria: boolean;
+  hasHiJump: boolean;
+  hasSpaceJump: boolean;
+  hasScrewAttack: boolean;
+  hasSpringBall: boolean;
+  hasSpeed: boolean;
+
+  hasHeatShield: boolean;
+  hasPressureValve: boolean;
+  hasDoubleJump: boolean;
+
+  hasIce: boolean;
+  hasWave: boolean;
+  hasCharge: boolean;
+  hasSpazer: boolean;
+  hasPlasma: boolean;
+  hasGrapple: boolean;
+
+  hasDefeatedBrinstarBoss: boolean;
+  hasDefeatedWreckedShipBoss: boolean;
+  hasDefeatedMaridiaBoss: boolean;
+  hasDefeatedNorfairBoss: boolean;
+  hasDefeatedSporeSpawn: boolean;
+  hasDefeatedCrocomire: boolean;
+  hasDefeatedBotwoon: boolean;
+  hasDefeatedGoldTorizo: boolean;
+
+  missilePacks: number;
+  superPacks: number;
+  powerPacks: number;
+
+  energyTanks: number;
+  reserveTanks: number;
+  totalTanks: number;
+
+  canUseBombs: boolean;
+  canUsePowerBombs: boolean;
+  canPassBombPassages: boolean;
+  canDestroyBombWalls: boolean;
+  canOpenGreenDoors: boolean;
+  canOpenRedDoors: boolean;
+  canFly: boolean;
+}
+
 export function createLoadout(): Loadout {
-  return new Loadout();
+  return {
+    hasBombs: false,
+    hasMorph: false,
+    hasGravity: false,
+    hasVaria: false,
+    hasHiJump: false,
+    hasSpaceJump: false,
+    hasScrewAttack: false,
+    hasSpringBall: false,
+    hasSpeed: false,
+
+    hasHeatShield: false,
+    hasPressureValve: false,
+    hasDoubleJump: false,
+
+    hasIce: false,
+    hasWave: false,
+    hasCharge: false,
+    hasSpazer: false,
+    hasPlasma: false,
+    hasGrapple: false,
+
+    hasDefeatedBrinstarBoss: false,
+    hasDefeatedWreckedShipBoss: false,
+    hasDefeatedMaridiaBoss: false,
+    hasDefeatedNorfairBoss: false,
+    hasDefeatedSporeSpawn: false,
+    hasDefeatedCrocomire: false,
+    hasDefeatedBotwoon: false,
+    hasDefeatedGoldTorizo: false,
+
+    missilePacks: 0,
+    superPacks: 0,
+    powerPacks: 0,
+
+    energyTanks: 0,
+    reserveTanks: 0,
+    totalTanks: 0,
+
+    canUseBombs: false,
+    canUsePowerBombs: false,
+    canPassBombPassages: false,
+    canDestroyBombWalls: false,
+    canOpenGreenDoors: false,
+    canOpenRedDoors: false,
+    canFly: false,
+  }
 }
 
 export function cloneLoadout(load: Loadout): Loadout {
-  return load.clone();
+  return {...load};
 }
+
+export function copyLoadout(destination: Loadout, source: Loadout) {
+  destination.hasBombs = source.hasBombs;
+  destination.hasMorph = source.hasMorph;
+  destination.hasGravity = source.hasGravity;
+  destination.hasVaria = source.hasVaria;
+  destination.hasHiJump = source.hasHiJump;
+  destination.hasSpaceJump = source.hasSpaceJump;
+  destination.hasScrewAttack = source.hasScrewAttack;
+  destination.hasSpringBall = source.hasSpringBall;
+  destination.hasSpeed = source.hasSpeed;
+  destination.hasHeatShield = source.hasHeatShield;
+  destination.hasPressureValve = source.hasPressureValve;
+  destination.hasDoubleJump = source.hasDoubleJump;
+  destination.hasIce = source.hasIce;
+  destination.hasWave = source.hasWave;
+  destination.hasCharge = source.hasCharge;
+  destination.hasSpazer = source.hasSpazer;
+  destination.hasPlasma = source.hasPlasma;
+  destination.hasGrapple = source.hasGrapple;
+  destination.hasDefeatedBrinstarBoss = source.hasDefeatedBrinstarBoss;
+  destination.hasDefeatedWreckedShipBoss = source.hasDefeatedWreckedShipBoss;
+  destination.hasDefeatedMaridiaBoss = source.hasDefeatedMaridiaBoss;
+  destination.hasDefeatedNorfairBoss = source.hasDefeatedNorfairBoss;
+  destination.hasDefeatedSporeSpawn = source.hasDefeatedSporeSpawn;
+  destination.hasDefeatedCrocomire = source.hasDefeatedCrocomire;
+  destination.hasDefeatedBotwoon = source.hasDefeatedBotwoon;
+  destination.hasDefeatedGoldTorizo = source.hasDefeatedGoldTorizo;
+  destination.missilePacks = source.missilePacks;
+  destination.superPacks = source.superPacks;
+  destination.powerPacks = source.powerPacks;
+  destination.energyTanks = source.energyTanks;
+  destination.reserveTanks = source.reserveTanks;
+  destination.totalTanks = source.totalTanks;
+  destination.canUseBombs = source.canUseBombs;
+  destination.canUsePowerBombs = source.canUsePowerBombs;
+  destination.canPassBombPassages = source.canPassBombPassages;
+  destination.canDestroyBombWalls = source.canDestroyBombWalls;
+  destination.canOpenGreenDoors = source.canOpenGreenDoors;
+  destination.canOpenRedDoors = source.canOpenRedDoors;
+  destination.canFly = source.canFly;
+}
+
+function canDestroyBombWalls(load: Loadout) {
+  return canPassBombPassages(load) || load.hasScrewAttack;
+}
+
+function canFly(load: Loadout) {
+  return canUseBombs(load) || load.hasSpaceJump;
+}
+
+function canUseBombs(load: Loadout) {
+  return load.hasBombs && load.hasMorph;
+}
+
+//function canUsePowerBombs(load: Loadout) {
+  //return load.powerPacks > 0 && load.hasMorph;
+//}
+
+function canPassBombPassages(load: Loadout) {
+  return load.hasMorph && (load.hasBombs || load.powerPacks > 0);
+}
+
+//function canOpenGreenDoors(load: Loadout) {
+  //return load.superPacks > 0;
+//}
+
+//function canOpenRedDoors(load: Loadout) {
+  //return load.missilePacks > 0 || load.superPacks > 0;
+//}
+
+//function canOpenYellowDoors(load: Loadout) {
+  //return canUsePowerBombs(load);
+//}
+
+//function totalTanks(load: Loadout) {
+  //return load.energyTanks + load.reserveTanks;
+//}
 
 export function addItem(load: Loadout, itemType: number) {
-  load.add(itemType);
-}
+  switch (itemType) {
+    case Item.Bombs:
+      load.hasBombs = true;
+      load.canUseBombs = load.hasMorph;
+      load.canPassBombPassages = canPassBombPassages(load);
+      load.canDestroyBombWalls = canDestroyBombWalls(load);
+      load.canFly = canFly(load);
+      break;
+    case Item.Morph:
+      load.hasMorph = true;
+      load.canUseBombs = load.hasBombs;
+      load.canUsePowerBombs = load.powerPacks > 0;
+      load.canPassBombPassages = canPassBombPassages(load);
+      load.canDestroyBombWalls = canDestroyBombWalls(load);
+      load.canFly = canFly(load);
+      break;
+    case Item.Gravity:
+      load.hasGravity = true;
+      break;
+    case Item.PressureValve:
+      load.hasPressureValve = true;
+      break;
+    case Item.HeatShield:
+      load.hasHeatShield = true;
+      break;
+    case Item.Varia:
+      load.hasVaria = true;
+      break;
+    case Item.HJB:
+      load.hasHiJump = true;
+      break;
+    case Item.DoubleJump:
+      load.hasDoubleJump = true;
+      break;
+    case Item.SpaceJump:
+      load.hasSpaceJump = true;
+      load.canFly = true;
+      break;
+    case Item.ScrewAttack:
+      load.hasScrewAttack = true;
+      load.canDestroyBombWalls = true;
+      break;
+    case Item.SpringBall:
+      load.hasSpringBall = true;
+      break;
+    case Item.Speed:
+      load.hasSpeed = true;
+      break;
 
-class Loadout {
-  hasBombs = false;
-  hasMorph = false;
-  hasGravity = false;
-  hasVaria = false;
-  hasHiJump = false;
-  hasSpaceJump = false;
-  hasScrewAttack = false;
-  hasSpringBall = false;
-  hasSpeed = false;
+    case Item.Ice:
+      load.hasIce = true;
+      break;
+    case Item.Wave:
+      load.hasWave = true;
+      break;
+    case Item.Charge:
+    case Item.BeamUpgrade:
+      load.hasCharge = true;
+      break;
+    case Item.Spazer:
+      load.hasSpazer = true;
+      break;
+    case Item.Plasma:
+      load.hasPlasma = true;
+      break;
+    case Item.Grapple:
+      load.hasGrapple = true;
+      break;
 
-  hasHeatShield = false;
-  hasPressureValve = false;
-  hasDoubleJump = false;
+    case Item.Missile:
+      load.missilePacks += 1;
+      load.canOpenRedDoors = true;
+      break;
+    case Item.Super:
+      load.superPacks += 1;
+      load.canOpenRedDoors = true;
+      load.canOpenGreenDoors = true;
+      break;
+    case Item.PowerBomb:
+      load.powerPacks += 1;
+      load.canUsePowerBombs = load.hasMorph;
+      load.canPassBombPassages = canPassBombPassages(load);
+      load.canDestroyBombWalls = canDestroyBombWalls(load);
+      break;
 
-  hasIce = false;
-  hasWave = false;
-  hasCharge = false;
-  hasSpazer = false;
-  hasPlasma = false;
-  hasGrapple = false;
+    case Item.EnergyTank:
+      load.energyTanks += 1;
+      load.totalTanks += 1;
+      break;
+    case Item.Reserve:
+      load.reserveTanks += 1;
+      load.totalTanks += 1;
+      break;
+    case Item.Xray:
+      break;
 
-  hasDefeatedBrinstarBoss = false;
-  hasDefeatedWreckedShipBoss = false;
-  hasDefeatedMaridiaBoss = false;
-  hasDefeatedNorfairBoss = false;
-  hasDefeatedSporeSpawn = false;
-  hasDefeatedCrocomire = false;
-  hasDefeatedBotwoon = false;
-  hasDefeatedGoldTorizo = false;
+    case Item.DefeatedBotwoon:
+      load.hasDefeatedBotwoon = true;
+      break;
+    case Item.DefeatedCrocomire:
+      load.hasDefeatedCrocomire = true;
+      break;
+    case Item.DefeatedMaridiaBoss:
+      load.hasDefeatedMaridiaBoss = true;
+      break;
+    case Item.DefeatedBrinstarBoss:
+      load.hasDefeatedBrinstarBoss = true;
+      break;
+    case Item.DefeatedWreckedShipBoss:
+      load.hasDefeatedWreckedShipBoss = true;
+      break;
+    case Item.DefeatedNorfairBoss:
+      load.hasDefeatedNorfairBoss = true;
+      break;
+    case Item.DefeatedGoldTorizo:
+      load.hasDefeatedGoldTorizo = true;
+      break;
+    case Item.DefeatedSporeSpawn:
+      load.hasDefeatedSporeSpawn = true;
+      break;
 
-  missilePacks = 0;
-  superPacks = 0;
-  powerPacks = 0;
-
-  energyTanks = 0;
-  reserveTanks = 0;
-  totalTanks = 0;
-
-  canUseBombs = false;
-  canUsePowerBombs = false;
-  canPassBombPassages = false;
-  canDestroyBombWalls = false;
-  canOpenGreenDoors = false;
-  canOpenRedDoors = false;
-  canOpenYellowDoors = false;
-  canFly = false;
-
-  constructor() {
-  }
-
-  static canDestroyBombWalls(load) {
-    return Loadout.canPassBombPassages(load) || load.hasScrewAttack;
-  }
-
-  static canFly(load) {
-    return Loadout.canUseBombs(load) || load.hasSpaceJump;
-  }
-
-  static canUseBombs(load) {
-    return load.hasBombs && load.hasMorph;
-  }
-
-  static canUsePowerBombs(load) {
-    return load.powerPacks > 0 && load.hasMorph;
-  }
-
-  static canPassBombPassages(load) {
-    return load.hasMorph && (load.hasBombs || load.powerPacks > 0);
-  }
-
-  static canOpenGreenDoors(load) {
-    return load.superPacks > 0;
-  }
-
-  static canOpenRedDoors(load) {
-    return load.missilePacks > 0 || load.superPacks > 0;
-  }
-
-  static canOpenYellowDoors(load) {
-    return Loadout.canUsePowerBombs(load);
-  }
-
-  static totalTanks(load) {
-    return load.energyTanks + load.reserveTanks;
-  }
-
-  clone() {
-    const copy = new Loadout();
-    Object.entries(this).forEach(a => {
-      copy[a[0]] = a[1];
-    })
-    return copy;
-  }
-
-  add(itemType) {
-    switch (itemType) {
-      case Item.Bombs:
-        this.hasBombs = true;
-        this.canUseBombs = Loadout.canUseBombs(this);
-        this.canPassBombPassages = Loadout.canPassBombPassages(this);
-        this.canDestroyBombWalls = Loadout.canDestroyBombWalls(this);
-        this.canFly = Loadout.canFly(this);
-        break;
-      case Item.Morph:
-        this.hasMorph = true;
-        this.canUseBombs = Loadout.canUseBombs(this);
-        this.canUsePowerBombs = Loadout.canUsePowerBombs(this);
-        this.canPassBombPassages = Loadout.canPassBombPassages(this);
-        this.canDestroyBombWalls = Loadout.canDestroyBombWalls(this);
-        this.canFly = Loadout.canFly(this);
-        break;
-      case Item.Gravity:
-        this.hasGravity = true;
-        break;
-      case Item.PressureValve:
-        this.hasPressureValve = true;
-        break;
-      case Item.HeatShield:
-        this.hasHeatShield = true;
-        break;
-      case Item.Varia:
-        this.hasVaria = true;
-        break;
-      case Item.HJB:
-        this.hasHiJump = true;
-        break;
-      case Item.DoubleJump:
-        this.hasDoubleJump = true;
-        break;
-      case Item.SpaceJump:
-        this.hasSpaceJump = true;
-        this.canFly = Loadout.canFly(this);
-        break;
-      case Item.ScrewAttack:
-        this.hasScrewAttack = true;
-        this.canDestroyBombWalls = Loadout.canDestroyBombWalls(this);
-        break;
-      case Item.SpringBall:
-        this.hasSpringBall = true;
-        break;
-      case Item.Speed:
-        this.hasSpeed = true;
-        break;
-
-      case Item.Ice:
-        this.hasIce = true;
-        break;
-      case Item.Wave:
-        this.hasWave = true;
-        break;
-      case Item.Charge:
-        this.hasCharge = true;
-        break;
-      case Item.Spazer:
-        this.hasSpazer = true;
-        break;
-      case Item.Plasma:
-        this.hasPlasma = true;
-        break;
-      case Item.Grapple:
-        this.hasGrapple = true;
-        break;
-
-      case Item.Missile:
-        this.missilePacks += 1;
-        this.canOpenRedDoors = Loadout.canOpenRedDoors(this);
-        break;
-      case Item.Super:
-        this.superPacks += 1;
-        this.canOpenRedDoors = Loadout.canOpenRedDoors(this);
-        this.canOpenGreenDoors = Loadout.canOpenGreenDoors(this);
-        break;
-      case Item.PowerBomb:
-        this.powerPacks += 1;
-        this.canUsePowerBombs = Loadout.canUsePowerBombs(this);
-        this.canPassBombPassages = Loadout.canPassBombPassages(this);
-        this.canDestroyBombWalls = Loadout.canDestroyBombWalls(this);
-        break;
-
-      case Item.EnergyTank:
-        this.energyTanks += 1;
-        this.totalTanks = Loadout.totalTanks(this);
-        break;
-      case Item.Reserve:
-        this.reserveTanks += 1;
-        this.totalTanks = Loadout.totalTanks(this);
-        break;
-
-      case Item.BeamUpgrade:
-        this.hasCharge = true;
-        break;
-      case Item.Xray:
-        break;
-
-      case Item.DefeatedBotwoon:
-        this.hasDefeatedBotwoon = true;
-        break;
-      case Item.DefeatedCrocomire:
-        this.hasDefeatedCrocomire = true;
-        break;
-      case Item.DefeatedMaridiaBoss:
-        this.hasDefeatedMaridiaBoss = true;
-        break;
-      case Item.DefeatedBrinstarBoss:
-        this.hasDefeatedBrinstarBoss = true;
-        break;
-      case Item.DefeatedWreckedShipBoss:
-        this.hasDefeatedWreckedShipBoss = true;
-        break;
-      case Item.DefeatedNorfairBoss:
-        this.hasDefeatedNorfairBoss = true;
-        break;
-      case Item.DefeatedGoldTorizo:
-        this.hasDefeatedGoldTorizo = true;
-        break;
-      case Item.DefeatedSporeSpawn:
-        this.hasDefeatedSporeSpawn = true;
-        break;
-
-      default:
-        console.error("[Loadout] Unknown item type:", itemType);
-        break;
-    }
+    default:
+      console.error("[Loadout] Unknown item type:", itemType);
+      break;
   }
 }
 
@@ -316,9 +384,3 @@ export const checkFlags = (load: Loadout) => {
 
   return (condition: any) => eval(`(${condition.toString()})()`);
 };
-
-export default Loadout;
-
-export const Checks = Object.getOwnPropertyNames(Loadout).filter(
-  (name) => name.startsWith("can") && typeof Loadout[name] === "function",
-);
