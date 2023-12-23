@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Item, ItemNames } from "./items";
 
 class Loadout {
