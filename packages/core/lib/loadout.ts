@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Item, ItemNames } from "./items";
+import { Item } from "./items";
 
 class Loadout {
   hasBombs = false;
@@ -222,83 +222,88 @@ class Loadout {
         break;
 
       default:
-        console.error("[Loadout] Unknown item type:", ItemNames.get(itemType));
+        console.error("[Loadout] Unknown item type:", itemType);
         break;
     }
   }
-
-  getFlags() {
-    const canDamageBosses = this.hasCharge || this.canOpenRedDoors;
-
-    return {
-      CanUseBombs: this.canUseBombs,
-      CanUsePowerBombs: this.canUsePowerBombs,
-      CanOpenRedDoors: this.canOpenRedDoors,
-      CanOpenGreenDoors: this.canOpenGreenDoors,
-      HasCharge: this.hasCharge,
-      HasDoubleJump: this.hasDoubleJump,
-      HasGravity: this.hasGravity,
-      HasGrapple: this.hasGrapple,
-      HasHeatShield: this.hasHeatShield,
-      HasHiJump: this.hasHiJump,
-      HasIce: this.hasIce,
-      HasMorph: this.hasMorph,
-      HasPlasma: this.hasPlasma,
-      HasPressureValve: this.hasPressureValve,
-      HasScrewAttack: this.hasScrewAttack,
-      HasSpaceJump: this.hasSpaceJump,
-      HasSpazer: this.hasSpazer,
-      HasSpeed: this.hasSpeed,
-      HasSpringBall: this.hasSpringBall,
-      HasVaria: this.hasVaria,
-      HasWave: this.hasWave,
-      EnergyTanks: this.energyTanks,
-      MissilePacks: this.missilePacks,
-      PowerBombPacks: this.powerPacks,
-      SuperPacks: this.superPacks,
-      TotalTanks: this.totalTanks,
-      HellRunTanks:
-        this.hasVaria || this.hasHeatShield ? 9999 : this.totalTanks,
-      CanFly: this.canFly,
-      CanDoSuitlessMaridia:
-        this.hasHiJump &&
-        this.hasGrapple &&
-        (this.hasIce || this.hasSpringBall),
-      CanPassBombPassages: this.canPassBombPassages,
-      CanDestroyBombWalls: this.canDestroyBombWalls,
-      CanMoveInWestMaridia: this.hasGravity || this.hasPressureValve,
-      CanKillKraid: canDamageBosses,
-      CanKillPhantoon: canDamageBosses,
-      CanKillDraygon: this.hasGravity && canDamageBosses,
-      CanKillRidley:
-        this.hasVaria &&
-        (this.hasCharge ||
-          this.missilePacks * 500 +
-            this.superPacks * 3000 +
-            this.powerPacks * 1000 >=
-            19000),
-      CanKillSporeSpawn: canDamageBosses,
-      CanKillCrocomire:
-        this.hasCharge ||
-        this.superPacks * 1500 + this.missilePacks * 500 >= 5000,
-      CanKillBotwoon:
-        this.hasCharge ||
-        this.superPacks * 1500 + this.missilePacks * 500 >= 6000,
-      CanKillGoldTorizo:
-        this.hasVaria &&
-        this.totalTanks >= 4 &&
-        (this.hasCharge || this.superPacks >= 3),
-      HasDefeatedBotwoon: this.hasDefeatedBotwoon,
-      HasDefeatedCrocomire: this.hasDefeatedCrocomire,
-      HasDefeatedMaridiaBoss: this.hasDefeatedMaridiaBoss,
-      HasDefeatedBrinstarBoss: this.hasDefeatedBrinstarBoss,
-      HasDefeatedWreckedShipBoss: this.hasDefeatedWreckedShipBoss,
-      HasDefeatedNorfairBoss: this.hasDefeatedNorfairBoss,
-      HasDefeatedGoldTorizo: this.hasDefeatedGoldTorizo,
-      HasDefeatedSporeSpawn: this.hasDefeatedSporeSpawn,
-    };
-  }
 }
+
+//-----------------------------------------------------------------
+// Generates a function capable of evaluating a condition for
+// traversing an edge from one vertex to another.
+//-----------------------------------------------------------------
+
+export const checkFlags = (load: Loadout) => {
+  const canDamageBosses = load.hasCharge || load.canOpenRedDoors;
+
+  const CanUseBombs = load.canUseBombs;
+  const CanUsePowerBombs = load.canUsePowerBombs;
+  const CanOpenRedDoors = load.canOpenRedDoors;
+  const CanOpenGreenDoors = load.canOpenGreenDoors;
+  const HasCharge = load.hasCharge;
+  const HasDoubleJump = load.hasDoubleJump;
+  const HasGravity = load.hasGravity;
+  const HasGrapple = load.hasGrapple;
+  const HasHeatShield = load.hasHeatShield;
+  const HasHiJump = load.hasHiJump;
+  const HasIce = load.hasIce;
+  const HasMorph = load.hasMorph;
+  const HasPlasma = load.hasPlasma;
+  const HasPressureValve = load.hasPressureValve;
+  const HasScrewAttack = load.hasScrewAttack;
+  const HasSpaceJump = load.hasSpaceJump;
+  const HasSpazer = load.hasSpazer;
+  const HasSpeed = load.hasSpeed;
+  const HasSpringBall = load.hasSpringBall;
+  const HasVaria = load.hasVaria;
+  const HasWave = load.hasWave;
+  const EnergyTanks = load.energyTanks;
+  const MissilePacks = load.missilePacks;
+  const PowerBombPacks = load.powerPacks;
+  const SuperPacks = load.superPacks;
+  const TotalTanks = load.totalTanks;
+  const HellRunTanks =
+    load.hasVaria || load.hasHeatShield ? 9999 : load.totalTanks;
+  const CanFly = load.canFly;
+  const CanDoSuitlessMaridia =
+    load.hasHiJump &&
+    load.hasGrapple &&
+    (load.hasIce || load.hasSpringBall);
+  const CanPassBombPassages = load.canPassBombPassages;
+  const CanDestroyBombWalls = load.canDestroyBombWalls;
+  const CanMoveInWestMaridia = load.hasGravity || load.hasPressureValve;
+  const CanKillKraid = canDamageBosses;
+  const CanKillPhantoon = canDamageBosses;
+  const CanKillDraygon = load.hasGravity && canDamageBosses;
+  const CanKillRidley =
+    load.hasVaria &&
+    (load.hasCharge ||
+      load.missilePacks * 500 +
+        load.superPacks * 3000 +
+        load.powerPacks * 1000 >=
+        19000);
+  //const CanKillSporeSpawn = canDamageBosses;
+  const CanKillCrocomire =
+    load.hasCharge ||
+    load.superPacks * 1500 + load.missilePacks * 500 >= 5000;
+  const CanKillBotwoon =
+    load.hasCharge ||
+    load.superPacks * 1500 + load.missilePacks * 500 >= 6000;
+  const CanKillGoldTorizo =
+    load.hasVaria &&
+    load.totalTanks >= 4 &&
+    (load.hasCharge || load.superPacks >= 3);
+  //const HasDefeatedBotwoon = load.hasDefeatedBotwoon;
+  //const HasDefeatedCrocomire = load.hasDefeatedCrocomire;
+  const HasDefeatedMaridiaBoss = load.hasDefeatedMaridiaBoss;
+  const HasDefeatedBrinstarBoss = load.hasDefeatedBrinstarBoss;
+  const HasDefeatedWreckedShipBoss = load.hasDefeatedWreckedShipBoss;
+  const HasDefeatedNorfairBoss = load.hasDefeatedNorfairBoss;
+  //const HasDefeatedGoldTorizo = load.hasDefeatedGoldTorizo;
+  //const HasDefeatedSporeSpawn = load.hasDefeatedSporeSpawn;
+
+  return (condition: any) => eval(`(${condition.toString()})()`);
+};
 
 export default Loadout;
 

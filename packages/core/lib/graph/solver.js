@@ -1,7 +1,8 @@
 import { canReachStart, canReachVertex, searchAndCache } from "./search";
-import { Item, ItemNames } from "../items";
+import { Item } from "../items";
 import { cloneGraph } from "./init";
 import { MajorDistributionMode } from "./params";
+import { checkFlags } from "../loadout";
 
 class GraphSolver {
   constructor(graph, settings, logMethods) {
@@ -38,64 +39,13 @@ class GraphSolver {
     })
   }
 
-  checkFlags(load) {
-    const {
-      CanUseBombs,
-      CanUsePowerBombs,
-      CanOpenRedDoors,
-      CanOpenGreenDoors,
-      HasCharge,
-      HasDoubleJump,
-      HasGravity,
-      HasGrapple,
-      HasHeatShield,
-      HasHiJump,
-      HasIce,
-      HasMorph,
-      HasPlasma,
-      HasPressureValve,
-      HasScrewAttack,
-      HasSpazer,
-      HasSpaceJump,
-      HasSpeed,
-      HasSpringBall,
-      HasVaria,
-      HasWave,
-      EnergyTanks,
-      MissilePacks,
-      PowerBombPacks,
-      SuperPacks,
-      TotalTanks,
-      HellRunTanks,
-      CanFly,
-      CanDoSuitlessMaridia,
-      CanPassBombPassages,
-      CanDestroyBombWalls,
-      CanMoveInWestMaridia,
-      CanKillKraid,
-      CanKillPhantoon,
-      CanKillDraygon,
-      CanKillRidley,
-      CanKillSporeSpawn,
-      CanKillCrocomire,
-      CanKillBotwoon,
-      CanKillGoldTorizo,
-      HasDefeatedBrinstarBoss,
-      HasDefeatedWreckedShipBoss,
-      HasDefeatedMaridiaBoss,
-      HasDefeatedNorfairBoss,
-    } = load.getFlags();
-
-    return (condition) => eval(`(${condition.toString()})()`);
-  }
-
   isVertexAvailable(vertex, load, itemType, legacyMode = false) {
     if (
       !canReachVertex(
         this.graph,
         this.startVertex,
         vertex,
-        this.checkFlags(load)
+        checkFlags(load)
       )
     ) {
       return false;
@@ -105,7 +55,7 @@ class GraphSolver {
         this.graph,
         vertex,
         this.startVertex,
-        this.checkFlags(load)
+        checkFlags(load)
       );
     }
     let temp = load.clone();
@@ -114,7 +64,7 @@ class GraphSolver {
       this.graph,
       vertex,
       this.startVertex,
-      this.checkFlags(temp)
+      checkFlags(temp)
     );
   }
 
@@ -124,7 +74,7 @@ class GraphSolver {
     this.progression = [];
 
     const findAll = () =>
-      searchAndCache(this.graph, this.startVertex, this.checkFlags(samus));
+      searchAndCache(this.graph, this.startVertex, checkFlags(samus));
 
     //-----------------------------------------------------------------
     // Collects all items where there is a round trip back to the
@@ -136,7 +86,7 @@ class GraphSolver {
 
       itemLocations.forEach((p) => {
         if (legacyMode) {
-          if (!canReachStart(this.graph, p, this.checkFlags(samus))) {
+          if (!canReachStart(this.graph, p, checkFlags(samus))) {
             return;
           }
           samus.add(p.item.type);
@@ -144,7 +94,7 @@ class GraphSolver {
         } else {
           const load = samus.clone();
           load.add(p.item.type);
-          if (!canReachStart(this.graph, p, this.checkFlags(load))) {
+          if (!canReachStart(this.graph, p, checkFlags(load))) {
             return;
           }
           samus = load;
