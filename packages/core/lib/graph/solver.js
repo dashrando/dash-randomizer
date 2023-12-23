@@ -4,6 +4,19 @@ import { cloneGraph } from "./init";
 import { MajorDistributionMode } from "./params";
 import { checkFlags } from "../loadout";
 
+const isFungible = (item) => {
+  switch (item.type) {
+    case Item.Super:
+    case Item.PowerBomb:
+    case Item.Missile:
+    case Item.EnergyTank:
+    case Item.Reserve:
+      return true;
+    default:
+      return false;
+  }
+};
+
 class GraphSolver {
   constructor(graph, settings, logMethods) {
     this.graph = graph;
@@ -81,6 +94,14 @@ class GraphSolver {
     // ship. All these items are collected at the same time.
     //-----------------------------------------------------------------
 
+    const collectItem = (p) => {
+      this.recordProgression(p);
+      if (this.printDefeatedBoss && p.type == "boss") {
+        this.printDefeatedBoss(`Defeated ${p.item.name} (${p.name}) in ${p.area}`);
+      }
+      p.item = undefined;
+    }
+
     const collectEasyItems = (itemLocations) => {
       let items = [];
 
@@ -90,7 +111,6 @@ class GraphSolver {
             return;
           }
           samus.add(p.item.type);
-          this.recordProgression(p);
         } else {
           const load = samus.clone();
           load.add(p.item.type);
@@ -98,96 +118,75 @@ class GraphSolver {
             return;
           }
           samus = load;
-          this.recordProgression(p);
         }
 
         items.push(p.item);
-        if (this.printDefeatedBoss && p.type == "boss") {
-          this.printDefeatedBoss(`Defeated ${p.item.name} (${p.name}) in ${p.area}`);
-        }
-
-        p.item = undefined;
+        collectItem(p);
       });
 
-      if (items.length == 0) {
-        //-----------------------------------------------------------------
-        // Utility function that determines if collecting an available
-        // item that does not have a round trip to the starting vertex
-        // would result in a valid graph.
-        //-----------------------------------------------------------------
-
-        const reverseSolve = (filteredItemLocations) => {
-          for (let i = 0; i < filteredItemLocations.length; i++) {
-            const p = filteredItemLocations[i];
-
-            // Setup a graph with the item location as the start vertex
-            const clonedGraph = cloneGraph(this.graph);
-            clonedGraph.forEach((e) => (e.from.pathToStart = false));
-            const clonedVertex = clonedGraph.find(
-              (e) => e.from.name == p.name
-            ).from;
-            clonedVertex.pathToStart = true;
-
-            // Create a solver for the new graph
-            const reverseSolver = new GraphSolver(clonedGraph, {
-              ...this.settings,
-            });
-            reverseSolver.startVertex = clonedVertex;
-
-            // Collect the item if the graph can be solved
-            try {
-              if (reverseSolver.isValid(samus)) {
-                if (this.printCollectedItems) {
-                  this.printCollectedItems([p.item], true);
-                }
-                // Collect the item
-                samus.add(p.item.type);
-                this.recordProgression(p);
-                p.item = undefined;
-                return true;
-              }
-            } catch (e) {
-              console.log("sub:", e);
-            }
-          }
-          return false;
-        };
-
-        //-----------------------------------------------------------------
-        // Try to reverse solve the majors first and then the rest.
-        //-----------------------------------------------------------------
-
-        const IsSingleton = (item) => {
-          switch (item.type) {
-            case Item.Super:
-            case Item.PowerBomb:
-            case Item.Missile:
-            case Item.EnergyTank:
-            case Item.Reserve:
-              return false;
-            default:
-              return true;
-          }
-        };
-
-        if (!legacyMode) {
-          if (reverseSolve(itemLocations.filter((p) => IsSingleton(p.item)))) {
-            return true;
-          }
-          if (reverseSolve(itemLocations.filter((p) => !IsSingleton(p.item)))) {
-            return true;
-          }
+      if (items.length > 0) {
+        if (this.printCollectedItems) {
+          this.printCollectedItems(items);
         }
-
-        if (this.printUncollectedItems != undefined) {
-          this.printUncollectedItems(this.graph);
-        }
-        throw new Error("no round trip locations");
-      } else if (this.printCollectedItems) {
-        this.printCollectedItems(items);
+        return true;
       }
 
-      return true;
+      //-----------------------------------------------------------------
+      // Utility function that determines if collecting an available
+      // item that does not have a round trip to the starting vertex
+      // would result in a valid graph.
+      //-----------------------------------------------------------------
+
+      const reverseSolve = (filteredItemLocations) => {
+        for (let i = 0; i < filteredItemLocations.length; i++) {
+          const p = filteredItemLocations[i];
+
+          // Setup a graph with the item location as the start vertex
+          const clonedGraph = cloneGraph(this.graph);
+          clonedGraph.forEach((e) => (e.from.pathToStart = false));
+          const clonedVertex = clonedGraph.find(
+            (e) => e.from.name == p.name
+          ).from;
+          clonedVertex.pathToStart = true;
+
+          // Create a solver for the new graph
+          const reverseSolver = new GraphSolver(clonedGraph, {
+            ...this.settings,
+          });
+          reverseSolver.startVertex = clonedVertex;
+
+          // Collect the item if the graph can be solved
+          try {
+            if (reverseSolver.isValid(samus)) {
+              if (this.printCollectedItems) {
+                this.printCollectedItems([p.item], true);
+              }
+              // Collect the item
+              samus.add(p.item.type);
+              collectItem(p);
+              return true;
+            }
+          } catch (e) {
+            console.log("sub:", e);
+          }
+        }
+        return false;
+      };
+
+      //-----------------------------------------------------------------
+      // Try to reverse solve the majors first and then the rest.
+      //-----------------------------------------------------------------
+
+      if (!legacyMode) {
+        if (reverseSolve(itemLocations.filter((p) => !isFungible(p.item)))) {
+          return true;
+        }
+        if (reverseSolve(itemLocations.filter((p) => isFungible(p.item)))) {
+          return true;
+        }
+      }
+
+      throw new Error("no round trip locations");
     };
 
     const checkItem = (v) => {
