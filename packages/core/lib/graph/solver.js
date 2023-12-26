@@ -1,21 +1,8 @@
 import { canReachStart, searchAndCache } from "./search";
-import { Item } from "../items";
+import { isFungible } from "../items";
 import { cloneGraph } from "./init";
 import { MajorDistributionMode } from "./params";
 import { addItem, cloneLoadout, checkFlags, copyLoadout } from "../loadout";
-
-const isFungible = (item) => {
-  switch (item.type) {
-    case Item.Super:
-    case Item.PowerBomb:
-    case Item.Missile:
-    case Item.EnergyTank:
-    case Item.Reserve:
-      return true;
-    default:
-      return false;
-  }
-};
 
 const revSolve = (solver, load, node) => {
   // Setup a graph with the item location as the start vertex
@@ -39,6 +26,9 @@ const revSolve = (solver, load, node) => {
   return false;
 };
 
+const hasItem = v => v.item != undefined;
+const hasMajor = v => hasItem(v) && v.type != "minor";
+
 class GraphSolver {
   constructor(graph, settings, logMethods) {
     this.graph = graph;
@@ -47,9 +37,9 @@ class GraphSolver {
     this.trackProgression = false;
     this.progression = [];
     if (settings.majorDistribution == MajorDistributionMode.Chozo) {
-      this.checkItem = v => v.item != undefined && v.type != "minor";
+      this.checkItem = hasMajor;
     } else {
-      this.checkItem = v => v.item != undefined;
+      this.checkItem = hasItem;
     }
     if (logMethods != undefined) {
       this.printAvailableItems = logMethods.printAvailableItems;
@@ -79,7 +69,7 @@ class GraphSolver {
     })
   }
 
-  isValid(initLoad, legacyMode = false) {
+  isValid(initLoad) {
     let samus = cloneLoadout(initLoad);
     let collected = [];
 
@@ -107,20 +97,12 @@ class GraphSolver {
       collected.length = 0;
 
       itemLocations.forEach((p) => {
-        if (legacyMode) {
-          if (!canReachStart(this.graph, p, checkFlags(samus))) {
-            return;
-          }
-          addItem(samus, p.item.type);
-        } else {
-          addItem(load, p.item.type);
-          if (!canReachStart(this.graph, p, checkFlags(load))) {
-            copyLoadout(load, samus);
-            return;
-          }
-          addItem(samus, p.item.type);
+        addItem(load, p.item.type);
+        if (!canReachStart(this.graph, p, checkFlags(load))) {
+          copyLoadout(load, samus);
+          return;
         }
-
+        addItem(samus, p.item.type);
         collected.push(p.item);
         collectItem(p);
       });
@@ -153,13 +135,11 @@ class GraphSolver {
       // Try to reverse solve the majors first and then the rest.
       //-----------------------------------------------------------------
 
-      if (!legacyMode) {
-        if (reverseSolve(itemLocations.filter((p) => !isFungible(p.item)))) {
-          return true;
-        }
-        if (reverseSolve(itemLocations.filter((p) => isFungible(p.item)))) {
-          return true;
-        }
+      if (reverseSolve(itemLocations.filter((p) => !isFungible(p.item.type)))) {
+        return true;
+      }
+      if (reverseSolve(itemLocations.filter((p) => isFungible(p.item.type)))) {
+        return true;
       }
 
       throw new Error("no round trip locations");
