@@ -99,3 +99,16 @@ const newItem = (type, isMajor, spoilerAddress) => {
     spoilerAddress: spoilerAddress,
   };
 };
+
+export const isFungible = (itemType: number) => {
+  switch (itemType) {
+    case Item.Super:
+    case Item.PowerBomb:
+    case Item.Missile:
+    case Item.EnergyTank:
+    case Item.Reserve:
+      return true;
+    default:
+      return false;
+  }
+};
