@@ -1,6 +1,6 @@
 import DotNetRandom from "../dotnet-random";
 import { Item } from "../items";
-import GraphSolver from "./solver";
+import { isGraphValid } from "./solver";
 import { cloneGraph, loadGraph } from "./init";
 import { addItem, checkFlags, createLoadout } from "../loadout";
 import { getItemPool } from "./itemPool";
@@ -167,7 +167,6 @@ const getChozoPrePool = (rnd) => {
 //-----------------------------------------------------------------
 
 const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
-  const solver = new GraphSolver(graph, settings);
 
   //-----------------------------------------------------------------
   // Extract parameters.
@@ -280,6 +279,7 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
   //-----------------------------------------------------------------
 
   const nonPrefilled = shuffledLocations.filter((n) => n.item == undefined);
+  const emptyLoadout = createLoadout();
 
   //-----------------------------------------------------------------
   // Randomly place items until seed is verified.
@@ -295,8 +295,7 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
       continue;
     }
 
-    const tempSolver = new GraphSolver(cloneGraph(graph), settings);
-    if (tempSolver.isValid(createLoadout())) {
+    if (isGraphValid(cloneGraph(graph), settings, emptyLoadout)) {
       return attempts;
     }
   }

@@ -100,6 +100,18 @@ const newItem = (type, isMajor, spoilerAddress) => {
   };
 };
 
+export const isBoss = (itemType: number) => {
+  switch (itemType) {
+    case Item.DefeatedBrinstarBoss:
+    case Item.DefeatedWreckedShipBoss:
+    case Item.DefeatedMaridiaBoss:
+    case Item.DefeatedNorfairBoss:
+      return true;
+    default:
+      return false;
+  }
+};
+
 export const isFungible = (itemType: number) => {
   switch (itemType) {
     case Item.Super:
