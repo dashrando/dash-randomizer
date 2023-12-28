@@ -2,7 +2,31 @@ import { canReachStart, searchAndCache } from "./search";
 import { isFungible } from "../items";
 import { cloneGraph } from "./init";
 import { MajorDistributionMode } from "./params";
-import { addItem, cloneLoadout, checkFlags, copyLoadout } from "../loadout";
+import {
+  addItem,
+  checkFlags,
+  cloneLoadout,
+  copyLoadout,
+  createLoadout
+} from "../loadout";
+
+export const isGraphValid = (graph, settings, loadout, progression) => {
+  const solver = new GraphSolver(graph, settings);
+  return solver.isValid(loadout, progression);
+};
+
+export const getItemProgression = (graph, settings, loadout) => {
+  const initLoad = loadout != undefined ? loadout : createLoadout();
+  const itemProgression = [], progression = [];
+  if (isGraphValid(cloneGraph(graph), settings, initLoad, progression)) {
+    progression.forEach(step => {
+      step.collected.forEach(item => {
+        itemProgression.push(item);
+      })
+    });
+  }
+  return itemProgression;
+}
 
 const revSolve = (solver, load, node) => {
   // Setup a graph with the item location as the start vertex
@@ -26,75 +50,59 @@ const revSolve = (solver, load, node) => {
   return false;
 };
 
-const hasItem = v => v.item != undefined;
-const hasMajor = v => hasItem(v) && v.type != "minor";
+const getProgressionLocation = (itemNode) => {
+  if (itemNode.type == "boss") {
+    const bossName = itemNode.name.substring(5)
+    return `${bossName} @ ${itemNode.area}`;
+  }
+  return itemNode.name;
+}
+
+const getProgressionEntry = (itemNode) => {
+  return {
+    itemName: itemNode.item.name,
+    itemType: itemNode.item.type,
+    locationName: getProgressionLocation(itemNode),
+    isMajor: itemNode.item.isMajor,
+  };
+}
 
 class GraphSolver {
-  constructor(graph, settings, logMethods) {
+  constructor(graph, settings) {
     this.graph = graph;
     this.settings = settings;
     this.startVertex = graph[0].from;
-    this.trackProgression = false;
-    this.progression = [];
     if (settings.majorDistribution == MajorDistributionMode.Chozo) {
-      this.checkItem = hasMajor;
-    } else {
-      this.checkItem = hasItem;
-    }
-    if (logMethods != undefined) {
-      this.printAvailableItems = logMethods.printAvailableItems;
-      this.printCollectedItems = logMethods.printCollectedItems;
-      this.printDefeatedBoss = logMethods.printDefeatedBoss;
-      this.printUncollectedItems = logMethods.printUncollectedItems;
-      this.printMsg = logMethods.printMsg;
+      this.graph.forEach(n => {
+        if (n.from.item != undefined && n.from.type == "minor") {
+          n.from.item = undefined;
+        }
+      });
     }
   }
 
-  recordProgression(itemNode) {
-    if (!this.trackProgression) {
-      return;
-    }
-    let locationName = itemNode.name;
-
-    if (itemNode.type == "boss") {
-      const bossName = itemNode.name.substring(5)
-      locationName = `${bossName} @ ${itemNode.area}`;
-    }
-
-    this.progression.push({
-      itemName: itemNode.item.name,
-      itemType: itemNode.item.type,
-      locationName: locationName,
-      isMajor: itemNode.item.isMajor,
-    })
-  }
-
-  isValid(initLoad) {
+  isValid(initLoad, progression) {
     let samus = cloneLoadout(initLoad);
-    let collected = [];
-
-    this.progression = [];
+    let step = -1;
 
     const findAll = () =>
       searchAndCache(this.graph, this.startVertex, checkFlags(samus));
 
     //-----------------------------------------------------------------
     // Collects all items where there is a round trip back to the
-    // ship. All these items are collected at the same time.
+    // start node. All these items are collected at the same time.
     //-----------------------------------------------------------------
 
     const collectItem = (p) => {
-      this.recordProgression(p);
-      if (this.printDefeatedBoss && p.type == "boss") {
-        this.printDefeatedBoss(`Defeated ${p.item.name} (${p.name}) in ${p.area}`);
+      if (step >= 0) {
+        progression[step].collected.push(getProgressionEntry(p));
       }
       p.item = undefined;
     }
 
-    const collectEasyItems = (itemLocations) => {
+    const collectSafeItems = (itemLocations) => {
       const load = cloneLoadout(samus);
-
-      collected.length = 0;
+      let collectedItem = false;
 
       itemLocations.forEach((p) => {
         addItem(load, p.item.type);
@@ -103,11 +111,11 @@ class GraphSolver {
           return;
         }
         addItem(samus, p.item.type);
-        collected.push(p.item);
+        collectedItem = true;
         collectItem(p);
       });
 
-      if (collected.length > 0) {
+      if (collectedItem) {
         return true;
       }
 
@@ -126,7 +134,6 @@ class GraphSolver {
 
         // Collect the item
         addItem(samus, p.item.type);
-        collected.push(p.item);
         collectItem(p);
         return true;
       };
@@ -142,50 +149,38 @@ class GraphSolver {
         return true;
       }
 
-      throw new Error("no round trip locations");
+      return false;
     };
 
-    try {
-      while (true) {
-        const all = findAll();
-        const uncollected = all.filter((v) => this.checkItem(v));
-        if (uncollected.length == 0) {
-          break;
-        }
-        if (this.printAvailableItems != undefined) {
-          this.printAvailableItems(uncollected);
-        }
+    while (true) {
+      // Find all available items
+      const all = findAll();
+      const uncollected = all.filter((v) => v.item != undefined);
 
-        // Collect all items where we can make a round trip back to the start
-        if (collectEasyItems(uncollected)) {
-          if (this.printCollectedItems) {
-            this.printCollectedItems(collected);
-          }
-          continue;
-        }
-
-        throw new Error("one way ticket");
+      // No items available? All done
+      if (uncollected.length == 0) {
+        break;
       }
 
-      //-----------------------------------------------------------------
-      // Check for uncollected items. This indicates an invalid graph.
-      //-----------------------------------------------------------------
+      // Add a new entry if recording progression
+      if (progression != undefined) {
+        progression.push({
+          available: uncollected.map(getProgressionEntry),
+          collected: []
+        });
+        step = progression.length - 1;
+      }
 
-      const leftovers = this.graph.filter((n) => this.checkItem(n.from));
-      if (leftovers.length > 0) {
-        if (this.printUncollectedItems != undefined) {
-          this.printUncollectedItems(this.graph);
-        }
-        throw new Error("Uncollected items");
+      // Collect all items where we can make a round trip to the start node
+      if (!collectSafeItems(uncollected)) {
+        return false;
       }
-    } catch (e) {
-      if (this.printMsg) {
-        this.printMsg(e);
-      }
-      return false;
     }
-    return true;
+
+    //-----------------------------------------------------------------
+    // Check for uncollected items. This indicates an invalid graph.
+    //-----------------------------------------------------------------
+
+    return !this.graph.some((n) => n.from.item != undefined);
   }
 }
-
-export default GraphSolver;
