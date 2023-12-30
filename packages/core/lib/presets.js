@@ -21,6 +21,10 @@ export const getAllPresets = () => {
     Preset_Classic_MM,
     Preset_Classic_Full,
     Preset_2017_MM,
+    Preset_Chozo,
+    Preset_Chozo_Bozo,
+    Preset_Chozo_Bozo_Area,
+    Preset_Chozo_Area_Shifted,
   ];
 };
 
@@ -49,6 +53,78 @@ export const findPreset = (settings) => {
 };
 
 //-----------------------------------------------------------------
+// Chozo Settings
+//-----------------------------------------------------------------
+
+export const Preset_Chozo = {
+  title: "Chozo",
+  tags: ["chozo"],
+  settings: {
+    preset: "Chozo",
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Chozo,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: false,
+    bossMode: BossMode.Vanilla,
+  },
+};
+
+export const Preset_Chozo_Bozo = {
+  title: "Chozo Bozo",
+  tags: ["chozo_bozo"],
+  settings: {
+    preset: "ChozoBozo",
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Chozo,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: false,
+    bossMode: BossMode.Shuffled,
+  },
+};
+
+export const Preset_Chozo_Bozo_Area = {
+  title: "Chozo Bozo Area",
+  tags: ["chozo_bozo_area"],
+  settings: {
+    preset: "ChozoBozoArea",
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Chozo,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Shuffled,
+  },
+};
+
+export const Preset_Chozo_Area_Shifted = {
+  title: "Chozo Area Shifted",
+  tags: ["chozo_area_shifted"],
+  settings: {
+    preset: "ChozoAreaShifted",
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Chozo,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Shifted,
+  },
+};
+
+//-----------------------------------------------------------------
 // SG Live 2023 Tournament Settings
 //-----------------------------------------------------------------
 
@@ -65,7 +141,7 @@ export const Preset_SGL23 = {
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: true,
-    bossMode: BossMode.ShuffleDash,
+    bossMode: BossMode.Shifted,
   },
 };
 

@@ -135,10 +135,10 @@ export const TABLE_FLAGS = {
 };
 
 export const PATCHES = {
-  Room_Waterway_Patch_01: 0xCEB442,
-  Room_WreckedShipReserve_Patch_01: 0xCEB5A0,
-  Room_WreckedShipReserve_Patch_02: 0xCEB556,
-  Room_PreBotwoon_Patch_01: 0xCEB4F5,
+  Room_Waterway_Patch_01: 0xCEB3F5,
+  Room_WreckedShipReserve_Patch_01: 0xCEB538,
+  Room_WreckedShipReserve_Patch_02: 0xCEB518,
+  Room_PreBotwoon_Patch_01: 0xCEB4B7,
 };
 
 export const ROOM_PATCH_ADDR = {

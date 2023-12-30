@@ -32,8 +32,21 @@ type SeedStatus = {
   bosses: Transition[];
   areas: Transition[];
   totalTime: number;
-  attempts: number;
 };
+
+function getHash(status: SeedStatus) {
+  const string =
+    JSON.stringify(status.progression) +
+    JSON.stringify(status.bosses) + 
+    JSON.stringify(status.areas);
+  let hash = 0;
+
+  for (let i = 0; i < string.length; i++) {
+    hash += string.charCodeAt(i);
+  }
+
+  return hash.toString(16).toUpperCase();
+}
 
 const Parameters = ({ value, update }: { value: Params; update: any }) => {
   return (
@@ -51,6 +64,8 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           })
         }
       >
+        <option value="chozo">Chozo</option>
+        <option value="chozo_bozo">Chozo Bozo</option>
         <option value="sgl23">SGL23 - Full - Boss+Area</option>
         <option value="recall_area_mm">Recall - M/M - Boss+Area</option>
         <option value="standard_mm">Standard - Major / Minor</option>
@@ -110,7 +125,6 @@ export default function StatsPage() {
     bosses: [],
     areas: [],
     totalTime: 1,
-    attempts: 0,
   });
 
   const generateSeeds = () => {
@@ -134,7 +148,6 @@ export default function StatsPage() {
       throw new Error(`Unknown preset: ${gameMode}`);
     }
 
-    let totalAttempts = 0;
     const progression: ItemProgression[] = [];
     let bosses: Transition[] = [];
     let areas: Transition[] = [];
@@ -185,7 +198,6 @@ export default function StatsPage() {
         bosses: current.bosses.concat(bosses),
         areas: current.areas.concat(areas),
         totalTime: current.totalTime + delta,
-        attempts: current.attempts + totalAttempts,
       };
     });
   };
@@ -196,7 +208,6 @@ export default function StatsPage() {
       bosses: [],
       areas: [],
       totalTime: 1,
-      attempts: 0,
     });
   };
 
@@ -225,9 +236,7 @@ export default function StatsPage() {
             ? ""
             : `${status.progression.length} seeds ${status.totalTime}ms [ ${(
                 status.totalTime / status.progression.length
-              ).toFixed(1)}ms avg] [avg attempts ${(
-                status.attempts / status.progression.length
-              ).toFixed(1)}]`}
+              ).toFixed(1)}ms avg] ${getHash(status)}`}
         </span>
         <span id="right_side" className={styles.right_side}>
           <span className={styles.panel_selector}>
@@ -248,7 +257,7 @@ export default function StatsPage() {
       </div>
       <div id="stats_panel" className={styles.stats_panel}>
         {panel == "majors" && (
-          <MajorItemTable itemProgression={status.progression} />
+          <MajorItemTable itemProgression={status.progression} preset={params.gameMode}/>
         )}
         {panel == "areas" && (
           <AreaDoorTable areas={status.areas} bosses={status.bosses} seeds={status.progression.length} />

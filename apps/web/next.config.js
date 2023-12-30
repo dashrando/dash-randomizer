@@ -53,6 +53,11 @@ const nextConfig = {
         destination: "/readable/standard",
         permanent: false,
       },
+      {
+        source: "/readable/standard-area",
+        destination: "/readable/area",
+        permanent: false,
+      },
     ];
   },
   rewrites: async () => {

@@ -58,11 +58,7 @@ const LoadoutChecks = [
   },
   {
     name: 'CanKillDraygon',
-    condition: 'HasCharge OR MissilePacks >= 1 OR SuperPacks >= 1'
-  },
-  {
-    name: 'CanEscapeDraygon',
-    condition: 'HasGravity'
+    condition: 'HasGravity AND (HasCharge OR MissilePacks >= 1 OR SuperPacks >= 1)'
   },
   {
     name: 'CanKillRidley',

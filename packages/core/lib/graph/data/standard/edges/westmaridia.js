@@ -7,59 +7,61 @@ export const westmaridiaEdges = {
     Door_MainStreet: true,
     "Missiles (Mainstreet)": () => CanMoveInWestMaridia && HasSpeed,
     "Supers (Crab)": () =>
-      CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall)),
-    "Missiles (Mama Turtle)": () =>
-      CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall)),
-    Door_MaridiaMap: () => CanOpenGreenDoors,
-    Door_EverestTopRight: () => CanMoveInWestMaridia || CanDoSuitlessMaridia,
-    OasisBottom: () => CanOpenGreenDoors && HasGravity,
+      HasMorph && (CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall))),
+    "Missiles (Mama Turtle)": () => CanOpenRedDoors &&
+      (CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall))),
+    Door_MaridiaMap: () => HasMorph && CanOpenGreenDoors,
+    EverestTopRight: () => CanMoveInWestMaridia || CanDoSuitlessMaridia,
+    OasisBottom: () => CanOpenGreenDoors && CanMoveInWestMaridia,
+    Door_RedFish: () => CanMoveInWestMaridia || CanDoSuitlessMaridia,
   },
 
   "Missiles (Mainstreet)": {
     MainStreet: true,
   },
 
-  Door_EverestTopRight: {
-    "Supers (Crab)": true,
+  EverestTopRight: {
+    MainStreet: true,
     "Missiles (Beach)": () =>
       CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall)),
     Door_PreAqueduct: () => CanOpenGreenDoors,
+    "Missiles (Mama Turtle)": () =>
+      CanOpenRedDoors && (CanMoveInWestMaridia || HasHiJump),
   },
 
   Door_PreAqueduct: {
-    Door_EverestTopRight: () => CanMoveInWestMaridia || HasHiJump,
+    EverestTopRight: () => CanMoveInWestMaridia || HasHiJump,
   },
 
   "Missiles (Beach)": {
-    Door_EverestTopRight: true,
-    "Missiles (Watering Hole)": () =>
-      CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall)),
+    EverestTopRight: true,
     "Supers (Watering Hole)": () =>
       CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall)),
   },
 
   "Missiles (Watering Hole)": {
     "Missiles (Beach)": true,
-    "Supers (Watering Hole)": true,
   },
 
   "Supers (Watering Hole)": {
-    "Missiles (Beach)": true,
     "Missiles (Watering Hole)": true,
   },
 
   Door_MaridiaMap: {
     MainStreet: () =>
-      CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall)),
+      HasMorph && CanOpenGreenDoors &&
+      (CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall))),
   },
 
   "Supers (Crab)": {
     MainStreet: () => HasMorph,
-    "Missiles (Mama Turtle)": () => HasMorph,
-    Door_RedFish: () => CanMoveInWestMaridia || CanDoSuitlessMaridia,
   },
 
   Door_RedFish: {
+    MainStreet: () => HasMorph,
+    "Missiles (Mama Turtle)": () =>
+      HasMorph && CanOpenRedDoors && (CanMoveInWestMaridia || HasHiJump),
+    EverestTopRight: () => HasMorph || (CanMoveInWestMaridia || HasGrapple),
     "Supers (Crab)": () => HasMorph,
   },
 

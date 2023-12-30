@@ -55,7 +55,7 @@ export const uppernorfairEdges = {
   BubbleMountainKingCacLedge: {
     BubbleMountainMain: true,
     BubbleMountainTopLeftDoor: true, //NOTE: dboost in logic
-    Door_SingleChamber: () => false,
+    Door_SingleChamber: false,
     "Missiles (Speed)": () =>
       HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
     "Speed Booster": () => HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),

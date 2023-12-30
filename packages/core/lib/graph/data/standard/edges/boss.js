@@ -25,7 +25,7 @@ export const bossEdges = {
   },
 
   Boss_Draygon: {
-    Exit_Draygon: () => CanKillDraygon && HasGravity,
+    Exit_Draygon: () => CanKillDraygon,
     "Space Jump": () => CanKillDraygon,
   },
 

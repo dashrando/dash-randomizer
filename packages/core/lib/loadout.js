@@ -271,7 +271,7 @@ class Loadout {
       CanMoveInWestMaridia: this.hasGravity || this.hasPressureValve,
       CanKillKraid: canDamageBosses,
       CanKillPhantoon: canDamageBosses,
-      CanKillDraygon: canDamageBosses,
+      CanKillDraygon: this.hasGravity && canDamageBosses,
       CanKillRidley:
         this.hasVaria &&
         (this.hasCharge ||
@@ -281,7 +281,8 @@ class Loadout {
             19000),
       CanKillSporeSpawn: canDamageBosses,
       CanKillCrocomire:
-        this.hasCharge || this.missilePacks + this.superPacks >= 2,
+        this.hasCharge ||
+        this.superPacks * 1500 + this.missilePacks * 500 >= 5000,
       CanKillBotwoon:
         this.hasCharge ||
         this.superPacks * 1500 + this.missilePacks * 500 >= 6000,
