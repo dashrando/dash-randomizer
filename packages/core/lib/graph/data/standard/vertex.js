@@ -131,6 +131,9 @@ export const standardVertices = {
     GoldTorizoFight: "",
     DefeatedGoldTorizo: "",
     ScrewAttackTop: "",
+    Exit_Ridley: "exit",
+    Boss_Ridley: "boss",
+    "Energy Tank (Ridley)": "major",
   },
   KraidsLair: {
     Door_KraidsLair: "",
@@ -138,6 +141,9 @@ export const standardVertices = {
     KraidsHallway: "",
     "Missiles (Kraid)": "minor",
     Door_KraidBoss: "",
+    Exit_Kraid: "exit",
+    Boss_Kraid: "boss",
+    "Varia Suit": "major",
   },
   WreckedShip: {
     Door_Ocean: "",
@@ -158,6 +164,8 @@ export const standardVertices = {
     Door_HighwayExit: "",
     SpongeBathLeft: "",
     SpongeBathRight: "",
+    Exit_Phantoon: "exit",
+    Boss_Phantoon: "boss",
   },
   WestMaridia: {
     Door_MainStreet: "",
@@ -202,6 +210,9 @@ export const standardVertices = {
     "Missiles (Aqueduct)": "minor",
     "Supers (Aqueduct)": "minor",
     PostBotwoon: "",
+    Exit_Draygon: "exit",
+    Boss_Draygon: "boss",
+    "Space Jump": "major",
   },
   CrocomiresLair: {
     Door_Croc: "",
@@ -211,25 +222,6 @@ export const standardVertices = {
     "Grapple Beam": "major",
     "Missiles (Indiana Jones)": "minor",
     "Missiles (Cosine)": "minor",
-  },
-  Kraid: {
-    Exit_Kraid: "exit",
-    Boss_Kraid: "boss",
-    "Varia Suit": "major",
-  },
-  Phantoon: {
-    Exit_Phantoon: "exit",
-    Boss_Phantoon: "boss",
-  },
-  Draygon: {
-    Exit_Draygon: "exit",
-    Boss_Draygon: "boss",
-    "Space Jump": "major",
-  },
-  Ridley: {
-    Exit_Ridley: "exit",
-    Boss_Ridley: "boss",
-    "Energy Tank (Ridley)": "major",
   },
   Tourian: {
     Door_Tourian: "",

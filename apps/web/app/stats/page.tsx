@@ -4,19 +4,19 @@ import styles from "./page.module.css";
 import {
   isAreaEdge,
   isBossEdge,
-  Location,
-  generateSeed
+  generateSeed,
 } from "core/data";
 import { useState } from "react";
-import { getItemNodes, getPreset } from "core";
+import { computeCRC32, getItemProgression, getPreset } from "core";
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
 import AreaDoorTable, { Transition } from "./areas";
 
 export type ItemLocation = {
-  location: Location;
-  item: any;
+  itemType: number;
+  locationName: string;
+  isMajor: boolean;
 };
 
 export type ItemProgression = ItemLocation[];
@@ -35,17 +35,12 @@ type SeedStatus = {
 };
 
 function getHash(status: SeedStatus) {
-  const string =
+  const encoder = new TextEncoder();
+  const data = encoder.encode(
     JSON.stringify(status.progression) +
     JSON.stringify(status.bosses) + 
-    JSON.stringify(status.areas);
-  let hash = 0;
-
-  for (let i = 0; i < string.length; i++) {
-    hash += string.charCodeAt(i);
-  }
-
-  return hash.toString(16).toUpperCase();
+    JSON.stringify(status.areas));
+  return computeCRC32(data).toString(16).toUpperCase();
 }
 
 const Parameters = ({ value, update }: { value: Params; update: any }) => {
@@ -115,7 +110,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 
 export default function StatsPage() {
   const [params, setParams] = useState({
-    gameMode: "sgl23",
+    gameMode: "chozo",
     startSeed: 1,
     numSeeds: 100,
   });
@@ -182,7 +177,7 @@ export default function StatsPage() {
     for (let i = startSeed; i <= endSeed; i++) {
       try {
         const graph = generateSeed(i, preset.settings);
-        progression.push(getItemNodes(graph));
+        progression.push(getItemProgression(graph, preset.settings));
         bosses = bosses.concat(getBossTransitions(graph));
         areas = areas.concat(getAreaTransitions(graph));
       } catch (e) {
@@ -212,6 +207,9 @@ export default function StatsPage() {
   };
 
   const updateParams = (newParams: Params) => {
+    if (newParams.gameMode != params.gameMode) {
+      clearResults();
+    }
     setParams(newParams);
   };
 

@@ -19,6 +19,10 @@ import { bossItem, Item } from "../items";
 import DotNetRandom from "../dotnet-random";
 import { ChozoVertexUpdates } from "./data/chozo/vertex";
 
+//-----------------------------------------------------------------
+// Returns a structure containing all edges grouped by area.
+//-----------------------------------------------------------------
+
 const getStandardEdges = () => {
   return {
     Crateria: crateriaEdges,
@@ -34,6 +38,10 @@ const getStandardEdges = () => {
     Bosses: bossEdges,
   };
 };
+
+//-----------------------------------------------------------------
+// Returns an array of all vertices on the game world.
+//-----------------------------------------------------------------
 
 const getAllVertices = () => {
   return Object.entries(standardVertices)
@@ -52,6 +60,12 @@ const getAllVertices = () => {
       return acc.concat(cur);
     }, []);
 };
+
+//-----------------------------------------------------------------
+// Converts the edge data into an array of edges which will be
+// used to actually create graph objects. This code runs only
+// once when the module is loaded.
+//-----------------------------------------------------------------
 
 const allEdges = Object.entries(getStandardEdges())
   .map(([_, v]) => {
@@ -73,7 +87,11 @@ const allEdges = Object.entries(getStandardEdges())
     return acc.concat(cur);
   }, []);
 
-export const createGraph = (
+//-----------------------------------------------------------------
+// Build a graph representing the game world.
+//-----------------------------------------------------------------
+
+const createGraph = (
   portalMapping,
   vertexUpdates,
   edgeUpdates,
@@ -169,6 +187,12 @@ export const createGraph = (
   return edges.filter(e => e.condition !== false);
 };
 
+//-----------------------------------------------------------------
+// Creates a copy of the graph. New memory is allocated for the
+// vertices and edges so that changes can be made to the cloned
+// graph without changing the original.
+//-----------------------------------------------------------------
+
 export const cloneGraph = (graph) => {
   const newVertices = getAllVertices();
 
@@ -192,6 +216,10 @@ export const cloneGraph = (graph) => {
   });
 };
 
+//-----------------------------------------------------------------
+// Gets an array of edge updates based on the settings.
+//-----------------------------------------------------------------
+
 const getEdgeUpdates = (mapLayout, areaShuffle) => {
   switch (mapLayout) {
     case MapLayout.Standard:
@@ -210,6 +238,27 @@ const getEdgeUpdates = (mapLayout, areaShuffle) => {
   }
 };
 
+//-----------------------------------------------------------------
+// Gets an array of vertex updates based on the settings.
+//-----------------------------------------------------------------
+
+const getVertexUpdates = (mode) => {
+  switch(mode) {
+    case MajorDistributionMode.Recall:
+      return RecallVertexUpdates;
+    case MajorDistributionMode.Chozo:
+      return ChozoVertexUpdates;
+    default:
+      return [];
+  }
+}
+
+//-----------------------------------------------------------------
+// Adds pseudo items to a graph for defeating bosses based on the
+// settings provided. Updates the areas of boss nodes and related
+// nodes like the exit and prize nodes.
+//-----------------------------------------------------------------
+
 const addBossItems = (graph, mode) => {
   const isUnique = (value, index, array) => {
     return array.indexOf(value) === index;
@@ -219,73 +268,88 @@ const addBossItems = (graph, mode) => {
     .map((e) => e.from)
     .filter(isUnique);
 
-  //TODO: Technically, this only needs to be for Boss Shuffle since
-  //      vanilla could be handled below. This should probably be
-  //      just an "if/else" instead of "if/else if"
-  if (mode == BossMode.Vanilla || mode == BossMode.Shuffled) {
-    bosses.forEach((b) => {
-      switch (b.area) {
-        case "Kraid":
-          b.item = bossItem(Item.DefeatedBrinstarBoss);
-          b.area = "KraidsLair";
-          break;
-        case "Phantoon":
-          b.item = bossItem(Item.DefeatedWreckedShipBoss);
-          b.area = "WreckedShip";
-          break;
-        case "Draygon":
-          b.item = bossItem(Item.DefeatedMaridiaBoss);
-          b.area = "EastMaridia";
-          break;
-        case "Ridley":
-          b.item = bossItem(Item.DefeatedNorfairBoss);
-          b.area = "LowerNorfair";
-          break;
-      }
-      const exitVertex = graph.find(
-        (e) => e.from.type == "exit" && e.to == b
-      ).from;
-      exitVertex.area = b.area;
-      const itemEdge = graph.find((e) => e.from == b && e.to.type == "major");
-      if (itemEdge != undefined) {
-        itemEdge.to.area = b.area;
-      }
-    });
-  } else if (mode == BossMode.Shifted) {
-    bosses.forEach((b) => {
-      const exitVertex = graph.find(
-        (e) => e.from.type == "exit" && e.to == b
-      ).from;
-      const doorVertex = graph.find(
-        (e) => e.from.type != "boss" && e.to == exitVertex
-      ).from;
+  const addItem = (boss) => {
+    switch (boss.area) {
+      case "KraidsLair":
+        boss.item = bossItem(Item.DefeatedBrinstarBoss);
+        break;
+      case "WreckedShip":
+        boss.item = bossItem(Item.DefeatedWreckedShipBoss);
+        break;
+      case "EastMaridia":
+        boss.item = bossItem(Item.DefeatedMaridiaBoss);
+        break;
+      case "LowerNorfair":
+        boss.item = bossItem(Item.DefeatedNorfairBoss);
+        break;
+    }
+  }
 
-      const itemEdge = graph.find((e) => e.from == b && e.to.type == "major");
-      if (itemEdge != undefined) {
-        itemEdge.to.area = doorVertex.area;
-      }
+  const getAdjacent = (boss) => {
+    const exit = graph.find(
+      (e) => e.from.type == "exit" && e.to == boss
+    ).from;
+    const doorEdge = graph.find((e) => e.from != boss && e.to == exit);
+    const itemEdge = graph.find((e) => e.from == boss && e.to.type == "major");
 
-      exitVertex.area = doorVertex.area;
-      b.area = doorVertex.area;
-      switch (b.area) {
-        case "KraidsLair":
-          b.item = bossItem(Item.DefeatedBrinstarBoss);
-          break;
-        case "WreckedShip":
-          b.item = bossItem(Item.DefeatedWreckedShipBoss);
-          break;
-        case "EastMaridia":
-          b.item = bossItem(Item.DefeatedMaridiaBoss);
-          break;
-        case "LowerNorfair":
-          b.item = bossItem(Item.DefeatedNorfairBoss);
-          break;
-      }
+    return {
+      exit,
+      door: doorEdge.from,
+      prize: itemEdge?.to
+    }
+  }
+
+  if (mode == BossMode.Shuffled) {
+    bosses.forEach((b) => {
+      const { exit, door } = getAdjacent(b);
+
+      //-----------------------------------------------------------------
+      // Add the pseudo item for defeating the boss before updating the
+      // area associated with the boss node because defeating the boss
+      // will unlock its vanilla area.
+      //-----------------------------------------------------------------
+
+      addItem(b);
+
+      //-----------------------------------------------------------------
+      // Update the area of the boss and exit nodes to match the area
+      // of the boss door. The prize node is NOT updated because it
+      // should reference its vanilla area.
+      //-----------------------------------------------------------------
+
+      exit.area = door.area;
+      b.area = door.area;
     });
   } else {
-    throw new Error("True boss rando not implemented yet");
+    bosses.forEach((b) => {
+      const { exit, door, prize } = getAdjacent(b);
+
+      //-----------------------------------------------------------------
+      // Update the area of the boss, prize, and exit nodes to match
+      // the area of the boss door.
+      //-----------------------------------------------------------------
+
+      if (prize != undefined) {
+        prize.area = door.area;
+      }
+
+      exit.area = door.area;
+      b.area = door.area;
+
+      //-----------------------------------------------------------------
+      // Add the pseudo item for defeating the boss after updating the
+      // area associated with the boss node because defeating the boss
+      // will unlock the area where it is located.
+      //-----------------------------------------------------------------
+
+      addItem(b);
+    });
   }
 };
+
+//-----------------------------------------------------------------
+// Loads a graph using the specified settings.
+//-----------------------------------------------------------------
 
 export const loadGraph = (
   seed,
@@ -307,29 +371,14 @@ export const loadGraph = (
     }
     return seedGen.NextInRange(1, 1000000);
   };
-  const edgeUpdates = getEdgeUpdates(mapLayout, areaShuffle);
-  const getVertexUpdates = (mode) => {
-    switch(mode) {
-      case MajorDistributionMode.Recall:
-        return RecallVertexUpdates;
-      case MajorDistributionMode.Chozo:
-        return ChozoVertexUpdates;
-      default:
-        return [];
-    }
-  }
-  const vertexUpdates = getVertexUpdates(majorDistributionMode);
 
-  if (portals != undefined) {
-    const g = createGraph(portals, vertexUpdates, edgeUpdates);
-    addBossItems(g, bossMode);
-    return g;
-  }
+  const getPortals = () =>
+    portals ? portals : mapPortals(getSeed(), areaShuffle, bossMode);
 
   const g = createGraph(
-    mapPortals(getSeed(), areaShuffle, bossMode),
-    vertexUpdates,
-    edgeUpdates
+    getPortals(),
+    getVertexUpdates(majorDistributionMode),
+    getEdgeUpdates(mapLayout, areaShuffle)
   );
   addBossItems(g, bossMode);
   return g;

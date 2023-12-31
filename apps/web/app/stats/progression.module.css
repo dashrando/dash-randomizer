@@ -12,3 +12,7 @@
   display: table-cell;
   width: 150px;
 }
+
+.header {
+  color: rgb(27, 218, 144);
+}

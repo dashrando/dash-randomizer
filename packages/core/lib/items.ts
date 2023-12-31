@@ -99,3 +99,28 @@ const newItem = (type, isMajor, spoilerAddress) => {
     spoilerAddress: spoilerAddress,
   };
 };
+
+export const isBoss = (itemType: number) => {
+  switch (itemType) {
+    case Item.DefeatedBrinstarBoss:
+    case Item.DefeatedWreckedShipBoss:
+    case Item.DefeatedMaridiaBoss:
+    case Item.DefeatedNorfairBoss:
+      return true;
+    default:
+      return false;
+  }
+};
+
+export const isFungible = (itemType: number) => {
+  switch (itemType) {
+    case Item.Super:
+    case Item.PowerBomb:
+    case Item.Missile:
+    case Item.EnergyTank:
+    case Item.Reserve:
+      return true;
+    default:
+      return false;
+  }
+};

@@ -1,8 +1,24 @@
 .location {
-  width: 280px;
+  width: 240px;
   display: inline-block;
 }
 
 .item {
   display: inline-block;
+}
+
+.item_list {
+  column-count: 3;
+}
+
+.major_item {
+  color: red;
+}
+
+.minor_item {
+  color: gold;
+}
+
+.boss_item {
+  color: violet;
 }
