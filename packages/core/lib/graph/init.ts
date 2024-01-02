@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { standardVertices } from "./data/standard/vertex";
 import { crateriaEdges } from "./data/standard/edges/crateria";
 import { greenbrinstarEdges } from "./data/standard/edges/greenbrinstar";

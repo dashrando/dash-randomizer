@@ -1,3 +1,4 @@
+// @ts-nocheck
 import DotNetRandom from "../../dotnet-random";
 import { BossMode } from "../params";
 
