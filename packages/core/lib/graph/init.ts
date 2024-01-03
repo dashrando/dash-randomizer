@@ -20,6 +20,24 @@ import { bossItem, Item } from "../items";
 import DotNetRandom from "../dotnet-random";
 import { ChozoVertexUpdates } from "./data/chozo/vertex";
 
+type Condition = boolean | (() => any);
+
+type Vertex = {
+  name: string;
+  type: string;
+  area: string;
+  item: any;
+  pathToStart: boolean;
+}
+
+type Edge = {
+  from: Vertex;
+  to: Vertex;
+  condition: Condition;
+}
+
+type Graph = Edge[];
+
 //-----------------------------------------------------------------
 // Returns a structure containing all edges grouped by area.
 //-----------------------------------------------------------------
@@ -44,7 +62,7 @@ const getStandardEdges = () => {
 // Returns an array of all vertices on the game world.
 //-----------------------------------------------------------------
 
-const getAllVertices = () => {
+const getAllVertices = (): Vertex[] => {
   return Object.entries(standardVertices)
     .map(([k, v]) => {
       return Object.entries(v).map(([name, type]) => {
@@ -93,11 +111,11 @@ const allEdges = Object.entries(getStandardEdges())
 //-----------------------------------------------------------------
 
 const createGraph = (
-  portalMapping,
+  portalMapping: PortalMapping[],
   vertexUpdates,
   edgeUpdates,
   startVertex
-) => {
+): Graph => {
   //-----------------------------------------------------------------
   // Get all vertices for the graph. Vertices represent locations
   // within the game world.
@@ -138,7 +156,7 @@ const createGraph = (
   // travel from one vertex to another.
   //-----------------------------------------------------------------
 
-  const edges = allEdges
+  const edges: Edge[] = allEdges
     .map((e) => {
       return {
         from: findVertex(e.from),
@@ -194,7 +212,7 @@ const createGraph = (
 // graph without changing the original.
 //-----------------------------------------------------------------
 
-export const cloneGraph = (graph) => {
+export const cloneGraph = (graph: Graph): Graph => {
   const newVertices = getAllVertices();
 
   const remap = (orig) => {
@@ -260,8 +278,8 @@ const getVertexUpdates = (mode) => {
 // nodes like the exit and prize nodes.
 //-----------------------------------------------------------------
 
-const addBossItems = (graph, mode) => {
-  const isUnique = (value, index, array) => {
+const addBossItems = (graph: Graph, mode: number) => {
+  const isUnique = (value: Vertex, index: number, array: Vertex[]) => {
     return array.indexOf(value) === index;
   };
   const bosses = graph
@@ -269,7 +287,7 @@ const addBossItems = (graph, mode) => {
     .map((e) => e.from)
     .filter(isUnique);
 
-  const addItem = (boss) => {
+  const addItem = (boss: Vertex) => {
     switch (boss.area) {
       case "KraidsLair":
         boss.item = bossItem(Item.DefeatedBrinstarBoss);
@@ -286,16 +304,16 @@ const addBossItems = (graph, mode) => {
     }
   }
 
-  const getAdjacent = (boss) => {
+  const getAdjacent = (boss: Vertex) => {
     const exit = graph.find(
       (e) => e.from.type == "exit" && e.to == boss
-    ).from;
+    )?.from;
     const doorEdge = graph.find((e) => e.from != boss && e.to == exit);
     const itemEdge = graph.find((e) => e.from == boss && e.to.type == "major");
 
     return {
       exit,
-      door: doorEdge.from,
+      door: doorEdge?.from,
       prize: itemEdge?.to
     }
   }
@@ -353,13 +371,13 @@ const addBossItems = (graph, mode) => {
 //-----------------------------------------------------------------
 
 export const loadGraph = (
-  seed,
-  attempt,
-  mapLayout,
-  majorDistributionMode,
+  seed: number,
+  attempt: number,
+  mapLayout: number,
+  majorDistributionMode: number,
   areaShuffle = false,
   bossMode = BossMode.Vanilla,
-  portals = undefined
+  portals?: PortalMapping[]
 ) => {
   const getSeed = () => {
     if (attempt == 1) {

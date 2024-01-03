@@ -1,16 +1,15 @@
-// @ts-nocheck
 import DotNetRandom from "../../dotnet-random";
 import { BossMode } from "../params";
 
-const samePortals = (unshuffled, shuffled) => {
+type PortalMapping = [string, string];
+
+const samePortals = (unshuffled: PortalMapping[], shuffled: PortalMapping[]) => {
   if (unshuffled.length != shuffled.length) {
     throw new Error(`Mismatch number of portals`);
   }
 
   for (let i = 0; i < unshuffled.length; i++) {
-    const pair = unshuffled[i];
-    const left = pair[0];
-    const right = pair[1];
+    const [ left, right ] = unshuffled[i];
 
     for (let j = 0; j < shuffled.length; j++) {
       if (shuffled[j][0] == left) {
@@ -30,59 +29,44 @@ const samePortals = (unshuffled, shuffled) => {
   return true;
 };
 
-const areaLoopCount = (shuffled) => {
+const areaLoopCount = (shuffled: PortalMapping[]) => {
   const zones = [
+    ["Door_RetroPBs", "Door_Moat", "Door_G4", "Door_Kago", "Door_Crabs"],
+    ["Door_GreenHills", "Door_GreenElevator", "Door_NoobBridge"],
     [
-      "Crateria",
-      ["Door_RetroPBs", "Door_Moat", "Door_G4", "Door_Kago", "Door_Crabs"],
+      "Door_RedElevator",
+      "Door_RedTower",
+      "Door_MaridiaEscape",
+      "Door_MaridiaTube",
+      "Door_KraidEntry",
+      "Door_AboveKraid",
     ],
     [
-      "Green Brinstar",
-      ["Door_GreenHills", "Door_GreenElevator", "Door_NoobBridge"],
+      "Door_ElevatorEntry",
+      "Door_KraidMouth",
+      "Door_CrocEntry",
+      "Door_SingleChamber",
+      "Door_LavaDive",
     ],
+    ["Door_Muskateers", "Door_RidleyMouth"],
+    ["Door_Ocean", "Door_HighwayExit"],
     [
-      "Red Brinstar",
-      [
-        "Door_RedElevator",
-        "Door_RedTower",
-        "Door_MaridiaEscape",
-        "Door_MaridiaTube",
-        "Door_KraidEntry",
-        "Door_AboveKraid",
-      ],
+      "Door_PreAqueduct",
+      "Door_RedFish",
+      "Door_MainStreet",
+      "Door_MaridiaMap",
     ],
-    [
-      "Upper Norfair",
-      [
-        "Door_ElevatorEntry",
-        "Door_KraidMouth",
-        "Door_CrocEntry",
-        "Door_SingleChamber",
-        "Door_LavaDive",
-      ],
-    ],
-    ["Lower Norfair", ["Door_Muskateers", "Door_RidleyMouth"]],
-    ["Wrecked Ship", ["Door_Ocean", "Door_HighwayExit"]],
-    [
-      "West Maridia",
-      [
-        "Door_PreAqueduct",
-        "Door_RedFish",
-        "Door_MainStreet",
-        "Door_MaridiaMap",
-      ],
-    ],
-    ["East Maridia", ["Door_Aqueduct", "Door_Highway"]],
-    ["Kraid's Lair", ["Door_KraidsLair"]],
-    ["Crocomire's Lair", ["Door_Croc"]],
-    ["Tourian", ["Door_Tourian"]],
+    ["Door_Aqueduct", "Door_Highway"],
+    //["Door_KraidsLair"],
+    //["Door_Croc"],
+    //["Door_Tourian"],
   ];
 
   //console.log("---");
   let numLoops = 0;
   zones.forEach((z) => {
-    for (let i = 0; i < z[1].length - 1; i++) {
-      const first = z[1][i];
+    for (let i = 0; i < z.length - 1; i++) {
+      const first = z[i];
       shuffled.forEach((t) => {
         let second = "";
         if (t[0] == first) {
@@ -92,9 +76,9 @@ const areaLoopCount = (shuffled) => {
         } else {
           return;
         }
-        for (let j = i + 1; j < z[1].length; j++) {
-          //console.log("check", first, "->", z[1][j]);
-          if (second == z[1][j]) {
+        for (let j = i + 1; j < z.length; j++) {
+          //console.log("check", first, "->", z[j]);
+          if (second == z[j]) {
             numLoops += 1;
           }
         }
@@ -104,7 +88,7 @@ const areaLoopCount = (shuffled) => {
   return numLoops;
 };
 
-const vanillaCount = (vanilla, shuffled) => {
+const vanillaCount = (vanilla: PortalMapping[], shuffled: PortalMapping[]) => {
   let count = 0;
   vanilla.forEach((p) => {
     shuffled.forEach((s) => {
@@ -121,8 +105,8 @@ const vanillaCount = (vanilla, shuffled) => {
   return count;
 };
 
-const shuffle = (rng, arr) => {
-  const swap = (arr, x, y) => {
+const shuffle = (rng: DotNetRandom, arr: any[]) => {
+  const swap = (arr: any[], x: number, y: number) => {
     const tmp = arr[x];
     arr[x] = arr[y];
     arr[y] = tmp;
@@ -133,8 +117,8 @@ const shuffle = (rng, arr) => {
   }
 };
 
-const getAreaPortals = (seed) => {
-  const areas = [
+const getAreaPortals = (seed: number): PortalMapping[] => {
+  const areas: PortalMapping[] = [
     // Crateria / Blue Brinstar
     ["Door_RetroPBs", "Door_GreenHills"],
     ["Door_Moat", "Door_Ocean"],
@@ -169,14 +153,10 @@ const getAreaPortals = (seed) => {
   const maxVanilla = rng.NextDouble() < 0.1 ? 1 : 0;
 
   const shuffleAreas = () => {
-    const all = [];
-    areas.forEach((a) => {
-      all.push(a[0]);
-      all.push(a[1]);
-    });
+    const all = areas.flat();
     shuffle(rng, all);
 
-    const shuffled = [];
+    const shuffled: PortalMapping[] = [];
     for (let i = 0; i < all.length; i += 2) {
       shuffled.push([all[i], all[i + 1]]);
     }
@@ -204,8 +184,8 @@ const getAreaPortals = (seed) => {
   return shuffled;
 };
 
-const getBossPortals = (mode, seed) => {
-  const bosses = [
+const getBossPortals = (mode: number, seed: number): PortalMapping[] => {
+  const bosses: PortalMapping[] = [
     ["Door_KraidBoss", "Exit_Kraid"],
     ["Door_PhantoonBoss", "Exit_Phantoon"],
     ["Door_DraygonBoss", "Exit_Draygon"],
@@ -229,7 +209,7 @@ const getBossPortals = (mode, seed) => {
 
     // Shuffle the exit portals and assign them to boss doors
     shuffle(rng, exitPortals);
-    return doorPortals.map((d, idx) => [d, exitPortals[idx]]);
+    return doorPortals.map<PortalMapping>((d, idx) => [d, exitPortals[idx]]);
   };
 
   //
@@ -241,7 +221,7 @@ const getBossPortals = (mode, seed) => {
   return shuffled;
 };
 
-export const mapPortals = (seed, area, boss) => {
+export const mapPortals = (seed: number, area: boolean, boss: number): PortalMapping[] => {
   if (seed == 0 && (area || boss)) {
     throw new Error("Seed of 0 with areas or bosses randomized");
   }
