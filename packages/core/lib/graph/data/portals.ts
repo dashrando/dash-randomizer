@@ -1,7 +1,7 @@
 import DotNetRandom from "../../dotnet-random";
 import { BossMode } from "../params";
 
-type PortalMapping = [string, string];
+export type PortalMapping = [string, string];
 
 const samePortals = (unshuffled: PortalMapping[], shuffled: PortalMapping[]) => {
   if (unshuffled.length != shuffled.length) {

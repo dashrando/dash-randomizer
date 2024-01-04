@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { standardVertices } from "./data/standard/vertex";
 import { crateriaEdges } from "./data/standard/edges/crateria";
 import { greenbrinstarEdges } from "./data/standard/edges/greenbrinstar";
@@ -15,7 +14,7 @@ import { BossMode, MapLayout, MajorDistributionMode } from "./params";
 import { RecallVertexUpdates } from "./data/recall/vertex";
 import { RecallEdgeUpdates } from "./data/recall/edges";
 import { StandardAreaEdgeUpdates } from "./data/standard/area";
-import { mapPortals } from "./data/portals";
+import { mapPortals, PortalMapping } from "./data/portals";
 import { bossItem, Item } from "../items";
 import DotNetRandom from "../dotnet-random";
 import { ChozoVertexUpdates } from "./data/chozo/vertex";
@@ -30,10 +29,20 @@ type Vertex = {
   pathToStart: boolean;
 }
 
+type VertexUpdate = {
+  name: string;
+  type: string;
+}
+
 type Edge = {
   from: Vertex;
   to: Vertex;
   condition: Condition;
+}
+
+type EdgeUpdate = {
+  edges: string[];
+  requires: Condition;
 }
 
 type Graph = Edge[];
@@ -94,7 +103,7 @@ const allEdges = Object.entries(getStandardEdges())
           return {
             from: from,
             to: to,
-            condition: condition,
+            condition: condition as Condition,
           };
         });
       })
@@ -112,9 +121,9 @@ const allEdges = Object.entries(getStandardEdges())
 
 const createGraph = (
   portalMapping: PortalMapping[],
-  vertexUpdates,
-  edgeUpdates,
-  startVertex
+  vertexUpdates: VertexUpdate[],
+  edgeUpdates: EdgeUpdate[],
+  startVertex?: string
 ): Graph => {
   //-----------------------------------------------------------------
   // Get all vertices for the graph. Vertices represent locations
@@ -123,7 +132,7 @@ const createGraph = (
 
   const allVertices = getAllVertices();
 
-  const findVertex = (name) => {
+  const findVertex = (name: string) => {
     const vertex = allVertices.find((v) => v.name == name);
     if (vertex == undefined) {
       throw new Error(`createGraph: could not find vertex, ${name}`);
@@ -215,8 +224,11 @@ const createGraph = (
 export const cloneGraph = (graph: Graph): Graph => {
   const newVertices = getAllVertices();
 
-  const remap = (orig) => {
+  const remap = (orig: Vertex) => {
     let v = newVertices.find((v) => v.name == orig.name);
+    if (v == undefined) {
+      throw Error('missing vertex to remap')
+    }
     v.type = orig.type;
     v.area = orig.area;
     v.pathToStart = orig.pathToStart;
@@ -239,7 +251,7 @@ export const cloneGraph = (graph: Graph): Graph => {
 // Gets an array of edge updates based on the settings.
 //-----------------------------------------------------------------
 
-const getEdgeUpdates = (mapLayout, areaShuffle) => {
+const getEdgeUpdates = (mapLayout: number, areaShuffle: boolean): EdgeUpdate[] => {
   switch (mapLayout) {
     case MapLayout.Standard:
     case MapLayout.Classic:
@@ -261,7 +273,7 @@ const getEdgeUpdates = (mapLayout, areaShuffle) => {
 // Gets an array of vertex updates based on the settings.
 //-----------------------------------------------------------------
 
-const getVertexUpdates = (mode) => {
+const getVertexUpdates = (mode: number): VertexUpdate[] => {
   switch(mode) {
     case MajorDistributionMode.Recall:
       return RecallVertexUpdates;
@@ -308,13 +320,21 @@ const addBossItems = (graph: Graph, mode: number) => {
     const exit = graph.find(
       (e) => e.from.type == "exit" && e.to == boss
     )?.from;
+
+    if (exit == undefined) {
+      throw Error('missing boss exit edge')
+    }
+
     const doorEdge = graph.find((e) => e.from != boss && e.to == exit);
-    const itemEdge = graph.find((e) => e.from == boss && e.to.type == "major");
+
+    if (doorEdge == undefined) {
+      throw Error('missing boss door edge')
+    }
 
     return {
       exit,
-      door: doorEdge?.from,
-      prize: itemEdge?.to
+      door: doorEdge.from,
+      prize: graph.find((e) => e.from == boss && e.to.type == "major")?.to
     }
   }
 
