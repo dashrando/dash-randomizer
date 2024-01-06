@@ -1,6 +1,6 @@
 import { Item } from "./items";
 
-type Loadout = {
+export type Loadout = {
   hasBombs: boolean;
   hasMorph: boolean;
   hasGravity: boolean;

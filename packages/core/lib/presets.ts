@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Item } from "./items";
 import {
   BeamMode,

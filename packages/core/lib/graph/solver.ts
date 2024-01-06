@@ -1,21 +1,23 @@
+// @ts-nocheck
 import { canReachStart, searchAndCache } from "./search";
 import { isFungible } from "../items";
-import { cloneGraph } from "./init";
+import { cloneGraph, Graph, Vertex } from "./init";
 import { MajorDistributionMode } from "./params";
 import {
   addItem,
   checkFlags,
   cloneLoadout,
   copyLoadout,
-  createLoadout
+  createLoadout,
+  Loadout
 } from "../loadout";
 
-export const isGraphValid = (graph, settings, loadout, progression) => {
+export const isGraphValid = (graph: Graph, settings, loadout: Loadout, progression) => {
   const solver = new GraphSolver(graph, settings);
   return solver.isValid(loadout, progression);
 };
 
-export const getItemProgression = (graph, settings, loadout) => {
+export const getItemProgression = (graph: Graph, settings, loadout?: Loadout) => {
   const initLoad = loadout != undefined ? loadout : createLoadout();
   const itemProgression = [], progression = [];
   if (isGraphValid(cloneGraph(graph), settings, initLoad, progression)) {
@@ -50,7 +52,7 @@ const revSolve = (solver, load, node) => {
   return false;
 };
 
-const getProgressionLocation = (itemNode) => {
+const getProgressionLocation = (itemNode: Vertex) => {
   if (itemNode.type == "boss") {
     const bossName = itemNode.name.substring(5)
     return `${bossName} @ ${itemNode.area}`;
@@ -58,7 +60,7 @@ const getProgressionLocation = (itemNode) => {
   return itemNode.name;
 }
 
-const getProgressionEntry = (itemNode) => {
+const getProgressionEntry = (itemNode: Vertex) => {
   return {
     itemName: itemNode.item.name,
     itemType: itemNode.item.type,
@@ -93,14 +95,14 @@ class GraphSolver {
     // start node. All these items are collected at the same time.
     //-----------------------------------------------------------------
 
-    const collectItem = (p) => {
+    const collectItem = (p: Vertex) => {
       if (step >= 0) {
         progression[step].collected.push(getProgressionEntry(p));
       }
       p.item = undefined;
     }
 
-    const collectSafeItems = (itemLocations) => {
+    const collectSafeItems = (itemLocations: Vertex[]) => {
       const load = cloneLoadout(samus);
       let collectedItem = false;
 
@@ -125,7 +127,7 @@ class GraphSolver {
       // would result in a valid graph.
       //-----------------------------------------------------------------
 
-      const reverseSolve = (filtered) => {
+      const reverseSolve = (filtered: Vertex[]) => {
         const p = filtered.find(n => revSolve(this, samus, n));
 
         if (p == undefined) {

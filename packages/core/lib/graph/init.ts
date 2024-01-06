@@ -19,9 +19,9 @@ import { bossItem, Item } from "../items";
 import DotNetRandom from "../dotnet-random";
 import { ChozoVertexUpdates } from "./data/chozo/vertex";
 
-type Condition = boolean | (() => any);
+export type Condition = boolean | (() => any);
 
-type Vertex = {
+export type Vertex = {
   name: string;
   type: string;
   area: string;
@@ -45,7 +45,7 @@ type EdgeUpdate = {
   requires: Condition;
 }
 
-type Graph = Edge[];
+export type Graph = Edge[];
 
 //-----------------------------------------------------------------
 // Returns a structure containing all edges grouped by area.
@@ -227,7 +227,7 @@ export const cloneGraph = (graph: Graph): Graph => {
   const remap = (orig: Vertex) => {
     let v = newVertices.find((v) => v.name == orig.name);
     if (v == undefined) {
-      throw Error('missing vertex to remap')
+      throw new Error('cloneGraph: missing vertex to remap')
     }
     v.type = orig.type;
     v.area = orig.area;
@@ -322,13 +322,13 @@ const addBossItems = (graph: Graph, mode: number) => {
     )?.from;
 
     if (exit == undefined) {
-      throw Error('missing boss exit edge')
+      throw new Error('getAdjacent: missing boss exit edge')
     }
 
     const doorEdge = graph.find((e) => e.from != boss && e.to == exit);
 
     if (doorEdge == undefined) {
-      throw Error('missing boss door edge')
+      throw new Error('getAdjacent: missing boss door edge')
     }
 
     return {
