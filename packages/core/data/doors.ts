@@ -1,3 +1,4 @@
+import { Edge } from "../lib/graph/init";
 import { AREA_DOORS as area, BOSS_DOORS as boss } from "./interface";
 
 export type DoorTransition = {
@@ -291,8 +292,7 @@ const DOORS: DoorTransition[] = [
   },
 ];
 
-// @ts-ignore
-export const isAreaEdge = (edge) => {
+export const isAreaEdge = (edge: Edge) => {
   const doors = [
     "Door_RetroPBs",
     "Door_GreenHills",
@@ -336,8 +336,7 @@ export const isAreaEdge = (edge) => {
   return true;
 };
 
-// @ts-ignore
-export const isBossEdge = (edge) => {
+export const isBossEdge = (edge: Edge) => {
   const doors = [
     "Door_KraidBoss",
     "Exit_Kraid",

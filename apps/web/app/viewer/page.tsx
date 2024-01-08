@@ -3,7 +3,7 @@
 import { Item } from "core/data";
 import { useRef, useState } from "react";
 import styles from "./page.module.css"
-import { getItemProgression, readGraph, readParams } from "core";
+import { ItemLocation, getItemProgression, readGraph, readParams } from "core";
 
 export default function ItemViewer() {
    const test = useRef<HTMLInputElement>(null);
@@ -33,7 +33,7 @@ export default function ItemViewer() {
 
       const progression = getItemProgression(graph, settings)
 
-      const getStyle = (n: any) => {
+      const getStyle = (n: ItemLocation) => {
          if (n.isMajor) {
             return styles.major_item;
          } else {

@@ -1,7 +1,7 @@
 import Spacer from "@/app/components/spacer";
 import { EdgeContent, Navigation, mapArea } from "../readable";
 import styles from "../readable.module.css";
-import { loadGraph } from "core";
+import { Edge, loadGraph } from "core";
 import { MajorDistributionMode, MapLayout } from "core/params";
 import LoadoutChecks from "./loadout";
 import { cn } from "@/lib/utils";
@@ -22,7 +22,7 @@ export async function generateStaticParams() {
   ]
 }
 
-const getGraphName = (graph: any) => {
+const getGraphName = (graph: string) => {
   switch (graph) {
     case 'standard':
       return 'Standard';
@@ -58,7 +58,7 @@ const LogicPage = ({ params }: { params: { graph: string }}) => {
 
   let area = "";
 
-  const Edge = ({ edge }: any) => {
+  const Edge = ({ edge }: { edge: Edge }) => {
     // Hide constant conditions unless they are to get an item
     const notMajorMinor = edge.to.type != "major" && edge.to.type != "minor"
     const hideConstant = (edge.condition === true || edge.condition === false)

@@ -23,7 +23,7 @@ async function ProtectRom(
   const getRandomByte = () => rnd.Next(256);
 
   // Fisher-Yates shuffle algorithm
-  const shuffle = (array: any) => {
+  const shuffle = (array: any[]) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = getRandomNumber(i + 1);
       [array[i], array[j]] = [array[j], array[i]];

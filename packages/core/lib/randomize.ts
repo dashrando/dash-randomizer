@@ -37,7 +37,7 @@ async function RandomizeRom(
   const options: Options = { ...defaultOptions, ...opts };
 
   // Generate the seed specific patch (item placement, etc.)
-  const seedPatch: any = generateSeedPatch(
+  const seedPatch = generateSeedPatch(
     seed, settings, graph, options);
 
   // Create the rom by patching the vanilla rom.
