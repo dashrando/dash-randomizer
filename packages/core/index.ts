@@ -10,7 +10,7 @@ export * as vanilla from "./lib/vanilla";
 export { patchRom } from "./helpers/patcher";
 export { findPreset, getPreset, getAllPresets } from "./lib/presets";
 export { Item } from "./lib/items";
-export { generateFromPreset, getItemNodes, getSeedNumber } from "./lib/sm-rando";
+export { generateFromPreset, getSeedNumber } from "./lib/sm-rando";
 export { getItemProgression } from "./lib/graph/solver";
 export {
   bytesToParams,
