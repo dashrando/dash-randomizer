@@ -1,6 +1,5 @@
 import RandomizeRom from "./lib/randomize";
 import ProtectRom from "./lib/protect";
-import gameModes from "./data/modes";
 import BpsPatch from "./lib/bps-patch";
 
 export const computeCRC32 = BpsPatch.CRC32;
@@ -26,7 +25,7 @@ export {
   readGraph
 } from "./helpers/reader"
 
-export { RandomizeRom, ProtectRom, gameModes, BpsPatch };
+export { RandomizeRom, ProtectRom, BpsPatch };
 
 export type { Options, Settings } from "./lib/graph/params";
 export type { Graph, Vertex, Edge } from "./lib/graph/init";
