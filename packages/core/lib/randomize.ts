@@ -2,35 +2,20 @@ import BpsPatch from "./bps-patch";
 import { getBasePatch, getFileName, generateSeedPatch } from "./sm-rando";
 import { generateSeed } from "./graph/fill";
 import { patchRom } from "../helpers/patcher";
-
-export type Opts = {
-  DisableFanfare: number
-}
+import { Options, Settings } from "./graph/params";
 
 export type Config = {
   onUpdate?: any
   onSuccess?: any
   vanillaBytes: Uint8Array
-}
-
-export type Settings = {
-  mapLayout: number,
-  majorDistribution: number,
-  minorDistribution: number,
-  extraItems: number[],
-  beamMode: number
-  bossMode: number
-  gravityHeatReduction: number
-  preset: string
-  randomizeAreas: boolean
-  suitMode: number
+  presetName: string
 }
 
 async function RandomizeRom(
   seed: number = 0,
   settings: Settings,
-  opts: Opts = {
-    DisableFanfare: 0
+  opts: Options = {
+    DisableFanfare: false
   },
   config: Config
 ) {
@@ -46,10 +31,10 @@ async function RandomizeRom(
   const basePatch: any = await BpsPatch.Load(`/patches/${patch}`);
 
   // Process options with defaults.
-  const defaultOptions = {
-    DisableFanfare: 0,
+  const defaultOptions: Options = {
+    DisableFanfare: false,
   };
-  const options = { ...defaultOptions, ...opts };
+  const options: Options = { ...defaultOptions, ...opts };
 
   // Generate the seed specific patch (item placement, etc.)
   const seedPatch: any = generateSeedPatch(
@@ -58,7 +43,7 @@ async function RandomizeRom(
   // Create the rom by patching the vanilla rom.
   return {
     data: patchRom(config.vanillaBytes, basePatch, seedPatch),
-    name: getFileName(seed, settings, options),
+    name: getFileName(config.presetName, seed, settings, options),
   };
 }
 

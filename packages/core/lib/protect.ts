@@ -1,13 +1,13 @@
 import DotNetRandom from "./dotnet-random";
 import { getLocations } from "./locations";
-import RandomizeRom from "./randomize";
-import type { Config, Opts, Settings } from "./randomize";
+import RandomizeRom, { Config } from "./randomize";
+import { Options, Settings } from "./graph/params";
 
 async function ProtectRom(
   seed: number = 0,
   settings: Settings,
-  opts: Opts = {
-    DisableFanfare: 0,
+  opts: Options = {
+    DisableFanfare: false,
   },
   config: Config
 ) {

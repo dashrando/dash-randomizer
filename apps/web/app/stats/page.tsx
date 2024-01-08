@@ -7,17 +7,16 @@ import {
   generateSeed,
 } from "core/data";
 import { useState } from "react";
-import { computeCRC32, getItemProgression, getPreset } from "core";
+import {
+  computeCRC32,
+  getItemProgression,
+  getPreset,
+  ItemLocation
+} from "core";
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
 import AreaDoorTable, { Transition } from "./areas";
-
-export type ItemLocation = {
-  itemType: number;
-  locationName: string;
-  isMajor: boolean;
-};
 
 export type ItemProgression = ItemLocation[];
 

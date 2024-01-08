@@ -27,3 +27,7 @@ export {
 } from "./helpers/reader"
 
 export { RandomizeRom, ProtectRom, gameModes, BpsPatch };
+
+export type { Options, Settings } from "./lib/graph/params";
+export type { Graph, Vertex, Edge } from "./lib/graph/init";
+export type { ItemLocation } from "./lib/graph/solver";

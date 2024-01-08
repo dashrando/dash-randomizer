@@ -298,9 +298,9 @@ export const getBasePatch = (settings) => {
     : `dash_standard${area}.bps`;
 };
 
-export const getFileName = (seed, settings, options) => {
+export const getFileName = (rootName, seed, settings, options) => {
   const flags = paramsToString(seed, settings, options);
-  return `DASH_${settings.preset}_${flags}.sfc`;
+  return `DASH_${rootName}_${flags}.sfc`;
 };
 
 export const getItemNodes = (graph) => {
@@ -387,7 +387,7 @@ export const generateFromPreset = (name, seedNumber) => {
   };
 
   const seedPatch = generateSeedPatch(seed, settings, graph, defaultOptions);
-  const fileName = getFileName(seed, settings, defaultOptions);
+  const fileName = getFileName(preset.fileName, seed, settings, defaultOptions);
   const patch = getBasePatch(settings);
 
   return [`patches/${patch}`, seedPatch, fileName];
