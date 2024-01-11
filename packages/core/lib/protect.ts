@@ -1,13 +1,13 @@
 import DotNetRandom from "./dotnet-random";
 import { getLocations } from "./locations";
-import RandomizeRom from "./randomize";
-import type { Config, Opts, Settings } from "./randomize";
+import RandomizeRom, { Config } from "./randomize";
+import { Options, Settings } from "./graph/params";
 
 async function ProtectRom(
   seed: number = 0,
   settings: Settings,
-  opts: Opts = {
-    DisableFanfare: 0,
+  opts: Options = {
+    DisableFanfare: false,
   },
   config: Config
 ) {
@@ -23,7 +23,7 @@ async function ProtectRom(
   const getRandomByte = () => rnd.Next(256);
 
   // Fisher-Yates shuffle algorithm
-  const shuffle = (array: any) => {
+  const shuffle = (array: any[]) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = getRandomNumber(i + 1);
       [array[i], array[j]] = [array[j], array[i]];

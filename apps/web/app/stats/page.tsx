@@ -7,17 +7,17 @@ import {
   generateSeed,
 } from "core/data";
 import { useState } from "react";
-import { computeCRC32, getItemProgression, getPreset } from "core";
+import {
+  computeCRC32,
+  getItemProgression,
+  getPreset,
+  Graph,
+  ItemLocation
+} from "core";
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
 import AreaDoorTable, { Transition } from "./areas";
-
-export type ItemLocation = {
-  itemType: number;
-  locationName: string;
-  isMajor: boolean;
-};
 
 export type ItemProgression = ItemLocation[];
 
@@ -148,11 +148,11 @@ export default function StatsPage() {
     let areas: Transition[] = [];
     const start = Date.now();
 
-    const getAreaTransitions = (graph: any) => {
+    const getAreaTransitions = (graph: Graph) => {
       const graphAreas: Transition[] = [];
       graph
-        .filter((n: any) => isAreaEdge(n))
-        .forEach((n: any) => {
+        .filter((n) => isAreaEdge(n))
+        .forEach((n) => {
           graphAreas.push({
             from: n.from.name.slice(),
             to: n.to.name.slice(),
@@ -161,11 +161,11 @@ export default function StatsPage() {
       return graphAreas;
     };
 
-    const getBossTransitions = (graph: any) => {
+    const getBossTransitions = (graph: Graph) => {
       const graphBosses: Transition[] = [];
       graph
-        .filter((n: any) => isBossEdge(n))
-        .forEach((n: any) => {
+        .filter((n) => isBossEdge(n))
+        .forEach((n) => {
           graphBosses.push({
             from: n.from.name.slice(),
             to: n.to.name.slice(),

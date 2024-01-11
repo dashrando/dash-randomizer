@@ -4,9 +4,10 @@ import {
   BeamMode,
   MajorDistributionMode,
   MinorDistributionMode,
+  Settings,
 } from "./params";
 
-export const getItemPool = (seed: number, settings: any) => {
+export const getItemPool = (seed: number, settings: Settings) => {
   const { majorDistribution, minorDistribution, extraItems, beamMode } =
     settings;
   const rnd = new DotNetRandom(seed);
@@ -88,8 +89,11 @@ export const getItemPool = (seed: number, settings: any) => {
     }
   });
 
-  const setAmountInPool = (type: any, count: number, isMajor: boolean) => {
-    const item = itemPool.find((i) => i.type == type && i.isMajor == isMajor) as any;
+  const setAmountInPool = (type: number, count: number, isMajor: boolean) => {
+    const item = itemPool.find((i) => i.type == type && i.isMajor == isMajor);
+    if (item == undefined) {
+      throw new Error("setAmountInPool: failed to find item")
+    }
     while (itemPool.filter((i) => i == item).length < count) {
       itemPool.unshift(item);
     }

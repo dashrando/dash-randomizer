@@ -1,17 +1,17 @@
 import DotNetRandom from "../dotnet-random";
-import { Item } from "../items";
+import { Item, ItemType } from "../items";
 import { isGraphValid } from "./solver";
-import { cloneGraph, loadGraph } from "./init";
+import { Graph, Vertex, cloneGraph, loadGraph } from "./init";
 import { addItem, checkFlags, createLoadout } from "../loadout";
 import { getItemPool } from "./itemPool";
-import { BossMode, MajorDistributionMode } from "./params";
+import { BossMode, MajorDistributionMode, Settings } from "./params";
 import { canReachVertex } from "./search";
 
 //-----------------------------------------------------------------
 // Utility routines.
 //-----------------------------------------------------------------
 
-const canPlaceItem_Full = (item, vertex) => {
+const canPlaceItem_Full = (item: ItemType, vertex: Vertex) => {
   if (vertex.item != undefined) {
     return false;
   }
@@ -36,7 +36,7 @@ const canPlaceItem_Full = (item, vertex) => {
   return true;
 };
 
-const canPlaceItem_MajorMinor = (item, vertex) => {
+const canPlaceItem_MajorMinor = (item: ItemType, vertex: Vertex) => {
   if (vertex.item != undefined) {
     return false;
   }
@@ -68,8 +68,8 @@ const canPlaceItem_MajorMinor = (item, vertex) => {
 // Generates the default prefill pool for Full seeds.
 //-----------------------------------------------------------------
 
-const getFullPrePool = (rnd) => {
-  const prePool = [Item.Morph];
+const getFullPrePool = (rnd: DotNetRandom) => {
+  const prePool: number[] = [Item.Morph];
 
   if (rnd.Next(100) < 65) {
     prePool.push(Item.Missile);
@@ -100,8 +100,8 @@ const getFullPrePool = (rnd) => {
 // Generates the default prefill pool for M/M seeds.
 //-----------------------------------------------------------------
 
-const getMajorMinorPrePool = (rnd) => {
-  const prePool = [Item.Morph];
+const getMajorMinorPrePool = (rnd: DotNetRandom) => {
+  const prePool: number[] = [Item.Morph];
 
   if (rnd.Next(100) < 65) {
     prePool.push(Item.Missile);
@@ -135,8 +135,8 @@ const getMajorMinorPrePool = (rnd) => {
 // Generates the default prefill pool for Chozo seeds.
 //-----------------------------------------------------------------
 
-const getChozoPrePool = (rnd) => {
-  const prePool = [Item.Morph];
+const getChozoPrePool = (rnd: DotNetRandom) => {
+  const prePool: number[] = [Item.Morph];
 
   switch (rnd.Next(10)) {
     case 0:
@@ -166,8 +166,13 @@ const getChozoPrePool = (rnd) => {
 // Place items within the graph.
 //-----------------------------------------------------------------
 
-const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
-
+const graphFill = (
+  seed: number,
+  rnd: DotNetRandom,
+  graph: Graph,
+  settings: Settings,
+  maxAttempts = 10,
+) => {
   //-----------------------------------------------------------------
   // Extract parameters.
   //-----------------------------------------------------------------
@@ -178,13 +183,13 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
   // Utility routines for shuffling arrays.
   //-----------------------------------------------------------------
 
-  const swap = (arr, x, y) => {
+  const swap = (arr: any[], x: number, y: number) => {
     const tmp = arr[x];
     arr[x] = arr[y];
     arr[y] = tmp;
   };
 
-  const shuffle = (arr) => {
+  const shuffle = (arr: any[]) => {
     for (let i = 0; i < arr.length; i++) {
       swap(arr, i, rnd.NextInRange(i, arr.length));
     }
@@ -194,10 +199,12 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
   // Shuffle item locations.
   //-----------------------------------------------------------------
 
-  let itemVertices = graph.map((e) => e.from).filter((v) => {
-    return v.type == "major" || v.type == "minor"
-  });
-  const isUnique = (value, index, array) => {
+  let itemVertices = graph
+    .map((e) => e.from)
+    .filter((v) => {
+      return v.type == "major" || v.type == "minor";
+    });
+  const isUnique = (value: Vertex, index: number, array: Vertex[]) => {
     return array.indexOf(value) === index;
   };
   let shuffledLocations = itemVertices.filter(isUnique);
@@ -222,8 +229,10 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
   //-----------------------------------------------------------------
 
   const getPrePool = restrictType
-  ? (settings.majorDistribution == MajorDistributionMode.Chozo ? getChozoPrePool : getMajorMinorPrePool)
-  : getFullPrePool;
+    ? settings.majorDistribution == MajorDistributionMode.Chozo
+      ? getChozoPrePool
+      : getMajorMinorPrePool
+    : getFullPrePool;
   let prefillLoadout = createLoadout();
   const startVertex = graph[0].from;
 
@@ -242,6 +251,9 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
         canReachVertex(graph, startVertex, v, checker) &&
         canReachVertex(graph, v, startVertex, checker));
 
+    if (available == undefined) {
+      throw new Error("graphFill: failed to find available location for item")
+    }
     available.item = item;
     addItem(prefillLoadout, itemType);
   });
@@ -250,7 +262,7 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
   // Utility routine for placing items.
   //-----------------------------------------------------------------
 
-  const placeItems = (itemPool, vertices) => {
+  const placeItems = (itemPool: ItemType[], vertices: Vertex[]) => {
     //-----------------------------------------------------------------
     // Create a shuffled list of items to place.
     //-----------------------------------------------------------------
@@ -308,7 +320,7 @@ const graphFill = (seed, rnd, graph, settings, maxAttempts = 10) => {
 // Performs multiple passes to generate a seed using a graph.
 //-----------------------------------------------------------------
 
-export const generateSeed = (seed, settings) => {
+export const generateSeed = (seed: number, settings: Settings) => {
   const maxOuterLoop = 20;
   let maxInnerLoop = 10;
   const rnd = new DotNetRandom(seed);

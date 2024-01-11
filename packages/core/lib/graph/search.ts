@@ -1,9 +1,14 @@
-// @ts-nocheck
+import { Graph, Vertex, Condition } from "./init"
+
 //-----------------------------------------------------------------
 // Finds accessible vertices and caches open edges.
 //-----------------------------------------------------------------
 
-export const searchAndCache = (graph, vertex, test) => {
+export const searchAndCache = (
+  graph: Graph,
+  vertex: Vertex,
+  test: (condition: Condition) => any,
+) => {
   // Use breadth first search
   let queue = [vertex];
   let pos = 0;
@@ -26,7 +31,11 @@ export const searchAndCache = (graph, vertex, test) => {
   return queue;
 };
 
-export const canReachStart = (graph, vertex, test) => {
+export const canReachStart = (
+  graph: Graph,
+  vertex: Vertex,
+  test: (condition: Condition) => any,
+) => {
   if (vertex.pathToStart) {
     return true;
   }
@@ -54,7 +63,13 @@ export const canReachStart = (graph, vertex, test) => {
 
   return false;
 };
-export const canReachVertex = (graph, startVertex, endVertex, test) => {
+
+export const canReachVertex = (
+  graph: Graph,
+  startVertex: Vertex,
+  endVertex: Vertex,
+  test: (condition: Condition) => any,
+) => {
   if (startVertex == endVertex) {
     return true;
   }

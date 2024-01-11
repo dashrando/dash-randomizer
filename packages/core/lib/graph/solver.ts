@@ -1,8 +1,7 @@
-// @ts-nocheck
 import { canReachStart, searchAndCache } from "./search";
 import { isFungible } from "../items";
 import { cloneGraph, Graph, Vertex } from "./init";
-import { MajorDistributionMode } from "./params";
+import { MajorDistributionMode, Settings } from "./params";
 import {
   addItem,
   checkFlags,
@@ -12,14 +11,26 @@ import {
   Loadout
 } from "../loadout";
 
-export const isGraphValid = (graph: Graph, settings, loadout: Loadout, progression) => {
+export type ItemLocation = {
+  itemName: string;
+  itemType: number;
+  locationName: string;
+  isMajor: boolean;
+}
+
+type Progression = {
+  available: ItemLocation[];
+  collected: ItemLocation[];
+}
+
+export const isGraphValid = (graph: Graph, settings: Settings, loadout: Loadout, progression?: Progression[]) => {
   const solver = new GraphSolver(graph, settings);
   return solver.isValid(loadout, progression);
 };
 
-export const getItemProgression = (graph: Graph, settings, loadout?: Loadout) => {
+export const getItemProgression = (graph: Graph, settings: Settings, loadout?: Loadout) => {
   const initLoad = loadout != undefined ? loadout : createLoadout();
-  const itemProgression = [], progression = [];
+  const itemProgression: ItemLocation[] = [], progression: Progression[] = [];
   if (isGraphValid(cloneGraph(graph), settings, initLoad, progression)) {
     progression.forEach(step => {
       step.collected.forEach(item => {
@@ -30,13 +41,17 @@ export const getItemProgression = (graph: Graph, settings, loadout?: Loadout) =>
   return itemProgression;
 }
 
-const revSolve = (solver, load, node) => {
+const revSolve = (solver: GraphSolver, load: Loadout, node: Vertex) => {
   // Setup a graph with the item location as the start vertex
   const clonedGraph = cloneGraph(solver.graph);
   clonedGraph.forEach((e) => (e.from.pathToStart = false));
   const clonedVertex = clonedGraph.find(
     (e) => e.from.name == node.name
-  ).from;
+  )?.from;
+
+  if (clonedVertex == undefined) {
+    throw new Error("revSolve: missing start vertex")
+  }
   clonedVertex.pathToStart = true;
 
   // Create a solver for the new graph
@@ -60,7 +75,10 @@ const getProgressionLocation = (itemNode: Vertex) => {
   return itemNode.name;
 }
 
-const getProgressionEntry = (itemNode: Vertex) => {
+const getItemLocation = (itemNode: Vertex): ItemLocation => {
+  if (itemNode.item == undefined) {
+    throw new Error("getItemLocation: missing item");
+  }
   return {
     itemName: itemNode.item.name,
     itemType: itemNode.item.type,
@@ -70,7 +88,11 @@ const getProgressionEntry = (itemNode: Vertex) => {
 }
 
 class GraphSolver {
-  constructor(graph, settings) {
+  graph: Graph;
+  settings: Settings;
+  startVertex: Vertex;
+
+  constructor(graph: Graph, settings: Settings) {
     this.graph = graph;
     this.settings = settings;
     this.startVertex = graph[0].from;
@@ -83,7 +105,7 @@ class GraphSolver {
     }
   }
 
-  isValid(initLoad, progression) {
+  isValid(initLoad: Loadout, progression?: Progression[]) {
     let samus = cloneLoadout(initLoad);
     let step = -1;
 
@@ -96,8 +118,8 @@ class GraphSolver {
     //-----------------------------------------------------------------
 
     const collectItem = (p: Vertex) => {
-      if (step >= 0) {
-        progression[step].collected.push(getProgressionEntry(p));
+      if (progression != undefined) {
+        progression[step].collected.push(getItemLocation(p));
       }
       p.item = undefined;
     }
@@ -107,12 +129,12 @@ class GraphSolver {
       let collectedItem = false;
 
       itemLocations.forEach((p) => {
-        addItem(load, p.item.type);
+        addItem(load, p.item!.type);
         if (!canReachStart(this.graph, p, checkFlags(load))) {
           copyLoadout(load, samus);
           return;
         }
-        addItem(samus, p.item.type);
+        addItem(samus, p.item!.type);
         collectedItem = true;
         collectItem(p);
       });
@@ -135,7 +157,7 @@ class GraphSolver {
         }
 
         // Collect the item
-        addItem(samus, p.item.type);
+        addItem(samus, p.item!.type);
         collectItem(p);
         return true;
       };
@@ -144,10 +166,10 @@ class GraphSolver {
       // Try to reverse solve the majors first and then the rest.
       //-----------------------------------------------------------------
 
-      if (reverseSolve(itemLocations.filter((p) => !isFungible(p.item.type)))) {
+      if (reverseSolve(itemLocations.filter((p) => !isFungible(p.item!.type)))) {
         return true;
       }
-      if (reverseSolve(itemLocations.filter((p) => isFungible(p.item.type)))) {
+      if (reverseSolve(itemLocations.filter((p) => isFungible(p.item!.type)))) {
         return true;
       }
 
@@ -167,7 +189,7 @@ class GraphSolver {
       // Add a new entry if recording progression
       if (progression != undefined) {
         progression.push({
-          available: uncollected.map(getProgressionEntry),
+          available: uncollected.map(getItemLocation),
           collected: []
         });
         step = progression.length - 1;

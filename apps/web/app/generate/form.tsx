@@ -307,7 +307,7 @@ export default function Form() {
 
   const onSubmit = async (data: GenerateFormParams) => {
     try {
-      const config = { vanillaBytes: vanilla };
+      const config = { vanillaBytes: vanilla, presetName: "Custom" };
 
       const getSeed = () => {
         if (data['seed-mode'] === 'fixed') {
@@ -357,7 +357,6 @@ export default function Form() {
       }
 
       const settings = {
-        preset: "Custom",
         mapLayout: mapLayout,
         majorDistribution: majorDistribution,
         minorDistribution: minorDistribution,
@@ -370,15 +369,15 @@ export default function Form() {
       };
 
       if (data.mode == 'dash-recall') {
-        settings.preset = "RecallMM";
+        config.presetName = "RecallMM";
       } else if (data.mode == 'dash-classic') {
-        settings.preset = "ClassicMM";
+        config.presetName = "ClassicMM";
       } else if (data.mode == '2017') {
-        settings.preset = "2017MM";
+        config.presetName = "2017MM";
       } else if (data.mode == 'sgl23') {
-        settings.preset = "SGL23"
+        config.presetName = "SGL23"
       } else if (data.mode == 'chozo-bozo') {
-        settings.preset = "ChozoBozo"
+        config.presetName = "ChozoBozo"
       }
 
       if (data['charge-beam'] == 'starter') {
@@ -404,10 +403,10 @@ export default function Form() {
       }
 
       const options = {
-        DisableFanfare: 0,
+        DisableFanfare: false,
       };
       if (data.fanfare == 'off') {
-        options.DisableFanfare = 1;
+        options.DisableFanfare = true;
       };
 
       const seedNumber = getSeed();

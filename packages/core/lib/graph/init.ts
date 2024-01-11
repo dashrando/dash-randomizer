@@ -15,7 +15,7 @@ import { RecallVertexUpdates } from "./data/recall/vertex";
 import { RecallEdgeUpdates } from "./data/recall/edges";
 import { StandardAreaEdgeUpdates } from "./data/standard/area";
 import { mapPortals, PortalMapping } from "./data/portals";
-import { bossItem, Item } from "../items";
+import { bossItem, Item, ItemType } from "../items";
 import DotNetRandom from "../dotnet-random";
 import { ChozoVertexUpdates } from "./data/chozo/vertex";
 
@@ -25,7 +25,7 @@ export type Vertex = {
   name: string;
   type: string;
   area: string;
-  item: any;
+  item: ItemType | undefined;
   pathToStart: boolean;
 }
 
@@ -34,7 +34,7 @@ type VertexUpdate = {
   type: string;
 }
 
-type Edge = {
+export type Edge = {
   from: Vertex;
   to: Vertex;
   condition: Condition;

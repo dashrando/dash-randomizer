@@ -1,6 +1,27 @@
-// @ts-nocheck
 import { Buffer } from "buffer";
 import { Item } from "../items";
+
+export type Settings = {
+  mapLayout: number;
+  majorDistribution: number;
+  minorDistribution: number;
+  extraItems: number[];
+  randomizeAreas: boolean;
+  bossMode: number;
+  beamMode: number;
+  suitMode: number;
+  gravityHeatReduction: number;
+}
+
+export type Options = {
+  DisableFanfare: boolean;
+}
+
+export type Params = {
+  seed: number;
+  settings: Settings;
+  options: Options;
+}
 
 //-----------------------------------------------------------------
 // Parameter types
@@ -52,7 +73,7 @@ export const BossMode = {
 // Utility functions
 //-----------------------------------------------------------------
 
-const majorModeToBits = (mode) => {
+const majorModeToBits = (mode: number) => {
   switch (mode) {
     case MajorDistributionMode.Standard:
       return 0x0;
@@ -66,7 +87,7 @@ const majorModeToBits = (mode) => {
   throw new Error("unknown major mode");
 };
 
-const bitsToMajorMode = (bits) => {
+const bitsToMajorMode = (bits: number) => {
   switch (bits) {
     case 0x0:
       return MajorDistributionMode.Standard;
@@ -80,7 +101,7 @@ const bitsToMajorMode = (bits) => {
   throw new Error("unknown major mode");
 };
 
-const minorModeToBits = (minorDistribution) => {
+const minorModeToBits = (minorDistribution: number) => {
   switch (minorDistribution) {
     case MinorDistributionMode.Standard:
       return 0;
@@ -91,7 +112,7 @@ const minorModeToBits = (minorDistribution) => {
   }
 };
 
-const bitsToMinorMode = (bits) => {
+const bitsToMinorMode = (bits: number) => {
   switch (bits) {
     case 0x0:
       return MinorDistributionMode.Standard;
@@ -101,7 +122,7 @@ const bitsToMinorMode = (bits) => {
   throw new Error("unknown minor mode");
 };
 
-const mapLayoutToBits = (layout) => {
+const mapLayoutToBits = (layout: number) => {
   switch (layout) {
     case MapLayout.Standard:
       return 0;
@@ -113,7 +134,7 @@ const mapLayoutToBits = (layout) => {
   throw new Error("unknown map layout");
 };
 
-const bitsToMapLayout = (bits) => {
+const bitsToMapLayout = (bits: number) => {
   switch (bits) {
     case 0x0:
       return MapLayout.Standard;
@@ -150,7 +171,7 @@ const bitsToMapLayout = (bits) => {
 //    m: map layout
 //-----------------------------------------------------------------
 
-export const paramsToBytes = (seed, settings, options) => {
+export const paramsToBytes = (seed: number, settings: Settings, options: Options) => {
   const { mapLayout, majorDistribution, minorDistribution, extraItems } =
     settings;
 
@@ -185,7 +206,7 @@ export const paramsToBytes = (seed, settings, options) => {
   return bytes;
 };
 
-export const paramsToString = (seed, settings, options) => {
+export const paramsToString = (seed: number, settings: Settings, options: Options) => {
   const bytes = paramsToBytes(seed, settings, options);
   return Buffer.from(bytes)
     .toString("base64")
@@ -193,7 +214,7 @@ export const paramsToString = (seed, settings, options) => {
     .replaceAll("+", "-");
 };
 
-export const bytesToParams = (bytes) => {
+export const bytesToParams = (bytes: Uint8Array): Params => {
   const seed = bytes[0] | (bytes[1] << 8) | (bytes[2] << 16);
   const fanfare = (bytes[5] >> 7) & 0x1;
   const gravity = (bytes[5] >> 6) & 0x1;
@@ -208,7 +229,7 @@ export const bytesToParams = (bytes) => {
 
   const major = bitsToMajorMode((bytes[3] >> 2) & 0x3);
   const minor = bitsToMinorMode((bytes[3] >> 4) & 0x3);
-  const extra = [];
+  const extra: number[] = [];
   if (doubleJump != 0x0) {
     extra.push(Item.DoubleJump);
   }
@@ -240,7 +261,7 @@ export const bytesToParams = (bytes) => {
   };
 };
 
-export const stringToParams = (str) => {
+export const stringToParams = (str: string): Params => {
   const bytes = Buffer.from(
     str.replaceAll("_", "/").replaceAll("-", "+"),
     "base64"

@@ -1,8 +1,9 @@
 "use client";
 
 import styles from "./progression.module.css";
-import { ItemLocation, ItemProgression } from "./page";
+import { ItemProgression } from "./page";
 import { Item } from "core/data";
+import { ItemLocation } from "core";
 
 export default function ProgressionStats({
   itemProgression,
