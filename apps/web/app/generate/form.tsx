@@ -381,9 +381,9 @@ export default function Form() {
       }
 
       if (data['charge-beam'] == 'starter') {
-        settings.beamMode = BeamMode.DashClassic;
+        settings.beamMode = BeamMode.Starter;
       } else if (data['charge-beam'] == 'starter-plus') {
-        settings.beamMode = BeamMode.New;
+        settings.beamMode = BeamMode.StarterPlus;
       }
 
       if (data['gravity-heat-reduction'] == 'off') {

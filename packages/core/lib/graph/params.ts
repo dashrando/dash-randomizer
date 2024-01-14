@@ -47,9 +47,9 @@ export const MinorDistributionMode = {
 
 export const BeamMode = {
   Vanilla: 0,
-  DashClassic: 1,
+  Starter: 1,
   DashRecall: 2,
-  New: 3,
+  StarterPlus: 3,
 };
 
 export const SuitMode = {
