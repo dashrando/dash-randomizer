@@ -55,10 +55,11 @@ export const getItemPool = (seed: number, settings: Settings) => {
 
   switch (beamMode) {
     case BeamMode.Vanilla:
-    case BeamMode.DashClassic:
       itemPool.push(majorItem(0x2f802b, Item.Charge));
       break;
-
+    case BeamMode.Starter:
+      itemPool.push(majorItem(0x2f802d, Item.BeamUpgrade));
+      break;
     case BeamMode.DashRecall:
       itemPool.push(
         majorItem(0x2f802d, Item.BeamUpgrade),
@@ -67,7 +68,7 @@ export const getItemPool = (seed: number, settings: Settings) => {
         extraItem(0x2f8033, Item.BeamUpgrade)
       );
       break;
-    case BeamMode.New:
+    case BeamMode.StarterPlus:
       itemPool.push(
         majorItem(0x2f802d, Item.BeamUpgrade),
         extraItem(0x2f802f, Item.BeamUpgrade)

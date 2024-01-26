@@ -67,11 +67,11 @@ const getBeamMode = (value: number) => {
   switch (value) {
     case BeamMode.Vanilla:
       return 'Vanilla'
-    case BeamMode.DashClassic:
+    case BeamMode.Starter:
       return 'Starter'
     case BeamMode.DashRecall:
       return 'Recall'
-    case BeamMode.New:
+    case BeamMode.StarterPlus:
       return 'Starter+'
   }
 }
