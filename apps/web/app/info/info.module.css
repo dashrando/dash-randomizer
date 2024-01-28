@@ -112,6 +112,19 @@
   text-decoration-color: #77e7be;
 }
 
+.article ul li a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.article ul li a:hover {
+  color: #77e7be;
+  text-decoration-color: #77e7be;
+}
+
 .article ul {
   display: block;
   list-style: none;
@@ -194,4 +207,9 @@
 .locationCount {
   color: #aaffec;
   font-weight: 600;
+}
+
+.list_item_spacer {
+  padding-top: var(--spacer-2x);
+  padding-bottom: var(--spacer-2x);
 }
