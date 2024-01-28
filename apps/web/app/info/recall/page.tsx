@@ -8,11 +8,21 @@ export default function RecallInfoPage() {
         <article className={styles.article}>
           <h1 className={styles.headline}>DASH: Recall</h1>
           <p>
-            DASH: Recall is a reimagining and rebalancing of vanilla map with
+            <strong>DASH: Recall</strong> is a reimagining and rebalancing of vanilla map with
             the goal of offering up even more routing possibilities in a variety of
             seeds and further diversity in how seeds can be completed within a
-            competitive racing situation. The following changes are introduced
-            along with the existing DASH modifications:
+            competitive racing situation.
+          </p>
+          <p>
+            At release, <strong>DASH: Recall</strong> was an all-in-one mode and
+            changes associated with it could not be used with other configurations. Since
+            then, the individual pieces have been split out to give runners greater
+            flexibility when generating seeds.
+          </p>
+          <p>
+            The <strong>DASH: Recall</strong> preset is maintained to allow for the
+            generation of seeds following the original vision of the mode. The following
+            is a breakdown of the changes:
          </p>
          <ol type="a">
             <li className={styles.list_item_spacer}>
@@ -42,8 +52,8 @@ export default function RecallInfoPage() {
                <ul>
                   <li>
                      All speed blocks removed from the bowling room (both at the
-                     top for scouting the location and the singular block that
-                     blocks access to the item)
+                     top for scouting and the singular block that
+                     prevents access to the item)
                   </li>
                   <li>WS Reserve Item no longer in a capsule</li>
                </ul>
