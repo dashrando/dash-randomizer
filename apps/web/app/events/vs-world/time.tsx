@@ -2,15 +2,14 @@
 
 import { formatInTimeZone } from 'date-fns-tz'
 
-const START_TIME = new Date('2024-02-04T20:00:00.000Z')
-
 const timeFormats = {
   timeAMPM: 'h:mm a',
   time24: 'H:mm',
+  timeMatch: 'haaa',
   date: 'MMM d, Y',
 }
 
-const getLocalRaceTime = (time: Date, tz: string, format: 'date' | 'time') => {
+const getLocalRaceTime = (time: Date, tz: string, format: 'date' | 'time' | 'timeMatch') => {
   try {
     const formatKey = format === 'time' ? (formatAMPM(time, tz) ? 'timeAMPM' : 'time24') : format
     return formatInTimeZone(time, tz, timeFormats[formatKey])
@@ -28,7 +27,7 @@ const formatAMPM = (time: Date, tz: string) => {
   }
 }
 
-export default function Time({ unit }: { unit: 'date' | 'time' }) {
+export default function Time({ time, unit }: { time: Date, unit: 'date' | 'time' | 'timeMatch' }) {
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
-  return <span suppressHydrationWarning>{getLocalRaceTime(START_TIME, tz, unit)}</span>
+  return <span suppressHydrationWarning>{getLocalRaceTime(time, tz, unit)}</span>
 }

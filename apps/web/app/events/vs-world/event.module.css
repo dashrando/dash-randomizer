@@ -36,10 +36,14 @@
   margin: var(--spacer-4x) 0;
 }
 
+.gameTime {
+  min-width: 180px;
+}
+
 .scheduleTitle {
   font-size: 36px;
   font-weight: 400;
-  margin: 0;
+  margin: 0 0 var(--spacer-2x);
   text-align: center;
   color: var(--color-highlight);
 }
@@ -47,12 +51,17 @@
 @media (max-width: 600px) {
   .scheduleTitle {
     text-align: left;
+    margin: 0;
   }
 
   .gamesList li {
     margin: var(--spacer-4x) 0 var(--spacer-8x);
     border-bottom: 1px solid #222;
     padding: 0 0 var(--spacer-4x);
+  }
+
+  .gamesList li:last-child {
+    border-bottom: none;
   }
 
   .gamesList li p {
