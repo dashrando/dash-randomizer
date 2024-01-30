@@ -1,0 +1,46 @@
+.numbers {
+  display: flex;
+  justify-content: center;
+  color: var(--color-highlight);
+  font-size: 36px;
+  line-height: 36px;
+  font-weight: 400;
+}
+
+.number {
+  animation: move-up 0.4s ease-in-out;
+  position: relative;
+  display: block;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.label {
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  gap: var(--spacer-4x);
+  color: var(--color-muted);
+  margin: var(--spacer) 0;
+}
+
+.countdown_unit {
+  display: flex;
+  flex-direction: column;
+  width: 70px;
+  text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacer-2x);
+  justify-content: center;
+  margin: var(--spacer-12x) 0;
+}
+
+@keyframes move-up {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}

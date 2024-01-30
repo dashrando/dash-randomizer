@@ -1,5 +1,6 @@
 import { Wrapper } from '@/app/components/wrapper'
 import Time from './time'
+import Countdown from './countdown'
 import styles from './event.module.css'
 import { PropsWithChildren } from 'react'
 
@@ -27,6 +28,7 @@ export default function TournamentPage() {
             3 races to showcase new DASH capabilities including Multitroid, Chozo and more.
           </h2>
         </div>
+        <Countdown launchTime={START_TIME} />
         <div style={{ margin: 'var(--spacer-32x) 0 var(--spacer-12x)'}}>
           <h3 className={styles.scheduleTitle}>Schedule</h3>
           <ul className={styles.gamesList}>
