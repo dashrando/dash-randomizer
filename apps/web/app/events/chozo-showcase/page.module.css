@@ -1,0 +1,61 @@
+.embed {
+  display: block;
+  width: 100%;
+  height: 0;
+  padding-bottom: 54.25%;
+  position: relative;
+}
+
+.chatEmbed {
+  display: block;
+  width: 100%;
+  height: 60vh;
+  position: relative;
+}
+
+.embed iframe,
+.chatEmbed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.container {
+  display: flex;
+}
+
+.content {
+  width: 100%;
+  padding-right: 440px;
+}
+
+.sidebar {
+  position: fixed;
+  right: 0;
+  top: 64px;
+  width: 440px;
+  height: calc(100vh - 64px);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.schedule {
+  padding: var(--spacer-2x);
+}
+
+.schedule .title {
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: var(--spacer-2x);
+}
+
+.schedule .races {
+  list-style: none outside none;
+}
