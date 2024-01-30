@@ -12,6 +12,7 @@ export const MapLayout = {
 };
 
 export const MajorDistributionMode = {
+  Chozo: 25,
   Standard: 34,
   Recall: 36,
   Full: 38,
@@ -41,8 +42,8 @@ export const GravityHeatReduction = {
 
 export const BossMode = {
   Vanilla: 0,
-  ShuffleStandard: 1,
-  ShuffleDash: 2,
+  Shuffled: 1,
+  Shifted: 2,
   Randomized: 3,
 };
 
@@ -58,6 +59,8 @@ const majorModeToBits = (mode) => {
       return 0x1;
     case MajorDistributionMode.Full:
       return 0x2;
+    case MajorDistributionMode.Chozo:
+      return 0x3;
   }
   throw new Error("unknown major mode");
 };
@@ -70,6 +73,8 @@ const bitsToMajorMode = (bits) => {
       return MajorDistributionMode.Recall;
     case 0x2:
       return MajorDistributionMode.Full;
+    case 0x3:
+      return MajorDistributionMode.Chozo;
   }
   throw new Error("unknown major mode");
 };
@@ -120,7 +125,28 @@ const bitsToMapLayout = (bits) => {
 };
 
 //-----------------------------------------------------------------
-// Parameter encoding
+// Parameter encoding (12 bytes available)
+//
+// bytes 0-2 = 24-bit seed number
+//
+// byte 3 = rr-ii-aa-vv
+//    r: randomize areas
+//    i: minor distribution mode
+//    a: major distribution mode
+//    v: version
+//
+// byte 4 = pp-h-d-bbbb
+//    p: pressurve valve
+//    h: heat shield
+//    d: double jump
+//    b: boss mode
+//
+// byte 5 = f-g-ss-bb-mm
+//    f: fanfare
+//    g: gravity heat reduction
+//    s: suit mode
+//    b: beam mode
+//    m: map layout
 //-----------------------------------------------------------------
 
 export const paramsToBytes = (seed, settings, options) => {

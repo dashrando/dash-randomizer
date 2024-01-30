@@ -1,6 +1,7 @@
 import { canReachStart, canReachVertex, searchAndCache } from "./search";
 import { Item, ItemNames } from "../items";
 import { cloneGraph } from "./init";
+import { MajorDistributionMode } from "./params";
 
 /*const getFlags = (load) => {
   const {
@@ -172,15 +173,15 @@ class GraphSolver {
     const printBoss = (item) => {
       const bossVertex = this.graph.find((e) => e.to.item == item).to;
       const exitVertex = this.graph.find(
-        (e) => e.from.name.startsWith("Exit_") && e.to == bossVertex
+        (e) => e.from.type == "exit" && e.to == bossVertex
       ).from;
       const doorVertex = this.graph.find(
-        (e) => e.from.name.startsWith("Door_") && e.to == exitVertex
+        (e) => e.from.type != "boss" && e.to == exitVertex
       ).from;
 
       this.printDefeatedBoss(
-        `Defeated ${ItemNames.get(item.type)} - ${bossVertex.name} @ ${
-          doorVertex.name
+        `Defeated ${ItemNames.get(item.type)} (${bossVertex.name}) in ${
+          doorVertex.area
         }`
       );
     };
@@ -293,10 +294,17 @@ class GraphSolver {
       return true;
     };
 
+    const checkItem = (v) => {
+      if (this.settings.majorDistribution == MajorDistributionMode.Chozo) {
+        return v.item != undefined && v.type != "minor";
+      }
+      return v.item != undefined;
+    }
+
     try {
       while (true) {
         const all = findAll();
-        const uncollected = all.filter((v) => v.item != undefined);
+        const uncollected = all.filter((v) => checkItem(v));
         if (uncollected.length == 0) {
           break;
         }
@@ -316,7 +324,8 @@ class GraphSolver {
       // Check for uncollected items. This indicates an invalid graph.
       //-----------------------------------------------------------------
 
-      if (this.graph.filter((n) => n.from.item != undefined).length > 0) {
+      const leftovers = this.graph.filter((n) => checkItem(n.from));
+      if (leftovers.length > 0) {
         if (this.printUncollectedItems != undefined) {
           this.printUncollectedItems(this.graph);
         }

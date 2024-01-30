@@ -27,11 +27,6 @@ const EastMaridia_OasisBottom_to_SpringBall = {
   requires: () => CanMoveInWestMaridia && CanUsePowerBombs,
 };
 
-const EastMaridia_SpringBall_to_OasisBottom = {
-  edges: ["Spring Ball", "OasisBottom"],
-  requires: () => CanMoveInWestMaridia && HasMorph,
-};
-
 const EastMaridia_PlasmaSparkRoomTop_to_PrePlasmaBeam = {
   edges: ["PlasmaSparkRoomTop", "PrePlasmaBeam"],
   requires: true,
@@ -68,7 +63,6 @@ export const RecallEdgeUpdates = [
   WestMaridia_MainStreet_to_OasisBottom,
   WestMaridia_OasisBottom_to_MainStreet,
   EastMaridia_OasisBottom_to_SpringBall,
-  EastMaridia_SpringBall_to_OasisBottom,
   EastMaridia_PlasmaBeam_to_PrePlasmaBeam,
   EastMaridia_PlasmaSparkRoomTop_to_PrePlasmaBeam,
   GreenBrinstar_ChargeBeam_to_Waterway,

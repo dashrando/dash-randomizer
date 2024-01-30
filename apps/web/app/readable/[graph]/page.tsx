@@ -9,17 +9,16 @@ import { cn } from "@/lib/utils";
 export async function generateMetadata ({ params }: { params: { graph: string } }) {
   const name = getGraphName(params.graph)
   return {
-    title: `Readable Logic - DASH ${name}`,
-    description: `DASH ${name} logic in a human readable format`,
+    title: `Readable Logic - ${name} - DASH`,
+    description: `${name} logic in a human readable format`,
   }
 };
 
 export async function generateStaticParams() {
   return [
     { graph: 'standard' },
-    { graph: 'standard-area' },
+    { graph: 'area' },
     { graph: 'recall' },
-    { graph: 'recall-area' },
   ]
 }
 
@@ -27,22 +26,19 @@ const getGraphName = (graph: any) => {
   switch (graph) {
     case 'standard':
       return 'Standard';
-    case 'standard-area':
-      return 'Standard Area';
+    case 'area':
+      return 'Area Rando';
     case 'recall':
-      return 'Recall';
-    case 'recall-area':
-      return 'Recall Area';
+      return 'DASH Recall';
   }
 }
 
 const getMode = (graph: string) => {
   switch (graph) {
     case 'standard':
-    case 'standard-area':
+    case 'area':
       return 'Standard';
     case 'recall':
-      case 'recall-area':
       return 'Recall';
     default:
       throw Error('Invalid graph')

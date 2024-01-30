@@ -1,6 +1,7 @@
 import { Item } from 'core'
 import {
   BeamMode,
+  BossMode,
   MapLayout,
   MajorDistributionMode,
   MinorDistributionMode,
@@ -9,6 +10,8 @@ import {
 
 const getItemSplit = (value: number) => {
   switch (value) {
+    case MajorDistributionMode.Chozo:
+      return 'Chozo'
     case MajorDistributionMode.Standard:
     case MajorDistributionMode.Recall:
       return 'Major/Minor'
@@ -38,7 +41,16 @@ const getEnvironmentUpdates = (value: number) => {
 }
 
 const getBossMode = (value: number) => {
-  return (value === 2) ? 'Shifted' : 'Vanilla'
+  switch (value) {
+    case BossMode.Vanilla:
+      return "Vanilla"
+    case BossMode.Shifted:
+      return "Shifted"
+    case BossMode.Shuffled:
+      return "Shuffled"
+    case BossMode.Randomized:
+      return "Randomized"
+  }
 }
 
 const getAreaMode = (environment: number, area: boolean) => {

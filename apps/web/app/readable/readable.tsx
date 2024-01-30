@@ -91,16 +91,12 @@ export const Navigation = ({ selected }: { selected: string }) => {
       slug: 'standard',
     },
     {
-      name: 'Standard Area',
-      slug: 'standard-area',
+      name: 'Area Rando',
+      slug: 'area',
     },
     {
-      name: 'Recall',
+      name: 'DASH Recall',
       slug: 'recall',
-    },
-    {
-      name: 'Recall Area',
-      slug: 'recall-area',
     }
   ]
   return (

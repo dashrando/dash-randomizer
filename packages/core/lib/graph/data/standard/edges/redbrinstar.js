@@ -48,7 +48,7 @@ export const redbrinstarEdges = {
   },
 
   RedTowerElevatorRoom: {
-    Door_MaridiaEscape: () => false, //for future use
+    Door_MaridiaEscape: false,
     RedBrinstarElevatorRoom: true,
     RedTowerTop: () => CanUsePowerBombs,
     "Power Bombs (Alpha)": () => CanOpenGreenDoors,
@@ -68,7 +68,7 @@ export const redbrinstarEdges = {
   },
 
   RedTowerBottom: {
-    Door_AboveKraid: () => false,
+    Door_AboveKraid: false,
     Door_KraidEntry: true,
     Door_MaridiaTube: () =>
       CanUsePowerBombs && (HasHiJump || CanMoveInWestMaridia),

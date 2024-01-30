@@ -17,6 +17,7 @@ import { StandardAreaEdgeUpdates } from "./data/standard/area";
 import { mapPortals } from "./data/portals";
 import { bossItem, Item } from "../items";
 import DotNetRandom from "../dotnet-random";
+import { ChozoVertexUpdates } from "./data/chozo/vertex";
 
 const getStandardEdges = () => {
   return {
@@ -79,7 +80,8 @@ export const createGraph = (
   startVertex
 ) => {
   //-----------------------------------------------------------------
-  //
+  // Get all vertices for the graph. Vertices represent locations
+  // within the game world.
   //-----------------------------------------------------------------
 
   const allVertices = getAllVertices();
@@ -102,7 +104,8 @@ export const createGraph = (
   });
 
   //-----------------------------------------------------------------
-  //
+  // Set a flag on the start vertex. This flag exists on all
+  // vertices and is used for caching to speed up solving.
   //-----------------------------------------------------------------
 
   if (startVertex != undefined) {
@@ -112,7 +115,8 @@ export const createGraph = (
   }
 
   //-----------------------------------------------------------------
-  //
+  // Get all edges for the graph. Edges establish the condition to
+  // travel from one vertex to another.
   //-----------------------------------------------------------------
 
   const edges = allEdges
@@ -157,36 +161,27 @@ export const createGraph = (
   });
 
   //-----------------------------------------------------------------
-  // Update boss areas.
+  // Return all valid edges. Some edges are placeholders and may
+  // not be available for the current graph. There is no reason
+  // to include those as it will slow down solving.
   //-----------------------------------------------------------------
 
-  //const updateArea = (entry, newArea) => {
-
-  //}
-
-  return edges;
+  return edges.filter(e => e.condition !== false);
 };
 
 export const cloneGraph = (graph) => {
   const newVertices = getAllVertices();
-  const remap = (vertex) => {
-    return newVertices.find((v) => v.name == vertex.name);
-  };
 
-  newVertices.forEach((v) => {
-    const orig = graph.map((o) => o.from).find((t) => t.name == v.name);
+  const remap = (orig) => {
+    let v = newVertices.find((v) => v.name == orig.name);
     v.type = orig.type;
     v.area = orig.area;
     v.pathToStart = orig.pathToStart;
     if (orig.item != undefined) {
-      v.item = {
-        type: orig.item.type,
-        name: orig.item.name,
-        isMajor: orig.item.isMajor,
-        spoilerAddress: orig.item.spoilerAddress,
-      };
+      v.item = {...orig.item};
     }
-  });
+    return v;
+  }
 
   return graph.map((e) => {
     return {
@@ -224,28 +219,31 @@ const addBossItems = (graph, mode) => {
     .map((e) => e.from)
     .filter(isUnique);
 
-  if (mode == BossMode.Vanilla || mode == BossMode.ShuffleStandard) {
+  //TODO: Technically, this only needs to be for Boss Shuffle since
+  //      vanilla could be handled below. This should probably be
+  //      just an "if/else" instead of "if/else if"
+  if (mode == BossMode.Vanilla || mode == BossMode.Shuffled) {
     bosses.forEach((b) => {
-      switch (b.name) {
-        case "Boss_Kraid":
+      switch (b.area) {
+        case "Kraid":
           b.item = bossItem(Item.DefeatedBrinstarBoss);
           b.area = "KraidsLair";
           break;
-        case "Boss_Phantoon":
+        case "Phantoon":
           b.item = bossItem(Item.DefeatedWreckedShipBoss);
           b.area = "WreckedShip";
           break;
-        case "Boss_Draygon":
+        case "Draygon":
           b.item = bossItem(Item.DefeatedMaridiaBoss);
           b.area = "EastMaridia";
           break;
-        case "Boss_Ridley":
+        case "Ridley":
           b.item = bossItem(Item.DefeatedNorfairBoss);
           b.area = "LowerNorfair";
           break;
       }
       const exitVertex = graph.find(
-        (e) => e.from.name.startsWith("Exit_") && e.to == b
+        (e) => e.from.type == "exit" && e.to == b
       ).from;
       exitVertex.area = b.area;
       const itemEdge = graph.find((e) => e.from == b && e.to.type == "major");
@@ -253,13 +251,13 @@ const addBossItems = (graph, mode) => {
         itemEdge.to.area = b.area;
       }
     });
-  } else if (mode == BossMode.ShuffleDash) {
+  } else if (mode == BossMode.Shifted) {
     bosses.forEach((b) => {
       const exitVertex = graph.find(
-        (e) => e.from.name.startsWith("Exit_") && e.to == b
+        (e) => e.from.type == "exit" && e.to == b
       ).from;
       const doorVertex = graph.find(
-        (e) => e.from.name.startsWith("Door_") && e.to == exitVertex
+        (e) => e.from.type != "boss" && e.to == exitVertex
       ).from;
 
       const itemEdge = graph.find((e) => e.from == b && e.to.type == "major");
@@ -269,17 +267,17 @@ const addBossItems = (graph, mode) => {
 
       exitVertex.area = doorVertex.area;
       b.area = doorVertex.area;
-      switch (doorVertex.name) {
-        case "Door_KraidBoss":
+      switch (b.area) {
+        case "KraidsLair":
           b.item = bossItem(Item.DefeatedBrinstarBoss);
           break;
-        case "Door_PhantoonBoss":
+        case "WreckedShip":
           b.item = bossItem(Item.DefeatedWreckedShipBoss);
           break;
-        case "Door_DraygonBoss":
+        case "EastMaridia":
           b.item = bossItem(Item.DefeatedMaridiaBoss);
           break;
-        case "Door_RidleyBoss":
+        case "LowerNorfair":
           b.item = bossItem(Item.DefeatedNorfairBoss);
           break;
       }
@@ -310,10 +308,17 @@ export const loadGraph = (
     return seedGen.NextInRange(1, 1000000);
   };
   const edgeUpdates = getEdgeUpdates(mapLayout, areaShuffle);
-  const vertexUpdates =
-    majorDistributionMode == MajorDistributionMode.Recall
-      ? RecallVertexUpdates
-      : [];
+  const getVertexUpdates = (mode) => {
+    switch(mode) {
+      case MajorDistributionMode.Recall:
+        return RecallVertexUpdates;
+      case MajorDistributionMode.Chozo:
+        return ChozoVertexUpdates;
+      default:
+        return [];
+    }
+  }
+  const vertexUpdates = getVertexUpdates(majorDistributionMode);
 
   if (portals != undefined) {
     const g = createGraph(portals, vertexUpdates, edgeUpdates);

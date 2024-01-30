@@ -125,8 +125,8 @@ export default function ItemPoolsInfoPage() {
               </p>
               <div>
                 <p>
-                  <strong>Full</strong> - Add 14 energy
-                  tanks and 4 reserve tanks
+                  <strong>Full</strong> - Item
+                  pool will contain a total of 14 energy tanks and 4 reserve tanks.
                 </p>
 
                 <p>
@@ -134,15 +134,15 @@ export default function ItemPoolsInfoPage() {
                   only 34 major locations, we limit the number of energy and
                   reserve tanks to fit. We want to place all 14 energy tanks
                   so we initially reduce the number of reserve tanks down to a
-                  minimum of 2. We then add energy tanks until we have exactly
-                  34 major items in the pool.
+                  minimum of 2. Energy tanks are then added until exactly
+                  34 major items are in the pool.
                 </p>
 
                 <p>
                   <strong>Recall Major/Minor</strong> -
                   In general, this Item Split works like normal Major/Minor
                   but with 36 major item locations. However, it is possible
-                  that we may end up with less than 36 major items even with 4
+                  to end up with less than 36 major items even with 4
                   reserve tanks and 14 energy tanks. In that case, Super
                   Missile packs are added as major items.
                 </p>

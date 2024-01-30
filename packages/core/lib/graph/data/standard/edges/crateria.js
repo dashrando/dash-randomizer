@@ -148,8 +148,8 @@ export const crateriaEdges = {
   },
 
   BoulderRoom: {
-    "Missiles (Billy Mays 1)": () => true,
-    "Missiles (Billy Mays 2)": () => true,
+    "Missiles (Billy Mays 1)": true,
+    "Missiles (Billy Mays 2)": true,
     "Construction Zone": () =>
       CanUseBombs || CanUsePowerBombs || (HasScrewAttack && HasMorph),
   },
