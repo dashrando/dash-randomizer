@@ -4,6 +4,11 @@ import Countdown from './countdown'
 import styles from './event.module.css'
 import { PropsWithChildren } from 'react'
 
+export const metadata = {
+  title: 'DASH Team vs The World - Feb 4th, 2024',
+  description: 'A showcase of new DASH capabilities including Multitroid and Chozo',
+}
+
 const Runner = ({ children }: PropsWithChildren) => (<span style={{ color: 'var(--color-highlight)'}}>{children}</span>)
 
 const START_TIME = new Date('2024-02-04T20:00:00.000Z')
