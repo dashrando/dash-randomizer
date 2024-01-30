@@ -24,7 +24,7 @@ export default function TournamentPage() {
             <span><Time time={START_TIME} unit="time" /></span>
           </h3>
           <h2 style={{ margin: 'var(--spacer-8x) auto', fontSize: '24px', lineHeight: '32px', color: 'var(--color-highlight)', fontWeight: '400', textAlign: 'center', maxWidth: '340px' }}>
-            3 races to showcase new DASH capabilities including Multiworld, Chozo and more.
+            3 races to showcase new DASH capabilities including Multitroid, Chozo and more.
           </h2>
         </div>
         <div style={{ margin: 'var(--spacer-32x) 0 var(--spacer-12x)'}}>
