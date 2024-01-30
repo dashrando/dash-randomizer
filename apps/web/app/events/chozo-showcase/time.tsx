@@ -30,5 +30,5 @@ const formatAMPM = (time: Date, tz: string) => {
 
 export default function Time({ unit }: { unit: 'date' | 'time' }) {
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
-  return <>{getLocalRaceTime(START_TIME, tz, unit)}</>
+  return <span suppressHydrationWarning>{getLocalRaceTime(START_TIME, tz, unit)}</span>
 }

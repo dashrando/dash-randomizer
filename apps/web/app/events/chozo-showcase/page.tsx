@@ -1,11 +1,9 @@
 import Link from 'next/link'
 import { Wrapper } from '@/app/components/wrapper'
-import { formatInTimeZone } from 'date-fns-tz'
 import Time from './time'
 import styles from './info.module.css'
 
 export default function TournamentPage() {
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
   return (
     <Wrapper>
       <div style={{ maxWidth: '620px', margin: 'var(--spacer-8x) auto var(--spacer-4x)' }}>
