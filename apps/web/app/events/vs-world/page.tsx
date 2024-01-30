@@ -23,39 +23,51 @@ export default function TournamentPage() {
           </h2>
         </div>
         <div style={{ margin: 'var(--spacer-32x) 0 var(--spacer-12x)'}}>
-          <h3 style={{ color: '#fff', fontWeight: '400', fontSize: '36px', margin: '0', textAlign: 'center' }}>Schedule</h3>
+          <h3 className={styles.scheduleTitle}>Schedule</h3>
           <ul className={styles.gamesList}>
             <li>
-              <div>
+              <div className={styles.gameTime}>
                 <p>3pm on <a href="https://twitch.tv/speedgaming" target="_blank" rel="noreferrer noopener">SpeedGaming</a></p>
               </div>
-              <div>
+              <div className={styles.gameDetails}>
                 <p>
-                  <Runner>kupppo</Runner> & <Runner>MassHesteria</Runner><span style={{ display: 'inline-block', margin: '0 var(--spacer-2x)' }}>vs</span><Runner>AceZer0</Runner> & <Runner>ProfessorSchool</Runner>
+                  <span className={styles.runnersTeam}>
+                    <Runner>kupppo</Runner> & <Runner>MassHesteria</Runner>
+                    <span style={{ display: 'inline-block', margin: '0 var(--spacer-2x)' }}>vs</span>
+                  </span>
+                  <span className={styles.runnersTeam}><Runner>AceZer0</Runner> & <Runner>ProfessorSchool</Runner></span>
                   <br />
                   Chozo Bozo, Multitroid
                 </p>
               </div>
             </li>
             <li>
-              <div>
+              <div className={styles.gameTime}>
                 <p>4pm on <a href="https://twitch.tv/speedgaming" target="_blank" rel="noreferrer noopener">SpeedGaming</a></p>
               </div>
-              <div>
+              <div className={styles.gameDetails}>
                 <p>
-                  <Runner>PapaSchmo</Runner> & <Runner>derp</Runner><span style={{ display: 'inline-block', margin: '0 var(--spacer-2x)' }}>vs</span><Runner>bressingham</Runner> & <Runner>mm2nescartridge</Runner>
+                  <span className={styles.runnersTeam}>
+                    <Runner>PapaSchmo</Runner> & <Runner>derp</Runner>
+                    <span style={{ display: 'inline-block', margin: '0 var(--spacer-2x)' }}>vs</span>
+                  </span>
+                  <span className={styles.runnersTeam}><Runner>bressingham</Runner> & <Runner>mm2nescartridge</Runner></span>
                   <br />
                   Chozo, Area Randomization, Bosses Shifted, Multitroid
                 </p>
               </div>
             </li>
             <li>
-              <div>
+              <div className={styles.gameTime}>
                 <p>5pm on <a href="https://twitch.tv/speedgaming" target="_blank" rel="noreferrer noopener">SpeedGaming</a></p>
               </div>
-              <div>
+              <div className={styles.gameDetails}>
                 <p>
-                  <Runner>Kipp</Runner> & <Runner>cassidymoen</Runner><span style={{ display: 'inline-block', margin: '0 var(--spacer-2x)' }}>vs</span><Runner>Zeb316</Runner> & <Runner>d_webb</Runner>
+                  <span className={styles.runnersTeam}>
+                    <Runner>Kipp</Runner> & <Runner>cassidymoen</Runner>
+                    <span style={{ display: 'inline-block', margin: '0 var(--spacer-2x)' }}>vs</span>
+                  </span>
+                  <span className={styles.runnersTeam}><Runner>Zeb316</Runner> & <Runner>d_webb</Runner></span>
                   <br />
                   Chozo, Area Randomization, Co-op
                 </p>

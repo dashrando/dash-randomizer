@@ -11,6 +11,13 @@
   color: var(--color-muted);
 }
 
+@media (max-width: 600px) {
+  .gamesList li {
+    flex-direction: column-reverse;
+    gap: 0;
+  }
+}
+
 .gamesList li a {
   color: var(--color-highlight);
   text-decoration: underline;
@@ -26,4 +33,41 @@
 .gamesList li p {
   font-size: 16px;
   line-height: 24px;
+  margin: var(--spacer-4x) 0;
+}
+
+.scheduleTitle {
+  font-size: 36px;
+  font-weight: 400;
+  margin: 0;
+  text-align: center;
+  color: var(--color-highlight);
+}
+
+@media (max-width: 600px) {
+  .scheduleTitle {
+    text-align: left;
+  }
+
+  .gamesList li {
+    margin: var(--spacer-4x) 0 var(--spacer-8x);
+    border-bottom: 1px solid #222;
+    padding: 0 0 var(--spacer-4x);
+  }
+
+  .gamesList li p {
+    margin: 0;
+  }
+
+  .runnersTeam {
+    display: block;
+  }
+
+  .gamesList li p br {
+    display: none;
+  }
+
+  .gamesList li .gameTime p {
+    margin: var(--spacer-4x) 0 0;
+  }
 }
