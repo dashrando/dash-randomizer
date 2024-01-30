@@ -1,0 +1,29 @@
+.gamesList {
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+}
+
+.gamesList li {
+  display: flex;
+  gap: var(--spacer-6x);
+  flex-direction: row;
+  color: var(--color-muted);
+}
+
+.gamesList li a {
+  color: var(--color-highlight);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.gamesList li a:hover {
+  color: #77e7be;
+  text-decoration-color: transparent;
+}
+
+.gamesList li p {
+  font-size: 16px;
+  line-height: 24px;
+}
