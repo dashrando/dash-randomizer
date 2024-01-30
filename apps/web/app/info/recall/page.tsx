@@ -79,7 +79,7 @@ export default function RecallInfoPage() {
                      before Shaktool (the grapple block and the other 4 blocks
                      on that “row”)
                   </li>
-                  <li>Removed the sand from the Shaktool</li>
+                  <li>Removed the sand from the Shaktool hallway</li>
                </ul>
             </li>
             <li className={styles.list_item_spacer}>

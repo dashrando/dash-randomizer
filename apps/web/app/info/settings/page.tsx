@@ -329,6 +329,33 @@ export default function SettingsInfoPage() {
               <p>
                 <strong>DASH: Recall</strong> rebalances vanilla map by unlocking certain doors and removing obstacles.
               </p>
+              <details>
+                <summary>View all map changes for DASH: Recall</summary>
+                <ul className={styles.list_disc}>
+                  <li>
+                    All speed blocks removed from the bowling room (both at the
+                    top for scouting and the singular block that
+                    prevents access to the item)
+                  </li>
+                  <li>WS Reserve Item no longer in a capsule</li>
+                  <li>Plasma Gray door is now a blue door</li>
+                  <li>Replaced pink pirates with green pirates</li>
+                  <li>
+                    Added a platform in the middle of the plasma room that
+                    allows exit from the room without “can fly”
+                  </li>
+                  <li>
+                    Removed all 5 of the ceiling blocks from the pants room
+                    before Shaktool (the grapple block and the other 4 blocks
+                    on that “row”)
+                  </li>
+                  <li>Removed the sand from the Shaktool hallway</li>
+                  <li>Removed green gate from Crab Tunnel room in Maridia</li>
+                  <li>
+                    Gray door to Cac Alley is now a blue door
+                  </li>
+                </ul>
+              </details>
             </li>
             <li>
               <p>
@@ -372,14 +399,13 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                The <strong>DASH</strong> setting includes everything from Standard while adding Spazer-breakable blocks at the Waterway location as well as in Botwoon’s Hallway. It also allows the speed block at the Wrecked Ship Reserve location to be broken by the Bombs major item.
+                <strong>DASH</strong> includes everything from Standard plus the following:
+                <ul className={styles.list_disc}>
+                  <li>Spazer-breakable blocks at the Waterway location and Botwoon’s Hallway</li>
+                  <li>Allows the speed block at the Wrecked Ship Reserve location to be broken by the Bombs major item.</li>
+                </ul>
               </p>
             </li>
-            {/*<li>
-              <p>
-                <strong>DASH Recall</strong> has everything included in Standard, but also includes a few changes specific to the DASH Recall logic.
-              </p>
-          </li>*/}
           </ul>
         </Article>
         <Article

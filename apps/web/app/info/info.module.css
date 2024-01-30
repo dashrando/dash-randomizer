@@ -1,3 +1,8 @@
+.article ul.list_disc {
+  list-style: circle;
+  list-style-type: circle;
+}
+
 .list {
   display: flex;
   list-style: none outside none;
@@ -80,9 +85,9 @@
   font-weight: 600;
 }
 
-.article details:last-child {
+/*.article details:last-child {
   margin-bottom: var(--spacer-12x);
-}
+}*/
 
 .article details summary {
   font-weight: 600;
