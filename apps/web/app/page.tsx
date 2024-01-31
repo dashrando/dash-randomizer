@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const Homepage: NextPage = () => {
    return (
     <>
-      <Video />
+      <Video videoSrc="/recall-bg.mp4" fallbackSrc="/recall-bg.jpg" alt="DASH" />
       <Wrapper borderless>
         <div className={styles.container}>
           <div className={styles.hero}>

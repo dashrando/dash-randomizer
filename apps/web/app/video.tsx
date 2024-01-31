@@ -6,7 +6,15 @@ import styles from './video.module.css'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
-const HomeVideo = () => {
+const Video = ({
+  videoSrc,
+  fallbackSrc,
+  alt,
+} : {
+  videoSrc: string,
+  fallbackSrc?: string,
+  alt?: string,
+}) => {
   const mounted = useMounted()
   const [ready, setReady] = useState(false)
   const [fallback, setFallback] = useState(false)
@@ -17,7 +25,7 @@ const HomeVideo = () => {
   return (
     <div className={cn(styles.container, ready && styles.ready, fallback && styles.show_fallback)}>
       <ReactPlayer
-        url="/recall-bg.mp4"
+        url={videoSrc}
         playing
         loop
         muted
@@ -33,11 +41,14 @@ const HomeVideo = () => {
           setFallback(true)
         }}
       />
-      <div className={styles.fallback}>
-        <img src="/recall-bg.jpg" alt="DASH Recall" />
-      </div>
+      {fallbackSrc && (
+        <div className={styles.fallback}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={fallbackSrc} alt={alt} />
+        </div>
+      )}
     </div>
   )
 }
 
-export default HomeVideo
+export default Video
