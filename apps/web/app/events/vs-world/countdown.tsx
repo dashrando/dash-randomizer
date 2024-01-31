@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import styles from './countdown.module.css'
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { useRouter } from 'next/navigation'
 
 function calculatePrevValue(input: string, maxValue: number) {
   const value = parseInt(input)
@@ -61,15 +62,17 @@ const Number = ({ maxValue, value }: { maxValue: number, value: string }) => {
 
 export default function Countdown({ launchTime } : { launchTime: Date }) {
   const [timeLeft, setTimeLeft] = useState<Date>(new Date())
+  const router = useRouter()
 
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date()
       setTimeLeft(now)
     }, 1000);
+    router.refresh()
 
     return () => clearInterval(interval);
-  }, [])
+  }, [router])
 
   const days = Math.floor((launchTime.getTime() - timeLeft.getTime()) / (1000 * 60 * 60 * 24)).toString().padStart(2, '0').split('')
   const hours = Math.floor((launchTime.getTime() - timeLeft.getTime()) / (1000 * 60 * 60) % 24).toString().padStart(2, '0').split('')
