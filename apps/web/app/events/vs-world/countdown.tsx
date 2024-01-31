@@ -1,11 +1,35 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import styles from './countdown.module.css'
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-const Number = ({ children }: React.PropsWithChildren) => (
-  <span className={styles.number} suppressHydrationWarning>{children}</span>
-)
+const Number = ({ value }: { value: string }) => {
+  const nodeRef = useRef(null)
+  return (
+    <TransitionGroup className="wah">
+      <CSSTransition
+        nodeRef={nodeRef}
+        key={value}
+        classNames={{
+          enter: styles['animateNumber-enter'],
+          enterActive: styles['animateNumber-enter'],
+          exit: styles['animateNumber-exit'],
+          exitActive: styles['animateNumber-exit'],
+        }}
+        timeout={400}
+      >
+        <div
+          ref={nodeRef}
+          className={styles.number}
+          suppressHydrationWarning
+        >
+          {value}
+        </div>
+      </CSSTransition>
+    </TransitionGroup>
+  )
+}
 
 export default function Countdown({ launchTime } : { launchTime: Date }) {
   const [timeLeft, setTimeLeft] = useState<Date>(new Date())
@@ -28,29 +52,29 @@ export default function Countdown({ launchTime } : { launchTime: Date }) {
     <div className={styles.wrapper}>
       <div className={styles.countdown_unit}>
         <div className={styles.numbers}>
-          <Number>{days[0]}</Number>
-          <Number>{days[1]}</Number>
+          <Number value={days[0]} />
+          <Number value={days[1]} />
         </div>
         <div className={styles.label}>Days</div>
       </div>
       <div className={styles.countdown_unit}>
         <div className={styles.numbers}>
-          <Number>{hours[0]}</Number>
-          <Number>{hours[1]}</Number>
+          <Number value={hours[0]} />
+          <Number value={hours[1]} />
         </div>
         <div className={styles.label}>Hours</div>
       </div>
       <div className={styles.countdown_unit}>
         <div className={styles.numbers}>
-          <Number>{minutes[0]}</Number>
-          <Number>{minutes[1]}</Number>
+          <Number value={minutes[0]} />
+          <Number value={minutes[1]} />
         </div>
         <div className={styles.label}>Minutes</div>
       </div>
       <div className={styles.countdown_unit}>
         <div className={styles.numbers}>
-          <Number>{seconds[0]}</Number>
-          <Number>{seconds[1]}</Number>
+          <Number value={seconds[0]} />
+          <Number value={seconds[1]} />
         </div>
         <div className={styles.label}>Seconds</div>
       </div>

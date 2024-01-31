@@ -8,10 +8,19 @@
 }
 
 .number {
-  animation: move-up 0.4s ease-in-out;
   position: relative;
   display: block;
-  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+  /* transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out; */
+}
+
+.animateNumber-enter {
+  color: red;
+  animation: number-enter 0.5s ease-in-out;
+}
+
+.animateNumber-exit {
+  color: green;
+  animation: number-exit 0.5s ease-in-out;
 }
 
 .label {
@@ -40,7 +49,12 @@
   margin: var(--spacer-12x) 0;
 }
 
-@keyframes move-up {
+@keyframes number-enter {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+@keyframes number-exit {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
 }
