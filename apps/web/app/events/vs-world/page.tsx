@@ -21,7 +21,7 @@ MATCH3_TIME.setHours(MATCH3_TIME.getHours() + 2)
 export default function TournamentPage() {
   return (
     <>
-      <Video videoSrc="/vs-bg.mp4" />
+      <Video videoSrc="/vs-bg.mp4" fallbackSrc="/vs-bg.png" />
       <Wrapper borderless>
         <div style={{ maxWidth: '660px', margin: 'var(--spacer-8x) auto var(--spacer-4x)' }}>
           <div style={{ textAlign: 'center' }}>
