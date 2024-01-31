@@ -8,19 +8,33 @@
 }
 
 .number {
-  position: relative;
+  position: absolute;
   display: block;
+  top: 0;
+  left: 0;
   /* transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out; */
 }
 
+.numberPrev {
+  opacity: 0;
+}
+
+.numberWrapper {
+  position: relative;
+  height: 36px;
+  width: 23px;
+}
+
+.placeholder {
+  visibility: hidden;
+}
+
 .animateNumber-enter {
-  color: red;
-  animation: number-enter 0.5s ease-in-out;
+  animation: number-enter 0.3s ease-in-out;
 }
 
 .animateNumber-exit {
-  color: green;
-  animation: number-exit 0.5s ease-in-out;
+  animation: number-exit 0.3s ease-in-out;
 }
 
 .label {
@@ -50,11 +64,11 @@
 }
 
 @keyframes number-enter {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% { opacity: 0; transform: translateY(-9px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes number-exit {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(9px); }
 }
