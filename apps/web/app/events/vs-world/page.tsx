@@ -39,7 +39,7 @@ export default function TournamentPage() {
           <ul className={styles.gamesList}>
             <li>
               <div className={styles.gameTime}>
-                <p><Time time={START_TIME} unit="timeMatch" /> on <a href="https://twitch.tv/speedgaming" target="_blank" rel="noreferrer noopener">SpeedGaming</a></p>
+                <p><Time time={START_TIME} unit="timeMatch" /></p>
               </div>
               <div className={styles.gameDetails}>
                 <p>
@@ -55,7 +55,7 @@ export default function TournamentPage() {
             </li>
             <li>
               <div className={styles.gameTime}>
-                <p><Time time={MATCH2_TIME} unit="timeMatch" /> on <a href="https://twitch.tv/speedgaming" target="_blank" rel="noreferrer noopener">SpeedGaming</a></p>
+                <p><Time time={MATCH2_TIME} unit="timeMatch" /></p>
               </div>
               <div className={styles.gameDetails}>
                 <p>
@@ -71,7 +71,7 @@ export default function TournamentPage() {
             </li>
             <li>
               <div className={styles.gameTime}>
-                <p><Time time={MATCH3_TIME} unit="timeMatch" /> on <a href="https://twitch.tv/speedgaming" target="_blank" rel="noreferrer noopener">SpeedGaming</a></p>
+                <p><Time time={MATCH3_TIME} unit="timeMatch" /></p>
               </div>
               <div className={styles.gameDetails}>
                 <p>

@@ -38,6 +38,7 @@
 
 .gameTime {
   min-width: 180px;
+  text-align: right;
 }
 
 .scheduleTitle {
@@ -52,6 +53,10 @@
   .scheduleTitle {
     text-align: left;
     margin: 0;
+  }
+
+  .gameTime {
+    text-align: left;
   }
 
   .gamesList li {
