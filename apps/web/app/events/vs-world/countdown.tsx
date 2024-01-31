@@ -17,7 +17,11 @@ function calculatePrevValue(input: string, maxValue: number) {
 const Number = ({ maxValue, value }: { maxValue: number, value: string }) => {
   const nodeRef = useRef(null)
   const prevNodeRef = useRef(null)
-  const prevValue = calculatePrevValue(value, maxValue)
+  const [prevValue, setPrevValue] = useState<string>(calculatePrevValue(value, maxValue))
+
+  useEffect(() => {
+    setPrevValue(calculatePrevValue(value, maxValue))
+  }, [maxValue, value])
 
   return (
     <div className={styles.numberWrapper}>
