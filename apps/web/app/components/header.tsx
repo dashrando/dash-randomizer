@@ -44,6 +44,10 @@ const LINKS: HeaderLink[] = [
     label: 'Logic',
   },
   {
+    href: '/events',
+    label: 'Events',
+  },
+  {
     href: '/resources',
     label: 'Resources',
   },

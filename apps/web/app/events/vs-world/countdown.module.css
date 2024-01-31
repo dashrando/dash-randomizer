@@ -1,0 +1,74 @@
+.numbers {
+  display: flex;
+  justify-content: center;
+  color: var(--color-highlight);
+  font-size: 36px;
+  line-height: 36px;
+  font-weight: 400;
+}
+
+.number {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  /* transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out; */
+}
+
+.numberPrev {
+  opacity: 0;
+}
+
+.numberWrapper {
+  position: relative;
+  height: 36px;
+  width: 23px;
+}
+
+.placeholder {
+  visibility: hidden;
+}
+
+.animateNumber-enter {
+  animation: number-enter 0.3s ease-in-out;
+}
+
+.animateNumber-exit {
+  animation: number-exit 0.3s ease-in-out;
+}
+
+.label {
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  gap: var(--spacer-4x);
+  color: var(--color-muted);
+  margin: var(--spacer) 0;
+}
+
+.countdown_unit {
+  display: flex;
+  flex-direction: column;
+  width: 70px;
+  text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacer-2x);
+  justify-content: center;
+  margin: var(--spacer-12x) 0;
+}
+
+@keyframes number-enter {
+  0% { opacity: 0; transform: translateY(-9px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes number-exit {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(9px); }
+}
