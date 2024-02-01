@@ -4,17 +4,17 @@ import { useEffect, useState } from 'react'
 import styles from '../page.module.css'
 
 const useHostname = () => {
-
-}
-
-export const TwitchStream =() => {
   const [hostname, setHostname] = useState<string|null>(null)
-
   useEffect(() => {
     if (window) {
       setHostname(window.location.hostname)
     }
   }, [])
+  return hostname
+}
+
+export const TwitchStream =() => {
+  const hostname = useHostname()
 
   if (!hostname) {
     return null
@@ -35,13 +35,7 @@ export const TwitchStream =() => {
 }
 
 export const TwitchChat =() => {
-  const [hostname, setHostname] = useState<string|null>(null)
-
-  useEffect(() => {
-    if (window) {
-      setHostname(window.location.hostname)
-    }
-  }, [])
+  const hostname = useHostname()
 
   if (!hostname) {
     return null
