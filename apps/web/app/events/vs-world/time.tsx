@@ -1,6 +1,7 @@
 'use client'
 
 import { formatInTimeZone } from 'date-fns-tz'
+import { useEffect, useState } from 'react'
 
 const timeFormats = {
   timeAMPM: 'h:mm a',
@@ -28,6 +29,9 @@ const formatAMPM = (time: Date, tz: string) => {
 }
 
 export default function Time({ time, unit }: { time: Date, unit: 'date' | 'time' | 'timeMatch' }) {
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const [tz, setTz] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
+  useEffect(() => {
+    setTz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+  }, [])
   return <span suppressHydrationWarning>{getLocalRaceTime(time, tz, unit)}</span>
 }
