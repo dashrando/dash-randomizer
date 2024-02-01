@@ -5,6 +5,7 @@ import { MATCHES } from '../data'
 import Time from '../time'
 import { cn } from '@/lib/utils'
 import Badge from '@/app/components/badge'
+import { TwitchStream, TwitchChat } from './twitch'
 
 export const metadata = {
   title: 'Chozo Showcase - DASH',
@@ -43,16 +44,7 @@ export default function LivePage() {
     <Wrapper fullWidth={true}>
       <div className={styles.container}>
         <div className={styles.content}>
-          <div className={styles.embedContainer}>
-            <div className={styles.embed}>
-              <iframe
-                src="https://player.twitch.tv/?channel=speedgaming&parent=localhost"
-                height="450"
-                width="800"
-                allowFullScreen
-              />
-            </div>
-          </div>
+          <TwitchStream />
         </div>
         <aside className={styles.sidebar}>
           <div className={styles.schedule}>
@@ -63,12 +55,7 @@ export default function LivePage() {
               <Race status="upcoming" runners={['Kipp', 'cassidymoen', 'Zeb316', 'd_webb']} time={MATCHES[2]} />
             </ul>
           </div>
-          <div className={styles.chatEmbed}>
-            <iframe src="https://www.twitch.tv/embed/speedgaming/chat?darkpopout&parent=localhost"
-              height="100%"
-              width="100%" />
-          </div>
-          
+          <TwitchChat />
         </aside>
       </div>
     </Wrapper>

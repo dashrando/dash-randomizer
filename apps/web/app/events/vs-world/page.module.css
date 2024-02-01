@@ -14,7 +14,7 @@
 .chatEmbed {
   display: block;
   width: 100%;
-  height: 60vh;
+  height: 100%;
   position: relative;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .schedule {
-  padding: var(--spacer-2x) 0;
+  padding: var(--spacer-2x) 0 0;
 }
 
 .schedule .title {
