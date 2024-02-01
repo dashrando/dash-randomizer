@@ -84,6 +84,35 @@ export type TimeLeft = {
   seconds: string[]
 }
 
+const Placeholder = () => (
+  <div className={styles.wrapper}>
+    <div className={styles.countdown_unit}>
+      <div className={styles.numbers}>
+        <span className={styles.placeholder} suppressHydrationWarning>0</span>
+      </div>
+      <div className={styles.label}>Days</div>
+    </div>
+    <div className={styles.countdown_unit}>
+      <div className={styles.numbers}>
+        <span className={styles.placeholder} suppressHydrationWarning>0</span>
+      </div>
+      <div className={styles.label}>Hours</div>
+    </div>
+    <div className={styles.countdown_unit}>
+      <div className={styles.numbers}>
+        <span className={styles.placeholder} suppressHydrationWarning>0</span>
+      </div>
+      <div className={styles.label}>Minutes</div>
+    </div>
+    <div className={styles.countdown_unit}>
+      <div className={styles.numbers}>
+        <span className={styles.placeholder} suppressHydrationWarning>0</span>
+      </div>
+      <div className={styles.label}>Seconds</div>
+    </div>
+  </div>
+)
+
 export default function Countdown({ launchTime } : { launchTime: Date }) {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft(launchTime, new Date()))
   const mounted = useMounted()
@@ -98,8 +127,12 @@ export default function Countdown({ launchTime } : { launchTime: Date }) {
     return () => clearInterval(interval);
   }, [launchTime, setTimeLeft])
 
+  if (!mounted) {
+    return <Placeholder />
+  }
+
   return (
-    <Suspense fallback={null} key={mounted ? 'coutdown-mounted' : 'countdown-pending'}>
+    <Suspense fallback={<Placeholder />} key={mounted ? 'coutdown-mounted' : 'countdown-pending'}>
       <div className={styles.wrapper}>
         <div className={styles.countdown_unit}>
           <div className={styles.numbers}>
