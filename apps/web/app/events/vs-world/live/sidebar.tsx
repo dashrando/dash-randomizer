@@ -1,7 +1,7 @@
 'use client'
 
 import styles from '../page.module.css'
-import { MATCHES } from '../data'
+import { RACES } from '../data'
 import { PropsWithChildren } from 'react'
 import Time from '../time'
 import { cn } from '@/lib/utils'
@@ -42,9 +42,9 @@ export default function LiveSidebar() {
       <div className={styles.schedule}>
         <h1 className={styles.title}>DASH Team vs The World</h1>
         <ul className={styles.races}>
-          <Race status="past" runners={['kupppo', 'MassHesteria', 'AceZer0', 'ProfessorSchool']} time={MATCHES[0]} />
-          <Race status="live" runners={['PapaSchmo', 'derp', 'bressingham', 'mm2nescartridge']} time={MATCHES[1]} />
-          <Race status="upcoming" runners={['Kipp', 'cassidymoen', 'Zeb316', 'd_webb']} time={MATCHES[2]} />
+          {RACES.map((race) => (
+            <Race key={race.id} runners={race.runners.flat()} status="upcoming" time={race.time} />
+          ))}
         </ul>
       </div>
       <TwitchChat />
