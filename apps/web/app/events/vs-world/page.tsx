@@ -4,6 +4,7 @@ import Countdown from './countdown'
 import styles from './event.module.css'
 import { PropsWithChildren } from 'react'
 import Video from '@/app/video'
+import { zonedTimeToUtc } from 'date-fns-tz'
 
 export const metadata = {
   title: 'DASH Team vs The World - Feb 4th, 2024',
@@ -12,13 +13,13 @@ export const metadata = {
 
 const Runner = ({ children }: PropsWithChildren) => (<span style={{ color: 'var(--color-highlight)'}}>{children}</span>)
 
-const START_TIME = new Date('2024-02-04T20:00:00.000Z')
-const MATCH2_TIME = new Date(START_TIME)
-const MATCH3_TIME = new Date(START_TIME)
-MATCH2_TIME.setHours(MATCH2_TIME.getHours() + 1)
-MATCH3_TIME.setHours(MATCH3_TIME.getHours() + 2)
-
 export default function TournamentPage() {
+  const START_TIME = zonedTimeToUtc('2024-02-04T15:00:00.000', 'America/New_York');
+  const MATCH2_TIME = new Date(START_TIME)
+  const MATCH3_TIME = new Date(START_TIME)
+  MATCH2_TIME.setHours(MATCH2_TIME.getHours() + 1)
+  MATCH3_TIME.setHours(MATCH3_TIME.getHours() + 2)
+
   return (
     <>
       <Video videoSrc="/vs-bg.mp4" fallbackSrc="/vs-bg.png" />
