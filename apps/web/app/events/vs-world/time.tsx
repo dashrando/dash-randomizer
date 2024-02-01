@@ -1,7 +1,8 @@
 'use client'
 
+import useMounted from '@/app/hooks/useMounted'
 import { formatInTimeZone } from 'date-fns-tz'
-import { useEffect, useState } from 'react'
+import { Suspense } from 'react'
 
 const timeFormats = {
   timeAMPM: 'h:mm a',
@@ -29,9 +30,11 @@ const formatAMPM = (time: Date, tz: string) => {
 }
 
 export default function Time({ time, unit }: { time: Date, unit: 'date' | 'time' | 'timeMatch' }) {
-  const [tz, setTz] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
-  useEffect(() => {
-    setTz(Intl.DateTimeFormat().resolvedOptions().timeZone)
-  }, [])
-  return <span suppressHydrationWarning>{getLocalRaceTime(time, tz, unit)}</span>
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const mounted = useMounted()
+  return (
+    <Suspense key={mounted ? 'local' : 'utc'}>
+      <span suppressHydrationWarning>{getLocalRaceTime(time, tz, unit)}</span>
+    </Suspense>
+  )
 }
