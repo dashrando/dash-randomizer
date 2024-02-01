@@ -4,9 +4,10 @@ import {
   BeamMode,
   MajorDistributionMode,
   MinorDistributionMode,
+  Settings,
 } from "./params";
 
-export const getItemPool = (seed: number, settings: any) => {
+export const getItemPool = (seed: number, settings: Settings) => {
   const { majorDistribution, minorDistribution, extraItems, beamMode } =
     settings;
   const rnd = new DotNetRandom(seed);
@@ -54,10 +55,11 @@ export const getItemPool = (seed: number, settings: any) => {
 
   switch (beamMode) {
     case BeamMode.Vanilla:
-    case BeamMode.DashClassic:
       itemPool.push(majorItem(0x2f802b, Item.Charge));
       break;
-
+    case BeamMode.Starter:
+      itemPool.push(majorItem(0x2f802d, Item.BeamUpgrade));
+      break;
     case BeamMode.DashRecall:
       itemPool.push(
         majorItem(0x2f802d, Item.BeamUpgrade),
@@ -66,7 +68,7 @@ export const getItemPool = (seed: number, settings: any) => {
         extraItem(0x2f8033, Item.BeamUpgrade)
       );
       break;
-    case BeamMode.New:
+    case BeamMode.StarterPlus:
       itemPool.push(
         majorItem(0x2f802d, Item.BeamUpgrade),
         extraItem(0x2f802f, Item.BeamUpgrade)
@@ -88,8 +90,11 @@ export const getItemPool = (seed: number, settings: any) => {
     }
   });
 
-  const setAmountInPool = (type: any, count: number, isMajor: boolean) => {
-    const item = itemPool.find((i) => i.type == type && i.isMajor == isMajor) as any;
+  const setAmountInPool = (type: number, count: number, isMajor: boolean) => {
+    const item = itemPool.find((i) => i.type == type && i.isMajor == isMajor);
+    if (item == undefined) {
+      throw new Error("setAmountInPool: failed to find item")
+    }
     while (itemPool.filter((i) => i == item).length < count) {
       itemPool.unshift(item);
     }

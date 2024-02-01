@@ -1,9 +1,9 @@
 "use client";
 
-import { getLocations, Location } from "core/data";
-import { ItemNames } from "core/data";
+import { Item } from "core/data";
 import { useRef, useState } from "react";
 import styles from "./page.module.css"
+import { ItemLocation, getItemProgression, readGraph, readParams } from "core";
 
 export default function ItemViewer() {
    const test = useRef<HTMLInputElement>(null);
@@ -23,19 +23,38 @@ export default function ItemViewer() {
       reader.readAsArrayBuffer(romData);
    }
 
-   const getItemAtLocation = (location: Location) => {
-      const itemCode = location.GetItemCode(bytes);
-      const itemName = ItemNames.get(itemCode as any);
-      return itemName;
-   }
-
    const ItemList = () => {
-      return (<div>
-         {getLocations().map(l => {
+      const { settings } = readParams(bytes);
+      const graph = readGraph(bytes);
+
+      if (graph == undefined || graph.length <= 0) {
+         return <></>
+      }
+
+      const progression = getItemProgression(graph, settings)
+
+      const getStyle = (n: ItemLocation) => {
+         if (n.isMajor) {
+            return styles.major_item;
+         } else {
+            switch(n.itemType) {
+               case Item.DefeatedBrinstarBoss:
+               case Item.DefeatedWreckedShipBoss:
+               case Item.DefeatedMaridiaBoss:
+               case Item.DefeatedNorfairBoss:
+                  return styles.boss_item;
+               default:
+                  return styles.minor_item;
+            }
+         }
+      }
+
+      return (<div className={styles.item_list}>
+         {progression.map(p => {
             return (
-            <div key={l.name}>
-               <span className={styles.location}>{l.name}</span>
-               <span className={styles.item}>{getItemAtLocation(l)}</span>
+            <div key={p.locationName}>
+               <span className={styles.location}>{p.locationName}</span>
+               <span className={getStyle(p)}>{p.itemName}</span>
             </div>)
          })}
          </div>);

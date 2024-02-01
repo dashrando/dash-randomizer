@@ -14,7 +14,6 @@ import { ArrowDown, ExternalLink } from 'react-feather'
 import VanillaButton from '@/app/generate/vanilla'
 import { parseSettings } from '@/lib/settings'
 
-
 type Seed = {
   data: any
   name: string
@@ -74,13 +73,9 @@ export default function Seed({
       if (vanilla && !seed?.data) {
         const { seed: seedNum, settings, options } = parameters
         const preset = findPreset(settings)
-        if (preset != undefined && preset.settings != undefined) {
-          settings.preset = preset.settings.preset
-        } else {
-          settings.preset = "Custom"
-        }
         const seedData = await RandomizeRom(seedNum, settings, options, {
           vanillaBytes: vanilla,
+          presetName: preset == undefined ? "Custom" : preset.fileName
         })
         if (seedData.data) {
           setSeed(seedData)

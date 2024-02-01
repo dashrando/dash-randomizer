@@ -9,11 +9,11 @@ export type SeedPatch = [
 export const patchRom = (
   vanillaRom: Uint8Array,
   basePatch: BpsPatch,
-  seedPatch: SeedPatch
+  seedPatch: SeedPatch[]
 ) => {
   let rom = basePatch.Apply(vanillaRom);
 
-  seedPatch.forEach((p: any) => {
+  seedPatch.forEach((p) => {
     const [off, cnt, pay] = p;
 
     for (let i = 0; i < cnt; i++) {

@@ -33,7 +33,7 @@ export class Location {
   area: number
   name: string
 
-  constructor(address: any, modifier: any, area: any, name: any) {
+  constructor(address: number, modifier: number, area: number, name: string) {
     this.address = address;
     this.modifier = modifier;
     this.area = area;

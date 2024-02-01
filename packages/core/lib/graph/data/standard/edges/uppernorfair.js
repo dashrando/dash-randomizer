@@ -59,7 +59,7 @@ export const uppernorfairEdges = {
     "Missiles (Speed)": () =>
       HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
     "Speed Booster": () => HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
-    "Missiles (Wave)": () => HellRunTanks >= 2,
+    "Missiles (Wave)": () => (CanOpenRedDoors && HellRunTanks >= 2) || HellRunTanks >= 7,
     BubbleMountainBottomLeftDoor: () => HellRunTanks >= 8,
   },
 
@@ -97,7 +97,7 @@ export const uppernorfairEdges = {
 
   "Missiles (Wave)": {
     BubbleMountainKingCacLedge: () => HellRunTanks >= 3,
-    "Wave Beam": () => HellRunTanks >= 3,
+    "Wave Beam": () => CanOpenRedDoors && HellRunTanks >= 3,
   },
 
   "Wave Beam": {

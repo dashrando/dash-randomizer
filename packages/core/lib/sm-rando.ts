@@ -1,7 +1,7 @@
 import DotNetRandom from "./dotnet-random";
-import { Area, AreaCounts, getLocations } from "./locations";
-import { Item } from "./items";
-import { getPreset } from "..";
+import { Area, AreaCounts, Location, getLocations } from "./locations";
+import { Item, ItemType } from "./items";
+import { Graph, getPreset } from "..";
 import { generateSeed } from "../data";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
 import { BOSS_DOORS, BOSS_ITEMS, DASH_CLASSIC_PATCHES, TABLE_FLAGS } from "../data/interface";
@@ -9,11 +9,26 @@ import {
   BossMode,
   MajorDistributionMode,
   MapLayout,
+  Options,
+  Settings,
   paramsToBytes,
   paramsToString,
 } from "./graph/params";
 
-export const generateSeedPatch = (seed, settings, graph, options) => {
+type Hunk = [ number, number, Uint8Array ];
+type Patch = Hunk[];
+
+type ItemNode = {
+  location: Location;
+  item: ItemType;
+}
+
+export const generateSeedPatch = (
+  seed: number,
+  settings: Settings,
+  graph: Graph,
+  options: Options
+): Patch => {
   //-----------------------------------------------------------------
   // Verify inputs.
   //-----------------------------------------------------------------
@@ -26,23 +41,23 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
   // Utility functions.
   //-----------------------------------------------------------------
 
-  const encodeRepeating = (patch, offset, length, bytes) => {
+  const encodeRepeating = (patch: Patch, offset: number, length: number, bytes: Uint8Array) => {
     patch.push([offset, length, bytes]);
   };
 
-  const encodeBytes = (patch, offset, bytes) => {
+  const encodeBytes = (patch: Patch, offset: number, bytes: Uint8Array) => {
     encodeRepeating(patch, offset, 1, bytes);
   };
 
-  const U8toBytes = (u8) => {
+  const U8toBytes = (u8: number) => {
     return new Uint8Array([u8]);
   };
 
-  const U16toBytes = (u16) => {
+  const U16toBytes = (u16: number) => {
     return new Uint8Array(new Uint16Array([u16]).buffer);
   };
 
-  const U32toBytes = (u32) => {
+  const U32toBytes = (u32: number) => {
     return new Uint8Array(new Uint32Array([u32]).buffer);
   };
 
@@ -51,7 +66,7 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
   //-----------------------------------------------------------------
 
   const nodes = getItemNodes(graph);
-  const seedPatch = [];
+  const seedPatch: Patch = [];
   const rnd = new DotNetRandom(seed);
   encodeBytes(seedPatch, 0x2f8000, U16toBytes(rnd.Next(0xffff)));
   encodeBytes(seedPatch, 0x2f8002, U16toBytes(rnd.Next(0xffff)));
@@ -79,13 +94,14 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
   // Write area item counts.
   //-----------------------------------------------------------------
 
-  const mapArea = (n) => {
-    if (n.location.area == Area.BlueBrinstar) {
-      return Area.Crateria;
-    } else if (n.location.area == Area.GreenBrinstar) {
-      return Area.PinkBrinstar;
-    } else {
-      return n.location.area;
+  const mapArea = (n: ItemNode) => {
+    switch(n.location.area) {
+      case Area.BlueBrinstar:
+        return Area.Crateria;
+      case Area.GreenBrinstar:
+        return Area.PinkBrinstar;
+      default:
+        return n.location.area;
     }
   };
 
@@ -108,7 +124,7 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
   // Write the spoiler in the credits.
   //-----------------------------------------------------------------
 
-  const getSortAddress = (loc) => {
+  const getSortAddress = (loc: Location) => {
     switch (loc.address) {
       case BOSS_ITEMS.VariaSuitInWreckedShip:
       case BOSS_ITEMS.VariaSuitInMaridia:
@@ -161,7 +177,7 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
   // Update boss doors.
   //-----------------------------------------------------------------
 
-  const getDoorUpdate = (a, b) => {
+  const getDoorUpdate = (a: string, b: string) => {
     const x = doors.find((d) => d.door == a);
     const y = doors.find((d) => d.door == b);
 
@@ -178,7 +194,7 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
     ];
   };
 
-  let bossUpdates = [];
+  let bossUpdates: { door: number; dest: number }[] = [];
   graph
     .filter((e) => isBossEdge(e))
     .forEach((b) => {
@@ -277,7 +293,7 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
     encodeBytes(
       seedPatch,
       TABLE_FLAGS.NoFanfare,
-      U16toBytes(options.DisableFanfare)
+      U16toBytes(options.DisableFanfare ? 0x1 : 0x0)
     );
   }
 
@@ -290,28 +306,39 @@ export const generateSeedPatch = (seed, settings, graph, options) => {
   return seedPatch;
 };
 
-export const getBasePatch = (settings) => {
+export const getBasePatch = (settings: Settings) => {
   const area = settings.randomizeAreas ? "_area" : "";
   return settings.mapLayout == MapLayout.Recall
     ? `dash_recall${area}.bps`
     : `dash_standard${area}.bps`;
 };
 
-export const getFileName = (seed, settings, options) => {
+export const getFileName = (
+  rootName: string,
+  seed: number,
+  settings: Settings,
+  options: Options
+) => {
   const flags = paramsToString(seed, settings, options);
-  return `DASH_${settings.preset}_${flags}.sfc`;
+  return `DASH_${rootName}_${flags}.sfc`;
 };
 
-export const getItemNodes = (graph) => {
+const getItemNodes = (graph: Graph): ItemNode[] => {
   const nodes = getLocations().map((l) => {
-    const vertex = graph.find((e) => e.from.name == l.name).from;
+    const vertex = graph.find((e) => e.from.name == l.name)?.from;
+    if (vertex == undefined) {
+      throw new Error("getItemNodes: failed to find vertex for location");
+    }
+    if (vertex.item == undefined) {
+      throw new Error("getItemNodes: no item at vertex");
+    }
     const node = {
       location: l.Clone(),
       item: { ...vertex.item },
     };
 
     // Space Jump?
-    if (node.location.address == 0x7c7a7) {
+    if (node.location.address == BOSS_ITEMS.SpaceJumpInMaridia) {
       switch (vertex.area) {
         case "KraidsLair":
           node.location.area = Area.Kraid;
@@ -329,7 +356,7 @@ export const getItemNodes = (graph) => {
     }
 
     // Varia Suit?
-    if (node.location.address == 0x78aca) {
+    if (node.location.address == BOSS_ITEMS.VariaSuitInBrinstar) {
       switch (vertex.area) {
         case "EastMaridia":
           node.location.area = Area.EastMaridia;
@@ -347,7 +374,7 @@ export const getItemNodes = (graph) => {
     }
 
     // Ridley Energy Tank?
-    if (node.location.address == 0x79108) {
+    if (node.location.address == BOSS_ITEMS.RidleyTankInNorfair) {
       switch (vertex.area) {
         case "EastMaridia":
           node.location.area = Area.EastMaridia;
@@ -369,7 +396,7 @@ export const getItemNodes = (graph) => {
   return nodes;
 };
 
-export const generateFromPreset = (name, seedNumber) => {
+export const generateFromPreset = (name: string, seedNumber: number) => {
   const seed = getSeedNumber(seedNumber);
   const preset = getPreset(name);
 
@@ -382,17 +409,17 @@ export const generateFromPreset = (name, seedNumber) => {
   const { settings } = preset;
   const graph = generateSeed(seed, settings);
   const defaultOptions = {
-    DisableFanfare: 0,
+    DisableFanfare: false,
   };
 
   const seedPatch = generateSeedPatch(seed, settings, graph, defaultOptions);
-  const fileName = getFileName(seed, settings, defaultOptions);
+  const fileName = getFileName(preset.fileName, seed, settings, defaultOptions);
   const patch = getBasePatch(settings);
 
   return [`patches/${patch}`, seedPatch, fileName];
 };
 
-export const getSeedNumber = (seedNumber) => {
+export const getSeedNumber = (seedNumber?: number) => {
   if (seedNumber != undefined && seedNumber != 0) {
     return seedNumber;
   }

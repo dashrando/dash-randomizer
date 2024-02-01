@@ -7,7 +7,15 @@ import {
   MinorDistributionMode,
   SuitMode,
   GravityHeatReduction,
+  Settings,
 } from "./graph/params";
+
+export type Preset = {
+  title: string;
+  fileName: string;
+  tags: string[];
+  settings: Settings;
+}
 
 //-----------------------------------------------------------------
 // Accessor Method
@@ -28,11 +36,11 @@ export const getAllPresets = () => {
   ];
 };
 
-export const getPreset = (tag) => {
+export const getPreset = (tag: string) => {
   return getAllPresets().find((p) => p.tags.includes(tag));
 };
 
-export const findPreset = (settings) => {
+export const findPreset = (settings: Settings): Preset | undefined => {
   return getAllPresets().find((p) => {
     const ps = p.settings;
     if (
@@ -56,11 +64,11 @@ export const findPreset = (settings) => {
 // Chozo Settings
 //-----------------------------------------------------------------
 
-export const Preset_Chozo = {
+export const Preset_Chozo: Preset = {
   title: "Chozo",
+  fileName: "Chozo",
   tags: ["chozo"],
   settings: {
-    preset: "Chozo",
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Chozo,
     minorDistribution: MinorDistributionMode.Standard,
@@ -73,11 +81,11 @@ export const Preset_Chozo = {
   },
 };
 
-export const Preset_Chozo_Bozo = {
+export const Preset_Chozo_Bozo: Preset = {
   title: "Chozo Bozo",
+  fileName: "ChozoBozo",
   tags: ["chozo_bozo"],
   settings: {
-    preset: "ChozoBozo",
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Chozo,
     minorDistribution: MinorDistributionMode.Standard,
@@ -90,11 +98,11 @@ export const Preset_Chozo_Bozo = {
   },
 };
 
-export const Preset_Chozo_Bozo_Area = {
+export const Preset_Chozo_Bozo_Area: Preset = {
   title: "Chozo Bozo Area",
+  fileName: "ChozoBozoArea",
   tags: ["chozo_bozo_area"],
   settings: {
-    preset: "ChozoBozoArea",
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Chozo,
     minorDistribution: MinorDistributionMode.Standard,
@@ -107,11 +115,11 @@ export const Preset_Chozo_Bozo_Area = {
   },
 };
 
-export const Preset_Chozo_Area_Shifted = {
+export const Preset_Chozo_Area_Shifted: Preset = {
   title: "Chozo Area Shifted",
+  fileName: "ChozoAreaShifted",
   tags: ["chozo_area_shifted"],
   settings: {
-    preset: "ChozoAreaShifted",
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Chozo,
     minorDistribution: MinorDistributionMode.Standard,
@@ -128,11 +136,11 @@ export const Preset_Chozo_Area_Shifted = {
 // SG Live 2023 Tournament Settings
 //-----------------------------------------------------------------
 
-export const Preset_SGL23 = {
+export const Preset_SGL23: Preset = {
   title: "SGL23",
+  fileName: "SGL23",
   tags: ["sgl23"],
   settings: {
-    preset: "SGL23",
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Full,
     minorDistribution: MinorDistributionMode.Standard,
@@ -149,16 +157,16 @@ export const Preset_SGL23 = {
 // Classic DASH Settings
 //-----------------------------------------------------------------
 
-export const Preset_Classic_MM = {
+export const Preset_Classic_MM: Preset = {
   title: "Classic M/M",
+  fileName: "ClassicMM",
   tags: ["classic_mm", "standard_mm"],
   settings: {
-    preset: "ClassicMM",
     mapLayout: MapLayout.Classic,
     majorDistribution: MajorDistributionMode.Standard,
     minorDistribution: MinorDistributionMode.Dash,
     extraItems: [],
-    beamMode: BeamMode.DashClassic,
+    beamMode: BeamMode.Starter,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
     randomizeAreas: false,
@@ -166,16 +174,16 @@ export const Preset_Classic_MM = {
   },
 };
 
-export const Preset_Classic_Full = {
+export const Preset_Classic_Full: Preset = {
   title: "Classic Full",
+  fileName: "ClassicFull",
   tags: ["classic_full", "standard_full"],
   settings: {
-    preset: "ClassicFull",
     mapLayout: MapLayout.Classic,
     majorDistribution: MajorDistributionMode.Full,
     minorDistribution: MinorDistributionMode.Dash,
     extraItems: [],
-    beamMode: BeamMode.DashClassic,
+    beamMode: BeamMode.Starter,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
     randomizeAreas: false,
@@ -187,16 +195,16 @@ export const Preset_Classic_Full = {
 // DASH Recall Settings
 //-----------------------------------------------------------------
 
-export const Preset_Recall_MM = {
+export const Preset_Recall_MM: Preset = {
   title: "Recall M/M",
+  fileName: "RecallMM",
   tags: ["recall_mm", "mm"],
   settings: {
-    preset: "RecallMM",
     mapLayout: MapLayout.Recall,
     majorDistribution: MajorDistributionMode.Recall,
     minorDistribution: MinorDistributionMode.Dash,
     extraItems: [Item.DoubleJump, Item.HeatShield, Item.PressureValve],
-    beamMode: BeamMode.New,
+    beamMode: BeamMode.StarterPlus,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
     randomizeAreas: false,
@@ -204,16 +212,16 @@ export const Preset_Recall_MM = {
   },
 };
 
-export const Preset_Recall_Full = {
+export const Preset_Recall_Full: Preset = {
   title: "Recall Full",
+  fileName: "RecallFull",
   tags: ["recall_full", "full"],
   settings: {
-    preset: "RecallFull",
     mapLayout: MapLayout.Recall,
     majorDistribution: MajorDistributionMode.Full,
     minorDistribution: MinorDistributionMode.Dash,
     extraItems: [Item.DoubleJump, Item.HeatShield, Item.PressureValve],
-    beamMode: BeamMode.New,
+    beamMode: BeamMode.StarterPlus,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
     randomizeAreas: false,
@@ -225,11 +233,11 @@ export const Preset_Recall_Full = {
 // 2017 Settings (similar to Total and VARIA vanilla seeds)
 //-----------------------------------------------------------------
 
-export const Preset_2017_MM = {
+export const Preset_2017_MM: Preset = {
   title: "Throwback 2017",
+  fileName: "2017MM",
   tags: ["2017_mm"],
   settings: {
-    preset: "2017MM",
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Standard,
     minorDistribution: MinorDistributionMode.Standard,

@@ -2,6 +2,7 @@ import styles from "./readable.module.css";
 import * as prettier from "prettier";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Edge } from "core";
 
 export const Seperator = () => (
   <div className={styles.seperator}>
@@ -61,7 +62,7 @@ const getBody = (func: any): string => {
     .trim();
 };
 
-export const EdgeContent = ({ edge }: any) => {
+export const EdgeContent = ({ edge }: { edge: Edge }) => {
   const e = edge;
 
   let condition = getBody(e.condition);

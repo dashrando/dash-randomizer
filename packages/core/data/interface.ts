@@ -122,7 +122,7 @@ export const BOSS_ITEMS = {
 
 export const TABLE_FLAGS = {
   // Charge Modes: 0x00 = Vanilla  0x01 = Starter,
-  //               0x02 = Recall   0x03 = New
+  //               0x02 = Recall   0x03 = Starter+
   ChargeMode: 0x2F8004,
   // HUD bits: 0x01 = Charge  0x02 = Item Counts,
   //           0x04 = Area    0x08 = Dash Items
