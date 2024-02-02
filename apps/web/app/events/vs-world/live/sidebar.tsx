@@ -11,6 +11,8 @@ import useLiveRace from '@/app/hooks/useLiveRace'
 import useAdmin from '@/app/hooks/useAdmin'
 import Button from '@/app/components/button'
 import { toast } from 'sonner'
+import usePartySocket from 'partysocket/react'
+import { PARTYKIT_HOST } from '@/lib/env'
 
 const Runner = ({ children }: PropsWithChildren) => <span style={{ color: 'var(--color-highlight)' }}>{children}</span>
 
@@ -79,8 +81,17 @@ const Race = ({ id, runners, status, time, admin = false }: RaceProps) => (
 )
 
 export default function LiveSidebar() {
-  const { data: live } = useLiveRace()
+  const { data: live, mutate: fetchLive } = useLiveRace()
   const { isAdmin } = useAdmin()
+
+  usePartySocket({
+    host: PARTYKIT_HOST,
+    room: 'vs-world',
+    onMessage(event) {
+      console.log('message', event.data)
+      // fetchLive()
+    },
+  })
   return (
     <aside className={styles.sidebar}>
       <div className={styles.schedule}>
@@ -89,7 +100,14 @@ export default function LiveSidebar() {
           {RACES.map((race) => {
             const status = getStatus(race.id, live?.id)
             return (
-              <Race key={race.id} id={race.id} runners={race.runners.flat()} status={status} time={race.time} admin={isAdmin} />
+              <Race
+                key={race.id}
+                id={race.id}
+                runners={race.runners.flat()}
+                status={status}
+                time={race.time}
+                admin={isAdmin}
+              />
             )}
           )}
         </ul>
