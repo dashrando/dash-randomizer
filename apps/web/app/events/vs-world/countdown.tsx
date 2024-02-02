@@ -1,9 +1,11 @@
 'use client'
 
-import { useState, useEffect, useRef, Suspense } from 'react'
+import { useState, useEffect, useRef, Suspense, useCallback } from 'react'
 import styles from './countdown.module.css'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import useMounted from '@/app/hooks/useMounted'
+import { isAfter } from 'date-fns'
+import { cn } from '@/lib/utils'
 
 function calculatePrevValue(input: string, maxValue: number) {
   const value = parseInt(input)
@@ -85,7 +87,7 @@ export type TimeLeft = {
 }
 
 const Placeholder = () => (
-  <div className={styles.wrapper}>
+  <div className={cn(styles.wrapper, styles.placeholderWrapper)}>
     <div className={styles.countdown_unit}>
       <div className={styles.numbers}>
         <span className={styles.placeholder} suppressHydrationWarning>0</span>
@@ -115,20 +117,43 @@ const Placeholder = () => (
 
 export default function Countdown({ launchTime } : { launchTime: Date }) {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft(launchTime, new Date()))
+  const [pastTime, setPastTime] = useState(false)
   const mounted = useMounted()
+  const checkIfPastTime = useCallback(() => {
+    const now = new Date()
+    const countdownOver = isAfter(now, launchTime)
+      if (countdownOver) {
+        setPastTime(true)
+      }
+  }, [launchTime, setPastTime])
 
   useEffect(() => {
+    checkIfPastTime()
     const interval = setInterval(() => {
       const now = new Date()
       const newValue = calculateTimeLeft(launchTime, now)
       setTimeLeft(newValue)
+      checkIfPastTime()
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [launchTime, setTimeLeft])
+  }, [checkIfPastTime, launchTime, setPastTime, setTimeLeft])
 
   if (!mounted) {
     return <Placeholder />
+  }
+
+  if (pastTime) {
+    return (
+      <div className={styles.loadingContainer}>
+        <Placeholder />
+        <div className={styles.loadingDots}>
+          <span className={styles.loadingDot} />
+          <span className={styles.loadingDot} />
+          <span className={styles.loadingDot} />
+        </div>
+      </div>
+    )
   }
 
   return (
