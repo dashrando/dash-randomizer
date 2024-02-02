@@ -1,6 +1,6 @@
 import { zonedTimeToUtc } from 'date-fns-tz'
 
-export const START_TIME = zonedTimeToUtc('2024-02-02T18:15:00.000', 'America/New_York');
+export const START_TIME = zonedTimeToUtc('2024-02-02T18:30:00.000', 'America/New_York');
 const MATCH2_TIME = new Date(START_TIME)
 const MATCH3_TIME = new Date(START_TIME)
 MATCH2_TIME.setHours(MATCH2_TIME.getHours() + 1)
