@@ -14,6 +14,7 @@
     "@types/node": "18.15.11",
     "@types/react": "18.0.31",
     "@types/react-dom": "18.0.11",
+    "@vercel/edge-config": "^0.4.1",
     "buffer": "^6.0.3",
     "class-variance-authority": "^0.5.1",
     "clsx": "^1.2.1",
