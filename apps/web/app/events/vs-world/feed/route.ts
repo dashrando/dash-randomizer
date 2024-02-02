@@ -1,12 +1,18 @@
 import { NextResponse } from 'next/server'
-import { get } from '@vercel/edge-config'
+import { kv } from '@vercel/kv'
+
+export type LiveTournamentKVData = {
+  id: number
+  overrideChannel: string | null
+}
 
 export async function GET() {
-  const data = await get('vs-world')
-  // @ts-ignore
-  // const { id, overrideChannel } = data
-  const id = 2
-  const overrideChannel = null
+  const data = await kv.get('vsworld') as LiveTournamentKVData
+  // const data = {
+  //   id: 1,
+  //   overrideChannel: null
+  // }
+  const { id, overrideChannel } = data
   const active = id !== null
   return NextResponse.json({ id, overrideChannel, active })
 }

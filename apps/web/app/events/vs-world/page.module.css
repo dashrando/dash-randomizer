@@ -75,6 +75,7 @@
   border-bottom: 1px solid #222;
   padding: var(--spacer-5x) var(--spacer-4x);
   border-left: 4px solid transparent;
+  position: relative;
 }
 
 .schedule .race a {
@@ -113,4 +114,11 @@
 
 .raceTimeLive .scheduledTime {
   opacity: 0;
+}
+
+.adminPanel {
+  position: absolute;
+  top: var(--spacer-5x);
+  right: var(--spacer-2x);
+  zoom: 0.8;
 }

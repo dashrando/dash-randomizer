@@ -8,7 +8,9 @@ import { cn } from '@/lib/utils'
 import Badge from '@/app/components/badge'
 import { TwitchChat } from './twitch'
 import useLiveRace from '@/app/hooks/useLiveRace'
-
+import useAdmin from '@/app/hooks/useAdmin'
+import Button from '@/app/components/button'
+import { toast } from 'sonner'
 
 const Runner = ({ children }: PropsWithChildren) => <span style={{ color: 'var(--color-highlight)' }}>{children}</span>
 
@@ -30,12 +32,33 @@ const getStatus = (raceId: number, liveId: number|null = null) => {
 }
 
 type RaceProps = {
+  id: number
   time: Date
   runners: string[]
   status: 'upcoming' | 'live' | 'past'
+  admin: boolean
 }
 
-const Race = ({ runners, status, time }: RaceProps) => (
+const AdminLivePanel = ({ id }: { id: number }) => {
+  return (
+    <div className={styles.adminPanel}>
+      <form onSubmit={async (evt: any) => {
+        evt.preventDefault()
+        const res = await fetch('/events/vs-world/admin/update', {
+          method: 'POST',
+          body: JSON.stringify({ id }),
+        })
+        if (res.ok) {
+          toast(`Race ${id} was set to live`)
+        }
+      }}>
+        <Button variant="primary">Go Live</Button>
+      </form>
+    </div>
+  )
+}
+
+const Race = ({ id, runners, status, time, admin = false }: RaceProps) => (
   <li className={cn(styles.race, styles[`race-${status}`])}>
     <div className={styles.raceContent}>
       <Runner>{runners[0]}</Runner> & <Runner>{runners[1]}</Runner>
@@ -50,12 +73,14 @@ const Race = ({ runners, status, time }: RaceProps) => (
           <Badge variant="early" size="small">LIVE</Badge>
         </div>
       </div>
+      {admin && status === 'upcoming' && <AdminLivePanel id={id} />}
     </div>
   </li>
 )
 
 export default function LiveSidebar() {
   const { data: live } = useLiveRace()
+  const { isAdmin } = useAdmin()
   return (
     <aside className={styles.sidebar}>
       <div className={styles.schedule}>
@@ -64,7 +89,7 @@ export default function LiveSidebar() {
           {RACES.map((race) => {
             const status = getStatus(race.id, live?.id)
             return (
-              <Race key={race.id} runners={race.runners.flat()} status={status} time={race.time} />
+              <Race key={race.id} id={race.id} runners={race.runners.flat()} status={status} time={race.time} admin={isAdmin} />
             )}
           )}
         </ul>
