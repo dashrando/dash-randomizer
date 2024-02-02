@@ -7,9 +7,27 @@ import Time from '../time'
 import { cn } from '@/lib/utils'
 import Badge from '@/app/components/badge'
 import { TwitchChat } from './twitch'
+import useLiveRace from '@/app/hooks/useLiveRace'
 
 
 const Runner = ({ children }: PropsWithChildren) => <span style={{ color: 'var(--color-highlight)' }}>{children}</span>
+
+const getStatus = (raceId: number, liveId: number|null = null) => {
+  try {
+    if (liveId === null) {
+      return 'upcoming'
+    }
+    if (raceId === liveId) {
+      return 'live'
+    }
+    if (raceId < liveId) {
+      return 'past'
+    }
+    return 'upcoming'
+  } catch (err) {
+    return 'upcoming'
+  }
+}
 
 type RaceProps = {
   time: Date
@@ -37,14 +55,18 @@ const Race = ({ runners, status, time }: RaceProps) => (
 )
 
 export default function LiveSidebar() {
+  const { data: live } = useLiveRace()
   return (
     <aside className={styles.sidebar}>
       <div className={styles.schedule}>
         <h1 className={styles.title}>DASH Team vs The World</h1>
         <ul className={styles.races}>
-          {RACES.map((race) => (
-            <Race key={race.id} runners={race.runners.flat()} status="upcoming" time={race.time} />
-          ))}
+          {RACES.map((race) => {
+            const status = getStatus(race.id, live?.id)
+            return (
+              <Race key={race.id} runners={race.runners.flat()} status={status} time={race.time} />
+            )}
+          )}
         </ul>
       </div>
       <TwitchChat />

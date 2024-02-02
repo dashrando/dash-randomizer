@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import useLiveRace from '@/app/hooks/useLiveRace'
 import styles from '../page.module.css'
 import { RACES } from '../data'
-import { get } from 'http'
+import Countdown from '../countdown'
 
 const useHostname = () => {
   const [hostname, setHostname] = useState<string|null>(null)
@@ -23,7 +23,7 @@ export const TwitchStream =() => {
   const { data: live } = useLiveRace()
 
   if (live && !live.active) {
-    console.log('redirect to homepage')
+    return <Countdown launchTime={RACES[0].time} />
   }
 
   const race = getRace(live?.id)
@@ -35,11 +35,13 @@ export const TwitchStream =() => {
     return null
   }
 
+  const channel = live?.overrideChannel || race.channel.handle
+
   return (
     <div className={styles.embedContainer}>
       <div className={styles.embed}>
         <iframe
-          src={`https://player.twitch.tv/?channel=${race.channel.handle}&parent=${hostname}`}
+          src={`https://player.twitch.tv/?channel=${channel}&parent=${hostname}`}
           height="450"
           width="800"
           allowFullScreen
@@ -62,10 +64,12 @@ export const TwitchChat =() => {
     return null
   }
 
+  const channel = live?.overrideChannel || race.channel.handle
+
   return (
     <div className={styles.chatEmbed}>
       <iframe
-        src={`https://www.twitch.tv/embed/${race.channel.handle}/chat?darkpopout&parent=${hostname}`}
+        src={`https://www.twitch.tv/embed/${channel}/chat?darkpopout&parent=${hostname}`}
         height="100%"
         width="100%"
       />
