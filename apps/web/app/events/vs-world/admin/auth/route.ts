@@ -16,3 +16,5 @@ export async function GET(req: Request) {
     return NextResponse.json({ admin: false })
   }
 }
+
+export const dynamic = 'force-dynamic'
