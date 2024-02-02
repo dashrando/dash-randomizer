@@ -9,7 +9,7 @@ export type LiveTournamentKVData = {
 export async function GET() {
   const data = await kv.get('vsworld') as LiveTournamentKVData
   // const data = {
-  //   id: 1,
+  //   id: null,
   //   overrideChannel: null
   // }
   const { id, overrideChannel } = data

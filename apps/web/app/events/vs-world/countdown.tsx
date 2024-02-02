@@ -6,6 +6,8 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import useMounted from '@/app/hooks/useMounted'
 import { isAfter } from 'date-fns'
 import { cn } from '@/lib/utils'
+import useLiveRace from '@/app/hooks/useLiveRace'
+import { usePathname, useRouter } from 'next/navigation'
 
 function calculatePrevValue(input: string, maxValue: number) {
   const value = parseInt(input)
@@ -115,6 +117,31 @@ const Placeholder = () => (
   </div>
 )
 
+const Loader = () => {
+  const { data } = useLiveRace()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  useEffect(() => {
+    if (data?.active && router && pathname) {
+      if (pathname !== '/events/vs-world/live') {
+        router.push('/events/vs-world/live')
+      }
+    }
+  }, [data, pathname, router])
+
+  return (
+    <div className={styles.loadingContainer}>
+      <Placeholder />
+      <div className={styles.loadingDots}>
+        <span className={styles.loadingDot} />
+        <span className={styles.loadingDot} />
+        <span className={styles.loadingDot} />
+      </div>
+    </div>
+  )
+}
+
 export default function Countdown({ launchTime } : { launchTime: Date }) {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft(launchTime, new Date()))
   const [pastTime, setPastTime] = useState(false)
@@ -136,24 +163,19 @@ export default function Countdown({ launchTime } : { launchTime: Date }) {
       checkIfPastTime()
     }, 1000);
 
+    if (pastTime) {
+      clearInterval(interval)
+    }
+
     return () => clearInterval(interval);
-  }, [checkIfPastTime, launchTime, setPastTime, setTimeLeft])
+  }, [checkIfPastTime, launchTime, pastTime, setPastTime, setTimeLeft])
 
   if (!mounted) {
     return <Placeholder />
   }
 
   if (pastTime) {
-    return (
-      <div className={styles.loadingContainer}>
-        <Placeholder />
-        <div className={styles.loadingDots}>
-          <span className={styles.loadingDot} />
-          <span className={styles.loadingDot} />
-          <span className={styles.loadingDot} />
-        </div>
-      </div>
-    )
+    return <Loader />
   }
 
   return (
