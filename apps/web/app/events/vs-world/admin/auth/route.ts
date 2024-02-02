@@ -12,6 +12,7 @@ export async function GET(req: Request) {
     }
     throw new Error('Not Authenticated')
   } catch (err) {
+    console.log(err)
     return NextResponse.json({ admin: false })
   }
 }
