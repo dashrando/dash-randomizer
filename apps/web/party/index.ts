@@ -28,6 +28,7 @@ export default class Server implements Party.Server {
   }
 
   onRequest(req: Party.Request): Response | Promise<Response> {
+    // console.log('sup', req.method, req.url)
     this.room.broadcast('new_data')
     return new Response(`Hello from server at ${req.url}`)
   }

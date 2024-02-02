@@ -13,6 +13,7 @@ import Button from '@/app/components/button'
 import { toast } from 'sonner'
 import usePartySocket from 'partysocket/react'
 import { PARTYKIT_HOST } from '@/lib/env'
+import PartySocket from 'partysocket'
 
 const Runner = ({ children }: PropsWithChildren) => <span style={{ color: 'var(--color-highlight)' }}>{children}</span>
 
@@ -52,6 +53,13 @@ const AdminLivePanel = ({ id }: { id: number }) => {
         })
         if (res.ok) {
           toast(`Race ${id} was set to live`)
+          await PartySocket.fetch({
+            host: PARTYKIT_HOST,
+            room: 'vs-world',
+          }, {
+            method: 'POST',
+            body: JSON.stringify({ id }),
+          })
         }
       }}>
         <Button variant="primary">Go Live</Button>
@@ -89,7 +97,7 @@ export default function LiveSidebar() {
     room: 'vs-world',
     onMessage(event) {
       console.log('message', event.data)
-      // fetchLive()
+      fetchLive()
     },
   })
   return (
