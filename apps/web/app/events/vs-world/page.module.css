@@ -6,10 +6,15 @@
   position: relative;
 }
 
+.embedContainer {
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
 .chatEmbed {
   display: block;
   width: 100%;
-  height: 60vh;
+  height: 100%;
   position: relative;
 }
 
@@ -45,7 +50,7 @@
 }
 
 .schedule {
-  padding: var(--spacer-2x);
+  padding: var(--spacer-2x) 0 0;
 }
 
 .schedule .title {
@@ -54,8 +59,92 @@
   font-weight: 700;
   color: #fff;
   margin-bottom: var(--spacer-2x);
+  padding-left: var(--spacer-4x);
 }
 
 .schedule .races {
   list-style: none outside none;
+  margin: 0;
+  padding: 0;
+}
+
+.schedule .race {
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 18px;
+  border-bottom: 1px solid #222;
+  padding: var(--spacer-5x) var(--spacer-4x);
+  border-left: 4px solid transparent;
+  position: relative;
+}
+
+.schedule .race a {
+  color: var(--color-highlight);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.race-past .raceContent {
+  opacity: 0.3;
+}
+
+.schedule .race.race-live {
+  border-left-color: cyan;
+}
+
+.raceTime {
+  position: relative;
+}
+
+.raceTime .liveBadge {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.raceTime.raceTimeLive .liveBadge {
+  opacity: 1;
+}
+
+.scheduledTime {
+  transition: opacity 0.15s ease-in-out;
+}
+
+.raceTimeLive .scheduledTime {
+  opacity: 0;
+}
+
+.adminPanel {
+  position: absolute;
+  top: var(--spacer-5x);
+  right: var(--spacer-2x);
+  zoom: 0.8;
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .content {
+    padding-right: 0;
+  }
+
+  .sidebar {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    height: 100%;
+  }
+
+  .embed {
+    padding-bottom: 90%;
+  }
+
+  .chatEmbed {
+    min-height: 400px;
+  }
 }

@@ -1,9 +1,13 @@
 'use client'
 
-import { useState, useEffect, useRef, Suspense } from 'react'
+import { useState, useEffect, useRef, Suspense, useCallback } from 'react'
 import styles from './countdown.module.css'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import useMounted from '@/app/hooks/useMounted'
+import { isAfter } from 'date-fns'
+import { cn } from '@/lib/utils'
+import useLiveRace from '@/app/hooks/useLiveRace'
+import { usePathname, useRouter } from 'next/navigation'
 
 function calculatePrevValue(input: string, maxValue: number) {
   const value = parseInt(input)
@@ -85,7 +89,7 @@ export type TimeLeft = {
 }
 
 const Placeholder = () => (
-  <div className={styles.wrapper}>
+  <div className={cn(styles.wrapper, styles.placeholderWrapper)}>
     <div className={styles.countdown_unit}>
       <div className={styles.numbers}>
         <span className={styles.placeholder} suppressHydrationWarning>0</span>
@@ -113,22 +117,65 @@ const Placeholder = () => (
   </div>
 )
 
-export default function Countdown({ launchTime } : { launchTime: Date }) {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft(launchTime, new Date()))
-  const mounted = useMounted()
+const Loader = () => {
+  const { data } = useLiveRace()
+  const router = useRouter()
+  const pathname = usePathname()
 
   useEffect(() => {
+    if (data?.active && router && pathname) {
+      if (pathname !== '/events/vs-world/live') {
+        router.push('/events/vs-world/live')
+      }
+    }
+  }, [data, pathname, router])
+
+  return (
+    <div className={styles.loadingContainer}>
+      <Placeholder />
+      <div className={styles.loadingDots}>
+        <span className={styles.loadingDot} />
+        <span className={styles.loadingDot} />
+        <span className={styles.loadingDot} />
+      </div>
+    </div>
+  )
+}
+
+export default function Countdown({ launchTime } : { launchTime: Date }) {
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft(launchTime, new Date()))
+  const [pastTime, setPastTime] = useState(false)
+  const mounted = useMounted()
+  const checkIfPastTime = useCallback(() => {
+    const now = new Date()
+    const countdownOver = isAfter(now, launchTime)
+      if (countdownOver) {
+        setPastTime(true)
+      }
+  }, [launchTime, setPastTime])
+
+  useEffect(() => {
+    checkIfPastTime()
     const interval = setInterval(() => {
       const now = new Date()
       const newValue = calculateTimeLeft(launchTime, now)
       setTimeLeft(newValue)
+      checkIfPastTime()
     }, 1000);
 
+    if (pastTime) {
+      clearInterval(interval)
+    }
+
     return () => clearInterval(interval);
-  }, [launchTime, setTimeLeft])
+  }, [checkIfPastTime, launchTime, pastTime, setPastTime, setTimeLeft])
 
   if (!mounted) {
     return <Placeholder />
+  }
+
+  if (pastTime) {
+    return <Loader />
   }
 
   return (

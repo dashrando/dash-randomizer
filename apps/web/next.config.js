@@ -16,6 +16,10 @@ const sentryOpts = {
   disableLogger: true,
 }
 
+const partyKitHost = process.env.NEXT_PUBLIC_PARTYKIT_HOST
+const partyKiProtocol = partyKitHost.includes('127.0.0.1') ? 'http' : 'https'
+const partyKitProxy = `${partyKiProtocol}://${partyKitHost}`
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
@@ -78,6 +82,10 @@ const nextConfig = {
         source: "/tournament",
         destination: "/tournament.html",
       },
+      {
+        source: '/partykit/:path*',
+        destination: `${partyKitProxy}/:path*`,
+      }
     ];
   },
   transpilePackages: ['core']

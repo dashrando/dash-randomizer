@@ -45,3 +45,10 @@
   border: 0;
   background: linear-gradient(135deg,#11fec7,#06b3e7);
 }
+
+.small {
+  font-size: 10px;
+  line-height: 10px;
+  min-width: 40px;
+  /* padding: 3px var(--spacer-2x); */
+}
