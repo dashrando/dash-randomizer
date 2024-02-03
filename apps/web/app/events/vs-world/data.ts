@@ -18,7 +18,7 @@ export const RACES = [
       handle: 'speedgaming',
     },
     time: START_TIME,
-    description: 'Chozo Bozo, Multitroid'
+    description: 'Chozo Bozo, Multitroid Chaos'
   },
   {
     id: 2,
