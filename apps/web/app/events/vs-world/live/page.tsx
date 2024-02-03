@@ -4,8 +4,8 @@ import { TwitchStream } from './twitch'
 import Sidebar from './sidebar'
 
 export const metadata = {
-  title: 'Chozo Showcase - DASH',
-  description: 'A live showcase of the Chozo logic preset for DASH.',
+  title: 'DASH Team vs The World - Live',
+  description: 'A live stream of the DASH Team vs The World event',
 }
 
 export default function LivePage() {
