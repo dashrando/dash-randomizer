@@ -50,7 +50,7 @@ export const westmaridiaEdges = {
   Door_MaridiaMap: {
     MainStreet: () =>
       HasMorph && CanOpenGreenDoors &&
-      (CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall))),
+      (CanMoveInWestMaridia || (HasHiJump && HasIce)),
   },
 
   "Supers (Crab)": {
