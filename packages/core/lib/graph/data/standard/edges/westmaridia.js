@@ -61,7 +61,7 @@ export const westmaridiaEdges = {
     MainStreet: () => HasMorph,
     "Missiles (Mama Turtle)": () =>
       HasMorph && CanOpenRedDoors && (CanMoveInWestMaridia || HasHiJump),
-    EverestTopRight: () => HasMorph || (CanMoveInWestMaridia || HasGrapple),
+    EverestTopRight: () => HasMorph && (CanMoveInWestMaridia || HasGrapple),
     "Supers (Crab)": () => HasMorph,
   },
 
