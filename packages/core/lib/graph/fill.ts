@@ -322,17 +322,14 @@ const graphFill = (
 
 export const generateSeed = (seed: number, settings: Settings) => {
   const maxOuterLoop = 20;
-  let maxInnerLoop = 10;
+  let maxInnerLoop = 40;
   const rnd = new DotNetRandom(seed);
 
   if (settings.majorDistribution == MajorDistributionMode.Chozo) {
-    maxInnerLoop = 50;
+    maxInnerLoop *= 5;
   }
   if (!settings.randomizeAreas) {
     maxInnerLoop *= 10;
-  }
-  if (settings.bossMode == BossMode.Vanilla) {
-    maxInnerLoop *= 2;
   }
 
   let attempts = 1;
