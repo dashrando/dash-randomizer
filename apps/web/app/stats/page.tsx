@@ -23,6 +23,7 @@ export type ItemProgression = ItemLocation[];
 
 export type Params = {
   gameMode: string;
+  logic: string;
   startSeed: number;
   numSeeds: number;
 };
@@ -54,6 +55,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         onChange={(e) =>
           update({
             gameMode: e.target.value,
+            logic: value.logic,
             startSeed: value.startSeed,
             numSeeds: value.numSeeds,
           })
@@ -68,6 +70,23 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         <option value="recall_mm">Recall - Major / Minor</option>
         <option value="recall_full">Recall - Full</option>
       </select>
+      <select
+        name="logic"
+        id="logic"
+        className={styles.mode_selector}
+        value={value.logic}
+        onChange={(e) =>
+          update({
+            gameMode: value.gameMode,
+            logic: e.target.value,
+            startSeed: value.startSeed,
+            numSeeds: value.numSeeds
+          })
+        }
+      >
+        <option value="normal">Normal Logic</option>
+        <option value="relaxed">Relaxed Logic</option>
+      </select>
 
       <label htmlFor="start_seed" style={{ paddingRight: '4px' }}>Start</label>
       <input
@@ -81,6 +100,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         onChange={(e) =>
           update({
             gameMode: value.gameMode,
+            logic: value.logic,
             startSeed: e.target.valueAsNumber,
             numSeeds: value.numSeeds,
           })
@@ -99,6 +119,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         onChange={(e) =>
           update({
             gameMode: value.gameMode,
+            logic: value.logic,
             startSeed: value.startSeed,
             numSeeds: e.target.valueAsNumber,
           })
@@ -111,6 +132,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 export default function StatsPage() {
   const [params, setParams] = useState({
     gameMode: "chozo",
+    logic: "normal",
     startSeed: 1,
     numSeeds: 100,
   });
@@ -136,7 +158,7 @@ export default function StatsPage() {
   };
 
   const generateGraphFill = (startSeed: number, endSeed: number) => {
-    const { gameMode } = params;
+    const { gameMode, logic } = params;
     const preset = getPreset(gameMode);
 
     if (preset == undefined) {
@@ -174,9 +196,12 @@ export default function StatsPage() {
       return graphBosses;
     };
 
+    const options = preset.options;
+    options.RelaxedLogic = logic == "relaxed";
+
     for (let i = startSeed; i <= endSeed; i++) {
       try {
-        const graph = generateSeed(i, preset.settings, preset.options);
+        const graph = generateSeed(i, preset.settings, options);
         progression.push(getItemProgression(graph, preset.settings));
         bosses = bosses.concat(getBossTransitions(graph));
         areas = areas.concat(getAreaTransitions(graph));
