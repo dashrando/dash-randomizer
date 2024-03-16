@@ -4,7 +4,7 @@ import { isGraphValid } from "./solver";
 import { Graph, Vertex, cloneGraph, loadGraph } from "./init";
 import { addItem, checkFlags, createLoadout } from "../loadout";
 import { getItemPool } from "./itemPool";
-import { BossMode, MajorDistributionMode, Settings } from "./params";
+import { MajorDistributionMode, Options, Settings } from "./params";
 import { canReachVertex } from "./search";
 
 //-----------------------------------------------------------------
@@ -320,7 +320,11 @@ const graphFill = (
 // Performs multiple passes to generate a seed using a graph.
 //-----------------------------------------------------------------
 
-export const generateSeed = (seed: number, settings: Settings) => {
+export const generateSeed = (
+  seed: number,
+  settings: Settings,
+  options: Options,
+) => {
   const maxOuterLoop = 20;
   let maxInnerLoop = 40;
   const rnd = new DotNetRandom(seed);
@@ -340,7 +344,8 @@ export const generateSeed = (seed: number, settings: Settings) => {
       settings.mapLayout,
       settings.majorDistribution,
       settings.randomizeAreas,
-      settings.bossMode
+      options.RelaxedLogic,
+      settings.bossMode,
     );
 
     try {

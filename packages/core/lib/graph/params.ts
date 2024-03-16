@@ -15,6 +15,7 @@ export type Settings = {
 
 export type Options = {
   DisableFanfare: boolean;
+  RelaxedLogic: boolean;
 }
 
 export type Params = {
@@ -176,7 +177,7 @@ export const paramsToBytes = (seed: number, settings: Settings, options: Options
     settings;
 
   // Place the seed number in the first 3 bytes (max=16777215)
-  let bytes = new Uint8Array(6);
+  let bytes = new Uint8Array(7);
   bytes[0] = seed & 0xff;
   bytes[1] = (seed >> 8) & 0xff;
   bytes[2] = (seed >> 16) & 0xff;
@@ -203,6 +204,9 @@ export const paramsToBytes = (seed: number, settings: Settings, options: Options
   const fanfare = (options.DisableFanfare ? 0x0 : 0x1) << 7;
   bytes[5] = map | beam | suit | gravity | fanfare;
 
+  const relaxed = (options.RelaxedLogic ? 0x1 : 0x0) << 6;
+  bytes[6] = relaxed;
+
   return bytes;
 };
 
@@ -211,7 +215,8 @@ export const paramsToString = (seed: number, settings: Settings, options: Option
   return Buffer.from(bytes)
     .toString("base64")
     .replaceAll("/", "_")
-    .replaceAll("+", "-");
+    .replaceAll("+", "-")
+    .replace(/=*$/, '');
 };
 
 export const bytesToParams = (bytes: Uint8Array): Params => {
@@ -226,6 +231,7 @@ export const bytesToParams = (bytes: Uint8Array): Params => {
   const doubleJump = (bytes[4] >> 4) & 0x1;
   const heatShield = (bytes[4] >> 5) & 0x1;
   const pressureValve = (bytes[4] >> 6) & 0x3;
+  const relaxed = (bytes[6] >> 6) & 0x3;
 
   const major = bitsToMajorMode((bytes[3] >> 2) & 0x3);
   const minor = bitsToMinorMode((bytes[3] >> 4) & 0x3);
@@ -257,7 +263,7 @@ export const bytesToParams = (bytes: Uint8Array): Params => {
       gravityHeatReduction:
         gravity == 0x0 ? GravityHeatReduction.Off : GravityHeatReduction.On,
     },
-    options: { DisableFanfare: fanfare == 0 },
+    options: { DisableFanfare: fanfare == 0, RelaxedLogic: relaxed == 1 },
   };
 };
 

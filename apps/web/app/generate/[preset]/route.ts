@@ -28,10 +28,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
       throw err;
     }
     
-    const defaultOptions = {
-      DisableFanfare: false,
-    };
-    const hash = paramsToString(seedNum, preset.settings, defaultOptions);
+    const hash = paramsToString(seedNum, preset.settings, preset.options);
     const url = new URL(`seed/${hash}`, req.nextUrl.origin);
     return new Response(url.toString(),
       { status: 307, headers: {Location: url.toString()} });

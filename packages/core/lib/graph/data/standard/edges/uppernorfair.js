@@ -6,11 +6,21 @@ export const uppernorfairEdges = {
   BusinessCenter: {
     Door_ElevatorEntry: true,
     Door_KraidMouth: () => SuperPacks >= 1,
-    "Ice Beam": () => CanOpenGreenDoors && HellRunTanks >= 2,
-    "Missiles (Crumble Shaft)": () => CanUsePowerBombs && HellRunTanks >= 2,
+    IceBeamGatesTopLeftDoor: () => CanOpenGreenDoors && (HasMorph || HasSpeed),
     BusinessCenterTopRightDoor: true,
     BusinessCenterBottomRightDoor: true,
     "Energy Tank (HJB)": () => CanOpenRedDoors,
+  },
+
+  IceBeamGatesTopLeftDoor: {
+    BusinessCenter: () => CanPassBombPassages,
+    "Ice Beam": () => HasMorph && HellRunTanks >= 2,
+    IceBeamGatesBottomLeftDoor: () => CanUsePowerBombs,
+  },
+
+  IceBeamGatesBottomLeftDoor: {
+    "Missiles (Crumble Shaft)": () => HellRunTanks >= 2,
+    IceBeamGatesTopLeftDoor: () => CanUsePowerBombs,
   },
 
   BusinessCenterTopRightDoor: {
@@ -55,12 +65,18 @@ export const uppernorfairEdges = {
   BubbleMountainKingCacLedge: {
     BubbleMountainMain: true,
     BubbleMountainTopLeftDoor: true, //NOTE: dboost in logic
-    Door_SingleChamber: false,
+    SingleChamberTopRightDoor: false,
     "Missiles (Speed)": () =>
       HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
     "Speed Booster": () => HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
     "Missiles (Wave)": () => (CanOpenRedDoors && HellRunTanks >= 2) || HellRunTanks >= 7,
     BubbleMountainBottomLeftDoor: () => HellRunTanks >= 8,
+  },
+
+  SingleChamberTopRightDoor: {
+    Door_SingleChamber: true,
+    BubbleMountainKingCacLedge: () =>
+      HellRunTanks >= 2 && CanDestroyBombWalls && HasMorph,
   },
 
   BubbleMountainTopLeftDoor: {
@@ -118,8 +134,7 @@ export const uppernorfairEdges = {
   },
 
   Door_SingleChamber: {
-    BubbleMountainKingCacLedge: () =>
-      HellRunTanks >= 2 && CanDestroyBombWalls && HasMorph,
+    SingleChamberTopRightDoor: true,
   },
 
   Door_LavaDive: {
@@ -145,11 +160,11 @@ export const uppernorfairEdges = {
   },
 
   "Ice Beam": {
-    BusinessCenter: () => CanPassBombPassages && HellRunTanks >= 2,
+    IceBeamGatesTopLeftDoor: () => HasMorph && HellRunTanks >= 2,
   },
 
   "Missiles (Crumble Shaft)": {
-    BusinessCenter: () => CanUsePowerBombs && HellRunTanks >= 2,
+    IceBeamGatesBottomLeftDoor: () => HellRunTanks >= 2,
     PreCrocomire: () => HasSpeed && HellRunTanks >= 2,
   },
 

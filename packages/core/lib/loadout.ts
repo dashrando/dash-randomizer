@@ -43,6 +43,7 @@ export type Loadout = {
   canUsePowerBombs: boolean;
   canPassBombPassages: boolean;
   canDestroyBombWalls: boolean;
+  canDamageBosses: boolean;
   canOpenGreenDoors: boolean;
   canOpenRedDoors: boolean;
   canFly: boolean;
@@ -92,6 +93,7 @@ export function createLoadout(): Loadout {
     canUsePowerBombs: false,
     canPassBombPassages: false,
     canDestroyBombWalls: false,
+    canDamageBosses: false,
     canOpenGreenDoors: false,
     canOpenRedDoors: false,
     canFly: false,
@@ -139,6 +141,7 @@ export function copyLoadout(destination: Loadout, source: Loadout) {
   destination.canUsePowerBombs = source.canUsePowerBombs;
   destination.canPassBombPassages = source.canPassBombPassages;
   destination.canDestroyBombWalls = source.canDestroyBombWalls;
+  destination.canDamageBosses = source.canDamageBosses;
   destination.canOpenGreenDoors = source.canOpenGreenDoors;
   destination.canOpenRedDoors = source.canOpenRedDoors;
   destination.canFly = source.canFly;
@@ -156,29 +159,9 @@ function canUseBombs(load: Loadout) {
   return load.hasBombs && load.hasMorph;
 }
 
-//function canUsePowerBombs(load: Loadout) {
-  //return load.powerPacks > 0 && load.hasMorph;
-//}
-
 function canPassBombPassages(load: Loadout) {
   return load.hasMorph && (load.hasBombs || load.powerPacks > 0);
 }
-
-//function canOpenGreenDoors(load: Loadout) {
-  //return load.superPacks > 0;
-//}
-
-//function canOpenRedDoors(load: Loadout) {
-  //return load.missilePacks > 0 || load.superPacks > 0;
-//}
-
-//function canOpenYellowDoors(load: Loadout) {
-  //return canUsePowerBombs(load);
-//}
-
-//function totalTanks(load: Loadout) {
-  //return load.energyTanks + load.reserveTanks;
-//}
 
 export function addItem(load: Loadout, itemType: number) {
   switch (itemType) {
@@ -239,6 +222,7 @@ export function addItem(load: Loadout, itemType: number) {
     case Item.Charge:
     case Item.BeamUpgrade:
       load.hasCharge = true;
+      load.canDamageBosses = true;
       break;
     case Item.Spazer:
       load.hasSpazer = true;
@@ -253,11 +237,13 @@ export function addItem(load: Loadout, itemType: number) {
     case Item.Missile:
       load.missilePacks += 1;
       load.canOpenRedDoors = true;
+      load.canDamageBosses = true;
       break;
     case Item.Super:
       load.superPacks += 1;
       load.canOpenRedDoors = true;
       load.canOpenGreenDoors = true;
+      load.canDamageBosses = true;
       break;
     case Item.PowerBomb:
       load.powerPacks += 1;
@@ -314,8 +300,6 @@ export function addItem(load: Loadout, itemType: number) {
 //-----------------------------------------------------------------
 
 export const checkFlags = (load: Loadout) => {
-  const canDamageBosses = load.hasCharge || load.canOpenRedDoors;
-
   const CanUseBombs = load.canUseBombs;
   const CanUsePowerBombs = load.canUsePowerBombs;
   const CanOpenRedDoors = load.canOpenRedDoors;
@@ -352,9 +336,9 @@ export const checkFlags = (load: Loadout) => {
   const CanPassBombPassages = load.canPassBombPassages;
   const CanDestroyBombWalls = load.canDestroyBombWalls;
   const CanMoveInWestMaridia = load.hasGravity || load.hasPressureValve;
-  const CanKillKraid = canDamageBosses;
-  const CanKillPhantoon = canDamageBosses;
-  const CanKillDraygon = load.hasGravity && canDamageBosses;
+  const CanKillKraid = load.canDamageBosses;
+  const CanKillPhantoon = load.canDamageBosses;
+  const CanKillDraygon = load.hasGravity && load.canDamageBosses;
   const CanKillRidley =
     load.hasVaria &&
     (load.hasCharge ||
@@ -362,7 +346,7 @@ export const checkFlags = (load: Loadout) => {
         load.superPacks * 3000 +
         load.powerPacks * 1000 >=
         19000);
-  //const CanKillSporeSpawn = canDamageBosses;
+  //const CanKillSporeSpawn = load.canDamageBosses;
   const CanKillCrocomire =
     load.hasCharge ||
     load.superPacks * 1500 + load.missilePacks * 500 >= 5000;

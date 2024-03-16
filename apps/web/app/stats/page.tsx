@@ -176,7 +176,7 @@ export default function StatsPage() {
 
     for (let i = startSeed; i <= endSeed; i++) {
       try {
-        const graph = generateSeed(i, preset.settings);
+        const graph = generateSeed(i, preset.settings, preset.options);
         progression.push(getItemProgression(graph, preset.settings));
         bosses = bosses.concat(getBossTransitions(graph));
         areas = areas.concat(getAreaTransitions(graph));
