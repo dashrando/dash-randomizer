@@ -212,14 +212,21 @@ export const paramsToBytes = (seed: number, settings: Settings, options: Options
 
 export const paramsToString = (seed: number, settings: Settings, options: Options) => {
   const bytes = paramsToBytes(seed, settings, options);
-  return Buffer.from(bytes)
+  const encoded = Buffer.from(bytes)
     .toString("base64")
     .replaceAll("/", "_")
     .replaceAll("+", "-")
     .replace(/=*$/, '');
+
+  if (encoded.length > 8 && encoded.slice(8).replace(/A*$/, '').length == 0) {
+    return encoded.slice(0, 8);
+  }
+  return encoded;
 };
 
-export const bytesToParams = (bytes: Uint8Array): Params => {
+export const bytesToParams = (input: Uint8Array): Params => {
+  const bytes = new Uint8Array(7);
+  bytes.set(input);
   const seed = bytes[0] | (bytes[1] << 8) | (bytes[2] << 16);
   const fanfare = (bytes[5] >> 7) & 0x1;
   const gravity = (bytes[5] >> 6) & 0x1;
