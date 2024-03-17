@@ -522,7 +522,7 @@ export default function SettingsInfoPage() {
           title="Logic"
         >
           <p>
-            <strong>Logic</strong> refers to the set of conditions required to navigate from place to place in the game. One goal of the DASH team is to curate the <strong>Normal</strong> logic used when generating seeds so that we can balance it for competive racing as needed.
+            <strong>Logic</strong> refers to the set of conditions required to navigate from place to place in the game. One goal of the DASH team is to curate the <strong>Standard</strong> logic used when generating seeds so that we can balance it for competive racing as needed.
             That said, we recognize that some tricks expected from racers might be difficult for newer runners. <strong>Relaxed</strong> logic is very similar but removes the potential for Hell Runs, Suitless Maridia, Snail Clip, and Ice Clip for Spring Ball.
           </p>
         </Article>

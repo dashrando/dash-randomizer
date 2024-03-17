@@ -163,7 +163,7 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
   'seed-mode': 'random' | 'fixed',
   seed: number,
   fanfare: 'off' | 'on', 
-  logic: 'normal' | 'relaxed',
+  logic: 'standard' | 'relaxed',
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
@@ -688,6 +688,20 @@ export default function Form() {
                 controls how the random number generator is initialized.
               </p>
               </Option>*/}
+            <Option label="Logic" name="logic">
+              <Select
+                options={[
+                  { label: 'Standard', value: 'standard' },
+                  { label: 'Relaxed', value: 'relaxed' },
+                ]}
+                name="logic"
+                register={register}
+              />
+              <p>
+                <a href="/info/settings#logic">Logic</a>{' '}
+                controls the difficulty of the seed.
+              </p>
+            </Option>
             <Option label="Item Fanfare" name="fanfare">
               <Select
                 options={[
@@ -700,20 +714,6 @@ export default function Form() {
               <p>
                 <a href="/info/settings#fanfare">Item Fanfare</a>{' '}
                 is the music when an item is collected.
-              </p>
-            </Option>
-            <Option label="Logic" name="logic">
-              <Select
-                options={[
-                  { label: 'Normal', value: 'normal' },
-                  { label: 'Relaxed', value: 'relaxed' },
-                ]}
-                name="logic"
-                register={register}
-              />
-              <p>
-                <a href="/info/settings#logic">Logic</a>{' '}
-                controls the difficulty of the seed.
               </p>
             </Option>
           </Section>

@@ -84,7 +84,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           })
         }
       >
-        <option value="normal">Normal Logic</option>
+        <option value="standard">Standard Logic</option>
         <option value="relaxed">Relaxed Logic</option>
       </select>
 
@@ -132,7 +132,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 export default function StatsPage() {
   const [params, setParams] = useState({
     gameMode: "chozo",
-    logic: "normal",
+    logic: "standard",
     startSeed: 1,
     numSeeds: 100,
   });
