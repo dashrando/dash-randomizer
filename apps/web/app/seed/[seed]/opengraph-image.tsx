@@ -55,7 +55,7 @@ export default async function Image({ params }: { params: { seed: string } }) {
                   <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{item.value}</div>
                 </div>
               ))}
-              {settings.optionsParams.filter(({ label }) => label !== 'Seed Number').map((item: any, index: number) => (
+              {settings.optionsParams.filter(({ label }) => label === 'Logic').map((item: any, index: number) => (
                 <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
                   <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
                   <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{String(item.value)}</div>
@@ -75,6 +75,12 @@ export default async function Image({ params }: { params: { seed: string } }) {
                 <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
                   <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
                   <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{item.value}</div>
+                </div>
+              ))}
+              {settings.optionsParams.filter(({ label }) => label === 'Item Fanfare').map((item: any, index: number) => (
+                <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
+                  <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{String(item.value)}</div>
                 </div>
               ))}
             </div>
