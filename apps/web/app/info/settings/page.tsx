@@ -510,20 +510,23 @@ export default function SettingsInfoPage() {
           </p>
             </Article>*/}
         <Article
+          id="logic"
+          title="Logic"
+        >
+          <p>
+            <strong>Logic</strong> refers to the set of conditions required to navigate from place to place in the game.
+          </p>
+          <ul>
+            <li><strong>Normal</strong> is the primary logic curated by the DASH team which is optimized for competive racing.</li>
+            <li><strong>Relaxed</strong> is very similar but removes the potential for Hell Runs, Suitless Maridia, Snail Clip, and Ice Clip for Spring Ball. This is recommended for newer runners.</li>
+          </ul>
+        </Article>
+        <Article
           id="fanfare"
           title="Item Fanfare"
         >
           <p>
             <strong>Item Fanfare</strong> is the ~7 second period after Samus acquires a new item in which the player loses control while heroic music plays. DASH supports disabling Item Fanfare, but they are enabled by default.
-          </p>
-        </Article>
-        <Article
-          id="logic"
-          title="Logic"
-        >
-          <p>
-            <strong>Logic</strong> refers to the set of conditions required to navigate from place to place in the game. One goal of the DASH team is to curate the <strong>Standard</strong> logic used when generating seeds so that we can balance it for competive racing as needed.
-            That said, we recognize that some tricks expected from racers might be difficult for newer runners. <strong>Relaxed</strong> logic is very similar but removes the potential for Hell Runs, Suitless Maridia, Snail Clip, and Ice Clip for Spring Ball.
           </p>
         </Article>
       </div>
