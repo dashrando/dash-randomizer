@@ -18,6 +18,7 @@ import { mapPortals, PortalMapping } from "./data/portals";
 import { bossItem, Item, ItemType } from "../items";
 import DotNetRandom from "../dotnet-random";
 import { ChozoVertexUpdates } from "./data/chozo/vertex";
+import { RelaxedEdgeUpdates } from "./data/relaxed/edges";
 
 export type Condition = boolean | (() => any);
 
@@ -396,6 +397,7 @@ export const loadGraph = (
   mapLayout: number,
   majorDistributionMode: number,
   areaShuffle = false,
+  relaxed = false,
   bossMode = BossMode.Vanilla,
   portals?: PortalMapping[]
 ) => {
@@ -414,10 +416,12 @@ export const loadGraph = (
   const getPortals = () =>
     portals ? portals : mapPortals(getSeed(), areaShuffle, bossMode);
 
+  const edgeUpdates: EdgeUpdate[] = relaxed ? RelaxedEdgeUpdates : [];
+
   const g = createGraph(
     getPortals(),
     getVertexUpdates(majorDistributionMode),
-    getEdgeUpdates(mapLayout, areaShuffle)
+    edgeUpdates.concat(getEdgeUpdates(mapLayout, areaShuffle))
   );
   addBossItems(g, bossMode);
   return g;

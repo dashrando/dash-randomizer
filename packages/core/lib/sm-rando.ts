@@ -406,14 +406,11 @@ export const generateFromPreset = (name: string, seedNumber: number) => {
   }
 
   // Place the items.
-  const { settings } = preset;
-  const graph = generateSeed(seed, settings);
-  const defaultOptions = {
-    DisableFanfare: false,
-  };
+  const { settings, options } = preset;
+  const graph = generateSeed(seed, settings, options);
 
-  const seedPatch = generateSeedPatch(seed, settings, graph, defaultOptions);
-  const fileName = getFileName(preset.fileName, seed, settings, defaultOptions);
+  const seedPatch = generateSeedPatch(seed, settings, graph, options);
+  const fileName = getFileName(preset.fileName, seed, settings, options);
   const patch = getBasePatch(settings);
 
   return [`patches/${patch}`, seedPatch, fileName];

@@ -81,11 +81,11 @@ export const readGraph = (rom: Uint8Array) => {
     return [];
   }
 
-  const { seed, settings } = readParams(rom);
+  const { seed, settings, options } = readParams(rom);
   const portals = readPortals(rom);
   const graph = loadGraph(seed, 1, settings.mapLayout,
     settings.majorDistribution, settings.randomizeAreas,
-    settings.bossMode, portals as any);
+    options.RelaxedLogic, settings.bossMode, portals as any);
   getLocations().forEach(l => {
     const node = graph.find(e => e.from.name == l.name)?.from as any;
     if (node == undefined) {

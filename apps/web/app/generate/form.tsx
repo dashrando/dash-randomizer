@@ -163,6 +163,7 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
   'seed-mode': 'random' | 'fixed',
   seed: number,
   fanfare: 'off' | 'on', 
+  logic: 'standard' | 'relaxed',
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
@@ -238,6 +239,7 @@ const getModeFields = (input: GenerateFormParams): GenerateSeedSettings => {
   delete values.seed
   delete values['seed-mode']
   delete values.fanfare
+  delete values.logic
   return values
 }
 
@@ -404,9 +406,13 @@ export default function Form() {
 
       const options = {
         DisableFanfare: false,
+        RelaxedLogic: false,
       };
       if (data.fanfare == 'off') {
         options.DisableFanfare = true;
+      };
+      if (data.logic == 'relaxed') {
+        options.RelaxedLogic = true;
       };
 
       const seedNumber = getSeed();
@@ -682,6 +688,20 @@ export default function Form() {
                 controls how the random number generator is initialized.
               </p>
               </Option>*/}
+            <Option label="Logic" name="logic">
+              <Select
+                options={[
+                  { label: 'Standard', value: 'standard' },
+                  { label: 'Relaxed', value: 'relaxed' },
+                ]}
+                name="logic"
+                register={register}
+              />
+              <p>
+                <a href="/info/settings#logic">Logic</a>{' '}
+                controls the difficulty of the seed.
+              </p>
+            </Option>
             <Option label="Item Fanfare" name="fanfare">
               <Select
                 options={[

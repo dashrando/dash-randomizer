@@ -107,6 +107,9 @@ export const standardVertices = {
     BusinessCenter: "",
     BusinessCenterTopRightDoor: "",
     BusinessCenterBottomRightDoor: "",
+    IceBeamGatesTopLeftDoor: "",
+    IceBeamGatesBottomLeftDoor: "",
+    SingleChamberTopRightDoor: "",
   },
   LowerNorfair: {
     Door_RidleyMouth: "",
@@ -175,6 +178,7 @@ export const standardVertices = {
     "Missiles (Mama Turtle)": "minor",
     "Energy Tank (Mama Turtle)": "major",
     Door_MaridiaMap: "",
+    AboveMaridiaMap: "",
     EverestTopRight: "",
     "Spring Ball": "major",
     Door_RedFish: "",
@@ -182,6 +186,7 @@ export const standardVertices = {
     "Missiles (Watering Hole)": "minor",
     "Supers (Watering Hole)": "minor",
     Door_PreAqueduct: "",
+    RedFish: "",
   },
   EastMaridia: {
     Door_DraygonBoss: "",

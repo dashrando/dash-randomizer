@@ -510,6 +510,18 @@ export default function SettingsInfoPage() {
           </p>
             </Article>*/}
         <Article
+          id="logic"
+          title="Logic"
+        >
+          <p>
+            <strong>Logic</strong> refers to the set of conditions required to navigate from place to place in the game.
+          </p>
+          <ul>
+            <li><strong>Normal</strong> is the primary logic curated by the DASH team which is optimized for competive racing.</li>
+            <li><strong>Relaxed</strong> is very similar but removes the potential for Hell Runs, Suitless Maridia, Snail Clip, and Ice Clip for Spring Ball. This is recommended for newer runners.</li>
+          </ul>
+        </Article>
+        <Article
           id="fanfare"
           title="Item Fanfare"
         >

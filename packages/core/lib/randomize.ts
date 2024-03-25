@@ -15,7 +15,8 @@ async function RandomizeRom(
   seed: number = 0,
   settings: Settings,
   opts: Options = {
-    DisableFanfare: false
+    DisableFanfare: false,
+    RelaxedLogic: false,
   },
   config: Config
 ) {
@@ -23,18 +24,19 @@ async function RandomizeRom(
     throw Error("No vanilla ROM data found");
   }
 
+  // Process options with defaults.
+  const defaultOptions: Options = {
+    DisableFanfare: false,
+    RelaxedLogic: false,
+  };
+  const options: Options = { ...defaultOptions, ...opts };
+
   // Place the items.
-  const graph = generateSeed(seed, settings);
+  const graph = generateSeed(seed, settings, options);
 
   // Load the base patch associated with the map layout.
   const patch = getBasePatch(settings);
   const basePatch: any = await BpsPatch.Load(`/patches/${patch}`);
-
-  // Process options with defaults.
-  const defaultOptions: Options = {
-    DisableFanfare: false,
-  };
-  const options: Options = { ...defaultOptions, ...opts };
 
   // Generate the seed specific patch (item placement, etc.)
   const seedPatch = generateSeedPatch(

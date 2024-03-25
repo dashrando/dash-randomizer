@@ -8,6 +8,7 @@ async function ProtectRom(
   settings: Settings,
   opts: Options = {
     DisableFanfare: false,
+    RelaxedLogic: false,
   },
   config: Config
 ) {

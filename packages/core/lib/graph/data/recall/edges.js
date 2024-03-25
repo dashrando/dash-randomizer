@@ -12,14 +12,16 @@ const WreckedShip_RearExit_to_HighwayExit = {
   requires: () => CanMoveInWestMaridia,
 };
 
-const WestMaridia_MainStreet_to_OasisBottom = {
-  edges: ["MainStreet", "OasisBottom"],
-  requires: () => CanOpenRedDoors && CanMoveInWestMaridia,
+const WestMaridia_MainStreet_to_AboveMaridiaMap = {
+  edges: ["MainStreet", "AboveMaridiaMap"],
+  // Removes the requirement for supers to open the green gate
+  requires: () => CanOpenRedDoors,
 };
 
-const WestMaridia_OasisBottom_to_MainStreet = {
-  edges: ["OasisBottom", "MainStreet"],
-  requires: () => CanMoveInWestMaridia,
+const WestMaridia_AboveMaridiaMap_to_MainStreet = {
+  edges: ["AboveMaridiaMap", "MainStreet"],
+  // Removes the requirement for supers to green gate glitch
+  requires: true,
 };
 
 const EastMaridia_OasisBottom_to_SpringBall = {
@@ -60,8 +62,8 @@ const UpperNorfair_PreCrocomire_to_CrocEntry = {
 export const RecallEdgeUpdates = [
   WreckedShip_Bowling_Missiles_to_Reserve,
   WreckedShip_RearExit_to_HighwayExit,
-  WestMaridia_MainStreet_to_OasisBottom,
-  WestMaridia_OasisBottom_to_MainStreet,
+  WestMaridia_MainStreet_to_AboveMaridiaMap,
+  WestMaridia_AboveMaridiaMap_to_MainStreet,
   EastMaridia_OasisBottom_to_SpringBall,
   EastMaridia_PlasmaBeam_to_PrePlasmaBeam,
   EastMaridia_PlasmaSparkRoomTop_to_PrePlasmaBeam,
