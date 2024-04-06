@@ -538,7 +538,7 @@ export default function Form() {
                 options={[
                   { label: 'Shuffled', value: 'shuffled' },
                   { label: 'Shifted', value: 'shifted' },
-                  //{ label: 'Randomized', value: 'randomized' },
+                  { label: 'Randomized', value: 'randomized' },
                   { label: 'Vanilla', value: 'vanilla' },
                 ]}
                 name="boss"

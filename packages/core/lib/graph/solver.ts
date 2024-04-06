@@ -46,7 +46,7 @@ const revSolve = (solver: GraphSolver, load: Loadout, node: Vertex) => {
   const clonedGraph = cloneGraph(solver.graph);
   clonedGraph.forEach((e) => (e.from.pathToStart = false));
   const clonedVertex = clonedGraph.find(
-    (e) => e.from.name == node.name
+    (e) => e.from.name == node.name && e.from.area == node.area
   )?.from;
 
   if (clonedVertex == undefined) {
