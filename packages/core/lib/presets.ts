@@ -25,6 +25,12 @@ export type Preset = {
 
 export const getAllPresets = () => {
   return [
+    Preset_MM_BossRando,
+    Preset_MM_BossRando_Area,
+    Preset_Full_BossRando,
+    Preset_Full_BossRando_Area,
+    Preset_Chozo_BossRando,
+    Preset_Chozo_BossRando_Area,
     Preset_SGL23,
     Preset_Recall_MM,
     Preset_Recall_Full,
@@ -68,6 +74,131 @@ export const findPreset = (
   });
 };
 
+export const Preset_MM_BossRando: Preset = {
+  title: "BossRandoMM",
+  fileName: "BossRandoMM",
+  tags: ["boss_mm"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: false,
+    bossMode: BossMode.Randomized,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_MM_BossRando_Area: Preset = {
+  title: "BossRandoMMArea",
+  fileName: "BossRandoMMArea",
+  tags: ["boss_mm_area"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Randomized,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_Full_BossRando: Preset = {
+  title: "BossRandoFull",
+  fileName: "BossRandoFull",
+  tags: ["boss_full"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: false,
+    bossMode: BossMode.Randomized,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_Full_BossRando_Area: Preset = {
+  title: "BossRandoFullArea",
+  fileName: "BossRandoFullArea",
+  tags: ["boss_full_area"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Randomized,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_Chozo_BossRando: Preset = {
+  title: "BossRando",
+  fileName: "ChozoBossRando",
+  tags: ["boss_chozo"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Chozo,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: false,
+    bossMode: BossMode.Randomized,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_Chozo_BossRando_Area: Preset = {
+  title: "ChozoBossRandoArea",
+  fileName: "ChozoBossRandoArea",
+  tags: ["boss_chozo_area"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Chozo,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Randomized,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
 //-----------------------------------------------------------------
 // Chozo Settings
 //-----------------------------------------------------------------

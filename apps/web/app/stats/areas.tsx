@@ -160,13 +160,13 @@ function TransitionTable({
   transitions,
   columnHeaders,
   rowHeaders,
-  seeds,
+  columnLabels,
   condense,
 }: {
   transitions: Transition[];
   columnHeaders: string[];
   rowHeaders: string[];
-  seeds: number;
+  columnLabels: string[] | undefined;
   condense: boolean;
 }) {
   const temp: TransitionRow[] = [];
@@ -192,7 +192,7 @@ function TransitionTable({
     }
   });
 
-  total /= columnHeaders.length;
+  total /= rowHeaders.length;
 
   const getColumns = (row: string) => {
     const columns: TransitionRow[] = [];
@@ -208,6 +208,13 @@ function TransitionTable({
   const def_style = `${styles.thin_border}` +
     (condense ? ` ${styles.condensed_cell}` : "");
 
+  const getColumnLabels = (): string[] => {
+    if (columnLabels) {
+      return columnLabels
+    }
+    return columnHeaders
+  }
+
   return (
     <div>
       <table className={`${styles.legacy_style} ${styles.fixed_table}`}>
@@ -215,10 +222,8 @@ function TransitionTable({
           {!condense ? 
           <tr key="columnHeader">
             <th className={`${def_style} ${styles.area_cell}`}></th>
-            {columnHeaders.map((c) => (
-              <th key={c} className={styles.thin_border}>
-                {c.substring(5)}
-              </th>
+            {getColumnLabels().map((c) => (
+              <th key={c} className={styles.thin_border}>{c}</th>
             ))}
           </tr>
           : <></>
@@ -258,10 +263,40 @@ export default function AreaDoorTable({
   seeds: number;
 }) {
   const bossColumns = [
-    "Exit_Kraid",
-    "Exit_Phantoon",
-    "Exit_Draygon",
-    "Exit_Ridley"
+    "Exit_Kraid_KraidsLair",
+    "Exit_Phantoon_KraidsLair",
+    "Exit_Draygon_KraidsLair",
+    "Exit_Ridley_KraidsLair",
+    "Exit_Kraid_WreckedShip",
+    "Exit_Phantoon_WreckedShip",
+    "Exit_Draygon_WreckedShip",
+    "Exit_Ridley_WreckedShip",
+    "Exit_Kraid_EastMaridia",
+    "Exit_Phantoon_EastMaridia",
+    "Exit_Draygon_EastMaridia",
+    "Exit_Ridley_EastMaridia",
+    "Exit_Kraid_LowerNorfair",
+    "Exit_Phantoon_LowerNorfair",
+    "Exit_Draygon_LowerNorfair",
+    "Exit_Ridley_LowerNorfair"
+  ]
+  const bossColumnLabels = [
+    "Kraid Brin",
+    "Phantoon Brin",
+    "Draygon Brin",
+    "Ridley Brin",
+    "Kraid WS",
+    "Phantoon WS",
+    "Draygon WS",
+    "Ridley WS",
+    "Kraid EM",
+    "Phantoon EM",
+    "Draygon EM",
+    "Ridley EM",
+    "Kraid LN",
+    "Phantoon LN",
+    "Draygon LN",
+    "Ridley LN"
   ]
   const bossRows = [
     "Door_KraidBoss",
@@ -294,7 +329,7 @@ export default function AreaDoorTable({
         transitions={bosses}
         columnHeaders={bossColumns}
         rowHeaders={bossRows}
-        seeds={seeds}
+        columnLabels={bossColumnLabels}
         condense={false} />
       <h3>Areas</h3>
       <p>
@@ -309,7 +344,7 @@ export default function AreaDoorTable({
         transitions={areas}
         columnHeaders={areaDoors}
         rowHeaders={areaDoors}
-        seeds={seeds}
+        columnLabels={undefined}
         condense={true} />
     </div>
   );

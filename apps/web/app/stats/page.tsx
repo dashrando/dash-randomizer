@@ -61,6 +61,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           })
         }
       >
+        <option value="boss_mm">Boss MM</option>
         <option value="chozo">Chozo</option>
         <option value="chozo_bozo">Chozo Bozo</option>
         <option value="sgl23">SGL23 - Full - Boss+Area</option>
@@ -131,7 +132,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 
 export default function StatsPage() {
   const [params, setParams] = useState({
-    gameMode: "chozo",
+    gameMode: "boss_mm",
     logic: "standard",
     startSeed: 1,
     numSeeds: 100,
@@ -186,11 +187,11 @@ export default function StatsPage() {
     const getBossTransitions = (graph: Graph) => {
       const graphBosses: Transition[] = [];
       graph
-        .filter((n) => isBossEdge(n))
+        .filter((n) => isBossEdge(n) && n.from.name.startsWith("Exit_"))
         .forEach((n) => {
           graphBosses.push({
-            from: n.from.name.slice(),
-            to: n.to.name.slice(),
+            from: `${n.from.name}_${n.from.area}`,
+            to: `${n.to.name}`,
           });
         });
       return graphBosses;
