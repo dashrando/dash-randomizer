@@ -36,12 +36,23 @@ type SeedStatus = {
 };
 
 function getHash(status: SeedStatus) {
+  const all_data = []
   const encoder = new TextEncoder();
-  const data = encoder.encode(
-    JSON.stringify(status.progression) +
-    JSON.stringify(status.bosses) + 
-    JSON.stringify(status.areas));
-  return computeCRC32(data).toString(16).toUpperCase();
+  let i = 0
+  while (i < status.progression.length - 10) {
+    const prog = JSON.stringify(status.progression.slice(i, 10))
+    const boss = JSON.stringify(status.bosses.slice(i * 4, 40))
+    const area = JSON.stringify(status.areas.slice(i * 16, 160))
+    const data = encoder.encode(prog + boss + area);
+    all_data.push(computeCRC32(data))
+    i += 10
+  }
+  const prog = JSON.stringify(status.progression.slice(i))
+  const boss = JSON.stringify(status.bosses.slice(i * 4))
+  const area = JSON.stringify(status.areas.slice(i * 16))
+  const data = encoder.encode(prog + boss + area);
+  all_data.push(computeCRC32(data))
+  return computeCRC32(all_data).toString(16).toUpperCase();
 }
 
 const Parameters = ({ value, update }: { value: Params; update: any }) => {
@@ -61,6 +72,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           })
         }
       >
+        <option value="boss_mm_area">Boss MM Area</option>
         <option value="boss_mm">Boss MM</option>
         <option value="chozo">Chozo</option>
         <option value="chozo_bozo">Chozo Bozo</option>
@@ -132,7 +144,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 
 export default function StatsPage() {
   const [params, setParams] = useState({
-    gameMode: "boss_mm",
+    gameMode: "boss_mm_area",
     logic: "standard",
     startSeed: 1,
     numSeeds: 100,
@@ -146,56 +158,52 @@ export default function StatsPage() {
   });
 
   const generateSeeds = () => {
-    const { startSeed, numSeeds } = params;
+    const { gameMode, logic, startSeed, numSeeds } = params;
     const endSeed = startSeed + numSeeds - 1;
     clearResults();
-    for (let i = startSeed; i <= endSeed; i += 100) {
-      generateStep(i, Math.min(endSeed, i + 99));
-    }
-  };
 
-  const generateStep = async (start: number, end: number) => {
-    generateGraphFill(start, end);
-  };
-
-  const generateGraphFill = (startSeed: number, endSeed: number) => {
-    const { gameMode, logic } = params;
     const preset = getPreset(gameMode);
-
     if (preset == undefined) {
       throw new Error(`Unknown preset: ${gameMode}`);
     }
 
+    for (let i = startSeed; i <= endSeed; i += 100) {
+      generateGraphFill(preset, logic, i, Math.min(endSeed, i + 99));
+    }
+  };
+
+  const getAreaTransitions = (graph: Graph): Transition[] => {
+    return graph
+      .filter((n) => isAreaEdge(n))
+      .map((n) => {
+        return {
+          from: n.from.name.slice(),
+          to: n.to.name.slice(),
+        }
+      });
+  };
+
+  const getBossTransitions = (graph: Graph) => {
+    return graph
+      .filter((n) => isBossEdge(n) && n.from.name.startsWith("Exit_"))
+      .map((n) => {
+        return {
+          from: `${n.from.name}_${n.from.area}`,
+          to: `${n.to.name}`,
+        }
+      });
+  };
+
+  const generateGraphFill = async (
+    preset: any,
+    logic: any,
+    startSeed: number,
+    endSeed: number
+  ) => {
     const progression: ItemProgression[] = [];
     let bosses: Transition[] = [];
     let areas: Transition[] = [];
     const start = Date.now();
-
-    const getAreaTransitions = (graph: Graph) => {
-      const graphAreas: Transition[] = [];
-      graph
-        .filter((n) => isAreaEdge(n))
-        .forEach((n) => {
-          graphAreas.push({
-            from: n.from.name.slice(),
-            to: n.to.name.slice(),
-          });
-        });
-      return graphAreas;
-    };
-
-    const getBossTransitions = (graph: Graph) => {
-      const graphBosses: Transition[] = [];
-      graph
-        .filter((n) => isBossEdge(n) && n.from.name.startsWith("Exit_"))
-        .forEach((n) => {
-          graphBosses.push({
-            from: `${n.from.name}_${n.from.area}`,
-            to: `${n.to.name}`,
-          });
-        });
-      return graphBosses;
-    };
 
     const options = preset.options;
     options.RelaxedLogic = logic == "relaxed";
