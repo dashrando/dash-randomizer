@@ -302,6 +302,11 @@ export default function SettingsInfoPage() {
                 <strong>Shuffled</strong> bosses open access to their vanilla area regardless of where they are placed (example: Kraid's etank will only be accessible after defeating Kraid). At least two bosses will not be at their vanilla locations.
               </p>
             </li>
+            <li>
+              <p>
+                <strong>Randomized</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Defeating a boss opens access to the area in which it is placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair). At least one boss will not be at its vanilla location.
+              </p>
+            </li>
             {/*<li>
               <p style={{ marginBottom: 0 }}>
                 <strong>Known</strong> ensures at least two G4 bosses will not be at their vanilla locations, but the player will have the boss locations viewable from the pause screen.
