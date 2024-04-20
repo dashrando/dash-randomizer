@@ -23,8 +23,6 @@ export const Entry = ({ name, children }: any) => {
 
 export const mapArea = (graphArea: string) => {
   switch (graphArea) {
-    case "BlueBrinstar":
-      return "Crateria";
     case "GreenBrinstar":
       return "Green Brinstar";
     case "WreckedShip":

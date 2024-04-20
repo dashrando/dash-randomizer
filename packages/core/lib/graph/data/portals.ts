@@ -1,24 +1,32 @@
 import DotNetRandom from "../../dotnet-random";
 import { BossMode } from "../params";
 
-export type PortalMapping = [string, string];
+export type Portal = {
+  name: string;
+  area: string;
+};
+
+export type PortalMapping = [Portal, Portal];
+
+const samePortal = (a: Portal, b: Portal): boolean => {
+  return a.name === b.name && a.area === b.area
+}
 
 const samePortals = (unshuffled: PortalMapping[], shuffled: PortalMapping[]) => {
   if (unshuffled.length != shuffled.length) {
     throw new Error(`Mismatch number of portals`);
   }
 
-  for (let i = 0; i < unshuffled.length; i++) {
-    const [ left, right ] = unshuffled[i];
-
-    for (let j = 0; j < shuffled.length; j++) {
-      if (shuffled[j][0] == left) {
-        if (shuffled[j][1] == right) {
+  for (const [u_left, u_right] of unshuffled) {
+    for (const [s_left, s_right] of shuffled) {
+      if (samePortal(u_left, s_left)) {
+        if (samePortal(u_right, s_right)) {
           continue;
         }
         return false;
-      } else if (shuffled[j][1] == left) {
-        if (shuffled[j][0] == right) {
+      }
+      if (samePortal(u_right, s_left)) {
+        if (samePortal(u_left, s_right)) {
           continue;
         }
         return false;
@@ -30,78 +38,26 @@ const samePortals = (unshuffled: PortalMapping[], shuffled: PortalMapping[]) => 
 };
 
 const areaLoopCount = (shuffled: PortalMapping[]) => {
-  const zones = [
-    ["Door_RetroPBs", "Door_Moat", "Door_G4", "Door_Kago", "Door_Crabs"],
-    ["Door_GreenHills", "Door_GreenElevator", "Door_NoobBridge"],
-    [
-      "Door_RedElevator",
-      "Door_RedTower",
-      "Door_MaridiaEscape",
-      "Door_MaridiaTube",
-      "Door_KraidEntry",
-      "Door_AboveKraid",
-    ],
-    [
-      "Door_ElevatorEntry",
-      "Door_KraidMouth",
-      "Door_CrocEntry",
-      "Door_SingleChamber",
-      "Door_LavaDive",
-    ],
-    ["Door_Muskateers", "Door_RidleyMouth"],
-    ["Door_Ocean", "Door_HighwayExit"],
-    [
-      "Door_PreAqueduct",
-      "Door_RedFish",
-      "Door_MainStreet",
-      "Door_MaridiaMap",
-    ],
-    ["Door_Aqueduct", "Door_Highway"],
-    //["Door_KraidsLair"],
-    //["Door_Croc"],
-    //["Door_Tourian"],
-  ];
-
-  //console.log("---");
   let numLoops = 0;
-  zones.forEach((z) => {
-    for (let i = 0; i < z.length - 1; i++) {
-      const first = z[i];
-      shuffled.forEach((t) => {
-        let second = "";
-        if (t[0] == first) {
-          second = t[1];
-        } else if (t[1] == first) {
-          second = t[0];
-        } else {
-          return;
-        }
-        for (let j = i + 1; j < z.length; j++) {
-          //console.log("check", first, "->", z[j]);
-          if (second == z[j]) {
-            numLoops += 1;
-          }
-        }
-      });
+  shuffled.forEach((m) => {
+    if (m[0].area === m[1].area) {
+      numLoops += 1;
     }
   });
   return numLoops;
-};
+}
 
 const vanillaCount = (vanilla: PortalMapping[], shuffled: PortalMapping[]) => {
   let count = 0;
   vanilla.forEach((p) => {
     shuffled.forEach((s) => {
-      if (s[0] == p[0] && s[1] == p[1]) {
+      if (samePortal(s[0], p[0]) && samePortal(s[1], p[1])) {
         count += 1;
-      } else if (s[1] == p[0] && s[0] == p[1]) {
+      } else if (samePortal(s[1], p[0]) && samePortal(s[0], p[1])) {
         count += 1;
       }
     });
   });
-  //if (count > 1) {
-  //console.log(count);
-  //}
   return count;
 };
 
@@ -117,31 +73,49 @@ const shuffle = (rng: DotNetRandom, arr: any[]) => {
   }
 };
 
-const getAreaPortals = (seed: number): PortalMapping[] => {
-  const areas: PortalMapping[] = [
-    // Crateria / Blue Brinstar
-    ["Door_RetroPBs", "Door_GreenHills"],
-    ["Door_Moat", "Door_Ocean"],
-    ["Door_G4", "Door_Tourian"],
-    ["Door_Kago", "Door_GreenElevator"],
-    ["Door_Crabs", "Door_RedElevator"],
-    // Wrecked Ship
-    ["Door_HighwayExit", "Door_Highway"],
-    // Green / Pink Brinstar
-    ["Door_NoobBridge", "Door_RedTower"],
-    // Red Brinstar
-    ["Door_MaridiaEscape", "Door_RedFish"],
-    ["Door_MaridiaTube", "Door_MainStreet"],
-    ["Door_KraidEntry", "Door_ElevatorEntry"],
-    ["Door_AboveKraid", "Door_MaridiaMap"],
-    // Upper Norfair
-    ["Door_KraidMouth", "Door_KraidsLair"],
-    ["Door_CrocEntry", "Door_Croc"],
-    ["Door_SingleChamber", "Door_Muskateers"],
-    ["Door_LavaDive", "Door_RidleyMouth"],
-    // West Maridia
-    ["Door_PreAqueduct", "Door_Aqueduct"],
-  ];
+const getAreaPortals = (): Portal[] => {
+  return [
+    { name: "Door_RetroPBs", area: "Crateria" },
+    { name: "Door_GreenHills", area: "GreenBrinstar" },
+    { name: "Door_Moat", area: "Crateria" },
+    { name: "Door_Ocean", area: "WreckedShip" },
+    { name: "Door_G4", area: "Crateria" },
+    { name: "Door_Tourian", area: "Tourian" },
+    { name: "Door_Kago", area: "Crateria" },
+    { name: "Door_GreenElevator", area: "GreenBrinstar" },
+    { name: "Door_Crabs", area: "Crateria" },
+    { name: "Door_RedElevator", area: "RedBrinstar" },
+    { name: "Door_HighwayExit", area: "WreckedShip" },
+    { name: "Door_Highway", area: "EastMaridia" },
+    { name: "Door_NoobBridge", area: "GreenBrinstar" },
+    { name: "Door_RedTower", area: "RedBrinstar" },
+    { name: "Door_MaridiaEscape", area: "RedBrinstar" },
+    { name: "Door_RedFish", area: "WestMaridia" },
+    { name: "Door_MaridiaTube", area: "RedBrinstar" },
+    { name: "Door_MainStreet", area: "WestMaridia" },
+    { name: "Door_KraidEntry", area: "RedBrinstar" },
+    { name: "Door_ElevatorEntry", area: "UpperNorfair" },
+    { name: "Door_AboveKraid", area: "RedBrinstar" },
+    { name: "Door_MaridiaMap", area: "WestMaridia" },
+    { name: "Door_KraidMouth", area: "UpperNorfair" },
+    { name: "Door_KraidsLair", area: "KraidsLair" },
+    { name: "Door_CrocEntry", area: "UpperNorfair" },
+    { name: "Door_Croc", area: "CrocomiresLair" },
+    { name: "Door_SingleChamber", area: "UpperNorfair" },
+    { name: "Door_Muskateers", area: "LowerNorfair" },
+    { name: "Door_LavaDive", area: "UpperNorfair" },
+    { name: "Door_RidleyMouth", area: "LowerNorfair" },
+    { name: "Door_PreAqueduct", area: "WestMaridia" },
+    { name: "Door_Aqueduct", area: "EastMaridia" },
+  ]
+}
+
+const generateAreaPortals = (seed: number): PortalMapping[] => {
+  const areaPortals = getAreaPortals();
+  let areas: PortalMapping[] = [];
+  for (let i = 0; i < areaPortals.length; i += 2) {
+    areas.push([areaPortals[i], areaPortals[i + 1]])
+  }
 
   if (seed == 0) {
     return areas;
@@ -184,19 +158,28 @@ const getAreaPortals = (seed: number): PortalMapping[] => {
   return shuffled;
 };
 
-const getBossPortals = (mode: number, seed: number): PortalMapping[] => {
-  const bosses: PortalMapping[] = [
-    ["Door_KraidBoss", "Exit_Kraid"],
-    ["Door_PhantoonBoss", "Exit_Phantoon"],
-    ["Door_DraygonBoss", "Exit_Draygon"],
-    ["Door_RidleyBoss", "Exit_Ridley"],
-  ];
+const getBossPortals = (): Portal[] => {
+  return [
+    { name: "Door_KraidBoss", area: "KraidsLair" },
+    { name: "Exit_Kraid", area: "KraidsLair" },
+    { name: "Door_PhantoonBoss", area: "WreckedShip" },
+    { name: "Exit_Phantoon", area: "WreckedShip" },
+    { name: "Door_DraygonBoss", area: "EastMaridia" },
+    { name: "Exit_Draygon", area: "EastMaridia" },
+    { name: "Door_RidleyBoss", area: "LowerNorfair" },
+    { name: "Exit_Ridley", area: "LowerNorfair" },
+  ]
+}
+
+const generateBossPortals = (mode: number, seed: number): PortalMapping[] => {
+  const bossPortals = getBossPortals();
+  let bosses: PortalMapping[] = [];
+  for (let i = 0; i < bossPortals.length; i += 2) {
+    bosses.push([bossPortals[i], bossPortals[i + 1]])
+  }
 
   if (mode == BossMode.Vanilla) {
     return bosses;
-  }
-  if (mode == BossMode.Randomized) {
-    throw new Error("True boss rando not implemented yet");
   }
 
   const rng = new DotNetRandom(seed + 1e7);
@@ -206,6 +189,14 @@ const getBossPortals = (mode: number, seed: number): PortalMapping[] => {
     // Split up the boss doors and exits
     const doorPortals = bosses.map((b) => b[0]);
     const exitPortals = bosses.map((b) => b[1]);
+
+    // Randomly pick a boss for each door
+    if (mode == BossMode.Randomized) {
+      return doorPortals.map<PortalMapping>((d) => {
+        const exit = {...exitPortals[rng.NextInRange(0, 4)]}
+        return [d, exit]
+      });
+    }
 
     // Shuffle the exit portals and assign them to boss doors
     shuffle(rng, exitPortals);
@@ -218,13 +209,61 @@ const getBossPortals = (mode: number, seed: number): PortalMapping[] => {
     shuffled = shuffleBosses();
   }
 
+  if (mode !== BossMode.Shuffled) {
+    shuffled.forEach(p => p[1].area = p[0].area)
+  }
+  
   return shuffled;
 };
 
-export const mapPortals = (seed: number, area: boolean, boss: number): PortalMapping[] => {
+export const generatePortals = (seed: number, area: boolean, boss: number): PortalMapping[] => {
   if (seed == 0 && (area || boss)) {
     throw new Error("Seed of 0 with areas or bosses randomized");
   }
   const areaSeed = seed > 0 && area ? seed + 2e7 : 0;
-  return getAreaPortals(areaSeed).concat(getBossPortals(boss, seed));
+  return generateAreaPortals(areaSeed).concat(generateBossPortals(boss, seed));
+};
+
+export const mapPortals = (
+  areas: [string, string][],
+  bosses: [string, string][],
+): PortalMapping[] => {
+  const areaPortals = getAreaPortals();
+  const bossPortals = getBossPortals().slice(0, 8);
+  const total = areaPortals.length + bossPortals.length;
+  let mappedPortals: PortalMapping[] = [];
+
+  const findPortal = (name: string): Portal => {
+    const a = areaPortals.find((p) => p.name == name);
+    if (a != undefined) {
+      return a;
+    }
+    const b = bossPortals.find((p) => p.name == name);
+    if (b != undefined) {
+      return b;
+    }
+    throw new Error(`Failed to map portals: ${a} & ${b}`);
+  };
+
+  if (areas.length > 0) {
+    for (const [a, b] of areas) {
+      mappedPortals.push([findPortal(a), findPortal(b)]);
+    }
+  } else {
+    mappedPortals = mappedPortals.concat(generateAreaPortals(0))
+  }
+
+  if (bosses.length > 0) {
+    for (const [a, b] of bosses) {
+      mappedPortals.push([findPortal(a), findPortal(b)]);
+    }
+  } else {
+    mappedPortals = mappedPortals.concat(generateBossPortals(BossMode.Vanilla, 0))
+  }
+
+  if (2 * mappedPortals.length != total) {
+    console.log(mappedPortals)
+    throw new Error("Unmapped portals");
+  }
+  return mappedPortals;
 };

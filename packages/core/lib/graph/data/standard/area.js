@@ -89,7 +89,7 @@ const EastMaridia_OasisBottom_to_AboveMaridiaMap = {
 };
 
 const WestMaridia_AboveMaridiaMap_to_OasisBottom = {
-  edges: ["MainStreet", "AboveMaridiaMap"],
+  edges: ["AboveMaridiaMap", "OasisBottom"],
   requires: false,
 };
 
