@@ -149,7 +149,7 @@ const Option = (
 export interface GenerateSeedSettings {
   'item-split': 'standard-mm' | 'full' | 'chozo',
   'map-layout': 'standard' | 'randomized' | 'recall',
-  boss: 'vanilla' | 'shifted' | 'shuffled' | 'randomized',
+  boss: 'vanilla' | 'shifted' | 'shuffled' | 'surprise',
   minors: 'standard' | 'dash',
   'environment': 'standard' | 'dash-recall' | 'dash-classic',
   'charge-beam': 'vanilla' | 'starter' | 'starter-plus',
@@ -400,8 +400,8 @@ export default function Form() {
         settings.bossMode = BossMode.Shifted;
       } else if (data.boss == 'shuffled') {
         settings.bossMode = BossMode.Shuffled;
-      } else if (data.boss == 'randomized') {
-        settings.bossMode = BossMode.Randomized;
+      } else if (data.boss == 'surprise') {
+        settings.bossMode = BossMode.Surprise;
       }
 
       const options = {
@@ -538,7 +538,7 @@ export default function Form() {
                 options={[
                   { label: 'Shuffled', value: 'shuffled' },
                   { label: 'Shifted', value: 'shifted' },
-                  { label: 'Randomized', value: 'randomized' },
+                  { label: 'Surprise', value: 'surprise' },
                   { label: 'Vanilla', value: 'vanilla' },
                 ]}
                 name="boss"

@@ -304,7 +304,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Randomized</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Defeating a boss opens access to the area in which it is placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair). At least one boss will not be at its vanilla location.
+                <strong>Surprise</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Defeating a boss opens access to the area in which it is placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair). At least one boss will not be at its vanilla location.
               </p>
             </li>
             {/*<li>

@@ -87,7 +87,7 @@ export const Preset_MM_BossRando: Preset = {
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: false,
-    bossMode: BossMode.Randomized,
+    bossMode: BossMode.Surprise,
   },
   options: {
     DisableFanfare: false,
@@ -108,7 +108,7 @@ export const Preset_MM_BossRando_Area: Preset = {
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: true,
-    bossMode: BossMode.Randomized,
+    bossMode: BossMode.Surprise,
   },
   options: {
     DisableFanfare: false,
@@ -129,7 +129,7 @@ export const Preset_Full_BossRando: Preset = {
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: false,
-    bossMode: BossMode.Randomized,
+    bossMode: BossMode.Surprise,
   },
   options: {
     DisableFanfare: false,
@@ -150,7 +150,7 @@ export const Preset_Full_BossRando_Area: Preset = {
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: true,
-    bossMode: BossMode.Randomized,
+    bossMode: BossMode.Surprise,
   },
   options: {
     DisableFanfare: false,
@@ -171,7 +171,7 @@ export const Preset_Chozo_BossRando: Preset = {
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: false,
-    bossMode: BossMode.Randomized,
+    bossMode: BossMode.Surprise,
   },
   options: {
     DisableFanfare: false,
@@ -192,7 +192,7 @@ export const Preset_Chozo_BossRando_Area: Preset = {
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: true,
-    bossMode: BossMode.Randomized,
+    bossMode: BossMode.Surprise,
   },
   options: {
     DisableFanfare: false,

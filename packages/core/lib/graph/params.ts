@@ -67,7 +67,7 @@ export const BossMode = {
   Vanilla: 0,
   Shuffled: 1,
   Shifted: 2,
-  Randomized: 3,
+  Surprise: 3,
 };
 
 //-----------------------------------------------------------------

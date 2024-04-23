@@ -191,7 +191,7 @@ const generateBossPortals = (mode: number, seed: number): PortalMapping[] => {
     const exitPortals = bosses.map((b) => b[1]);
 
     // Randomly pick a boss for each door
-    if (mode == BossMode.Randomized) {
+    if (mode == BossMode.Surprise) {
       return doorPortals.map<PortalMapping>((d) => {
         const exit = {...exitPortals[rng.NextInRange(0, 4)]}
         return [d, exit]

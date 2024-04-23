@@ -48,8 +48,8 @@ const getBossMode = (value: number) => {
       return "Shifted"
     case BossMode.Shuffled:
       return "Shuffled"
-    case BossMode.Randomized:
-      return "Randomized"
+    case BossMode.Surprise:
+      return "Surprise"
   }
 }
 
