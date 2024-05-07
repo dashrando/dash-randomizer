@@ -25,12 +25,12 @@ export type Preset = {
 
 export const getAllPresets = () => {
   return [
-    Preset_MM_BossRando,
-    Preset_MM_BossRando_Area,
-    Preset_Full_BossRando,
-    Preset_Full_BossRando_Area,
-    Preset_Chozo_BossRando,
-    Preset_Chozo_BossRando_Area,
+    Preset_MM_Surprise,
+    Preset_MM_Area_Surprise,
+    Preset_Full_Surprise,
+    Preset_MaxRando,
+    Preset_Chozo_Surprise,
+    Preset_Chozo_Area_Surprise,
     Preset_SGL23,
     Preset_Recall_MM,
     Preset_Recall_Full,
@@ -74,10 +74,10 @@ export const findPreset = (
   });
 };
 
-export const Preset_MM_BossRando: Preset = {
-  title: "BossRandoMM",
-  fileName: "BossRandoMM",
-  tags: ["boss_mm"],
+export const Preset_MM_Surprise: Preset = {
+  title: "MM Surprise",
+  fileName: "MMSurprise",
+  tags: ["mm_surprise"],
   settings: {
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Standard,
@@ -95,10 +95,10 @@ export const Preset_MM_BossRando: Preset = {
   }
 };
 
-export const Preset_MM_BossRando_Area: Preset = {
-  title: "BossRandoMMArea",
-  fileName: "BossRandoMMArea",
-  tags: ["boss_mm_area"],
+export const Preset_MM_Area_Surprise: Preset = {
+  title: "MM Area Surprise",
+  fileName: "MMAreaSurprise",
+  tags: ["mm_area_surprise"],
   settings: {
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Standard,
@@ -116,10 +116,10 @@ export const Preset_MM_BossRando_Area: Preset = {
   }
 };
 
-export const Preset_Full_BossRando: Preset = {
-  title: "BossRandoFull",
-  fileName: "BossRandoFull",
-  tags: ["boss_full"],
+export const Preset_Full_Surprise: Preset = {
+  title: "Full Surprise",
+  fileName: "FullSurprise",
+  tags: ["full_surprise"],
   settings: {
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Full,
@@ -137,10 +137,10 @@ export const Preset_Full_BossRando: Preset = {
   }
 };
 
-export const Preset_Full_BossRando_Area: Preset = {
-  title: "BossRandoFullArea",
-  fileName: "BossRandoFullArea",
-  tags: ["boss_full_area"],
+export const Preset_MaxRando: Preset = {
+  title: "Max Rando",
+  fileName: "MaxRando",
+  tags: ["max_rando"],
   settings: {
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Full,
@@ -158,10 +158,10 @@ export const Preset_Full_BossRando_Area: Preset = {
   }
 };
 
-export const Preset_Chozo_BossRando: Preset = {
-  title: "BossRando",
-  fileName: "ChozoBossRando",
-  tags: ["boss_chozo"],
+export const Preset_Chozo_Surprise: Preset = {
+  title: "Chozo Surprise",
+  fileName: "ChozoSurprise",
+  tags: ["chozo_surprise"],
   settings: {
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Chozo,
@@ -179,10 +179,10 @@ export const Preset_Chozo_BossRando: Preset = {
   }
 };
 
-export const Preset_Chozo_BossRando_Area: Preset = {
-  title: "ChozoBossRandoArea",
-  fileName: "ChozoBossRandoArea",
-  tags: ["boss_chozo_area"],
+export const Preset_Chozo_Area_Surprise: Preset = {
+  title: "Chozo Area Surprise",
+  fileName: "ChozoAreaSurprise",
+  tags: ["chozo_area_surprise"],
   settings: {
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Chozo,
@@ -199,6 +199,7 @@ export const Preset_Chozo_BossRando_Area: Preset = {
     RelaxedLogic: false
   }
 };
+
 //-----------------------------------------------------------------
 // Chozo Settings
 //-----------------------------------------------------------------

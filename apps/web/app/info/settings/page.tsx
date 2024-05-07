@@ -199,7 +199,7 @@ export default function SettingsInfoPage() {
                     </tr>
                     <tr>
                       <td>Varia Suit</td>
-                      <td>Kraid's Lair</td>
+                      <td>Kraid&apos;s Lair</td>
                       <td>Varia Suit</td>
                     </tr>
                     <tr>
@@ -294,17 +294,17 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Shifted</strong> bosses open access to the area in which they are placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair). At least two bosses will not be at their vanilla locations.
+                <strong>Shifted</strong> bosses open access to the area in which they are placed (example: Kraid&apos;s etank will be accessible after defeating whatever boss is in Kraid&apos;s Lair). At least two bosses will not be at their vanilla locations.
               </p>
             </li>
             <li>
               <p>
-                <strong>Shuffled</strong> bosses open access to their vanilla area regardless of where they are placed (example: Kraid's etank will only be accessible after defeating Kraid). At least two bosses will not be at their vanilla locations.
+                <strong>Shuffled</strong> bosses open access to their vanilla area regardless of where they are placed (example: Kraid&apos;s etank will only be accessible after defeating Kraid). At least two bosses will not be at their vanilla locations.
               </p>
             </li>
             <li>
               <p>
-                <strong>Surprise</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Defeating a boss opens access to the area in which it is placed (example: Kraid's etank will be accessible after defeating whatever boss is in Kraid's Lair). At least one boss will not be at its vanilla location.
+                <strong>Surprise</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Defeating a boss opens access to the area in which it is placed (example: Kraid&apos;s etank will be accessible after defeating whatever boss is in Kraid&apos;s Lair). At least one boss will not be at its vanilla location.
               </p>
             </li>
             {/*<li>
@@ -406,7 +406,7 @@ export default function SettingsInfoPage() {
               <p>
                 <strong>DASH</strong> includes everything from Standard plus the following:
                 <ul className={styles.list_disc}>
-                  <li>Spazer-breakable blocks at the Waterway location and Botwoon’s Hallway</li>
+                  <li>Spazer-breakable blocks at the Waterway location and Botwoon&apos;s Hallway</li>
                   <li>Allows the speed block at the Wrecked Ship Reserve location to be broken by the Bombs major item.</li>
                 </ul>
               </p>

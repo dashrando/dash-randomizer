@@ -167,10 +167,22 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
-  mode: 'chozo-bozo' | 'sgl23' | 'dash-recall' | 'dash-classic' | '2017' | 'custom' | null,
+  mode: 'max-rando' | 'chozo-bozo' | 'sgl23' | 'dash-recall' | 'dash-classic' | '2017' | 'custom' | null,
 }
 
 const MODES = {
+  'max-rando': {
+    'item-split': 'full',
+    'map-layout': 'randomized',
+    boss: 'surprise',
+    minors: 'standard',
+    'environment': 'standard',
+    'charge-beam': 'vanilla',
+    'gravity-heat-reduction': 'off',
+    'double-jump': 'off',
+    'heat-shield': 'off',
+    'pressure-valve': 'none',
+  },
   'chozo-bozo': {
     'item-split': 'chozo',
     'map-layout': 'standard',
@@ -380,6 +392,8 @@ export default function Form() {
         config.presetName = "SGL23"
       } else if (data.mode == 'chozo-bozo') {
         config.presetName = "ChozoBozo"
+      } else if (data.mode == 'max-rando') {
+        config.presetName = "MaxRando"
       }
 
       if (data['charge-beam'] == 'starter') {
@@ -490,6 +504,7 @@ export default function Form() {
               <Select
                 options={[
                   { label: '', value: '', hidden: true },
+                  { label: 'Max Rando', value: 'max-rando' },
                   { label: 'Chozo Bozo', value: 'chozo-bozo' },
                   { label: 'SG Live 2023', value: 'sgl23' },
                   { label: 'DASH: Recall', value: 'dash-recall' },
@@ -521,8 +536,8 @@ export default function Form() {
             <Option label="Item Split" name="item-split">
               <Select
                 options={[
-                  { label: 'Chozo', value: 'chozo' },
                   { label: 'Full', value: 'full' },
+                  { label: 'Chozo', value: 'chozo' },
                   { label: 'Major/Minor', value: 'standard-mm' },
                 ]}
                 name="item-split"
@@ -536,9 +551,9 @@ export default function Form() {
             <Option label="Boss Locations" name="boss" badge={<Badge variant="beta">Beta</Badge>}>
               <Select
                 options={[
+                  { label: 'Surprise', value: 'surprise' },
                   { label: 'Shuffled', value: 'shuffled' },
                   { label: 'Shifted', value: 'shifted' },
-                  { label: 'Surprise', value: 'surprise' },
                   { label: 'Vanilla', value: 'vanilla' },
                 ]}
                 name="boss"
@@ -552,8 +567,8 @@ export default function Form() {
             <Option label="Map Layout" name="map-layout" badge={<Badge variant="beta">Beta</Badge>}>
               <Select
                 options={[
-                  { label: 'Vanilla', value: 'standard' },
                   { label: 'Area Randomization', value: 'randomized' },
+                  { label: 'Vanilla', value: 'standard' },
                   { label: 'DASH: Recall', value: 'recall' },
                 ]}
                 name="map-layout"
