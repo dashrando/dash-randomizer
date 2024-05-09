@@ -14,6 +14,13 @@ type RaceSeedData = {
   spoiler: object
 }
 
+export async function generateMetadata({ params }: { params : { key: string }}) {
+  return {
+    title: `DASH Randomizer Race`,
+    description: params.key
+  }
+}
+
 export default async function RaceSeedPage({ params }: { params: { key: string } }) {
   const { key } = params
   const data = await kv.hgetall(`race-${key}`)
