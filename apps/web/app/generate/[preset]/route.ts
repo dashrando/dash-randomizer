@@ -12,7 +12,7 @@ type GenerateParams = {
   preset: string
 }
 
-export async function GET(req: NextRequest, { params }: { params: GenerateParams} ) {
+export function GET(req: NextRequest, { params }: { params: GenerateParams} ) {
    try {
     const seedNum = getSeedNumber();
     const preset = getPreset(params.preset);
@@ -42,6 +42,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
 
     if (race) {
       const hash = paramsToString(seedNum, preset.settings, preset.options)
+      console.log('hash:',hash)
       const raceObj = {
         key: nanoid(10),
         hash,
