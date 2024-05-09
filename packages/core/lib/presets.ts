@@ -28,7 +28,7 @@ export const getAllPresets = () => {
     Preset_MM_Surprise,
     Preset_MM_Area_Surprise,
     Preset_Full_Surprise,
-    Preset_MaxRando,
+    Preset_SurpriseSurprise,
     Preset_Chozo_Surprise,
     Preset_Chozo_Area_Surprise,
     Preset_SGL23,
@@ -137,10 +137,10 @@ export const Preset_Full_Surprise: Preset = {
   }
 };
 
-export const Preset_MaxRando: Preset = {
-  title: "Max Rando",
-  fileName: "MaxRando",
-  tags: ["max_rando"],
+export const Preset_SurpriseSurprise: Preset = {
+  title: "Surprise Surprise",
+  fileName: "SurpriseSurprise",
+  tags: ["surprise_surprise"],
   settings: {
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Full,
