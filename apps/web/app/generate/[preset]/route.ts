@@ -47,7 +47,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
       const raceObj = {
         key: nanoid(10),
         hash,
-        spoiler: spoiler ? getSpoiler(hash) : undefined
+        // spoiler: spoiler ? getSpoiler(hash) : null
       }
       console.log(raceObj)
       await kv.hset(`race-${raceObj.key}`, raceObj)
