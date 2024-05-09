@@ -10,6 +10,7 @@ import {
   Settings,
   Options
 } from "./graph/params";
+import DotNetRandom from "./dotnet-random";
 
 export type Preset = {
   title: string;
@@ -45,6 +46,9 @@ export const getAllPresets = () => {
 };
 
 export const getPreset = (tag: string) => {
+  if (tag === 'mystery') {
+    return generateMysteryPreset()
+  }
   return getAllPresets().find((p) => p.tags.includes(tag));
 };
 
@@ -73,6 +77,90 @@ export const findPreset = (
     return true;
   });
 };
+
+type WeightedOption = {
+  value: any;
+  weight: number;
+}
+
+
+const generateMysteryPreset = (): Preset => {
+  const rnd = new DotNetRandom(Date.now() / 10000)
+
+  const getWeightedRandom = (options: WeightedOption[]) => {
+    let sum = 0
+    const draw = rnd.NextDouble()
+    for (let i = 0; i < options.length; i++) {
+      sum += options[i].weight
+      if (draw < sum) {
+        return options[i].value
+      }
+    }
+    throw new Error('Invalid weights')
+  }
+
+  return {
+    title: 'Mystery',
+    fileName: 'Mystery',
+    tags: ['mystery'],
+    settings: {
+      mapLayout: getWeightedRandom([
+        { value: MapLayout.Standard, weight: 0.8 },
+        { value: MapLayout.Classic, weight: 0.1 },
+        { value: MapLayout.Recall, weight: 0.1 },
+      ]),
+      majorDistribution: getWeightedRandom([
+        { value: MajorDistributionMode.Standard, weight: 0.3 },
+        { value: MajorDistributionMode.Chozo, weight: 0.3 },
+        { value: MajorDistributionMode.Full, weight: 0.3 },
+        { value: MajorDistributionMode.Recall, weight: 0.1 },
+      ]),
+      minorDistribution: getWeightedRandom([
+        { value: MinorDistributionMode.Standard, weight: 0.6 },
+        { value: MinorDistributionMode.Dash, weight: 0.4 },
+      ]),
+      extraItems:
+        [getWeightedRandom([
+          { value: [], weight: 0.65 },
+          { value: [Item.DoubleJump], weight: 0.35 },
+        ])].concat(
+          getWeightedRandom([
+            { value: [], weight: 0.8 },
+            { value: [Item.HeatShield], weight: 0.2 },
+          ]).concat(
+          getWeightedRandom([
+            { value: [], weight: 0.85 },
+            { value: [Item.PressureValve], weight: 0.15 },
+          ])
+          )
+        ),
+      beamMode: getWeightedRandom([
+        { value: BeamMode.Vanilla, weight: 0.5 },
+        { value: BeamMode.Starter, weight: 0.3 },
+        { value: BeamMode.StarterPlus, weight: 0.2 },
+      ]),
+      suitMode: SuitMode.Dash,
+      gravityHeatReduction: getWeightedRandom([
+        { value: GravityHeatReduction.Off, weight: 0.7 },
+        { value: GravityHeatReduction.On, weight: 0.3 },
+      ]),
+      randomizeAreas: getWeightedRandom([
+        { value: true, weight: 0.7 },
+        { value: false, weight: 0.3 },
+      ]),
+      bossMode: getWeightedRandom([
+        { value: BossMode.Vanilla, weight: 0.15 },
+        { value: BossMode.Shuffled, weight: 0.3 },
+        { value: BossMode.Shifted, weight: 0.3 },
+        { value: BossMode.Surprise, weight: 0.25 },
+      ])
+    },
+    options: {
+      DisableFanfare: false,
+      RelaxedLogic: false
+    }
+  }
+}
 
 export const Preset_MM_Surprise: Preset = {
   title: "MM Surprise",
