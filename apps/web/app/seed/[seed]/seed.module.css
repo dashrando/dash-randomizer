@@ -145,3 +145,11 @@
 .qr button:hover {
   text-decoration-color: transparent;
 }
+
+.spoiler_data {
+  text-align: left;
+}
+
+.spoiler_data table tr td:first-child {
+  width: 240px;
+}
