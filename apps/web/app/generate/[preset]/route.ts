@@ -45,7 +45,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
     if (race) {
       const hash = paramsToString(seedNum, preset.settings, preset.options)
       const raceObj = {
-        key: nanoid(10),
+        key: nanoid(),
         hash,
         spoiler: spoiler ? getSpoiler(hash) : null
       }
