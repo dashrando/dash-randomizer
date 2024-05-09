@@ -1,6 +1,7 @@
 import { kv } from '@vercel/kv'
 import styles from '../../../[seed]/seed.module.css'
 import { prefetchSignature, stringToParams } from 'core'
+import { notFound } from 'next/navigation'
 
 type RaceSeedData = {
   hash: string
@@ -30,6 +31,10 @@ export default async function RaceSeedSpoilerPage({ params }: { params: { key: s
   }
 
   const { hash, spoiler } = data as RaceSeedData
+  if (!spoiler) {
+    return notFound()
+  }
+
   const seedParams = stringToParams(hash)
   const seedNum = seedParams.seed
   const sig = prefetchSignature(seedNum)
