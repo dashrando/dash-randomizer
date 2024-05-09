@@ -52,7 +52,7 @@ export default async function RaceSeedPage({ params }: { params: { key: string }
         parameters={seedParams}
         hash={hash}
         signature={sig}
-        slug={hash}
+        slug={key}
         race={true}
         mystery={mystery}
       />

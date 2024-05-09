@@ -37,6 +37,22 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
   )
 }
 
+const getSeedName = (seed: Seed|null, raceKey: string, mystery: boolean) => {
+  if (!seed) {
+    return ''
+  }
+  const extension = seed.name.split('.').pop()
+  const parts = seed.name.split('_')
+  if (mystery) {
+    parts[1] = 'Mystery'
+  }
+  if (raceKey) {
+    parts[2] = raceKey
+  }
+
+  return `${parts.join('_')}.${extension}`
+}
+
 export default function Seed({
   parameters,
   hash,
@@ -91,6 +107,7 @@ export default function Seed({
 
   const hasVanilla = Boolean(vanilla)
   const parsedParams = parseSettings(parameters)
+  const seedName = getSeedName(seed, slug, mystery)
 
   return (
     <div>
@@ -101,12 +118,12 @@ export default function Seed({
             evt.preventDefault()
             // TODO: Refactor to show loading state if still getting seed
             if (seed) {
-              downloadFile(seed?.data, seed?.name, hash)
+              downloadFile(seed?.data, seedName, hash)
             }
           }}>
             <ArrowDown size={14} strokeWidth={2} />
             <>&nbsp;</>
-            <span className={styles.mono}>{seed?.name}</span>
+            <span className={styles.mono}>{seedName}</span>
           </Button>
         ) : (
           <div style={{ maxWidth: '300px' }}>
