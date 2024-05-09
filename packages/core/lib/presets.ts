@@ -8,6 +8,7 @@ import {
   SuitMode,
   GravityHeatReduction,
   Settings,
+  Options
 } from "./graph/params";
 
 export type Preset = {
@@ -15,6 +16,7 @@ export type Preset = {
   fileName: string;
   tags: string[];
   settings: Settings;
+  options: Options;
 }
 
 //-----------------------------------------------------------------
@@ -23,6 +25,12 @@ export type Preset = {
 
 export const getAllPresets = () => {
   return [
+    Preset_MM_Surprise,
+    Preset_MM_Area_Surprise,
+    Preset_Full_Surprise,
+    Preset_SurpriseSurprise,
+    Preset_Chozo_Surprise,
+    Preset_Chozo_Area_Surprise,
     Preset_SGL23,
     Preset_Recall_MM,
     Preset_Recall_Full,
@@ -40,9 +48,13 @@ export const getPreset = (tag: string) => {
   return getAllPresets().find((p) => p.tags.includes(tag));
 };
 
-export const findPreset = (settings: Settings): Preset | undefined => {
+export const findPreset = (
+  settings: Settings,
+  options: Options,
+): Preset | undefined => {
   return getAllPresets().find((p) => {
     const ps = p.settings;
+    const po = p.options;
     if (
       settings.mapLayout != ps.mapLayout ||
       settings.majorDistribution != ps.majorDistribution ||
@@ -52,12 +64,140 @@ export const findPreset = (settings: Settings): Preset | undefined => {
       settings.suitMode !== ps.suitMode ||
       settings.gravityHeatReduction !== ps.gravityHeatReduction ||
       settings.randomizeAreas !== ps.randomizeAreas ||
-      settings.bossMode !== ps.bossMode
+      settings.bossMode !== ps.bossMode ||
+      options.DisableFanfare !== po.DisableFanfare ||
+      options.RelaxedLogic !== po.RelaxedLogic
     ) {
       return false;
     }
     return true;
   });
+};
+
+export const Preset_MM_Surprise: Preset = {
+  title: "MM Surprise",
+  fileName: "MMSurprise",
+  tags: ["mm_surprise"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: false,
+    bossMode: BossMode.Surprise,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_MM_Area_Surprise: Preset = {
+  title: "MM Area Surprise",
+  fileName: "MMAreaSurprise",
+  tags: ["mm_area_surprise"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Surprise,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_Full_Surprise: Preset = {
+  title: "Full Surprise",
+  fileName: "FullSurprise",
+  tags: ["full_surprise"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: false,
+    bossMode: BossMode.Surprise,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_SurpriseSurprise: Preset = {
+  title: "Surprise Surprise",
+  fileName: "SurpriseSurprise",
+  tags: ["surprise_surprise"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Surprise,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_Chozo_Surprise: Preset = {
+  title: "Chozo Surprise",
+  fileName: "ChozoSurprise",
+  tags: ["chozo_surprise"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Chozo,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: false,
+    bossMode: BossMode.Surprise,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_Chozo_Area_Surprise: Preset = {
+  title: "Chozo Area Surprise",
+  fileName: "ChozoAreaSurprise",
+  tags: ["chozo_area_surprise"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Chozo,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Surprise,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
 };
 
 //-----------------------------------------------------------------
@@ -79,6 +219,10 @@ export const Preset_Chozo: Preset = {
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
   },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
 };
 
 export const Preset_Chozo_Bozo: Preset = {
@@ -95,6 +239,10 @@ export const Preset_Chozo_Bozo: Preset = {
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: false,
     bossMode: BossMode.Shuffled,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
   },
 };
 
@@ -113,6 +261,10 @@ export const Preset_Chozo_Bozo_Area: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Shuffled,
   },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  },
 };
 
 export const Preset_Chozo_Area_Shifted: Preset = {
@@ -129,6 +281,10 @@ export const Preset_Chozo_Area_Shifted: Preset = {
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: true,
     bossMode: BossMode.Shifted,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
   },
 };
 
@@ -151,6 +307,10 @@ export const Preset_SGL23: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Shifted,
   },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  },
 };
 
 //-----------------------------------------------------------------
@@ -172,6 +332,10 @@ export const Preset_Classic_MM: Preset = {
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
   },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  },
 };
 
 export const Preset_Classic_Full: Preset = {
@@ -188,6 +352,10 @@ export const Preset_Classic_Full: Preset = {
     gravityHeatReduction: GravityHeatReduction.On,
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
   },
 };
 
@@ -210,6 +378,10 @@ export const Preset_Recall_MM: Preset = {
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
   },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  },
 };
 
 export const Preset_Recall_Full: Preset = {
@@ -226,6 +398,10 @@ export const Preset_Recall_Full: Preset = {
     gravityHeatReduction: GravityHeatReduction.On,
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
   },
 };
 
@@ -247,5 +423,9 @@ export const Preset_2017_MM: Preset = {
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
   },
 };

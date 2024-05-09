@@ -160,13 +160,13 @@ function TransitionTable({
   transitions,
   columnHeaders,
   rowHeaders,
-  seeds,
+  columnLabels,
   condense,
 }: {
   transitions: Transition[];
   columnHeaders: string[];
   rowHeaders: string[];
-  seeds: number;
+  columnLabels: string[] | undefined;
   condense: boolean;
 }) {
   const temp: TransitionRow[] = [];
@@ -192,7 +192,7 @@ function TransitionTable({
     }
   });
 
-  total /= columnHeaders.length;
+  total /= rowHeaders.length;
 
   const getColumns = (row: string) => {
     const columns: TransitionRow[] = [];
@@ -208,6 +208,13 @@ function TransitionTable({
   const def_style = `${styles.thin_border}` +
     (condense ? ` ${styles.condensed_cell}` : "");
 
+  const getColumnLabels = (): string[] => {
+    if (columnLabels) {
+      return columnLabels
+    }
+    return columnHeaders
+  }
+
   return (
     <div>
       <table className={`${styles.legacy_style} ${styles.fixed_table}`}>
@@ -215,10 +222,8 @@ function TransitionTable({
           {!condense ? 
           <tr key="columnHeader">
             <th className={`${def_style} ${styles.area_cell}`}></th>
-            {columnHeaders.map((c) => (
-              <th key={c} className={styles.thin_border}>
-                {c.substring(5)}
-              </th>
+            {getColumnLabels().map((c) => (
+              <th key={c} className={styles.thin_border}>{c}</th>
             ))}
           </tr>
           : <></>
@@ -248,6 +253,24 @@ function TransitionTable({
   );
 }
 
+function generateCombinations(
+  letters: string,
+  length: number,
+  current: string = "",
+  combinations: string[] = []
+) {
+  // If the current string has reached the desired length, add it to the combinations array
+  if (current.length === length) {
+    combinations.push(current);
+    return;
+  }
+
+  // Loop through each letter in the original string and recursively build up the current string
+  for (let i = 0; i < letters.length; i++) {
+    generateCombinations(letters, length, current + letters[i], combinations);
+  }
+}
+
 export default function AreaDoorTable({
   bosses,
   areas,
@@ -258,10 +281,40 @@ export default function AreaDoorTable({
   seeds: number;
 }) {
   const bossColumns = [
-    "Exit_Kraid",
-    "Exit_Phantoon",
-    "Exit_Draygon",
-    "Exit_Ridley"
+    "Exit_Kraid_KraidsLair",
+    "Exit_Phantoon_KraidsLair",
+    "Exit_Draygon_KraidsLair",
+    "Exit_Ridley_KraidsLair",
+    "Exit_Kraid_WreckedShip",
+    "Exit_Phantoon_WreckedShip",
+    "Exit_Draygon_WreckedShip",
+    "Exit_Ridley_WreckedShip",
+    "Exit_Kraid_EastMaridia",
+    "Exit_Phantoon_EastMaridia",
+    "Exit_Draygon_EastMaridia",
+    "Exit_Ridley_EastMaridia",
+    "Exit_Kraid_LowerNorfair",
+    "Exit_Phantoon_LowerNorfair",
+    "Exit_Draygon_LowerNorfair",
+    "Exit_Ridley_LowerNorfair"
+  ]
+  const bossColumnLabels = [
+    "Kraid Brin",
+    "Phantoon Brin",
+    "Draygon Brin",
+    "Ridley Brin",
+    "Kraid WS",
+    "Phantoon WS",
+    "Draygon WS",
+    "Ridley WS",
+    "Kraid EM",
+    "Phantoon EM",
+    "Draygon EM",
+    "Ridley EM",
+    "Kraid LN",
+    "Phantoon LN",
+    "Draygon LN",
+    "Ridley LN"
   ]
   const bossRows = [
     "Door_KraidBoss",
@@ -287,30 +340,112 @@ export default function AreaDoorTable({
     "Door_LavaDive", "Door_RidleyMouth",
     "Door_PreAqueduct", "Door_Aqueduct",
   ]
+
+  const stringCombos: string[] = []
+  generateCombinations('KPDR', 4, '', stringCombos)
+  const bossCombos = stringCombos.map(s => {
+    return {
+      name: s,
+      count: 0
+    }
+  })
+
+  for (let i = 0; i < bosses.length; i += 4) {
+    let combo = ''
+    for (let j = 0; j < 4; j++) {
+      if (bosses[i + j].from.startsWith('Exit_Kraid')) {
+        combo += 'K'
+      } else if (bosses[i + j].from.startsWith('Exit_Phantoon')) {
+        combo += 'P'
+      } else if (bosses[i + j].from.startsWith('Exit_Draygon')) {
+        combo += 'D'
+      } else if (bosses[i + j].from.startsWith('Exit_Ridley')) {
+        combo += 'R'
+      }
+    }
+    const obj = bossCombos.find(b => b.name == combo)
+    if (obj) {
+      obj.count += 1
+    }
+  }
+
+  const toPercent = (count: number) => {
+    return (count * 100 / seeds).toFixed(2) + '%'
+  }
+
   return (
     <div>
       <h3>Bosses</h3>
+      <p className={styles.boss_summary}>
+        {bossCombos
+          .sort((a, b) => b.count - a.count)
+          .map((p, i) => {
+            return (
+              <span className={styles.boss_combo} key={p.name}>
+                {p.name} {toPercent(p.count)}
+              </span>
+            );
+          })}
+      </p>
+      <p>
+        <span style={{ paddingLeft: "20px" }}>
+          No Phantoon:{" "}
+          {toPercent(
+            bossCombos
+              .filter((b) => !b.name.includes("P"))
+              .map((b) => b.count)
+              .reduce((p, c) => p + c, 0)
+          )}
+        </span>
+        <span style={{ paddingLeft: "20px" }}>
+          All Same:{" "}
+          {toPercent(
+            bossCombos
+              .filter(
+                (b) =>
+                  b.name == "KKKK" ||
+                  b.name == "PPPP" ||
+                  b.name == "DDDD" ||
+                  b.name == "RRRR"
+              )
+              .map((b) => b.count)
+              .reduce((p, c) => p + c, 0)
+          )}
+        </span>
+      </p>
       <TransitionTable
         transitions={bosses}
         columnHeaders={bossColumns}
         rowHeaders={bossRows}
-        seeds={seeds}
-        condense={false} />
+        columnLabels={bossColumnLabels}
+        condense={false}
+      />
       <h3>Areas</h3>
       <p>
         <span>Total Transitions: {areas.length}</span>
-        <span style={{paddingLeft: '20px'}}>Intra-Area Count: {getNumLoops(areas)}</span>
-        <span style={{paddingLeft: '20px'}}>Vanilla Count: {getNumVanilla(areas)}</span>
-        <span style={{paddingLeft: '20px'}}>1 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas,1)}</span>
-        <span style={{paddingLeft: '20px'}}>2 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas,2)}</span>
-        <span style={{paddingLeft: '20px'}}>3 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas,3)}</span>
+        <span style={{ paddingLeft: "20px" }}>
+          Intra-Area Count: {getNumLoops(areas)}
+        </span>
+        <span style={{ paddingLeft: "20px" }}>
+          Vanilla Count: {getNumVanilla(areas)}
+        </span>
+        <span style={{ paddingLeft: "20px" }}>
+          1 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas, 1)}
+        </span>
+        <span style={{ paddingLeft: "20px" }}>
+          2 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas, 2)}
+        </span>
+        <span style={{ paddingLeft: "20px" }}>
+          3 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas, 3)}
+        </span>
       </p>
       <TransitionTable
         transitions={areas}
         columnHeaders={areaDoors}
         rowHeaders={areaDoors}
-        seeds={seeds}
-        condense={true} />
+        columnLabels={undefined}
+        condense={true}
+      />
     </div>
   );
 }

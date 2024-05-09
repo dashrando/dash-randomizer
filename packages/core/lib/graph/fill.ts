@@ -4,8 +4,9 @@ import { isGraphValid } from "./solver";
 import { Graph, Vertex, cloneGraph, loadGraph } from "./init";
 import { addItem, checkFlags, createLoadout } from "../loadout";
 import { getItemPool } from "./itemPool";
-import { BossMode, MajorDistributionMode, Settings } from "./params";
+import { MajorDistributionMode, Options, Settings } from "./params";
 import { canReachVertex } from "./search";
+import { getArea, getLocations } from "../locations";
 
 //-----------------------------------------------------------------
 // Utility routines.
@@ -18,7 +19,6 @@ const canPlaceItem_Full = (item: ItemType, vertex: Vertex) => {
   if (item.type == Item.Gravity) {
     switch (vertex.area) {
       case "Crateria":
-      case "BlueBrinstar":
         return false;
       default:
         break;
@@ -26,7 +26,6 @@ const canPlaceItem_Full = (item: ItemType, vertex: Vertex) => {
   } else if (item.type == Item.Varia) {
     switch (vertex.area) {
       case "Crateria":
-      case "BlueBrinstar":
       case "LowerNorfair":
         return false;
       default:
@@ -46,7 +45,6 @@ const canPlaceItem_MajorMinor = (item: ItemType, vertex: Vertex) => {
   if (item.type == Item.Gravity) {
     switch (vertex.area) {
       case "Crateria":
-      case "BlueBrinstar":
         return false;
       default:
         break;
@@ -54,7 +52,6 @@ const canPlaceItem_MajorMinor = (item: ItemType, vertex: Vertex) => {
   } else if (item.type == Item.Varia) {
     switch (vertex.area) {
       case "Crateria":
-      case "BlueBrinstar":
       case "LowerNorfair":
         return false;
       default:
@@ -214,6 +211,15 @@ const graphFill = (
   //
   //-----------------------------------------------------------------
 
+  //const bossVertices = graph
+    //.map((e) => e.from)
+    //.filter((v) => v.type == "boss")
+    //.filter(isUnique)
+
+  //-----------------------------------------------------------------
+  //
+  //-----------------------------------------------------------------
+
   const canPlaceItem = restrictType
     ? canPlaceItem_MajorMinor
     : canPlaceItem_Full;
@@ -222,7 +228,7 @@ const graphFill = (
   //
   //-----------------------------------------------------------------
 
-  const itemPool = getItemPool(seed, settings);
+  const itemPool = getItemPool(seed, settings, shuffledLocations.length);
 
   //-----------------------------------------------------------------
   // Prefill locations with early items.
@@ -308,6 +314,8 @@ const graphFill = (
     }
 
     if (isGraphValid(cloneGraph(graph), settings, emptyLoadout)) {
+      //console.log('----')
+      //bossVertices.forEach(b => console.log(b.name,b.area))
       return attempts;
     }
   }
@@ -320,7 +328,11 @@ const graphFill = (
 // Performs multiple passes to generate a seed using a graph.
 //-----------------------------------------------------------------
 
-export const generateSeed = (seed: number, settings: Settings) => {
+export const generateSeed = (
+  seed: number,
+  settings: Settings,
+  options: Options,
+) => {
   const maxOuterLoop = 20;
   let maxInnerLoop = 40;
   const rnd = new DotNetRandom(seed);
@@ -340,7 +352,8 @@ export const generateSeed = (seed: number, settings: Settings) => {
       settings.mapLayout,
       settings.majorDistribution,
       settings.randomizeAreas,
-      settings.bossMode
+      options.RelaxedLogic,
+      settings.bossMode,
     );
 
     try {
@@ -352,3 +365,19 @@ export const generateSeed = (seed: number, settings: Settings) => {
   }
   throw new Error(`Failed to generate seed ${seed}`);
 };
+
+//-----------------------------------------------------------------
+//
+//-----------------------------------------------------------------
+
+export const getGraphLocations = (graph: Graph) => {
+   return getLocations().map((l) => {
+    const b = graph.find((e) => {
+      return e.to.name === l.name && getArea(e.to.area) == l.area
+    })
+    //if (b == null) {
+      //console.log(l)
+    //}
+    return b?.to;
+  }).filter((n) => n != null)
+}

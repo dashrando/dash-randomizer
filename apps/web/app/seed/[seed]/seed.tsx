@@ -72,7 +72,7 @@ export default function Seed({
     const initialize = async () => {
       if (vanilla && !seed?.data) {
         const { seed: seedNum, settings, options } = parameters
-        const preset = findPreset(settings)
+        const preset = findPreset(settings, options)
         const seedData = await RandomizeRom(seedNum, settings, options, {
           vanillaBytes: vanilla,
           presetName: preset == undefined ? "Custom" : preset.fileName

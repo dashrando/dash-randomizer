@@ -36,3 +36,24 @@ tr.header > th {
 .condensed_cell {
   padding: 1px;
 }
+
+.boss_summary {
+  width: 1100px
+}
+
+.boss_combo {
+  display: inline-block; /* Allows setting width and height */
+  width: 120px;          /* Fixed width */
+  height: 30px;          /* Fixed height */
+  /*overflow: hidden;*/      /* Hide overflow content */
+  text-overflow: ellipsis; /* Add ellipsis if content overflows */
+  white-space: nowrap;   /* Prevent text from wrapping */
+  border: 1px solid #4062d39d; /* Optional: Adds a border */
+  background-color: rgb(255, 250, 250);
+  color: black;
+  font-size: smaller;
+  margin-right: 0px;     /* Optional: Space between spans */
+  margin-bottom: 0px;
+  line-height: 30px;     /* Center text vertically */
+  text-align: center;    /* Center text horizontally */
+}

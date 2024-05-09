@@ -1,4 +1,4 @@
-export const bossEdges = {
+const kraidEdges = {
   Exit_Kraid: {
     Boss_Kraid: true,
   },
@@ -11,7 +11,9 @@ export const bossEdges = {
   "Varia Suit": {
     Boss_Kraid: true,
   },
+}
 
+const phantoonEdges = {
   Exit_Phantoon: {
     Boss_Phantoon: true,
   },
@@ -19,7 +21,9 @@ export const bossEdges = {
   Boss_Phantoon: {
     Exit_Phantoon: () => CanKillPhantoon,
   },
+}
 
+const draygonEdges = {
   Exit_Draygon: {
     Boss_Draygon: true,
   },
@@ -32,7 +36,9 @@ export const bossEdges = {
   "Space Jump": {
     Boss_Draygon: true,
   },
+}
 
+const ridleyEdges = {
   Exit_Ridley: {
     Boss_Ridley: true,
   },
@@ -46,3 +52,10 @@ export const bossEdges = {
     Boss_Ridley: true,
   },
 };
+
+export const bossEdges = [
+  kraidEdges,
+  phantoonEdges,
+  draygonEdges,
+  ridleyEdges
+]

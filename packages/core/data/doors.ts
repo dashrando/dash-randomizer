@@ -3,15 +3,17 @@ import { AREA_DOORS as area, BOSS_DOORS as boss } from "./interface";
 
 export type DoorTransition = {
   door: string;
+  area: string;
   from: string;
   to: string;
-  address: number;
-  vector: number;
+  address: number | undefined;
+  vector: number;   // Vector to get to that door
 }
 
 const DOORS: DoorTransition[] = [
   {
     door: "Door_KraidBoss",
+    area: "KraidsLair",
     from: "right",
     to: "left",
     address: boss.DoorToKraidBoss,
@@ -19,13 +21,39 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Exit_Kraid",
+    area: "KraidsLair",
     from: "left",
     to: "right",
     address: boss.DoorFromKraidInBrinstar,
     vector: boss.DoorVectorToKraidInBrinstar,
   },
   {
+    door: "Exit_Kraid",
+    area: "WreckedShip",
+    from: "left",
+    to: "right",
+    address: undefined,
+    vector: boss.DoorVectorToKraidInWreckedShip,
+  },
+  {
+    door: "Exit_Kraid",
+    area: "EastMaridia",
+    from: "right",
+    to: "left",
+    address: undefined,
+    vector: boss.DoorVectorToKraidInMaridia,
+  },
+  {
+    door: "Exit_Kraid",
+    area: "LowerNorfair",
+    from: "right",
+    to: "left",
+    address: undefined,
+    vector: boss.DoorVectorToKraidInNorfair,
+  },
+  {
     door: "Door_PhantoonBoss",
+    area: "WreckedShip",
     from: "right",
     to: "left",
     address: boss.DoorToPhantoonBoss,
@@ -33,13 +61,39 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Exit_Phantoon",
+    area: "WreckedShip",
     from: "left",
     to: "right",
     address: boss.DoorFromPhantoonInWreckedShip,
     vector: boss.DoorVectorToPhantoonInWreckedShip,
   },
   {
+    door: "Exit_Phantoon",
+    area: "KraidsLair",
+    from: "left",
+    to: "right",
+    address: undefined,
+    vector: boss.DoorVectorToPhantoonInBrinstar,
+  },
+  {
+    door: "Exit_Phantoon",
+    area: "EastMaridia",
+    from: "right",
+    to: "left",
+    address: undefined,
+    vector: boss.DoorVectorToPhantoonInMaridia,
+  },
+  {
+    door: "Exit_Phantoon",
+    area: "LowerNorfair",
+    from: "right",
+    to: "left",
+    address: undefined,
+    vector: boss.DoorVectorToPhantoonInNorfair,
+  },
+  {
     door: "Door_DraygonBoss",
+    area: "EastMaridia",
     from: "left",
     to: "right",
     address: boss.DoorToDraygonBoss,
@@ -47,13 +101,39 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Exit_Draygon",
+    area: "EastMaridia",
     from: "right",
     to: "left",
     address: boss.DoorFromDraygonInMaridia,
     vector: boss.DoorVectorToDraygonInMaridia,
   },
   {
+    door: "Exit_Draygon",
+    area: "KraidsLair",
+    from: "left",
+    to: "right",
+    address: undefined,
+    vector: boss.DoorVectorToDraygonInBrinstar,
+  },
+  {
+    door: "Exit_Draygon",
+    area: "WreckedShip",
+    from: "left",
+    to: "right",
+    address: undefined,
+    vector: boss.DoorVectorToDraygonInWreckedShip,
+  },
+  {
+    door: "Exit_Draygon",
+    area: "LowerNorfair",
+    from: "right",
+    to: "left",
+    address: undefined,
+    vector: boss.DoorVectorToDraygonInNorfair,
+  },
+  {
     door: "Door_RidleyBoss",
+    area: "LowerNorfair",
     from: "left",
     to: "right",
     address: boss.DoorToRidleyBoss,
@@ -61,13 +141,39 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Exit_Ridley",
+    area: "LowerNorfair",
     from: "right",
     to: "left",
     address: boss.DoorFromRidleyInNorfair,
     vector: boss.DoorVectorToRidleyInNorfair,
   },
   {
+    door: "Exit_Ridley",
+    area: "KraidsLair",
+    from: "left",
+    to: "right",
+    address: undefined,
+    vector: boss.DoorVectorToRidleyInBrinstar,
+  },
+  {
+    door: "Exit_Ridley",
+    area: "WreckedShip",
+    from: "left",
+    to: "right",
+    address: undefined,
+    vector: boss.DoorVectorToRidleyInWreckedShip,
+  },
+  {
+    door: "Exit_Ridley",
+    area: "EastMaridia",
+    from: "right",
+    to: "left",
+    address: undefined,
+    vector: boss.DoorVectorToRidleyInMaridia,
+  },
+  {
     door: "Door_RetroPBs",
+    area: "Crateria",
     from: "left",
     to: "right",
     address: area.Door_RetroPBs,
@@ -75,6 +181,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_GreenHills",
+    area: "GreenBrinstar",
     from: "right",
     to: "left",
     address: area.Door_GreenHills,
@@ -82,6 +189,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_Moat",
+    area: "Crateria",
     from: "right",
     to: "left",
     address: area.Door_Moat,
@@ -89,6 +197,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_Ocean",
+    area: "WreckedShip",
     from: "left",
     to: "right",
     address: area.Door_Ocean,
@@ -96,6 +205,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_G4",
+    area: "Crateria",
     from: "right",
     to: "left",
     address: area.Door_G4,
@@ -103,6 +213,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_Tourian",
+    area: "Tourian",
     from: "left",
     to: "right",
     address: area.Door_Tourian,
@@ -110,6 +221,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_Kago",
+    area: "Crateria",
     from: "left",
     to: "right",
     address: area.Door_Kago,
@@ -117,6 +229,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_GreenElevator",
+    area: "GreenBrinstar",
     from: "right",
     to: "left",
     address: area.Door_GreenElevator,
@@ -124,6 +237,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_Crabs",
+    area: "Crateria",
     from: "bottom",
     to: "top",
     address: area.Door_Crabs,
@@ -131,6 +245,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_RedElevator",
+    area: "RedBrinstar",
     from: "top",
     to: "bottom",
     address: area.Door_RedElevator,
@@ -138,6 +253,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_HighwayExit",
+    area: "WreckedShip",
     from: "left",
     to: "right",
     address: area.Door_HighwayExit,
@@ -145,6 +261,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_Highway",
+    area: "EastMaridia",
     from: "right",
     to: "left",
     address: area.Door_Highway,
@@ -152,6 +269,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_NoobBridge",
+    area: "GreenBrinstar",
     from: "right",
     to: "left",
     address: area.Door_NoobBridge,
@@ -159,6 +277,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_RedTower",
+    area: "RedBrinstar",
     from: "left",
     to: "right",
     address: area.Door_RedTower,
@@ -166,6 +285,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_MaridiaEscape",
+    area: "RedBrinstar",
     from: "right",
     to: "left",
     address: area.Door_MaridiaEscape,
@@ -173,6 +293,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_RedFish",
+    area: "WestMaridia",
     from: "left",
     to: "right",
     address: area.Door_RedFish,
@@ -180,6 +301,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_MaridiaTube",
+    area: "RedBrinstar",
     from: "top",
     to: "bottom",
     address: area.Door_MaridiaTube,
@@ -187,6 +309,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_MainStreet",
+    area: "WestMaridia",
     from: "bottom",
     to: "top",
     address: area.Door_MainStreet,
@@ -194,6 +317,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_KraidEntry",
+    area: "RedBrinstar",
     from: "right",
     to: "left",
     address: area.Door_KraidEntry,
@@ -201,6 +325,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_ElevatorEntry",
+    area: "UpperNorfair",
     from: "left",
     to: "right",
     address: area.Door_ElevatorEntry,
@@ -208,6 +333,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_AboveKraid",
+    area: "RedBrinstar",
     from: "right",
     to: "left",
     address: area.Door_AboveKraid,
@@ -215,6 +341,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_MaridiaMap",
+    area: "WestMaridia",
     from: "left",
     to: "right",
     address: area.Door_MaridiaMap,
@@ -222,6 +349,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_KraidMouth",
+    area: "UpperNorfair",
     from: "right",
     to: "left",
     address: area.Door_KraidMouth,
@@ -229,6 +357,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_KraidsLair",
+    area: "KraidsLair",
     from: "left",
     to: "right",
     address: area.Door_KraidsLair,
@@ -236,6 +365,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_CrocEntry",
+    area: "UpperNorfair",
     from: "bottom",
     to: "top",
     address: area.Door_CrocEntry,
@@ -243,6 +373,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_Croc",
+    area: "CrocomiresLair",
     from: "top",
     to: "bottom",
     address: area.Door_Croc,
@@ -250,6 +381,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_SingleChamber",
+    area: "UpperNorfair",
     from: "right",
     to: "left",
     address: area.Door_SingleChamber,
@@ -257,6 +389,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_Muskateers",
+    area: "LowerNorfair",
     from: "left",
     to: "right",
     address: area.Door_Muskateers,
@@ -264,6 +397,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_LavaDive",
+    area: "UpperNorfair",
     from: "left",
     to: "right",
     address: area.Door_LavaDive,
@@ -271,6 +405,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_RidleyMouth",
+    area: "LowerNorfair",
     from: "right",
     to: "left",
     address: area.Door_RidleyMouth,
@@ -278,6 +413,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_PreAqueduct",
+    area: "WestMaridia",
     from: "right",
     to: "left",
     address: area.Door_PreAqueduct,
@@ -285,6 +421,7 @@ const DOORS: DoorTransition[] = [
   },
   {
     door: "Door_Aqueduct",
+    area: "EastMaridia",
     from: "left",
     to: "right",
     address: area.Door_Aqueduct,

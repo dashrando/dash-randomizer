@@ -1,11 +1,3 @@
-/***
- * I might've been more thorough than I needed to be,
- * since some things are very easy to do but not technically in logic.
- * With that being said, you can traverse between both entrances with just hijump and supers/pbs,
- * which is non-trivial for area rando purposes
- *  - AJ
- ***/
-
 export const eastmaridiaEdges = {
   Door_Aqueduct: {
     Aqueduct: () => CanUsePowerBombs,
@@ -18,7 +10,6 @@ export const eastmaridiaEdges = {
       (CanUseBombs || CanUsePowerBombs || (HasGravity && HasScrewAttack)),
     //TODO: Snail clip is technically in logic
     "Missiles (Aqueduct)": () => HasGravity,
-    "Supers (Aqueduct)": () => HasGravity,
     //TODO: Snail climb is technically in logic
     BotwoonHallwayLeft: () => HasGravity || HasHiJump,
     LeftSandPitBottom: () => HasGravity,
@@ -68,26 +59,21 @@ export const eastmaridiaEdges = {
   },
 
   OasisBottom: {
-    // Missing pressure valve plus I don't think HJB alone is enough.
-    // Also, why morph? Must be saying that you go down through map
-    // station. That should not be represented this way though.
-    MainStreet: () => (HasGravity || HasHiJump) && HasMorph,
-    // Missing pressure valve
+    AboveMaridiaMap: () => CanMoveInWestMaridia,
+    // Ice clip in logic
     "Spring Ball": () =>
-      HasGravity &&
+      CanMoveInWestMaridia &&
       CanUsePowerBombs &&
       ((HasGrapple && (CanFly || HasHiJump)) || HasIce),
-    // Missing pressure valve
-    OasisTop: () =>
-      CanUsePowerBombs || CanUseBombs || (HasGravity && HasScrewAttack),
+    OasisTop: () => CanUsePowerBombs || CanUseBombs ||
+      (CanMoveInWestMaridia && HasScrewAttack),
     Aqueduct: false,
   },
 
   OasisTop: {
     PlasmaSparkRoomTop: () => CanOpenGreenDoors,
-    // Missing pressure valve
-    OasisBottom: () =>
-      CanUsePowerBombs || CanUseBombs || (HasGravity && HasScrewAttack),
+    OasisBottom: () => CanUsePowerBombs || CanUseBombs ||
+      (CanMoveInWestMaridia && HasScrewAttack),
   },
 
   PlasmaSparkRoomTop: {
@@ -158,12 +144,10 @@ export const eastmaridiaEdges = {
   },
 
   "Missiles (Aqueduct)": {
-    Aqueduct: true,
     "Supers (Aqueduct)": true,
   },
 
   "Supers (Aqueduct)": {
-    "Missiles (Aqueduct)": true,
     Aqueduct: true,
   },
 

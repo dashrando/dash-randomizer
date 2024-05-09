@@ -1,12 +1,11 @@
 import DotNetRandom from "./dotnet-random";
-import { Area, AreaCounts, Location, getLocations } from "./locations";
+import { AreaCounts, Location, getArea, getAreaString, getLocations } from "./locations";
 import { Item, ItemType } from "./items";
-import { Graph, getPreset } from "..";
+import { Edge, Graph, getPreset } from "..";
 import { generateSeed } from "../data";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
-import { BOSS_DOORS, BOSS_ITEMS, DASH_CLASSIC_PATCHES, TABLE_FLAGS } from "../data/interface";
+import { DASH_CLASSIC_PATCHES, TABLE_FLAGS } from "../data/interface";
 import {
-  BossMode,
   MajorDistributionMode,
   MapLayout,
   Options,
@@ -94,17 +93,6 @@ export const generateSeedPatch = (
   // Write area item counts.
   //-----------------------------------------------------------------
 
-  const mapArea = (n: ItemNode) => {
-    switch(n.location.area) {
-      case Area.BlueBrinstar:
-        return Area.Crateria;
-      case Area.GreenBrinstar:
-        return Area.PinkBrinstar;
-      default:
-        return n.location.area;
-    }
-  };
-
   const eTanks = nodes.filter((n) => n.item.type == Item.EnergyTank);
 
   const majors = nodes.filter(
@@ -115,8 +103,8 @@ export const generateSeedPatch = (
   );
 
   AreaCounts.forEach((addr, area) => {
-    const numTanks = eTanks.filter((p) => mapArea(p) == area).length;
-    const numMajors = majors.filter((p) => mapArea(p) == area).length;
+    const numTanks = eTanks.filter((p) => p.location.area == area).length;
+    const numMajors = majors.filter((p) => p.location.area == area).length;
     encodeBytes(seedPatch, addr, new Uint8Array([numMajors, numTanks]));
   });
 
@@ -124,34 +112,13 @@ export const generateSeedPatch = (
   // Write the spoiler in the credits.
   //-----------------------------------------------------------------
 
-  const getSortAddress = (loc: Location) => {
-    switch (loc.address) {
-      case BOSS_ITEMS.VariaSuitInWreckedShip:
-      case BOSS_ITEMS.VariaSuitInMaridia:
-      case BOSS_ITEMS.VariaSuitInNorfair:
-        return BOSS_ITEMS.VariaSuitInBrinstar;
-
-      case BOSS_ITEMS.RidleyTankInBrinstar:
-      case BOSS_ITEMS.RidleyTankInWreckedShip:
-      case BOSS_ITEMS.RidleyTankInMaridia:
-        return BOSS_ITEMS.RidleyTankInNorfair;
-
-      case BOSS_ITEMS.SpaceJumpInBrinstar:
-      case BOSS_ITEMS.SpaceJumpInWreckedShip:
-      case BOSS_ITEMS.SpaceJumpInNorfair:
-        return BOSS_ITEMS.SpaceJumpInMaridia;
-
-      default:
-        return loc.address;
-    }
-  }
-
   const sortedLocations = getLocations().sort((a, b) => a.address - b.address);
+  //sortedLocations.forEach(l => console.log(l.name,getAreaString(l.area)))
 
   nodes
     .filter((n) => n.item.spoilerAddress > 0)
     .forEach((n) => {
-      const addr = getSortAddress(n.location);
+      const addr = n.location.address;
       const locIndex = sortedLocations.findIndex((l) => l.address == addr);
       encodeBytes(seedPatch, n.item.spoilerAddress, U16toBytes(locIndex + 1));
     });
@@ -174,116 +141,29 @@ export const generateSeedPatch = (
   encodeBytes(seedPatch, 0x2f8b10, U16toBytes(settings.gravityHeatReduction));
 
   //-----------------------------------------------------------------
-  // Update boss doors.
+  // Encode boss and area edges.
   //-----------------------------------------------------------------
 
-  const getDoorUpdate = (a: string, b: string) => {
-    const x = doors.find((d) => d.door == a);
-    const y = doors.find((d) => d.door == b);
-
-    if (x == undefined) {
-      throw new Error(`Could not find: ${a}`);
-    }
-
-    if (y == undefined) {
-      throw new Error(`Could not find: ${b}`);
-    }
-    return [
-      { door: x.address, dest: y.vector },
-      { door: y.address, dest: x.vector },
-    ];
-  };
-
-  let bossUpdates: { door: number; dest: number }[] = [];
-  graph
-    .filter((e) => isBossEdge(e))
-    .forEach((b) => {
-      if (settings.bossMode == BossMode.Shuffled) {
-        bossUpdates.push(...getDoorUpdate(b.from.name, b.to.name));
-      } else if (settings.bossMode == BossMode.Shifted) {
-        if (b.from.name == "Door_KraidBoss") {
-          if (b.to.name == "Exit_Draygon") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToKraidBoss,
-              dest: BOSS_DOORS.DoorVectorToDraygonInBrinstar,
-            });
-          } else if (b.to.name == "Exit_Phantoon") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToKraidBoss,
-              dest: BOSS_DOORS.DoorVectorToPhantoonInBrinstar,
-            });
-          } else if (b.to.name == "Exit_Ridley") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToKraidBoss,
-              dest: BOSS_DOORS.DoorVectorToRidleyInBrinstar,
-            });
-          }
-        } else if (b.from.name == "Door_PhantoonBoss") {
-          if (b.to.name == "Exit_Draygon") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToPhantoonBoss,
-              dest: BOSS_DOORS.DoorVectorToDraygonInWreckedShip,
-            });
-          } else if (b.to.name == "Exit_Kraid") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToPhantoonBoss,
-              dest: BOSS_DOORS.DoorVectorToKraidInWreckedShip,
-            });
-          } else if (b.to.name == "Exit_Ridley") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToPhantoonBoss,
-              dest: BOSS_DOORS.DoorVectorToRidleyInWreckedShip,
-            });
-          }
-        } else if (b.from.name == "Door_DraygonBoss") {
-          if (b.to.name == "Exit_Kraid") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToDraygonBoss,
-              dest: BOSS_DOORS.DoorVectorToKraidInMaridia,
-            });
-          } else if (b.to.name == "Exit_Phantoon") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToDraygonBoss,
-              dest: BOSS_DOORS.DoorVectorToPhantoonInMaridia,
-            });
-          } else if (b.to.name == "Exit_Ridley") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToDraygonBoss,
-              dest: BOSS_DOORS.DoorVectorToRidleyInMaridia,
-            });
-          }
-        } else if (b.from.name == "Door_RidleyBoss") {
-          if (b.to.name == "Exit_Draygon") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToRidleyBoss,
-              dest: BOSS_DOORS.DoorVectorToDraygonInNorfair,
-            });
-          } else if (b.to.name == "Exit_Phantoon") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToRidleyBoss,
-              dest: BOSS_DOORS.DoorVectorToPhantoonInNorfair,
-            });
-          } else if (b.to.name == "Exit_Kraid") {
-            bossUpdates.push({
-              door: BOSS_DOORS.DoorToRidleyBoss,
-              dest: BOSS_DOORS.DoorVectorToKraidInNorfair,
-            });
-          }
-        }
+  const encodeEdge = (e: Edge) => {
+      const x = doors.find(
+        (d) => d.door == e.from.name && d.area == e.from.area
+      );
+      const y = doors.find((d) => d.door == e.to.name && d.area == e.to.area);
+      if (x == undefined || y == undefined) {
+        const msg = `Failed to find boss edge: ${e.from.name} ${e.from.area} to ${e.to.name} ${e.to.area}`
+        throw new Error(msg)
       }
-    });
-  bossUpdates.forEach((p) => {
-    encodeBytes(seedPatch, p.door, U16toBytes(p.dest & 0xffff));
-  });
+      if (x.address == undefined) {
+        return;
+      }
+      //console.log("Encoding",x.door,"to",y.door)
+      //console.log(`${x.address.toString(16)} to ${y.vector.toString(16)}`)
+      encodeBytes(seedPatch, x.address, U16toBytes(y.vector & 0xffff))
+  }
 
   graph
-    .filter((e) => isAreaEdge(e))
-    .forEach((a) => {
-      const areaUpdates = getDoorUpdate(a.from.name, a.to.name);
-      areaUpdates.forEach((p) => {
-        encodeBytes(seedPatch, p.door, U16toBytes(p.dest & 0xffff));
-      });
-    });
+    .filter((e) => isBossEdge(e) || isAreaEdge(e))
+    .forEach((e) => encodeEdge(e))
 
   //-----------------------------------------------------------------
   // Other options.
@@ -324,74 +204,20 @@ export const getFileName = (
 };
 
 const getItemNodes = (graph: Graph): ItemNode[] => {
-  const nodes = getLocations().map((l) => {
-    const vertex = graph.find((e) => e.from.name == l.name)?.from;
-    if (vertex == undefined) {
-      throw new Error("getItemNodes: failed to find vertex for location");
-    }
-    if (vertex.item == undefined) {
-      throw new Error("getItemNodes: no item at vertex");
-    }
-    const node = {
-      location: l.Clone(),
-      item: { ...vertex.item },
-    };
+  const nodes: ItemNode[] = [];
 
-    // Space Jump?
-    if (node.location.address == BOSS_ITEMS.SpaceJumpInMaridia) {
-      switch (vertex.area) {
-        case "KraidsLair":
-          node.location.area = Area.Kraid;
-          node.location.address = BOSS_ITEMS.SpaceJumpInBrinstar;
-          break;
-        case "WreckedShip":
-          node.location.area = Area.WreckedShip;
-          node.location.address = BOSS_ITEMS.SpaceJumpInWreckedShip;
-          break;
-        case "LowerNorfair":
-          node.location.area = Area.LowerNorfair;
-          node.location.address = BOSS_ITEMS.SpaceJumpInNorfair;
-          break;
-      }
+  getLocations().forEach((l) => {
+    const vertex = graph.find((e) => {
+      return e.from.name == l.name && getArea(e.from.area) == l.area
+    })?.from;
+    if (vertex == undefined || vertex.item == undefined) {
+      return;
     }
-
-    // Varia Suit?
-    if (node.location.address == BOSS_ITEMS.VariaSuitInBrinstar) {
-      switch (vertex.area) {
-        case "EastMaridia":
-          node.location.area = Area.EastMaridia;
-          node.location.address = BOSS_ITEMS.VariaSuitInMaridia;
-          break;
-        case "WreckedShip":
-          node.location.area = Area.WreckedShip;
-          node.location.address = BOSS_ITEMS.VariaSuitInWreckedShip;
-          break;
-        case "LowerNorfair":
-          node.location.area = Area.LowerNorfair;
-          node.location.address = BOSS_ITEMS.VariaSuitInNorfair;
-          break;
-      }
-    }
-
-    // Ridley Energy Tank?
-    if (node.location.address == BOSS_ITEMS.RidleyTankInNorfair) {
-      switch (vertex.area) {
-        case "EastMaridia":
-          node.location.area = Area.EastMaridia;
-          node.location.address = BOSS_ITEMS.RidleyTankInMaridia;
-          break;
-        case "WreckedShip":
-          node.location.area = Area.WreckedShip;
-          node.location.address = BOSS_ITEMS.RidleyTankInWreckedShip;
-          break;
-        case "KraidsLair":
-          node.location.area = Area.Kraid;
-          node.location.address = BOSS_ITEMS.RidleyTankInBrinstar;
-          break;
-      }
-    }
-    return node;
-  });
+    nodes.push({
+      location: l,
+      item: { ...vertex.item }
+    })
+  })
 
   return nodes;
 };
@@ -406,14 +232,11 @@ export const generateFromPreset = (name: string, seedNumber: number) => {
   }
 
   // Place the items.
-  const { settings } = preset;
-  const graph = generateSeed(seed, settings);
-  const defaultOptions = {
-    DisableFanfare: false,
-  };
+  const { settings, options } = preset;
+  const graph = generateSeed(seed, settings, options);
 
-  const seedPatch = generateSeedPatch(seed, settings, graph, defaultOptions);
-  const fileName = getFileName(preset.fileName, seed, settings, defaultOptions);
+  const seedPatch = generateSeedPatch(seed, settings, graph, options);
+  const fileName = getFileName(preset.fileName, seed, settings, options);
   const patch = getBasePatch(settings);
 
   return [`patches/${patch}`, seedPatch, fileName];

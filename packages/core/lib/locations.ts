@@ -1,30 +1,28 @@
 export const Area = Object.freeze({
   Crateria: 0,
-  BlueBrinstar: 1,
-  GreenBrinstar: 2,
-  PinkBrinstar: 3,
-  RedBrinstar: 4,
-  Kraid: 5,
-  Crocomire: 6,
-  WreckedShip: 7,
-  EastMaridia: 8,
-  WestMaridia: 9,
-  UpperNorfair: 10,
-  LowerNorfair: 11,
+  GreenBrinstar: 1,
+  RedBrinstar: 2,
+  KraidsLair: 3,
+  CrocomiresLair: 4,
+  WreckedShip: 5,
+  EastMaridia: 6,
+  WestMaridia: 7,
+  UpperNorfair: 8,
+  LowerNorfair: 9,
 });
 
 // prettier-ignore
 export const AreaCounts = new Map([
-   [Area.Crateria,     0x2f8039],
-   [Area.PinkBrinstar, 0x2f803b],
-   [Area.UpperNorfair, 0x2f803d],
-   [Area.WreckedShip,  0x2f803f],
-   [Area.EastMaridia,  0x2f8041],
-   [Area.RedBrinstar,  0x2f8049],
-   [Area.Kraid,        0x2f804b],
-   [Area.WestMaridia,  0x2f804d],
-   [Area.LowerNorfair, 0x2f804f],
-   [Area.Crocomire,    0x2f8051],
+   [Area.Crateria,       0x2f8039],
+   [Area.GreenBrinstar,  0x2f803b],
+   [Area.UpperNorfair,   0x2f803d],
+   [Area.WreckedShip,    0x2f803f],
+   [Area.EastMaridia,    0x2f8041],
+   [Area.RedBrinstar,    0x2f8049],
+   [Area.KraidsLair,     0x2f804b],
+   [Area.WestMaridia,    0x2f804d],
+   [Area.LowerNorfair,   0x2f804f],
+   [Area.CrocomiresLair, 0x2f8051],
 ]);
 
 export class Location {
@@ -57,13 +55,32 @@ export class Location {
   }
 }
 
+export const getArea = (area: string): number => {
+  for (const [k, v] of Object.entries(Area)) {
+    if (k === area) {
+      return v
+    }
+  }
+  return -1
+}
+
+export const getAreaString = (area: number): string => {
+  for (const [k, v] of Object.entries(Area)) {
+    if (v === area) {
+      return k
+    }
+  }
+  return ''
+}
+
 // TODO: Remove _id
 const loc = (addr: number, modifier: number, area: number, _id: number, name: string) => {
   return new Location(addr, modifier, area, name);
 };
 
+// NOTE: Order definitely matters for these
 export const getLocations = () => [
-  loc(0x786de, 0x00, Area.BlueBrinstar, 1, "Morphing Ball"),
+  loc(0x786de, 0x00, Area.Crateria, 1, "Morphing Ball"),
   loc(0x781cc, 0x00, Area.Crateria, 2, "Power Bombs (Landing Site)"),
   loc(0x781e8, 0x00, Area.WreckedShip, 3, "Missiles (Ocean Bottom)"),
   loc(0x781ee, 0xa8, Area.WreckedShip, 4, "Missiles (Sky)"),
@@ -78,47 +95,50 @@ export const getLocations = () => [
   loc(0x78478, 0x00, Area.Crateria, 13, "Supers (Climb)"),
   loc(0x78486, 0x00, Area.Crateria, 14, "Missiles (230)"),
   loc(0x784ac, 0x54, Area.GreenBrinstar, 15, "Power Bombs (Etecoons)"),
-  loc(0x784e4, 0x54, Area.PinkBrinstar, 16, "Supers (Spore Spawn)"),
+  loc(0x784e4, 0x54, Area.GreenBrinstar, 16, "Supers (Spore Spawn)"),
   loc(0x78518, 0x00, Area.GreenBrinstar, 17, "Missiles (Early Bridge)"),
   loc(0x7851e, 0x00, Area.GreenBrinstar, 18, "Supers (Early Bridge)"),
   loc(0x7852c, 0x54, Area.GreenBrinstar, 19, "Reserve Tank (Brinstar)"),
   loc(0x78532, 0xa8, Area.GreenBrinstar, 20, "Missiles (Brin Reserve 2)"),
   loc(0x78538, 0x00, Area.GreenBrinstar, 21, "Missiles (Brin Reserve 1)"),
-  loc(0x78608, 0x00, Area.PinkBrinstar, 22, "Missiles (Big Pink)"),
-  loc(0x7860e, 0x00, Area.PinkBrinstar, 23, "Missiles (Charge)"),
-  loc(0x78614, 0x54, Area.PinkBrinstar, 24, "Charge Beam"),
-  loc(0x7865c, 0x00, Area.PinkBrinstar, 25, "Power Bombs (Mission Impossible)"),
+  loc(0x78608, 0x00, Area.GreenBrinstar, 22, "Missiles (Big Pink)"),
+  loc(0x7860e, 0x00, Area.GreenBrinstar, 23, "Missiles (Charge)"),
+  loc(0x78614, 0x54, Area.GreenBrinstar, 24, "Charge Beam"),
+  loc(0x7865c, 0x00, Area.GreenBrinstar, 25, "Power Bombs (Mission Impossible)"),
   loc(0x78676, 0x00, Area.GreenBrinstar, 26, "Missiles (Brin Tube)"),
-  loc(0x7874c, 0x00, Area.BlueBrinstar, 27, "Power Bombs (Morph)"),
-  loc(0x78798, 0x00, Area.BlueBrinstar, 28, "Missiles (Beta)"),
-  loc(0x7879e, 0xa8, Area.BlueBrinstar, 29, "Energy Tank (Brinstar Ceiling)"),
+  loc(0x7874c, 0x00, Area.Crateria, 27, "Power Bombs (Morph)"),
+  loc(0x78798, 0x00, Area.Crateria, 28, "Missiles (Beta)"),
+  loc(0x7879e, 0xa8, Area.Crateria, 29, "Energy Tank (Brinstar Ceiling)"),
   loc(0x787c2, 0x00, Area.GreenBrinstar, 30, "Energy Tank (Etecoons)"),
   loc(0x787d0, 0x00, Area.GreenBrinstar, 31, "Supers (Etecoons)"),
-  loc(0x787fa, 0x00, Area.PinkBrinstar, 32, "Energy Tank (Waterway)"),
-  loc(0x78802, 0x54, Area.BlueBrinstar, 33, "Missiles (Alpha)"),
-  loc(0x78824, 0x00, Area.PinkBrinstar, 34, "Energy Tank (Wave Gate)"),
-  loc(0x78836, 0x00, Area.BlueBrinstar, 35, "Missiles (Billy Mays 1)"),
-  loc(0x7883c, 0xa8, Area.BlueBrinstar, 36, "Missiles (Billy Mays 2)"),
+  loc(0x787fa, 0x00, Area.GreenBrinstar, 32, "Energy Tank (Waterway)"),
+  loc(0x78802, 0x54, Area.Crateria, 33, "Missiles (Alpha)"),
+  loc(0x78824, 0x00, Area.GreenBrinstar, 34, "Energy Tank (Wave Gate)"),
+  loc(0x78836, 0x00, Area.Crateria, 35, "Missiles (Billy Mays 1)"),
+  loc(0x7883c, 0xa8, Area.Crateria, 36, "Missiles (Billy Mays 2)"),
   loc(0x78876, 0x54, Area.RedBrinstar, 37, "Xray Scope"),
   loc(0x788ca, 0x00, Area.RedBrinstar, 38, "Power Bombs (Beta)"),
   loc(0x7890e, 0x54, Area.RedBrinstar, 39, "Power Bombs (Alpha)"),
   loc(0x78914, 0x00, Area.RedBrinstar, 40, "Missiles (Alpha PBs)"),
   loc(0x7896e, 0x54, Area.RedBrinstar, 41, "Spazer"),
-  loc(0x7899c, 0xa8, Area.Kraid, 42, "Energy Tank (Kraid)"),
-  loc(0x789ec, 0xa8, Area.Kraid, 43, "Missiles (Kraid)"),
-  loc(0x78aca, 0x54, Area.Kraid, 44, "Varia Suit"),
+  loc(0x7899c, 0xa8, Area.KraidsLair, 42, "Energy Tank (Kraid)"),
+  loc(0x789ec, 0xa8, Area.KraidsLair, 43, "Missiles (Kraid)"),
+  loc(0x78aca, 0x54, Area.KraidsLair, 44, "Varia Suit"),
+  loc(0x7E9FA, 0x54, Area.WreckedShip, 101, "Varia Suit"),
+  loc(0x7EA2B, 0x54, Area.EastMaridia, 102, "Varia Suit"),
+  loc(0x7E9C9, 0x54, Area.LowerNorfair, 103, "Varia Suit"),
   loc(0x78ae4, 0xa8, Area.UpperNorfair, 45, "Missiles (Cathedral)"),
   loc(0x78b24, 0x54, Area.UpperNorfair, 46, "Ice Beam"),
   loc(0x78b46, 0xa8, Area.UpperNorfair, 47, "Missiles (Crumble Shaft)"),
-  loc(0x78ba4, 0x00, Area.Crocomire, 48, "Energy Tank (Crocomire)"),
+  loc(0x78ba4, 0x00, Area.CrocomiresLair, 48, "Energy Tank (Crocomire)"),
   loc(0x78bac, 0x54, Area.UpperNorfair, 49, "HiJump Boots"),
   loc(0x78bc0, 0x00, Area.UpperNorfair, 50, "Missiles (Croc Escape)"),
   loc(0x78be6, 0x00, Area.UpperNorfair, 51, "Missiles (HJB)"),
   loc(0x78bec, 0x00, Area.UpperNorfair, 52, "Energy Tank (HJB)"),
-  loc(0x78c04, 0x00, Area.Crocomire, 53, "Power Bombs (Crocomire)"),
-  loc(0x78c14, 0x00, Area.Crocomire, 54, "Missiles (Cosine)"),
-  loc(0x78c2a, 0x00, Area.Crocomire, 55, "Missiles (Indiana Jones)"),
-  loc(0x78c36, 0x54, Area.Crocomire, 56, "Grapple Beam"),
+  loc(0x78c04, 0x00, Area.CrocomiresLair, 53, "Power Bombs (Crocomire)"),
+  loc(0x78c14, 0x00, Area.CrocomiresLair, 54, "Missiles (Cosine)"),
+  loc(0x78c2a, 0x00, Area.CrocomiresLair, 55, "Missiles (Indiana Jones)"),
+  loc(0x78c36, 0x54, Area.CrocomiresLair, 56, "Grapple Beam"),
   loc(0x78c3e, 0x54, Area.UpperNorfair, 57, "Reserve Tank (Norfair)"),
   loc(0x78c44, 0xa8, Area.UpperNorfair, 58, "Missiles (Norfair Reserve 2)"),
   loc(0x78c52, 0x00, Area.UpperNorfair, 59, "Missiles (Norfair Reserve 1)"),
@@ -135,6 +155,9 @@ export const getLocations = () => [
   loc(0x790c0, 0x00, Area.LowerNorfair, 70, "Power Bombs (Shame)"),
   loc(0x79100, 0x00, Area.LowerNorfair, 71, "Missiles (Three Muskateers)"),
   loc(0x79108, 0xa8, Area.LowerNorfair, 72, "Energy Tank (Ridley)"),
+  loc(0x7ED83, 0xa8, Area.KraidsLair, 107, "Energy Tank (Ridley)"),
+  loc(0x7EDB4, 0xa8, Area.WreckedShip, 108, "Energy Tank (Ridley)"),
+  loc(0x7EDE5, 0xa8, Area.EastMaridia, 109, "Energy Tank (Ridley)"),
   loc(0x79110, 0x54, Area.LowerNorfair, 73, "Screw Attack"),
   loc(0x79184, 0x00, Area.LowerNorfair, 74, "Energy Tank (Firefleas)"),
   loc(0x7c265, 0x00, Area.WreckedShip, 75, "Missiles (Spooky)"),
@@ -159,8 +182,11 @@ export const getLocations = () => [
   loc(0x7c5f1, 0x00, Area.EastMaridia, 94, "Power Bombs (Sand Pit Right)"),
   loc(0x7c603, 0x00, Area.EastMaridia, 95, "Missiles (Aqueduct)"),
   loc(0x7c609, 0x00, Area.EastMaridia, 96, "Supers (Aqueduct)"),
-  loc(0x7c6e5, 0x54, Area.EastMaridia, 97, "Spring Ball"),
+  loc(0x7c6e5, 0x54, Area.WestMaridia, 97, "Spring Ball"),
   loc(0x7c74d, 0xa8, Area.EastMaridia, 98, "Missiles (Precious)"),
   loc(0x7c755, 0x00, Area.EastMaridia, 99, "Energy Tank (Botwoon)"),
   loc(0x7c7a7, 0x54, Area.EastMaridia, 100, "Space Jump"),
+  loc(0x7EC12, 0x54, Area.KraidsLair, 104, "Space Jump"),
+  loc(0x7EC74, 0x54, Area.WreckedShip, 105, "Space Jump"),
+  loc(0x7EC43, 0x54, Area.LowerNorfair, 106, "Space Jump"),
 ];

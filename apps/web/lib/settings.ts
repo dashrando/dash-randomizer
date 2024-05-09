@@ -48,8 +48,8 @@ const getBossMode = (value: number) => {
       return "Shifted"
     case BossMode.Shuffled:
       return "Shuffled"
-    case BossMode.Randomized:
-      return "Randomized"
+    case BossMode.Surprise:
+      return "Surprise"
   }
 }
 
@@ -82,6 +82,10 @@ const getGravityMode = (value: number) => {
 
 const displayOnOff = (value: boolean) => value ? 'On' : 'Off'
 
+const getLogic = (value: number) => {
+  return value == 0x1 ? 'Relaxed' : 'Standard'
+}
+
 const getExtraItems = (extraItems: number[]) => {
   const doubleJump = displayOnOff(extraItems.includes(Item.DoubleJump))
   const heatShield = displayOnOff(extraItems.includes(Item.HeatShield))
@@ -107,7 +111,8 @@ export const parseSettings = (parameters: any) => {
     { label: 'Pressure Valve', value: extraItems.pressureValve, },
   ]
   const optionsParams = [
-    { label: 'Seed Number', value: parameters.seed },
+    { label: 'Logic', value: getLogic(parameters.options.RelaxedLogic) },
+    //{ label: 'Seed Number', value: parameters.seed },
     { label: 'Item Fanfare', value: displayOnOff(!parameters.options.DisableFanfare), }
   ]
   return { randomizeParams, settingsParams, optionsParams }

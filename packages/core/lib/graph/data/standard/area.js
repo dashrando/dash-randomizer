@@ -33,7 +33,7 @@ const UpperNorfair_PreCrocomire_to_CrocEntry = {
 };
 
 const UpperNorfair_KingCacLedge_to_SingleChamberPortal = {
-  edges: ["BubbleMountainKingCacLedge", "Door_SingleChamber"],
+  edges: ["BubbleMountainKingCacLedge", "SingleChamberTopRightDoor"],
   requires: () => HasMorph && CanDestroyBombWalls && HellRunTanks >= 2,
 };
 
@@ -83,27 +83,26 @@ const EastMaridia_AqueductPortal_to_Aqueduct = {
     CanUseBombs || CanUsePowerBombs || (HasGravity && HasScrewAttack),
 };
 
-const EastMaridia_OasisBottom_to_MainStreet = {
-  edges: ["OasisBottom", "MainStreet"],
+const EastMaridia_OasisBottom_to_AboveMaridiaMap = {
+  edges: ["OasisBottom", "AboveMaridiaMap"],
   requires: false,
 };
 
-const WestMaridia_MainStreet_to_OasisBottom = {
-  edges: ["MainStreet", "OasisBottom"],
+const WestMaridia_AboveMaridiaMap_to_OasisBottom = {
+  edges: ["AboveMaridiaMap", "OasisBottom"],
   requires: false,
 };
 
-const WestMaridia_MainStreet_to_MaridiaMapPortal = {
-  edges: ["MainStreet", "Door_MaridiaMap"],
+const WestMaridia_MainStreet_to_AboveMaridiaMap = {
+  edges: ["MainStreet", "AboveMaridiaMap"],
   // Removes the requirement for supers to open the green gate
-  requires: () => HasMorph && CanOpenRedDoors,
+  requires: () => CanOpenRedDoors,
 };
 
-const WestMaridia_MaridiaMapPortal_to_MainStreet = {
-  edges: ["Door_MaridiaMap", "MainStreet"],
+const WestMaridia_AboveMaridiaMap_to_MainStreet = {
+  edges: ["AboveMaridiaMap", "MainStreet"],
   // Removes the requirement for supers to green gate glitch
-  requires: () => HasMorph &&
-    (CanMoveInWestMaridia || (HasHiJump && (HasIce || HasSpringBall))),
+  requires: true,
 };
 
 const WestMaridia_EverestTopRight_to_PreAqueductPortal = {
@@ -131,10 +130,10 @@ export const StandardAreaEdgeUpdates = [
   WreckedShip_ShipHallway_to_SpongeBath,
   WreckedShip_RearExit_to_Highway,
   EastMaridia_OasisBottom_to_Aqueduct,
-  EastMaridia_OasisBottom_to_MainStreet,
-  WestMaridia_MainStreet_to_OasisBottom,
-  WestMaridia_MainStreet_to_MaridiaMapPortal,
-  WestMaridia_MaridiaMapPortal_to_MainStreet,
+  EastMaridia_OasisBottom_to_AboveMaridiaMap,
+  WestMaridia_AboveMaridiaMap_to_OasisBottom,
+  WestMaridia_MainStreet_to_AboveMaridiaMap,
+  WestMaridia_AboveMaridiaMap_to_MainStreet,
   WestMaridia_EverestTopRight_to_PreAqueductPortal,
   EastMaridia_AqueductPortal_to_Aqueduct,
 ];

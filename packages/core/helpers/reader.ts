@@ -1,9 +1,10 @@
-import { getLocations, Location } from "../data";
-import DOORS, { DoorTransition } from "../data/doors";
-import { BOSS_DOORS, BOSS_ITEMS } from "../data/interface";
+import { getLocations } from "../data";
+import DOORS from "../data/doors";
+import { PortalMapping } from "../lib/graph/data/portals";
 import { loadGraph } from "../lib/graph/init";
 import { bytesToParams } from "../lib/graph/params";
 import { majorItem, minorItem } from "../lib/items";
+import { getArea } from "../lib/locations";
 
 export const readParams = (bytes: Uint8Array) => {
   const offset = 0x2f8b00
@@ -11,66 +12,23 @@ export const readParams = (bytes: Uint8Array) => {
   return bytesToParams(paramBytes)
 }
 
-export const readPortals = (bytes: Uint8Array) => {
-  const getDestination = (rec: DoorTransition) => {
-    let dest = bytes[rec.address+1] << 8 | bytes[rec.address];
-    switch(0x10000+dest) {
-      case BOSS_DOORS.DoorVectorToKraidInWreckedShip:
-      case BOSS_DOORS.DoorVectorToKraidInMaridia:
-      case BOSS_DOORS.DoorVectorToKraidInNorfair:
-        dest = BOSS_DOORS.DoorVectorToKraidInBrinstar & 0xFFFF;
-        break;
-      case BOSS_DOORS.DoorVectorToPhantoonInBrinstar:
-      case BOSS_DOORS.DoorVectorToPhantoonInMaridia:
-      case BOSS_DOORS.DoorVectorToPhantoonInNorfair:
-        dest = BOSS_DOORS.DoorVectorToPhantoonInWreckedShip & 0xFFFF;
-        break;
-      case BOSS_DOORS.DoorVectorToDraygonInBrinstar:
-      case BOSS_DOORS.DoorVectorToDraygonInWreckedShip:
-      case BOSS_DOORS.DoorVectorToDraygonInNorfair:
-        dest = BOSS_DOORS.DoorVectorToDraygonInMaridia & 0xFFFF;
-        break;
-      case BOSS_DOORS.DoorVectorToRidleyInBrinstar:
-      case BOSS_DOORS.DoorVectorToRidleyInWreckedShip:
-      case BOSS_DOORS.DoorVectorToRidleyInMaridia:
-        dest = BOSS_DOORS.DoorVectorToRidleyInNorfair & 0xFFFF;
-        break;
+export const readPortals = (bytes: Uint8Array): PortalMapping[] => {
+  const portalMappings: PortalMapping[] = [];
+  DOORS.forEach((d) => {
+    if (d.address == undefined || d.door.startsWith("Exit_")) {
+      return;
     }
-    return DOORS.find(d => (d.vector & 0xFFFF) == dest)?.door;
-  }
-  return DOORS.filter(d => !d.door.startsWith("Exit_")).map(d => [d.door, getDestination(d)])
-}
-
-const readItemCode = (rom: Uint8Array, loc: Location, area: string) => {
-  let clone = loc.Clone();
-
-  if (clone.address == BOSS_ITEMS.VariaSuitInBrinstar) {
-    if (area == "WreckedShip") {
-      clone.address = BOSS_ITEMS.VariaSuitInWreckedShip;
-    } else if (area == "EastMaridia") {
-      clone.address = BOSS_ITEMS.VariaSuitInMaridia;
-    } else if (area == "LowerNorfair") {
-      clone.address = BOSS_ITEMS.VariaSuitInNorfair;
+    const vector = bytes[d.address+1] << 8 | bytes[d.address];
+    const dest = DOORS.find((d) => (d.vector & 0xFFFF) == vector);
+    if (dest != undefined) {
+      //console.log(d.door,d.area,"to",dest.door,dest.area)
+      portalMappings.push([
+        { name: d.door, area: d.area },
+        { name: dest.door, area: dest.area }
+      ])
     }
-  } else if (clone.address == BOSS_ITEMS.SpaceJumpInMaridia) {
-    if (area == "WreckedShip") {
-      clone.address = BOSS_ITEMS.SpaceJumpInWreckedShip;
-    } else if (area == "KraidsLair") {
-      clone.address = BOSS_ITEMS.SpaceJumpInBrinstar;
-    } else if (area == "LowerNorfair") {
-      clone.address = BOSS_ITEMS.SpaceJumpInNorfair;
-    }
-  } else if (clone.address == BOSS_ITEMS.RidleyTankInNorfair) {
-    if (area == "WreckedShip") {
-      clone.address = BOSS_ITEMS.RidleyTankInWreckedShip;
-    } else if (area == "KraidsLair") {
-      clone.address = BOSS_ITEMS.RidleyTankInBrinstar;
-    } else if (area == "EastMaridia") {
-      clone.address = BOSS_ITEMS.RidleyTankInMaridia;
-    }
-  } 
-
-  return clone.GetItemCode(rom);
+  })
+  return portalMappings;
 }
 
 export const readGraph = (rom: Uint8Array) => {
@@ -81,17 +39,17 @@ export const readGraph = (rom: Uint8Array) => {
     return [];
   }
 
-  const { seed, settings } = readParams(rom);
-  const portals = readPortals(rom);
+  const { seed, settings, options } = readParams(rom);
+  const portalMappings = readPortals(rom);
   const graph = loadGraph(seed, 1, settings.mapLayout,
     settings.majorDistribution, settings.randomizeAreas,
-    settings.bossMode, portals as any);
+    options.RelaxedLogic, settings.bossMode, portalMappings);
   getLocations().forEach(l => {
-    const node = graph.find(e => e.from.name == l.name)?.from as any;
+    const node = graph.find(e => e.from.name == l.name && getArea(e.from.area) == l.area)?.from as any;
     if (node == undefined) {
       return;
     }
-    const itemCode = readItemCode(rom, l, node.area);
+    const itemCode = l.GetItemCode(rom);
     if (node.type == "major") {
       node.item = majorItem(0x0, itemCode)
     } else {

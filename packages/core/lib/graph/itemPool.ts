@@ -7,7 +7,7 @@ import {
   Settings,
 } from "./params";
 
-export const getItemPool = (seed: number, settings: Settings) => {
+export const getItemPool = (seed: number, settings: Settings, count: number) => {
   const { majorDistribution, minorDistribution, extraItems, beamMode } =
     settings;
   const rnd = new DotNetRandom(seed);
@@ -104,9 +104,22 @@ export const getItemPool = (seed: number, settings: Settings) => {
     setAmountInPool(Item.Reserve, 4, true);
     setAmountInPool(Item.EnergyTank, 14, true);
   } else if (majorDistribution == MajorDistributionMode.Chozo) {
+    let majorMissiles = 2;
+    let majorSupers = 2;
+    if (count < 100) {
+      const r = itemPool.findIndex(i => i.isMajor && i.type == Item.Reserve);
+      itemPool[r].isMajor = false;
+      if (count < 99) {
+        majorMissiles = 1;
+        if (count < 98) {
+          majorSupers = 1;
+        }
+      }
+    }
+
     setAmountInPool(Item.EnergyTank, 3, true);
-    setAmountInPool(Item.Missile, 2, true);
-    setAmountInPool(Item.Super, 2, true);
+    setAmountInPool(Item.Missile, majorMissiles, true);
+    setAmountInPool(Item.Super, majorSupers, true);
 
     itemPool.push(minorItem(0x000000, Item.EnergyTank));
     setAmountInPool(Item.EnergyTank, 11, false);
@@ -125,9 +138,9 @@ export const getItemPool = (seed: number, settings: Settings) => {
     const getNumMajors = () => {
       switch (majorDistribution) {
         case MajorDistributionMode.Standard:
-          return 34;
+          return 34 - (100 - count);
         case MajorDistributionMode.Recall:
-          return 36;
+          return 36 - (100 - count);
         default:
           throw new Error("Unknown major distribution");
       }
@@ -165,7 +178,7 @@ export const getItemPool = (seed: number, settings: Settings) => {
   };
   const distribution = getDistribution();
 
-  while (itemCount < 100) {
+  while (itemCount < count) {
     const draw = rnd.Next(distribution[distribution.length - 1]);
     if (draw < distribution[0]) {
       numMissiles += 1;
@@ -180,8 +193,9 @@ export const getItemPool = (seed: number, settings: Settings) => {
   setAmountInPool(Item.Super, numSupers, false);
   setAmountInPool(Item.PowerBomb, numPBs, false);
 
-  if (itemPool.length != 100) {
-    throw new Error("Not 100 items");
+  if (itemPool.length != count) {
+    const msg = `Not ${count} items`
+    throw new Error(msg);
   }
 
   return itemPool;
