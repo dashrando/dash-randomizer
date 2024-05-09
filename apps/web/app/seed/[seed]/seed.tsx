@@ -79,14 +79,15 @@ export default function Seed({
         const downloadParam = searchParams.get('download')
         const forceExit = downloadParam === 'false'
         const hasDownloaded = await getKey(hash)
+        const name = getSeedName(seed, slug, mystery)
         if (forceExit || hasDownloaded) {
           return
         }
-        downloadFile(seed?.data, seed?.name, hash)
+        downloadFile(seed?.data, name, hash)
       }
       autoDownload()
     }
-  }, [hash, mounted, searchParams, seed])
+  }, [hash, mounted, mystery, searchParams, seed, slug])
 
   useEffect(() => {
     const initialize = async () => {
