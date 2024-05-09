@@ -12,7 +12,7 @@ type GenerateParams = {
   preset: string
 }
 
-export function GET(req: NextRequest, { params }: { params: GenerateParams} ) {
+export async function GET(req: NextRequest, { params }: { params: GenerateParams} ) {
    const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 12)
 
    try {
@@ -50,7 +50,7 @@ export function GET(req: NextRequest, { params }: { params: GenerateParams} ) {
         spoiler: spoiler ? getSpoiler(hash) : undefined
       }
       console.log(raceObj)
-      kv.hset(`race-${raceObj.key}`, raceObj)
+      await kv.hset(`race-${raceObj.key}`, raceObj)
       const url = new URL(`seed/race/${raceObj.key}`, req.nextUrl.origin)
       return NextResponse.redirect(url.toString(), { status: 307 })
     }
