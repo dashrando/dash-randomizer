@@ -18,6 +18,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
    try {
     const seedNum = getSeedNumber()
     const preset = getPreset(params.preset)
+    const mystery = preset?.tags.includes('mystery')
     const searchParams = req.nextUrl.searchParams
     const spoiler = searchParams.get('spoiler') || 0
     const race = searchParams.get('race') || 0
@@ -47,6 +48,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
       const raceObj = {
         key: nanoid(),
         hash,
+        mystery,
         spoiler: spoiler ? getSpoiler(hash) : null
       }
       await kv.hset(`race-${raceObj.key}`, raceObj)
