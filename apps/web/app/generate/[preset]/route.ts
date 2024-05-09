@@ -44,12 +44,13 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
 
     if (race) {
       const hash = paramsToString(seedNum, preset.settings, preset.options)
+      const spoilerData = getSpoiler(hash)
       const raceObj = {
         key: nanoid(10),
         hash,
         // spoiler: spoiler ? getSpoiler(hash) : null
       }
-      console.log(raceObj)
+      console.log(spoilerData)
       await kv.hset(`race-${raceObj.key}`, raceObj)
       const url = new URL(`seed/race/${raceObj.key}`, req.nextUrl.origin)
       return NextResponse.redirect(url.toString(), { status: 307 })
