@@ -40,11 +40,15 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
 export default function Seed({
   parameters,
   hash,
+  mystery = false,
+  race = false,
   signature,
   slug
 }: {
   parameters: any,
+  mystery?: boolean,
   hash: string,
+  race?: boolean,
   signature: string,
   slug: string
 }) {
@@ -110,18 +114,26 @@ export default function Seed({
           </div>
         )}
       </div>
-      <Parameters title="Randomization" items={parsedParams.randomizeParams} />
-      <Parameters title="Settings" items={parsedParams.settingsParams} />
-      <Parameters title="Options" items={parsedParams.optionsParams} />
-      <div className={styles.qr}>
-        <button onClick={(evt) => {
-          evt.preventDefault()
-          window.open(`/seed/${slug}/qr-popup`, '_blank', 'width=300,height=340')
-        }}>
-          Display QR Code
-        </button>
-        <ExternalLink size={12} strokeWidth={2} />
-      </div>
+      {!mystery ? (
+        <>
+          <Parameters title="Randomization" items={parsedParams.randomizeParams} />
+          <Parameters title="Settings" items={parsedParams.settingsParams} />
+          <Parameters title="Options" items={parsedParams.optionsParams} />
+          {!race && (
+            <div className={styles.qr}>
+              <button onClick={(evt) => {
+                evt.preventDefault()
+                window.open(`/seed/${slug}/qr-popup`, '_blank', 'width=300,height=340')
+              }}>
+                Display QR Code
+              </button>
+              <ExternalLink size={12} strokeWidth={2} />
+            </div>
+          )}
+        </>
+      ) : (
+        <div>This is a mystery seed</div>
+      )}
     </div>
   )
 }
