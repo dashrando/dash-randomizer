@@ -167,11 +167,11 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
-  mode: 'max-rando' | 'chozo-bozo' | 'sgl23' | 'dash-recall' | 'dash-classic' | '2017' | 'custom' | null,
+  mode: 'surprise-surprise' | 'chozo-bozo' | 'sgl23' | 'dash-recall' | 'dash-classic' | '2017' | 'custom' | null,
 }
 
 const MODES = {
-  'max-rando': {
+  'surprise-surprise': {
     'item-split': 'full',
     'map-layout': 'randomized',
     boss: 'surprise',
@@ -392,8 +392,8 @@ export default function Form() {
         config.presetName = "SGL23"
       } else if (data.mode == 'chozo-bozo') {
         config.presetName = "ChozoBozo"
-      } else if (data.mode == 'max-rando') {
-        config.presetName = "MaxRando"
+      } else if (data.mode == 'surprise-surprise') {
+        config.presetName = "SurpriseSurprise"
       }
 
       if (data['charge-beam'] == 'starter') {
@@ -504,7 +504,7 @@ export default function Form() {
               <Select
                 options={[
                   { label: '', value: '', hidden: true },
-                  { label: 'Max Rando', value: 'max-rando' },
+                  { label: 'Surprise Surprise', value: 'surprise-surprise' },
                   { label: 'Chozo Bozo', value: 'chozo-bozo' },
                   { label: 'SG Live 2023', value: 'sgl23' },
                   { label: 'DASH: Recall', value: 'dash-recall' },

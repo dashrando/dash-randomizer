@@ -72,6 +72,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           })
         }
       >
+        <option value="surprise_surprise">Surprise Surprise</option>
         <option value="mm_area_surprise">MM Area Surprise</option>
         <option value="mm_surprise">MM Surprise</option>
         <option value="chozo">Chozo</option>
@@ -144,7 +145,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 
 export default function StatsPage() {
   const [params, setParams] = useState({
-    gameMode: "boss_mm_area",
+    gameMode: "surprise_surprise",
     logic: "standard",
     startSeed: 1,
     numSeeds: 100,
