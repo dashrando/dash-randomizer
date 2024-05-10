@@ -121,6 +121,11 @@ export default async function RaceSeedSpoilerPage({ params }: { params: { key: s
           ))}
         </section>
       </div>
+      <footer className={styles.footer}>
+        <p>
+          <Link href={`/seed/race/${key}`}>Return to Seed Page</Link>
+        </p>
+      </footer>
     </main>
   )
 }

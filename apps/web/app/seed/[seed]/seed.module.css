@@ -203,6 +203,23 @@
   margin: 64px 0;
 }
 
+.spoiler_link {
+  margin: 16px 0 0;
+  font-size: 16px;
+}
+
+.spoiler_link a {
+  text-decoration: underline;
+  color: #fff;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.spoiler_link a:hover {
+  color: #333;
+  text-decoration-color: transparent;
+}
+
 @media (max-width: 600px) {
   .spoiler_data {
     padding: 0 16px;
