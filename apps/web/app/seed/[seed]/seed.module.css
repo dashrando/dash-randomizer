@@ -196,4 +196,15 @@
   font-size: 16px;
   margin: 0 0 16px;
   font-weight: 600;
+  color: #fff;
+}
+
+.area {
+  margin: 64px 0;
+}
+
+@media (max-width: 600px) {
+  .spoiler_data {
+    padding: 0 16px;
+  }
 }
