@@ -102,10 +102,9 @@ export default async function RaceSeedSpoilerPage({ params }: { params: { key: s
         </section>
 
         <section className={styles.spoiler_section}>
-          <h3>Items</h3>
           {Object.keys(items).map((area) => (
-            <div key={area}>
-              <h4>{area}</h4>
+            <div key={area} className={styles.area}>
+              <h3>Items &mdash; {area}</h3>
               <table className={styles.table}>
                 <thead>
                   <tr>
