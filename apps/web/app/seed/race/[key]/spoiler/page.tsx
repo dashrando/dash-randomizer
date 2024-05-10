@@ -2,6 +2,8 @@ import { kv } from '@vercel/kv'
 import styles from '../../../[seed]/seed.module.css'
 import { prefetchSignature, stringToParams } from 'core'
 import { notFound } from 'next/navigation'
+import { ButtonLink } from '@/app/components/button'
+import { ArrowDown } from 'react-feather'
 
 type RaceSeedData = {
   hash: string
@@ -46,7 +48,12 @@ export default async function RaceSeedSpoilerPage({ params }: { params: { key: s
     <main className={styles.container}>
       <h1 className={styles.logo}>DASH</h1>
       <div className={styles.signature}>{sig || <>&nbsp;</>}</div>
-      <a href={`/seed/race/${key}/spoiler/download`} style={{ color: '#ffffff', display: 'block', marginTop: '2em' }}>Download Spoiler</a>
+      <div style={{ marginTop: '32px' }} />
+      <ButtonLink variant="outline" href={`/seed/race/${key}/spoiler/download`}>
+        <span>Download Spoiler</span>
+        <>&nbsp;</>
+        <ArrowDown size={14} strokeWidth={2} />
+      </ButtonLink>
       <div className={styles.spoiler_data}>
         <section className={styles.spoiler_section}>
           <h3>Bosses</h3>
