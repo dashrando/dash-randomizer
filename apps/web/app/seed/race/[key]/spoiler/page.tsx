@@ -48,69 +48,77 @@ export default async function RaceSeedSpoilerPage({ params }: { params: { key: s
       <div className={styles.signature}>{sig || <>&nbsp;</>}</div>
       <a href={`/seed/race/${key}/spoiler/download`} style={{ color: '#ffffff', display: 'block', marginTop: '2em' }}>Download Spoiler</a>
       <div className={styles.spoiler_data}>
-        <h3>Bosses</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Location</th>
-              <th>Boss</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.keys(bosses).map((location) => {
-              return (
-                <tr key={location}>
-                  <td>{location}</td>
-                  <td>{bosses[location]}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+        <section className={styles.spoiler_section}>
+          <h3>Bosses</h3>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th className={styles.label}>Location</th>
+                <th className={styles.label}>Boss</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(bosses).map((location) => {
+                return (
+                  <tr key={location}>
+                    <td>{location}</td>
+                    <td>{bosses[location]}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </section>
 
-        <h3>Transitions</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>From</th>
-              <th>To</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.keys(areas).map((transition) => {
-              return (
-                <tr key={transition}>
-                  <td>{transition}</td>
-                  <td>{areas[transition]}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+        <section className={styles.spoiler_section}>
+          <h3>Transitions</h3>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th className={styles.label}>From</th>
+                <th className={styles.label}>To</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(areas).map((transition) => {
+                const fromValue = transition.replace('Door_', '')
+                const toValue = areas[transition].replace('Door_', '')
+                return (
+                  <tr key={transition}>
+                    <td>{fromValue}</td>
+                    <td>{toValue}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </section>
 
-        <h3>Items</h3>
-        {Object.keys(items).map((area) => (
-          <div key={area}>
-            <h4>{area}</h4>
-            <table>
-              <thead>
-                <tr>
-                  <th>Location</th>
-                  <th>Item</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.keys(items[area]).map((item) => {
-                  return (
-                    <tr key={item}>
-                      <td>{item}</td>
-                      <td>{items[area][item]}</td>
-                    </tr>
-                  )})}
-                </tbody>
-            </table>
-          </div>
-        ))}
+        <section className={styles.spoiler_section}>
+          <h3>Items</h3>
+          {Object.keys(items).map((area) => (
+            <div key={area}>
+              <h4>{area}</h4>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th className={styles.label}>Location</th>
+                    <th className={styles.label}>Item</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.keys(items[area]).map((item) => {
+                    return (
+                      <tr key={item}>
+                        <td>{item}</td>
+                        <td>{items[area][item]}</td>
+                      </tr>
+                    )})}
+                  </tbody>
+              </table>
+            </div>
+          ))}
+        </section>
       </div>
     </main>
   )
