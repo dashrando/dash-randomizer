@@ -4,6 +4,7 @@ import { prefetchSignature, stringToParams } from 'core'
 import { notFound } from 'next/navigation'
 import { ButtonLink } from '@/app/components/button'
 import { ArrowDown } from 'react-feather'
+import Link from 'next/link'
 
 type RaceSeedData = {
   hash: string
@@ -126,6 +127,11 @@ export default async function RaceSeedSpoilerPage({ params }: { params: { key: s
           ))}
         </section>
       </div>
+      <footer className={styles.footer}>
+        <p>
+          <Link href={`/seed/race/${key}`}>Return to Seed Page</Link>
+        </p>
+      </footer>
     </main>
   )
 }
