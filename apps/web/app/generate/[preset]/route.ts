@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { getAllPresets, getPreset, getSeedNumber, paramsToString } from "core"
 import { customAlphabet } from 'nanoid'
 import { kv } from '@vercel/kv'
@@ -11,6 +11,15 @@ export type HTTPError = Error & { status?: number }
 type GenerateParams = {
   preset: string
 }
+
+const redirect = (url: URL) => (
+  new Response(url.toString(), {
+    status: 307,
+    headers: {
+      Location: url.toString()
+    }
+  })
+)
 
 export async function GET(req: NextRequest, { params }: { params: GenerateParams} ) {
    const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 12)
@@ -53,12 +62,12 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
       }
       await kv.hset(`race-${raceObj.key}`, raceObj)
       const url = new URL(`seed/race/${raceObj.key}`, req.nextUrl.origin)
-      return NextResponse.redirect(url.toString(), { status: 307 })
+      return redirect(url)
     }
     
     const hash = paramsToString(seedNum, preset.settings, preset.options)
     const url = new URL(`seed/${hash}`, req.nextUrl.origin)
-    return NextResponse.redirect(url.toString(), { status: 307 })
+    return redirect(url)
    } catch (err: unknown) {
     console.error(err)
     const error = err as HTTPError
