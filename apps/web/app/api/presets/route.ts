@@ -10,6 +10,5 @@ export async function GET() {
          tags: p.tags,
       }
    })
-   const data = JSON.stringify(presets);
-   return NextResponse.json({ data });
+   return NextResponse.json({ data: presets });
 }

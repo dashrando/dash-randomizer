@@ -37,14 +37,34 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
   )
 }
 
+const getSeedName = (seed: Seed|null, raceKey: string, mystery: boolean) => {
+  if (!seed) {
+    return ''
+  }
+  const extension = seed.name.split('.').pop()
+  const parts = seed.name.split('_')
+  if (mystery) {
+    parts[1] = 'Mystery'
+  }
+  if (raceKey) {
+    parts[2] = raceKey
+  }
+
+  return `${parts.join('_')}.${extension}`
+}
+
 export default function Seed({
   parameters,
   hash,
+  mystery = false,
+  race = false,
   signature,
   slug
 }: {
   parameters: any,
+  mystery?: boolean,
   hash: string,
+  race?: boolean,
   signature: string,
   slug: string
 }) {
@@ -59,14 +79,15 @@ export default function Seed({
         const downloadParam = searchParams.get('download')
         const forceExit = downloadParam === 'false'
         const hasDownloaded = await getKey(hash)
+        const name = getSeedName(seed, slug, mystery)
         if (forceExit || hasDownloaded) {
           return
         }
-        downloadFile(seed?.data, seed?.name, hash)
+        downloadFile(seed?.data, name, hash)
       }
       autoDownload()
     }
-  }, [hash, mounted, searchParams, seed])
+  }, [hash, mounted, mystery, searchParams, seed, slug])
 
   useEffect(() => {
     const initialize = async () => {
@@ -87,6 +108,7 @@ export default function Seed({
 
   const hasVanilla = Boolean(vanilla)
   const parsedParams = parseSettings(parameters)
+  const seedName = getSeedName(seed, slug, mystery)
 
   return (
     <div>
@@ -97,12 +119,12 @@ export default function Seed({
             evt.preventDefault()
             // TODO: Refactor to show loading state if still getting seed
             if (seed) {
-              downloadFile(seed?.data, seed?.name, hash)
+              downloadFile(seed?.data, seedName, hash)
             }
           }}>
             <ArrowDown size={14} strokeWidth={2} />
             <>&nbsp;</>
-            <span className={styles.mono}>{seed?.name}</span>
+            <span className={styles.mono}>{seedName}</span>
           </Button>
         ) : (
           <div style={{ maxWidth: '300px' }}>
@@ -110,18 +132,26 @@ export default function Seed({
           </div>
         )}
       </div>
-      <Parameters title="Randomization" items={parsedParams.randomizeParams} />
-      <Parameters title="Settings" items={parsedParams.settingsParams} />
-      <Parameters title="Options" items={parsedParams.optionsParams} />
-      <div className={styles.qr}>
-        <button onClick={(evt) => {
-          evt.preventDefault()
-          window.open(`/seed/${slug}/qr-popup`, '_blank', 'width=300,height=340')
-        }}>
-          Display QR Code
-        </button>
-        <ExternalLink size={12} strokeWidth={2} />
-      </div>
+      {!mystery ? (
+        <>
+          <Parameters title="Randomization" items={parsedParams.randomizeParams} />
+          <Parameters title="Settings" items={parsedParams.settingsParams} />
+          <Parameters title="Options" items={parsedParams.optionsParams} />
+          {!race && (
+            <div className={styles.qr}>
+              <button onClick={(evt) => {
+                evt.preventDefault()
+                window.open(`/seed/${slug}/qr-popup`, '_blank', 'width=300,height=340')
+              }}>
+                Display QR Code
+              </button>
+              <ExternalLink size={12} strokeWidth={2} />
+            </div>
+          )}
+        </>
+      ) : (
+        <div>This is a mystery seed</div>
+      )}
     </div>
   )
 }

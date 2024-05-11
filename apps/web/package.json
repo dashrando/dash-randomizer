@@ -28,6 +28,7 @@
     "file-saver": "^2.0.5",
     "idb-keyval": "^6.2.1",
     "lz-string": "^1.5.0",
+    "nanoid": "^5.0.7",
     "next": "^14.0.1",
     "partysocket": "^0.0.25",
     "prettier": "^2.8.7",
