@@ -26,20 +26,19 @@ export type Preset = {
 
 export const getAllPresets = () => {
   return [
+    Preset_Classic_MM,
+    Preset_Recall_MM,
+    Preset_SurpriseSurprise,
+    Preset_Chozo_Bozo,
+    Preset_2017_MM,
+    Preset_SGL23,
     Preset_MM_Surprise,
     Preset_MM_Area_Surprise,
     Preset_Full_Surprise,
-    Preset_SurpriseSurprise,
     Preset_Chozo_Surprise,
     Preset_Chozo_Area_Surprise,
-    Preset_SGL23,
-    Preset_Recall_MM,
-    Preset_Recall_Full,
-    Preset_Classic_MM,
     Preset_Classic_Full,
-    Preset_2017_MM,
     Preset_Chozo,
-    Preset_Chozo_Bozo,
     Preset_Chozo_Bozo_Area,
     Preset_Chozo_Area_Shifted,
   ];
@@ -408,7 +407,7 @@ export const Preset_SGL23: Preset = {
 export const Preset_Classic_MM: Preset = {
   title: "Classic M/M",
   fileName: "ClassicMM",
-  tags: ["classic_mm", "standard_mm"],
+  tags: ["classic", "classic_mm", "standard_mm"],
   settings: {
     mapLayout: MapLayout.Classic,
     majorDistribution: MajorDistributionMode.Standard,
@@ -454,31 +453,10 @@ export const Preset_Classic_Full: Preset = {
 export const Preset_Recall_MM: Preset = {
   title: "Recall M/M",
   fileName: "RecallMM",
-  tags: ["recall_mm", "mm"],
+  tags: ["recall", "recall_mm"],
   settings: {
     mapLayout: MapLayout.Recall,
     majorDistribution: MajorDistributionMode.Recall,
-    minorDistribution: MinorDistributionMode.Dash,
-    extraItems: [Item.DoubleJump, Item.HeatShield, Item.PressureValve],
-    beamMode: BeamMode.StarterPlus,
-    suitMode: SuitMode.Dash,
-    gravityHeatReduction: GravityHeatReduction.On,
-    randomizeAreas: false,
-    bossMode: BossMode.Vanilla,
-  },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false
-  },
-};
-
-export const Preset_Recall_Full: Preset = {
-  title: "Recall Full",
-  fileName: "RecallFull",
-  tags: ["recall_full", "full"],
-  settings: {
-    mapLayout: MapLayout.Recall,
-    majorDistribution: MajorDistributionMode.Full,
     minorDistribution: MinorDistributionMode.Dash,
     extraItems: [Item.DoubleJump, Item.HeatShield, Item.PressureValve],
     beamMode: BeamMode.StarterPlus,
@@ -500,7 +478,7 @@ export const Preset_Recall_Full: Preset = {
 export const Preset_2017_MM: Preset = {
   title: "Throwback 2017",
   fileName: "2017MM",
-  tags: ["2017_mm"],
+  tags: ["2017_mm", "mm"],
   settings: {
     mapLayout: MapLayout.Standard,
     majorDistribution: MajorDistributionMode.Standard,
