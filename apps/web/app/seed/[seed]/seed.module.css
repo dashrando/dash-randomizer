@@ -61,6 +61,7 @@
   text-transform: uppercase;
   line-height: 18px;
   color: #6a6a6a;
+  font-weight: 400;
 }
 
 .value {
@@ -144,4 +145,55 @@
 
 .qr button:hover {
   text-decoration-color: transparent;
+}
+
+.spoiler_data {
+  text-align: left;
+}
+
+.spoiler_data table tr td:first-child {
+  width: 240px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+}
+
+.table thead {
+  /* border-bottom: 1px solid #fff; */
+}
+
+.table thead th {
+  /* padding-bottom: 8px; */
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #333;
+  padding: 8px 0;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.table tbody tr td {
+  padding: 8px 0;
+}
+
+.spoiler_section {
+  margin: 64px 0;
+}
+
+.spoiler_section h3 {
+  font-size: 16px;
+  margin: 0 0 16px;
+  font-weight: 600;
 }
