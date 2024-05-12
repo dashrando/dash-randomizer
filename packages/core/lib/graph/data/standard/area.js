@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------
 
 const Crateria_PreMoat_to_Crabs = {
-  edges: ["PreMoat", "Door_Crabs"],
+  edges: ["PreMoat", "Door_CrateriaCrabs"],
   requires: true,
 };
 
@@ -37,8 +37,8 @@ const UpperNorfair_KingCacLedge_to_SingleChamberPortal = {
   requires: () => HasMorph && CanDestroyBombWalls && HellRunTanks >= 2,
 };
 
-const UpperNorfair_KronicBoostBottom_to_LavaDivePortal = {
-  edges: ["KronicBoostBottom", "Door_LavaDive"],
+const UpperNorfair_KronicBoostBottom_to_KronicBoostPortal = {
+  edges: ["KronicBoostBottom", "Door_KronicBoost"],
   requires: true,
 };
 
@@ -53,12 +53,12 @@ const RedBrinstar_MaridiaEscapePortal_to_RedTowerElevator = {
 };
 
 const RedBrinstar_RedTowerBottom_to_AboveKraidPortal = {
-  edges: ["RedTowerBottom", "Door_AboveKraid"],
+  edges: ["RedTowerBottom", "Door_RedTowerToMaridiaMap"],
   requires: true,
 };
 
 const RedBrinstar_AboveKraidPortal_to_RedTowerBottom = {
-  edges: ["Door_AboveKraid", "RedTowerBottom"],
+  edges: ["Door_RedTowerToMaridiaMap", "RedTowerBottom"],
   requires: true,
 };
 
@@ -67,8 +67,8 @@ const WreckedShip_ShipHallway_to_SpongeBath = {
   requires: true,
 };
 
-const WreckedShip_RearExit_to_Highway = {
-  edges: ["ShipRearExit", "Door_HighwayExit"],
+const WreckedShip_RearExit_to_WSHighway = {
+  edges: ["ShipRearExit", "Door_WSHighway"],
   requires: () => (HasHiJump || HasGravity) && HasMorph,
 };
 
@@ -121,14 +121,14 @@ export const StandardAreaEdgeUpdates = [
   GreenBrinstar_Tube_to_NoobBridgePortal,
   GreenBrinstar_NoobBridgePortal_to_Tube,
   UpperNorfair_KingCacLedge_to_SingleChamberPortal,
-  UpperNorfair_KronicBoostBottom_to_LavaDivePortal,
+  UpperNorfair_KronicBoostBottom_to_KronicBoostPortal,
   UpperNorfair_PreCrocomire_to_CrocEntry,
   RedBrinstar_RedTowerElevator_to_MaridiaEscapePortal,
   RedBrinstar_RedTowerBottom_to_AboveKraidPortal,
   RedBrinstar_MaridiaEscapePortal_to_RedTowerElevator,
   RedBrinstar_AboveKraidPortal_to_RedTowerBottom,
   WreckedShip_ShipHallway_to_SpongeBath,
-  WreckedShip_RearExit_to_Highway,
+  WreckedShip_RearExit_to_WSHighway,
   EastMaridia_OasisBottom_to_Aqueduct,
   EastMaridia_OasisBottom_to_AboveMaridiaMap,
   WestMaridia_AboveMaridiaMap_to_OasisBottom,

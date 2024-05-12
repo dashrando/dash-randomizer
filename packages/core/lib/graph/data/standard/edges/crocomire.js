@@ -1,10 +1,10 @@
 export const crocomireEdges = {
-  Door_Croc: {
+  Door_CrocsLair: {
     PostCroc: () => CanKillCrocomire,
   },
 
   PostCroc: {
-    Door_Croc: true,
+    Door_CrocsLair: true,
     "Energy Tank (Crocomire)": () =>
       HasSpaceJump || HasGrapple || HasVaria || TotalTanks >= 2,
     "Power Bombs (Crocomire)": () =>

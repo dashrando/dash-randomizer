@@ -151,12 +151,12 @@ export const eastmaridiaEdges = {
     Aqueduct: true,
   },
 
-  Door_Highway: {
+  Door_EMHighway: {
     MaridiaHighway: true,
   },
 
   MaridiaHighway: {
-    Door_Highway: true,
+    Door_EMHighway: true,
     PlasmaSparkRoomTop: () => HasGravity || HasHiJump || HasSpaceJump,
   },
 };

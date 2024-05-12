@@ -14,15 +14,15 @@ export const crateriaEdges = {
   PreMoat: {
     Ship: true,
     "Missiles (Moat)": () => CanUsePowerBombs,
-    Door_Crabs: () => CanUsePowerBombs,
+    Door_CrateriaCrabs: () => CanUsePowerBombs,
   },
 
-  Door_Crabs: {
+  Door_CrateriaCrabs: {
     PreMoat: true,
   },
 
   "Missiles (Moat)": {
-    Door_Crabs: true,
+    Door_CrateriaCrabs: true,
     Door_Moat: true,
   },
 
