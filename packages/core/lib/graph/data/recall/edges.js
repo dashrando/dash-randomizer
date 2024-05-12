@@ -7,8 +7,8 @@ const WreckedShip_Bowling_Missiles_to_Reserve = {
   requires: () => CanUsePowerBombs,
 };
 
-const WreckedShip_RearExit_to_HighwayExit = {
-  edges: ["ShipRearExit", "Door_HighwayExit"],
+const WreckedShip_RearExit_to_WSHighway = {
+  edges: ["ShipRearExit", "Door_WSHighway"],
   requires: () => CanMoveInWestMaridia,
 };
 
@@ -61,7 +61,7 @@ const UpperNorfair_PreCrocomire_to_CrocEntry = {
 
 export const RecallEdgeUpdates = [
   WreckedShip_Bowling_Missiles_to_Reserve,
-  WreckedShip_RearExit_to_HighwayExit,
+  WreckedShip_RearExit_to_WSHighway,
   WestMaridia_MainStreet_to_AboveMaridiaMap,
   WestMaridia_AboveMaridiaMap_to_MainStreet,
   EastMaridia_OasisBottom_to_SpringBall,

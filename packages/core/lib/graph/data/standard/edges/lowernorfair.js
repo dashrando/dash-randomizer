@@ -3,18 +3,18 @@ export const lowernorfairEdges = {
     Ruins: () => HasVaria && (HasGravity || HasHiJump),
   },
 
-  Door_Muskateers: {
-    Muskateers: () => HasVaria,
+  Door_Musketeers: {
+    Musketeers: () => HasVaria,
   },
 
-  Muskateers: {
-    Door_Muskateers: true,
-    "Missiles (Three Muskateers)": () => HasMorph && CanDestroyBombWalls,
+  Musketeers: {
+    Door_Musketeers: true,
+    "Missiles (Three Musketeers)": () => HasMorph && CanDestroyBombWalls,
     "Missiles (Maze)": () => HasMorph,
   },
 
-  "Missiles (Three Muskateers)": {
-    Muskateers: true, // If we got here, we can get back
+  "Missiles (Three Musketeers)": {
+    Musketeers: true, // If we got here, we can get back
   },
 
   Ruins: {
@@ -66,7 +66,7 @@ export const lowernorfairEdges = {
   "Missiles (Maze)": {
     RedKihunterShaftTop: true,
     "Power Bombs (Maze)": () => CanPassBombPassages,
-    Muskateers: () => HasMorph,
+    Musketeers: () => HasMorph,
   },
 
   "Power Bombs (Maze)": {

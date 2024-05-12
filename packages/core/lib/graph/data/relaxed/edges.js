@@ -27,8 +27,8 @@ const EastMaridia_DoorAqueduct_to_Aqueduct = {
   requires: () => CanUsePowerBombs && HasGravity,
 };
 
-const EastMaridia_DoorHighway_to_MaridiaHighway = {
-  edges: ["Door_Highway", "MaridiaHighway"],
+const EastMaridia_DoorEMHighway_to_MaridiaHighway = {
+  edges: ["Door_EMHighway", "MaridiaHighway"],
   requires: () => HasGravity,
 };
 
@@ -43,13 +43,15 @@ const EastMaridia_OasisBottom_to_SpringBall = {
     HasGrapple && (CanFly || HasHiJump)
 };
 
-const UpperNorfair_BusinessCenter_to_TopRightDoor = {
-  edges: ["BusinessCenter", "BusinessCenterTopRightDoor"],
+const UpperNorfair_BusinessCenter_to_CathedralEntrance = {
+  edges: ["BusinessCenter", "CathedralEntrance"],
   requires: () => HasVaria || HasHeatShield,
 };
 
-const UpperNorfair_BusinessCenter_to_BottomRightDoor = {
-  edges: ["BusinessCenter", "BusinessCenterBottomRightDoor"],
+// Obviously these suits are not required to get to the save
+// station, but we use this to prevent logical hell runs
+const UpperNorfair_BusinessCenter_to_BCSaveStation= {
+  edges: ["BusinessCenter", "BusinessCenterSaveStation"],
   requires: () => HasVaria || HasHeatShield,
 };
 
@@ -58,8 +60,8 @@ const UpperNorfair_DoorSingleChamber_to_TopRightDoor = {
   requires: () => HasVaria || HasHeatShield,
 };
 
-const UpperNorfair_DoorLavaDive_to_KronicBoostBottom = {
-  edges: ["Door_LavaDive", "KronicBoostBottom"],
+const UpperNorfair_DoorKronicBoost_to_KronicBoostBottom = {
+  edges: ["Door_KronicBoost", "KronicBoostBottom"],
   requires: () => HasVaria || HasHeatShield,
 };
 
@@ -88,13 +90,13 @@ export const RelaxedEdgeUpdates = [
   WestMaridia_DoorMaridiaMap_to_AboveMaridiaMap,
   WestMaridia_DoorRedFish_to_RedFish,
   EastMaridia_DoorAqueduct_to_Aqueduct,
-  EastMaridia_DoorHighway_to_MaridiaHighway,
+  EastMaridia_DoorEMHighway_to_MaridiaHighway,
   EastMaridia_Aqueduct_to_Missiles,
   EastMaridia_OasisBottom_to_SpringBall,
-  UpperNorfair_BusinessCenter_to_TopRightDoor,
-  UpperNorfair_BusinessCenter_to_BottomRightDoor,
+  UpperNorfair_BusinessCenter_to_CathedralEntrance,
+  UpperNorfair_BusinessCenter_to_BCSaveStation,
   UpperNorfair_DoorSingleChamber_to_TopRightDoor,
-  UpperNorfair_DoorLavaDive_to_KronicBoostBottom,
+  UpperNorfair_DoorKronicBoost_to_KronicBoostBottom,
   UpperNorfair_DoorCrocEntry_to_PreCrocomire,
   UpperNorfair_IceBeamGatesTopLeft_to_IceBeam,
   UpperNorfair_IceBeamGatesBottomLeft_to_CrumbleShaft

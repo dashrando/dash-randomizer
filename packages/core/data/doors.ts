@@ -247,7 +247,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToGreenElevator,
   },
   {
-    door: "Door_Crabs",
+    door: "Door_CrateriaCrabs",
     area: "Crateria",
     from: "bottom",
     to: "top",
@@ -263,7 +263,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToRedElevator,
   },
   {
-    door: "Door_HighwayExit",
+    door: "Door_WSHighway",
     area: "WreckedShip",
     from: "left",
     to: "right",
@@ -271,7 +271,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToHighwayExit,
   },
   {
-    door: "Door_Highway",
+    door: "Door_EMHighway",
     area: "EastMaridia",
     from: "right",
     to: "left",
@@ -327,7 +327,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToMainStreet,
   },
   {
-    door: "Door_KraidEntry",
+    door: "Door_RedTowerToKraid",
     area: "RedBrinstar",
     from: "right",
     to: "left",
@@ -335,7 +335,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToKraidEntry,
   },
   {
-    door: "Door_ElevatorEntry",
+    door: "Door_BusinessCenterLeft",
     area: "UpperNorfair",
     from: "left",
     to: "right",
@@ -343,7 +343,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToElevatorEntry,
   },
   {
-    door: "Door_AboveKraid",
+    door: "Door_RedTowerToMaridiaMap",
     area: "RedBrinstar",
     from: "right",
     to: "left",
@@ -359,7 +359,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToMaridiaMap,
   },
   {
-    door: "Door_KraidMouth",
+    door: "Door_BusinessCenterRight",
     area: "UpperNorfair",
     from: "right",
     to: "left",
@@ -383,7 +383,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToCrocEntry,
   },
   {
-    door: "Door_Croc",
+    door: "Door_CrocsLair",
     area: "CrocomiresLair",
     from: "top",
     to: "bottom",
@@ -399,7 +399,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToSingleChamber,
   },
   {
-    door: "Door_Muskateers",
+    door: "Door_Musketeers",
     area: "LowerNorfair",
     from: "left",
     to: "right",
@@ -407,7 +407,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToMuskateers,
   },
   {
-    door: "Door_LavaDive",
+    door: "Door_KronicBoost",
     area: "UpperNorfair",
     from: "left",
     to: "right",

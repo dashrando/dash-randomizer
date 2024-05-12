@@ -153,7 +153,7 @@ export const getLocations = () => [
   loc(0x78fca, 0x00, Area.LowerNorfair, 68, "Missiles (Maze)"),
   loc(0x78fd2, 0x00, Area.LowerNorfair, 69, "Power Bombs (Maze)"),
   loc(0x790c0, 0x00, Area.LowerNorfair, 70, "Power Bombs (Shame)"),
-  loc(0x79100, 0x00, Area.LowerNorfair, 71, "Missiles (Three Muskateers)"),
+  loc(0x79100, 0x00, Area.LowerNorfair, 71, "Missiles (Three Musketeers)"),
   loc(0x79108, 0xa8, Area.LowerNorfair, 72, "Energy Tank (Ridley)"),
   loc(0x7ED83, 0xa8, Area.KraidsLair, 107, "Energy Tank (Ridley)"),
   loc(0x7EDB4, 0xa8, Area.WreckedShip, 108, "Energy Tank (Ridley)"),
