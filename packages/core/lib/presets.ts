@@ -41,6 +41,8 @@ export const getAllPresets = () => {
     Preset_Chozo,
     Preset_Chozo_Bozo_Area,
     Preset_Chozo_Area_Shifted,
+    Preset_MM_Area_Shuffled,
+    Preset_Full_Area_Shuffled
   ];
 };
 
@@ -196,6 +198,48 @@ export const Preset_MM_Area_Surprise: Preset = {
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: true,
     bossMode: BossMode.Surprise,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_MM_Area_Shuffled: Preset = {
+  title: "MM Area Shuffled",
+  fileName: "MMAreaShuffled",
+  tags: ["mm_area_shuffled"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Shuffled,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  }
+};
+
+export const Preset_Full_Area_Shuffled: Preset = {
+  title: "Full Area Shuffled",
+  fileName: "FullAreaShuffled",
+  tags: ["full_area_shuffled"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Shuffled,
   },
   options: {
     DisableFanfare: false,
