@@ -1,3 +1,4 @@
+import { getAreaPortals, getBossPortals } from "../lib/graph/data/portals";
 import { Edge } from "../lib/graph/init";
 import { AREA_DOORS as area, BOSS_DOORS as boss } from "./interface";
 
@@ -430,40 +431,7 @@ const DOORS: DoorTransition[] = [
 ];
 
 export const isAreaEdge = (edge: Edge) => {
-  const doors = [
-    "Door_RetroPBs",
-    "Door_GreenHills",
-    "Door_Moat",
-    "Door_Ocean",
-    "Door_G4",
-    "Door_Tourian",
-    "Door_Kago",
-    "Door_GreenElevator",
-    "Door_Crabs",
-    "Door_RedElevator",
-    "Door_HighwayExit",
-    "Door_Highway",
-    "Door_NoobBridge",
-    "Door_RedTower",
-    "Door_MaridiaEscape",
-    "Door_RedFish",
-    "Door_MaridiaTube",
-    "Door_MainStreet",
-    "Door_KraidEntry",
-    "Door_ElevatorEntry",
-    "Door_AboveKraid",
-    "Door_MaridiaMap",
-    "Door_KraidMouth",
-    "Door_KraidsLair",
-    "Door_CrocEntry",
-    "Door_Croc",
-    "Door_SingleChamber",
-    "Door_Muskateers",
-    "Door_LavaDive",
-    "Door_RidleyMouth",
-    "Door_PreAqueduct",
-    "Door_Aqueduct",
-  ];
+  const doors = getAreaPortals().map(p => p.name)
   if (undefined == doors.find((d) => d == edge.from.name)) {
     return false;
   }
@@ -474,16 +442,7 @@ export const isAreaEdge = (edge: Edge) => {
 };
 
 export const isBossEdge = (edge: Edge) => {
-  const doors = [
-    "Door_KraidBoss",
-    "Exit_Kraid",
-    "Door_PhantoonBoss",
-    "Exit_Phantoon",
-    "Door_DraygonBoss",
-    "Exit_Draygon",
-    "Door_RidleyBoss",
-    "Exit_Ridley",
-  ];
+  const doors = getBossPortals().map(p => p.name)
   if (undefined == doors.find((d) => d == edge.from.name)) {
     return false;
   }

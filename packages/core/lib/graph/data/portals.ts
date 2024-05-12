@@ -73,7 +73,9 @@ const shuffle = (rng: DotNetRandom, arr: any[]) => {
   }
 };
 
-const getAreaPortals = (): Portal[] => {
+export const getAreaPortals = (): Portal[] => {
+  // Listed in vanilla pairs because other sections of
+  // code assume that they are grouped that way
   return [
     { name: "Door_RetroPBs", area: "Crateria" },
     { name: "Door_GreenHills", area: "GreenBrinstar" },
@@ -158,7 +160,7 @@ const generateAreaPortals = (seed: number): PortalMapping[] => {
   return shuffled;
 };
 
-const getBossPortals = (): Portal[] => {
+export const getBossPortals = (): Portal[] => {
   return [
     { name: "Door_KraidBoss", area: "KraidsLair" },
     { name: "Exit_Kraid", area: "KraidsLair" },
