@@ -1,3 +1,4 @@
+import { getAreaPortals, getBossPortals } from "core";
 import styles from "./areas.module.css";
 
 export type Transition = {
@@ -12,62 +13,27 @@ type TransitionRow = {
 };
 
 const getNumLoops = (areas: Transition[]) => {
-  const zones = [
-    ["Crateria", [
-      "Door_RetroPBs",
-      "Door_Moat",
-      "Door_G4",
-      "Door_Kago",
-      "Door_Crabs"
-    ]],
-    ["Green Brinstar", [
-      "Door_GreenHills",
-      "Door_GreenElevator",
-      "Door_NoobBridge"
-    ]],
-    ["Red Brinstar", [
-      "Door_RedElevator",
-      "Door_RedTower",
-      "Door_MaridiaEscape",
-      "Door_MaridiaTube",
-      "Door_KraidEntry",
-      "Door_AboveKraid",
-    ]],
-    ["Upper Norfair", [
-      "Door_ElevatorEntry",
-      "Door_KraidMouth",
-      "Door_CrocEntry", 
-      "Door_SingleChamber",
-      "Door_LavaDive",
-    ]],
-    ["Lower Norfair", [
-      "Door_Muskateers",
-      "Door_RidleyMouth",
-    ]],
-    ["Wrecked Ship", [
-      "Door_Ocean",
-      "Door_HighwayExit",
-    ]],
-    ["West Maridia", [
-      "Door_PreAqueduct",
-      "Door_RedFish",
-      "Door_MainStreet",
-      "Door_MaridiaMap",
-    ]],
-    ["East Maridia", [
-      "Door_Aqueduct",
-      "Door_Highway",
-    ]],
-    ["Kraid's Lair", [
-      "Door_KraidsLair",
-    ]],
-    ["Crocomire's Lair", [
-      "Door_Croc"
-    ]],
-    ["Tourian", [
-      "Door_Tourian"
-    ]]
+  const zones: [string, string[]][] = [
+    ["Crateria", []],
+    ["GreenBrinstar", []],
+    ["RedBrinstar", []],
+    ["UpperNorfair", []],
+    ["LowerNorfair", []],
+    ["WreckedShip", []],
+    ["WestMaridia", []],
+    ["EastMaridia", []],
+    ["KraidsLair", []],
+    ["CrocomiresLair", []],
+    ["Tourian", []],
   ]
+    
+  getAreaPortals().forEach(p => {
+    for (let j = 0; j < zones.length; j++) {
+      if (zones[j][0] == p.area) {
+        zones[j][1].push(p.name)
+      }
+    }
+  })
 
   let numLoops = 0;
   zones.forEach(z => {
@@ -88,19 +54,22 @@ const getNumLoops = (areas: Transition[]) => {
 }
 
 const getNumSeeds_DuoToDead = (areas: Transition[],num: number) => {
-  const duos = [
-    "Door_Muskateers",
-    "Door_RidleyMouth",
-    "Door_Aqueduct",
-    "Door_HighwayExit",
-    "Door_Highway",
-    "Door_Ocean",
-  ];
-  const deads = [
-    "Door_KraidsLair",
-    "Door_Croc",
-    "Door_Tourian",
-  ];
+  const duos = getAreaPortals()
+    .filter(
+      (p) =>
+        p.area == "LowerNorfair" ||
+        p.area == "EastMaridia" ||
+        p.area == "WreckedShip"
+    )
+    .map((p) => p.name);
+  const deads = getAreaPortals()
+    .filter(
+      (p) =>
+        p.area == "KraidsLair" ||
+        p.area == "CrocomiresLair" ||
+        p.area == "Tourian"
+    )
+    .map((p) => p.name);
 
   let seeds = Array(areas.length).fill(0);
   areas.forEach((t,i) => {
@@ -119,30 +88,12 @@ const getNumSeeds_DuoToDead = (areas: Transition[],num: number) => {
 }
 
 const getNumVanilla = (areas: Transition[]) => {
-  const vanilla = [
-    // Crateria / Blue Brinstar
-    ["Door_RetroPBs", "Door_GreenHills"],
-    ["Door_Moat", "Door_Ocean"],
-    ["Door_G4", "Door_Tourian"],
-    ["Door_Kago", "Door_GreenElevator"],
-    ["Door_Crabs", "Door_RedElevator"],
-    // Wrecked Ship
-    ["Door_HighwayExit", "Door_Highway"],
-    // Green / Pink Brinstar
-    ["Door_NoobBridge", "Door_RedTower"],
-    // Red Brinstar
-    ["Door_MaridiaEscape", "Door_RedFish"],
-    ["Door_MaridiaTube", "Door_MainStreet"],
-    ["Door_KraidEntry", "Door_ElevatorEntry"],
-    ["Door_AboveKraid", "Door_MaridiaMap"],
-    // Upper Norfair
-    ["Door_KraidMouth", "Door_KraidsLair"],
-    ["Door_CrocEntry", "Door_Croc"],
-    ["Door_SingleChamber", "Door_Muskateers"],
-    ["Door_LavaDive", "Door_RidleyMouth"],
-    // West Maridia
-    ["Door_PreAqueduct", "Door_Aqueduct"],
-  ];
+  const vanilla: any[][] = []
+  getAreaPortals().forEach((v, i, arr) => {
+    if (i % 2 == 1) {
+      vanilla.push([arr[i-1].name, v.name])
+    }
+  })
   let count = 0;
   vanilla.forEach((p) => {
     areas.forEach((t,i) => {
@@ -316,30 +267,10 @@ export default function AreaDoorTable({
     "Draygon LN",
     "Ridley LN"
   ]
-  const bossRows = [
-    "Door_KraidBoss",
-    "Door_PhantoonBoss",
-    "Door_DraygonBoss",
-    "Door_RidleyBoss"
-  ]
-  const areaDoors = [
-    "Door_RetroPBs", "Door_GreenHills",
-    "Door_Moat", "Door_Ocean",
-    "Door_G4", "Door_Tourian",
-    "Door_Kago", "Door_GreenElevator",
-    "Door_Crabs", "Door_RedElevator",
-    "Door_HighwayExit", "Door_Highway",
-    "Door_NoobBridge", "Door_RedTower",
-    "Door_MaridiaEscape", "Door_RedFish",
-    "Door_MaridiaTube", "Door_MainStreet",
-    "Door_KraidEntry", "Door_ElevatorEntry",
-    "Door_AboveKraid", "Door_MaridiaMap",
-    "Door_KraidMouth", "Door_KraidsLair",
-    "Door_CrocEntry", "Door_Croc",
-    "Door_SingleChamber", "Door_Muskateers",
-    "Door_LavaDive", "Door_RidleyMouth",
-    "Door_PreAqueduct", "Door_Aqueduct",
-  ]
+  const bossRows = getBossPortals()
+    .filter((p) => p.name.startsWith("Door_"))
+    .map((p) => p.name);
+  const areaDoors = getAreaPortals().map(p => p.name)
 
   const stringCombos: string[] = []
   generateCombinations('KPDR', 4, '', stringCombos)
