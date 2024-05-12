@@ -1,52 +1,26 @@
 import { parseSettings } from '@/lib/settings';
-import { Graph, Vertex, stringToParams } from 'core';
+import { Graph, Vertex, getAreaPortals, stringToParams } from 'core';
 import { generateSeed, isAreaEdge, isBossEdge } from 'core/data';
 
 const getAreaTransitions = (graph: Graph) => {
   const areaEdges = graph.filter(isAreaEdge)
 
   const getTransition = (from: string) => {
-    const edge = areaEdges.find(p => p.from.name === `Door_${from}`)
+    const edge = areaEdges.find(p => p.from.name === from)
     if (!edge) {
       return ''
     }
     return edge.to.name.replace("Door_", "")
   }
 
-  return {
-    "RetroPBs": getTransition('RetroPBs'),
-    "GreenHills": getTransition('GreenHills'),
-    "Moat": getTransition('Moat'),
-    "Ocean": getTransition('Ocean'),
-    "G4": getTransition('G4'),
-    "Tourian": getTransition('Tourian'),
-    "Kago": getTransition('Kago'),
-    "GreenElevator": getTransition('GreenElevator'),
-    "Crabs": getTransition('Crabs'),
-    "RedElevator": getTransition('RedElevator'),
-    "HighwayExit": getTransition('HighwayExit'),
-    "Highway": getTransition('Highway'),
-    "NoobBridge": getTransition('NoobBridge'),
-    "RedTower": getTransition('RedTower'),
-    "MaridiaEscape": getTransition('MaridiaEscape'),
-    "RedFish": getTransition('RedFish'),
-    "MaridiaTube": getTransition('MaridiaTube'),
-    "MainStreet": getTransition('MainStreet'),
-    "KraidEntry": getTransition('KraidEntry'),
-    "ElevatorEntry": getTransition('ElevatorEntry'),
-    "AboveKraid": getTransition('AboveKraid'),
-    "MaridiaMap": getTransition('MaridiaMap'),
-    "KraidMouth": getTransition('KraidMouth'),
-    "KraidsLair": getTransition('KraidsLair'),
-    "CrocEntry": getTransition('CrocEntry'),
-    "Croc": getTransition('Croc'),
-    "SingleChamber": getTransition('SingleChamber'),
-    "Muskateers": getTransition('Muskateers'),
-    "LavaDive": getTransition('LavaDive'),
-    "RidleyMouth": getTransition('RidleyMouth'),
-    "PreAqueduct": getTransition('PreAqueduct'),
-    "Aqueduct": getTransition('Aqueduct'),
-  }
+  // Currently using the default order, but we could order these
+  // explicitly using index values if necessary. Try to avoid
+  // using the hardcoded portal names.
+  let obj: any = {}
+  getAreaPortals().forEach(p => {
+    obj[p.name.replace("Door_", "")] = getTransition(p.name)
+  })
+  return obj
 }
 
 const getBosses = (graph: Graph) => {

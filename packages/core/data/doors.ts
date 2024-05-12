@@ -11,6 +11,16 @@ export type DoorTransition = {
   vector: number;   // Vector to get to that door
 }
 
+// This array contains all of the area and boss transitions that can
+// be updated by the randomizer. Note the absence of transitions from
+// new bosses (i.e., copies of bosses in each area) to the their
+// entry doors. These are not needed because those transitions do
+// not need to change. For example, leaving the copy of Kraid in
+// Lower Norfair always takes you to the pre Ridley room.
+//
+// This is also why the transitions to the copied bosses have their
+// addresses undefined. We really only need to know the vector for
+// those so we use the undefined address for a flag of sorts.
 const DOORS: DoorTransition[] = [
   {
     door: "Door_KraidBoss",
