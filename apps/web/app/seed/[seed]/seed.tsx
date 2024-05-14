@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import useMounted from '@/app/hooks/useMounted'
 import { useVanilla } from '@/app/generate/vanilla'
 import styles from './seed.module.css'
-import { RandomizeRom, findPreset } from 'core'
+import { RandomizeRom, ProtectRom, findPreset } from 'core'
 import { cn } from '@/lib/utils'
 import { downloadFile } from '@/lib/downloads'
 import Button, { ButtonLink } from '@/app/components/button'
@@ -75,6 +75,7 @@ export default function Seed({
   const { data: vanilla } = useVanilla()
   const [seed, setSeed] = useState<Seed|null>(null)
   const searchParams = useSearchParams()
+  const create = race ? ProtectRom : RandomizeRom
 
   useEffect(() => {
     if (searchParams && mounted && seed) {
@@ -97,7 +98,7 @@ export default function Seed({
       if (vanilla && !seed?.data) {
         const { seed: seedNum, settings, options } = parameters
         const preset = findPreset(settings, options)
-        const seedData = await RandomizeRom(seedNum, settings, options, {
+        const seedData = await create(seedNum, settings, options, {
           vanillaBytes: vanilla,
           presetName: preset == undefined ? "Custom" : preset.fileName
         })
