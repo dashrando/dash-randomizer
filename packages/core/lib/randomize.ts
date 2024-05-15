@@ -14,11 +14,9 @@ export type Config = {
 async function RandomizeRom(
   seed: number = 0,
   settings: Settings,
-  opts: Options = {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-  },
-  config: Config
+  opts: Options,
+  config: Config,
+  race: boolean = false
 ) {
   if (!config.vanillaBytes) {
     throw Error("No vanilla ROM data found");
@@ -40,7 +38,7 @@ async function RandomizeRom(
 
   // Generate the seed specific patch (item placement, etc.)
   const seedPatch = generateSeedPatch(
-    seed, settings, graph, options);
+    seed, settings, graph, options, race);
 
   // Create the rom by patching the vanilla rom.
   return {
