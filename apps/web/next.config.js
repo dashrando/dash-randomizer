@@ -62,6 +62,11 @@ const nextConfig = {
         destination: "/readable/area",
         permanent: false,
       },
+      {
+        source: "/seed/race/:path*",
+        destination: "/race/:path*",
+        permanent: true,
+      }
     ];
   },
   rewrites: async () => {

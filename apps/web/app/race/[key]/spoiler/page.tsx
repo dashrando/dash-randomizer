@@ -1,5 +1,5 @@
 import { kv } from '@vercel/kv'
-import styles from '../../../[seed]/seed.module.css'
+import styles from '../../../seed/[seed]/seed.module.css'
 import { prefetchSignature, stringToParams } from 'core'
 import { notFound } from 'next/navigation'
 import DownloadButton from './download-button'
