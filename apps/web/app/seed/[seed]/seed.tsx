@@ -132,7 +132,7 @@ export default function Seed({
             </Button>
             {spoiler && (
               <div className={styles.spoiler_link}>
-                <Link href={`/seed/race/${slug}/spoiler`}>
+                <Link href={`/race/${slug}/spoiler`}>
                   View Spoiler Log
                 </Link>
               </div>
