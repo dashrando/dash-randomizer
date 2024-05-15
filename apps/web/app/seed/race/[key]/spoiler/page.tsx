@@ -3,6 +3,7 @@ import styles from '../../../[seed]/seed.module.css'
 import { prefetchSignature, stringToParams } from 'core'
 import { notFound } from 'next/navigation'
 import DownloadButton from './download-button'
+import Link from 'next/link'
 
 type RaceSeedData = {
   hash: string
