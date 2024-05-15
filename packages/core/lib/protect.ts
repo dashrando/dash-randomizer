@@ -6,13 +6,11 @@ import { Options, Settings } from "./graph/params";
 async function ProtectRom(
   seed: number = 0,
   settings: Settings,
-  opts: Options = {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-  },
-  config: Config
+  opts: Options,
+  config: Config,
+  race: boolean = true
 ) {
-  const res = await RandomizeRom(seed, settings, opts, config);
+  const res = await RandomizeRom(seed, settings, opts, config, race);
   const block = res.data;
 
   if (block == null) {

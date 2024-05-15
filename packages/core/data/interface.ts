@@ -121,14 +121,21 @@ export const BOSS_ITEMS = {
 };
 
 export const TABLE_FLAGS = {
+  // File Select Code: 4 bytes
+  FileSelectCode: 0x2F8000,
   // Charge Modes: 0x00 = Vanilla  0x01 = Starter,
   //               0x02 = Recall   0x03 = Starter+
   ChargeMode: 0x2F8004,
   // HUD bits: 0x01 = Charge  0x02 = Item Counts,
   //           0x04 = Area    0x08 = Dash Items
   HUDBitField: 0x2F8005,
+  // Seed flags: reserved block for seed flags
+  SeedFlags: 0x2F8B00,
+  SeedFlagsSize: 12,
   // Fanfare: 0x0000 = On  0x0001 = Off
   NoFanfare: 0x2F8B0C,
+  // Gravity Heat Damage:
+  GravityHeatDamage: 0x2F8B10,
   // LN Chozo Trigger: 0x0000 = Require Space Jump
   //                   0x0001 = Nothing Required
   LNChozoTrigger: 0x2F8B20,

@@ -101,7 +101,7 @@ export default function Seed({
         const seedData = await create(seedNum, settings, options, {
           vanillaBytes: vanilla,
           presetName: preset == undefined ? "Custom" : preset.fileName
-        })
+        }, race)
         if (seedData.data) {
           setSeed(seedData)
         }
