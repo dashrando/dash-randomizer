@@ -7,12 +7,13 @@ import styles from './seed.module.css'
 import { RandomizeRom, findPreset } from 'core'
 import { cn } from '@/lib/utils'
 import { downloadFile } from '@/lib/downloads'
-import Button from '@/app/components/button'
+import Button, { ButtonLink } from '@/app/components/button'
 import { useSearchParams } from 'next/navigation'
 import { get as getKey } from 'idb-keyval'
 import { ArrowDown, ExternalLink } from 'react-feather'
 import VanillaButton from '@/app/generate/vanilla'
 import { parseSettings } from '@/lib/settings'
+import Link from 'next/link'
 
 type Seed = {
   data: any
@@ -59,14 +60,16 @@ export default function Seed({
   mystery = false,
   race = false,
   signature,
-  slug
+  slug,
+  spoiler = false,
 }: {
   parameters: any,
   mystery?: boolean,
   hash: string,
   race?: boolean,
   signature: string,
-  slug: string
+  slug: string,
+  spoiler?: boolean
 }) {
   const mounted = useMounted()
   const { data: vanilla } = useVanilla()
@@ -115,17 +118,26 @@ export default function Seed({
       <div className={cn(styles.signature, !vanilla && styles.noVanilla)}>{signature || <>&nbsp;</>}</div>
       <div className={styles.download}>
         {(hasVanilla && seed) ? (
-          <Button variant="hero" onClick={(evt) => {
-            evt.preventDefault()
-            // TODO: Refactor to show loading state if still getting seed
-            if (seed) {
-              downloadFile(seed?.data, seedName, hash)
-            }
-          }}>
-            <ArrowDown size={14} strokeWidth={2} />
-            <>&nbsp;</>
-            <span className={styles.mono}>{seedName}</span>
-          </Button>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Button variant="hero" onClick={(evt) => {
+              evt.preventDefault()
+              // TODO: Refactor to show loading state if still getting seed
+              if (seed) {
+                downloadFile(seed?.data, seedName, hash)
+              }
+            }}>
+              <ArrowDown size={14} strokeWidth={2} />
+              <>&nbsp;</>
+              <span className={styles.mono}>{seedName}</span>
+            </Button>
+            {spoiler && (
+              <div className={styles.spoiler_link}>
+                <Link href={`/seed/race/${slug}/spoiler`}>
+                  View Spoiler Log
+                </Link>
+              </div>
+            )}
+          </div>
         ) : (
           <div style={{ maxWidth: '300px' }}>
             <VanillaButton />

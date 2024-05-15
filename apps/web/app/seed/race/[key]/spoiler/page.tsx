@@ -3,6 +3,7 @@ import styles from '../../../[seed]/seed.module.css'
 import { prefetchSignature, stringToParams } from 'core'
 import { notFound } from 'next/navigation'
 import DownloadButton from './download-button'
+import Link from 'next/link'
 
 type RaceSeedData = {
   hash: string
@@ -97,10 +98,9 @@ export default async function RaceSeedSpoilerPage({ params }: { params: { key: s
         </section>
 
         <section className={styles.spoiler_section}>
-          <h3>Items</h3>
           {Object.keys(items).map((area) => (
-            <div key={area}>
-              <h4>{area}</h4>
+            <div key={area} className={styles.area}>
+              <h3>Items &mdash; {area}</h3>
               <table className={styles.table}>
                 <thead>
                   <tr>
@@ -122,6 +122,11 @@ export default async function RaceSeedSpoilerPage({ params }: { params: { key: s
           ))}
         </section>
       </div>
+      <footer className={styles.footer}>
+        <p>
+          <Link href={`/seed/race/${key}`}>Return to Seed Page</Link>
+        </p>
+      </footer>
     </main>
   )
 }

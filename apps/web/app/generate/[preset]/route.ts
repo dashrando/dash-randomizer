@@ -37,7 +37,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
         .map(p => p.tags)
         .reduce((acc, cur) => {
         return acc.concat(cur)
-      }, []);
+      }, ['mystery']);
       const msg = `Invalid preset. Valid presets are: ${validPresets
         .slice(0, -1)
         .join(", ")} or ${validPresets.slice(-1)}`

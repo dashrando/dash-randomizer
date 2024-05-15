@@ -11,6 +11,7 @@ export { findPreset, getPreset, getAllPresets } from "./lib/presets";
 export { Item } from "./lib/items";
 export { generateFromPreset, getSeedNumber } from "./lib/sm-rando";
 export { getItemProgression } from "./lib/graph/solver";
+export { getAreaPortals, getBossPortals } from "./lib/graph/data/portals";
 export {
   bytesToParams,
   paramsToString,

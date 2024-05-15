@@ -40,7 +40,7 @@ export const wreckedshipEdges = {
   ShipRearExit: {
     "Energy Tank (Wrecked Ship)": () => HasDefeatedWreckedShipBoss,
     SpongeBathRight: true,
-    Door_HighwayExit: () =>
+    Door_WSHighway: () =>
       CanUsePowerBombs &&
       (HasGravity || (HasHiJump && (HasSpaceJump || HasSpringBall))),
   },
@@ -49,7 +49,7 @@ export const wreckedshipEdges = {
     ShipRearExit: true,
   },
 
-  Door_HighwayExit: {
+  Door_WSHighway: {
     ShipRearExit: () => (HasGravity || HasHiJump) && HasMorph,
   },
 

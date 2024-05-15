@@ -1,3 +1,4 @@
+import { getAreaPortals, getBossPortals } from "../lib/graph/data/portals";
 import { Edge } from "../lib/graph/init";
 import { AREA_DOORS as area, BOSS_DOORS as boss } from "./interface";
 
@@ -10,6 +11,16 @@ export type DoorTransition = {
   vector: number;   // Vector to get to that door
 }
 
+// This array contains all of the area and boss transitions that can
+// be updated by the randomizer. Note the absence of transitions from
+// new bosses (i.e., copies of bosses in each area) to the their
+// entry doors. These are not needed because those transitions do
+// not need to change. For example, leaving the copy of Kraid in
+// Lower Norfair always takes you to the pre Ridley room.
+//
+// This is also why the transitions to the copied bosses have their
+// addresses undefined. We really only need to know the vector for
+// those so we use the undefined address for a flag of sorts.
 const DOORS: DoorTransition[] = [
   {
     door: "Door_KraidBoss",
@@ -236,7 +247,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToGreenElevator,
   },
   {
-    door: "Door_Crabs",
+    door: "Door_CrateriaCrabs",
     area: "Crateria",
     from: "bottom",
     to: "top",
@@ -252,7 +263,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToRedElevator,
   },
   {
-    door: "Door_HighwayExit",
+    door: "Door_WSHighway",
     area: "WreckedShip",
     from: "left",
     to: "right",
@@ -260,7 +271,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToHighwayExit,
   },
   {
-    door: "Door_Highway",
+    door: "Door_EMHighway",
     area: "EastMaridia",
     from: "right",
     to: "left",
@@ -316,7 +327,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToMainStreet,
   },
   {
-    door: "Door_KraidEntry",
+    door: "Door_RedTowerToKraid",
     area: "RedBrinstar",
     from: "right",
     to: "left",
@@ -324,7 +335,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToKraidEntry,
   },
   {
-    door: "Door_ElevatorEntry",
+    door: "Door_BusinessCenterLeft",
     area: "UpperNorfair",
     from: "left",
     to: "right",
@@ -332,7 +343,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToElevatorEntry,
   },
   {
-    door: "Door_AboveKraid",
+    door: "Door_RedTowerToMaridiaMap",
     area: "RedBrinstar",
     from: "right",
     to: "left",
@@ -348,7 +359,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToMaridiaMap,
   },
   {
-    door: "Door_KraidMouth",
+    door: "Door_BusinessCenterRight",
     area: "UpperNorfair",
     from: "right",
     to: "left",
@@ -372,7 +383,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToCrocEntry,
   },
   {
-    door: "Door_Croc",
+    door: "Door_CrocsLair",
     area: "CrocomiresLair",
     from: "top",
     to: "bottom",
@@ -388,7 +399,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToSingleChamber,
   },
   {
-    door: "Door_Muskateers",
+    door: "Door_Musketeers",
     area: "LowerNorfair",
     from: "left",
     to: "right",
@@ -396,7 +407,7 @@ const DOORS: DoorTransition[] = [
     vector: area.DoorVectorToMuskateers,
   },
   {
-    door: "Door_LavaDive",
+    door: "Door_KronicBoost",
     area: "UpperNorfair",
     from: "left",
     to: "right",
@@ -430,40 +441,7 @@ const DOORS: DoorTransition[] = [
 ];
 
 export const isAreaEdge = (edge: Edge) => {
-  const doors = [
-    "Door_RetroPBs",
-    "Door_GreenHills",
-    "Door_Moat",
-    "Door_Ocean",
-    "Door_G4",
-    "Door_Tourian",
-    "Door_Kago",
-    "Door_GreenElevator",
-    "Door_Crabs",
-    "Door_RedElevator",
-    "Door_HighwayExit",
-    "Door_Highway",
-    "Door_NoobBridge",
-    "Door_RedTower",
-    "Door_MaridiaEscape",
-    "Door_RedFish",
-    "Door_MaridiaTube",
-    "Door_MainStreet",
-    "Door_KraidEntry",
-    "Door_ElevatorEntry",
-    "Door_AboveKraid",
-    "Door_MaridiaMap",
-    "Door_KraidMouth",
-    "Door_KraidsLair",
-    "Door_CrocEntry",
-    "Door_Croc",
-    "Door_SingleChamber",
-    "Door_Muskateers",
-    "Door_LavaDive",
-    "Door_RidleyMouth",
-    "Door_PreAqueduct",
-    "Door_Aqueduct",
-  ];
+  const doors = getAreaPortals().map(p => p.name)
   if (undefined == doors.find((d) => d == edge.from.name)) {
     return false;
   }
@@ -474,16 +452,7 @@ export const isAreaEdge = (edge: Edge) => {
 };
 
 export const isBossEdge = (edge: Edge) => {
-  const doors = [
-    "Door_KraidBoss",
-    "Exit_Kraid",
-    "Door_PhantoonBoss",
-    "Exit_Phantoon",
-    "Door_DraygonBoss",
-    "Exit_Draygon",
-    "Door_RidleyBoss",
-    "Exit_Ridley",
-  ];
+  const doors = getBossPortals().map(p => p.name)
   if (undefined == doors.find((d) => d == edge.from.name)) {
     return false;
   }

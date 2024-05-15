@@ -55,16 +55,10 @@ export default async function RaceSeedPage({ params }: { params: { key: string }
         slug={key}
         race={true}
         mystery={mystery}
+        spoiler={!!spoiler}
       />
       <SeedFooter />
       <Toaster />
-      {spoiler && (
-        <p>
-          <a href={`/seed/race/${key}/spoiler`}>View Spoiler</a>
-          <br />
-          <a href={`/seed/race/${key}/spoiler/download`}>Download Spoiler</a>
-        </p>
-      )}
     </main>
   )
 }

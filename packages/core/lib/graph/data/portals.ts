@@ -73,7 +73,9 @@ const shuffle = (rng: DotNetRandom, arr: any[]) => {
   }
 };
 
-const getAreaPortals = (): Portal[] => {
+export const getAreaPortals = (): Portal[] => {
+  // Listed in vanilla pairs because other sections of
+  // code assume that they are grouped that way
   return [
     { name: "Door_RetroPBs", area: "Crateria" },
     { name: "Door_GreenHills", area: "GreenBrinstar" },
@@ -83,27 +85,27 @@ const getAreaPortals = (): Portal[] => {
     { name: "Door_Tourian", area: "Tourian" },
     { name: "Door_Kago", area: "Crateria" },
     { name: "Door_GreenElevator", area: "GreenBrinstar" },
-    { name: "Door_Crabs", area: "Crateria" },
+    { name: "Door_CrateriaCrabs", area: "Crateria" },
     { name: "Door_RedElevator", area: "RedBrinstar" },
-    { name: "Door_HighwayExit", area: "WreckedShip" },
-    { name: "Door_Highway", area: "EastMaridia" },
+    { name: "Door_WSHighway", area: "WreckedShip" },
+    { name: "Door_EMHighway", area: "EastMaridia" },
     { name: "Door_NoobBridge", area: "GreenBrinstar" },
     { name: "Door_RedTower", area: "RedBrinstar" },
     { name: "Door_MaridiaEscape", area: "RedBrinstar" },
     { name: "Door_RedFish", area: "WestMaridia" },
     { name: "Door_MaridiaTube", area: "RedBrinstar" },
     { name: "Door_MainStreet", area: "WestMaridia" },
-    { name: "Door_KraidEntry", area: "RedBrinstar" },
-    { name: "Door_ElevatorEntry", area: "UpperNorfair" },
-    { name: "Door_AboveKraid", area: "RedBrinstar" },
+    { name: "Door_RedTowerToKraid", area: "RedBrinstar" },
+    { name: "Door_BusinessCenterLeft", area: "UpperNorfair" },
+    { name: "Door_RedTowerToMaridiaMap", area: "RedBrinstar" },
     { name: "Door_MaridiaMap", area: "WestMaridia" },
-    { name: "Door_KraidMouth", area: "UpperNorfair" },
+    { name: "Door_BusinessCenterRight", area: "UpperNorfair" },
     { name: "Door_KraidsLair", area: "KraidsLair" },
     { name: "Door_CrocEntry", area: "UpperNorfair" },
-    { name: "Door_Croc", area: "CrocomiresLair" },
+    { name: "Door_CrocsLair", area: "CrocomiresLair" },
     { name: "Door_SingleChamber", area: "UpperNorfair" },
-    { name: "Door_Muskateers", area: "LowerNorfair" },
-    { name: "Door_LavaDive", area: "UpperNorfair" },
+    { name: "Door_Musketeers", area: "LowerNorfair" },
+    { name: "Door_KronicBoost", area: "UpperNorfair" },
     { name: "Door_RidleyMouth", area: "LowerNorfair" },
     { name: "Door_PreAqueduct", area: "WestMaridia" },
     { name: "Door_Aqueduct", area: "EastMaridia" },
@@ -158,7 +160,7 @@ const generateAreaPortals = (seed: number): PortalMapping[] => {
   return shuffled;
 };
 
-const getBossPortals = (): Portal[] => {
+export const getBossPortals = (): Portal[] => {
   return [
     { name: "Door_KraidBoss", area: "KraidsLair" },
     { name: "Exit_Kraid", area: "KraidsLair" },
