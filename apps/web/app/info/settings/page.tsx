@@ -77,10 +77,9 @@ const mysteryPercentages = [
   {
     title: 'Item Split',
     values: [
-      { label: 'Full', value: 0.3 },
-      { label: 'Chozo', value: 0.3 },
-      { label: 'Major/Minor', value: 0.3 },
-      { label: 'Recall Major/Minor', value: 0.1 },
+      { label: 'Full', value: 0.33 },
+      { label: 'Chozo', value: 0.33 },
+      { label: 'Major/Minor', value: 0.34 },
     ]
   },
   {
@@ -95,9 +94,8 @@ const mysteryPercentages = [
   {
     title: 'Map Layout',
     values: [
-      { label: 'Standard', value: 0.8 },
-      { label: 'Classic', value: 0.1 },
-      { label: 'Recall', value: 0.1 },
+      { label: 'Area Randomization', value: 0.7 },
+      { label: 'Vanilla', value: 0.3 },
     ]
   },
   {
@@ -113,6 +111,13 @@ const mysteryPercentages = [
       { label: 'Vanilla', value: 0.5 },
       { label: 'Starter', value: 0.3 },
       { label: 'Starter+', value: 0.2 },
+    ]
+  },
+  {
+    title: 'Environment Updates',
+    values: [
+      { label: 'Standard', value: 0.85 },
+      { label: 'DASH', value: 0.15 },
     ]
   },
   {
@@ -132,8 +137,8 @@ const mysteryPercentages = [
   {
     title: 'Heat Shield',
     values: [
-      { label: 'Off', value: 0.8 },
-      { label: 'On', value: 0.2 },
+      { label: 'Off', value: 0.85 },
+      { label: 'On', value: 0.15 },
     ]
   },
 ]
