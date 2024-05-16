@@ -280,7 +280,6 @@ export default function SettingsInfoPage() {
         </Article>
         <Article
           id="boss-locations"
-          badge={<Badge variant="beta">Beta</Badge>}
           title="Boss Locations"
         >
           <p>
@@ -318,7 +317,6 @@ export default function SettingsInfoPage() {
         </Article>
         <Article
           id="map-layout"
-          badge={<Badge variant="beta">Beta</Badge>}
           title="Map Layout"
         >
           <p>

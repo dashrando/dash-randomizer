@@ -548,7 +548,7 @@ export default function Form() {
                 determines the available locations where major items can be placed.
               </p>
             </Option>
-            <Option label="Boss Locations" name="boss" badge={<Badge variant="beta">Beta</Badge>}>
+            <Option label="Boss Locations" name="boss">
               <Select
                 options={[
                   { label: 'Surprise', value: 'surprise' },
@@ -564,7 +564,7 @@ export default function Form() {
                 determines if major bosses will be in their vanilla location or potentially moved.
               </p>
             </Option>
-            <Option label="Map Layout" name="map-layout" badge={<Badge variant="beta">Beta</Badge>}>
+            <Option label="Map Layout" name="map-layout">
               <Select
                 options={[
                   { label: 'Area Randomization', value: 'randomized' },
