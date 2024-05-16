@@ -23,13 +23,13 @@ export default async function Image({ params }: { params: { key: string } }) {
   const secondPart = settings.settingsParams.slice(4);
 
   const inter = await fetch(
-    new URL('../../../../public/fonts/inter-latin-ext-400-normal.woff', import.meta.url),
+    new URL('../../../public/fonts/inter-latin-ext-400-normal.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
   const interBoldItalic = await fetch(
-    new URL('../../../../public/fonts/Inter-BoldItalic.woff', import.meta.url),
+    new URL('../../../public/fonts/Inter-BoldItalic.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
   const mono = await fetch(
-    new URL('../../../../public/fonts/GeistMono-Regular.otf', import.meta.url),
+    new URL('../../../public/fonts/GeistMono-Regular.otf', import.meta.url),
   ).then((res) => res.arrayBuffer());
   return new ImageResponse(
     (

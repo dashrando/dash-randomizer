@@ -61,7 +61,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
         spoiler: spoiler ? getSpoiler(hash) : null
       }
       await kv.hset(`race-${raceObj.key}`, raceObj)
-      const url = new URL(`seed/race/${raceObj.key}`, req.nextUrl.origin)
+      const url = new URL(`race/${raceObj.key}`, req.nextUrl.origin)
       return redirect(url)
     }
     

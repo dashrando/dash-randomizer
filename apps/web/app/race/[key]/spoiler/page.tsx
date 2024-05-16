@@ -1,5 +1,5 @@
 import { kv } from '@vercel/kv'
-import styles from '../../../[seed]/seed.module.css'
+import styles from '../../../seed/[seed]/seed.module.css'
 import { prefetchSignature, stringToParams } from 'core'
 import { notFound } from 'next/navigation'
 import DownloadButton from './download-button'
@@ -124,7 +124,7 @@ export default async function RaceSeedSpoilerPage({ params }: { params: { key: s
       </div>
       <footer className={styles.footer}>
         <p>
-          <Link href={`/seed/race/${key}`}>Return to Seed Page</Link>
+          <Link href={`/race/${key}`}>Return to Seed Page</Link>
         </p>
       </footer>
     </main>

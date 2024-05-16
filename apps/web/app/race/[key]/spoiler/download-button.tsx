@@ -18,7 +18,7 @@ export default function DownloadButton({ data, raceKey }: { data: any, raceKey: 
   return (
     <ButtonLink
       variant="outline"
-      href={`/seed/race/${raceKey}/spoiler/download`}
+      href={`/race/${raceKey}/spoiler/download`}
       download={filename}
       onClick={handleClick}
     >
