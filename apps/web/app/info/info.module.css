@@ -93,6 +93,12 @@
   font-weight: 600;
 }
 
+.article details h4 {
+  color: #fff;
+  margin-bottom: 0;
+  margin-top: 36px;
+}
+
 .article + .article {
   margin-top: var(--spacer-16x);
   padding-top: var(--spacer-16x);
@@ -199,6 +205,7 @@
 .table thead th {
   padding-bottom: var(--spacer-2x);
   border-bottom: 1px solid var(--color-foreground);
+  text-align: left;
 }
 
 .table tbody td {
@@ -208,6 +215,28 @@
 .table tbody tr + tr {
   border-top: 1px solid #555;
 }
+
+.mysteryTable {
+  margin-top: var(--spacer-2x);
+}
+
+.mysteryTable thead th {
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  text-transform: uppercase;
+  color: #6a6a6a;
+}
+
+.mysteryTable thead th:first-child,
+.mysteryTable tbody td:first-child {
+  width: 240px;
+}
+
+/* .mysteryTable thead th:last-child,
+.mysteryTable tbody td:last-child {
+  text-align: right;
+} */
 
 .locationCount {
   color: #aaffec;
