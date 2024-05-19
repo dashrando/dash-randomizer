@@ -90,7 +90,7 @@
 .settingsTitle {
   font-size: 36px;
   font-weight: 400;
-  margin: 0 0 var(--spacer-4x);
+  margin: 0 0 var(--spacer-8x);
   text-align: center;
   color: var(--color-highlight);
 }
@@ -122,13 +122,33 @@
 
 .background {
   background-image: url(/spring-24-bg.jpeg);
-  background-size: cover;
+  background-size: contain;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: -20%;
+  left: 10%;
   width: 100%;
-  height: 60%;
+  height: 100%;
   z-index: -999;
-  opacity: 0.5;
+  opacity: 0.3;
   background-repeat: no-repeat;
+}
+
+@media (max-width: 1500px) {
+  .background {
+    top: 0;
+    left: 0;
+    width: 110%;
+  }
+}
+
+@media (max-width: 600px) {
+  .background {
+    display: none;
+  }
+
+  .settings li {
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+  }
 }
