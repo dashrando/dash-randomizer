@@ -1,11 +1,11 @@
 import { kv } from '@vercel/kv'
 import { stringToParams } from 'core'
 import { notFound } from 'next/navigation'
-import Seed from '../../[seed]/seed'
+import Seed from '../../seed/[seed]/seed'
 import { prefetchSignature } from 'core'
-import Toaster from '../../../components/toaster'
+import Toaster from '../../components/toaster'
 import Link from 'next/link'
-import styles from '../../[seed]/seed.module.css'
+import styles from '../../seed/[seed]/seed.module.css'
 
 type RaceSeedData = {
   hash: string

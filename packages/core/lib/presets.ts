@@ -106,15 +106,13 @@ const generateMysteryPreset = (): Preset => {
     tags: ['mystery'],
     settings: {
       mapLayout: getWeightedRandom([
-        { value: MapLayout.Standard, weight: 0.8 },
-        { value: MapLayout.Classic, weight: 0.1 },
-        { value: MapLayout.Recall, weight: 0.1 },
+        { value: MapLayout.Standard, weight: 0.85 },
+        { value: MapLayout.Classic, weight: 0.15 },
       ]),
       majorDistribution: getWeightedRandom([
-        { value: MajorDistributionMode.Standard, weight: 0.3 },
-        { value: MajorDistributionMode.Chozo, weight: 0.3 },
-        { value: MajorDistributionMode.Full, weight: 0.3 },
-        { value: MajorDistributionMode.Recall, weight: 0.1 },
+        { value: MajorDistributionMode.Standard, weight: 0.34 },
+        { value: MajorDistributionMode.Chozo, weight: 0.33 },
+        { value: MajorDistributionMode.Full, weight: 0.33 },
       ]),
       minorDistribution: getWeightedRandom([
         { value: MinorDistributionMode.Standard, weight: 0.6 },
@@ -126,14 +124,9 @@ const generateMysteryPreset = (): Preset => {
           { value: [Item.DoubleJump], weight: 0.35 },
         ])].concat(
           getWeightedRandom([
-            { value: [], weight: 0.8 },
-            { value: [Item.HeatShield], weight: 0.2 },
-          ]).concat(
-          getWeightedRandom([
             { value: [], weight: 0.85 },
-            { value: [Item.PressureValve], weight: 0.15 },
+            { value: [Item.HeatShield], weight: 0.15 },
           ])
-          )
         ),
       beamMode: getWeightedRandom([
         { value: BeamMode.Vanilla, weight: 0.5 },

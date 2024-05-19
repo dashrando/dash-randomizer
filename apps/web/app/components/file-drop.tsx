@@ -21,7 +21,7 @@ const getParamsFromFile = (bytes: Uint8Array) => {
     const err = e as Error;
     console.error(err.message)
     // TODO: Present a friendly error message to the user instead of an alert.
-    alert(err.message)
+    //alert(err.message)
     return null
   }
 }
@@ -123,9 +123,9 @@ const FileDrop = (props: React.PropsWithChildren) => {
 
     const isDASH = isDASHSeed(data)
     if (isDASH) {
-      toast('Loading DASH seed...')
       const seedKey = getParamsFromFile(data)
       if (seedKey) {
+        toast('Loading DASH seed...')
         router.push(`/seed/${seedKey}`)
         return
       }

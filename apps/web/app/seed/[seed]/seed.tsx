@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import useMounted from '@/app/hooks/useMounted'
 import { useVanilla } from '@/app/generate/vanilla'
 import styles from './seed.module.css'
-import { RandomizeRom, findPreset } from 'core'
+import { RandomizeRom, ProtectRom, findPreset } from 'core'
 import { cn } from '@/lib/utils'
 import { downloadFile } from '@/lib/downloads'
 import Button, { ButtonLink } from '@/app/components/button'
@@ -38,21 +38,16 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
   )
 }
 
-const getSeedName = (seed: Seed|null, raceKey: string, mystery: boolean) => {
+const getSeedName = (
+  seed: Seed|null,
+  hash: string,
+  raceKey: string
+) => {
   if (!seed) {
     return ''
   }
-  const extension = seed.name.split('.').pop()
-  const parts = seed.name.split('_')
-  if (mystery) {
-    parts[1] = 'Mystery'
-  }
-  if (raceKey) {
-    parts[2] = raceKey
-  }
-
-  return `${parts.join('_')}.${extension}`
-}
+  return seed.name.replace(`_${hash}.`, `_${raceKey}.`)
+};
 
 export default function Seed({
   parameters,
@@ -75,6 +70,7 @@ export default function Seed({
   const { data: vanilla } = useVanilla()
   const [seed, setSeed] = useState<Seed|null>(null)
   const searchParams = useSearchParams()
+  const create = race ? ProtectRom : RandomizeRom
 
   useEffect(() => {
     if (searchParams && mounted && seed) {
@@ -82,7 +78,7 @@ export default function Seed({
         const downloadParam = searchParams.get('download')
         const forceExit = downloadParam === 'false'
         const hasDownloaded = await getKey(hash)
-        const name = getSeedName(seed, slug, mystery)
+        const name = getSeedName(seed, hash, slug)
         if (forceExit || hasDownloaded) {
           return
         }
@@ -97,10 +93,15 @@ export default function Seed({
       if (vanilla && !seed?.data) {
         const { seed: seedNum, settings, options } = parameters
         const preset = findPreset(settings, options)
-        const seedData = await RandomizeRom(seedNum, settings, options, {
+        const shortName = mystery
+          ? "Mystery"
+          : preset == undefined
+          ? "Custom"
+          : preset.fileName;
+        const seedData = await create(seedNum, settings, options, {
           vanillaBytes: vanilla,
-          presetName: preset == undefined ? "Custom" : preset.fileName
-        })
+          presetName: shortName
+        }, race)
         if (seedData.data) {
           setSeed(seedData)
         }
@@ -111,7 +112,7 @@ export default function Seed({
 
   const hasVanilla = Boolean(vanilla)
   const parsedParams = parseSettings(parameters)
-  const seedName = getSeedName(seed, slug, mystery)
+  const seedName = getSeedName(seed, hash, slug)
 
   return (
     <div>
@@ -132,7 +133,7 @@ export default function Seed({
             </Button>
             {spoiler && (
               <div className={styles.spoiler_link}>
-                <Link href={`/seed/race/${slug}/spoiler`}>
+                <Link href={`/race/${slug}/spoiler`}>
                   View Spoiler Log
                 </Link>
               </div>

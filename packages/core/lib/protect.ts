@@ -6,19 +6,18 @@ import { Options, Settings } from "./graph/params";
 async function ProtectRom(
   seed: number = 0,
   settings: Settings,
-  opts: Options = {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-  },
-  config: Config
+  opts: Options,
+  config: Config,
+  race: boolean = true
 ) {
-  const res = await RandomizeRom(seed, settings, opts, config);
+  const res = await RandomizeRom(seed, settings, opts, config, race);
   const block = res.data;
 
   if (block == null) {
     return res;
   }
 
+  const size = 800
   const rnd = new DotNetRandom(seed);
   const getRandomNumber = (maxValue: number) => rnd.Next(maxValue);
   const getRandomByte = () => rnd.Next(256);
@@ -31,21 +30,22 @@ async function ProtectRom(
     }
   };
 
-  for (let i = 0; i < 800; i++) {
+  for (let i = 0; i < size; i++) {
     block[0x07fce0 + i] = getRandomByte();
   }
 
   const addresses = getLocations().map((l) => l.address);
   shuffle(addresses);
 
-  const maxSep = 5;
+  const maxSep = 3;
+  const maxBytes = size - (6 * addresses.length)
   const separationArray: number[] = [];
   let totalBytes = 0;
   let totalSteps = 0;
-  while (totalSteps < 100) {
+  while (totalSteps < addresses.length) {
     const draw = getRandomNumber(maxSep);
 
-    if (totalBytes + draw > 200) {
+    if (totalBytes + draw > maxBytes) {
       continue;
     }
     separationArray.push(draw);

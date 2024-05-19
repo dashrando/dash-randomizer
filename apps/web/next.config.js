@@ -63,10 +63,15 @@ const nextConfig = {
         permanent: false,
       },
       {
+        source: "/seed/race/:path*",
+        destination: "/race/:path*",
+        permanent: true,
+      },
+      {
         source: "/spring-invitational-form",
         destination: "https://forms.gle/59EFcZ4g5cPqgaNC8",
         permanent: false,
-      },
+      }
     ];
   },
   rewrites: async () => {

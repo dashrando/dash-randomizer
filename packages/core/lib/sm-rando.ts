@@ -26,7 +26,8 @@ export const generateSeedPatch = (
   seed: number,
   settings: Settings,
   graph: Graph,
-  options: Options
+  options: Options,
+  race: boolean
 ): Patch => {
   //-----------------------------------------------------------------
   // Verify inputs.
@@ -67,8 +68,16 @@ export const generateSeedPatch = (
   const nodes = getItemNodes(graph);
   const seedPatch: Patch = [];
   const rnd = new DotNetRandom(seed);
-  encodeBytes(seedPatch, 0x2f8000, U16toBytes(rnd.Next(0xffff)));
-  encodeBytes(seedPatch, 0x2f8002, U16toBytes(rnd.Next(0xffff)));
+  encodeBytes(
+    seedPatch,
+    TABLE_FLAGS.FileSelectCode,
+    U16toBytes(rnd.Next(0xffff))
+  );
+  encodeBytes(
+    seedPatch,
+    TABLE_FLAGS.FileSelectCode + 2,
+    U16toBytes(rnd.Next(0xffff))
+  );
 
   //-----------------------------------------------------------------
   // Handle map layout.
@@ -138,7 +147,11 @@ export const generateSeedPatch = (
   //-----------------------------------------------------------------
 
   encodeBytes(seedPatch, TABLE_FLAGS.ChargeMode, U8toBytes(settings.beamMode));
-  encodeBytes(seedPatch, 0x2f8b10, U16toBytes(settings.gravityHeatReduction));
+  encodeBytes(
+    seedPatch,
+    TABLE_FLAGS.GravityHeatDamage,
+    U16toBytes(settings.gravityHeatReduction)
+  );
 
   //-----------------------------------------------------------------
   // Encode boss and area edges.
@@ -178,10 +191,14 @@ export const generateSeedPatch = (
   }
 
   //-----------------------------------------------------------------
-  // Encode seed flags from the website.
+  // Encode seed flags from the website for non-race seeds.
   //-----------------------------------------------------------------
 
-  encodeBytes(seedPatch, 0x2f8b00, paramsToBytes(seed, settings, options));
+  const seedFlags = new Uint8Array(TABLE_FLAGS.SeedFlagsSize).fill(0xee)
+  if (!race) {
+    seedFlags.set(paramsToBytes(seed, settings, options))
+  }
+  encodeBytes(seedPatch, TABLE_FLAGS.SeedFlags, seedFlags)
 
   return seedPatch;
 };
@@ -235,7 +252,7 @@ export const generateFromPreset = (name: string, seedNumber: number) => {
   const { settings, options } = preset;
   const graph = generateSeed(seed, settings, options);
 
-  const seedPatch = generateSeedPatch(seed, settings, graph, options);
+  const seedPatch = generateSeedPatch(seed, settings, graph, options, false);
   const fileName = getFileName(preset.fileName, seed, settings, options);
   const patch = getBasePatch(settings);
 

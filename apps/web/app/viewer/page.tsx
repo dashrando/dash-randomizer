@@ -23,15 +23,21 @@ export default function ItemViewer() {
       reader.readAsArrayBuffer(romData);
    }
 
-   const ItemList = () => {
-      const { settings } = readParams(bytes);
-      const graph = readGraph(bytes);
-
-      if (graph == undefined || graph.length <= 0) {
-         return <></>
+   const getProgression = (bytes: Uint8Array) => {
+      try {
+         const { settings } = readParams(bytes);
+         return getItemProgression(readGraph(bytes), settings)
+      } catch {
+         return undefined
       }
+   }
 
-      const progression = getItemProgression(graph, settings)
+   const ItemList = () => {
+      const progression = getProgression(bytes)
+
+      if (progression == undefined) {
+         return <div>Invalid ROM</div>
+      }
 
       const getStyle = (n: ItemLocation) => {
          if (n.isMajor) {
