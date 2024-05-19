@@ -167,10 +167,31 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
-  mode: 'surprise-surprise' | 'chozo-bozo' | 'sgl23' | 'dash-recall' | 'dash-classic' | '2017' | 'custom' | null,
+  mode:
+    | "spring24"
+    | "surprise-surprise"
+    | "chozo-bozo"
+    | "sgl23"
+    | "dash-recall"
+    | "dash-classic"
+    | "2017"
+    | "custom"
+    | null;
 }
 
 const MODES = {
+  'spring24': {
+    'item-split': 'chozo',
+    'map-layout': 'randomized',
+    boss: 'vanilla',
+    minors: 'dash',
+    'environment': 'standard',
+    'charge-beam': 'starter-plus',
+    'gravity-heat-reduction': 'off',
+    'double-jump': 'off',
+    'heat-shield': 'off',
+    'pressure-valve': 'none',
+  },
   'surprise-surprise': {
     'item-split': 'full',
     'map-layout': 'randomized',
@@ -394,6 +415,8 @@ export default function Form() {
         config.presetName = "ChozoBozo"
       } else if (data.mode == 'surprise-surprise') {
         config.presetName = "SurpriseSurprise"
+      } else if (data.mode == 'spring24') {
+        config.presetName = "Spring24"
       }
 
       if (data['charge-beam'] == 'starter') {
@@ -504,6 +527,7 @@ export default function Form() {
               <Select
                 options={[
                   { label: '', value: '', hidden: true },
+                  { label: 'Spring Invitational 2024', value: 'spring24' },
                   { label: 'Surprise Surprise', value: 'surprise-surprise' },
                   { label: 'Chozo Bozo', value: 'chozo-bozo' },
                   { label: 'SG Live 2023', value: 'sgl23' },
@@ -536,9 +560,9 @@ export default function Form() {
             <Option label="Item Split" name="item-split">
               <Select
                 options={[
-                  { label: 'Full', value: 'full' },
                   { label: 'Chozo', value: 'chozo' },
                   { label: 'Major/Minor', value: 'standard-mm' },
+                  { label: 'Full', value: 'full' },
                 ]}
                 name="item-split"
                 register={register}
@@ -551,10 +575,10 @@ export default function Form() {
             <Option label="Boss Locations" name="boss">
               <Select
                 options={[
-                  { label: 'Surprise', value: 'surprise' },
+                  { label: 'Vanilla', value: 'vanilla' },
                   { label: 'Shuffled', value: 'shuffled' },
                   { label: 'Shifted', value: 'shifted' },
-                  { label: 'Vanilla', value: 'vanilla' },
+                  { label: 'Surprise', value: 'surprise' },
                 ]}
                 name="boss"
                 register={register}
@@ -584,8 +608,8 @@ export default function Form() {
             <Option label="Minor Item Distribution" name="minors">
               <Select
                 options={[
-                  { label: 'Standard - 3:2:1', value: 'standard' },
                   { label: 'DASH - 2:1:1', value: 'dash' },
+                  { label: 'Standard - 3:2:1', value: 'standard' },
                 ]}
                 name="minors"
                 register={register}
@@ -615,9 +639,9 @@ export default function Form() {
             <Option label="Charge Beam" name="charge-beam">
               <Select
                 options={[
-                  { label: 'Vanilla', value: 'vanilla' },
-                  { label: 'Starter', value: 'starter' },
                   { label: 'Starter+', value: 'starter-plus' },
+                  { label: 'Starter', value: 'starter' },
+                  { label: 'Vanilla', value: 'vanilla' },
                 ]}
                 name="charge-beam"
                 register={register}

@@ -32,6 +32,7 @@ export const getAllPresets = () => {
     Preset_Chozo_Bozo,
     Preset_2017_MM,
     Preset_SGL23,
+    Preset_Spring_2024,
     Preset_MM_Surprise,
     Preset_MM_Area_Surprise,
     Preset_Full_Surprise,
@@ -413,7 +414,7 @@ export const Preset_Chozo_Area_Shifted: Preset = {
 };
 
 //-----------------------------------------------------------------
-// SG Live 2023 Tournament Settings
+// Event / Tournament Settings
 //-----------------------------------------------------------------
 
 export const Preset_SGL23: Preset = {
@@ -430,6 +431,27 @@ export const Preset_SGL23: Preset = {
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: true,
     bossMode: BossMode.Shifted,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false
+  },
+};
+
+export const Preset_Spring_2024: Preset = {
+  title: "Spring Invitational 2024",
+  fileName: "Spring24",
+  tags: ["spring24"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Chozo,
+    minorDistribution: MinorDistributionMode.Dash,
+    extraItems: [],
+    beamMode: BeamMode.StarterPlus,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Vanilla,
   },
   options: {
     DisableFanfare: false,
