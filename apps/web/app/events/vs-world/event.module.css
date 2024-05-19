@@ -85,3 +85,50 @@
     margin: var(--spacer-4x) 0 0;
   }
 }
+
+/* Spring invitations */
+.settingsTitle {
+  font-size: 36px;
+  font-weight: 400;
+  margin: 0 0 var(--spacer-4x);
+  text-align: center;
+  color: var(--color-highlight);
+}
+
+.settings {
+  list-style: none outside none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  /* text-align: center; */
+  gap: var(--spacer-4x);
+}
+
+.settings li {
+  display: block;
+  width: 30%;
+}
+
+.label {
+  display: block;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  text-transform: uppercase;
+  color: #808080;
+}
+
+.background {
+  background-image: url(/spring-24-bg.jpeg);
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  z-index: -999;
+  opacity: 0.5;
+  background-repeat: no-repeat;
+}

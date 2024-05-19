@@ -10,17 +10,7 @@ export default function TournamentPage() {
 
   return (
     <>
-      <div style={{
-        backgroundImage: 'url(/spring-24-bg.jpeg)',
-        backgroundSize: 'cover',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: -999,
-        opacity: 0.5,
-      }} />
+      <div className={styles.background} />
       <Wrapper borderless>
         <div style={{ maxWidth: '660px', margin: 'var(--spacer-8x) auto var(--spacer-4x)' }}>
           <div style={{ textAlign: 'center' }}>
@@ -30,17 +20,35 @@ export default function TournamentPage() {
             <h3 style={{ textTransform: 'uppercase', fontWeight: '400', fontSize: '20px', display: 'flex', justifyContent: 'center', gap: 'var(--spacer-4x)', color: 'var(--color-muted)', margin: '0' }}>
               <span>May 23 - 27</span>
             </h3>
-            <h2 style={{ margin: 'var(--spacer-8x) auto', fontSize: '24px', lineHeight: '32px', color: 'var(--color-highlight)', fontWeight: '400', textAlign: 'center', maxWidth: '340px' }}>
-              A tournament spanning a few days.
-            </h2>
           </div>
           <div style={{ margin: 'var(--spacer-32x) 0 var(--spacer-12x)'}}>
-            <h3 className={styles.scheduleTitle}>Schedule</h3>
-            <p style={{ textAlign: 'center' }}>
-              Chozo Item Split
-              <br />
-              Area Randomied
-            </p>
+            <h3 className={styles.settingsTitle}>Settings</h3>
+            <ul className={styles.settings}>
+              <li>
+                <span className={styles.label}>Item Split</span>
+                Chozo
+              </li>
+              <li>
+                <span className={styles.label}>Boss Locations</span>
+                Vanilla
+              </li>
+              <li>
+                <span className={styles.label}>Map Layout</span>
+                Area Randomization
+              </li>
+              <li>
+                <span className={styles.label}>Logic</span>
+                Standard
+              </li>
+              <li>
+                <span className={styles.label}>Minor Item Distribution</span>
+                DASH - 2:1:1
+              </li>
+              <li>
+                <span className={styles.label}>Environment Updates</span>
+                Standard
+              </li>
+            </ul>
           </div>
         </div>
       </Wrapper>
