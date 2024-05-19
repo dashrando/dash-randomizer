@@ -62,6 +62,11 @@ const nextConfig = {
         destination: "/readable/area",
         permanent: false,
       },
+      {
+        source: "/spring-invitational-form",
+        destination: "https://forms.gle/59EFcZ4g5cPqgaNC8",
+        permanent: false,
+      },
     ];
   },
   rewrites: async () => {
