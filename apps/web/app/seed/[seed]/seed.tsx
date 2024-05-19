@@ -46,7 +46,7 @@ const getSeedName = (
   if (!seed) {
     return ''
   }
-  return seed.name.replace(hash, raceKey)
+  return seed.name.replace(`_${hash}.`, `_${raceKey}.`)
 };
 
 export default function Seed({
