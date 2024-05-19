@@ -68,6 +68,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/events",
+        destination: "/events/spring-invitational",
+        permanent: false,
+      },
+      {
         source: "/spring-invitational-form",
         destination: "https://forms.gle/59EFcZ4g5cPqgaNC8",
         permanent: false,
