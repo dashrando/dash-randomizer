@@ -36,7 +36,7 @@ export default function TournamentPage() {
               <nav className={styles.mysteryNav}>
                 <ul>
                   <li>
-                    <Link href={`${baseUrl}/info`}>About</Link>
+                    <Link href={`${baseUrl}/info`}>Info</Link>
                   </li>
                   <li>
                     <Link href={`${baseUrl}/register`}>Register</Link>

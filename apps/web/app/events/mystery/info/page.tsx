@@ -36,7 +36,7 @@ export default function TournamentInfoPage() {
               <nav className={styles.mysteryNav}>
                 <ul>
                   <li>
-                    <Link href={`${baseUrl}/info`} className={styles.activeNavLink}>About</Link>
+                    <Link href={`${baseUrl}/info`} className={styles.activeNavLink}>Info</Link>
                   </li>
                   <li>
                     <Link href={`${baseUrl}/register`}>Register</Link>
@@ -50,7 +50,7 @@ export default function TournamentInfoPage() {
                 </ul>
               </nav>
             </div>
-            <article style={{ margin: 'var(--spacer-16x) auto var(--spacer)', maxWidth: '800px', textAlign: 'left' }}>
+            <article style={{ margin: 'var(--spacer-16x) auto var(--spacer)', maxWidth: '800px', textAlign: 'left' }} className={styles.mysteryArticle}>
               <h2>Registration</h2>
               <p>
                 Sign ups for the Super Metroid Multi-Category Randomizer tournament will open shortly and will close on Friday June 14  at 11:59 pm EDT. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, June 19.
@@ -106,6 +106,63 @@ export default function TournamentInfoPage() {
                 <li>There will be zero tolerance for no-shows. If a player is a no-show, that player will forfeit the match.</li>
                 <li>A player will be considered a no-show if they are not in the race room by 15 minutes after the scheduled start time, and has made no effort to contact their opponent or the admins.</li>
                 <li>Even if said contact is made, if a race is unable to be played at that time, or reasonably be rescheduled within the weeks deadline, the player that was the original no-show will forfeit the match.</li>
+              </ul>
+              <h2>Playoff Structure</h2>
+              <ul>
+                <li>Everyone with at least a 3-3 record will make the playoffs, with seeding determined by final rankings as determined by challonge</li>
+                <li>Playoff matches will be best of 3 single elimination</li>
+                <li>Races 1 and 2 are required to be scheduled back to back, with race 3 encouraged to follow</li>
+                <li>The bracket (depending on number of participants) will most likely look like a 64 player bracket with several top records receiving byes. Match ups will be reverse seeding (i.e. 1 vs 64, 2 vs 63, etc).</li>
+              </ul>
+              <h2>Ties</h2>
+              <ol>
+                <li>The time on Racetime will be the official time for the race, unless otherwise specified.</li>
+                <li>If the race is within 3 seconds, a retime via frame count will be done by admins <em>only if it is requested by the player finishing second on Racetime</em>.</li>
+                <li>If a frame count is requested and confirmed to be warranted by admins, the admins will time both racers’ VoDs and determine the winner to the best of their ability.</li>
+                <li>If a clear winner can be determined via a frame count, the race result will be changed (if necessary) to reflect the results of the frame count.</li>
+                <li>If a clear winner cannot be determined via a frame count, the race result will fall back on the original Racetime results. If the original Racetime result was a tie, the final result will reflect that.</li>
+              </ol>
+              <h2>Async Races</h2>
+              <p>It is the intention of this tournament that all races be run live/synchronously if reasonable. Nonetheless, we accept that due to the nature of Swiss tournament time constraints, there may be exceptions warranting use of asynchronous (async) races. All async races must be completed by the normal round deadline for the appropriate round.</p>
+              <p>If an async race is needed, the player requiring the async (or an agreed upon player should the need be mutual due to schedule incompatibility) should contact an admin as soon as the need is known. Organizers reserve the right to deny async requests. The player requesting the async will generally be expected to run the seed first.</p>
+              <p>This first player, referred to as “Player 1”, will follow the following procedure:</p>
+              <p>Player 1 will arrange a time with an organizer for the async race to be run. Player 1 will receive a link to the race seed ~5 minutes ahead of the scheduled time, and will download/run the race seed starting no more than 10 minutes after the seed is sent. Player 1 will locally record the gameplay (and will not stream gameplay to Twitch, etc.) and report a time and an end game screenshot showing completion time and item collection rate to an organizer upon completing the seed. Player 1 will additionally upload the local recording as an unlisted Youtube video and provide a link to the organizer.</p>
+              <p>The player to complete the seed second, referred to as “Player 2”, will follow the following procedure:</p>
+              <p>Player 2 will arrange a time with an organizer for the async race to be run. Player 2 will receive a link to the race seed ~5 minutes ahead of the scheduled time, and will download/run the race seed starting no more than 10 minutes after the seed is sent. Player 2 may stream gameplay as normal, but is expected to archive vods as normal and/or be able to provide local recording evidence of gameplay as is typical. The only difference between this and a normal race is that gameplay stream delay is not required; other tournament rules must be followed. Upon completion of the seed, Player 2 should contact an organizer with completion time and item collection rate, and the organizer will provide the link to Player 1’s gameplay video for Player 2 to review.</p>
+              <p>Organizers will inform both players of the race result once both players have completed the seed.</p>
+              <p>
+                <em>Please note: Asyncs are not intended to be for situations where players can&apos;t find a convenient time to schedule. The admins will only allow asyncs in situations where it is deemed that opponents absolutely cannot find a mutual time.</em>
+              </p>
+              <h2>Additional Race Procedures and Rules</h2>
+              <ol>
+                <li>Auto tracking is permitted only for item tracking. You MAY NOT use auto map-tracking.</li>
+                <li>Runners will use RaceTime.gg to time and record their race. All runners must have a RaceTime account. The time listed on RaceTime is the official time for the match. All runners are required to stream and to follow all RaceTime rules.</li>
+                <li>All races must be streamed on Twitch. Additionally, all runners must have the vod of the stream available for potential review by the organizers for at least 1 week after the race. Failure to comply with this rule could lead to a win being overturned. If you have not enabled vod saving on twitch please go to https://help.twitch.tv/s/article/video-on-demand for instructions</li>
+                <li>Players may not be in a restream channel or any chat (twitch, discord etc.) during a race.</li>
+                <li>Watching other racer’s streams or any restream while racing is not allowed.</li>
+                <li>Runners caught or who are suspected of cheating will be automatically forfeited from further participation in the tournament. All decisions on cheating will be made by the organizers and will be final.</li>
+                <li>Any form of out of bounds is banned, as is Underflow, wrong warps, and memory corruption.</li>
+                <li>The tournament will use the latest stable version of the DASH Randomizer for all races.</li>
+                <li>In the event that a new stable version is released, all subsequent races will move to the new version.</li>
+                <li>Runners must make their audio available when restreamed and may only use default audio. Use of alternate audio is prohibited in all cases. When on restream, runners must turn off their mics and all alerts.</li>
+                <li>Runners may use alternate color palettes and/or alternate sprites. All alternate sprites must have the same animation for screw attack with and without space jump. Failure to have the correct animation will result in a warning for the first infraction and a forfeit for any subsequent infraction.</li>
+                <li>Exceptions to the above rule: The Samus hitbox sprite may not be used at any time.</li>
+                <li>Any disputes will be handled by organizers and all decisions will be final.</li>
+                <li>All swiss races that end in a tie will result in both players receiving 0.5 points for the round. Playoff races will be re run.</li>
+                <li>While not required, it is highly recommended that runners locally record all their races. If your stream goes down during a race (internet issues) you may be asked to provide proof of your finish time. If you have internet or technical issues (for a moderate/significant period of time) and cannot provide a local recording then you will be forfeited from that match. There will be no rematches.</li>
+              </ol>
+              <h2>Stream Delay</h2>
+              <p>Stream delay is required for all races. A delay of 10 minutes must be used for each race. If a racer does not delay their stream they will forfeit the race. If a racer wishes to stop stream delay after the race they must NOT discard the delay. Discarding delay will cause the end of the race to be lost and the runner will forfeit the race unless the results can be verified with a local recording.</p>
+              <h2>Hardware Rules</h2>
+              <ul>
+                <li>Runners may use cartridge, flashcart, approved emulator, SNES classic or a docked Analogue Pocket.</li>
+                <li>ZSNES and Snes9x (v1.43 and below) are banned.</li>
+                <li>The run-ahead feature in RetroArch is also banned.</li>
+                <li>Turbo controllers and functionality are both banned.</li>
+                <li>Emulator specific functionality is banned (e.g. save states, fast forward, etc).</li>
+                <li>Pressing Up+Down or Left+Right simultaneously is banned.</li>
+                <li>Only one action can be mapped to any given button.</li>
+                <li>Only one button can be mapped to any given action.</li>
               </ul>
             </article>
           </div>
