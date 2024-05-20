@@ -228,7 +228,8 @@
   transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
 }
 
-.mysteryNav ul li a:hover {
+.mysteryNav ul li a:hover,
+.mysteryNav ul li a.activeNavLink {
   color: var(--color-highlight);
   text-decoration-color: var(--color-highlight);
 }

@@ -1,14 +1,14 @@
 import { Wrapper } from '@/app/components/wrapper'
-import styles from '../vs-world/event.module.css'
+import styles from '../../vs-world/event.module.css'
 import { ButtonLink } from '@/app/components/button'
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'DASH Mystery',
-  description: 'A tournament where the settings are discovered as the seed unfolds',
+  title: 'Schedule - DASH Mystery',
+  description: 'Schedule for the DASH Mystery tournament',
 }
 
-export default function TournamentPage() {
+export default function TournamentInfoPage() {
   const baseUrl = '/events/mystery'
 
   return (
@@ -42,7 +42,7 @@ export default function TournamentPage() {
                     <Link href={`${baseUrl}/register`}>Register</Link>
                   </li>
                   <li>
-                    <Link href={`${baseUrl}/schedule`}>Schedule</Link>
+                    <Link href={`${baseUrl}/schedule`} className={styles.activeNavLink}>Schedule</Link>
                   </li>
                   <li>
                     <Link href={`${baseUrl}/discord`}>Discord</Link>
@@ -50,20 +50,11 @@ export default function TournamentPage() {
                 </ul>
               </nav>
             </div>
-            <h2 style={{ margin: 'var(--spacer-16x) auto var(--spacer)', fontSize: '24px', lineHeight: '32px', color: 'var(--color-highlight)', fontWeight: '400', textAlign: 'center', maxWidth: '440px' }}>
-              A tournament where the settings are discovered as the seed unfolds
-            </h2>
-            <h3 style={{ fontWeight: '400', fontSize: '16px', lineHeight: '32px', display: 'block', color: 'var(--color-highlight)', margin: '0' }}>
-              <span>Starts on June 12</span>
-            </h3>
-          </div>
-          <div style={{ margin: 'var(--spacer-12x) 0 var(--spacer-12x)', textAlign: 'center' }}>
-            <ButtonLink variant="hero" size="large" href="/events/mystery/register" style={{ margin: '0 auto' }} target="_blank">Register</ButtonLink>
-          </div>
-          <div style={{ margin: 'var(--spacer-24x) 0 var(--spacer-12x)'}}>
-            <h4 style={{ margin: 'var(--spacer-8x) auto', fontSize: '24px', lineHeight: '32px', fontWeight: '400', textAlign: 'center', maxWidth: '480px', color: '#999' }}>
-              <span style={{ fontWeight: '600', color: 'var(--color-highlight)' }}>MYSTERY</span> is a community tournament.
-            </h4>
+            <article style={{ margin: 'var(--spacer-16x) auto var(--spacer)', maxWidth: '800px', textAlign: 'center' }}>
+              <p>
+                <em>Coming Soon</em>
+              </p>
+            </article>
           </div>
         </div>
       </Wrapper>
