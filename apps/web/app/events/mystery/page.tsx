@@ -39,11 +39,8 @@ export default function TournamentPage() {
                   <li>
                     <Link href={`${baseUrl}/register`}>Register</Link>
                   </li>
-                  {/* <li>
-                    <Link href={`${baseUrl}/schedule`}>Schedule</Link>
-                  </li> */}
                   <li>
-                    <Link href={`${baseUrl}/info`}>Rules + Info</Link>
+                    <Link href={`${baseUrl}/schedule`}>Schedule</Link>
                   </li>
                   <li>
                     <Link href={`${baseUrl}/discord`}>Discord</Link>
