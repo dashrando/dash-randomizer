@@ -19,6 +19,7 @@ export default function TournamentPage() {
           <img src="/mystery-bg.png" alt="DASH Mystery" loading="eager" />
         </div>
       </div>
+      <div className={styles.mysteryMobileNavBg} />
       <Wrapper borderless>
         <div style={{ maxWidth: '660px', margin: 'var(--spacer-8x) auto var(--spacer-4x)' }}>
           <div style={{ textAlign: 'center' }}>

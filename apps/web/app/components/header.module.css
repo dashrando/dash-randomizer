@@ -30,6 +30,9 @@
     /* border-bottom-color: #222; */
     background-color: transparent;
   }
+  .wrapper.borderless.open {
+    background-color: #000;
+  }
 }
 
 .logo {
@@ -128,6 +131,7 @@
 
   .open.borderless .navigation {
     border-color: #222;
+    background-color: #000;
   }
 
   .wrapper + main {
