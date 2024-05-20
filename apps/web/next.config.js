@@ -76,7 +76,17 @@ const nextConfig = {
         source: "/spring-invitational-form",
         destination: "https://forms.gle/59EFcZ4g5cPqgaNC8",
         permanent: false,
-      }
+      },
+      {
+        source: "/events/mystery/discord",
+        destination: "https://discord.gg/2usVyy4",
+        permanent: false,
+      },
+      {
+        source: "/events/mystery/register",
+        destination: "https://www.inertia.run/i/dash-mystery",
+        permanent: false,
+      },
     ];
   },
   rewrites: async () => {

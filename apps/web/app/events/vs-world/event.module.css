@@ -152,3 +152,74 @@
     text-align: center;
   }
 }
+
+/* MYSTERY */
+.mysteryLogo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mysteryLogo {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+}
+
+.mysteryBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -999;
+  /* max-width: 1440px; */
+}
+
+.mysteryBackground .aspectRatio {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 44.37%;
+}
+
+.mysteryBackground img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mysteryNav {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacer-4x);
+  margin: var(--spacer-4x) 0 0;
+}
+
+.mysteryNav ul {
+  list-style: none;
+  display: flex;
+  gap: var(--spacer-6x);
+  margin: 0;
+  padding: 0;
+}
+
+.mysteryNav ul li a {
+  font-size: 14px;
+  color: var(--color-foreground);
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  text-decoration-color: transparent;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.mysteryNav ul li a:hover {
+  color: var(--color-highlight);
+  text-decoration-color: var(--color-highlight);
+}
