@@ -4,8 +4,8 @@ import { ButtonLink } from '@/app/components/button'
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'DASH Spring Invitational',
-  description: 'A DASH tournament for Chozo and Area Rando. May 23 - 27, 2024',
+  title: 'DASH Mystery',
+  description: 'A tournament where the settings are discovered as the seed unfolds',
 }
 
 export default function TournamentPage() {
