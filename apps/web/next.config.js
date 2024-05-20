@@ -87,6 +87,11 @@ const nextConfig = {
         destination: "https://www.inertia.run/i/dash-mystery",
         permanent: false,
       },
+      {
+        source: "/mystery-register",
+        destination: "https://www.inertia.run/i/dash-mystery",
+        permanent: false,
+      },
     ];
   },
   rewrites: async () => {
