@@ -40,13 +40,13 @@ export default function TournamentPage() {
                     <Link href={`${baseUrl}/info`}>Info</Link>
                   </li>
                   <li>
-                    <Link href={`${baseUrl}/register`}>Register</Link>
+                    <Link href={`${baseUrl}/register`} prefetch={false}>Register</Link>
                   </li>
                   <li>
                     <Link href={`${baseUrl}/schedule`}>Schedule</Link>
                   </li>
                   <li>
-                    <Link href={`${baseUrl}/discord`}>Discord</Link>
+                    <Link href={`${baseUrl}/discord`} prefetch={false}>Discord</Link>
                   </li>
                 </ul>
               </nav>
