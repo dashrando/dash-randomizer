@@ -84,7 +84,7 @@ const nextConfig = {
       },
       {
         source: "/events/mystery/register",
-        destination: "https://www.inertia.run/i/dash-mystery",
+        destination: "https://www.inertia.run/i/dash-mystery?returnTo=https%3A%2F%2Fmystery.dash.kupppo.com%2Fevents%2Fmystery%2Fregistered",
         permanent: false,
       },
       {
