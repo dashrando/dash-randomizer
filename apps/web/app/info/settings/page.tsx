@@ -358,12 +358,12 @@ export default function SettingsInfoPage() {
                     </tr>
                     <tr>
                       <td>Plasma Beam</td>
-                      <td>West Maridia</td>
+                      <td>East Maridia</td>
                       <td>Plasma Beam</td>
                     </tr>
                     <tr>
                       <td>Spring Ball</td>
-                      <td>West Maridia</td>
+                      <td>East Maridia</td>
                       <td>Spring Ball</td>
                     </tr>
                     <tr>
