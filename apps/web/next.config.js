@@ -76,6 +76,11 @@ const nextConfig = {
         source: "/spring-invitational-form",
         destination: "https://forms.gle/59EFcZ4g5cPqgaNC8",
         permanent: false,
+      },
+      {
+        source: "/si24",
+        destination: "/events/spring-invitational",
+        permanent: false,
       }
     ];
   },
