@@ -68,7 +68,7 @@ export const uppernorfairEdges = {
     SingleChamberTopRightDoor: false,
     "Missiles (Speed)": () =>
       HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
-    "Speed Booster": () => HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
+    "Speed Booster": () => SuperPacks >= 1 && (HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2)),
     "Missiles (Wave)": () => (CanOpenRedDoors && HellRunTanks >= 2) || HellRunTanks >= 7,
     BubbleMountainBottomLeftDoor: () => HellRunTanks >= 8,
   },
