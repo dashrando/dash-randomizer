@@ -53,9 +53,11 @@ export default function TournamentPage() {
             </div>
             <h2 style={{ margin: 'var(--spacer-16x) auto var(--spacer)', fontSize: '24px', lineHeight: '32px', color: 'var(--color-highlight)', fontWeight: '400', textAlign: 'center', maxWidth: '440px' }}>
               Thank you for registering.
-              <br />
-              Please look out on the Discord for more information.
             </h2>
+            <div style={{ margin: 'var(--spacer-8x) 0 var(--spacer-16x)' }}>
+              <ButtonLink href="/events/mystery/discord" variant="hero">Join Tournament Discord</ButtonLink>
+            </div>
+            <p>Please join the tournament Discord where more information will be announced.</p>
           </div>
         </div>
       </Wrapper>
