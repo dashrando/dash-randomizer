@@ -63,7 +63,7 @@ export default function TournamentPage() {
           </div>
           <div style={{ margin: 'var(--spacer-24x) 0 var(--spacer-12x)'}}>
             <h4 style={{ margin: 'var(--spacer-8x) auto', fontSize: '24px', lineHeight: '32px', fontWeight: '400', textAlign: 'center', maxWidth: '480px', color: '#999' }}>
-              <span style={{ fontWeight: '600', color: 'var(--color-highlight)' }}>MYSTERY</span> is a community tournament.
+              Is it area or not? Major/minor? Chozo? Full countdown? No one will know until the seed is played, as players will be tasked with figuring out the settings as they play.
             </h4>
           </div>
         </div>
