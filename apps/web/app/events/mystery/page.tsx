@@ -55,7 +55,7 @@ export default function TournamentPage() {
               A tournament where the settings are discovered as the seed unfolds
             </h2>
             <h3 style={{ fontWeight: '400', fontSize: '16px', lineHeight: '32px', display: 'block', color: 'var(--color-highlight)', margin: '0' }}>
-              <span>Starts on June 12</span>
+              <span>Starts on June 19</span>
             </h3>
           </div>
           <div style={{ margin: 'var(--spacer-12x) 0 var(--spacer-12x)', textAlign: 'center' }}>

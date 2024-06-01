@@ -87,7 +87,7 @@ export default function TournamentInfoPage() {
               </p>
               <h2>Timeline</h2>
               <ul>
-                <li>May 27: Registration begins</li>
+                <li>June 2: Registration begins</li>
                 <li>June 14: Registration ends at 11:59pm EDT</li>
                 <li>June 19: Start of swiss week 1</li>
                 <li>August 7: Last day of swiss weeks</li>
