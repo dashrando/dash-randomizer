@@ -106,10 +106,7 @@ const generateMysteryPreset = (): Preset => {
     fileName: 'Mystery',
     tags: ['mystery'],
     settings: {
-      mapLayout: getWeightedRandom([
-        { value: MapLayout.Standard, weight: 0.85 },
-        { value: MapLayout.Classic, weight: 0.15 },
-      ]),
+      mapLayout: MapLayout.Standard,
       majorDistribution: getWeightedRandom([
         { value: MajorDistributionMode.Standard, weight: 0.34 },
         { value: MajorDistributionMode.Chozo, weight: 0.33 },
@@ -130,9 +127,9 @@ const generateMysteryPreset = (): Preset => {
           ])
         ),
       beamMode: getWeightedRandom([
-        { value: BeamMode.Vanilla, weight: 0.33 },
+        { value: BeamMode.Vanilla, weight: 0.34 },
         { value: BeamMode.Starter, weight: 0.33 },
-        { value: BeamMode.StarterPlus, weight: 0.34 },
+        { value: BeamMode.StarterPlus, weight: 0.33 },
       ]),
       suitMode: SuitMode.Dash,
       gravityHeatReduction: getWeightedRandom([

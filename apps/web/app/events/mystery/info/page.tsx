@@ -85,7 +85,7 @@ export default function TournamentInfoPage() {
                 <li>Item Fanfare: Always on</li>
                 <li>Logic: Always Standard</li>
               </ul> */}
-              <MysterySettings />
+              <MysterySettings external={true} />
               <p>
                 <em>These percentages are subject to change before the tournament starts. We will be testing them in the weeks leading up to the tournament. All percentages will be finalized at the same time that first round match ups are announced.</em>
               </p>

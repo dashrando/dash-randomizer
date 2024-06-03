@@ -270,6 +270,10 @@
   text-decoration-color: transparent;
 }
 
+.mysteryArticle details h4 a {
+  text-decoration-color: transparent;
+}
+
 .mysteryArticle p {
   font-size: 16px;
   line-height: 24px;

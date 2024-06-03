@@ -99,6 +99,10 @@
   margin-top: 36px;
 }
 
+.article details h4 a {
+  text-decoration-color: transparent;
+}
+
 .article + .article {
   margin-top: var(--spacer-16x);
   padding-top: var(--spacer-16x);
