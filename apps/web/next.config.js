@@ -92,6 +92,11 @@ const nextConfig = {
         destination: "https://www.inertia.run/i/dash-mystery",
         permanent: false,
       },
+      {
+        source: "/si24",
+        destination: "/events/spring-invitational",
+        permanent: false,
+      }
     ];
   },
   rewrites: async () => {
