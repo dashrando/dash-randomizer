@@ -21,7 +21,7 @@ const MysteryTable = ({ title, values }: { title: string, values: MysteryValue[]
         {values.map((value: MysteryValue, index: number) => (
           <tr key={index}>
             <td>{value.label}</td>
-            <td>{value.value * 100}%</td>
+            <td>{`${(value.value * 100).toFixed(1).replace(/\.0$/, '')}%`}</td>
           </tr>
         ))}
       </tbody>
@@ -34,40 +34,40 @@ const mysteryPercentages = [
   {
     title: 'Item Split',
     values: [
-      { label: 'Full', value: 0.33 },
-      { label: 'Chozo', value: 0.33 },
-      { label: 'Major/Minor', value: 0.34 },
+      { label: 'Full', value: 0.333 },
+      { label: 'Chozo', value: 0.333 },
+      { label: 'Major/Minor', value: 0.333 },
     ]
   },
   {
     title: 'Boss Locations',
     values: [
-      { label: 'Surprise', value: 0.25 },
+      { label: 'Surprise', value: 0.1 },
       { label: 'Shuffled', value: 0.3 },
       { label: 'Shifted', value: 0.3 },
-      { label: 'Vanilla', value: 0.15 },
+      { label: 'Vanilla', value: 0.3 },
     ]
   },
   {
     title: 'Map Layout',
     values: [
-      { label: 'Area Randomization', value: 0.7 },
-      { label: 'Vanilla', value: 0.3 },
+      { label: 'Area Randomization', value: 0.666 },
+      { label: 'Vanilla', value: 0.333 },
     ]
   },
   {
     title: 'Minor Item Distribution',
     values: [
-      { label: 'Standard - 3:2:1', value: 0.6 },
-      { label: 'DASH - 2:1:1', value: 0.4 },
+      { label: 'Standard - 3:2:1', value: 0.5 },
+      { label: 'DASH - 2:1:1', value: 0.5 },
     ]
   },
   {
     title: 'Charge Beam',
     values: [
-      { label: 'Vanilla', value: 0.5 },
-      { label: 'Starter', value: 0.3 },
-      { label: 'Starter+', value: 0.2 },
+      { label: 'Vanilla', value: 0.333 },
+      { label: 'Starter', value: 0.333 },
+      { label: 'Starter+', value: 0.333 },
     ]
   },
   {
@@ -80,22 +80,22 @@ const mysteryPercentages = [
   {
     title: 'Gravity Heat Reduction',
     values: [
-      { label: 'Off', value: 0.7 },
-      { label: 'On', value: 0.3 },
+      { label: 'Off', value: 0.75 },
+      { label: 'On', value: 0.25 },
     ]
   },
   {
     title: 'Double Jump',
     values: [
-      { label: 'Off', value: 0.65 },
-      { label: 'On', value: 0.35 },
+      { label: 'Off', value: 0.5 },
+      { label: 'On', value: 0.5 },
     ]
   },
   {
     title: 'Heat Shield',
     values: [
-      { label: 'Off', value: 0.85 },
-      { label: 'On', value: 0.15 },
+      { label: 'Off', value: 0.75 },
+      { label: 'On', value: 0.25 },
     ]
   },
 ]
@@ -108,7 +108,7 @@ export default function MysterySettings() {
         <MysteryTable key={index} title={mystery.title} values={mystery.values} />
       )}
       <p>
-        <em>Note: All Mystery seeds will use Standard Logic and have Item Fanfare enabled.</em>
+        <em>Note: All Mystery seeds will use Standard Logic and have Item Fanfare enabled. Pressure Valve is not available in Mystery.</em>
       </p>
     </details>
   )

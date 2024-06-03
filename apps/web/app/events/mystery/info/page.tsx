@@ -55,14 +55,14 @@ export default function TournamentInfoPage() {
             <article style={{ margin: 'var(--spacer-16x) auto var(--spacer)', maxWidth: '800px', textAlign: 'left' }} className={styles.mysteryArticle}>
               <h2>Registration</h2>
               <p>
-                Sign ups for the Super Metroid Multi-Category Randomizer tournament will open shortly and will close on Friday June 14  at 11:59 pm EDT. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, June 19.
+                Sign ups for the Super Metroid Randomizer Mystery tournament will open shortly and will close on Friday June 14  at 11:59 pm EDT. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, June 19.
               </p>
               <p>
                 Prior to the tournament, we will be confirming your participation and getting players to join the <a href="https://discord.gg/2usVyy4" target="_blank">Discord server</a>. Discord will be the official medium used to communicate with players and schedule races. Players must join the discord server to participate.
               </p>
               <h2>Format + Seeding Procedure</h2>
               <p>
-                The tournament will be swiss format with each match being 1 race. There will be one required match per week (Wednesday - Tuesday).  Seeding for match pairings for the 1st round will be based on previous tournament finishes including sglive tournaments, the 2022 SMR Multi-Category tournament and SMR League. This will likely not be an exact ordering, of strongest to weakest players, but should be good enough to get fair matchups throughout the swiss rounds. This will be done after the sign up period ends and before the official 1st week of competition begins.
+                The tournament will be swiss format with each match being 1 race. There will be one required match per week (Wednesday - Tuesday).  Seeding for match pairings for the 1st round will be based on previous tournament finishes including SGLive tournaments, the 2022 SMR Multi-Category tournament and SMR League. This will likely not be an exact ordering, of strongest to weakest players, but should be good enough to get fair matchups throughout the swiss rounds. This will be done after the sign up period ends and before the official 1st week of competition begins.
               </p>
               <p>
                 There will be 6 weeks of swiss competition, which means at least 6 guaranteed matches for each runner. Note, we are starting each week midweek in the hopes that fewer players will miss entire weeks while on vacation.
@@ -85,11 +85,11 @@ export default function TournamentInfoPage() {
               </ul> */}
               <MysterySettings />
               <p>
-                <em>Please note: These percentages are not finalized. We will be testing them in the weeks leading up to the tournament. All percentages will be finalized at the same time that first round match ups are announced.</em>
+                <em>These percentages are subject to change before the tournament starts. We will be testing them in the weeks leading up to the tournament. All percentages will be finalized at the same time that first round match ups are announced.</em>
               </p>
               <h2>Timeline</h2>
               <ul>
-                <li>June 2: Registration begins</li>
+                <li>June 3: Registration begins</li>
                 <li>June 14: Registration ends at 11:59pm EDT</li>
                 <li>June 19: Start of swiss week 1</li>
                 <li>August 7: Last day of swiss weeks</li>
@@ -140,7 +140,7 @@ export default function TournamentInfoPage() {
               <ol>
                 <li>Auto tracking is permitted only for item tracking. You MAY NOT use auto map-tracking.</li>
                 <li>Runners will use RaceTime.gg to time and record their race. All runners must have a RaceTime account. The time listed on RaceTime is the official time for the match. All runners are required to stream and to follow all RaceTime rules.</li>
-                <li>All races must be streamed on Twitch. Additionally, all runners must have the vod of the stream available for potential review by the organizers for at least 1 week after the race. Failure to comply with this rule could lead to a win being overturned. If you have not enabled vod saving on twitch please go to https://help.twitch.tv/s/article/video-on-demand for instructions</li>
+                <li>All races must be streamed on Twitch. Additionally, all runners must have the vod of the stream available for potential review by the organizers for at least 1 week after the race. Failure to comply with this rule could lead to a win being overturned. If you have not enabled VOD saving on Twitch <a href="https://help.twitch.tv/s/article/video-on-demand" target="_blank">please go here</a> for instructions</li>
                 <li>Players may not be in a restream channel or any chat (twitch, discord etc.) during a race.</li>
                 <li>Watching other racer’s streams or any restream while racing is not allowed.</li>
                 <li>Runners caught or who are suspected of cheating will be automatically forfeited from further participation in the tournament. All decisions on cheating will be made by the organizers and will be final.</li>
