@@ -11,8 +11,6 @@ export const metadata = {
 
 export default function TournamentInfoPage() {
   const baseUrl = '/events/mystery'
-  const deadlineTime = <LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York"
-  format="h:mm a" />
 
   return (
     <>
@@ -57,7 +55,7 @@ export default function TournamentInfoPage() {
             <article style={{ margin: 'var(--spacer-16x) auto var(--spacer)', maxWidth: '800px', textAlign: 'left' }} className={styles.mysteryArticle}>
               <h2>Registration</h2>
               <p>
-                Sign ups for the Super Metroid Randomizer Mystery tournament will open shortly and will close on Friday June 14  at {deadlineTime}. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, June 19.
+                Sign ups for the Super Metroid Randomizer Mystery tournament will open shortly and will close on <LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York" format={`EEEE, MMMM d 'at' h:mm a`} />. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, June 19.
               </p>
               <p>
                 Prior to the tournament, we will be confirming your participation and getting players to join the <a href="https://discord.gg/2usVyy4" target="_blank">Discord server</a>. Discord will be the official medium used to communicate with players and schedule races. Players must join the discord server to participate.
@@ -92,7 +90,7 @@ export default function TournamentInfoPage() {
               <h2>Timeline</h2>
               <ul>
                 <li>June 3: Registration begins</li>
-                <li>June 14: Registration ends at {deadlineTime}</li>
+                <li><LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York" format="MMMM d" />: Registration ends at <LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York" format="h:mm a" /></li>
                 <li>June 19: Start of swiss week 1</li>
                 <li>August 7: Last day of swiss weeks</li>
                 <li>August 9: Bracket scheduling can begin</li>
