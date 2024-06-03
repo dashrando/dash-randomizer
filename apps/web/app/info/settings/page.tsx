@@ -1,10 +1,8 @@
-import Badge from '@/app/components/badge'
 import Link from 'next/link'
 import { Wrapper } from '@/app/components/wrapper'
 import { Link as LinkIcon } from 'react-feather'
 import styles from '../info.module.css'
-import Spacer from '@/app/components/spacer'
-import { cn } from '@/lib/utils'
+import MysterySettings from './mystery'
 
 const Title = ({ id, children }: { id: string, children: React.ReactNode }) => (
   <h2 className={styles.title}>
@@ -45,103 +43,7 @@ const Article = ({
   </article>
 )
 
-type MysteryValue = {
-  label: string
-  value: number
-}
 
-const MysteryTable = ({ title, values }: { title: string, values: MysteryValue[] }) => (
-  <>
-    <h4>{title}</h4>
-    <table className={cn(styles.table, styles.mysteryTable)}>
-      <thead>
-        <tr>
-          <th>Parameter</th>
-          <th>Percentage</th>
-        </tr>
-      </thead>
-      <tbody>
-        {values.map((value: MysteryValue, index: number) => (
-          <tr key={index}>
-            <td>{value.label}</td>
-            <td>{value.value * 100}%</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    <Spacer y={8} />
-  </>
-)
-
-const mysteryPercentages = [
-  {
-    title: 'Item Split',
-    values: [
-      { label: 'Full', value: 0.33 },
-      { label: 'Chozo', value: 0.33 },
-      { label: 'Major/Minor', value: 0.34 },
-    ]
-  },
-  {
-    title: 'Boss Locations',
-    values: [
-      { label: 'Surprise', value: 0.25 },
-      { label: 'Shuffled', value: 0.3 },
-      { label: 'Shifted', value: 0.3 },
-      { label: 'Vanilla', value: 0.15 },
-    ]
-  },
-  {
-    title: 'Map Layout',
-    values: [
-      { label: 'Area Randomization', value: 0.7 },
-      { label: 'Vanilla', value: 0.3 },
-    ]
-  },
-  {
-    title: 'Minor Item Distribution',
-    values: [
-      { label: 'Standard - 3:2:1', value: 0.6 },
-      { label: 'DASH - 2:1:1', value: 0.4 },
-    ]
-  },
-  {
-    title: 'Charge Beam',
-    values: [
-      { label: 'Vanilla', value: 0.5 },
-      { label: 'Starter', value: 0.3 },
-      { label: 'Starter+', value: 0.2 },
-    ]
-  },
-  {
-    title: 'Environment Updates',
-    values: [
-      { label: 'Standard', value: 0.85 },
-      { label: 'DASH', value: 0.15 },
-    ]
-  },
-  {
-    title: 'Gravity Heat Reduction',
-    values: [
-      { label: 'Off', value: 0.7 },
-      { label: 'On', value: 0.3 },
-    ]
-  },
-  {
-    title: 'Double Jump',
-    values: [
-      { label: 'Off', value: 0.65 },
-      { label: 'On', value: 0.35 },
-    ]
-  },
-  {
-    title: 'Heat Shield',
-    values: [
-      { label: 'Off', value: 0.85 },
-      { label: 'On', value: 0.15 },
-    ]
-  },
-]
 
 export default function SettingsInfoPage() {
   return (
@@ -156,15 +58,7 @@ export default function SettingsInfoPage() {
         <Article id="mode" title="Mode">
           <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss-locations">Boss Locations</a> and <a href="#map-layout">Map Layout</a> parameters. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
           <p>A special mode called <strong>Mystery</strong> will generate a seed with a mix of all randomization parameters and settings.</p>
-          <details>
-            <summary>Mystery percentages</summary>
-            {mysteryPercentages.map((mystery, index) =>
-              <MysteryTable key={index} title={mystery.title} values={mystery.values} />
-            )}
-            <p>
-              <em>Note: All Mystery seeds will use Standard Logic and have Item Fanfare enabled.</em>
-            </p>
-          </details>
+          <MysterySettings />
         </Article>
         <Article id="item-split" title="Item Split">
           <p><strong>Item Split</strong> determines the available locations where major items can be placed.</p>
@@ -510,13 +404,13 @@ export default function SettingsInfoPage() {
               </p>
             </li>
             <li>
-              <p>
+              <p style={{ marginBottom: '0' }}>
                 <strong>DASH</strong> includes everything from Standard plus the following:
-                <ul className={styles.list_disc}>
-                  <li>Spazer-breakable blocks at the Waterway location and Botwoon&apos;s Hallway</li>
-                  <li>Allows the speed block at the Wrecked Ship Reserve location to be broken by the Bombs major item.</li>
-                </ul>
               </p>
+              <ul className={styles.list_disc} style={{ marginTop: '0'}}>
+                <li>Spazer-breakable blocks at the Waterway location and Botwoon&apos;s Hallway</li>
+                <li>Allows the speed block at the Wrecked Ship Reserve location to be broken by the Bombs major item.</li>
+              </ul>
             </li>
           </ul>
         </Article>
