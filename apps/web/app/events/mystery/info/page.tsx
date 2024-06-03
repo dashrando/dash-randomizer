@@ -2,6 +2,7 @@ import { Wrapper } from '@/app/components/wrapper'
 import styles from '../../vs-world/event.module.css'
 import { ButtonLink } from '@/app/components/button'
 import Link from 'next/link'
+import MysterySettings from '@/app/info/settings/mystery'
 
 export const metadata = {
   title: 'About - DASH Mystery',
@@ -70,7 +71,7 @@ export default function TournamentInfoPage() {
               <p>
               The mode of this tournament is ”Mystery”. What this means is runners will not know what the mode is until the race starts and they start playing the seed. The goal will always be to kill the “G4 bosses”, defeat Mother Brain and escape to the ship. Available settings will be weighted as follows:
               </p>
-              <ul>
+              {/* <ul>
                 <li>Map: Full Area vs Vanilla map: 60%/40% (note: light area will not be used)</li>
                 <li>Items: Full Countdown vs Major/Minor vs Chozo: 33.33% each (note: there will be no full without countdown)</li>
                 <li>Bosses: Vanilla vs Shuffled vs Shifted  33.33 % each</li>
@@ -81,7 +82,8 @@ export default function TournamentInfoPage() {
                 <li>Gravity Suit 25% heat protection: 50% chance this is on</li>
                 <li>Item Fanfare: Always on</li>
                 <li>Logic: Always Standard</li>
-              </ul>
+              </ul> */}
+              <MysterySettings />
               <p>
                 <em>Please note: These percentages are not finalized. We will be testing them in the weeks leading up to the tournament. All percentages will be finalized at the same time that first round match ups are announced.</em>
               </p>
