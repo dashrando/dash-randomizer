@@ -69,12 +69,27 @@ const nextConfig = {
       },
       {
         source: "/events",
-        destination: "/events/spring-invitational",
+        destination: "/events/mystery",
         permanent: false,
       },
       {
         source: "/spring-invitational-form",
         destination: "https://forms.gle/59EFcZ4g5cPqgaNC8",
+        permanent: false,
+      },
+      {
+        source: "/events/mystery/discord",
+        destination: "https://discord.gg/2usVyy4",
+        permanent: false,
+      },
+      {
+        source: "/events/mystery/register",
+        destination: "https://www.inertia.run/i/dash-mystery?returnTo=https%3A%2F%2Fmystery.dash.kupppo.com%2Fevents%2Fmystery%2Fregistered",
+        permanent: false,
+      },
+      {
+        source: "/mystery-register",
+        destination: "https://www.inertia.run/i/dash-mystery",
         permanent: false,
       },
       {
