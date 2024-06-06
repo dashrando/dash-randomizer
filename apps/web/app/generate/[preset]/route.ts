@@ -30,7 +30,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
     const mystery = preset?.tags.includes('mystery')
     const searchParams = req.nextUrl.searchParams
     const spoiler = searchParams.get('spoiler') || 0
-    const race = searchParams.get('race') || 0
+    const race = mystery ? 1 : searchParams.get('race') || 0
 
     if (preset == undefined) {
       const validPresets = getAllPresets()
