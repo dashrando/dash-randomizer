@@ -58,8 +58,11 @@ export default function TournamentPage() {
               <span>Starts on June 19</span>
             </h3>
           </div>
+          <div style={{ margin: 'var(--spacer-12x) auto var(--spacer-12x)', textAlign: 'center', maxWidth: '360px' }}>
+            <ButtonLink variant="hero" size="large" href="/events/mystery/register" style={{ margin: '0 auto', display: 'block' }} target="_blank">Register</ButtonLink>
+            <ButtonLink variant="hero" size="large" href="/generate/mystery" style={{ margin: 'var(--spacer-2x) auto 0', display: 'block', backgroundColor: 'transparent', color: 'white', borderWidth: '1px' }} target="_blank">Generate Seed</ButtonLink>
+          </div>
           <div style={{ margin: 'var(--spacer-12x) 0 var(--spacer-12x)', textAlign: 'center' }}>
-            <ButtonLink variant="hero" size="large" href="/events/mystery/register" style={{ margin: '0 auto' }} target="_blank">Register</ButtonLink>
           </div>
           <div style={{ margin: 'var(--spacer-24x) 0 var(--spacer-12x)'}}>
             <h4 style={{ margin: 'var(--spacer-8x) auto', fontSize: '24px', lineHeight: '32px', fontWeight: '400', textAlign: 'center', maxWidth: '480px', color: '#999' }}>
