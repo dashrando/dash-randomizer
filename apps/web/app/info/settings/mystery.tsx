@@ -125,7 +125,7 @@ export default function MysterySettings({ external = false }: { external?: boole
         />
       )}
       <p>
-        <em>Note: All Mystery seeds will use Standard Logic and have Item Fanfare enabled. Pressure Valve is not available in Mystery.</em>
+        <em>Note: All Mystery seeds will use Standard Logic, Standard Environment Updates and have Item Fanfare enabled. Pressure Valve is not available in Mystery.</em>
       </p>
     </details>
   )

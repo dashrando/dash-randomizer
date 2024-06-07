@@ -71,18 +71,6 @@ export default function TournamentInfoPage() {
               <p>
               The mode of this tournament is ”Mystery”. What this means is runners will not know what the mode is until the race starts and they start playing the seed. The goal will always be to kill the “G4 bosses”, defeat Mother Brain and escape to the ship. Available settings will be weighted as follows:
               </p>
-              {/* <ul>
-                <li>Map: Full Area vs Vanilla map: 60%/40% (note: light area will not be used)</li>
-                <li>Items: Full Countdown vs Major/Minor vs Chozo: 33.33% each (note: there will be no full without countdown)</li>
-                <li>Bosses: Vanilla vs Shuffled vs Shifted  33.33 % each</li>
-                <li>Ammo ratio: 3/2/1 vs 2/2/1: 50% chance each</li>
-                <li>DASH map changes: 50% chance that the “Classic DASH” map changes will be in play (i.e. waterway/botwoon hallway blocks destroyable with spazer, WS reserve available with bombs)</li>
-                <li>Charge beam Normal vs “Starter Charge” vs “Progressive Charge” 33.33% each</li>
-                <li>DASH specific items (double jump/heat shield) each will separately have a 50% chance of appearing. There will be no pressure valve</li>
-                <li>Gravity Suit 25% heat protection: 50% chance this is on</li>
-                <li>Item Fanfare: Always on</li>
-                <li>Logic: Always Standard</li>
-              </ul> */}
               <MysterySettings external={true} />
               <p>
                 <em>These percentages are subject to change before the tournament starts. We will be testing them in the weeks leading up to the tournament. All percentages will be finalized at the same time that first round match ups are announced.</em>
