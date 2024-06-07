@@ -68,6 +68,7 @@ export default function TournamentPage() {
             <h4 style={{ margin: 'var(--spacer-8x) auto', fontSize: '24px', lineHeight: '32px', fontWeight: '400', textAlign: 'center', maxWidth: '480px', color: '#999' }}>
               Is it area or not? Major/minor? Chozo? Full countdown? No one will know until the seed is played, as players will be tasked with figuring out the settings as they play.
             </h4>
+            <ButtonLink variant="outline" href="/events/mystery/info" style={{ margin: '0 auto', display: 'block', maxWidth: '200px' }}>Learn More</ButtonLink>
           </div>
         </div>
       </Wrapper>
