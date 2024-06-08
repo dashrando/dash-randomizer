@@ -182,7 +182,7 @@ export const getLocations = () => [
   loc(0x7c5f1, 0x00, Area.EastMaridia, 94, "Power Bombs (Sand Pit Right)"),
   loc(0x7c603, 0x00, Area.EastMaridia, 95, "Missiles (Aqueduct)"),
   loc(0x7c609, 0x00, Area.EastMaridia, 96, "Supers (Aqueduct)"),
-  loc(0x7c6e5, 0x54, Area.WestMaridia, 97, "Spring Ball"),
+  loc(0x7c6e5, 0x54, Area.EastMaridia, 97, "Spring Ball"),
   loc(0x7c74d, 0xa8, Area.EastMaridia, 98, "Missiles (Precious)"),
   loc(0x7c755, 0x00, Area.EastMaridia, 99, "Energy Tank (Botwoon)"),
   loc(0x7c7a7, 0x54, Area.EastMaridia, 100, "Space Jump"),
