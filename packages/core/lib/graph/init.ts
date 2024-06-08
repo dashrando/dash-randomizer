@@ -78,7 +78,7 @@ const getAllVertices = (): Vertex[] => {
         return {
           name: name,
           type: type,
-          area: name === 'Spring Ball' ? 'EastMaridia' : k,
+          area: k,
           item: undefined,
           pathToStart: false,
         };
