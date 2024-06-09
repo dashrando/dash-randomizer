@@ -127,7 +127,7 @@ export default function TournamentInfoPage() {
               <h2>Additional Race Procedures and Rules</h2>
               <ol>
                 <li>Auto tracking is permitted only for item tracking. You MAY NOT use auto map-tracking.</li>
-                <li>Runners will use RaceTime.gg to time and record their race. All runners must have a RaceTime account. The time listed on RaceTime is the official time for the match. All runners are required to stream and to follow all RaceTime rules.</li>
+                <li>Runners will use <a href="https://racetime.gg" target="_blank">RaceTime.gg</a> to time and record their race. All runners must have a RaceTime account. The time listed on RaceTime is the official time for the match. All runners are required to stream and to follow all RaceTime rules.</li>
                 <li>All races must be streamed on Twitch. Additionally, all runners must have the vod of the stream available for potential review by the organizers for at least 1 week after the race. Failure to comply with this rule could lead to a win being overturned. If you have not enabled VOD saving on Twitch <a href="https://help.twitch.tv/s/article/video-on-demand" target="_blank">please go here</a> for instructions</li>
                 <li>Players may not be in a restream channel or any chat (twitch, discord etc.) during a race.</li>
                 <li>Watching other racer’s streams or any restream while racing is not allowed.</li>
@@ -139,8 +139,8 @@ export default function TournamentInfoPage() {
                 <li>Runners may use alternate color palettes and/or alternate sprites. All alternate sprites must have the same animation for screw attack with and without space jump. Failure to have the correct animation will result in a warning for the first infraction and a forfeit for any subsequent infraction.</li>
                 <li>Exceptions to the above rule: The Samus hitbox sprite may not be used at any time.</li>
                 <li>Any disputes will be handled by organizers and all decisions will be final.</li>
-                <li>All swiss races that end in a tie will result in both players receiving 0.5 points for the round. Playoff races will be re run.</li>
-                <li>While not required, it is highly recommended that runners locally record all their races. If your stream goes down during a race (internet issues) you may be asked to provide proof of your finish time. If you have internet or technical issues (for a moderate/significant period of time) and cannot provide a local recording then you will be forfeited from that match. There will be no rematches.</li>
+                <li>All swiss races that end in a tie will result in both players receiving 0.5 points for the round. Playoff races will be re-run.</li>
+                <li>While not required, it is highly recommended that runners locally record all their races. If your stream goes down during a race (internet issues) you may be asked to provide proof of your finish time. Note that “filming” your screen with your phone (or other camera) is an acceptable form of proof. If you have internet or technical issues (for a moderate/significant period of time) and cannot provide a local recording then you will be forfeited from that match. There will be no rematches.</li>
               </ol>
               <h2>Stream Delay</h2>
               <p>Stream delay is required for all races. A delay of 10 minutes must be used for each race. If a racer does not delay their stream they will forfeit the race. If a racer wishes to stop stream delay after the race they must NOT discard the delay. Discarding delay will cause the end of the race to be lost and the runner will forfeit the race unless the results can be verified with a local recording.</p>
