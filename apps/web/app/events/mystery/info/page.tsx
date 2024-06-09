@@ -100,7 +100,7 @@ export default function TournamentInfoPage() {
               </ul>
               <h2>Playoff Structure</h2>
               <ul>
-                <li>Everyone with at least a 3-3 record will make the playoffs, with seeding determined by final rankings as determined by challonge</li>
+                <li>Everyone with at least a 3-3 record will make the playoffs, with seeding determined by final swiss rankings</li>
                 <li>Playoff matches will be best of 3 single elimination</li>
                 <li>Races 1 and 2 are required to be scheduled back to back, with race 3 encouraged to follow</li>
                 <li>The bracket (depending on number of participants) will most likely look like a 64 player bracket with several top records receiving byes. Match ups will be reverse seeding (i.e. 1 vs 64, 2 vs 63, etc).</li>
