@@ -55,7 +55,7 @@ export default function TournamentInfoPage() {
             <article style={{ margin: 'var(--spacer-16x) auto var(--spacer)', maxWidth: '800px', textAlign: 'left' }} className={styles.mysteryArticle}>
               <h2>Registration</h2>
               <p>
-                Sign ups for the Super Metroid Randomizer Mystery tournament will open shortly and will close on <LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York" format={`EEEE, MMMM d 'at' h:mm a`} />. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, June 19.
+                Sign ups for the Super Metroid Randomizer Mystery tournament is open and will close on <LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York" format={`EEEE, MMMM d 'at' h:mm a`} />. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, June 19.
               </p>
               <p>
                 Prior to the tournament, we will be confirming your participation and getting players to join the <a href="https://discord.gg/2usVyy4" target="_blank">Discord server</a>. Discord will be the official medium used to communicate with players and schedule races. Players must join the discord server to participate.
@@ -100,7 +100,7 @@ export default function TournamentInfoPage() {
               </ul>
               <h2>Playoff Structure</h2>
               <ul>
-                <li>Everyone with at least a 3-3 record will make the playoffs, with seeding determined by final rankings as determined by challonge</li>
+                <li>Everyone with at least a 3-3 record will make the playoffs, with seeding determined by final swiss rankings</li>
                 <li>Playoff matches will be best of 3 single elimination</li>
                 <li>Races 1 and 2 are required to be scheduled back to back, with race 3 encouraged to follow</li>
                 <li>The bracket (depending on number of participants) will most likely look like a 64 player bracket with several top records receiving byes. Match ups will be reverse seeding (i.e. 1 vs 64, 2 vs 63, etc).</li>
@@ -127,7 +127,7 @@ export default function TournamentInfoPage() {
               <h2>Additional Race Procedures and Rules</h2>
               <ol>
                 <li>Auto tracking is permitted only for item tracking. You MAY NOT use auto map-tracking.</li>
-                <li>Runners will use RaceTime.gg to time and record their race. All runners must have a RaceTime account. The time listed on RaceTime is the official time for the match. All runners are required to stream and to follow all RaceTime rules.</li>
+                <li>Runners will use <a href="https://racetime.gg" target="_blank">RaceTime.gg</a> to time and record their race. All runners must have a RaceTime account. The time listed on RaceTime is the official time for the match. All runners are required to stream and to follow all RaceTime rules.</li>
                 <li>All races must be streamed on Twitch. Additionally, all runners must have the vod of the stream available for potential review by the organizers for at least 1 week after the race. Failure to comply with this rule could lead to a win being overturned. If you have not enabled VOD saving on Twitch <a href="https://help.twitch.tv/s/article/video-on-demand" target="_blank">please go here</a> for instructions</li>
                 <li>Players may not be in a restream channel or any chat (twitch, discord etc.) during a race.</li>
                 <li>Watching other racer’s streams or any restream while racing is not allowed.</li>
@@ -139,8 +139,8 @@ export default function TournamentInfoPage() {
                 <li>Runners may use alternate color palettes and/or alternate sprites. All alternate sprites must have the same animation for screw attack with and without space jump. Failure to have the correct animation will result in a warning for the first infraction and a forfeit for any subsequent infraction.</li>
                 <li>Exceptions to the above rule: The Samus hitbox sprite may not be used at any time.</li>
                 <li>Any disputes will be handled by organizers and all decisions will be final.</li>
-                <li>All swiss races that end in a tie will result in both players receiving 0.5 points for the round. Playoff races will be re run.</li>
-                <li>While not required, it is highly recommended that runners locally record all their races. If your stream goes down during a race (internet issues) you may be asked to provide proof of your finish time. If you have internet or technical issues (for a moderate/significant period of time) and cannot provide a local recording then you will be forfeited from that match. There will be no rematches.</li>
+                <li>All swiss races that end in a tie will result in both players receiving 0.5 points for the round. Playoff races will be re-run.</li>
+                <li>While not required, it is highly recommended that runners locally record all their races. If your stream goes down during a race (internet issues) you may be asked to provide proof of your finish time. Note that “filming” your screen with your phone (or other camera) is an acceptable form of proof. If you have internet or technical issues (for a moderate/significant period of time) and cannot provide a local recording then you will be forfeited from that match. There will be no rematches.</li>
               </ol>
               <h2>Stream Delay</h2>
               <p>Stream delay is required for all races. A delay of 10 minutes must be used for each race. If a racer does not delay their stream they will forfeit the race. If a racer wishes to stop stream delay after the race they must NOT discard the delay. Discarding delay will cause the end of the race to be lost and the runner will forfeit the race unless the results can be verified with a local recording.</p>
