@@ -40,9 +40,6 @@ export default function TournamentPage() {
                     <Link href={`${baseUrl}/info`}>Info</Link>
                   </li>
                   <li>
-                    <Link href={`${baseUrl}/register`} prefetch={false}>Register</Link>
-                  </li>
-                  <li>
                     <Link href={`${baseUrl}/schedule`}>Schedule</Link>
                   </li>
                   <li>
@@ -59,8 +56,8 @@ export default function TournamentPage() {
             </h3>
           </div>
           <div style={{ margin: 'var(--spacer-12x) auto var(--spacer-12x)', textAlign: 'center', maxWidth: '360px' }}>
-            <ButtonLink variant="hero" size="large" href="/events/mystery/register" style={{ margin: '0 auto', display: 'block' }} target="_blank">Register</ButtonLink>
-            <ButtonLink variant="hero" size="large" href="/generate/mystery" style={{ margin: 'var(--spacer-2x) auto 0', display: 'block', backgroundColor: 'transparent', color: 'white', borderWidth: '1px' }} target="_blank">Generate Seed</ButtonLink>
+            <ButtonLink variant="hero" size="large" href="/generate/mystery" style={{ margin: '0 auto', display: 'block' }} target="_blank">Generate a Seed</ButtonLink>
+            <ButtonLink variant="hero" size="large" href="/events/mystery/info" style={{ margin: 'var(--spacer-2x) auto 0', display: 'block', backgroundColor: 'transparent', color: 'white', borderWidth: '1px' }}>Learn More</ButtonLink>
           </div>
           <div style={{ margin: 'var(--spacer-12x) 0 var(--spacer-12x)', textAlign: 'center' }}>
           </div>
@@ -68,7 +65,6 @@ export default function TournamentPage() {
             <h4 style={{ margin: 'var(--spacer-8x) auto', fontSize: '24px', lineHeight: '32px', fontWeight: '400', textAlign: 'center', maxWidth: '480px', color: '#999' }}>
               Is it area or not? Major/minor? Chozo? Full countdown? No one will know until the seed is played, as players will be tasked with figuring out the settings as they play.
             </h4>
-            <ButtonLink variant="outline" href="/events/mystery/info" style={{ margin: '0 auto', display: 'block', maxWidth: '200px' }}>Learn More</ButtonLink>
           </div>
         </div>
       </Wrapper>
