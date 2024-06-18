@@ -111,9 +111,9 @@ const mysteryPercentages = [
   },
 ]
 
-export default function MysterySettings({ external = false }: { external?: boolean }) {
+export default function MysterySettings({ defaultOpen = false, external = false }: { defaultOpen?: boolean, external?: boolean }) {
   return (
-    <details>
+    <details open={defaultOpen}>
       <summary>Mystery percentages</summary>
       {mysteryPercentages.map((mystery, index) =>
         <MysteryTable

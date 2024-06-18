@@ -68,7 +68,7 @@ export default function TournamentInfoPage() {
               <p>
               The mode of this tournament is ”Mystery”. What this means is runners will not know what the mode is until the race starts and they start playing the seed. The goal will always be to kill the “G4 bosses”, defeat Mother Brain and escape to the ship. Available settings will be weighted as follows:
               </p>
-              <MysterySettings external={true} />
+              <MysterySettings defaultOpen={true} external={true} />
               <p>
                 <em>These percentages are subject to change before the tournament starts. We will be testing them in the weeks leading up to the tournament. All percentages will be finalized at the same time that first round match ups are announced.</em>
               </p>
