@@ -88,6 +88,11 @@ const nextConfig = {
         permanent: false,
       },
       {
+        source: "/events/mystery/schedule",
+        destination: "https://sg-schedule.vercel.app/smrmystery",
+        permanent: false,
+      },
+      {
         source: "/mystery-register",
         destination: "https://www.inertia.run/i/dash-mystery",
         permanent: false,
