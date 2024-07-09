@@ -263,6 +263,7 @@ export const getSeedNumber = (seedNumber?: number) => {
   if (seedNumber != undefined && seedNumber != 0) {
     return seedNumber;
   }
-  const timestamp = Math.floor(new Date().getTime() / 1000);
-  return new DotNetRandom(timestamp).NextInRange(1, 1000000);
+  const MAX_SEED = 1000000
+  const timestamp = Math.floor(new Date().getTime() % MAX_SEED);
+  return new DotNetRandom(timestamp).NextInRange(1, MAX_SEED);
 }
