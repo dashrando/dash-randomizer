@@ -260,9 +260,13 @@ export const generateFromPreset = (name: string, seedNumber: number) => {
 };
 
 export const getSeedNumber = (seedNumber?: number) => {
+  const MAX_SEED = 1000000
   if (seedNumber != undefined && seedNumber != 0) {
-    return seedNumber;
+    if (seedNumber > 0 && seedNumber <= MAX_SEED) {
+      return seedNumber;
+    }
+    throw new Error("Invalid seed number: " + seedNumber);
   }
-  const timestamp = Math.floor(new Date().getTime() / 1000);
-  return new DotNetRandom(timestamp).NextInRange(1, 1000000);
+  const timestamp = Math.floor(Date.now() % MAX_SEED);
+  return new DotNetRandom(timestamp).NextInRange(1, MAX_SEED);
 }
