@@ -90,7 +90,6 @@ type WeightedOption = {
 const generateMysteryPreset = (): Preset => {
   const MAX_SEED = 2000001
   const timestamp = Math.floor(Date.now() % MAX_SEED)
-  console.log(`old: ${(Date.now() / 10000).toString().padEnd(18)}|    new: ${timestamp}`)
   const rnd = new DotNetRandom(timestamp)
 
   const getWeightedRandom = (options: WeightedOption[]) => {
