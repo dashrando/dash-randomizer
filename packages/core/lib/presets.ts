@@ -11,6 +11,7 @@ import {
   Options
 } from "./graph/params";
 import DotNetRandom from "./dotnet-random";
+import { getSeedNumber } from './sm-rando'
 
 export type Preset = {
   title: string;
@@ -87,7 +88,9 @@ type WeightedOption = {
 
 
 const generateMysteryPreset = (): Preset => {
-  const rnd = new DotNetRandom(Date.now() / 10000)
+  const MAX_SEED = 2000001
+  const timestamp = Math.floor(Date.now() % MAX_SEED)
+  const rnd = new DotNetRandom(timestamp)
 
   const getWeightedRandom = (options: WeightedOption[]) => {
     let sum = 0
