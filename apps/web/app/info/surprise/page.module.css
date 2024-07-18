@@ -1,0 +1,10 @@
+.col_a {
+  padding-left: var(--spacer-2x);
+  padding-right: var(--spacer-2x);
+}
+
+.col_c {
+  padding-top: var(--spacer-2x);
+  padding-bottom: var(--spacer-2x);
+  max-width: 350px;
+}

@@ -22,6 +22,11 @@ const InfoArticles: InfoArticle[] = [
     description: 'Learn about DASH.',
   },
   {
+    title: 'Surprise Bosses',
+    href: '/info/surprise',
+    description: 'Surprise Bosses is a boss randomization mode allowing duplicates.',
+  },
+  {
     title: 'DASH: Recall',
     href: '/info/recall',
     description: 'DASH: Recall is a new preset that tries to rebalance logic.',
