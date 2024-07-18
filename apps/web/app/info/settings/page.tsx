@@ -308,6 +308,7 @@ export default function SettingsInfoPage() {
               <p>
                 <strong>Surprise</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Defeating a boss opens access to the area in which it is placed (example: Kraid&apos;s etank will be accessible after defeating whatever boss is in Kraid&apos;s Lair). At least one boss will not be at its vanilla location.
               </p>
+              <p><a href="/info/surprise">More info on Surprise Bosses</a></p>
             </li>
             {/*<li>
               <p style={{ marginBottom: 0 }}>
