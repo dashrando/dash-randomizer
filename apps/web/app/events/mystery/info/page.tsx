@@ -124,6 +124,7 @@ export default function TournamentInfoPage() {
               <h2>Additional Race Procedures and Rules</h2>
               <ol>
                 <li>Auto tracking is permitted only for item tracking. You MAY NOT use auto map-tracking.</li>
+                <li>Use of the FUNtoon2SNES room time tracker, or similar tools, is prohibited, due to their ability to tell apart surprise and shifted boss rando settings.</li>
                 <li>Runners will use <a href="https://racetime.gg" target="_blank">RaceTime.gg</a> to time and record their race. All runners must have a RaceTime account. The time listed on RaceTime is the official time for the match. All runners are required to stream and to follow all RaceTime rules.</li>
                 <li>All races must be streamed on Twitch. Additionally, all runners must have the vod of the stream available for potential review by the organizers for at least 1 week after the race. Failure to comply with this rule could lead to a win being overturned. If you have not enabled VOD saving on Twitch <a href="https://help.twitch.tv/s/article/video-on-demand" target="_blank">please go here</a> for instructions</li>
                 <li>Players may not be in a restream channel or any chat (twitch, discord etc.) during a race.</li>
