@@ -72,6 +72,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
           })
         }
       >
+        <option value="chozo_surprise">Chozo Surprise</option>
         <option value="surprise_surprise">Surprise Surprise</option>
         <option value="mm_area_surprise">MM Area Surprise</option>
         <option value="mm_surprise">MM Surprise</option>
@@ -83,7 +84,6 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         <option value="standard_mm">Standard - Major / Minor</option>
         <option value="standard_full">Standard - Full</option>
         <option value="recall_mm">Recall - Major / Minor</option>
-        <option value="recall_full">Recall - Full</option>
       </select>
       <select
         name="logic"
@@ -146,7 +146,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 
 export default function StatsPage() {
   const [params, setParams] = useState({
-    gameMode: "surprise_surprise",
+    gameMode: "chozo_surprise",
     logic: "standard",
     startSeed: 1,
     numSeeds: 100,

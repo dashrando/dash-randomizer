@@ -11,7 +11,6 @@ import {
   Options
 } from "./graph/params";
 import DotNetRandom from "./dotnet-random";
-import { getSeedNumber } from './sm-rando'
 
 export type Preset = {
   title: string;
