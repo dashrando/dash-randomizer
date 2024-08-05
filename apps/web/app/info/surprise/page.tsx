@@ -86,7 +86,7 @@ export default function SurpriseInfoPage() {
                 <tr>
                   <td className={pageStyles.col_a}>0 Phantoons</td>
                   <td className={pageStyles.col_a}>101 locations</td>
-                  <td>1 Super Pack added as a Major</td>
+                  <td>1 Energy Tank added</td>
                 </tr>
                 <tr>
                   <td className={pageStyles.col_a}>1 Phantoon</td>
@@ -115,36 +115,27 @@ export default function SurpriseInfoPage() {
           <p>
               <u>NOTE</u>: All items in the Major Item pool can be placed at any major
               item location, not just at boss locations. This means that when
-              there are 0 Phantoons in a seed, the “major super missile pack”
+              there are 0 Phantoons in a seed, the extra energy tank
               can appear at any major location, not just in the boss room
-              locations. If you are playing a <strong>Major / Minor</strong> seed and find a
-              super missile at a major location, that is an indication that the
-              “Boss Locations” setting is guaranteed to be “Surprise” and that
-              there will not be a Phantoon in that seed.
+              locations.
           </p>
           <hr />
           <p>
             For <strong>Chozo</strong> Item Split, the item locations are chozo item locations.
             There are normally 25 chozo item locations but that is also impacted
-            by the number of Phantoons.
-          </p>
-
-          <p>
-            Considerations:
-            <ul>
-            <li>Extra DASH items are not placed at chozo item
-            locations </li><li>In the current implementation, <u>at least 1 Phantoon</u> will be
-            present in <i>Chozo Surprise</i> seeds. Having 0 Phantoons requires adding
-            an extra item to the Chozo pool, and we chose not to do this
-            initially. We are open to player feedback about potential changes to
-            this choice in the future.</li>
-            </ul>
+            by the number of Phantoons. Extra DASH items (Double Jump, etc.) are never placed at chozo item
+            locations.
           </p>
 
           <p>
             <table>
               <thead></thead>
               <tbody>
+                <tr>
+                  <td className={pageStyles.col_a}>0 Phantoons</td>
+                  <td className={pageStyles.col_a}>26 locations</td>
+                  <td className={pageStyles.col_c}>1 Extra Chozo Energy Tank added (4 total)</td>
+                </tr>
                 <tr>
                   <td className={pageStyles.col_a}>1 Phantoon</td>
                   <td className={pageStyles.col_a}>25 locations</td>

@@ -104,6 +104,7 @@ export const getItemPool = (seed: number, settings: Settings, count: number) => 
     setAmountInPool(Item.Reserve, 4, true);
     setAmountInPool(Item.EnergyTank, 14, true);
   } else if (majorDistribution == MajorDistributionMode.Chozo) {
+    let majorEnergyTanks = count > 100 ? 4 : 3;
     let majorMissiles = 2;
     let majorSupers = 2;
     if (count < 100) {
@@ -117,12 +118,12 @@ export const getItemPool = (seed: number, settings: Settings, count: number) => 
       }
     }
 
-    setAmountInPool(Item.EnergyTank, 3, true);
+    setAmountInPool(Item.EnergyTank, majorEnergyTanks, true);
     setAmountInPool(Item.Missile, majorMissiles, true);
     setAmountInPool(Item.Super, majorSupers, true);
 
     itemPool.push(minorItem(0x000000, Item.EnergyTank));
-    setAmountInPool(Item.EnergyTank, 11, false);
+    setAmountInPool(Item.EnergyTank, 14 - majorEnergyTanks, false);
 
     itemPool.push(minorItem(0x000000, Item.Reserve));
     setAmountInPool(Item.EnergyTank, 3, false);
@@ -147,18 +148,13 @@ export const getItemPool = (seed: number, settings: Settings, count: number) => 
     };
     const numMajors = getNumMajors();
     const numNonTanks = itemPool.filter((i) => i.isMajor).length - 2;
+    const maxEnergyTanks = count > 100 ? 15 : 14;    
 
     const numReserves = Math.max(2, Math.min(4, numMajors - numNonTanks - 14));
     setAmountInPool(Item.Reserve, numReserves, true);
 
-    const numEnergyTanks = Math.min(14, numMajors - numNonTanks - numReserves);
+    const numEnergyTanks = Math.min(maxEnergyTanks, numMajors - numNonTanks - numReserves);
     setAmountInPool(Item.EnergyTank, numEnergyTanks, true);
-
-    const numMajorSupers =
-      numMajors - numNonTanks - numEnergyTanks - numReserves;
-    for (let i = 0; i < numMajorSupers; i++) {
-      itemPool.push(majorItem(0x0, Item.Super));
-    }
   }
 
   let numMissiles = 1;
