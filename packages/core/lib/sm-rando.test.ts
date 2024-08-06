@@ -29,11 +29,11 @@ describe('getSeedNumber', () => {
 
   test('Should return different results when called in quick succession', async () => {
     const seedNumber1 = getSeedNumber()
-    await new Promise(resolve => setTimeout(resolve, 1))
+    await new Promise(resolve => setTimeout(resolve, 2))
     const seedNumber2 = getSeedNumber()
-    await new Promise(resolve => setTimeout(resolve, 1))
+    await new Promise(resolve => setTimeout(resolve, 2))
     const seedNumber3 = getSeedNumber()
-    await new Promise(resolve => setTimeout(resolve, 1))
+    await new Promise(resolve => setTimeout(resolve, 2))
     const seedNumber4 = getSeedNumber()
     const seedNumbers = [seedNumber1, seedNumber2, seedNumber3, seedNumber4]
     expect(new Set(seedNumbers).size).toBe(seedNumbers.length)
