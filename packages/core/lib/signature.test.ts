@@ -3,24 +3,23 @@ import {
   formatMonoSignature,
   prefetchSignature,
 } from "./signature";
+import { TABLE_FLAGS } from "../data/interface";
 
 describe("fetchSignature", () => {
 
   test("Verify encoded signatures", () => {
-    const data = new Uint8Array(0x2f8004).fill(0x0);
-    expect(fetchSignature(data)).toBe("GEEMER GEEMER GEEMER GEEMER");
-    data.set([1, 2, 3, 4], 0x2f8000)
-    expect(fetchSignature(data)).toBe("RIPPER ATOMIC POWAMP SCISER");
-    data.set([31, 31, 31, 31], 0x2f8000)
-    expect(fetchSignature(data)).toBe("BULL BULL BULL BULL");
-    data.set([32, 32, 32, 32], 0x2f8000)
-    expect(fetchSignature(data)).toBe("GEEMER GEEMER GEEMER GEEMER");
-    data.set([0xAD, 0xC6, 0xC8, 0xFA], 0x2f8000)
-    expect(fetchSignature(data)).toBe("VIOLA PUROMI BEETOM ZOA");
-    data.set([0xD2, 0x11, 0x24, 0x0C], 0x2f8000)
-    expect(fetchSignature(data)).toBe("KAGO CHOOT SCISER HOLTZ");
-    data.set([0xD2, 0x80, 0xD4, 0xD5], 0x2f8000)
-    expect(fetchSignature(data)).toBe("KAGO GEEMER COVERN EVIR");
+    const data = new Uint8Array(TABLE_FLAGS.FileSelectCode+4)
+    const cmp = (a: number[], b: string) => {
+      data.set(a, TABLE_FLAGS.FileSelectCode)
+      expect(fetchSignature(data)).toBe(b)
+    }
+    cmp([0, 0, 0, 0], "GEEMER GEEMER GEEMER GEEMER");
+    cmp([1, 2, 3, 4], "RIPPER ATOMIC POWAMP SCISER");
+    cmp([31, 31, 31, 31], "BULL BULL BULL BULL");
+    cmp([32, 32, 32, 32], "GEEMER GEEMER GEEMER GEEMER");
+    cmp([0xAD, 0xC6, 0xC8, 0xFA], "VIOLA PUROMI BEETOM ZOA");
+    cmp([0xD2, 0x11, 0x24, 0x0C], "KAGO CHOOT SCISER HOLTZ");
+    cmp([0xD2, 0x80, 0xD4, 0xD5], "KAGO GEEMER COVERN EVIR");
   });
 
 });
