@@ -2,7 +2,7 @@ import BpsPatch from "./bps-patch";
 import { getBasePatch, getFileName, generateSeedPatch } from "./sm-rando";
 import { generateSeed } from "./graph/fill";
 import { patchRom } from "../helpers/patcher";
-import { Options, Settings } from "./graph/params";
+import { Options, Settings } from "./params";
 
 export type Config = {
   onUpdate?: any

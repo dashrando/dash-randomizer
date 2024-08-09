@@ -1,7 +1,7 @@
 import DotNetRandom from "./dotnet-random";
 import { getLocations } from "./locations";
 import RandomizeRom, { Config } from "./randomize";
-import { Options, Settings } from "./graph/params";
+import { Options, Settings } from "./params";
 
 async function ProtectRom(
   seed: number = 0,

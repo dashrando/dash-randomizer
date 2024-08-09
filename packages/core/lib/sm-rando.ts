@@ -12,7 +12,7 @@ import {
   Settings,
   paramsToBytes,
   paramsToString,
-} from "./graph/params";
+} from "./params";
 
 type Hunk = [ number, number, Uint8Array ];
 type Patch = Hunk[];

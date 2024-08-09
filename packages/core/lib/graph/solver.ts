@@ -1,7 +1,7 @@
 import { canReachStart, searchAndCache } from "./search";
 import { isFungible } from "../items";
 import { cloneGraph, Graph, Vertex } from "./init";
-import { MajorDistributionMode, Settings } from "./params";
+import { MajorDistributionMode, Settings } from "../params";
 import {
   addItem,
   checkFlags,

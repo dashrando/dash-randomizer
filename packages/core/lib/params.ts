@@ -1,5 +1,5 @@
 import { Buffer } from "buffer";
-import { Item } from "../items";
+import { Item } from "./items";
 
 export type Settings = {
   mapLayout: number;
@@ -170,6 +170,10 @@ const bitsToMapLayout = (bits: number) => {
 //    s: suit mode
 //    b: beam mode
 //    m: map layout
+//
+// byte 6 = ll-pppppp
+//    l: logic
+//    p: padding
 //-----------------------------------------------------------------
 
 export const paramsToBytes = (seed: number, settings: Settings, options: Options) => {
@@ -225,8 +229,12 @@ export const paramsToString = (seed: number, settings: Settings, options: Option
 };
 
 export const bytesToParams = (input: Uint8Array): Params => {
-  const bytes = new Uint8Array(7);
-  bytes.set(input);
+  const bytes = new Uint8Array(7).fill(0x0);
+  if (input.length > 7) {
+    bytes.set(input.subarray(0, 7));
+  } else {
+    bytes.set(input);
+  }
   const seed = bytes[0] | (bytes[1] << 8) | (bytes[2] << 16);
   const fanfare = (bytes[5] >> 7) & 0x1;
   const gravity = (bytes[5] >> 6) & 0x1;

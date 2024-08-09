@@ -16,11 +16,12 @@ export {
   bytesToParams,
   paramsToString,
   stringToParams,
-} from "./lib/graph/params";
+} from "./lib/params";
 export {
   loadGraph
 } from "./lib/graph/init";
 export {
+  isDASHSeed,
   readParams,
   readPortals,
   readGraph
@@ -28,6 +29,6 @@ export {
 
 export { RandomizeRom, ProtectRom, BpsPatch };
 
-export type { Options, Settings } from "./lib/graph/params";
+export type { Options, Settings } from "./lib/params";
 export type { Graph, Vertex, Edge } from "./lib/graph/init";
 export type { ItemLocation } from "./lib/graph/solver";

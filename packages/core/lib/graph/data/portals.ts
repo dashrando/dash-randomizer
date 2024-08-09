@@ -1,5 +1,5 @@
 import DotNetRandom from "../../dotnet-random";
-import { BossMode } from "../params";
+import { BossMode } from "../../params";
 
 export type Portal = {
   name: string;

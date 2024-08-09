@@ -2,7 +2,12 @@
 
 import { useDropzone } from 'react-dropzone'
 import { useCallback, useEffect, useState } from 'react'
-import { paramsToString, readParams, vanilla as vanillaData } from 'core'
+import {
+  isDASHSeed,
+  paramsToString,
+  readParams,
+  vanilla as vanillaData,
+} from "core";
 import styles from './file-drop.module.css'
 import { useRouter } from 'next/navigation'
 import { useVanilla } from '../generate/vanilla'
@@ -42,21 +47,6 @@ async function getVanilla(value: Uint8Array): Promise<any> {
   }
 
   throw Error("Vanilla Rom does not match checksum.")
-}
-
-function isDASHSeed(seed: Uint8Array): boolean {
-  // Test if DASH seed by checking for "Super Metroid DASH" at 0x007FC0
-  const offset = 0x007FC0
-  const searchString = 'Super Metroid DASH'
-  const searchBytes = new TextEncoder().encode(searchString)
-  let found = true
-  for (let i = 0; i < searchBytes.length; i++) {
-    if (seed[offset + i] !== searchBytes[i]) {
-      found = false
-      break
-    }
-  }
-  return found
 }
 
 const getFileContents = async (file: File): Promise<Uint8Array> => {

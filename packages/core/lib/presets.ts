@@ -9,7 +9,7 @@ import {
   GravityHeatReduction,
   Settings,
   Options
-} from "./graph/params";
+} from "./params";
 import DotNetRandom from "./dotnet-random";
 
 export type Preset = {

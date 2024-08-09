@@ -2,14 +2,21 @@ import { getLocations } from "../data";
 import DOORS from "../data/doors";
 import { PortalMapping } from "../lib/graph/data/portals";
 import { loadGraph } from "../lib/graph/init";
-import { bytesToParams } from "../lib/graph/params";
+import { bytesToParams } from "../lib/params";
 import { majorItem, minorItem } from "../lib/items";
 import { getArea } from "../lib/locations";
+import { TABLE_FLAGS } from "../data/interface";
+
+export const isDASHSeed = (rom: Uint8Array): boolean => {
+  const gameHeader = rom.subarray(0x007fc0, 0x007fc0 + 21);
+  const textDecoder = new TextDecoder("utf-8");
+  return textDecoder.decode(gameHeader).startsWith("Super Metroid DASH");
+};
 
 export const readParams = (bytes: Uint8Array) => {
-  const offset = 0x2f8b00
-  const paramBytes = bytes.subarray(offset, offset + 6)
-  return bytesToParams(paramBytes)
+  const offset = TABLE_FLAGS.SeedFlags;
+  const paramBytes = bytes.subarray(offset, offset + TABLE_FLAGS.SeedFlagsSize);
+  return bytesToParams(paramBytes);
 }
 
 export const readPortals = (bytes: Uint8Array): PortalMapping[] => {
@@ -21,7 +28,6 @@ export const readPortals = (bytes: Uint8Array): PortalMapping[] => {
     const vector = bytes[d.address+1] << 8 | bytes[d.address];
     const dest = DOORS.find((d) => (d.vector & 0xFFFF) == vector);
     if (dest != undefined) {
-      //console.log(d.door,d.area,"to",dest.door,dest.area)
       portalMappings.push([
         { name: d.door, area: d.area },
         { name: dest.door, area: dest.area }
@@ -32,10 +38,7 @@ export const readPortals = (bytes: Uint8Array): PortalMapping[] => {
 }
 
 export const readGraph = (rom: Uint8Array) => {
-  const header = rom.subarray(0x007FC0,0x007FC0+21);
-  const textDecoder = new TextDecoder('utf-8');
-  const headerString = textDecoder.decode(header);
-  if (!headerString.startsWith("Super Metroid DASH")) {
+  if (!isDASHSeed(rom)) {
     return [];
   }
 
@@ -44,6 +47,7 @@ export const readGraph = (rom: Uint8Array) => {
   const graph = loadGraph(seed, 1, settings.mapLayout,
     settings.majorDistribution, settings.randomizeAreas,
     options.RelaxedLogic, settings.bossMode, portalMappings);
+
   getLocations().forEach(l => {
     const node = graph.find(e => e.from.name == l.name && getArea(e.from.area) == l.area)?.from as any;
     if (node == undefined) {
@@ -56,5 +60,6 @@ export const readGraph = (rom: Uint8Array) => {
       node.item = minorItem(0x0, itemCode)
     }
   });
+
   return graph;
 }

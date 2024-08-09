@@ -5,7 +5,7 @@ import {
   MajorDistributionMode,
   MinorDistributionMode,
   Settings,
-} from "./params";
+} from "../params";
 
 export const getItemPool = (seed: number, settings: Settings, count: number) => {
   const { majorDistribution, minorDistribution, extraItems, beamMode } =

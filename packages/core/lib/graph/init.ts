@@ -10,7 +10,7 @@ import { uppernorfairEdges } from "./data/standard/edges/uppernorfair";
 import { lowernorfairEdges } from "./data/standard/edges/lowernorfair";
 import { wreckedshipEdges } from "./data/standard/edges/wreckedship";
 import { bossEdges } from "./data/standard/edges/boss";
-import { BossMode, MapLayout, MajorDistributionMode } from "./params";
+import { BossMode, MapLayout, MajorDistributionMode } from "../params";
 import { RecallVertexUpdates } from "./data/recall/vertex";
 import { RecallEdgeUpdates } from "./data/recall/edges";
 import { StandardAreaEdgeUpdates } from "./data/standard/area";

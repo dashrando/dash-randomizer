@@ -4,7 +4,7 @@ import { isGraphValid } from "./solver";
 import { Graph, Vertex, cloneGraph, loadGraph } from "./init";
 import { addItem, checkFlags, createLoadout } from "../loadout";
 import { getItemPool } from "./itemPool";
-import { MajorDistributionMode, Options, Settings } from "./params";
+import { MajorDistributionMode, Options, Settings } from "../params";
 import { canReachVertex } from "./search";
 import { getArea, getLocations } from "../locations";
 
