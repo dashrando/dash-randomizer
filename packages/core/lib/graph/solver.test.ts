@@ -6,13 +6,13 @@ import path from "path";
 import { isGraphValid } from "./solver";
 import { createLoadout } from "../loadout";
 import { PortalMapping } from "./data/portals";
-import { Params } from "../params";
+import { Params, Settings } from "../params";
 import { ItemNames, ItemType, minorItem } from "../items";
 
 type SeedData = {
   params: Params,
   portals: PortalMapping[],
-  itemLocations: { location: string, area: string, item: string }[]
+  itemLocations: { location: string, area: string, item: string, code?: number }[]
 }
 
 const computeChecksum = (array: any[]) => {
@@ -29,26 +29,41 @@ const computeGraphChecksum = (graph: Graph) => {
   )
 }
 
+const getCodeByName = (itemName: string) => {
+  let code: number = 0
+  ItemNames.forEach((v, k) => {
+    if (v == itemName) {
+      code = k
+    }
+  })
+  return code
+}
+
 const loadSeed = (filePath: string) => {
   const data = fs.readFileSync(filePath, "utf-8");
   const info = JSON.parse(data) as SeedData;
-  const { mapLayout, majorDistribution, randomizeAreas, bossMode } = info.params.settings;
+  const { mapLayout, majorDistribution, randomizeAreas, bossMode } =
+    info.params.settings;
   const { RelaxedLogic } = info.params.options;
 
-  const graph = loadGraph(info.params.seed, 1, mapLayout, majorDistribution, randomizeAreas, RelaxedLogic, bossMode, info.portals)
+  const graph = loadGraph(
+    info.params.seed,
+    1,
+    mapLayout,
+    majorDistribution,
+    randomizeAreas,
+    RelaxedLogic,
+    bossMode,
+    info.portals
+  );
   info.itemLocations.forEach((i) => {
-    let code: number = 0
-    ItemNames.forEach((v, k) => {
-      if (v == i.item) {
-        code = k
-      }
-    })
-    placeItem(graph, i.location, i.area, minorItem(0x0, code))
-  })
-  return { 
+    const code = i.code ? i.code : getCodeByName(i.item);
+    placeItem(graph, i.location, i.area, minorItem(0x0, code));
+  });
+  return {
     params: info.params,
-    graph
-  }
+    graph,
+  };
 }
 
 const placeItem = (graph: Graph, location: string, area: string, item: ItemType) => {
@@ -97,6 +112,17 @@ describe("solver", () => {
   test("known invalid seeds", () => {
     const dirPath = path.resolve(__dirname, "fixtures/invalid")
     const entries = fs.readdirSync(dirPath)
+    const emptyLoadout = createLoadout()
+
+    const checkGraph = (name: string, graph: Graph, settings: Settings) => {
+      try {
+        expect(isGraphValid(graph, settings, emptyLoadout)).toBe(false)
+      } catch (error) {
+        console.error(name)
+        throw error
+      }
+    }
+
     entries.forEach((e) => {
       const full = path.resolve(dirPath, e);
       const stats = fs.statSync(full);
@@ -108,12 +134,12 @@ describe("solver", () => {
           const params = readParams(bytes)
           const portals = readPortals(bytes)
           const graph = readGraph(bytes)
-          saveSeed(`${full}.json`, graph, portals, params);
-          expect(isGraphValid(graph, params.settings, createLoadout())).toBe(false)
+          saveSeed(full.replace(".sfc", ".json"), graph, portals, params);
+          checkGraph(e, graph, params.settings)
         } else if (full.endsWith(".json")) {
           // Read directly from a JSON file
           const { params, graph } = loadSeed(full);
-          expect(isGraphValid(graph, params.settings, createLoadout())).toBe(false)
+          checkGraph(e, graph, params.settings)
         }
       } else if (stats.isDirectory()) {
       }
