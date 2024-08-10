@@ -195,8 +195,9 @@ export const generateSeedPatch = (
   //-----------------------------------------------------------------
 
   const seedFlags = new Uint8Array(TABLE_FLAGS.SeedFlagsSize).fill(0xee)
-  if (!race) {
-    seedFlags.set(paramsToBytes(seed, settings, options))
+  seedFlags.set(paramsToBytes(seed, settings, options))
+  if (race) {
+    seedFlags.set(new Uint8Array(4).fill(0xee))
   }
   encodeBytes(seedPatch, TABLE_FLAGS.SeedFlags, seedFlags)
 
