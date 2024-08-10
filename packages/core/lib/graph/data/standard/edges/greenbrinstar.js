@@ -2,7 +2,7 @@ export const greenbrinstarEdges = {
   Door_GreenElevator: {
     "Missiles (Early Bridge)": () => CanOpenRedDoors,
     "Energy Tank (Etecoons)": () => CanUsePowerBombs,
-    DachoraRoomLeft: true,
+    DachoraRoomLeft: () => CanOpenRedDoors,
   },
 
   "Missiles (Early Bridge)": {
