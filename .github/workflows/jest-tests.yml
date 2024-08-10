@@ -1,4 +1,4 @@
-name: Run Jest Tests on Canary Branch
+name: Run Jest Tests
 
 on:
   push:
