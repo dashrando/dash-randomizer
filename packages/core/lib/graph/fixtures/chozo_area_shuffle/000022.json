@@ -1,6 +1,5 @@
 {
   "seed": "22",
-  "speed": "medium",
   "bosses": {
     "phantoonBoss": "Kraid",
     "ridleyBoss": "Draygon",
@@ -9,7 +8,7 @@
   },
   "portals": [
     [
-      "Door_KraidMouth",
+      "Door_BusinessCenterRight",
       "Door_Ocean"
     ],
     [
@@ -26,31 +25,31 @@
     ],
     [
       "Door_MaridiaTube",
-      "Door_Croc"
+      "Door_CrocsLair"
     ],
     [
       "Door_Moat",
       "Door_GreenElevator"
     ],
     [
-      "Door_KraidEntry",
-      "Door_HighwayExit"
+      "Door_RedTowerToKraid",
+      "Door_WSHighway"
     ],
     [
-      "Door_LavaDive",
+      "Door_KronicBoost",
       "Door_KraidsLair"
     ],
     [
-      "Door_ElevatorEntry",
+      "Door_BusinessCenterLeft",
       "Door_RetroPBs"
     ],
     [
-      "Door_AboveKraid",
-      "Door_Crabs"
+      "Door_RedTowerToMaridiaMap",
+      "Door_CrateriaCrabs"
     ],
     [
       "Door_RedTower",
-      "Door_Highway"
+      "Door_EMHighway"
     ],
     [
       "Door_RedElevator",

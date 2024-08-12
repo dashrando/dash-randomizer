@@ -1,6 +1,5 @@
 {
   "seed": "6",
-  "speed": "VARIAble",
   "bosses": {
     "kraidBoss": "Kraid",
     "phantoonBoss": "Phantoon",
@@ -10,11 +9,11 @@
   "portals": [
     [
       "Door_GreenElevator",
-      "Door_Croc"
+      "Door_CrocsLair"
     ],
     [
       "Door_MaridiaEscape",
-      "Door_HighwayExit"
+      "Door_WSHighway"
     ],
     [
       "Door_G4",
@@ -22,14 +21,14 @@
     ],
     [
       "Door_NoobBridge",
-      "Door_KraidEntry"
+      "Door_RedTowerToKraid"
     ],
     [
-      "Door_Highway",
+      "Door_EMHighway",
       "Door_RedFish"
     ],
     [
-      "Door_LavaDive",
+      "Door_KronicBoost",
       "Door_PreAqueduct"
     ],
     [
@@ -37,7 +36,7 @@
       "Door_MainStreet"
     ],
     [
-      "Door_AboveKraid",
+      "Door_RedTowerToMaridiaMap",
       "Door_Aqueduct"
     ],
     [
@@ -46,18 +45,18 @@
     ],
     [
       "Door_Tourian",
-      "Door_ElevatorEntry"
+      "Door_BusinessCenterLeft"
     ],
     [
       "Door_CrocEntry",
       "Door_MaridiaTube"
     ],
     [
-      "Door_Crabs",
+      "Door_CrateriaCrabs",
       "Door_RidleyMouth"
     ],
     [
-      "Door_KraidMouth",
+      "Door_BusinessCenterRight",
       "Door_RedElevator"
     ],
     [

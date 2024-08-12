@@ -1,6 +1,5 @@
 {
   "seed": "3",
-  "speed": "medium",
   "bosses": {
     "kraidBoss": "Kraid",
     "phantoonBoss": "Phantoon",
@@ -10,7 +9,7 @@
   "portals": [
     [
       "Door_Ocean",
-      "Door_ElevatorEntry"
+      "Door_BusinessCenterLeft"
     ],
     [
       "Door_Tourian",
@@ -33,12 +32,12 @@
       "Door_Musketeers"
     ],
     [
-      "Door_KraidEntry",
+      "Door_RedTowerToKraid",
       "Door_RidleyMouth"
     ],
     [
-      "Door_HighwayExit",
-      "Door_AboveKraid"
+      "Door_WSHighway",
+      "Door_RedTowerToMaridiaMap"
     ],
     [
       "Door_MaridiaTube",
@@ -50,23 +49,23 @@
     ],
     [
       "Door_GreenHills",
-      "Door_KraidMouth"
+      "Door_BusinessCenterRight"
     ],
     [
-      "Door_Highway",
-      "Door_Croc"
+      "Door_EMHighway",
+      "Door_CrocsLair"
     ],
     [
       "Door_G4",
       "Door_MaridiaEscape"
     ],
     [
-      "Door_Crabs",
+      "Door_CrateriaCrabs",
       "Door_NoobBridge"
     ],
     [
       "Door_GreenElevator",
-      "Door_LavaDive"
+      "Door_KronicBoost"
     ],
     [
       "Door_SingleChamber",

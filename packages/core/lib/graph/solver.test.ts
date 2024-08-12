@@ -60,34 +60,6 @@ const getCodeByName = (itemName: string) => {
   return code;
 };
 
-const getPortal = (name: string): string => {
-  switch (name) {
-    case "Door_LavaDive":
-      return "Door_KronicBoost";
-    case "Door_HighwayExit":
-      return "Door_WSHighway";
-    case "Door_Highway":
-      return "Door_EMHighway";
-    case "Door_Muskateers":
-      return "Door_Musketeers";
-    case "Door_Crabs":
-      return "Door_CrateriaCrabs";
-    case "Door_ElevatorEntry":
-      return "Door_BusinessCenterLeft";
-    case "Door_KraidMouth":
-      return "Door_BusinessCenterRight";
-    case "Door_Croc":
-      return "Door_CrocsLair";
-    case "Door_KraidEntry":
-      return "Door_RedTowerToKraid";
-    case "Door_AboveKraid":
-      return "Door_RedTowerToMaridiaMap";
-    default:
-      break;
-  }
-  return name;
-};
-
 const loadSeed = (filePath: string, defaultSettings?: Settings) => {
   const data = fs.readFileSync(filePath, "utf-8");
   const info = JSON.parse(data);
@@ -135,11 +107,7 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
       ["Door_RidleyBoss", `Exit_${bosses.ridleyBoss}`],
     ];
 
-    const fixed: [string, string][] = data.portals.map(([a, b]) => [
-      getPortal(a),
-      getPortal(b),
-    ]);
-    const portals = mapPortals(fixed, bossPortals).filter(
+    const portals = mapPortals(data.portals, bossPortals).filter(
       ([m, n]) => m != undefined && n != undefined
     );
 

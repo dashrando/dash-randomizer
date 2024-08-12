@@ -1,6 +1,5 @@
 {
   "seed": "21",
-  "speed": "medium",
   "bosses": {
     "ridleyBoss": "Ridley",
     "draygonBoss": "Phantoon",
@@ -17,12 +16,12 @@
       "Door_GreenElevator"
     ],
     [
-      "Door_ElevatorEntry",
+      "Door_BusinessCenterLeft",
       "Door_RedTower"
     ],
     [
       "Door_CrocEntry",
-      "Door_Crabs"
+      "Door_CrateriaCrabs"
     ],
     [
       "Door_NoobBridge",
@@ -42,18 +41,18 @@
     ],
     [
       "Door_RedFish",
-      "Door_Highway"
+      "Door_EMHighway"
     ],
     [
-      "Door_Croc",
-      "Door_AboveKraid"
+      "Door_CrocsLair",
+      "Door_RedTowerToMaridiaMap"
     ],
     [
       "Door_GreenHills",
       "Door_Tourian"
     ],
     [
-      "Door_LavaDive",
+      "Door_KronicBoost",
       "Door_RetroPBs"
     ],
     [
@@ -62,15 +61,15 @@
     ],
     [
       "Door_Ocean",
-      "Door_KraidMouth"
+      "Door_BusinessCenterRight"
     ],
     [
-      "Door_HighwayExit",
+      "Door_WSHighway",
       "Door_MaridiaMap"
     ],
     [
       "Door_MainStreet",
-      "Door_KraidEntry"
+      "Door_RedTowerToKraid"
     ]
   ],
   "itemLocations": [

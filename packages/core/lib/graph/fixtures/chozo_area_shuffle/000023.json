@@ -1,6 +1,5 @@
 {
   "seed": "23",
-  "speed": "fast",
   "bosses": {
     "kraidBoss": "Kraid",
     "ridleyBoss": "Draygon",
@@ -13,12 +12,12 @@
       "Door_Ocean"
     ],
     [
-      "Door_LavaDive",
+      "Door_KronicBoost",
       "Door_Kago"
     ],
     [
-      "Door_HighwayExit",
-      "Door_Highway"
+      "Door_WSHighway",
+      "Door_EMHighway"
     ],
     [
       "Door_MainStreet",
@@ -38,19 +37,19 @@
     ],
     [
       "Door_MaridiaEscape",
-      "Door_ElevatorEntry"
+      "Door_BusinessCenterLeft"
     ],
     [
       "Door_GreenHills",
-      "Door_KraidMouth"
+      "Door_BusinessCenterRight"
     ],
     [
-      "Door_AboveKraid",
-      "Door_Crabs"
+      "Door_RedTowerToMaridiaMap",
+      "Door_CrateriaCrabs"
     ],
     [
       "Door_RedElevator",
-      "Door_Croc"
+      "Door_CrocsLair"
     ],
     [
       "Door_Musketeers",
@@ -62,7 +61,7 @@
     ],
     [
       "Door_SingleChamber",
-      "Door_KraidEntry"
+      "Door_RedTowerToKraid"
     ],
     [
       "Door_CrocEntry",

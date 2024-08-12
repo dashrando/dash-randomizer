@@ -1,6 +1,5 @@
 {
   "seed": "24",
-  "speed": "speedrun",
   "bosses": {
     "ridleyBoss": "Phantoon",
     "kraidBoss": "Kraid",
@@ -9,8 +8,8 @@
   },
   "portals": [
     [
-      "Door_Croc",
-      "Door_Highway"
+      "Door_CrocsLair",
+      "Door_EMHighway"
     ],
     [
       "Door_Tourian",
@@ -37,23 +36,23 @@
       "Door_RedFish"
     ],
     [
-      "Door_ElevatorEntry",
+      "Door_BusinessCenterLeft",
       "Door_Musketeers"
     ],
     [
-      "Door_Crabs",
+      "Door_CrateriaCrabs",
       "Door_RedElevator"
     ],
     [
-      "Door_KraidEntry",
-      "Door_HighwayExit"
+      "Door_RedTowerToKraid",
+      "Door_WSHighway"
     ],
     [
       "Door_MainStreet",
       "Door_GreenHills"
     ],
     [
-      "Door_KraidMouth",
+      "Door_BusinessCenterRight",
       "Door_NoobBridge"
     ],
     [
@@ -61,7 +60,7 @@
       "Door_RedTower"
     ],
     [
-      "Door_AboveKraid",
+      "Door_RedTowerToMaridiaMap",
       "Door_KraidsLair"
     ],
     [
@@ -70,7 +69,7 @@
     ],
     [
       "Door_CrocEntry",
-      "Door_LavaDive"
+      "Door_KronicBoost"
     ]
   ],
   "itemLocations": [
