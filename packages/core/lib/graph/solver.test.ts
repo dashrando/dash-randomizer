@@ -1,4 +1,11 @@
-import { computeCRC32, Graph, loadGraph, readGraph, readParams, readPortals } from "../..";
+import {
+  computeCRC32,
+  Graph,
+  loadGraph,
+  readGraph,
+  readParams,
+  readPortals,
+} from "../..";
 import { getAllPresets } from "../presets";
 import { generateSeed, getGraphLocations } from "./fill";
 import fs from "fs";
@@ -6,90 +13,80 @@ import path from "path";
 import { isGraphValid } from "./solver";
 import { createLoadout } from "../loadout";
 import { mapPortals, PortalMapping } from "./data/portals";
-import { BeamMode, BossMode, GravityHeatReduction, MajorDistributionMode, MapLayout, MinorDistributionMode, Options, Params, Settings, SuitMode } from "../params";
+import { Options, Params, Settings } from "../params";
 import { Item, ItemNames, ItemType, minorItem } from "../items";
 import { getAreaString, getLocations } from "../locations";
 import { SeasonEdgeUpdates } from "./data/season/edges";
 
 type SeedData = {
-  params: Params,
-  portals: PortalMapping[],
-  itemLocations: { location: string, area: string, item: string, code?: number }[]
+  params: Params;
+  portals: PortalMapping[];
+  itemLocations: {
+    location: string;
+    area: string;
+    item: string;
+    code?: number;
+  }[];
 };
 
 type LegacySeedData = {
-  seed: number,
+  seed: number;
   bosses: {
     kraidBoss: string;
     phantoonBoss: string;
     draygonBoss: string;
     ridleyBoss: string;
-  },
-  portals: [string, string][],
-  itemLocations: { location: string; item: string }[]
+  };
+  portals: [string, string][];
+  itemLocations: { location: string; item: string }[];
 };
 
 const computeChecksum = (array: any[]) => {
-  const s = JSON.stringify(array)
-  const e = new TextEncoder()
-  return computeCRC32(e.encode(s))
-}
+  const e = new TextEncoder();
+  return computeCRC32(e.encode(JSON.stringify(array)));
+};
 
 const computeGraphChecksum = (graph: Graph) => {
-  return (
-    computeChecksum(
-      getGraphLocations(graph).map((n) => n.item)
-    )
-  )
-}
+  return computeChecksum(getGraphLocations(graph).map((n) => n.item));
+};
 
 const getCodeByName = (itemName: string) => {
-  let code: number = 0
+  let code: number = 0;
   ItemNames.forEach((v, k) => {
     if (v == itemName) {
-      code = k
+      code = k;
     }
-  })
-  return code
-}
+  });
+  return code;
+};
 
 const getPortal = (name: string): string => {
   switch (name) {
     case "Door_LavaDive":
-      return "Door_KronicBoost"
+      return "Door_KronicBoost";
     case "Door_HighwayExit":
-      return "Door_WSHighway"
+      return "Door_WSHighway";
     case "Door_Highway":
-      return "Door_EMHighway"
+      return "Door_EMHighway";
     case "Door_Muskateers":
-      return "Door_Musketeers"
+      return "Door_Musketeers";
     case "Door_Crabs":
-      return "Door_CrateriaCrabs"
+      return "Door_CrateriaCrabs";
     case "Door_ElevatorEntry":
-      return "Door_BusinessCenterLeft"
+      return "Door_BusinessCenterLeft";
     case "Door_KraidMouth":
-      return "Door_BusinessCenterRight"
+      return "Door_BusinessCenterRight";
     case "Door_Croc":
-      return "Door_CrocsLair"
+      return "Door_CrocsLair";
     case "Door_KraidEntry":
-      return "Door_RedTowerToKraid"
+      return "Door_RedTowerToKraid";
     case "Door_AboveKraid":
-      return "Door_RedTowerToMaridiaMap"
+      return "Door_RedTowerToMaridiaMap";
     default:
       break;
   }
-  return name
-}
-
-const getLocation = (name: string): string => {
-  switch (name) {
-    case "Missiles (Three Muskateers)":
-      return "Missiles (Three Musketeers)"
-    default:
-      break;
-  }
-  return name
-}
+  return name;
+};
 
 const loadSeed = (filePath: string, defaultSettings?: Settings) => {
   const data = fs.readFileSync(filePath, "utf-8");
@@ -120,24 +117,13 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
       };
     }
 
-    let settings = defaultSettings
-      ? defaultSettings
-      : {
-          mapLayout: MapLayout.Standard,
-          majorDistribution: MajorDistributionMode.Standard,
-          minorDistribution: MinorDistributionMode.Standard,
-          beamMode: BeamMode.Vanilla,
-          bossMode: BossMode.Vanilla,
-          suitMode: SuitMode.Dash,
-          gravityHeatReduction: GravityHeatReduction.Off,
-          extraItems: [],
-          randomizeAreas: false,
-        };
+    if (!defaultSettings) {
+      throw new Error(`No settings for ${filePath}`);
+    }
 
     const vanillaLocations = getLocations().filter((l) => l.address < 0x7e000);
     const findLocation = (name: string) => {
-      const updated = getLocation(name);
-      return vanillaLocations.find((l) => l.name == updated);
+      return vanillaLocations.find((l) => l.name == name);
     };
 
     const data = info as LegacySeedData;
@@ -146,8 +132,8 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
       ["Door_KraidBoss", `Exit_${bosses.kraidBoss}`],
       ["Door_PhantoonBoss", `Exit_${bosses.phantoonBoss}`],
       ["Door_DraygonBoss", `Exit_${bosses.draygonBoss}`],
-      ["Door_RidleyBoss", `Exit_${bosses.ridleyBoss}`]
-    ]
+      ["Door_RidleyBoss", `Exit_${bosses.ridleyBoss}`],
+    ];
 
     const fixed: [string, string][] = data.portals.map(([a, b]) => [
       getPortal(a),
@@ -160,7 +146,7 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
     const itemLocations: { location: string; area: string; item: string }[] =
       data.itemLocations.map((l) => {
         const temp = findLocation(l.location);
-        const code = Item[`${l.item}`] as number
+        const code = Item[`${l.item}`] as number;
         return {
           location: temp.name,
           area: getAreaString(temp.area),
@@ -169,14 +155,14 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
       });
     return {
       seed: data.seed,
-      settings,
+      settings: defaultSettings,
       options: {
         RelaxedLogic: false,
-        DisableFanfare: false
+        DisableFanfare: false,
       },
       portals,
       itemLocations,
-      legacy: true
+      legacy: true,
     };
   };
 
@@ -204,7 +190,7 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
         throw new Error(`Could not find edge from ${from} to ${to}`);
       }
       edge.condition = c.requires;
-    })
+    });
   }
 
   itemLocations.forEach((i) => {
@@ -216,10 +202,17 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
     settings,
     graph,
   };
-}
+};
 
-const placeItem = (graph: Graph, location: string, area: string, item: ItemType) => {
-  const part = graph.find((n) => n.from.name == location && n.from.area == area);
+const placeItem = (
+  graph: Graph,
+  location: string,
+  area: string,
+  item: ItemType
+) => {
+  const part = graph.find(
+    (n) => n.from.name == location && n.from.area == area
+  );
   if (part == null) {
     console.error("missing part", location, area);
   } else if (part.from.type == "major") {
@@ -228,7 +221,12 @@ const placeItem = (graph: Graph, location: string, area: string, item: ItemType)
   part.from.item = item;
 };
 
-const saveSeed = (filePath: string, graph: Graph, portals: PortalMapping[], params: Params) => {
+const saveSeed = (
+  filePath: string,
+  graph: Graph,
+  portals: PortalMapping[],
+  params: Params
+) => {
   const locations = getGraphLocations(graph);
   const itemLocations = locations
     .filter((l) => l.item != undefined)
@@ -241,39 +239,42 @@ const saveSeed = (filePath: string, graph: Graph, portals: PortalMapping[], para
         location: l.name,
         area: l.area,
         item: l.item.name,
-        code: l.item.type
-      }
-    })
-  }
-  fs.writeFileSync(filePath, JSON.stringify(seed, null, 2))
-}
+        code: l.item.type,
+      };
+    }),
+  };
+  fs.writeFileSync(filePath, JSON.stringify(seed, null, 2));
+};
 
-let validSeedCount = 0
-let invalidSeedCount = 0
+let validSeedCount = 0;
+let invalidSeedCount = 0;
 
 const checkSeeds = (dirPath: string, areValid: boolean) => {
-  const entries = fs.readdirSync(dirPath)
-  const emptyLoadout = createLoadout()
+  const entries = fs.readdirSync(dirPath);
+  const emptyLoadout = createLoadout();
   let defaultSettings: Settings = undefined;
 
   if (fs.existsSync(path.resolve(dirPath, "settings.json"))) {
-    const data = fs.readFileSync(path.resolve(dirPath, "settings.json"), "utf-8");
+    const data = fs.readFileSync(
+      path.resolve(dirPath, "settings.json"),
+      "utf-8"
+    );
     defaultSettings = JSON.parse(data) as Settings;
   }
 
   const checkGraph = (name: string, graph: Graph, settings: Settings) => {
     try {
-      expect(isGraphValid(graph, settings, emptyLoadout)).toBe(areValid)
+      expect(isGraphValid(graph, settings, emptyLoadout)).toBe(areValid);
       if (areValid) {
-        validSeedCount += 1
+        validSeedCount += 1;
       } else {
-        invalidSeedCount += 1
+        invalidSeedCount += 1;
       }
     } catch (error) {
-      console.error(name)
-      throw error
+      console.error(name);
+      throw error;
     }
-  }
+  };
 
   entries.forEach((e) => {
     if (e === "settings.json") {
@@ -285,51 +286,51 @@ const checkSeeds = (dirPath: string, areValid: boolean) => {
       if (full.endsWith(".sfc")) {
         // Read parameters and graph from the ROM
         const rom = new Uint8Array(fs.readFileSync(full));
-        const params = readParams(rom)
-        const portals = readPortals(rom)
-        const graph = readGraph(rom)
+        const params = readParams(rom);
+        const portals = readPortals(rom);
+        const graph = readGraph(rom);
         saveSeed(full.replace(".sfc", ".json"), graph, portals, params);
-        checkGraph(e, graph, params.settings)
+        checkGraph(e, graph, params.settings);
       } else if (full.endsWith(".json")) {
         // Read directly from a JSON file
         const { settings, graph } = loadSeed(full, defaultSettings);
-        checkGraph(e, graph, settings)
+        checkGraph(e, graph, settings);
       }
     } else if (stats.isDirectory()) {
-      checkSeeds(full, areValid)
+      checkSeeds(full, areValid);
     }
-  })
-}
+  });
+};
 
 describe("solver", () => {
   test("first 10", () => {
-    const checksums = []
-    const presets = getAllPresets()
+    const checksums = [];
+    const presets = getAllPresets();
     presets.forEach((p) => {
       for (let i = 0; i < 10; i++) {
-        const g = generateSeed(i + 1, p.settings, p.options)
-        checksums.push(computeGraphChecksum(g))
+        const g = generateSeed(i + 1, p.settings, p.options);
+        checksums.push(computeGraphChecksum(g));
       }
-    })
-    expect(computeChecksum(checksums)).toBe(0xC7904B44)
+    });
+    expect(computeChecksum(checksums)).toBe(0xc7904b44);
   });
 
   test("known valid seeds", () => {
-    const dirPath = path.resolve(__dirname, "fixtures")
-    const entries = fs.readdirSync(dirPath)
+    const dirPath = path.resolve(__dirname, "fixtures");
+    const entries = fs.readdirSync(dirPath);
 
     entries.forEach((e) => {
       if (e == "invalid") {
         return;
       }
-      checkSeeds(path.resolve(dirPath, e), true)
-    })
-    process.stdout.write(`Processed ${validSeedCount} valid seeds\n`)
-  })
+      checkSeeds(path.resolve(dirPath, e), true);
+    });
+    process.stdout.write(`Processed ${validSeedCount} valid seeds\n`);
+  });
 
   test("known invalid seeds", () => {
-    const dirPath = path.resolve(__dirname, "fixtures/invalid")
-    checkSeeds(dirPath, false)
-    process.stdout.write(`Processed ${invalidSeedCount} invalid seeds\n`)
-  })
+    const dirPath = path.resolve(__dirname, "fixtures/invalid");
+    checkSeeds(dirPath, false);
+    process.stdout.write(`Processed ${invalidSeedCount} invalid seeds\n`);
+  });
 });
