@@ -1,0 +1,11 @@
+{
+  "mapLayout": 1,
+  "majorDistribution": 38,
+  "minorDistribution": 0,
+  "extraItems": [],
+  "randomizeAreas": true,
+  "bossMode": 1,
+  "beamMode": 0,
+  "suitMode": 2,
+  "gravityHeatReduction": 16384
+}

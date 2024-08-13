@@ -1,0 +1,477 @@
+{
+  "seed": "35",
+  "bosses": {
+    "draygonBoss": "Phantoon",
+    "ridleyBoss": "Draygon",
+    "kraidBoss": "Ridley",
+    "phantoonBoss": "Kraid"
+  },
+  "portals": [
+    [
+      "Door_CrateriaCrabs",
+      "Door_RedTowerToKraid"
+    ],
+    [
+      "Door_CrocEntry",
+      "Door_Tourian"
+    ],
+    [
+      "Door_MaridiaTube",
+      "Door_WSHighway"
+    ],
+    [
+      "Door_Aqueduct",
+      "Door_BusinessCenterLeft"
+    ],
+    [
+      "Door_RedElevator",
+      "Door_PreAqueduct"
+    ],
+    [
+      "Door_RetroPBs",
+      "Door_MainStreet"
+    ],
+    [
+      "Door_Kago",
+      "Door_RedTowerToMaridiaMap"
+    ],
+    [
+      "Door_G4",
+      "Door_Ocean"
+    ],
+    [
+      "Door_MaridiaEscape",
+      "Door_Musketeers"
+    ],
+    [
+      "Door_RedFish",
+      "Door_Moat"
+    ],
+    [
+      "Door_BusinessCenterRight",
+      "Door_EMHighway"
+    ],
+    [
+      "Door_GreenElevator",
+      "Door_RidleyMouth"
+    ],
+    [
+      "Door_SingleChamber",
+      "Door_KraidsLair"
+    ],
+    [
+      "Door_GreenHills",
+      "Door_CrocsLair"
+    ],
+    [
+      "Door_MaridiaMap",
+      "Door_NoobBridge"
+    ],
+    [
+      "Door_KronicBoost",
+      "Door_RedTower"
+    ]
+  ],
+  "itemLocations": [
+    {
+      "location": "Morphing Ball",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Power Bombs (Landing Site)",
+      "item": "Super"
+    },
+    {
+      "location": "Missiles (Ocean Bottom)",
+      "item": "Super"
+    },
+    {
+      "location": "Missiles (Sky)",
+      "item": "Super"
+    },
+    {
+      "location": "Missiles (Ocean Middle)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Moat)",
+      "item": "Missile"
+    },
+    {
+      "location": "Energy Tank (Gauntlet)",
+      "item": "Speed"
+    },
+    {
+      "location": "Missiles (Mother Brain)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Bombs",
+      "item": "ScrewAttack"
+    },
+    {
+      "location": "Energy Tank (Terminator)",
+      "item": "Grapple"
+    },
+    {
+      "location": "Missiles (Gauntlet Right)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Gauntlet Left)",
+      "item": "Super"
+    },
+    {
+      "location": "Supers (Climb)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Missiles (230)",
+      "item": "Missile"
+    },
+    {
+      "location": "Power Bombs (Etecoons)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Supers (Spore Spawn)",
+      "item": "Super"
+    },
+    {
+      "location": "Missiles (Early Bridge)",
+      "item": "Missile"
+    },
+    {
+      "location": "Supers (Early Bridge)",
+      "item": "Super"
+    },
+    {
+      "location": "Reserve Tank (Brinstar)",
+      "item": "SpaceJump"
+    },
+    {
+      "location": "Missiles (Brin Reserve 2)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Brin Reserve 1)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Big Pink)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Charge)",
+      "item": "Missile"
+    },
+    {
+      "location": "Charge Beam",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Power Bombs (Mission Impossible)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Brin Tube)",
+      "item": "Super"
+    },
+    {
+      "location": "Power Bombs (Morph)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Beta)",
+      "item": "Missile"
+    },
+    {
+      "location": "Energy Tank (Brinstar Ceiling)",
+      "item": "Morph"
+    },
+    {
+      "location": "Energy Tank (Etecoons)",
+      "item": "Ice"
+    },
+    {
+      "location": "Supers (Etecoons)",
+      "item": "Missile"
+    },
+    {
+      "location": "Energy Tank (Waterway)",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Missiles (Alpha)",
+      "item": "Super"
+    },
+    {
+      "location": "Energy Tank (Wave Gate)",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Missiles (Billy Mays 1)",
+      "item": "Super"
+    },
+    {
+      "location": "Missiles (Billy Mays 2)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Xray Scope",
+      "item": "Varia"
+    },
+    {
+      "location": "Power Bombs (Beta)",
+      "item": "Missile"
+    },
+    {
+      "location": "Power Bombs (Alpha)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Alpha PBs)",
+      "item": "Missile"
+    },
+    {
+      "location": "Spazer",
+      "item": "Reserve"
+    },
+    {
+      "location": "Energy Tank (Kraid)",
+      "item": "Xray"
+    },
+    {
+      "location": "Missiles (Kraid)",
+      "item": "Missile"
+    },
+    {
+      "location": "Varia Suit",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Missiles (Cathedral)",
+      "item": "Super"
+    },
+    {
+      "location": "Ice Beam",
+      "item": "Reserve"
+    },
+    {
+      "location": "Missiles (Crumble Shaft)",
+      "item": "Missile"
+    },
+    {
+      "location": "Energy Tank (Crocomire)",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "HiJump Boots",
+      "item": "Gravity"
+    },
+    {
+      "location": "Missiles (Croc Escape)",
+      "item": "Super"
+    },
+    {
+      "location": "Missiles (HJB)",
+      "item": "Super"
+    },
+    {
+      "location": "Energy Tank (HJB)",
+      "item": "Missile"
+    },
+    {
+      "location": "Power Bombs (Crocomire)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Missiles (Cosine)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Indiana Jones)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Grapple Beam",
+      "item": "Reserve"
+    },
+    {
+      "location": "Reserve Tank (Norfair)",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Missiles (Norfair Reserve 2)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Norfair Reserve 1)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Bubble Mountain)",
+      "item": "Super"
+    },
+    {
+      "location": "Missiles (Speed)",
+      "item": "Super"
+    },
+    {
+      "location": "Speed Booster",
+      "item": "Wave"
+    },
+    {
+      "location": "Missiles (Wave)",
+      "item": "Missile"
+    },
+    {
+      "location": "Wave Beam",
+      "item": "Charge"
+    },
+    {
+      "location": "Missiles (GT)",
+      "item": "Missile"
+    },
+    {
+      "location": "Supers (GT)",
+      "item": "Super"
+    },
+    {
+      "location": "Missiles (Mickey Mouse)",
+      "item": "Super"
+    },
+    {
+      "location": "Missiles (Maze)",
+      "item": "Missile"
+    },
+    {
+      "location": "Power Bombs (Maze)",
+      "item": "Missile"
+    },
+    {
+      "location": "Power Bombs (Shame)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Three Musketeers)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Energy Tank (Ridley)",
+      "item": "Reserve"
+    },
+    {
+      "location": "Screw Attack",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Energy Tank (Firefleas)",
+      "item": "HJB"
+    },
+    {
+      "location": "Missiles (Spooky)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Reserve Tank (Wrecked Ship)",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Missiles (Bowling)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Attic)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Energy Tank (Wrecked Ship)",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Supers (WS Left)",
+      "item": "Super"
+    },
+    {
+      "location": "Supers (WS Right)",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Gravity Suit",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Missiles (Mainstreet)",
+      "item": "Super"
+    },
+    {
+      "location": "Supers (Crab)",
+      "item": "Missile"
+    },
+    {
+      "location": "Energy Tank (Mama Turtle)",
+      "item": "EnergyTank"
+    },
+    {
+      "location": "Missiles (Mama Turtle)",
+      "item": "Missile"
+    },
+    {
+      "location": "Supers (Watering Hole)",
+      "item": "Super"
+    },
+    {
+      "location": "Missiles (Watering Hole)",
+      "item": "Missile"
+    },
+    {
+      "location": "Missiles (Beach)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Plasma Beam",
+      "item": "SpringBall"
+    },
+    {
+      "location": "Missiles (Sand Pit Left)",
+      "item": "Missile"
+    },
+    {
+      "location": "Reserve Tank (Maridia)",
+      "item": "Spazer"
+    },
+    {
+      "location": "Missiles (Sand Pit Right)",
+      "item": "Missile"
+    },
+    {
+      "location": "Power Bombs (Sand Pit Right)",
+      "item": "Super"
+    },
+    {
+      "location": "Missiles (Aqueduct)",
+      "item": "Missile"
+    },
+    {
+      "location": "Supers (Aqueduct)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Spring Ball",
+      "item": "Bombs"
+    },
+    {
+      "location": "Missiles (Precious)",
+      "item": "PowerBomb"
+    },
+    {
+      "location": "Energy Tank (Botwoon)",
+      "item": "Plasma"
+    },
+    {
+      "location": "Space Jump",
+      "item": "EnergyTank"
+    }
+  ]
+}
