@@ -136,7 +136,7 @@ export const generateSeedPatch = (
   // Setup HUD.
   //-----------------------------------------------------------------
 
-  let hudBits = 0x0d; // Show Area, Change Damage, and Dash Items
+  let hudBits = 0x1d; // Show Area, Change Damage, Dash Items, and Heat Reduction
   if (settings.majorDistribution == MajorDistributionMode.Full) {
     hudBits |= 0x02; // Show Item Counts
   }
