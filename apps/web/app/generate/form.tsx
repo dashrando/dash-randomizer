@@ -172,6 +172,7 @@ export interface GenerateFormParams extends GenerateSeedParams {
     | "surprise-surprise"
     | "chozo-bozo"
     | "sgl23"
+    | "sgl24"
     | "dash-recall"
     | "dash-classic"
     | "2017"
@@ -220,6 +221,18 @@ const MODES = {
     'item-split': 'full',
     'map-layout': 'randomized',
     boss: 'shifted',
+    minors: 'standard',
+    'environment': 'standard',
+    'charge-beam': 'vanilla',
+    'gravity-heat-reduction': 'off',
+    'double-jump': 'on',
+    'heat-shield': 'off',
+    'pressure-valve': 'none',
+  },
+  'sgl24': {
+    'item-split': 'standard-mm',
+    'map-layout': 'randomized',
+    boss: 'surprise',
     minors: 'standard',
     'environment': 'standard',
     'charge-beam': 'vanilla',
@@ -411,6 +424,8 @@ export default function Form() {
         config.presetName = "2017MM";
       } else if (data.mode == 'sgl23') {
         config.presetName = "SGL23"
+      } else if (data.mode == 'sgl24') {
+        config.presetName = "SGL24"
       } else if (data.mode == 'chozo-bozo') {
         config.presetName = "ChozoBozo"
       } else if (data.mode == 'surprise-surprise') {
@@ -530,6 +545,7 @@ export default function Form() {
                   { label: 'Spring Invitational 2024', value: 'spring24' },
                   { label: 'Surprise Surprise', value: 'surprise-surprise' },
                   { label: 'Chozo Bozo', value: 'chozo-bozo' },
+                  { label: 'SG Live 2024', value: 'sgl24' },
                   { label: 'SG Live 2023', value: 'sgl23' },
                   { label: 'DASH: Recall', value: 'dash-recall' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
