@@ -542,10 +542,10 @@ export default function Form() {
               <Select
                 options={[
                   { label: '', value: '', hidden: true },
+                  { label: 'SG Live 2024', value: 'sgl24' },
                   { label: 'Spring Invitational 2024', value: 'spring24' },
                   { label: 'Surprise Surprise', value: 'surprise-surprise' },
                   { label: 'Chozo Bozo', value: 'chozo-bozo' },
-                  { label: 'SG Live 2024', value: 'sgl24' },
                   { label: 'SG Live 2023', value: 'sgl23' },
                   { label: 'DASH: Recall', value: 'dash-recall' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
@@ -576,8 +576,8 @@ export default function Form() {
             <Option label="Item Split" name="item-split">
               <Select
                 options={[
-                  { label: 'Chozo', value: 'chozo' },
                   { label: 'Major/Minor', value: 'standard-mm' },
+                  { label: 'Chozo', value: 'chozo' },
                   { label: 'Full', value: 'full' },
                 ]}
                 name="item-split"
@@ -591,10 +591,10 @@ export default function Form() {
             <Option label="Boss Locations" name="boss">
               <Select
                 options={[
-                  { label: 'Vanilla', value: 'vanilla' },
-                  { label: 'Shuffled', value: 'shuffled' },
-                  { label: 'Shifted', value: 'shifted' },
                   { label: 'Surprise', value: 'surprise' },
+                  { label: 'Shifted', value: 'shifted' },
+                  { label: 'Shuffled', value: 'shuffled' },
+                  { label: 'Vanilla', value: 'vanilla' },
                 ]}
                 name="boss"
                 register={register}
@@ -624,8 +624,8 @@ export default function Form() {
             <Option label="Minor Item Distribution" name="minors">
               <Select
                 options={[
-                  { label: 'DASH - 2:1:1', value: 'dash' },
                   { label: 'Standard - 3:2:1', value: 'standard' },
+                  { label: 'DASH - 2:1:1', value: 'dash' },
                 ]}
                 name="minors"
                 register={register}
@@ -655,9 +655,9 @@ export default function Form() {
             <Option label="Charge Beam" name="charge-beam">
               <Select
                 options={[
-                  { label: 'Starter+', value: 'starter-plus' },
-                  { label: 'Starter', value: 'starter' },
                   { label: 'Vanilla', value: 'vanilla' },
+                  { label: 'Starter', value: 'starter' },
+                  { label: 'Starter+', value: 'starter-plus' },
                 ]}
                 name="charge-beam"
                 register={register}
@@ -684,8 +684,8 @@ export default function Form() {
             <Option label="Double Jump" name="double-jump">
               <Select
                 options={[
-                  { label: 'Off', value: 'off' },
                   { label: 'On', value: 'on' },
+                  { label: 'Off', value: 'off' },
                 ]}
                 name="double-jump"
                 register={register}
