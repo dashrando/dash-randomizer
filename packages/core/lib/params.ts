@@ -1,6 +1,8 @@
 import { Buffer } from "buffer";
 import { Item } from "./items";
 
+export const ENCODED_PARAMS_SIZE = 7;
+
 export type Settings = {
   mapLayout: number;
   majorDistribution: number;
@@ -181,7 +183,7 @@ export const paramsToBytes = (seed: number, settings: Settings, options: Options
     settings;
 
   // Place the seed number in the first 3 bytes (max=16777215)
-  let bytes = new Uint8Array(7);
+  let bytes = new Uint8Array(ENCODED_PARAMS_SIZE);
   bytes[0] = seed & 0xff;
   bytes[1] = (seed >> 8) & 0xff;
   bytes[2] = (seed >> 16) & 0xff;
@@ -229,9 +231,9 @@ export const paramsToString = (seed: number, settings: Settings, options: Option
 };
 
 export const bytesToParams = (input: Uint8Array): Params => {
-  const bytes = new Uint8Array(7).fill(0x0);
-  if (input.length > 7) {
-    bytes.set(input.subarray(0, 7));
+  const bytes = new Uint8Array(ENCODED_PARAMS_SIZE).fill(0x0);
+  if (input.length > ENCODED_PARAMS_SIZE) {
+    bytes.set(input.subarray(0, ENCODED_PARAMS_SIZE));
   } else {
     bytes.set(input);
   }
