@@ -15,7 +15,7 @@ import {
 } from "./params";
 
 type Hunk = [ number, number, Uint8Array ];
-type Patch = Hunk[];
+export type Patch = Hunk[];
 
 type ItemNode = {
   location: Location;
@@ -120,6 +120,8 @@ export const generateSeedPatch = (
   //-----------------------------------------------------------------
   // Write the spoiler in the credits.
   //-----------------------------------------------------------------
+
+  //TODO: generate spoiler from graph
 
   const sortedLocations = getLocations().sort((a, b) => a.address - b.address);
   //sortedLocations.forEach(l => console.log(l.name,getAreaString(l.area)))

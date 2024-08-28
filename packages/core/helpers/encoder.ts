@@ -96,8 +96,21 @@ export const decodeSeed = (
       (p) =>
         p.from.name === location.name && getArea(p.from.area) === location.area
     );
-    if (itemNode.from.type === "major") {
-      itemNode.from.item = majorItem(0x0, itemTypes[itemByte - 1])
+    if (itemByte & 0x80) {
+      const code = itemTypes[(0x7F & itemByte) - 1] as number;
+      //TODO: Dump this once we remove the spoiler from ItemType
+      const getSpoilerAddress = (code: number) => {
+        switch (code) {
+          case Item.Bombs:
+            return 0x2f8009
+          case Item.Ice:
+            return 0x2f800b
+          default:
+            break;
+        }
+        return 0x0
+      }
+      itemNode.from.item = majorItem(getSpoilerAddress(code), code)
     } else {
       itemNode.from.item = minorItem(0x0, itemTypes[itemByte - 1])
     }
@@ -144,6 +157,7 @@ export const encodeSeed = (params: Params, graph: Graph) => {
     const from_area = i;
     const to_area = BOSS_AREAS.findIndex((q) => q === boss[0].area);
     const boss_idx = BOSS_NAMES.findIndex((q) => boss[0].name.endsWith(q));
+    //TODO: Do we actually need to encode the "from" area? Maybe not
     bytes[pos++] = (from_area << 6) | (to_area << 2) | boss_idx;
   });
 
@@ -156,7 +170,8 @@ export const encodeSeed = (params: Params, graph: Graph) => {
     if (code === undefined) {
       bytes[pos++] = 0;
     } else {
-      bytes[pos++] = itemTypes.findIndex((q) => q === code) + 1;
+      const itemIndex = itemTypes.findIndex((q) => q === code) + 1
+      bytes[pos++] = (p.item.isMajor ? 0x80 : 0x00) | itemIndex;
     }
   });
   //console.log(pos)
