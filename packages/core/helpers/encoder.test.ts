@@ -6,8 +6,19 @@ import fs from "fs";
 import path from "path";
 import { patchToString } from "../lib/sm-rando.test";
 
+function sortLines(inputString: string) {
+  // Split the input string into an array of lines
+  const lines = inputString.split("\n");
+
+  // Sort the lines
+  lines.sort();
+
+  // Join the sorted lines back into a single string with newlines
+  return lines.join("\n");
+}
+
 describe("encoder", () => {
-  test.skip("simple", () => {
+  test("simple", () => {
     const dirPath = path.resolve(__dirname, "../lib/fixtures");
     const seed = 0xdead;
     const preset = getPreset("sgl23");
@@ -17,18 +28,33 @@ describe("encoder", () => {
     const decoded = decodeSeed(encoded);
     const recoded = encodeSeed(decoded.params, decoded.graph);
     expect(toSafeString(recoded)).toBe(toSafeString(encoded));
-    const data = fs.readFileSync(
-      path.resolve(dirPath, "seed_patches", "sgl23_DEAD.txt"),
-      "utf-8"
+
+    const encodePatch = generateSeedPatch(
+      seed,
+      settings,
+      graph,
+      options,
+      false
     );
-    const patch = generateSeedPatch(
+    const encodeLines = sortLines(patchToString(encodePatch));
+    const recodePatch = generateSeedPatch(
       decoded.params.seed,
       decoded.params.settings,
       decoded.graph,
       decoded.params.options,
       false
     );
-    //TODO: Use sorted lines?
-    expect(patchToString(patch)).toBe(data);
+    const recodeLines = sortLines(patchToString(recodePatch));
+
+    /*fs.writeFileSync(
+      path.resolve(dirPath, "seed_patches", "sgl23_DEAD_encode.txt"),
+      encodeLines
+    );
+    fs.writeFileSync(
+      path.resolve(dirPath, "seed_patches", "sgl23_DEAD_recode.txt"),
+      recodeLines
+    );*/
+
+    expect(recodeLines).toBe(encodeLines);
   });
 });

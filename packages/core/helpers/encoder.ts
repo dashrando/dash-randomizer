@@ -47,6 +47,11 @@ export const decodeSeed = (
   for (let i = 0; i < areaPortals.length; i++) {
     const from = areaPortals.at(i);
     const to = areaPortals.at(bytes[i + areaRefIndex]);
+
+    // We only need to map portals once so ignore the reverse mapping
+    if (0 <= mappings.findIndex((m) => m[0] == to && m[1] == from)) {
+      continue;
+    }
     mappings.push([from, to]);
   }
 
@@ -101,6 +106,8 @@ export const decodeSeed = (
       //TODO: Dump this once we remove the spoiler from ItemType
       const getSpoilerAddress = (code: number) => {
         switch (code) {
+          case Item.Morph:
+            return 0x2f8007
           case Item.Bombs:
             return 0x2f8009
           case Item.Ice:
