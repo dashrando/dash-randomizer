@@ -12,7 +12,6 @@ import {
 } from "../loadout";
 
 export type ItemLocation = {
-  itemName: string;
   itemType: number;
   locationName: string;
   isMajor: boolean;
@@ -80,7 +79,6 @@ const getItemLocation = (itemNode: Vertex): ItemLocation => {
     throw new Error("getItemLocation: missing item");
   }
   return {
-    itemName: itemNode.item.name,
     itemType: itemNode.item.type,
     locationName: getProgressionLocation(itemNode),
     isMajor: itemNode.item.isMajor,

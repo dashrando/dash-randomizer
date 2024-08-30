@@ -106,7 +106,7 @@ export const generateSeedPatch = (
 
   const majors = nodes.filter(
     (n) =>
-      n.item.isMajor &&
+      n.item.isMajor && //TODO: Does this actually make sense?
       n.item.type != Item.EnergyTank &&
       n.item.type != Item.Reserve
   );
@@ -121,18 +121,81 @@ export const generateSeedPatch = (
   // Write the spoiler in the credits.
   //-----------------------------------------------------------------
 
-  //TODO: generate spoiler from graph
-
   const sortedLocations = getLocations().sort((a, b) => a.address - b.address);
-  //sortedLocations.forEach(l => console.log(l.name,getAreaString(l.area)))
+  const beamUpgradeSpoilers = [0x2f802d, 0x2f802f, 0x2f8031, 0x2f8033];
+  let beamUpgradeIndex = 0;
 
-  nodes
-    .filter((n) => n.item.spoilerAddress > 0)
-    .forEach((n) => {
-      const addr = n.location.address;
-      const locIndex = sortedLocations.findIndex((l) => l.address == addr);
-      encodeBytes(seedPatch, n.item.spoilerAddress, U16toBytes(locIndex + 1));
-    });
+  sortedLocations.forEach((l, i) => {
+    const node = nodes.find((n) => n.location.address === l.address);
+    switch (node?.item?.type) {
+      case Item.Morph:
+        encodeBytes(seedPatch, 0x2f8007, U16toBytes(i + 1));
+        break;
+      case Item.Bombs:
+        encodeBytes(seedPatch, 0x2f8009, U16toBytes(i + 1));
+        break;
+      case Item.Ice:
+        encodeBytes(seedPatch, 0x2f800b, U16toBytes(i + 1));
+        break;
+      case Item.Charge:
+        encodeBytes(seedPatch, 0x2f802b, U16toBytes(i + 1));
+        break;
+      case Item.HJB:
+        encodeBytes(seedPatch, 0x2f8017, U16toBytes(i + 1));
+        break;
+      case Item.Speed:
+        encodeBytes(seedPatch, 0x2f801b, U16toBytes(i + 1));
+        break;
+      case Item.Wave:
+        encodeBytes(seedPatch, 0x2f800d, U16toBytes(i + 1));
+        break;
+      case Item.Spazer:
+        encodeBytes(seedPatch, 0x2f800f, U16toBytes(i + 1));
+        break;
+      case Item.SpringBall:
+        encodeBytes(seedPatch, 0x2f801f, U16toBytes(i + 1));
+        break;
+      case Item.Varia:
+        encodeBytes(seedPatch, 0x2f8013, U16toBytes(i + 1));
+        break;
+      case Item.Plasma:
+        encodeBytes(seedPatch, 0x2f8011, U16toBytes(i + 1));
+        break;
+      case Item.Grapple:
+        encodeBytes(seedPatch, 0x2f8023, U16toBytes(i + 1));
+        break;
+      case Item.Gravity:
+        encodeBytes(seedPatch, 0x2f8015, U16toBytes(i + 1));
+        break;
+      case Item.Xray:
+        encodeBytes(seedPatch, 0x2f8021, U16toBytes(i + 1));
+        break;
+      case Item.SpaceJump:
+        encodeBytes(seedPatch, 0x2f8019, U16toBytes(i + 1));
+        break;
+      case Item.ScrewAttack:
+        encodeBytes(seedPatch, 0x2f801d, U16toBytes(i + 1));
+        break;
+      case Item.DoubleJump:
+        encodeBytes(seedPatch, 0x2f8029, U16toBytes(i + 1));
+        break;
+      case Item.PressureValve:
+        encodeBytes(seedPatch, 0x2f8027, U16toBytes(i + 1));
+        break;
+      case Item.HeatShield:
+        encodeBytes(seedPatch, 0x2f8025, U16toBytes(i + 1));
+        break;
+      case Item.BeamUpgrade:
+        encodeBytes(
+          seedPatch,
+          beamUpgradeSpoilers[beamUpgradeIndex++],
+          U16toBytes(i + 1)
+        );
+        break;
+      default:
+        break;
+    }
+  });
 
   //-----------------------------------------------------------------
   // Setup HUD.

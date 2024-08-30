@@ -79,22 +79,13 @@ export type ItemType = {
   type: number;
   name: string;
   isMajor: boolean;
-  spoilerAddress: number;
 }
 
-export const bossItem = (type: number) => {
-  return newItem(type, false, 0x0);
-};
+export const bossItem = (type: number) => newItem(type, false);
+export const majorItem = (type: number) => newItem(type, true);
+export const minorItem = (type: number) => newItem(type, false);
 
-export const majorItem = (spoilerAddress: number, type: number) => {
-  return newItem(type, true, spoilerAddress);
-};
-
-export const minorItem = (spoilerAddress: number, type: number) => {
-  return newItem(type, false, spoilerAddress);
-};
-
-const newItem = (type: number, isMajor: boolean, spoilerAddress: number): ItemType => {
+const newItem = (type: number, isMajor: boolean): ItemType => {
   const name = ItemNames.get(type);
   if (name == undefined) {
     throw new Error(`newItem: unknown item type [${type}]`);
@@ -103,7 +94,6 @@ const newItem = (type: number, isMajor: boolean, spoilerAddress: number): ItemTy
     type,
     name,
     isMajor,
-    spoilerAddress,
   };
 };
 

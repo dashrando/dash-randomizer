@@ -55,9 +55,9 @@ export const readGraph = (rom: Uint8Array) => {
     }
     const itemCode = l.GetItemCode(rom);
     if (node.type == "major") {
-      node.item = majorItem(0x0, itemCode)
+      node.item = majorItem(itemCode)
     } else {
-      node.item = minorItem(0x0, itemCode)
+      node.item = minorItem(itemCode)
     }
   });
 

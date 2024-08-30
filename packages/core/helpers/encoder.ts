@@ -103,23 +103,9 @@ export const decodeSeed = (
     );
     if (itemByte & 0x80) {
       const code = itemTypes[(0x7F & itemByte) - 1] as number;
-      //TODO: Dump this once we remove the spoiler from ItemType
-      const getSpoilerAddress = (code: number) => {
-        switch (code) {
-          case Item.Morph:
-            return 0x2f8007
-          case Item.Bombs:
-            return 0x2f8009
-          case Item.Ice:
-            return 0x2f800b
-          default:
-            break;
-        }
-        return 0x0
-      }
-      itemNode.from.item = majorItem(getSpoilerAddress(code), code)
+      itemNode.from.item = majorItem(code)
     } else {
-      itemNode.from.item = minorItem(0x0, itemTypes[itemByte - 1])
+      itemNode.from.item = minorItem(itemTypes[itemByte - 1])
     }
   }
 
