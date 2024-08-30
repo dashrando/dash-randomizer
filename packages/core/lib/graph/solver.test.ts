@@ -17,6 +17,7 @@ import { Options, Params, Settings } from "../params";
 import { Item, ItemNames, ItemType, minorItem } from "../items";
 import { getAreaString, getLocations } from "../locations";
 import { SeasonEdgeUpdates } from "./data/season/edges";
+import { encodeSeed, toSafeString } from "../../helpers/encoder";
 
 type SeedData = {
   params: Params;
@@ -218,6 +219,9 @@ let validSeedCount = 0;
 let invalidSeedCount = 0;
 
 const checkSeeds = (dirPath: string, areValid: boolean) => {
+  if (!fs.statSync(dirPath).isDirectory()) {
+    return;
+  }
   const entries = fs.readdirSync(dirPath);
   const emptyLoadout = createLoadout();
   let defaultSettings: Settings = undefined;
@@ -271,16 +275,26 @@ const checkSeeds = (dirPath: string, areValid: boolean) => {
 };
 
 describe("solver", () => {
-  test.skip("first 10", () => {
-    const checksums = [];
+  test("first 25", () => {
+    const encodings: string[] = [];
     const presets = getAllPresets();
+
     presets.forEach((p) => {
-      for (let i = 0; i < 10; i++) {
-        const g = generateSeed(i + 1, p.settings, p.options);
-        checksums.push(computeGraphChecksum(g));
+      for (let i = 0; i < 25; i++) {
+        const { settings, options } = p;
+        const g = generateSeed(i + 1, settings, options);
+        const r = { seed: i + 1, settings, options };
+        encodings.push(toSafeString(encodeSeed(r, g)));
       }
     });
-    expect(computeChecksum(checksums)).toBe(0xc7904b44);
+
+    const dirPath = path.resolve(__dirname, "fixtures");
+    const fileName = path.resolve(dirPath, "first25.txt");
+
+    const combined = encodings.join("\n");
+    //fs.writeFileSync(fileName, combined);
+    const existing = fs.readFileSync(fileName, "utf-8");
+    expect(combined).toBe(existing);
   });
 
   test("known valid seeds", () => {
