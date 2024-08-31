@@ -19,6 +19,17 @@ export const patchToString = (patch: Patch) => {
     .join("\n");
 };
 
+function sortLines(inputString: string) {
+  // Split the input string into an array of lines
+  const lines = inputString.split("\n");
+
+  // Sort the lines
+  lines.sort();
+
+  // Join the sorted lines back into a single string with newlines
+  return lines.join("\n");
+}
+
 describe("getSeedNumber", () => {
   const MAX_SEED = 1000000;
 

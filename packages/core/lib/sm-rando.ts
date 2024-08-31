@@ -222,6 +222,7 @@ export const generateSeedPatch = (
   // Encode boss and area edges.
   //-----------------------------------------------------------------
 
+  const edgePatch: Patch = [];
   const encodeEdge = (e: Edge) => {
       const x = doors.find(
         (d) => d.door == e.from.name && d.area == e.from.area
@@ -236,12 +237,14 @@ export const generateSeedPatch = (
       }
       //console.log("Encoding",x.door,"to",y.door)
       //console.log(`${x.address.toString(16)} to ${y.vector.toString(16)}`)
-      encodeBytes(seedPatch, x.address, U16toBytes(y.vector & 0xffff))
+      encodeBytes(edgePatch, x.address, U16toBytes(y.vector & 0xffff))
   }
 
   graph
     .filter((e) => isBossEdge(e) || isAreaEdge(e))
     .forEach((e) => encodeEdge(e))
+
+  edgePatch.sort((a, b) => a[0] - b[0]).forEach((p) => seedPatch.push(p))
 
   //-----------------------------------------------------------------
   // Other options.
