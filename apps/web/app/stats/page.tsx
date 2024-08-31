@@ -79,6 +79,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         <option value="spring24">Spring 24 - Chozo Area</option>
         <option value="chozo">Chozo</option>
         <option value="chozo_bozo">Chozo Bozo</option>
+        <option value="sgl24">SGL24 - M/M - Boss Surprise</option>
         <option value="sgl23">SGL23 - Full - Boss+Area</option>
         <option value="recall_area_mm">Recall - M/M - Boss+Area</option>
         <option value="standard_mm">Standard - Major / Minor</option>
