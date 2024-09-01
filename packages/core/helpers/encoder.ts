@@ -167,7 +167,6 @@ export const encodeSeed = (params: Params, graph: Graph) => {
       bytes[pos++] = (p.item.isMajor ? 0x80 : 0x00) | itemIndex;
     }
   });
-  //console.log(pos)
 
   return bytes;
 };
