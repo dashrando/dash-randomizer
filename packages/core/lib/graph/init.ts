@@ -26,7 +26,7 @@ export type Vertex = {
   name: string;
   type: string;
   area: string;
-  item: ItemType | undefined;
+  item: ItemType | undefined; // don't use ItemType here
   pathToStart: boolean;
 }
 
