@@ -15,7 +15,7 @@ import {
 } from "./params";
 
 type Hunk = [ number, number, Uint8Array ];
-type Patch = Hunk[];
+export type Patch = Hunk[];
 
 type ItemNode = {
   location: Location;
