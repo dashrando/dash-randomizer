@@ -26,6 +26,10 @@ export {
   readPortals,
   readGraph
 } from "./helpers/reader"
+export {
+  decodeSeed,
+  encodeSeed
+} from "./helpers/encoder"
 
 export { RandomizeRom, ProtectRom, BpsPatch };
 
