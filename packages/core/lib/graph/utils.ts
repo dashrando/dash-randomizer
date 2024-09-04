@@ -31,7 +31,7 @@ export const getBossTransitions = (graph: Graph): PortalMapping[] => {
     });
 };
 
-export const getItemLocations = (graph: Graph): ItemLocation[] => {
+export const getItemLocations = (graph: Graph, sorted: boolean): ItemLocation[] => {
   const nodes: ItemLocation[] = [];
 
   const getItem = (vertex: Vertex|undefined) => {
@@ -51,5 +51,9 @@ export const getItemLocations = (graph: Graph): ItemLocation[] => {
     })
   })
 
-  return nodes;
+  if (!sorted) {
+    return nodes;
+  }
+
+  return nodes.sort((a, b) => a.location.address - b.location.address);
 };

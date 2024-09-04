@@ -87,9 +87,7 @@ export const decodeSeed = (
 
   const itemRefIndex = bossRefIndex + BOSS_AREAS.length;
   const itemTypes = Object.values(Item);
-  const itemLocations = getItemLocations(graph).sort(
-    (a, b) => a.location.address - b.location.address
-  );
+  const itemLocations = getItemLocations(graph, true);
 
   for (let i = 0; i < itemLocations.length; i++) {
     const itemByte = bytes[i + itemRefIndex];
@@ -155,9 +153,8 @@ export const encodeSeed = (params: Params, graph: Graph) => {
   });
 
   const itemTypes = Object.values(Item);
-  const itemLocations = getItemLocations(graph).sort(
-    (a, b) => a.location.address - b.location.address
-  );
+  const itemLocations = getItemLocations(graph, true);
+
   itemLocations.forEach((p) => {
     const code = p.item?.type;
     if (code === undefined) {

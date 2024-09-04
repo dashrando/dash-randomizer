@@ -21,6 +21,9 @@ export {
   loadGraph
 } from "./lib/graph/init";
 export {
+  getItemLocations
+} from "./lib/graph/utils";
+export {
   isDASHSeed,
   readParams,
   readPortals,

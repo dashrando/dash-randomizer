@@ -16,3 +16,4 @@ node_modules/
 .turbo
 
 packages/stats/bin/
+packages/stats/results/*.html
