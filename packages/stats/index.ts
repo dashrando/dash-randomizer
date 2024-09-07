@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { encodeSeed, getAllPresets, getAreaPortals, getItemLocations, getPreset } from "core";
+import { encodeSeed, getAllPresets, getItemLocations, getPreset } from "core";
 import { generateSeed, getLocations, Area, Item, ItemNames } from "core/data";
 import fs from "fs";
 import path from "path";
@@ -104,10 +104,6 @@ export async function stats(presetName: string, numSeeds = 100) {
   })
 
   text += '</table>';
-
-  //console.log(itemCounts)
-  //const itemRefIndex = bossRefIndex + BOSS_AREAS.length;
-  //const itemLocations = getItemLocations(graph, true);
 
   text += '</body></html>';
   fs.writeFileSync(fileName, text)

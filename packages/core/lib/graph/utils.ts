@@ -4,7 +4,7 @@ import { isAreaEdge, isBossEdge } from "../../data";
 import { Location, getArea, getLocations } from "../locations";
 import { ItemType } from "../items";
 
-export type ItemLocation = {
+export type PlacedItem = {
   location: Location;
   item: ItemType;
 };
@@ -31,8 +31,8 @@ export const getBossTransitions = (graph: Graph): PortalMapping[] => {
     });
 };
 
-export const getItemLocations = (graph: Graph, sorted: boolean): ItemLocation[] => {
-  const nodes: ItemLocation[] = [];
+export const getItemLocations = (graph: Graph, sorted: boolean): PlacedItem[] => {
+  const nodes: PlacedItem[] = [];
 
   const getItem = (vertex: Vertex|undefined) => {
     if (vertex == undefined || vertex.item == undefined) {
