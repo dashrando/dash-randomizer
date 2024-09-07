@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { encodeSeed, getAllPresets, getItemLocations, getPreset } from "core";
+import { encodeSeed, getAllPresets, getAreaPortals, getBossPortals, getItemLocations, getPreset } from "core";
 import { generateSeed, getLocations, Area, Item, ItemNames } from "core/data";
 import fs from "fs";
 import path from "path";
@@ -24,7 +24,7 @@ export async function stats(presetName: string, numSeeds = 100) {
   const { settings, options } = preset;
   //const areaPortals = getAreaPortals();
   //const bossCount = 4;
-  const locations = getLocations();
+  const locations = getLocations().sort((a, b) => a.address - b.address);
   const itemTypes = Object.values(Item).filter((i) => i > 0xc000);
   const itemCounts = locations.map((l) => {
     return {
@@ -39,28 +39,25 @@ export async function stats(presetName: string, numSeeds = 100) {
     };
   });
 
+  const encodedSeeds: Uint8Array[] = [];
   for (let i = 0; i < numSeeds; i++) {
-    const graph = generateSeed(i + 1, settings, options)
-    const itemLocations = getItemLocations(graph, true);
-    itemLocations.forEach((val) => {
-      if (val.item === undefined) {
-        return;
-      }
-      const rec = itemCounts.find(
-        (p) => p.name === val.location.name && p.area === val.location.area
-      );
-      if (rec === undefined) {
-        console.error("a")
-        return;
-      }
-      const sub = rec.item.get(val.item.name)
-      if (sub === undefined) {
-        console.error("b")
-        return;
-      }
-      rec.item.set(val.item.name, sub + 1)
-    })
+    const graph = generateSeed(i + 1, settings, options);
+    encodedSeeds.push(encodeSeed({ seed: i, settings, options }, graph));
   }
+
+  const offset = 1 + 7 + getAreaPortals().length + 4;
+  encodedSeeds.forEach((s) => {
+    for (let i = 0; i < locations.length; i++) {
+      const itemByte = s[offset + i];
+      if (itemByte === 0) {
+        continue;
+      }
+      const itemType = itemTypes[(0x7F & itemByte) - 1] as number;
+      const itemName = ItemNames.get(itemType);
+      const curr = itemCounts[i].item.get(itemName);
+      itemCounts[i].item.set(itemName, curr + 1);
+    }
+  });
 
   const areaNames = Object.keys(Area);
   text += `
