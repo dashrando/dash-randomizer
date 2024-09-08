@@ -1,4 +1,4 @@
-import { standardVertices } from './vertex.mjs';
+import { standardVertices } from './vertex';
 import fs from "fs";
 
 const allVertices = Object.entries(standardVertices)

@@ -5,7 +5,7 @@
   "main": "./index.ts",
   "private": true,
   "scripts": {
-    "build": "node lib/graph/data/base/compile.mjs",
+    "build": "ts-node lib/graph/data/base/compile.ts",
     "format": "prettier --write .",
     "test": "jest"
   },
