@@ -1,13 +1,22 @@
 import chalk from "chalk";
-import { encodeSeed, getAllPresets, getAreaPortals, getBossPortals, getItemLocations, getPreset } from "core";
-import { generateSeed, getLocations, Area, Item, ItemNames } from "core/data";
+import { encodeSeed, getAllPresets, getPreset } from "core";
+import { generateSeed } from "core/data";
 import fs from "fs";
 import path from "path";
+import { getHtml_Majors } from "./lib/majors";
+import { getHtml_Areas } from "./lib/areas";
 
 export async function stats(presetName: string, numSeeds = 100) {
   const preset = getPreset(presetName);
   if (preset === undefined) {
     throw new Error(`unknown preset: ${presetName}`)
+  }
+
+  const { settings, options } = preset;
+  const encodedSeeds: Uint8Array[] = [];
+  for (let i = 0; i < numSeeds; i++) {
+    const graph = generateSeed(i + 1, settings, options);
+    encodedSeeds.push(encodeSeed({ seed: i, settings, options }, graph));
   }
 
   const dirPath = 'results'
@@ -21,86 +30,8 @@ export async function stats(presetName: string, numSeeds = 100) {
       <style>${style}</style>
     </head><body>`;
 
-  const { settings, options } = preset;
-  //const areaPortals = getAreaPortals();
-  //const bossCount = 4;
-  const locations = getLocations().sort((a, b) => a.address - b.address);
-  const itemTypes = Object.values(Item).filter((i) => i > 0xc000);
-  const itemCounts = locations.map((l) => {
-    return {
-      name: l.name,
-      area: l.area,
-      item: new Map<string, number>(itemTypes.map((i) => {
-        return [
-          ItemNames.get(i),
-          0
-        ]
-      }))
-    };
-  });
-
-  const encodedSeeds: Uint8Array[] = [];
-  for (let i = 0; i < numSeeds; i++) {
-    const graph = generateSeed(i + 1, settings, options);
-    encodedSeeds.push(encodeSeed({ seed: i, settings, options }, graph));
-  }
-
-  const offset = 1 + 7 + getAreaPortals().length + 4;
-  encodedSeeds.forEach((s) => {
-    for (let i = 0; i < locations.length; i++) {
-      const itemByte = s[offset + i];
-      if (itemByte === 0) {
-        continue;
-      }
-      const itemType = itemTypes[(0x7F & itemByte) - 1] as number;
-      const itemName = ItemNames.get(itemType);
-      const curr = itemCounts[i].item.get(itemName);
-      itemCounts[i].item.set(itemName, curr + 1);
-    }
-  });
-
-  const areaNames = Object.keys(Area);
-  text += `
-    <table class="majors">
-      <tr>
-        <th class="thin_border location">Location</th>
-        <th class="thin_border area">Area</th>`;
-  itemTypes.forEach((i) => {
-    const name = ItemNames.get(i);
-    text += `<th class="thin_border">${name}</th>`
-  })
-  text += '</tr>'
-
-  itemCounts.forEach((i) => {
-    let hasItems = ' zero';
-    let hasMajors = ' zero';
-    const mapped = itemTypes.map((j) => {
-      const itemName = ItemNames.get(j)
-      const count = i.item.get(itemName)
-      if (count > 0) {
-        if (j != Item.Missile && j != Item.Super && j != Item.PowerBomb) {
-          hasMajors = '';
-        }
-        hasItems = '';
-      }
-      return count
-    })
-
-    text += `<tr class="${hasItems} ${hasMajors}">
-    <td class="thin_border">${i.name}</td>
-    <td class="thin_border">${areaNames[i.area]}</td>
-    `
-    mapped.forEach((j) => {
-      const percent = (100 * j / numSeeds)
-      const cellColor = j == 0 ? " gray_cell" : percent > 5 ? " tan_cell" : "";
-      text += `<td class="center thin_border ${cellColor}">${percent.toFixed(
-        1
-      )}%</td>`;
-    });
-    text += '</tr>'
-  })
-
-  text += '</table>';
+  text += getHtml_Areas(encodedSeeds)
+  text += getHtml_Majors(encodedSeeds)
 
   text += '</body></html>';
   fs.writeFileSync(fileName, text)
