@@ -7,7 +7,6 @@ import {
   mapPortals,
   PortalMapping,
   isGraphValid,
-  getItemLocations,
   Vertex,
 } from "core";
 import {

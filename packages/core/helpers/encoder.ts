@@ -13,13 +13,15 @@ import {
 import {
   getAreaPortals,
   getBossPortals,
-  Portal,
   PortalMapping,
 } from "../lib/graph/data/portals";
-import { getArea } from "../lib/locations";
+import { getArea, getLocations } from "../lib/locations";
 import { Item, majorItem, minorItem } from "../lib/items";
 
 const SEED_ENCODING_VERSION = 0;
+const AREA_REF_INDEX = 1 + ENCODED_PARAMS_SIZE;
+const BOSS_REF_INDEX = AREA_REF_INDEX + 32;
+const ITEM_REF_INDEX = BOSS_REF_INDEX + 4;
 const ENCODED_SEED_SIZE = 153;
 
 const BOSS_NAMES = ["Kraid", "Phantoon", "Draygon", "Ridley"];
@@ -39,40 +41,7 @@ export const decodeSeed = (
 
   const params: Params = bytesToParams(bytes.slice(1, 1 + ENCODED_PARAMS_SIZE));
   const { seed, settings, options } = params;
-
-  const areaPortals = getAreaPortals();
-  const mappings: PortalMapping[] = [];
-
-  const areaRefIndex = 1 + ENCODED_PARAMS_SIZE;
-  for (let i = 0; i < areaPortals.length; i++) {
-    const from = areaPortals.at(i);
-    const to = areaPortals.at(bytes[i + areaRefIndex]);
-
-    // We only need to map portals once so ignore the reverse mapping
-    if (0 <= mappings.findIndex((m) => m[0] == to && m[1] == from)) {
-      continue;
-    }
-    mappings.push([from, to]);
-  }
-
-  const bossPortals = getBossPortals();
-  const bossRefIndex = areaRefIndex + areaPortals.length;
-  for (let i = 0; i < BOSS_AREAS.length; i++) {
-    const bossArea = BOSS_AREAS[i];
-    const from = bossPortals.find(
-      (p) => p.name.startsWith("Door_") && p.area === bossArea
-    );
-
-    const bossByte = bytes[i + bossRefIndex];
-    const toAreaIndex = (bossByte >> 2) & 0x3;
-    const toBossIndex = bossByte & 0x3;
-    const to: Portal = {
-      name: `Exit_${BOSS_NAMES[toBossIndex]}`,
-      area: BOSS_AREAS[toAreaIndex],
-    };
-
-    mappings.push([from, to]);
-  }
+  const mappings = [...decodeAreaPortals(bytes), ...decodeBossPortals(bytes)];
 
   const graph: Graph = loadGraph(
     seed,
@@ -85,32 +54,81 @@ export const decodeSeed = (
     mappings
   );
 
-  const itemRefIndex = bossRefIndex + BOSS_AREAS.length;
-  const itemTypes = Object.values(Item);
-  const itemLocations = getItemLocations(graph, true);
-
-  for (let i = 0; i < itemLocations.length; i++) {
-    const itemByte = bytes[i + itemRefIndex];
-    if (itemByte === 0) {
-      continue;
+  decodeItemLocations(bytes).forEach((v) => {
+    if (v.item === null) {
+      return;
     }
-    const location = itemLocations[i].location;
     const itemNode = graph.find(
       (p) =>
-        p.from.name === location.name && getArea(p.from.area) === location.area
+        p.from.name === v.location.name &&
+        getArea(p.from.area) === v.location.area
     );
-    if (itemByte & 0x80) {
-      const code = itemTypes[(0x7F & itemByte) - 1] as number;
-      itemNode.from.item = majorItem(code)
-    } else {
-      itemNode.from.item = minorItem(itemTypes[itemByte - 1])
-    }
-  }
+    itemNode.from.item = v.item;
+  });
 
   return {
     params,
     graph,
   };
+};
+
+export const decodeAreaPortals = (bytes: Uint8Array): PortalMapping[] => {
+  const areaPortals = getAreaPortals();
+  const mappings: PortalMapping[] = [];
+
+  for (let i = 0; i < areaPortals.length; i++) {
+    const from = areaPortals.at(i);
+    const to = areaPortals.at(bytes[i + AREA_REF_INDEX]);
+
+    // We only need to map portals once so ignore the reverse mapping
+    if (0 <= mappings.findIndex((m) => m[0] == to && m[1] == from)) {
+      continue;
+    }
+    mappings.push([from, to]);
+  }
+
+  return mappings;
+};
+
+export const decodeBossPortals = (bytes: Uint8Array): PortalMapping[] => {
+  const bossPortals = getBossPortals();
+  return BOSS_AREAS.map((bossArea, i) => {
+    const from = bossPortals.find(
+      (p) => p.name.startsWith("Door_") && p.area === bossArea
+    );
+
+    const bossByte = bytes[i + BOSS_REF_INDEX];
+    const toAreaIndex = (bossByte >> 2) & 0x3;
+    const toBossIndex = bossByte & 0x3;
+    return [
+      from,
+      {
+        name: `Exit_${BOSS_NAMES[toBossIndex]}`,
+        area: BOSS_AREAS[toAreaIndex],
+      },
+    ];
+  });
+};
+
+export const decodeItemLocations = (bytes: Uint8Array) => {
+  const itemTypes = Object.values(Item);
+  const locations = getLocations().sort((a, b) => a.address - b.address);
+  return locations.map((location, i) => {
+    const itemByte = bytes[i + ITEM_REF_INDEX];
+    let item = null;
+    if (itemByte !== 0) {
+      if (itemByte & 0x80) {
+        const code = itemTypes[(0x7f & itemByte) - 1] as number;
+        item = majorItem(code);
+      } else {
+        item = minorItem(itemTypes[itemByte - 1]);
+      }
+    }
+    return {
+      location,
+      item,
+    };
+  });
 };
 
 //-----------------------------------------------------------------
@@ -160,7 +178,7 @@ export const encodeSeed = (params: Params, graph: Graph) => {
     if (code === undefined) {
       bytes[pos++] = 0;
     } else {
-      const itemIndex = itemTypes.findIndex((q) => q === code) + 1
+      const itemIndex = itemTypes.findIndex((q) => q === code) + 1;
       bytes[pos++] = (p.item.isMajor ? 0x80 : 0x00) | itemIndex;
     }
   });
