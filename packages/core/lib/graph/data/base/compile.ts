@@ -1,6 +1,17 @@
 import { standardVertices } from './vertex';
 import fs from "fs";
 
+const getProgressionInitValue = (type) => {
+  switch(type) {
+    case "major":
+    case "minor":
+    case "boss":
+      return 0;
+    default:
+      return -1;
+  }
+}
+
 const allVertices = Object.entries(standardVertices)
   .map(([k, v]) => {
     return Object.entries(v).map(([name, type]) => {
@@ -10,6 +21,7 @@ const allVertices = Object.entries(standardVertices)
         area: k,
         item: null,
         pathToStart: false,
+        progression: getProgressionInitValue(type)
       };
     });
   })
@@ -42,6 +54,7 @@ export type Vertex = {
   area: string;
   item: ItemType | undefined; // don't use ItemType here
   pathToStart: boolean;
+  progression: number;
 }
 
 export const getAllVertices = (): Vertex[] => {

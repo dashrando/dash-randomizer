@@ -15,6 +15,19 @@ const UpperNorfair_SpeedBooster_to_KingCacLedge = {
   requires: () => HellRunTanks >= 3 || (HasSpeed && HellRunTanks >= 2),
 };
 
+const LowerNorfair_GoldTorizoFight_to_DefeatedGoldTorizo = {
+  edges: ["GoldTorizoFight", "DefeatedGoldTorizo"],
+  requires: () => HasCharge || SuperPacks >= 6,
+};
+
+const Crateria_SupersClimb_to_Climb = {
+  edges: ["Supers (Climb)", "Climb"],
+  requires: () =>
+    HasGrapple ||
+    HasSpaceJump ||
+    (EnergyTanks >= 1 && (HasVaria || TotalTanks >= 2)),
+};
+
 //-----------------------------------------------------------------
 // Exports.
 //-----------------------------------------------------------------
@@ -22,4 +35,6 @@ const UpperNorfair_SpeedBooster_to_KingCacLedge = {
 export const SeasonEdgeUpdates = [
   EastMaridia_Plasma_to_PrePlasma,
   UpperNorfair_SpeedBooster_to_KingCacLedge,
+  LowerNorfair_GoldTorizoFight_to_DefeatedGoldTorizo,
+  Crateria_SupersClimb_to_Climb
 ];

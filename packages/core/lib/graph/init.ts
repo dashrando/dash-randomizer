@@ -197,11 +197,9 @@ export const cloneGraph = (graph: Graph): Graph => {
       throw new Error("cloneGraph: missing vertex to remap");
     }
     v.type = orig.type;
-    v.area = orig.area;
     v.pathToStart = orig.pathToStart;
-    if (orig.item != undefined) {
-      v.item = { ...orig.item };
-    }
+    v.progression = orig.progression;
+    v.item = orig.item;
     return v;
   };
 

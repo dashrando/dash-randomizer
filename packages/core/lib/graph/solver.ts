@@ -1,6 +1,6 @@
 import { canReachStart, searchAndCache } from "./search";
 import { isFungible } from "../items";
-import { cloneGraph, Graph, Vertex } from "./init";
+import { Graph, Vertex } from "./init";
 import { MajorDistributionMode, Settings } from "../params";
 import {
   addItem,
@@ -18,53 +18,57 @@ export type ItemLocation = {
   isMajor: boolean;
 }
 
-type Progression = {
-  available: ItemLocation[];
-  collected: ItemLocation[];
-}
-
-export const isGraphValid = (graph: Graph, settings: Settings, loadout: Loadout, progression?: Progression[]) => {
+export const isGraphValid = (graph: Graph, settings: Settings, loadout: Loadout) => {
   const solver = new GraphSolver(graph, settings);
-  return solver.isValid(loadout, progression);
+  return solver.isValid(loadout);
 };
 
 export const getItemProgression = (graph: Graph, settings: Settings, loadout?: Loadout) => {
   const initLoad = loadout != undefined ? loadout : createLoadout();
-  const itemProgression: ItemLocation[] = [], progression: Progression[] = [];
-  if (isGraphValid(cloneGraph(graph), settings, initLoad, progression)) {
-    progression.forEach(step => {
-      step.collected.forEach(item => {
-        itemProgression.push(item);
-      })
-    });
+  const solver = new GraphSolver(graph, settings);
+  if (solver.isValid(initLoad)) {
+    const progression: ItemLocation[] = [];
+    graph.forEach((p) => {
+      if (p.from.progression === progression.length + 1) {
+        progression.push(getItemLocation(p.from))
+      }
+    })
+    return progression;
   }
-  return itemProgression;
+  return [];
 }
 
 const revSolve = (solver: GraphSolver, load: Loadout, node: Vertex) => {
-  // Setup a graph with the item location as the start vertex
-  const clonedGraph = cloneGraph(solver.graph);
-  clonedGraph.forEach((e) => (e.from.pathToStart = false));
-  const clonedVertex = clonedGraph.find(
-    (e) => e.from.name == node.name && e.from.area == node.area
-  )?.from;
+  // Note the current state of the graph
+  const prevStartVertex = solver.startVertex;
+  const state = solver.graph.map((e) => {
+    const { pathToStart, progression } = e.from;
+    e.from.pathToStart = false;
+    return {
+      pathToStart,
+      progression
+    }
+  })
 
-  if (clonedVertex == undefined) {
-    throw new Error("revSolve: missing start vertex")
-  }
-  clonedVertex.pathToStart = true;
+  // Update the solver starting vertex to be the provided node
+  solver.startVertex = node;
+  node.pathToStart = true;
 
-  // Create a solver for the new graph
-  const reverseSolver = new GraphSolver(clonedGraph, solver.settings);
-  reverseSolver.startVertex = clonedVertex;
-
+  let result = false;
   try {
-    if (reverseSolver.isValid(load)) {
-      return true;
+    if (solver.isValid(load)) {
+      result = true;
     }
   } catch (e) {
   }
-  return false;
+
+  // Restore the state of the graph from when we started
+  solver.startVertex = prevStartVertex;
+  solver.graph.forEach((e, i) => {
+    e.from.pathToStart = state[i].pathToStart;
+    e.from.progression = state[i].progression;
+  })
+  return result;
 };
 
 const getProgressionLocation = (itemNode: Vertex) => {
@@ -98,16 +102,16 @@ class GraphSolver {
     this.startVertex = graph[0].from;
     if (settings.majorDistribution == MajorDistributionMode.Chozo) {
       this.graph.forEach(n => {
-        if (n.from.item != undefined && n.from.type == "minor") {
-          n.from.item = undefined;
+        if (n.from.progression === 0 && n.from.type == "minor") {
+          n.from.progression = -1;
         }
       });
     }
   }
 
-  isValid(initLoad: Loadout, progression?: Progression[]) {
+  isValid(initLoad: Loadout) {
     let samus = cloneLoadout(initLoad);
-    let step = -1;
+    let progression = 0;
 
     const findAll = () =>
       searchAndCache(this.graph, this.startVertex, checkFlags(samus));
@@ -118,10 +122,7 @@ class GraphSolver {
     //-----------------------------------------------------------------
 
     const collectItem = (p: Vertex) => {
-      if (progression != undefined) {
-        progression[step].collected.push(getItemLocation(p));
-      }
-      p.item = undefined;
+      p.progression = ++progression;
     }
 
     const collectSafeItems = (itemLocations: Vertex[]) => {
@@ -179,20 +180,11 @@ class GraphSolver {
     while (true) {
       // Find all available items
       const all = findAll();
-      const uncollected = all.filter((v) => v.item != undefined);
+      const uncollected = all.filter((v) => v.progression === 0);
 
       // No items available? All done
       if (uncollected.length == 0) {
         break;
-      }
-
-      // Add a new entry if recording progression
-      if (progression != undefined) {
-        progression.push({
-          available: uncollected.map(getItemLocation),
-          collected: []
-        });
-        step = progression.length - 1;
       }
 
       // Collect all items where we can make a round trip to the start node
@@ -205,6 +197,6 @@ class GraphSolver {
     // Check for uncollected items. This indicates an invalid graph.
     //-----------------------------------------------------------------
 
-    return !this.graph.some((n) => n.from.item != undefined);
+    return !this.graph.some((n) => n.from.progression === 0);
   }
 }

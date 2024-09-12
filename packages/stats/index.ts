@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import { encodeSeed, getAllPresets, getPreset } from "core";
+import { checkSeeds } from "./lib/validate";
 import { generateSeed } from "core/data";
 import fs from "fs";
 import path from "path";
@@ -39,64 +40,49 @@ export async function stats(presetName: string, numSeeds = 100) {
   console.log('Wrote:', fileName)
 }
 
-export async function verify(numSeeds = 50, batchSize = 5, writeFrequency = 10) {
+export async function verify(startSeed: number, endSeed: number, writeFrequency: number) {
   const presets = getAllPresets();
-  let valid = 0;
+  const batchSize = presets.length * writeFrequency;
   const start = Date.now();
   let step = start;
 
-  const checkSeed = async (seed: number) => {
-    const results: Uint8Array[] = [];
+  const checkSeed = (seed: number) => {
     presets.forEach((p) => {
       try {
-        const { settings, options } = p;
-        const graph = generateSeed(seed, settings, options);
-        results.push(encodeSeed({ seed, settings, options }, graph));
+        generateSeed(seed, p.settings, p.options);
       } catch(_) {
         console.log(chalk.red(`Invalid seed #${seed} for ${p.title}`))
       }
     })
-    return results;
   }
 
   const timeString = (val: number) => `${val.toFixed(2)} ms`;
-  let freqPos = 0;
-  let stepPos = 0;
-  let i = 0;
-  while (i < numSeeds) {
-    const pending: Promise<Uint8Array[]>[] = [];
-    for (let j = 1; j <= batchSize; j++) {
-      pending.push(checkSeed(i + j))
-    }
-    i += batchSize;
-    const results = await Promise.all(pending);
+  for (let i = startSeed; i <= endSeed; i++) {
+    checkSeed(i)
 
-    const num = results.reduce((p, c) => p + c.length, 0)
-    valid += num;
-
-    if (++freqPos < writeFrequency) {
+    if (i % writeFrequency !== 0) {
       continue;
     }
-    freqPos = 0;
 
     const curr = Date.now();
+    const total = presets.length * (i - startSeed + 1);
     console.log(
       `${i.toString().padStart(2, "0")} -`,
-      chalk.cyan.underline('Batch:'), `${num} in ${curr - step} ms`,
-      chalk.yellow.underline('Total:'), `${valid} in ${curr - start} ms`,
-      `[avg: ${timeString((curr - start) / valid)}]`
+      chalk.cyan.underline('Batch:'), `${batchSize} in ${curr - step} ms`,
+      chalk.yellow.underline('Total:'), `${total} in ${curr - start} ms`,
+      `[avg: ${timeString((curr - start) / total)}]`
     );
-    stepPos = i;
     step = curr;
   }
 
 const delta = Date.now() - start;
-console.log(`Total Time: ${delta} ms [${valid} seeds, `,
-  `avg ${(delta / valid).toFixed(2)} ms]`);
+const total = presets.length * (endSeed - startSeed + 1);
+console.log(`Total Time: ${delta} ms [${total} seeds, `,
+  `avg ${(delta / total).toFixed(2)} ms]`);
 }
 
-export function validate() {
-  console.log(chalk.magenta('validate'));
+export function validate(dirPath: string) {
+  checkSeeds(dirPath, true);
 }
 
 const args = process.argv.slice(2);
@@ -107,9 +93,15 @@ if (args.length <= 0) {
 }
 
 if (args[0] === "verify") {
-  verify();
+  if (args.length == 1) {
+    verify(1, 100, 20);
+  } else if (args.length == 4) {
+    verify(parseInt(args[1]), parseInt(args[2]), parseInt(args[3]));
+  } else {
+    console.log("Please specify preset name")
+  }
 } else if (args[0] === "validate") {
-  validate();
+  validate(args[1]);
 } else if (args[0] === "stats") {
   if (args.length <= 1) {
     console.log("Please specify preset name")
