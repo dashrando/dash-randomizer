@@ -28,7 +28,7 @@ export const getItemProgression = (graph: Graph, settings: Settings, loadout?: L
   const solver = new GraphSolver(graph, settings);
   if (solver.isValid(initLoad)) {
     const progression: ItemLocation[] = [];
-    graph.forEach((p) => {
+    graph.sort((a, b) => a.from.progression - b.from.progression).forEach((p) => {
       if (p.from.progression === progression.length + 1) {
         progression.push(getItemLocation(p.from))
       }
