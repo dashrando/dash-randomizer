@@ -6,7 +6,8 @@
     "build": "esbuild index.ts --bundle --platform=node --log-level=warning --log-override:direct-eval=info --outfile=bin/index.js",
     "stats": "npm run build && node bin/index.js stats",
     "verify": "npm run build && node bin/index.js verify",
-    "validate": "npm run build && node bin/index.js validate"
+    "validate": "npm run build && node bin/index.js validate",
+    "encode": "npm run build && node bin/index.js encode"
   },
   "author": "",
   "license": "MIT",
