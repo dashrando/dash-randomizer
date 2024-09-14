@@ -20,7 +20,7 @@ export type Vertex = {
   name: string;
   type: string;
   area: string;
-  item: ItemType | undefined; // don't use ItemType here
+  item?: ItemType; //TODO: maybe don't use ItemType here
   pathToStart: boolean;
   progression: number;
 }
@@ -31,7 +31,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Ship",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -39,7 +38,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Power Bombs (Landing Site)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -47,7 +45,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "PreGauntlet",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -55,7 +52,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Gauntlet)",
     "type": "major",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -63,7 +59,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "GauntletBackSideLeftDoor",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -71,7 +66,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Gauntlet Left)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -79,7 +73,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Gauntlet Right)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -87,7 +80,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Moat)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -95,7 +87,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_Moat",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -103,7 +94,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Parlor",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -111,7 +101,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (230)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -119,7 +108,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Bombs",
     "type": "major",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -127,7 +115,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Terminator)",
     "type": "major",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -135,7 +122,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_G4",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -143,7 +129,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_Kago",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -151,7 +136,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_CrateriaCrabs",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -159,7 +143,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "PreMoat",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -167,7 +150,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Climb",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -175,7 +157,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "ClimbSupersBottom",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -183,7 +164,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Supers (Climb)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -191,7 +171,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Mother Brain)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -199,7 +178,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Construction Zone",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -207,7 +185,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Morphing Ball",
     "type": "major",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -215,7 +192,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_RetroPBs",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -223,7 +199,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Power Bombs (Morph)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -231,7 +206,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Alpha)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -239,7 +213,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Brinstar Ceiling)",
     "type": "major",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -247,7 +220,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Beta)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -255,7 +227,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "BoulderRoom",
     "type": "",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -263,7 +234,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Billy Mays 1)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -271,7 +241,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Billy Mays 2)",
     "type": "minor",
     "area": "Crateria",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -279,7 +248,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_GreenElevator",
     "type": "",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -287,7 +255,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Supers (Early Bridge)",
     "type": "minor",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -295,7 +262,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Early Bridge)",
     "type": "minor",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -303,7 +269,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Reserve Tank (Brinstar)",
     "type": "major",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -311,7 +276,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Brin Reserve 1)",
     "type": "minor",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -319,7 +283,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Brin Reserve 2)",
     "type": "minor",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -327,7 +290,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Etecoons)",
     "type": "major",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -335,7 +297,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Supers (Etecoons)",
     "type": "minor",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -343,7 +304,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Power Bombs (Etecoons)",
     "type": "minor",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -351,7 +311,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "DachoraRoomLeft",
     "type": "",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -359,7 +318,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "DachoraRoomRight",
     "type": "",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -367,7 +325,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Big Pink)",
     "type": "minor",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -375,7 +332,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Power Bombs (Mission Impossible)",
     "type": "minor",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -383,7 +339,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Wave Gate)",
     "type": "major",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -391,7 +346,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Supers (Spore Spawn)",
     "type": "minor",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -399,7 +353,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Charge)",
     "type": "minor",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -407,7 +360,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Charge Beam",
     "type": "major",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -415,7 +367,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Waterway)",
     "type": "major",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -423,7 +374,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_GreenHills",
     "type": "",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -431,7 +381,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Brin Tube)",
     "type": "minor",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -439,7 +388,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_NoobBridge",
     "type": "",
     "area": "GreenBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -447,7 +395,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_RedTower",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -455,7 +402,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Spazer",
     "type": "major",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -463,7 +409,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Power Bombs (Alpha)",
     "type": "minor",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -471,7 +416,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Alpha PBs)",
     "type": "minor",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -479,7 +423,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Power Bombs (Beta)",
     "type": "minor",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -487,7 +430,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Xray Scope",
     "type": "major",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -495,7 +437,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "XrayHallway",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -503,7 +444,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_RedElevator",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -511,7 +451,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_MaridiaEscape",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -519,7 +458,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_MaridiaTube",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -527,7 +465,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_RedTowerToMaridiaMap",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -535,7 +472,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_RedTowerToKraid",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -543,7 +479,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "RedTowerTop",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -551,7 +486,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "RedTowerMid",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -559,7 +493,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "RedTowerBottom",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -567,7 +500,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "RedTowerElevatorRoom",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -575,7 +507,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "RedBrinstarElevatorRoom",
     "type": "",
     "area": "RedBrinstar",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -583,7 +514,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_BusinessCenterLeft",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -591,7 +521,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_BusinessCenterRight",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -599,7 +528,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Ice Beam",
     "type": "major",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -607,7 +535,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Crumble Shaft)",
     "type": "minor",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -615,7 +542,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (HJB)",
     "type": "minor",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -623,7 +549,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "HiJump Boots",
     "type": "major",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -631,7 +556,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (HJB)",
     "type": "minor",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -639,7 +563,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Croc Escape)",
     "type": "minor",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -647,7 +570,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Cathedral)",
     "type": "minor",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -655,7 +577,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Bubble Mountain)",
     "type": "minor",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -663,7 +584,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Reserve Tank (Norfair)",
     "type": "major",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -671,7 +591,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Norfair Reserve 1)",
     "type": "minor",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -679,7 +598,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Norfair Reserve 2)",
     "type": "minor",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -687,7 +605,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Speed Booster",
     "type": "major",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -695,7 +612,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Speed)",
     "type": "minor",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -703,7 +619,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Wave Beam",
     "type": "major",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -711,7 +626,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Wave)",
     "type": "minor",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -719,7 +633,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_CrocEntry",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -727,7 +640,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_SingleChamber",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -735,7 +647,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_KronicBoost",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -743,7 +654,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "PreCrocomire",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -751,7 +661,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "BubbleMountainMain",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -759,7 +668,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "BubbleMountainBottomLeftDoor",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -767,7 +675,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "BubbleMountainKingCacLedge",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -775,7 +682,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "BubbleMountainTopLeftDoor",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -783,7 +689,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "KronicBoostBottom",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -791,7 +696,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "NutellaRefill",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -799,7 +703,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "BusinessCenter",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -807,7 +710,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "CathedralEntrance",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -815,7 +717,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "BusinessCenterSaveStation",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -823,7 +724,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "IceBeamGatesTopLeftDoor",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -831,7 +731,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "IceBeamGatesBottomLeftDoor",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -839,7 +738,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "SingleChamberTopRightDoor",
     "type": "",
     "area": "UpperNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -847,7 +745,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_RidleyMouth",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -855,7 +752,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_Musketeers",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -863,7 +759,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Ruins",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -871,7 +766,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (GT)",
     "type": "minor",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -879,7 +773,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Supers (GT)",
     "type": "minor",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -887,7 +780,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Screw Attack",
     "type": "major",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -895,7 +787,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "PrePillars",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -903,7 +794,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_RidleyBoss",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -911,7 +801,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "WorstRoomBottom",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -919,7 +808,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "WorstRoomTop",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -927,7 +815,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Mickey Mouse)",
     "type": "minor",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -935,7 +822,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "RedKihunterShaftTop",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -943,7 +829,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Wasteland",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -951,7 +836,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Firefleas)",
     "type": "major",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -959,7 +843,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Maze)",
     "type": "minor",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -967,7 +850,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Power Bombs (Maze)",
     "type": "minor",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -975,7 +857,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Three Musketeers)",
     "type": "minor",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -983,7 +864,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Musketeers",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -991,7 +871,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Power Bombs (Shame)",
     "type": "minor",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -999,7 +878,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "GoldTorizoFight",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1007,7 +885,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "DefeatedGoldTorizo",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1015,7 +892,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "ScrewAttackTop",
     "type": "",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1023,7 +899,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Ridley",
     "type": "exit",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1031,7 +906,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Ridley",
     "type": "boss",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1039,7 +913,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Ridley)",
     "type": "major",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1047,7 +920,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Kraid",
     "type": "exit",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1055,7 +927,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Kraid",
     "type": "boss",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1063,7 +934,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Varia Suit",
     "type": "major",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1071,7 +941,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Phantoon",
     "type": "exit",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1079,7 +948,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Phantoon",
     "type": "boss",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1087,7 +955,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Draygon",
     "type": "exit",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1095,7 +962,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Draygon",
     "type": "boss",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1103,7 +969,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Space Jump",
     "type": "major",
     "area": "LowerNorfair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1111,7 +976,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_KraidsLair",
     "type": "",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1119,7 +983,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Kraid)",
     "type": "major",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1127,7 +990,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "KraidsHallway",
     "type": "",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1135,7 +997,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Kraid)",
     "type": "minor",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1143,7 +1004,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_KraidBoss",
     "type": "",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1151,7 +1011,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Kraid",
     "type": "exit",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1159,7 +1018,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Kraid",
     "type": "boss",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1167,7 +1025,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Varia Suit",
     "type": "major",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1175,7 +1032,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Phantoon",
     "type": "exit",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1183,7 +1039,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Phantoon",
     "type": "boss",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1191,7 +1046,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Draygon",
     "type": "exit",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1199,7 +1053,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Draygon",
     "type": "boss",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1207,7 +1060,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Space Jump",
     "type": "major",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1215,7 +1067,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Ridley",
     "type": "exit",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1223,7 +1074,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Ridley",
     "type": "boss",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1231,7 +1081,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Ridley)",
     "type": "major",
     "area": "KraidsLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1239,7 +1088,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_Ocean",
     "type": "",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1247,7 +1095,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Ocean Bottom)",
     "type": "minor",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1255,7 +1102,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "ShipHallway",
     "type": "",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1263,7 +1109,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "ShipRearExit",
     "type": "",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1271,7 +1116,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Spooky)",
     "type": "minor",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1279,7 +1123,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_PhantoonBoss",
     "type": "",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1287,7 +1130,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Supers (WS Left)",
     "type": "minor",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1295,7 +1137,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Supers (WS Right)",
     "type": "major",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1303,7 +1144,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Wrecked Ship)",
     "type": "major",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1311,7 +1151,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Reserve Tank (Wrecked Ship)",
     "type": "major",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1319,7 +1158,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Gravity Suit",
     "type": "major",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1327,7 +1165,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Attic)",
     "type": "minor",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1335,7 +1172,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Bowling)",
     "type": "minor",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1343,7 +1179,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Ocean Middle)",
     "type": "minor",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1351,7 +1186,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Sky)",
     "type": "minor",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1359,7 +1193,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_WSHighway",
     "type": "",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1367,7 +1200,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "SpongeBathLeft",
     "type": "",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1375,7 +1207,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "SpongeBathRight",
     "type": "",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1383,7 +1214,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Phantoon",
     "type": "exit",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1391,7 +1221,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Phantoon",
     "type": "boss",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1399,7 +1228,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Kraid",
     "type": "exit",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1407,7 +1235,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Kraid",
     "type": "boss",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1415,7 +1242,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Varia Suit",
     "type": "major",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1423,7 +1249,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Draygon",
     "type": "exit",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1431,7 +1256,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Draygon",
     "type": "boss",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1439,7 +1263,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Space Jump",
     "type": "major",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1447,7 +1270,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Ridley",
     "type": "exit",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1455,7 +1277,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Ridley",
     "type": "boss",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1463,7 +1284,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Ridley)",
     "type": "major",
     "area": "WreckedShip",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1471,7 +1291,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_MainStreet",
     "type": "",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1479,7 +1298,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "MainStreet",
     "type": "",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1487,7 +1305,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Mainstreet)",
     "type": "minor",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1495,7 +1312,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Supers (Crab)",
     "type": "minor",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1503,7 +1319,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Mama Turtle)",
     "type": "minor",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1511,7 +1326,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Mama Turtle)",
     "type": "major",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1519,7 +1333,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_MaridiaMap",
     "type": "",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1527,7 +1340,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "AboveMaridiaMap",
     "type": "",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1535,7 +1347,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "EverestTopRight",
     "type": "",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1543,7 +1354,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_RedFish",
     "type": "",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1551,7 +1361,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Beach)",
     "type": "minor",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1559,7 +1368,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Watering Hole)",
     "type": "minor",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1567,7 +1375,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Supers (Watering Hole)",
     "type": "minor",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1575,7 +1382,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_PreAqueduct",
     "type": "",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1583,7 +1389,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "RedFish",
     "type": "",
     "area": "WestMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1591,7 +1396,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_DraygonBoss",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1599,7 +1403,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_Aqueduct",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1607,7 +1410,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_EMHighway",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1615,7 +1417,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "BotwoonHallwayLeft",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1623,7 +1424,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "BotwoonHallwayRight",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1631,7 +1431,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Aqueduct",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1639,7 +1438,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "ColosseumTopLeft",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1647,7 +1445,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "ColosseumTopRight",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1655,7 +1452,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "MaridiaHighway",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1663,7 +1459,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Spring Ball",
     "type": "major",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1671,7 +1466,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Plasma Beam",
     "type": "major",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1679,7 +1473,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "PrePlasmaBeam",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1687,7 +1480,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "PlasmaSparkRoomTop",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1695,7 +1487,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "PlasmaSparkRoomBottom",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1703,7 +1494,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "OasisTop",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1711,7 +1501,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "OasisBottom",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1719,7 +1508,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "LeftSandPitBottom",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1727,7 +1515,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "RightSandPitBottom",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1735,7 +1522,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Sand Pit Left)",
     "type": "minor",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1743,7 +1529,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Reserve Tank (Maridia)",
     "type": "major",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1751,7 +1536,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Sand Pit Right)",
     "type": "minor",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1759,7 +1543,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Power Bombs (Sand Pit Right)",
     "type": "minor",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1767,7 +1550,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Botwoon)",
     "type": "major",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1775,7 +1557,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Precious)",
     "type": "minor",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1783,7 +1564,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Aqueduct)",
     "type": "minor",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1791,7 +1571,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Supers (Aqueduct)",
     "type": "minor",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1799,7 +1578,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "PostBotwoon",
     "type": "",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1807,7 +1585,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Draygon",
     "type": "exit",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1815,7 +1592,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Draygon",
     "type": "boss",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1823,7 +1599,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Space Jump",
     "type": "major",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1831,7 +1606,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Kraid",
     "type": "exit",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1839,7 +1613,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Kraid",
     "type": "boss",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1847,7 +1620,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Varia Suit",
     "type": "major",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1855,7 +1627,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Phantoon",
     "type": "exit",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1863,7 +1634,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Phantoon",
     "type": "boss",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1871,7 +1641,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Exit_Ridley",
     "type": "exit",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1879,7 +1648,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Boss_Ridley",
     "type": "boss",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1887,7 +1655,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Ridley)",
     "type": "major",
     "area": "EastMaridia",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1895,7 +1662,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_CrocsLair",
     "type": "",
     "area": "CrocomiresLair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1903,7 +1669,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "PostCroc",
     "type": "",
     "area": "CrocomiresLair",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   },
@@ -1911,7 +1676,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Energy Tank (Crocomire)",
     "type": "major",
     "area": "CrocomiresLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1919,7 +1683,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Power Bombs (Crocomire)",
     "type": "minor",
     "area": "CrocomiresLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1927,7 +1690,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Grapple Beam",
     "type": "major",
     "area": "CrocomiresLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1935,7 +1697,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Indiana Jones)",
     "type": "minor",
     "area": "CrocomiresLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1943,7 +1704,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Missiles (Cosine)",
     "type": "minor",
     "area": "CrocomiresLair",
-    "item": null,
     "pathToStart": false,
     "progression": 0
   },
@@ -1951,7 +1711,6 @@ export const getAllVertices = (): Vertex[] => {
     "name": "Door_Tourian",
     "type": "",
     "area": "Tourian",
-    "item": null,
     "pathToStart": false,
     "progression": -1
   }

@@ -6,7 +6,7 @@ import { ItemType } from "../items";
 
 export type PlacedItem = {
   location: Location;
-  item: ItemType;
+  item: ItemType|null;
 };
 
 export const getAreaTransitions = (graph: Graph): PortalMapping[] => {
@@ -35,8 +35,8 @@ export const getItemLocations = (graph: Graph, sorted: boolean): PlacedItem[] =>
   const nodes: PlacedItem[] = [];
 
   const getItem = (vertex: Vertex|undefined) => {
-    if (vertex == undefined || vertex.item == undefined) {
-      return undefined;
+    if (vertex === undefined || vertex.item === undefined) {
+      return null;
     }
     return vertex.item
   }

@@ -12,11 +12,11 @@ import {
 } from "../lib/graph/utils";
 import {
   getAreaPortals,
-  getBossPortals,
+  Portal,
   PortalMapping,
 } from "../lib/graph/data/portals";
 import { getArea, getLocations } from "../lib/locations";
-import { Item, majorItem, minorItem } from "../lib/items";
+import { Item, ItemType, majorItem, minorItem } from "../lib/items";
 
 const SEED_ENCODING_VERSION = 0;
 const AREA_REF_INDEX = 1 + ENCODED_PARAMS_SIZE;
@@ -36,7 +36,7 @@ export const decodeSeed = (
 ): { params: Params; graph: Graph } => {
   const version = bytes[0];
   if (version !== 0) {
-    throw Error(`decodeSeed: Unknown version ${version}`);
+    throw new Error(`decodeSeed: Unknown version ${version}`);
   }
 
   const params: Params = bytesToParams(bytes.slice(1, 1 + ENCODED_PARAMS_SIZE));
@@ -63,6 +63,11 @@ export const decodeSeed = (
         p.from.name === v.location.name &&
         getArea(p.from.area) === v.location.area
     );
+    if (itemNode === undefined) {
+      throw new Error(
+        `decodeSeed: Could not find vertex ${v.location.name} in ${v.location.area}`
+      );
+    }
     itemNode.from.item = v.item;
   });
 
@@ -77,8 +82,8 @@ export const decodeAreaPortals = (bytes: Uint8Array): PortalMapping[] => {
   const mappings: PortalMapping[] = [];
 
   for (let i = 0; i < areaPortals.length; i++) {
-    const from = areaPortals.at(i);
-    const to = areaPortals.at(bytes[i + AREA_REF_INDEX]);
+    const from = areaPortals.at(i) as Portal;
+    const to = areaPortals.at(bytes[i + AREA_REF_INDEX]) as Portal;
 
     // We only need to map portals once so ignore the reverse mapping
     if (0 <= mappings.findIndex((m) => m[0] == to && m[1] == from)) {
@@ -91,17 +96,15 @@ export const decodeAreaPortals = (bytes: Uint8Array): PortalMapping[] => {
 };
 
 export const decodeBossPortals = (bytes: Uint8Array): PortalMapping[] => {
-  const bossPortals = getBossPortals();
   return BOSS_AREAS.map((bossArea, i) => {
-    const from = bossPortals.find(
-      (p) => p.name.startsWith("Door_") && p.area === bossArea
-    );
-
     const bossByte = bytes[i + BOSS_REF_INDEX];
     const toAreaIndex = (bossByte >> 2) & 0x3;
     const toBossIndex = bossByte & 0x3;
     return [
-      from,
+      {
+        name: `Door_${BOSS_NAMES[i]}Boss`,
+        area: bossArea
+      },
       {
         name: `Exit_${BOSS_NAMES[toBossIndex]}`,
         area: BOSS_AREAS[toAreaIndex],
@@ -152,17 +155,23 @@ export const encodeSeed = (params: Params, graph: Graph) => {
 
   const portals = getAreaTransitions(graph);
   areaPortals.forEach((p) => {
-    const [_, to] = portals.find(
+    const mapping = portals.find(
       ([m, _]) => m.name === p.name && m.area === p.area
     );
+    if (mapping === undefined) {
+      throw new Error(`encodeSeed: Failed to find portal ${p.name}`)
+    }
     bytes[pos++] = areaPortals.findIndex(
-      (n) => n.name === to.name && n.area === to.area
+      (n) => n.name === mapping[1].name && n.area === mapping[1].area
     );
   });
 
   const bosses = getBossTransitions(graph);
   BOSS_AREAS.forEach((a, i) => {
     const boss = bosses.find(([_, p]) => p.area === a);
+    if (boss === undefined) {
+      throw new Error(`encodeSeed: Failed to find boss in ${a}`)
+    }
     const from_area = i;
     const to_area = BOSS_AREAS.findIndex((q) => q === boss[0].area);
     const boss_idx = BOSS_NAMES.findIndex((q) => boss[0].name.endsWith(q));
@@ -174,13 +183,13 @@ export const encodeSeed = (params: Params, graph: Graph) => {
   const itemLocations = getItemLocations(graph, true);
 
   itemLocations.forEach((p) => {
-    const code = p.item?.type;
-    if (code === undefined) {
+    if (p.item === null) {
       bytes[pos++] = 0;
-    } else {
-      const itemIndex = itemTypes.findIndex((q) => q === code) + 1;
-      bytes[pos++] = (p.item.isMajor ? 0x80 : 0x00) | itemIndex;
+      return;
     }
+    const item = p.item as ItemType;
+    const itemIndex = itemTypes.findIndex((q) => q === item.type) + 1;
+    bytes[pos++] = (p.item.isMajor ? 0x80 : 0x00) | itemIndex;
   });
 
   return bytes;

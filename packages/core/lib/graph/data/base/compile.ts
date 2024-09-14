@@ -19,7 +19,6 @@ const allVertices = Object.entries(standardVertices)
         name: name,
         type: type,
         area: k,
-        item: null,
         pathToStart: false,
         progression: getProgressionInitValue(type)
       };
@@ -52,7 +51,7 @@ export type Vertex = {
   name: string;
   type: string;
   area: string;
-  item: ItemType | undefined; // don't use ItemType here
+  item?: ItemType; //TODO: maybe don't use ItemType here
   pathToStart: boolean;
   progression: number;
 }
