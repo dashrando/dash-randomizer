@@ -1,13 +1,11 @@
 import {
-  computeCRC32,
   Graph,
   loadGraph,
   readGraph,
   readParams,
-  readPortals,
 } from "../..";
 import { getAllPresets } from "../presets";
-import { generateSeed, getGraphLocations } from "./fill";
+import { generateSeed } from "./fill";
 import fs from "fs";
 import path from "path";
 import { isGraphValid } from "./solver";
@@ -17,7 +15,7 @@ import { Options, Params, Settings } from "../params";
 import { Item, ItemNames, ItemType, minorItem } from "../items";
 import { getAreaString, getLocations } from "../locations";
 import { SeasonEdgeUpdates } from "./data/season/edges";
-import { encodeSeed, toSafeString } from "../../helpers/encoder";
+import { decodeSeed, encodeSeed, toSafeString } from "../../helpers/encoder";
 
 type SeedData = {
   params: Params;
@@ -40,15 +38,6 @@ type LegacySeedData = {
   };
   portals: [string, string][];
   itemLocations: { location: string; item: string }[];
-};
-
-const computeChecksum = (array: any[]) => {
-  const e = new TextEncoder();
-  return computeCRC32(e.encode(JSON.stringify(array)));
-};
-
-const computeGraphChecksum = (graph: Graph) => {
-  return computeChecksum(getGraphLocations(graph).map((n) => n.item));
 };
 
 const getCodeByName = (itemName: string) => {
@@ -190,31 +179,6 @@ const placeItem = (
   part.from.item = item;
 };
 
-const saveSeed = (
-  filePath: string,
-  graph: Graph,
-  portals: PortalMapping[],
-  params: Params
-) => {
-  const locations = getGraphLocations(graph);
-  const itemLocations = locations
-    .filter((l) => l.item != undefined)
-    .sort((a, b) => a.name.localeCompare(b.name));
-  const seed = {
-    params,
-    portals: portals,
-    itemLocations: itemLocations.map((l) => {
-      return {
-        location: l.name,
-        area: l.area,
-        item: l.item.name,
-        code: l.item.type,
-      };
-    }),
-  };
-  fs.writeFileSync(filePath, JSON.stringify(seed, null, 2));
-};
-
 let validSeedCount = 0;
 let invalidSeedCount = 0;
 
@@ -259,14 +223,20 @@ const checkSeeds = (dirPath: string, areValid: boolean) => {
         // Read parameters and graph from the ROM
         const rom = new Uint8Array(fs.readFileSync(full));
         const params = readParams(rom);
-        const portals = readPortals(rom);
         const graph = readGraph(rom);
-        saveSeed(full.replace(".sfc", ".json"), graph, portals, params);
+        fs.writeFileSync(
+          full.replace(".sfc", ".bin"),
+          encodeSeed(params, graph)
+        );
         checkGraph(e, graph, params.settings);
       } else if (full.endsWith(".json")) {
         // Read directly from a JSON file
         const { settings, graph } = loadSeed(full, defaultSettings);
         checkGraph(e, graph, settings);
+      } else if (full.endsWith(".bin")) {
+        const encoded = fs.readFileSync(full);
+        const decoded = decodeSeed(encoded);
+        checkGraph(e, decoded.graph, decoded.params.settings);
       }
     } else if (stats.isDirectory()) {
       checkSeeds(full, areValid);
