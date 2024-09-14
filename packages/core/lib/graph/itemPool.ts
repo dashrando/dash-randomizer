@@ -17,26 +17,26 @@ export const getItemPool = (seed: number, settings: Settings, count: number) => 
   //-----------------------------------------------------------------
 
   let itemPool = [
-    majorItem(0x000000, Item.EnergyTank),
-    minorItem(0x000000, Item.Missile),
-    minorItem(0x000000, Item.Super),
-    minorItem(0x000000, Item.PowerBomb),
-    majorItem(0x2f8009, Item.Bombs),
-    majorItem(0x2f800b, Item.Ice),
-    majorItem(0x2f8017, Item.HJB),
-    majorItem(0x2f801b, Item.Speed),
-    majorItem(0x2f800d, Item.Wave),
-    majorItem(0x2f800f, Item.Spazer),
-    majorItem(0x2f801f, Item.SpringBall),
-    majorItem(0x2f8013, Item.Varia),
-    majorItem(0x2f8011, Item.Plasma),
-    majorItem(0x2f8023, Item.Grapple),
-    majorItem(0x2f8007, Item.Morph),
-    majorItem(0x000000, Item.Reserve),
-    majorItem(0x2f8015, Item.Gravity),
-    majorItem(0x2f8021, Item.Xray),
-    majorItem(0x2f8019, Item.SpaceJump),
-    majorItem(0x2f801d, Item.ScrewAttack),
+    majorItem(Item.EnergyTank),
+    minorItem(Item.Missile),
+    minorItem(Item.Super),
+    minorItem(Item.PowerBomb),
+    majorItem(Item.Bombs),
+    majorItem(Item.Ice),
+    majorItem(Item.HJB),
+    majorItem(Item.Speed),
+    majorItem(Item.Wave),
+    majorItem(Item.Spazer),
+    majorItem(Item.SpringBall),
+    majorItem(Item.Varia),
+    majorItem(Item.Plasma),
+    majorItem(Item.Grapple),
+    majorItem(Item.Morph),
+    majorItem(Item.Reserve),
+    majorItem(Item.Gravity),
+    majorItem(Item.Xray),
+    majorItem(Item.SpaceJump),
+    majorItem(Item.ScrewAttack),
   ];
 
   //-----------------------------------------------------------------
@@ -55,23 +55,23 @@ export const getItemPool = (seed: number, settings: Settings, count: number) => 
 
   switch (beamMode) {
     case BeamMode.Vanilla:
-      itemPool.push(majorItem(0x2f802b, Item.Charge));
+      itemPool.push(majorItem(Item.Charge));
       break;
     case BeamMode.Starter:
-      itemPool.push(majorItem(0x2f802d, Item.BeamUpgrade));
+      itemPool.push(majorItem(Item.BeamUpgrade));
       break;
     case BeamMode.DashRecall:
       itemPool.push(
-        majorItem(0x2f802d, Item.BeamUpgrade),
-        extraItem(0x2f802f, Item.BeamUpgrade),
-        extraItem(0x2f8031, Item.BeamUpgrade),
-        extraItem(0x2f8033, Item.BeamUpgrade)
+        majorItem(Item.BeamUpgrade),
+        extraItem(Item.BeamUpgrade),
+        extraItem(Item.BeamUpgrade),
+        extraItem(Item.BeamUpgrade)
       );
       break;
     case BeamMode.StarterPlus:
       itemPool.push(
-        majorItem(0x2f802d, Item.BeamUpgrade),
-        extraItem(0x2f802f, Item.BeamUpgrade)
+        majorItem(Item.BeamUpgrade),
+        extraItem(Item.BeamUpgrade)
       );
       break;
   }
@@ -82,11 +82,11 @@ export const getItemPool = (seed: number, settings: Settings, count: number) => 
 
   extraItems.forEach((i: number) => {
     if (i == Item.DoubleJump) {
-      itemPool.push(extraItem(0x2f8029, Item.DoubleJump));
+      itemPool.push(extraItem(Item.DoubleJump));
     } else if (i == Item.PressureValve) {
-      itemPool.push(extraItem(0x2f8027, Item.PressureValve));
+      itemPool.push(extraItem(Item.PressureValve));
     } else if (i == Item.HeatShield) {
-      itemPool.push(extraItem(0x2f8025, Item.HeatShield));
+      itemPool.push(extraItem(Item.HeatShield));
     }
   });
 
@@ -122,18 +122,18 @@ export const getItemPool = (seed: number, settings: Settings, count: number) => 
     setAmountInPool(Item.Missile, majorMissiles, true);
     setAmountInPool(Item.Super, majorSupers, true);
 
-    itemPool.push(minorItem(0x000000, Item.EnergyTank));
+    itemPool.push(minorItem(Item.EnergyTank));
     setAmountInPool(Item.EnergyTank, 14 - majorEnergyTanks, false);
 
-    itemPool.push(minorItem(0x000000, Item.Reserve));
+    itemPool.push(minorItem(Item.Reserve));
     setAmountInPool(Item.EnergyTank, 3, false);
 
     // Add one of each ammo pack as a minor item so that our
     // logic for placing minors works correctly
     itemPool.push(
-      minorItem(0x000000, Item.Missile),
-      minorItem(0x000000, Item.Super),
-      minorItem(0x000000, Item.PowerBomb)
+      minorItem(Item.Missile),
+      minorItem(Item.Super),
+      minorItem(Item.PowerBomb)
     );
   } else {
     const getNumMajors = () => {

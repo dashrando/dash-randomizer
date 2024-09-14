@@ -1,8 +1,11 @@
 export { createLoadout } from "./lib/loadout";
 export { generateSeed } from "./lib/graph/fill";
 export * from "./data/doors";
-export { Item, ItemNames } from "./lib/items";
-export { getLocations, Location } from "./lib/locations";
+export { Item, ItemNames, minorItem } from "./lib/items";
+export { getLocations, Area, Location, getAreaString } from "./lib/locations";
+export { SeasonEdgeUpdates } from "./lib/graph/data/season/edges";
+
+export type { ItemType } from "./lib/items";
 
 export const Vanilla = {
   headered: "9a4441809ac9331cdbc6a50fba1a8fbfd08bc490bc8644587ee84a4d6f924fea",
