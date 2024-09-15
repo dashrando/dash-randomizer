@@ -89,7 +89,10 @@ console.log(`Total Time: ${delta} ms [${total} seeds, `,
 }
 
 export function validate(dirPath: string) {
-  checkSeeds(dirPath, true);
+  const start = Date.now();
+  const num = checkSeeds(dirPath, true);
+  const sec = (Date.now() - start)/1000.0;
+  console.log(chalk.green(`Validated ${num} seeds in ${sec.toFixed(1)} seconds`))
 }
 
 const args = process.argv.slice(2);

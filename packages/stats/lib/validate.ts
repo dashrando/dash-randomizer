@@ -221,7 +221,7 @@ export const checkSeeds = (inputPath: string, areValid: boolean) => {
   const checkGraph = (name: string, graph: Graph, settings: Settings) => {
     if (isGraphValid(graph, settings, emptyLoadout)) {
       seedCount += 1;
-      if (seedCount % 100 === 0) {
+      if (seedCount % 10000 === 0) {
         console.log(`Validated ${path.resolve(dirPath, name)}`);
       }
       return;
