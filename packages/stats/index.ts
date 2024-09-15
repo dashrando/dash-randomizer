@@ -1,5 +1,12 @@
 import chalk from "chalk";
-import { encodeSeed, getAllPresets, getPreset } from "core";
+import {
+  encodeSeed,
+  getAllPresets,
+  getPreset,
+  readGraph,
+  readParams,
+  toSafeString,
+} from "core";
 import { checkSeeds } from "./lib/validate";
 import { generateSeed } from "core/data";
 import fs from "fs";
@@ -112,6 +119,15 @@ if (args[0] === "verify") {
     } else {
       stats(args[1])
     }
+  }
+} else if (args[0] === "encode") {
+  if (args.length <= 1) {
+    console.log("Please specify one or more ROM file")
+  } else {
+    args.slice(1).forEach((name) => {
+      const rom = new Uint8Array(fs.readFileSync(name));
+      console.log(toSafeString(encodeSeed(readParams(rom), readGraph(rom))));
+    })
   }
 } else {
   console.log("Invalid arguments:", args)
