@@ -38,6 +38,9 @@ export async function stats(presetName: string, numSeeds = 100) {
       <style>${style}</style>
     </head><body>`;
 
+  text += `
+    <h1>${presetName} - Seeds 1 to ${numSeeds}</h1>
+  `
   text += getHtml_Areas(encodedSeeds)
   text += getHtml_Majors(encodedSeeds)
 

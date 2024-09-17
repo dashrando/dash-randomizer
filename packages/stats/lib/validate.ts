@@ -95,15 +95,32 @@ const getData = (
   };
 
   const data = info as LegacySeedData;
-  const { bosses } = data;
-  const bossPortals: [string, string][] = [
-    ["Door_KraidBoss", `Exit_${bosses.kraidBoss}`],
-    ["Door_PhantoonBoss", `Exit_${bosses.phantoonBoss}`],
-    ["Door_DraygonBoss", `Exit_${bosses.draygonBoss}`],
-    ["Door_RidleyBoss", `Exit_${bosses.ridleyBoss}`],
-  ];
+  const getBosses = (): [string, string][] => {
+    if (data.bosses === undefined) {
+      return [
+        ["Door_KraidBoss", `Exit_Kraid`],
+        ["Door_PhantoonBoss", `Exit_Phantoon`],
+        ["Door_DraygonBoss", `Exit_Draygon`],
+        ["Door_RidleyBoss", `Exit_Ridley`],
+      ];
+    }
+    return [
+      ["Door_KraidBoss", `Exit_${data.bosses.kraidBoss}`],
+      ["Door_PhantoonBoss", `Exit_${data.bosses.phantoonBoss}`],
+      ["Door_DraygonBoss", `Exit_${data.bosses.draygonBoss}`],
+      ["Door_RidleyBoss", `Exit_${data.bosses.ridleyBoss}`],
+    ];
+  }
+  const getAreas = (): [string, string][] => {
+    if (data.portals === undefined) {
+      return []
+    }
+    return data.portals;
+  }
+  const bossPortals = getBosses();
+  const areaPortals = getAreas();
 
-  const portals = mapPortals(data.portals, bossPortals).filter(
+  const portals = mapPortals(areaPortals, bossPortals).filter(
     ([m, n]) => m != undefined && n != undefined
   );
 
