@@ -21,18 +21,18 @@ export default function ItemPoolsInfoPage() {
             of the <strong>Item Pool</strong>: the list of items to be
             placed in the game. Generally speaking, the Item Pool is divided
             into two item categories: <strong>Majors</strong> (Morph Ball,
-            Gravity Suit, Energy/Reserve Tanks, etc.) and Minors (Missiles,
-            Super Missiles, and Power Bombs). Major Items in the Item Pool can
-            be affected by both the chosen <strong>Item Split</strong> and
-            {' '}<strong>Extra DASH Items</strong>.
+            Gravity Suit, Energy Tanks, etc.) and Minors (Missiles,
+            Super Missiles, and Power Bombs). Major Items in the Item Pool are
+            affected by the <a href="/info/settings#item-split">Item Split</a>,{' '}
+            <a href="/info/settings#map-layout">Map Layout</a>, and inclusion of {' '}
+            <a href="/info/item-pools#extra-dash-items">Extra DASH Items</a>.
           </p>
           <Spacer y={12} />
           <h2 className={styles.title}>Item Split</h2>
           <p>
             The Item Split determines the valid locations where major items can
-            be placed. DASH currently offers three Item Split options:{' '}
-            <strong>Major/Minor</strong>, <strong>Recall Major/Minor</strong>,
-            and <strong>Full</strong>.
+            be placed. DASH currently offers three <strong>Item Split</strong> options:{' '}
+            <strong>Major/Minor</strong>, <strong>Full</strong>, and <strong>Chozo</strong>.
           </p>
           <Spacer y={12} />
           <ul>
@@ -51,23 +51,11 @@ export default function ItemPoolsInfoPage() {
                 is considered a minor location and the Right Side Super Missile
                 location in Wrecked Ship is considered a major location.
               </p>
-              <Spacer y={8} />
-            </li>
-            <li>
-              <header>
-                <h3>
-                  Recall Major/Minor
-                </h3>
-                <div className={styles.locationCount}>
-                  36 major item locations
-                </div>
-              </header>
               <p>
-                Similar to normal{' '}
-                <strong>Major/Minor</strong> with a few tweaks. Mickey Mouse
-                Missiles, Watering Hole Supers, and Sky Missiles are now
-                considered major item locations. Kraid Energy Tank is considered a
-                minor item location.
+                The <strong>DASH: Recall</strong> Map Layout increases the number
+                of major locations to 36 by adding Mickey Mouse
+                Missiles, Watering Hole Supers, and Sky Missiles. Kraid Energy Tank is
+                considered a minor item location.
               </p>
               <Spacer y={8} />
             </li>
@@ -85,9 +73,23 @@ export default function ItemPoolsInfoPage() {
               </p>
               <Spacer y={8} />
             </li>
+            <li>
+              <header>
+                <h3>
+                  Chozo
+                </h3>
+                <div className={styles.locationCount}>
+                  25 major item locations
+                </div>
+              </header>
+              <p>
+                Sufficient items to beat the game are placed at Chozo statues and boss reward locations. This includes each unique major item plus 3 energy tanks, 1 reserve tank, 2 missile packs, 2 super missile packs, and 1 power bomb pack. These items are considered major items by the randomizer.
+              </p>
+              <Spacer y={8} />
+            </li>
           </ul>
           <Spacer y={12} />
-          <h2 className={styles.title}>Extra DASH Items</h2>
+          <h2 id="extra-dash-items" className={styles.title}>Extra DASH Items</h2>
 
           <p>
             DASH introduces new major items which can optionally be included in
@@ -131,20 +133,16 @@ export default function ItemPoolsInfoPage() {
 
                 <p>
                   <strong>Major/Minor</strong> - With
-                  only 34 major locations, we limit the number of energy and
-                  reserve tanks to fit. We want to place all 14 energy tanks
+                  limited major locations, the number of energy and
+                  reserve tanks can vary. We want to place all 14 energy tanks
                   so we initially reduce the number of reserve tanks down to a
-                  minimum of 2. Energy tanks are then added until exactly
-                  34 major items are in the pool.
+                  minimum of 2 if needed. Energy tanks are added to fill in the rest.
                 </p>
 
                 <p>
-                  <strong>Recall Major/Minor</strong> -
-                  In general, this Item Split works like normal Major/Minor
-                  but with 36 major item locations. However, it is possible
-                  to end up with less than 36 major items even with 4
-                  reserve tanks and 14 energy tanks. In that case, Super
-                  Missile packs are added as major items.
+                  <strong>Chozo</strong> - 3 energy tanks and 1 reserve tank
+                  are added as major items. Additional tanks
+                  are added as minor items so that we end up with 14 total energy tanks and 4 total reserve tanks in the pool.
                 </p>
               </div>
             </li>
