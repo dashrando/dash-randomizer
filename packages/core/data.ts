@@ -1,7 +1,7 @@
 export { createLoadout } from "./lib/loadout";
 export { generateSeed } from "./lib/graph/fill";
 export * from "./data/doors";
-export { Item, ItemNames, minorItem } from "./lib/items";
+export { Item, ItemNames, majorItem, minorItem } from "./lib/items";
 export { getLocations, Area, Location, getAreaString } from "./lib/locations";
 export { SeasonEdgeUpdates } from "./lib/graph/data/season/edges";
 

@@ -20,16 +20,29 @@ export async function stats(presetName: string, numSeeds = 100) {
     throw new Error(`unknown preset: ${presetName}`)
   }
 
+  const startSeed = 1, endSeed = numSeeds;
   const { settings, options } = preset;
   const encodedSeeds: Uint8Array[] = [];
-  for (let i = 0; i < numSeeds; i++) {
-    const graph = generateSeed(i + 1, settings, options);
+  for (let i = startSeed; i <= endSeed; i++) {
+    const graph = generateSeed(i, settings, options);
     encodedSeeds.push(encodeSeed({ seed: i, settings, options }, graph));
   }
+
 
   const dirPath = 'results'
   const fileName = path.resolve(dirPath, `stats_${preset.fileName}.html`);
   const style = fs.readFileSync(path.resolve(dirPath, "style.css"))
+
+  const buffers = encodedSeeds.map(arr => Buffer.from(arr));
+  const combinedBuffer = Buffer.concat(buffers);
+  const pn = (n: number) => n.toFixed(0).padStart(7, "0")
+  fs.writeFileSync(
+    path.resolve(
+      dirPath,
+      `seeds_${preset.fileName}_${pn(startSeed)}_${pn(endSeed)}.bin`
+    ),
+    combinedBuffer
+  );
 
   let text = `
   <html>
@@ -39,7 +52,7 @@ export async function stats(presetName: string, numSeeds = 100) {
     </head><body>`;
 
   text += `
-    <h1>${presetName} - Seeds 1 to ${numSeeds}</h1>
+    <h1>${presetName} - Seeds ${startSeed} to ${endSeed}</h1>
   `
   text += getHtml_Areas(encodedSeeds)
   text += getHtml_Majors(encodedSeeds)

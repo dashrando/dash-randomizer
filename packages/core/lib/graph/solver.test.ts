@@ -11,8 +11,8 @@ import path from "path";
 import { isGraphValid } from "./solver";
 import { createLoadout } from "../loadout";
 import { mapPortals, PortalMapping } from "./data/portals";
-import { Options, Params, Settings } from "../params";
-import { Item, ItemNames, ItemType, minorItem } from "../items";
+import { MajorDistributionMode, Options, Params, Settings } from "../params";
+import { Item, ItemNames, ItemType, majorItem, minorItem } from "../items";
 import { getAreaString, getLocations } from "../locations";
 import { SeasonEdgeUpdates } from "./data/season/edges";
 import { decodeSeed, encodeSeed, toSafeString } from "../../helpers/encoder";
@@ -153,7 +153,11 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
 
   itemLocations.forEach((i) => {
     const code = i.code ? i.code : getCodeByName(i.item);
-    placeItem(graph, i.location, i.area, minorItem(code));
+    const item =
+      majorDistribution == MajorDistributionMode.Full
+        ? majorItem(code)
+        : minorItem(code);
+    placeItem(graph, i.location, i.area, item);
   });
 
   return {

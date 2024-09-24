@@ -14,12 +14,14 @@ import {
   getLocations,
   Item,
   ItemNames,
+  majorItem,
   minorItem,
   getAreaString,
   ItemType,
   SeasonEdgeUpdates,
 } from "core/data";
 import { Options, Params, Settings } from "core/lib/params";
+import { MajorDistributionMode } from "core/params";
 import chalk from "chalk";
 
 type SeedData = {
@@ -178,7 +180,11 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
 
   itemLocations.forEach((i) => {
     const code = i.code ? i.code : getCodeByName(i.item);
-    placeItem(graph, i.location, i.area, minorItem(code));
+    const item =
+      majorDistribution == MajorDistributionMode.Full
+        ? majorItem(code)
+        : minorItem(code);
+    placeItem(graph, i.location, i.area, item);
   });
 
   return {
