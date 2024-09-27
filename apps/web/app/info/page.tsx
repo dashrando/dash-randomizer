@@ -14,12 +14,17 @@ const InfoArticles: InfoArticle[] = [
   {
     title: 'Settings',
     href: '/info/settings',
-    description: 'Learn about the settings and options when generating a seed.',
+    description: 'Learn about the available settings and options when generating a seed.',
   },
   {
     title: 'About',
     href: '/info/about',
     description: 'Learn about DASH.',
+  },
+  {
+    title: 'Heads Up Display',
+    href: '/info/hud',
+    description: 'DASH uses a customized HUD to provide info to players in the game.',
   },
   {
     title: 'Surprise Bosses',
