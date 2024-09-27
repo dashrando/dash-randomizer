@@ -17,14 +17,13 @@ export default function ItemPoolsInfoPage() {
         <article className={styles.article}>
           <h1 className={styles.headline}>Item Pools</h1>
           <p>
-            An important part of generating a DASH seed is the random creation
-            of the <strong>Item Pool</strong>: the list of items to be
-            placed in the game. Generally speaking, the Item Pool is divided
-            into two item categories: <strong>Majors</strong> (Morph Ball,
+            The list of items randomly placed in a seed is known as the <strong>Item Pool</strong>.
+            Generally speaking, items in the Item Pool are divided
+            into two categories: <strong>Majors</strong> (Morph Ball,
             Gravity Suit, Energy Tanks, etc.) and Minors (Missiles,
             Super Missiles, and Power Bombs). Major Items in the Item Pool are
             affected by the <a href="/info/settings#item-split">Item Split</a>,{' '}
-            <a href="/info/settings#map-layout">Map Layout</a>, and inclusion of {' '}
+            <a href="/info/settings#map-layout">Map Layout</a>, and the inclusion of {' '}
             <a href="/info/item-pools#extra-dash-items">Extra DASH Items</a>.
           </p>
           <Spacer y={12} />
@@ -52,7 +51,7 @@ export default function ItemPoolsInfoPage() {
                 location in Wrecked Ship is considered a major location.
               </p>
               <p>
-                The <strong>DASH: Recall</strong> Map Layout increases the number
+                Using the <strong>DASH: Recall</strong> Map Layout with the Major/Minor Item Split increases the number
                 of major locations to 36 by adding Mickey Mouse
                 Missiles, Watering Hole Supers, and Sky Missiles. Kraid Energy Tank is
                 considered a minor item location.
