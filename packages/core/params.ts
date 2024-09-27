@@ -6,7 +6,7 @@ import {
   BossMode,
   SuitMode,
   GravityHeatReduction,
-} from "./lib/graph/params";
+} from "./lib/params";
 
 export {
   MapLayout,

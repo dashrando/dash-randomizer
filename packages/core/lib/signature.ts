@@ -1,15 +1,7 @@
-// @ts-nocheck
 import DotNetRandom from "./dotnet-random";
+import { TABLE_FLAGS } from "../data/interface";
 
-const encodeRepeating = (patch, offset, length, bytes) => {
-  patch.push([offset, length, bytes]);
-};
-
-const encodeBytes = (patch, offset, bytes) => {
-  encodeRepeating(patch, offset, 1, bytes);
-};
-
-const U16toBytes = (u16) => {
+const U16toBytes = (u16: number) => {
   return new Uint8Array(new Uint16Array([u16]).buffer);
 };
 
@@ -50,33 +42,34 @@ const SIGNATURE_VALUES = [
   "BULL    ",
 ];
 
-export function fetchSignature(data: Uint8Array) {
-  // the signature is stored in 4 bytes at 0x2f8000 - 0x2f8003
+const byteToWord = (byte: number): string => {
   // use bit mask of 0x1f to get the index in the signatures array
   // then trim the string to remove the extra spaces
-  const mask = 0x1f;
-  const addresses = [0x2f8000, 0x2f8001, 0x2f8002, 0x2f8003]
-    .map((addr) => data[addr] & mask)
-    .map((index) => SIGNATURE_VALUES[index].trim());
-  return addresses.join(" ");
+  return SIGNATURE_VALUES[byte & 0x1f].trim();
+}
+
+const bytesToSignature = (bytes: number[]): string => {
+  return bytes.map(byteToWord).join(' ');
+}
+
+export function fetchSignature(data: Uint8Array) {
+  // the signature is stored in 4 bytes at 0x2f8000 - 0x2f8003
+  return bytesToSignature([
+    data[TABLE_FLAGS.FileSelectCode],
+    data[TABLE_FLAGS.FileSelectCode + 1],
+    data[TABLE_FLAGS.FileSelectCode + 2],
+    data[TABLE_FLAGS.FileSelectCode + 3],
+  ]);
 }
 
 export const formatMonoSignature = (signature: string) =>
   signature.split(' ').map(s => s.padEnd(8, ' ')).join('')
 
-export const prefetchSignature = (seed) => {
-  const seedPatch = [];
+export const prefetchSignature = (seed: number) => {
   const rnd = new DotNetRandom(seed);
-  encodeBytes(seedPatch, 0x2f8000, U16toBytes(rnd.Next(0xffff)));
-  encodeBytes(seedPatch, 0x2f8002, U16toBytes(rnd.Next(0xffff)));
-  const signature = seedPatch
-    .map((patch) => (
-      [patch[2][0] & 0x1f, patch[2][1] & 0x1f]
-    ))
-    .flat()
-    .map((index) => SIGNATURE_VALUES[index].trim())
-    .join(' ')
-  return signature
+  const bytes = [ [...U16toBytes(rnd.Next(0xffff))],
+                  [...U16toBytes(rnd.Next(0xffff))] ].flat();
+  return bytesToSignature(bytes);
 }
 
 export default fetchSignature;

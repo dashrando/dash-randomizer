@@ -66,6 +66,12 @@
   --spacer-20x-negative: -80px;
 
   --mq-mobile: 600px;
+
+  font-family: "Inter", sans-serif;
+}
+
+@supports (font-variation-settings: normal) {
+  :root { font-family: "InterVariable", sans-serif; font-optical-sizing: auto; }
 }
 
 html { box-sizing: border-box; }

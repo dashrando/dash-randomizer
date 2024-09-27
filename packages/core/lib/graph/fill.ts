@@ -4,9 +4,8 @@ import { isGraphValid } from "./solver";
 import { Graph, Vertex, cloneGraph, loadGraph } from "./init";
 import { addItem, checkFlags, createLoadout } from "../loadout";
 import { getItemPool } from "./itemPool";
-import { MajorDistributionMode, Options, Settings } from "./params";
+import { MajorDistributionMode, Options, Settings } from "../params";
 import { canReachVertex } from "./search";
-import { getArea, getLocations } from "../locations";
 
 //-----------------------------------------------------------------
 // Utility routines.
@@ -365,19 +364,3 @@ export const generateSeed = (
   }
   throw new Error(`Failed to generate seed ${seed}`);
 };
-
-//-----------------------------------------------------------------
-//
-//-----------------------------------------------------------------
-
-export const getGraphLocations = (graph: Graph) => {
-   return getLocations().map((l) => {
-    const b = graph.find((e) => {
-      return e.to.name === l.name && getArea(e.to.area) == l.area
-    })
-    //if (b == null) {
-      //console.log(l)
-    //}
-    return b?.to;
-  }).filter((n) => n != null)
-}

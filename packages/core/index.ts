@@ -10,24 +10,38 @@ export { patchRom } from "./helpers/patcher";
 export { findPreset, getPreset, getAllPresets } from "./lib/presets";
 export { Item } from "./lib/items";
 export { generateFromPreset, getSeedNumber } from "./lib/sm-rando";
-export { getItemProgression } from "./lib/graph/solver";
-export { getAreaPortals, getBossPortals } from "./lib/graph/data/portals";
+export { getItemProgression, isGraphValid } from "./lib/graph/solver";
+export { getAreaPortals, getBossPortals, mapPortals } from "./lib/graph/data/portals";
 export {
   bytesToParams,
   paramsToString,
   stringToParams,
-} from "./lib/graph/params";
+} from "./lib/params";
 export {
   loadGraph
 } from "./lib/graph/init";
 export {
+  getItemLocations
+} from "./lib/graph/utils";
+export {
+  isDASHSeed,
   readParams,
   readPortals,
   readGraph
 } from "./helpers/reader"
+export {
+  decodeSeed,
+  decodeAreaPortals,
+  decodeBossPortals,
+  decodeItemLocations,
+  encodeSeed,
+  toSafeString
+} from "./helpers/encoder"
 
 export { RandomizeRom, ProtectRom, BpsPatch };
 
-export type { Options, Settings } from "./lib/graph/params";
+export type { Options, Settings } from "./lib/params";
 export type { Graph, Vertex, Edge } from "./lib/graph/init";
 export type { ItemLocation } from "./lib/graph/solver";
+export type { PlacedItem } from "./lib/graph/utils";
+export type { Portal, PortalMapping } from "./lib/graph/data/portals";

@@ -1,5 +1,7 @@
 import { Buffer } from "buffer";
-import { Item } from "../items";
+import { Item } from "./items";
+
+export const ENCODED_PARAMS_SIZE = 7;
 
 export type Settings = {
   mapLayout: number;
@@ -170,6 +172,10 @@ const bitsToMapLayout = (bits: number) => {
 //    s: suit mode
 //    b: beam mode
 //    m: map layout
+//
+// byte 6 = ll-pppppp
+//    l: logic
+//    p: padding
 //-----------------------------------------------------------------
 
 export const paramsToBytes = (seed: number, settings: Settings, options: Options) => {
@@ -177,7 +183,7 @@ export const paramsToBytes = (seed: number, settings: Settings, options: Options
     settings;
 
   // Place the seed number in the first 3 bytes (max=16777215)
-  let bytes = new Uint8Array(7);
+  let bytes = new Uint8Array(ENCODED_PARAMS_SIZE);
   bytes[0] = seed & 0xff;
   bytes[1] = (seed >> 8) & 0xff;
   bytes[2] = (seed >> 16) & 0xff;
@@ -225,8 +231,12 @@ export const paramsToString = (seed: number, settings: Settings, options: Option
 };
 
 export const bytesToParams = (input: Uint8Array): Params => {
-  const bytes = new Uint8Array(7);
-  bytes.set(input);
+  const bytes = new Uint8Array(ENCODED_PARAMS_SIZE).fill(0x0);
+  if (input.length > ENCODED_PARAMS_SIZE) {
+    bytes.set(input.subarray(0, ENCODED_PARAMS_SIZE));
+  } else {
+    bytes.set(input);
+  }
   const seed = bytes[0] | (bytes[1] << 8) | (bytes[2] << 16);
   const fanfare = (bytes[5] >> 7) & 0x1;
   const gravity = (bytes[5] >> 6) & 0x1;

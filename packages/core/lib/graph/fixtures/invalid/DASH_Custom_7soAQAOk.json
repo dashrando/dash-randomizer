@@ -1,0 +1,990 @@
+{
+  "params": {
+    "seed": 51950,
+    "settings": {
+      "mapLayout": 1,
+      "majorDistribution": 34,
+      "minorDistribution": 0,
+      "extraItems": [],
+      "randomizeAreas": true,
+      "bossMode": 3,
+      "beamMode": 1,
+      "suitMode": 2,
+      "gravityHeatReduction": 16384
+    },
+    "options": {
+      "DisableFanfare": false,
+      "RelaxedLogic": false
+    }
+  },
+  "portals": [
+    [
+      {
+        "name": "Door_KraidBoss",
+        "area": "KraidsLair"
+      },
+      {
+        "name": "Exit_Ridley",
+        "area": "KraidsLair"
+      }
+    ],
+    [
+      {
+        "name": "Door_PhantoonBoss",
+        "area": "WreckedShip"
+      },
+      {
+        "name": "Exit_Kraid",
+        "area": "WreckedShip"
+      }
+    ],
+    [
+      {
+        "name": "Door_DraygonBoss",
+        "area": "EastMaridia"
+      },
+      {
+        "name": "Exit_Kraid",
+        "area": "EastMaridia"
+      }
+    ],
+    [
+      {
+        "name": "Door_RidleyBoss",
+        "area": "LowerNorfair"
+      },
+      {
+        "name": "Exit_Kraid",
+        "area": "LowerNorfair"
+      }
+    ],
+    [
+      {
+        "name": "Door_RetroPBs",
+        "area": "Crateria"
+      },
+      {
+        "name": "Door_MainStreet",
+        "area": "WestMaridia"
+      }
+    ],
+    [
+      {
+        "name": "Door_GreenHills",
+        "area": "GreenBrinstar"
+      },
+      {
+        "name": "Door_BusinessCenterLeft",
+        "area": "UpperNorfair"
+      }
+    ],
+    [
+      {
+        "name": "Door_Moat",
+        "area": "Crateria"
+      },
+      {
+        "name": "Door_BusinessCenterRight",
+        "area": "UpperNorfair"
+      }
+    ],
+    [
+      {
+        "name": "Door_Ocean",
+        "area": "WreckedShip"
+      },
+      {
+        "name": "Door_RedTowerToKraid",
+        "area": "RedBrinstar"
+      }
+    ],
+    [
+      {
+        "name": "Door_G4",
+        "area": "Crateria"
+      },
+      {
+        "name": "Door_CrocsLair",
+        "area": "CrocomiresLair"
+      }
+    ],
+    [
+      {
+        "name": "Door_Tourian",
+        "area": "Tourian"
+      },
+      {
+        "name": "Door_RedFish",
+        "area": "WestMaridia"
+      }
+    ],
+    [
+      {
+        "name": "Door_Kago",
+        "area": "Crateria"
+      },
+      {
+        "name": "Door_NoobBridge",
+        "area": "GreenBrinstar"
+      }
+    ],
+    [
+      {
+        "name": "Door_GreenElevator",
+        "area": "GreenBrinstar"
+      },
+      {
+        "name": "Door_KronicBoost",
+        "area": "UpperNorfair"
+      }
+    ],
+    [
+      {
+        "name": "Door_CrateriaCrabs",
+        "area": "Crateria"
+      },
+      {
+        "name": "Door_RedTowerToMaridiaMap",
+        "area": "RedBrinstar"
+      }
+    ],
+    [
+      {
+        "name": "Door_RedElevator",
+        "area": "RedBrinstar"
+      },
+      {
+        "name": "Door_Musketeers",
+        "area": "LowerNorfair"
+      }
+    ],
+    [
+      {
+        "name": "Door_WSHighway",
+        "area": "WreckedShip"
+      },
+      {
+        "name": "Door_SingleChamber",
+        "area": "UpperNorfair"
+      }
+    ],
+    [
+      {
+        "name": "Door_EMHighway",
+        "area": "EastMaridia"
+      },
+      {
+        "name": "Door_Aqueduct",
+        "area": "EastMaridia"
+      }
+    ],
+    [
+      {
+        "name": "Door_NoobBridge",
+        "area": "GreenBrinstar"
+      },
+      {
+        "name": "Door_Kago",
+        "area": "Crateria"
+      }
+    ],
+    [
+      {
+        "name": "Door_RedTower",
+        "area": "RedBrinstar"
+      },
+      {
+        "name": "Door_RidleyMouth",
+        "area": "LowerNorfair"
+      }
+    ],
+    [
+      {
+        "name": "Door_MaridiaEscape",
+        "area": "RedBrinstar"
+      },
+      {
+        "name": "Door_MaridiaMap",
+        "area": "WestMaridia"
+      }
+    ],
+    [
+      {
+        "name": "Door_RedFish",
+        "area": "WestMaridia"
+      },
+      {
+        "name": "Door_Tourian",
+        "area": "Tourian"
+      }
+    ],
+    [
+      {
+        "name": "Door_MaridiaTube",
+        "area": "RedBrinstar"
+      },
+      {
+        "name": "Door_CrocEntry",
+        "area": "UpperNorfair"
+      }
+    ],
+    [
+      {
+        "name": "Door_MainStreet",
+        "area": "WestMaridia"
+      },
+      {
+        "name": "Door_RetroPBs",
+        "area": "Crateria"
+      }
+    ],
+    [
+      {
+        "name": "Door_RedTowerToKraid",
+        "area": "RedBrinstar"
+      },
+      {
+        "name": "Door_Ocean",
+        "area": "WreckedShip"
+      }
+    ],
+    [
+      {
+        "name": "Door_BusinessCenterLeft",
+        "area": "UpperNorfair"
+      },
+      {
+        "name": "Door_GreenHills",
+        "area": "GreenBrinstar"
+      }
+    ],
+    [
+      {
+        "name": "Door_RedTowerToMaridiaMap",
+        "area": "RedBrinstar"
+      },
+      {
+        "name": "Door_CrateriaCrabs",
+        "area": "Crateria"
+      }
+    ],
+    [
+      {
+        "name": "Door_MaridiaMap",
+        "area": "WestMaridia"
+      },
+      {
+        "name": "Door_MaridiaEscape",
+        "area": "RedBrinstar"
+      }
+    ],
+    [
+      {
+        "name": "Door_BusinessCenterRight",
+        "area": "UpperNorfair"
+      },
+      {
+        "name": "Door_Moat",
+        "area": "Crateria"
+      }
+    ],
+    [
+      {
+        "name": "Door_KraidsLair",
+        "area": "KraidsLair"
+      },
+      {
+        "name": "Door_PreAqueduct",
+        "area": "WestMaridia"
+      }
+    ],
+    [
+      {
+        "name": "Door_CrocEntry",
+        "area": "UpperNorfair"
+      },
+      {
+        "name": "Door_MaridiaTube",
+        "area": "RedBrinstar"
+      }
+    ],
+    [
+      {
+        "name": "Door_CrocsLair",
+        "area": "CrocomiresLair"
+      },
+      {
+        "name": "Door_G4",
+        "area": "Crateria"
+      }
+    ],
+    [
+      {
+        "name": "Door_SingleChamber",
+        "area": "UpperNorfair"
+      },
+      {
+        "name": "Door_WSHighway",
+        "area": "WreckedShip"
+      }
+    ],
+    [
+      {
+        "name": "Door_Musketeers",
+        "area": "LowerNorfair"
+      },
+      {
+        "name": "Door_RedElevator",
+        "area": "RedBrinstar"
+      }
+    ],
+    [
+      {
+        "name": "Door_KronicBoost",
+        "area": "UpperNorfair"
+      },
+      {
+        "name": "Door_GreenElevator",
+        "area": "GreenBrinstar"
+      }
+    ],
+    [
+      {
+        "name": "Door_RidleyMouth",
+        "area": "LowerNorfair"
+      },
+      {
+        "name": "Door_RedTower",
+        "area": "RedBrinstar"
+      }
+    ],
+    [
+      {
+        "name": "Door_PreAqueduct",
+        "area": "WestMaridia"
+      },
+      {
+        "name": "Door_KraidsLair",
+        "area": "KraidsLair"
+      }
+    ],
+    [
+      {
+        "name": "Door_Aqueduct",
+        "area": "EastMaridia"
+      },
+      {
+        "name": "Door_EMHighway",
+        "area": "EastMaridia"
+      }
+    ]
+  ],
+  "itemLocations": [
+    {
+      "location": "Bombs",
+      "area": "Crateria",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Charge Beam",
+      "area": "GreenBrinstar",
+      "item": "Gravity Suit",
+      "code": 61195
+    },
+    {
+      "location": "Energy Tank (Botwoon)",
+      "area": "EastMaridia",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Energy Tank (Brinstar Ceiling)",
+      "area": "Crateria",
+      "item": "Morph Ball",
+      "code": 61219
+    },
+    {
+      "location": "Energy Tank (Crocomire)",
+      "area": "CrocomiresLair",
+      "item": "Reserve Tank",
+      "code": 61223
+    },
+    {
+      "location": "Energy Tank (Etecoons)",
+      "area": "GreenBrinstar",
+      "item": "Spring Ball",
+      "code": 61187
+    },
+    {
+      "location": "Energy Tank (Firefleas)",
+      "area": "LowerNorfair",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Energy Tank (Gauntlet)",
+      "area": "Crateria",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Energy Tank (HJB)",
+      "area": "UpperNorfair",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Energy Tank (Kraid)",
+      "area": "KraidsLair",
+      "item": "Ice Beam",
+      "code": 61167
+    },
+    {
+      "location": "Energy Tank (Mama Turtle)",
+      "area": "WestMaridia",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Energy Tank (Ridley)",
+      "area": "KraidsLair",
+      "item": "Reserve Tank",
+      "code": 61223
+    },
+    {
+      "location": "Energy Tank (Terminator)",
+      "area": "Crateria",
+      "item": "Bomb",
+      "code": 61159
+    },
+    {
+      "location": "Energy Tank (Waterway)",
+      "area": "GreenBrinstar",
+      "item": "Grappling Beam",
+      "code": 61207
+    },
+    {
+      "location": "Energy Tank (Wave Gate)",
+      "area": "GreenBrinstar",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Energy Tank (Wrecked Ship)",
+      "area": "WreckedShip",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Grapple Beam",
+      "area": "CrocomiresLair",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Gravity Suit",
+      "area": "WreckedShip",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "HiJump Boots",
+      "area": "UpperNorfair",
+      "item": "Reserve Tank",
+      "code": 61223
+    },
+    {
+      "location": "Ice Beam",
+      "area": "UpperNorfair",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Missiles (230)",
+      "area": "Crateria",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Alpha PBs)",
+      "area": "RedBrinstar",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Alpha)",
+      "area": "Crateria",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Aqueduct)",
+      "area": "EastMaridia",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Attic)",
+      "area": "WreckedShip",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Beach)",
+      "area": "WestMaridia",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Beta)",
+      "area": "Crateria",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Big Pink)",
+      "area": "GreenBrinstar",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Billy Mays 1)",
+      "area": "Crateria",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Billy Mays 2)",
+      "area": "Crateria",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Bowling)",
+      "area": "WreckedShip",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Brin Reserve 1)",
+      "area": "GreenBrinstar",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Brin Reserve 2)",
+      "area": "GreenBrinstar",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Brin Tube)",
+      "area": "GreenBrinstar",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Missiles (Bubble Mountain)",
+      "area": "UpperNorfair",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Cathedral)",
+      "area": "UpperNorfair",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Charge)",
+      "area": "GreenBrinstar",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Cosine)",
+      "area": "CrocomiresLair",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Croc Escape)",
+      "area": "UpperNorfair",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Missiles (Crumble Shaft)",
+      "area": "UpperNorfair",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Early Bridge)",
+      "area": "GreenBrinstar",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Gauntlet Left)",
+      "area": "Crateria",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Missiles (Gauntlet Right)",
+      "area": "Crateria",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Missiles (GT)",
+      "area": "LowerNorfair",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (HJB)",
+      "area": "UpperNorfair",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Indiana Jones)",
+      "area": "CrocomiresLair",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Kraid)",
+      "area": "KraidsLair",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Mainstreet)",
+      "area": "WestMaridia",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Mama Turtle)",
+      "area": "WestMaridia",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Maze)",
+      "area": "LowerNorfair",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Mickey Mouse)",
+      "area": "LowerNorfair",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Moat)",
+      "area": "Crateria",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Mother Brain)",
+      "area": "Crateria",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Norfair Reserve 1)",
+      "area": "UpperNorfair",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Norfair Reserve 2)",
+      "area": "UpperNorfair",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Ocean Bottom)",
+      "area": "WreckedShip",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Ocean Middle)",
+      "area": "WreckedShip",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Precious)",
+      "area": "EastMaridia",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Missiles (Sand Pit Left)",
+      "area": "EastMaridia",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Missiles (Sand Pit Right)",
+      "area": "EastMaridia",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Sky)",
+      "area": "WreckedShip",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Missiles (Speed)",
+      "area": "UpperNorfair",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Spooky)",
+      "area": "WreckedShip",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Three Musketeers)",
+      "area": "LowerNorfair",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Watering Hole)",
+      "area": "WestMaridia",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Missiles (Wave)",
+      "area": "UpperNorfair",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Morphing Ball",
+      "area": "Crateria",
+      "item": "Speed Booster",
+      "code": 61175
+    },
+    {
+      "location": "Plasma Beam",
+      "area": "EastMaridia",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Power Bombs (Alpha)",
+      "area": "RedBrinstar",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Power Bombs (Beta)",
+      "area": "RedBrinstar",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Power Bombs (Crocomire)",
+      "area": "CrocomiresLair",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Power Bombs (Etecoons)",
+      "area": "GreenBrinstar",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Power Bombs (Landing Site)",
+      "area": "Crateria",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Power Bombs (Maze)",
+      "area": "LowerNorfair",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Power Bombs (Mission Impossible)",
+      "area": "GreenBrinstar",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Power Bombs (Morph)",
+      "area": "Crateria",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Power Bombs (Sand Pit Right)",
+      "area": "EastMaridia",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Power Bombs (Shame)",
+      "area": "LowerNorfair",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Reserve Tank (Brinstar)",
+      "area": "GreenBrinstar",
+      "item": "HiJump Boots",
+      "code": 61171
+    },
+    {
+      "location": "Reserve Tank (Maridia)",
+      "area": "EastMaridia",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Reserve Tank (Norfair)",
+      "area": "UpperNorfair",
+      "item": "Varia Suit",
+      "code": 61191
+    },
+    {
+      "location": "Reserve Tank (Wrecked Ship)",
+      "area": "WreckedShip",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Screw Attack",
+      "area": "LowerNorfair",
+      "item": "Screw Attack",
+      "code": 61215
+    },
+    {
+      "location": "Spazer",
+      "area": "RedBrinstar",
+      "item": "Xray Scope",
+      "code": 61199
+    },
+    {
+      "location": "Speed Booster",
+      "area": "UpperNorfair",
+      "item": "Beam Upgrade",
+      "code": 61420
+    },
+    {
+      "location": "Spring Ball",
+      "area": "EastMaridia",
+      "item": "Energy Tank",
+      "code": 61143
+    },
+    {
+      "location": "Supers (Aqueduct)",
+      "area": "EastMaridia",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Supers (Climb)",
+      "area": "Crateria",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Supers (Crab)",
+      "area": "WestMaridia",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Supers (Early Bridge)",
+      "area": "GreenBrinstar",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Supers (Etecoons)",
+      "area": "GreenBrinstar",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Supers (GT)",
+      "area": "LowerNorfair",
+      "item": "Power Bomb",
+      "code": 61155
+    },
+    {
+      "location": "Supers (Spore Spawn)",
+      "area": "GreenBrinstar",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Supers (Watering Hole)",
+      "area": "WestMaridia",
+      "item": "Missile",
+      "code": 61147
+    },
+    {
+      "location": "Supers (WS Left)",
+      "area": "WreckedShip",
+      "item": "Super Missile",
+      "code": 61151
+    },
+    {
+      "location": "Supers (WS Right)",
+      "area": "WreckedShip",
+      "item": "Plasma Beam",
+      "code": 61203
+    },
+    {
+      "location": "Varia Suit",
+      "area": "WreckedShip",
+      "item": "Space Jump",
+      "code": 61211
+    },
+    {
+      "location": "Varia Suit",
+      "area": "EastMaridia",
+      "item": "Spazer",
+      "code": 61183
+    },
+    {
+      "location": "Varia Suit",
+      "area": "LowerNorfair",
+      "item": "Reserve Tank",
+      "code": 61223
+    },
+    {
+      "location": "Wave Beam",
+      "area": "UpperNorfair",
+      "item": "Wave Beam",
+      "code": 61179
+    },
+    {
+      "location": "Xray Scope",
+      "area": "RedBrinstar",
+      "item": "Energy Tank",
+      "code": 61143
+    }
+  ]
+}

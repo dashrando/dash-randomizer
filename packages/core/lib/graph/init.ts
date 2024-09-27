@@ -1,93 +1,40 @@
-import { standardVertices } from "./data/standard/vertex";
-import { crateriaEdges } from "./data/standard/edges/crateria";
-import { greenbrinstarEdges } from "./data/standard/edges/greenbrinstar";
-import { redbrinstarEdges } from "./data/standard/edges/redbrinstar";
-import { kraidslairEdges } from "./data/standard/edges/kraid";
-import { crocomireEdges } from "./data/standard/edges/crocomire";
-import { westmaridiaEdges } from "./data/standard/edges/westmaridia";
-import { eastmaridiaEdges } from "./data/standard/edges/eastmaridia";
-import { uppernorfairEdges } from "./data/standard/edges/uppernorfair";
-import { lowernorfairEdges } from "./data/standard/edges/lowernorfair";
-import { wreckedshipEdges } from "./data/standard/edges/wreckedship";
-import { bossEdges } from "./data/standard/edges/boss";
-import { BossMode, MapLayout, MajorDistributionMode } from "./params";
+import { BossMode, MapLayout, MajorDistributionMode } from "../params";
 import { RecallVertexUpdates } from "./data/recall/vertex";
 import { RecallEdgeUpdates } from "./data/recall/edges";
 import { StandardAreaEdgeUpdates } from "./data/standard/area";
 import { generatePortals, PortalMapping } from "./data/portals";
-import { bossItem, Item, ItemType } from "../items";
+import { bossItem, Item } from "../items";
 import DotNetRandom from "../dotnet-random";
 import { ChozoVertexUpdates } from "./data/chozo/vertex";
 import { RelaxedEdgeUpdates } from "./data/relaxed/edges";
+import {
+  getAllVertices,
+  getStandardEdges,
+  bossEdges,
+  Vertex,
+} from "./data/base/definitions";
+
+export type { Vertex } from "./data/base/definitions";
 
 export type Condition = boolean | (() => any);
-
-export type Vertex = {
-  name: string;
-  type: string;
-  area: string;
-  item: ItemType | undefined;
-  pathToStart: boolean;
-}
 
 type VertexUpdate = {
   name: string;
   type: string;
-}
+};
 
 export type Edge = {
   from: Vertex;
   to: Vertex;
   condition: Condition;
-}
+};
 
 type EdgeUpdate = {
   edges: string[];
   requires: Condition;
-}
+};
 
 export type Graph = Edge[];
-
-//-----------------------------------------------------------------
-// Returns a structure containing all edges grouped by area.
-//-----------------------------------------------------------------
-
-const getStandardEdges = () => {
-  return {
-    Crateria: crateriaEdges,
-    GreenBrinstar: greenbrinstarEdges,
-    RedBrinstar: redbrinstarEdges,
-    KraidsLair: kraidslairEdges,
-    CrocomiresLair: crocomireEdges,
-    WestMaridia: westmaridiaEdges,
-    EastMaridia: eastmaridiaEdges,
-    UpperNorfair: uppernorfairEdges,
-    LowerNorfair: lowernorfairEdges,
-    WreckedShip: wreckedshipEdges,
-  };
-};
-
-//-----------------------------------------------------------------
-// Returns an array of all vertices on the game world.
-//-----------------------------------------------------------------
-
-const getAllVertices = (): Vertex[] => {
-  return Object.entries(standardVertices)
-    .map(([k, v]) => {
-      return Object.entries(v).map(([name, type]) => {
-        return {
-          name: name,
-          type: type,
-          area: k,
-          item: undefined,
-          pathToStart: false,
-        };
-      });
-    })
-    .reduce((acc, cur) => {
-      return acc.concat(cur);
-    }, []);
-};
 
 //-----------------------------------------------------------------
 // Build a graph representing the game world.
@@ -95,7 +42,7 @@ const getAllVertices = (): Vertex[] => {
 const createGraph = (
   portalMapping: PortalMapping[],
   vertexUpdates: VertexUpdate[],
-  edgeUpdates: EdgeUpdate[],
+  edgeUpdates: EdgeUpdate[]
 ): Graph => {
   //-----------------------------------------------------------------
   // Get all vertices for the graph. Vertices represent locations
@@ -132,7 +79,7 @@ const createGraph = (
       .reduce((acc, cur) => {
         return acc.concat(cur);
       }, []);
-  }
+  };
 
   //-----------------------------------------------------------------
   // Apply specified vertex updates. Currently restricted to type
@@ -150,29 +97,34 @@ const createGraph = (
   // once when the module is loaded.
   //-----------------------------------------------------------------
 
-  let edges: Edge[] = Object.entries(getStandardEdges())
-    .map(([area, areaEdges]) => loadEdges(areaEdges as any))
+  let edges: Edge[] = getStandardEdges()
+    .map((areaEdges) => loadEdges(areaEdges as any))
     .reduce((acc, cur) => acc.concat(cur), []);
 
   //-----------------------------------------------------------------
   // Add boss edges.
   //-----------------------------------------------------------------
 
-  const bossAreas = ["KraidsLair", "WreckedShip", "EastMaridia", "LowerNorfair"];
-  bossEdges.forEach(b => {
+  const bossAreas = [
+    "KraidsLair",
+    "WreckedShip",
+    "EastMaridia",
+    "LowerNorfair",
+  ];
+  bossEdges.forEach((b) => {
     const keys = Object.keys(b);
-    bossAreas.forEach(area => {
-      const portal = portalMapping.find(p => {
+    bossAreas.forEach((area) => {
+      const portal = portalMapping.find((p) => {
         if (p[1].area != area) {
           return false;
         }
-        return keys.includes(p[1].name)
-      })
+        return keys.includes(p[1].name);
+      });
       if (portal != null) {
-        edges = edges.concat(loadEdges(b as any, area))
+        edges = edges.concat(loadEdges(b as any, area));
       }
-    })
-  })
+    });
+  });
 
   //-----------------------------------------------------------------
   // Get all edges for the graph. Edges establish the condition to
@@ -214,7 +166,6 @@ const createGraph = (
     edge.condition = c.requires;
   });
 
-
   //-----------------------------------------------------------------
   // Set a flag on the start vertex. This flag exists on all
   // vertices and is used for caching to speed up solving.
@@ -228,7 +179,7 @@ const createGraph = (
   // to include those as it will slow down solving.
   //-----------------------------------------------------------------
 
-  return edges.filter(e => e.condition !== false);
+  return edges.filter((e) => e.condition !== false);
 };
 
 //-----------------------------------------------------------------
@@ -243,16 +194,14 @@ export const cloneGraph = (graph: Graph): Graph => {
   const remap = (orig: Vertex) => {
     let v = newVertices.find((v) => v.name == orig.name && v.area == orig.area);
     if (v == undefined) {
-      throw new Error('cloneGraph: missing vertex to remap')
+      throw new Error("cloneGraph: missing vertex to remap");
     }
     v.type = orig.type;
-    v.area = orig.area;
     v.pathToStart = orig.pathToStart;
-    if (orig.item != undefined) {
-      v.item = {...orig.item};
-    }
+    v.progression = orig.progression;
+    v.item = orig.item;
     return v;
-  }
+  };
 
   return graph.map((e) => {
     return {
@@ -267,7 +216,10 @@ export const cloneGraph = (graph: Graph): Graph => {
 // Gets an array of edge updates based on the settings.
 //-----------------------------------------------------------------
 
-const getEdgeUpdates = (mapLayout: number, areaShuffle: boolean): EdgeUpdate[] => {
+const getEdgeUpdates = (
+  mapLayout: number,
+  areaShuffle: boolean
+): EdgeUpdate[] => {
   switch (mapLayout) {
     case MapLayout.Standard:
     case MapLayout.Classic:
@@ -290,7 +242,7 @@ const getEdgeUpdates = (mapLayout: number, areaShuffle: boolean): EdgeUpdate[] =
 //-----------------------------------------------------------------
 
 const getVertexUpdates = (mode: number): VertexUpdate[] => {
-  switch(mode) {
+  switch (mode) {
     case MajorDistributionMode.Recall:
       return RecallVertexUpdates;
     case MajorDistributionMode.Chozo:
@@ -298,7 +250,7 @@ const getVertexUpdates = (mode: number): VertexUpdate[] => {
     default:
       return [];
   }
-}
+};
 
 //-----------------------------------------------------------------
 // Adds pseudo items to a graph for defeating bosses based on the
@@ -315,7 +267,7 @@ const addBossItems = (graph: Graph) => {
     .map((e) => e.from)
     .filter(isUnique);
 
-  bosses.forEach(boss => {
+  bosses.forEach((boss) => {
     switch (boss.area) {
       case "KraidsLair":
         boss.item = bossItem(Item.DefeatedBrinstarBoss);
