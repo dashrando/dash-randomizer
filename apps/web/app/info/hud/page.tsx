@@ -27,7 +27,7 @@ export default function HUDInfoPage() {
 
           <h2 className={styles.title}>Area</h2>
           <p>
-            The top left corner shows the current area in which Samus is located. This information is always visible but is especially useful in seeds with Area Randomization.
+            The top left corner shows the current area in which Samus is located. This information can be very useful in seeds with <a href="/info/settings#map-layout">Area Randomization</a>.
           </p>
           <Spacer y={12} />
 
@@ -50,14 +50,14 @@ export default function HUDInfoPage() {
             The top leftmost DASH Item indicator{" "}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/grav-heat-reduction.png" alt="Gravity Heat Reduction" loading="eager" className={styles.inline_dash_item} /> 
-            {" "}is active if Gravity Suit has been collected and the Gravity Heat Reduction setting is enabled. On seeds where that
+            {" "}is active if Gravity Suit has been collected and the <a href="/info/settings#gravity-heat-reduction">Gravity Heat Reduction</a> setting is enabled. The icon will gray out when Varia Suit is collected. On seeds where that
             settings is not enabled, the icon shows grayed out when Gravity Suit is collected. This can be very useful when running Mystery seeds.
           </p>
           <Spacer y={12} />
 
           <h2 id="charge-damage" className={styles.title}>Charge Damage</h2>
           <p>
-            The bottom right corner shows the current amount of damage that a charged shot would do based on the beams equipped and charge upgrades collected. With Starter/Starter+ beam modes, the values starts at <code>20</code> and with Vanilla charge the value starts at <code>60</code>.
+            The bottom right corner shows the current damage a charged shot would do based on the beams equipped and charge upgrades collected. The value starts at <code>20</code> for <a href="/info/settings#charge-beam">Starter/Starter+</a> modes and starts at <code>60</code> for <a href="/info/settings#charge-beam">Vanilla</a> charge.
           </p>
 
         </article>

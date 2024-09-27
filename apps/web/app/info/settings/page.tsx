@@ -63,12 +63,6 @@ export default function SettingsInfoPage() {
         <Article id="item-split" title="Item Split">
           <p><strong>Item Split</strong> determines the available locations where major items can be placed.</p>
           <ul>
-            {/*<li>
-              <p>
-                <strong>Recall Major/Minor</strong>:{' '}
-                Major item upgrades, energy tanks, and reserve tanks are placed at the standard major item locations, with a few changes, dictated by the logic. Changes include the removal of the Kraid&apos;s Etank location and the additions of the Sky Missile, Watering Hole, and Mickey Mouse Missile locations.
-              </p>
-            </li>*/}
             <li>
               <p>
                 <strong>Major/Minor</strong>:{' '}
@@ -132,7 +126,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Full</strong>: All items are able to be placed in any location dictated by the logic.
+                <strong>Full</strong>: All items are able to be placed in any location dictated by the logic. The remaining number of major items and energy tanks in the current area are shown on the in-game <a href="/info/hud">HUD</a>.
               </p>
             </li>
             <li>
