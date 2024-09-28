@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import useMounted from '@/app/hooks/useMounted'
 import { useVanilla } from '@/app/generate/vanilla'
 import styles from './seed.module.css'
-import { RandomizeRom, ProtectRom, findPreset } from 'core'
+import { RandomizeRom, ProtectRom, findPreset, Graph, decodeSeed, fromSafeString, toSafeString } from 'core'
 import { cn } from '@/lib/utils'
 import { downloadFile } from '@/lib/downloads'
 import Button, { ButtonLink } from '@/app/components/button'
@@ -57,6 +57,7 @@ export default function Seed({
   signature,
   slug,
   spoiler = false,
+  permaHash = ""
 }: {
   parameters: any,
   mystery?: boolean,
@@ -64,7 +65,8 @@ export default function Seed({
   race?: boolean,
   signature: string,
   slug: string,
-  spoiler?: boolean
+  spoiler?: boolean,
+  permaHash?: string
 }) {
   const mounted = useMounted()
   const { data: vanilla } = useVanilla()
@@ -98,10 +100,16 @@ export default function Seed({
           : preset == undefined
           ? "Custom"
           : preset.fileName;
+        
+        let graph: Graph = []
+        if (permaHash.length > 0) {
+          const decoded = decodeSeed(fromSafeString(permaHash))
+          graph = decoded.graph
+        }
         const seedData = await create(seedNum, settings, options, {
           vanillaBytes: vanilla,
           presetName: shortName
-        }, race)
+        }, race, graph)
         if (seedData.data) {
           setSeed(seedData)
         }

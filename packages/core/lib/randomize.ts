@@ -3,6 +3,7 @@ import { getBasePatch, getFileName, generateSeedPatch } from "./sm-rando";
 import { generateSeed } from "./graph/fill";
 import { patchRom } from "../helpers/patcher";
 import { Options, Settings } from "./params";
+import { Graph } from "./graph/init";
 
 export type Config = {
   onUpdate?: any
@@ -16,7 +17,8 @@ async function RandomizeRom(
   settings: Settings,
   opts: Options,
   config: Config,
-  race: boolean = false
+  race: boolean = false,
+  permaGraph: Graph = []
 ) {
   if (!config.vanillaBytes) {
     throw Error("No vanilla ROM data found");
@@ -30,7 +32,8 @@ async function RandomizeRom(
   const options: Options = { ...defaultOptions, ...opts };
 
   // Place the items.
-  const graph = generateSeed(seed, settings, options);
+  const graph =
+    permaGraph.length > 0 ? permaGraph : generateSeed(seed, settings, options);
 
   // Load the base patch associated with the map layout.
   const patch = getBasePatch(settings);
