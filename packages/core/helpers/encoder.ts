@@ -202,3 +202,7 @@ export const toSafeString = (bytes: Uint8Array) => {
     .replaceAll("+", "-")
     .replace(/=*$/, "");
 };
+
+export const fromSafeString = (hash: string) => {
+  return Buffer.from(hash.replaceAll("_", "/").replaceAll("-", "+"), "base64");
+}
