@@ -25,7 +25,7 @@ export const uppernorfairEdges = {
 
   CathedralEntrance: {
     BusinessCenter: true,
-    BubbleMountainMain: () => HellRunTanks >= 3 && CanOpenGreenDoors,
+    BubbleMountainMain: () => HellRunTanks >= 4 && CanOpenGreenDoors,
     "Missiles (Cathedral)": () => HellRunTanks >= 5 && CanOpenRedDoors,
   },
 

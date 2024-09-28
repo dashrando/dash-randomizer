@@ -35,7 +35,8 @@ export {
   decodeBossPortals,
   decodeItemLocations,
   encodeSeed,
-  toSafeString
+  toSafeString,
+  fromSafeString
 } from "./helpers/encoder"
 
 export { RandomizeRom, ProtectRom, BpsPatch };
