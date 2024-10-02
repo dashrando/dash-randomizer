@@ -17,3 +17,4 @@ node_modules/
 
 packages/stats/bin/
 packages/stats/results/*.html
+.env*.local

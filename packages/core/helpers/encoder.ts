@@ -17,6 +17,7 @@ import {
 } from "../lib/graph/data/portals";
 import { getArea, getLocations } from "../lib/locations";
 import { Item, ItemType, majorItem, minorItem } from "../lib/items";
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
 
 const SEED_ENCODING_VERSION = 0;
 const AREA_REF_INDEX = 1 + ENCODED_PARAMS_SIZE;
@@ -196,13 +197,9 @@ export const encodeSeed = (params: Params, graph: Graph) => {
 };
 
 export const toSafeString = (bytes: Uint8Array) => {
-  return Buffer.from(bytes)
-    .toString("base64")
-    .replaceAll("/", "_")
-    .replaceAll("+", "-")
-    .replace(/=*$/, "");
+  return compressToEncodedURIComponent(new TextDecoder().decode(bytes))
 };
 
 export const fromSafeString = (hash: string) => {
-  return Buffer.from(hash.replaceAll("_", "/").replaceAll("-", "+"), "base64");
-}
+  return new TextEncoder().encode(decompressFromEncodedURIComponent(hash))
+};
