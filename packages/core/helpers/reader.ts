@@ -6,6 +6,7 @@ import { bytesToParams } from "../lib/params";
 import { majorItem, minorItem } from "../lib/items";
 import { getArea } from "../lib/locations";
 import { TABLE_FLAGS } from "../data/interface";
+import { encodeSeedAsString } from "./encoder";
 
 export const isDASHSeed = (rom: Uint8Array): boolean => {
   const gameHeader = rom.subarray(0x007fc0, 0x007fc0 + 21);
@@ -37,16 +38,17 @@ export const readPortals = (bytes: Uint8Array): PortalMapping[] => {
   return portalMappings;
 }
 
-export const readGraph = (rom: Uint8Array) => {
+export const readRom = (rom: Uint8Array) => {
   if (!isDASHSeed(rom)) {
-    return [];
+    return {}
   }
 
-  const { seed, settings, options } = readParams(rom);
-  const portalMappings = readPortals(rom);
+  const params = readParams(rom);
+  const { seed, settings, options } = params;
+  const portals = readPortals(rom);
   const graph = loadGraph(seed, 1, settings.mapLayout,
     settings.majorDistribution, settings.randomizeAreas,
-    options.RelaxedLogic, settings.bossMode, portalMappings);
+    options.RelaxedLogic, settings.bossMode, portals);
 
   getLocations().forEach(l => {
     const node = graph.find(e => e.from.name == l.name && getArea(e.from.area) == l.area)?.from as any;
@@ -61,5 +63,17 @@ export const readGraph = (rom: Uint8Array) => {
     }
   });
 
-  return graph;
+  return {
+    graph,
+    portals,
+    params
+  };
+}
+
+export const readRomAsString = (rom: Uint8Array) => {
+  const { params, graph } = readRom(rom);
+  if (params === undefined || graph === undefined) {
+    return '';
+  }
+  return encodeSeedAsString(params, graph);
 }

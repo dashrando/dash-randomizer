@@ -1,5 +1,5 @@
-import { parseSettings } from '@/lib/settings';
-import { Graph, Vertex, getAreaPortals, stringToParams } from 'core';
+import { hashToParams, parseSettings } from '@/lib/settings';
+import { Graph, Vertex, getAreaPortals } from 'core';
 import { generateSeed, isAreaEdge, isBossEdge } from 'core/data';
 
 const getAreaTransitions = (graph: Graph) => {
@@ -107,7 +107,7 @@ const getMeta = (params: any) => {
 }
 
 export function getSpoiler(seedHash: string) {
-  const parameters = stringToParams(seedHash)
+  const parameters = hashToParams(seedHash)
   const { seed, settings, options } = parameters
   const graph = generateSeed(seed, settings, options)
   

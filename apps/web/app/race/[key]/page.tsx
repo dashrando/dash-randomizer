@@ -1,18 +1,11 @@
-import { kv } from '@vercel/kv'
-import { stringToParams } from 'core'
+import { getRaceSeedData } from './race'
 import { notFound } from 'next/navigation'
 import Seed from '../../seed/[seed]/seed'
 import { prefetchSignature } from 'core'
 import Toaster from '../../components/toaster'
 import Link from 'next/link'
 import styles from '../../seed/[seed]/seed.module.css'
-
-type RaceSeedData = {
-  hash: string
-  key: string
-  mystery: boolean
-  spoiler: object
-}
+import { hashToParams } from '@/lib/settings'
 
 export async function generateMetadata({ params }: { params : { key: string }}) {
   return {
@@ -22,14 +15,13 @@ export async function generateMetadata({ params }: { params : { key: string }}) 
 }
 
 export default async function RaceSeedPage({ params }: { params: { key: string } }) {
-  const { key } = params
-  const data = await kv.hgetall(`race-${key}`)
+  const data = await getRaceSeedData(params.key)
   if (!data) {
     return notFound()
   }
 
-  const { hash, mystery, spoiler } = data as RaceSeedData
-  const seedParams = stringToParams(hash)
+  const { hash, mystery, spoiler } = data
+  const seedParams = hashToParams(hash)
   const seedNum = seedParams.seed
   const sig = prefetchSignature(seedNum)
 
@@ -52,7 +44,7 @@ export default async function RaceSeedPage({ params }: { params: { key: string }
         parameters={seedParams}
         hash={hash}
         signature={sig}
-        slug={key}
+        slug={params.key}
         race={true}
         mystery={mystery}
         spoiler={!!spoiler}

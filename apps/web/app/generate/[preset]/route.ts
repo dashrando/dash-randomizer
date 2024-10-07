@@ -1,8 +1,9 @@
 import { NextRequest } from "next/server"
-import { getAllPresets, getPreset, getSeedNumber, paramsToString } from "core"
+import { encodeSeedAsString, getAllPresets, getPreset, getSeedNumber } from "core"
 import { customAlphabet } from 'nanoid'
 import { kv } from '@vercel/kv'
 import { getSpoiler } from "@/lib/spoiler"
+import { generateSeed } from "core/data"
 
 export const runtime = "nodejs"
 
@@ -25,7 +26,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
    const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 12)
 
    try {
-    const seedNum = getSeedNumber()
+    const seed = getSeedNumber()
     const preset = getPreset(params.preset)
     const mystery = preset?.tags.includes('mystery')
     const searchParams = req.nextUrl.searchParams
@@ -52,8 +53,11 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
       throw err
     }
 
+    const { settings, options } = preset;
+    const graph = generateSeed(seed, settings, options);
+    const hash = encodeSeedAsString({ seed, settings, options }, graph)
+
     if (race) {
-      const hash = paramsToString(seedNum, preset.settings, preset.options)
       const raceObj = {
         key: nanoid(),
         hash,
@@ -65,7 +69,6 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
       return redirect(url)
     }
     
-    const hash = paramsToString(seedNum, preset.settings, preset.options)
     const url = new URL(`seed/${hash}`, req.nextUrl.origin)
     return redirect(url)
    } catch (err: unknown) {

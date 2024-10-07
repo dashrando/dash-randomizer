@@ -4,12 +4,14 @@ import { generateSeed } from "./graph/fill";
 import { patchRom } from "../helpers/patcher";
 import { Options, Settings } from "./params";
 import { Graph } from "./graph/init";
+import { encodeSeedAsString, } from "../helpers/encoder";
 
 export type Config = {
   onUpdate?: any
   onSuccess?: any
   vanillaBytes: Uint8Array
   presetName: string
+  seedKey?: string
 }
 
 async function RandomizeRom(
@@ -46,7 +48,9 @@ async function RandomizeRom(
   // Create the rom by patching the vanilla rom.
   return {
     data: patchRom(config.vanillaBytes, basePatch, seedPatch),
-    name: getFileName(config.presetName, seed, settings, options),
+    name: getFileName({ seed, settings, options }, graph,
+      config.presetName, config.seedKey),
+    hash: encodeSeedAsString({ seed, settings, options }, graph)
   };
 }
 

@@ -14,7 +14,6 @@ export { getItemProgression, isGraphValid } from "./lib/graph/solver";
 export { getAreaPortals, getBossPortals, mapPortals } from "./lib/graph/data/portals";
 export {
   bytesToParams,
-  paramsToString,
   stringToParams,
 } from "./lib/params";
 export {
@@ -27,21 +26,26 @@ export {
   isDASHSeed,
   readParams,
   readPortals,
-  readGraph
+  readRom,
+  readRomAsString
 } from "./helpers/reader"
 export {
   decodeSeed,
+  decodeSeedFromString,
   decodeAreaPortals,
   decodeBossPortals,
   decodeItemLocations,
   encodeSeed,
-  toSafeString,
-  fromSafeString
+  encodeSeedAsString,
 } from "./helpers/encoder"
+export {
+  base64ToSafe,
+  safeToBase64
+} from "./helpers/converters"
 
 export { RandomizeRom, ProtectRom, BpsPatch };
 
-export type { Options, Settings } from "./lib/params";
+export type { Params, Options, Settings } from "./lib/params";
 export type { Graph, Vertex, Edge } from "./lib/graph/init";
 export type { ItemLocation } from "./lib/graph/solver";
 export type { PlacedItem } from "./lib/graph/utils";

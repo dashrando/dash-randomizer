@@ -1,5 +1,6 @@
 import { Buffer } from "buffer";
 import { Item } from "./items";
+import { safeToBase64 } from "../helpers/converters";
 
 export const ENCODED_PARAMS_SIZE = 7;
 
@@ -216,20 +217,6 @@ export const paramsToBytes = (seed: number, settings: Settings, options: Options
   return bytes;
 };
 
-export const paramsToString = (seed: number, settings: Settings, options: Options) => {
-  const bytes = paramsToBytes(seed, settings, options);
-  const encoded = Buffer.from(bytes)
-    .toString("base64")
-    .replaceAll("/", "_")
-    .replaceAll("+", "-")
-    .replace(/=*$/, '');
-
-  if (encoded.length > 8 && encoded.slice(8).replace(/A*$/, '').length == 0) {
-    return encoded.slice(0, 8);
-  }
-  return encoded;
-};
-
 export const bytesToParams = (input: Uint8Array): Params => {
   const bytes = new Uint8Array(ENCODED_PARAMS_SIZE).fill(0x0);
   if (input.length > ENCODED_PARAMS_SIZE) {
@@ -285,9 +272,6 @@ export const bytesToParams = (input: Uint8Array): Params => {
 };
 
 export const stringToParams = (str: string): Params => {
-  const bytes = Buffer.from(
-    str.replaceAll("_", "/").replaceAll("-", "+"),
-    "base64"
-  );
+  const bytes = Buffer.from(safeToBase64(str), "base64")
   return bytesToParams(bytes);
 };

@@ -3,33 +3,13 @@
 import { useDropzone } from 'react-dropzone'
 import { useCallback, useEffect, useState } from 'react'
 import {
-  isDASHSeed,
-  paramsToString,
-  readParams,
+  readRomAsString,
   vanilla as vanillaData,
 } from "core";
 import styles from './file-drop.module.css'
 import { useRouter } from 'next/navigation'
 import { useVanilla } from '../generate/vanilla'
 import { toast } from 'sonner'
-
-const getParamsFromFile = (bytes: Uint8Array) => {
-  try {
-    const byteParams = readParams(bytes)
-    const seedKey = paramsToString(
-      byteParams.seed,
-      byteParams.settings,
-      byteParams.options
-    )
-    return seedKey
-  } catch (e) {
-    const err = e as Error;
-    console.error(err.message)
-    // TODO: Present a friendly error message to the user instead of an alert.
-    //alert(err.message)
-    return null
-  }
-}
 
 async function getVanilla(value: Uint8Array): Promise<any> {
   const { getSignature, isVerified, isHeadered } = vanillaData
@@ -111,14 +91,11 @@ const FileDrop = (props: React.PropsWithChildren) => {
       // return null
     }
 
-    const isDASH = isDASHSeed(data)
-    if (isDASH) {
-      const seedKey = getParamsFromFile(data)
-      if (seedKey) {
-        toast('Loading DASH seed...')
-        router.push(`/seed/${seedKey}`)
-        return
-      }
+    const encoded = readRomAsString(data);
+    if (encoded.length > 0) {
+      toast('Loading DASH seed...')
+      router.push(`/seed/${encoded}`)
+      return
     }
     
     // Not a vanilla or DASH file

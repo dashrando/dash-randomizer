@@ -1,7 +1,7 @@
 import { generateSeed } from "../data";
 import { getAllPresets, getPreset } from "../lib/presets";
 import { generateSeedPatch } from "../lib/sm-rando";
-import { decodeSeed, encodeSeed, fromSafeString, toSafeString } from "./encoder";
+import { decodeSeedFromString, encodeSeedAsString } from "./encoder";
 import fs from "fs";
 import path from "path";
 import { patchToString } from "../lib/sm-rando.test";
@@ -19,10 +19,10 @@ describe("encoder", () => {
         const seed = i + 1;
         const { settings, options } = p;
         const graph = generateSeed(seed, settings, options);
-        const encoded = encodeSeed({ seed, settings, options }, graph);
-        const decoded = decodeSeed(encoded);
-        const recoded = encodeSeed(decoded.params, decoded.graph);
-        expect(encodings[idx++]).toBe(toSafeString(recoded))
+        const encoded = encodeSeedAsString({ seed, settings, options }, graph);
+        const decoded = decodeSeedFromString(encoded);
+        const recoded = encodeSeedAsString(decoded.params, decoded.graph);
+        expect(encodings[idx++]).toBe(recoded)
 
         const encodePatch = generateSeedPatch(
           seed,
@@ -42,18 +42,4 @@ describe("encoder", () => {
       }
     })
   });
-
-  test("compressed string", () => {
-    const presets = getAllPresets();
-    presets.forEach(p => {
-      const { settings, options } = p;
-      for (let seed = 1; seed < 10; seed++) {
-        const graph = generateSeed(seed, settings, options);
-        const encoded = encodeSeed({ seed, settings, options }, graph);
-        const toString = toSafeString(encoded)
-        const fromString = fromSafeString(toString)
-        expect(toString).toBe(toSafeString(fromString))
-      }
-    })
-  })
 });

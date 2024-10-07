@@ -1,16 +1,16 @@
-import { stringToParams } from "core";
 import Link from 'next/link'
 import styles from './seed.module.css'
 import Seed from './seed'
 import { prefetchSignature } from 'core'
 import Toaster from '../../components/toaster'
+import { hashToParams } from '@/lib/settings'
 
 type SeedParams = {
   seed: string
 }
 
 export async function generateMetadata({ params }: { params : { seed: string }}) {
-  const settings = stringToParams(params.seed)
+  const settings = hashToParams(params.seed)
   const seedNum = settings.seed
   const sig = prefetchSignature(seedNum)
   return {
@@ -33,7 +33,7 @@ export default function SeedPage({ params }: { params: SeedParams }) {
     );
   };
 
-  const settings = stringToParams(params.seed)
+  const settings = hashToParams(params.seed)
   const seedNum = settings.seed
   const sig = prefetchSignature(seedNum)
 
@@ -44,7 +44,6 @@ export default function SeedPage({ params }: { params: SeedParams }) {
         parameters={settings}
         hash={params.seed}
         signature={sig}
-        slug={params.seed}
       />
       <SeedFooter />
       <Toaster />

@@ -1,43 +1,25 @@
-import { kv } from '@vercel/kv'
+import { getRaceSeedData } from '../race'
 import styles from '../../../seed/[seed]/seed.module.css'
-import { prefetchSignature, stringToParams } from 'core'
+import { prefetchSignature } from 'core'
 import { notFound } from 'next/navigation'
 import DownloadButton from './download-button'
 import Link from 'next/link'
+import { hashToParams } from '@/lib/settings'
 
-type RaceSeedData = {
-  hash: string
-  key: string
-  spoiler: Spoiler
-}
-
-type Spoiler = {
-  'Area Transitions': {
-    [transition: string]: string
-  }
-  Bosses: {
-    [location: string]: string
-  }
-  Items: {
-    [area: string]: {
-      [location: string]: string
-    }
-  }
-}
 
 export default async function RaceSeedSpoilerPage({ params }: { params: { key: string } }) {
   const { key } = params
-  const data = await kv.hgetall(`race-${key}`)
+  const data = await getRaceSeedData(key)
   if (!data) {
     return <div>Seed not found</div>
   }
 
-  const { hash, spoiler } = data as RaceSeedData
+  const { hash, spoiler } = data
   if (!spoiler) {
     return notFound()
   }
 
-  const seedParams = stringToParams(hash)
+  const seedParams = hashToParams(hash)
   const seedNum = seedParams.seed
   const sig = prefetchSignature(seedNum)
   const bosses = spoiler['Bosses']

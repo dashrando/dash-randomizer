@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react'
 import useMounted from '@/app/hooks/useMounted'
 import { useVanilla } from '@/app/generate/vanilla'
 import styles from './seed.module.css'
-import { RandomizeRom, ProtectRom, findPreset, Graph, decodeSeed, fromSafeString, toSafeString } from 'core'
+import { RandomizeRom, ProtectRom, findPreset, Graph, Params, decodeSeedFromString } from 'core'
 import { cn } from '@/lib/utils'
 import { downloadFile } from '@/lib/downloads'
-import Button, { ButtonLink } from '@/app/components/button'
+import Button from '@/app/components/button'
 import { useSearchParams } from 'next/navigation'
 import { get as getKey } from 'idb-keyval'
 import { ArrowDown, ExternalLink } from 'react-feather'
@@ -18,6 +18,7 @@ import Link from 'next/link'
 type Seed = {
   data: any
   name: string
+  hash: string
 }
 
 const Parameters = ({ title, items }: { title: string, items: any[] }) => {
@@ -38,17 +39,6 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
   )
 }
 
-const getSeedName = (
-  seed: Seed|null,
-  hash: string,
-  raceKey: string
-) => {
-  if (!seed) {
-    return ''
-  }
-  return seed.name.replace(`_${hash}.`, `_${raceKey}.`)
-};
-
 export default function Seed({
   parameters,
   hash,
@@ -57,16 +47,14 @@ export default function Seed({
   signature,
   slug,
   spoiler = false,
-  permaHash = ""
 }: {
-  parameters: any,
+  parameters: Params,
   mystery?: boolean,
   hash: string,
   race?: boolean,
   signature: string,
-  slug: string,
+  slug?: string,
   spoiler?: boolean,
-  permaHash?: string
 }) {
   const mounted = useMounted()
   const { data: vanilla } = useVanilla()
@@ -80,15 +68,14 @@ export default function Seed({
         const downloadParam = searchParams.get('download')
         const forceExit = downloadParam === 'false'
         const hasDownloaded = await getKey(hash)
-        const name = getSeedName(seed, hash, slug)
         if (forceExit || hasDownloaded) {
           return
         }
-        downloadFile(seed?.data, name, hash)
+        downloadFile(seed.data, seed.name, hash)
       }
       autoDownload()
     }
-  }, [hash, mounted, mystery, searchParams, seed, slug])
+  }, [hash, mounted, mystery, searchParams, seed])
 
   useEffect(() => {
     const initialize = async () => {
@@ -102,13 +89,14 @@ export default function Seed({
           : preset.fileName;
         
         let graph: Graph = []
-        if (permaHash.length > 0) {
-          const decoded = decodeSeed(fromSafeString(permaHash))
+        if (hash.length > 20) {
+          const decoded = decodeSeedFromString(hash)
           graph = decoded.graph
         }
         const seedData = await create(seedNum, settings, options, {
           vanillaBytes: vanilla,
-          presetName: shortName
+          presetName: shortName,
+          seedKey: slug
         }, race, graph)
         if (seedData.data) {
           setSeed(seedData)
@@ -120,7 +108,7 @@ export default function Seed({
 
   const hasVanilla = Boolean(vanilla)
   const parsedParams = parseSettings(parameters)
-  const seedName = getSeedName(seed, hash, slug)
+  const seedName = seed ? seed.name : ''
 
   return (
     <div>
@@ -139,7 +127,10 @@ export default function Seed({
               <>&nbsp;</>
               <span className={styles.mono}>{seedName}</span>
             </Button>
-            {spoiler && (
+            {!race && hash.length < 20 && (
+              <Link href={`/seed/${seed?.hash}`}>Permalink</Link>
+            )}
+            {race && spoiler && (
               <div className={styles.spoiler_link}>
                 <Link href={`/race/${slug}/spoiler`}>
                   View Spoiler Log
@@ -162,7 +153,7 @@ export default function Seed({
             <div className={styles.qr}>
               <button onClick={(evt) => {
                 evt.preventDefault()
-                window.open(`/seed/${slug}/qr-popup`, '_blank', 'width=300,height=340')
+                window.open(`/seed/${hash}/qr-popup`, '_blank', 'width=300,height=340')
               }}>
                 Display QR Code
               </button>

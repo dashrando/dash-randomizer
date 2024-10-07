@@ -3,7 +3,7 @@
 import { Item } from "core/data";
 import { useRef, useState } from "react";
 import styles from "./page.module.css"
-import { ItemLocation, getItemProgression, readGraph, readParams } from "core";
+import { ItemLocation, getItemProgression, readRom } from "core";
 
 export default function ItemViewer() {
    const test = useRef<HTMLInputElement>(null);
@@ -25,8 +25,11 @@ export default function ItemViewer() {
 
    const getProgression = (bytes: Uint8Array) => {
       try {
-         const { settings } = readParams(bytes);
-         return getItemProgression(readGraph(bytes), settings)
+         const { params, graph } = readRom(bytes);
+         if (graph === undefined || graph === undefined) {
+            return undefined
+         }
+         return getItemProgression(graph, params.settings)
       } catch {
          return undefined
       }

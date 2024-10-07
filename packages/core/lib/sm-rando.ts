@@ -1,7 +1,7 @@
 import DotNetRandom from "./dotnet-random";
-import { AreaCounts, Location, getArea, getAreaString, getLocations } from "./locations";
+import { AreaCounts, Location, getArea, getLocations } from "./locations";
 import { Item, ItemType } from "./items";
-import { Edge, Graph, getPreset } from "..";
+import { Edge, Graph, computeCRC32, encodeSeedAsString, getPreset } from "..";
 import { generateSeed } from "../data";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
 import { DASH_CLASSIC_PATCHES, TABLE_FLAGS } from "../data/interface";
@@ -9,9 +9,9 @@ import {
   MajorDistributionMode,
   MapLayout,
   Options,
+  Params,
   Settings,
   paramsToBytes,
-  paramsToString,
 } from "./params";
 
 type Hunk = [ number, number, Uint8Array ];
@@ -279,15 +279,15 @@ export const getBasePatch = (settings: Settings) => {
     : `dash_standard${area}.bps`;
 };
 
-export const getFileName = (
-  rootName: string,
-  seed: number,
-  settings: Settings,
-  options: Options
-) => {
-  const flags = paramsToString(seed, settings, options);
-  return `DASH_${rootName}_${flags}.sfc`;
-};
+export const getFileName = (params: Params, graph: Graph, rootName?: string, seedKey?: string) => {
+  const mode = rootName ? rootName : 'Custom'
+  if (seedKey) {
+    return `DASH_${mode}_${seedKey}.sfc`
+  }
+  const encoded = encodeSeedAsString(params, graph);
+  const key = computeCRC32(encoded).toString(16)
+  return `DASH_${mode}_${key}.sfc`
+}
 
 const getItemNodes = (graph: Graph): ItemNode[] => {
   const nodes: ItemNode[] = [];
@@ -322,7 +322,7 @@ export const generateFromPreset = (name: string, seedNumber: number) => {
   const graph = generateSeed(seed, settings, options);
 
   const seedPatch = generateSeedPatch(seed, settings, graph, options, false);
-  const fileName = getFileName(preset.fileName, seed, settings, options);
+  const fileName = getFileName({ seed, settings, options }, graph, preset.fileName);
   const patch = getBasePatch(settings);
 
   return [`patches/${patch}`, seedPatch, fileName];

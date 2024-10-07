@@ -1,21 +1,38 @@
 import { ImageResponse } from 'next/og'
-import { prefetchSignature, stringToParams } from 'core'
-import { parseSettings } from '@/lib/settings'
-import { kv } from '@vercel/kv'
+import { prefetchSignature } from 'core'
+import { hashToParams, parseSettings } from '@/lib/settings'
+import { getRaceSeedData } from './race'
 
 export const runtime = 'edge'
 
-type RaceSeedData = {
-  hash: string
-  key: string
-  mystery: boolean
-  spoiler: object
+const getErrorImage = (key: string) => {
+  return new ImageResponse(
+    <div
+      style={{
+        display: 'flex',
+        backgroundColor: 'black',
+        color: 'white',
+        fontSize: 40,
+        padding: '32px 64px',
+        width: '100%',
+        height: '100%'
+      }}>
+        Could not find race: {key}
+    </div>,
+    {
+      width: 1200,
+      height: 630,
+    }
+  )
 }
 
 export default async function Image({ params }: { params: { key: string } }) {
-  const data = await kv.hgetall(`race-${params.key}`) as RaceSeedData
-  const seed = data?.hash
-  const seedParams = stringToParams(seed)
+  const data = await getRaceSeedData(params.key)
+  if (!data) {
+    return getErrorImage(params.key)
+  }
+  const seed = data.hash
+  const seedParams = hashToParams(seed)
   const settings = parseSettings(seedParams)
   const signature = prefetchSignature(seedParams.seed)
 

@@ -1,12 +1,12 @@
 import { ImageResponse } from 'next/og'
-import { prefetchSignature, stringToParams } from 'core'
-import { parseSettings } from '@/lib/settings'
+import { prefetchSignature } from 'core'
+import { hashToParams, parseSettings } from '@/lib/settings'
 
 export const runtime = 'edge'
 
 export default async function Image({ params }: { params: { seed: string } }) {
   const { seed } = params
-  const seedParams = stringToParams(seed)
+  const seedParams = hashToParams(seed)
   const settings = parseSettings(seedParams)
   const signature = prefetchSignature(seedParams.seed)
 

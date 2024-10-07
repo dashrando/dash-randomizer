@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
 import Badge from '../components/badge'
 import useMounted from '../hooks/useMounted'
-import { Item, RandomizeRom, paramsToString } from 'core'
+import { Item, RandomizeRom } from 'core'
 import {
   BeamMode,
   BossMode,
@@ -468,9 +468,8 @@ export default function Form() {
       };
 
       const seedNumber = getSeed();
-      const { data: seed, name } = await RandomizeRom(
+      const { data: seed, name, hash } = await RandomizeRom(
         seedNumber, settings, options, config);
-      const hash = paramsToString(seedNumber, settings, options);
       if (seed !== null) {
         downloadFile(seed, name, hash)
       }
