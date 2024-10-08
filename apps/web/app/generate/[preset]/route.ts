@@ -1,9 +1,8 @@
 import { NextRequest } from "next/server"
 import { encodeSeedAsString, getAllPresets, getPreset, getSeedNumber } from "core"
-import { customAlphabet } from 'nanoid'
-import { kv } from '@vercel/kv'
 import { getSpoiler } from "@/lib/spoiler"
 import { generateSeed } from "core/data"
+import { saveSeedData } from "@/lib/seed-data"
 
 export const runtime = "nodejs"
 
@@ -23,15 +22,25 @@ const redirect = (url: URL) => (
 )
 
 export async function GET(req: NextRequest, { params }: { params: GenerateParams} ) {
-   const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 12)
-
    try {
     const seed = getSeedNumber()
     const preset = getPreset(params.preset)
-    const mystery = preset?.tags.includes('mystery')
+    const mystery = preset?.tags.includes('mystery') || false
     const searchParams = req.nextUrl.searchParams
     const spoiler = searchParams.get('spoiler') || 0
-    const race = mystery ? 1 : searchParams.get('race') || 0
+
+    const isRace = () => {
+      if (mystery) {
+        return true
+      }
+      const raceParam = searchParams.get('race')
+      if (raceParam) {
+        return parseInt(raceParam) === 1
+      }
+      return false
+    }
+
+    const race = isRace()
 
     if (preset == undefined) {
       const validPresets = getAllPresets()
@@ -57,19 +66,14 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
     const graph = generateSeed(seed, settings, options);
     const hash = encodeSeedAsString({ seed, settings, options }, graph)
 
-    if (race) {
-      const raceObj = {
-        key: nanoid(),
-        hash,
-        mystery,
-        spoiler: spoiler ? getSpoiler(hash) : null
-      }
-      await kv.hset(`race-${raceObj.key}`, raceObj)
-      const url = new URL(`race/${raceObj.key}`, req.nextUrl.origin)
-      return redirect(url)
-    }
-    
-    const url = new URL(`seed/${hash}`, req.nextUrl.origin)
+    const seedKey = await saveSeedData(
+      hash,
+      mystery,
+      race,
+      spoiler ? getSpoiler(hash) : null
+    )
+
+    const url = new URL(`seed/${seedKey}`, req.nextUrl.origin)
     return redirect(url)
    } catch (err: unknown) {
     console.error(err)

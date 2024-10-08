@@ -5,7 +5,7 @@ import Select from '../components/select'
 import Numeric from '../components/numeric'
 import styles from './page.module.css'
 import { downloadFile } from '@/lib/downloads'
-import { cn, deepEqual  } from '@/lib/utils'
+import { cn, deepEqual } from '@/lib/utils'
 import VanillaButton, { useVanilla } from './vanilla'
 import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
@@ -24,6 +24,7 @@ import {
 import { fetchSignature } from 'core'
 import { useCallback, useEffect, useState } from 'react'
 import Spacer from '../components/spacer'
+import { saveSeedData } from '@/lib/seed-data'
 
 const Sidebar = ({
   name = null,
@@ -316,6 +317,7 @@ type RolledSeed = {
   seed: any
   name: string
   hash: string
+  key: string
 }
 
 export default function Form() {
@@ -468,12 +470,14 @@ export default function Form() {
       };
 
       const seedNumber = getSeed();
-      const { data: seed, name, hash } = await RandomizeRom(
+      const { data: seed, hash } = await RandomizeRom(
         seedNumber, settings, options, config);
+      const key = await saveSeedData(hash, false, false, null)
+      const name = `DASH_${config.presetName}_${key}.sfc`
       if (seed !== null) {
         downloadFile(seed, name, hash)
       }
-      setRolledSeed({ seed, name, hash })
+      setRolledSeed({ seed, name, hash, key })
     } catch (error) {
       console.error('SEED ERROR', error)
     }
@@ -775,7 +779,7 @@ export default function Form() {
         <Sidebar
           name={rolledSeed?.name || null}
           signature={signature}
-          hash={rolledSeed?.hash}
+          hash={rolledSeed?.key}
         />
       </div>
     </form>

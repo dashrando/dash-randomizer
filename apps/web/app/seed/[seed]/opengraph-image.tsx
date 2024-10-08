@@ -1,12 +1,33 @@
 import { ImageResponse } from 'next/og'
 import { prefetchSignature } from 'core'
 import { hashToParams, parseSettings } from '@/lib/settings'
+import { getSeedData, SeedData } from '@/lib/seed-data'
 
 export const runtime = 'edge'
 
-export default async function Image({ params }: { params: { seed: string } }) {
-  const { seed } = params
-  const seedParams = hashToParams(seed)
+export const getErrorImage = (key: string) => {
+  return new ImageResponse(
+    <div
+      style={{
+        display: 'flex',
+        backgroundColor: 'black',
+        color: 'white',
+        fontSize: 40,
+        padding: '32px 64px',
+        width: '100%',
+        height: '100%'
+      }}>
+        Could not find seed: {key}
+    </div>,
+    {
+      width: 1200,
+      height: 630,
+    }
+  )
+}
+
+export const getSeedImage = async (data: SeedData) => {
+  const seedParams = hashToParams(data.hash)
   const settings = parseSettings(seedParams)
   const signature = prefetchSignature(seedParams.seed)
 
@@ -46,46 +67,50 @@ export default async function Image({ params }: { params: { seed: string } }) {
           <div style={{ fontFamily: '"Geist Mono"', fontSize: '36px' }}>{signature}</div>
         </div>
         <div style={{ display: 'flex', height: '48px' }} />
-        <div style={{ display: 'flex' }}>
-          <div style={{ display: 'flex', gap: '72px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {settings.randomizeParams.map((item: any, index: number) => (
-                <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
-                  <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{item.value}</div>
-                </div>
-              ))}
-              {settings.optionsParams.filter(({ label }) => label === 'Logic').map((item: any, index: number) => (
-                <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
-                  <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{String(item.value)}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {firstPart.map((item: any, index: number) => (
-                <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
-                  <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{item.value}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {secondPart.map((item: any, index: number) => (
-                <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
-                  <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{item.value}</div>
-                </div>
-              ))}
-              {settings.optionsParams.filter(({ label }) => label === 'Item Fanfare').map((item: any, index: number) => (
-                <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
-                  <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{String(item.value)}</div>
-                </div>
-              ))}
+        {data.mystery ? (
+          <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a', height: '400px' }}>Mystery Seed</div>
+        ) : (
+          <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', gap: '72px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {settings.randomizeParams.map((item: any, index: number) => (
+                  <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
+                    <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{item.value}</div>
+                  </div>
+                ))}
+                {settings.optionsParams.filter(({ label }) => label === 'Logic').map((item: any, index: number) => (
+                  <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
+                    <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{String(item.value)}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {firstPart.map((item: any, index: number) => (
+                  <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
+                    <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{item.value}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {secondPart.map((item: any, index: number) => (
+                  <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
+                    <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{item.value}</div>
+                  </div>
+                ))}
+                {settings.optionsParams.filter(({ label }) => label === 'Item Fanfare').map((item: any, index: number) => (
+                  <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ fontSize: '28px', textTransform: 'uppercase', color: '#6a6a6a' }}>{item.label}</div>
+                    <div style={{ fontSize: '28px', color: '#ffffff', marginBottom: '32px' }}>{String(item.value)}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     ),
     {
@@ -113,4 +138,12 @@ export default async function Image({ params }: { params: { seed: string } }) {
       ],
     },
   );
+}
+
+export default async function Image({ params }: { params: { seed: string } }) {
+  const data = await getSeedData(params.seed)
+  if (!data) {
+    return getErrorImage(params.seed)
+  }
+  return await getSeedImage(data)
 }
