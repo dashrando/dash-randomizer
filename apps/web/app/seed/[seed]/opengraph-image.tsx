@@ -3,7 +3,7 @@ import { prefetchSignature } from 'core'
 import { hashToParams, parseSettings } from '@/lib/settings'
 import { getSeedData, SeedData } from '@/lib/seed-data'
 
-export const runtime = 'edge'
+export const runtime = 'nodejs'
 
 export const getErrorImage = (key: string) => {
   return new ImageResponse(
