@@ -9,7 +9,7 @@ export * as vanilla from "./lib/vanilla";
 export { patchRom } from "./helpers/patcher";
 export { findPreset, getPreset, getAllPresets } from "./lib/presets";
 export { Item } from "./lib/items";
-export { generateFromPreset, getSeedNumber } from "./lib/sm-rando";
+export { getSeedNumber } from "./lib/sm-rando";
 export { getItemProgression, isGraphValid } from "./lib/graph/solver";
 export { getAreaPortals, getBossPortals, mapPortals } from "./lib/graph/data/portals";
 export {

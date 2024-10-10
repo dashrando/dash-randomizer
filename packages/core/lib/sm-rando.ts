@@ -1,8 +1,7 @@
 import DotNetRandom from "./dotnet-random";
 import { AreaCounts, Location, getArea, getLocations } from "./locations";
 import { Item, ItemType } from "./items";
-import { Edge, Graph, computeCRC32, encodeSeedAsString, getPreset } from "..";
-import { generateSeed } from "../data";
+import { Edge, Graph, computeCRC32, encodeSeedAsString } from "..";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
 import { DASH_CLASSIC_PATCHES, TABLE_FLAGS } from "../data/interface";
 import {
@@ -322,26 +321,6 @@ const getItemNodes = (graph: Graph): ItemNode[] => {
   })
 
   return nodes;
-};
-
-export const generateFromPreset = (name: string, seedNumber: number) => {
-  const seed = getSeedNumber(seedNumber);
-  const preset = getPreset(name);
-
-  if (preset == undefined) {
-    console.log("UNKNOWN PRESET: " + name);
-    return ["", null, ""];
-  }
-
-  // Place the items.
-  const { settings, options } = preset;
-  const graph = generateSeed(seed, settings, options);
-
-  const seedPatch = generateSeedPatch(seed, settings, graph, options, false, '');
-  const fileName = getFileName({ seed, settings, options }, graph, preset.fileName);
-  const patch = getBasePatch(settings);
-
-  return [`patches/${patch}`, seedPatch, fileName];
 };
 
 export const getSeedNumber = (seedNumber?: number) => {
