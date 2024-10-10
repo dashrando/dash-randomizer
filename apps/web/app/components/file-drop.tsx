@@ -101,7 +101,6 @@ const FileDrop = (props: React.PropsWithChildren) => {
 
     // Try to read a seed key from the ROM and load it
     const keyData = readSeedKey(data);
-    console.log(keyData)
     if (keyData.key.length > 0) {
       toast('Loading DASH seed...')
       router.push(`/seed/${keyData.key}`)
