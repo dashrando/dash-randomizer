@@ -3,9 +3,7 @@ import {
   encodeSeed,
   getAllPresets,
   getPreset,
-  readGraph,
-  readParams,
-  toSafeString,
+  readRomAsString,
 } from "core";
 import { checkSeeds } from "./lib/validate";
 import { generateSeed } from "core/data";
@@ -145,7 +143,7 @@ if (args[0] === "verify") {
   } else {
     args.slice(1).forEach((name) => {
       const rom = new Uint8Array(fs.readFileSync(name));
-      console.log(toSafeString(encodeSeed(readParams(rom), readGraph(rom))));
+      console.log(readRomAsString(rom));
     })
   }
 } else {

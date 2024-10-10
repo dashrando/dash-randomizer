@@ -13,7 +13,7 @@ import {
 describe("stringToParams", () => {
   test("Verify", () => {
     expect(stringToParams("")).toStrictEqual({
-      options: { DisableFanfare: true, RelaxedLogic: false },
+      options: { DisableFanfare: true, RelaxedLogic: false, Mystery: false },
       seed: 0,
       settings: {
         beamMode: BeamMode.Vanilla,
@@ -29,7 +29,7 @@ describe("stringToParams", () => {
     });
 
     expect(stringToParams("tV8MSAOg")).toStrictEqual({
-      options: { DisableFanfare: false, RelaxedLogic: false },
+      options: { DisableFanfare: false, RelaxedLogic: false, Mystery: false },
       seed: 810933,
       settings: {
         beamMode: BeamMode.Vanilla,
@@ -45,7 +45,7 @@ describe("stringToParams", () => {
     });
 
     expect(stringToParams("LfsFSBKg")).toStrictEqual({
-      options: { DisableFanfare: false, RelaxedLogic: false },
+      options: { DisableFanfare: false, RelaxedLogic: false, Mystery: false },
       seed: 391981,
       settings: {
         beamMode: BeamMode.Vanilla,
@@ -61,7 +61,7 @@ describe("stringToParams", () => {
     });
 
     expect(stringToParams("28MOXACs")).toStrictEqual({
-      options: { DisableFanfare: false, RelaxedLogic: false },
+      options: { DisableFanfare: false, RelaxedLogic: false, Mystery: false },
       seed: 967643,
       settings: {
         beamMode: BeamMode.StarterPlus,
@@ -77,7 +77,7 @@ describe("stringToParams", () => {
     });
 
     expect(stringToParams("AAAAXACs")).toStrictEqual({
-      options: { DisableFanfare: false, RelaxedLogic: false },
+      options: { DisableFanfare: false, RelaxedLogic: false, Mystery: false },
       seed: 0,
       settings: {
         beamMode: BeamMode.StarterPlus,
@@ -93,7 +93,7 @@ describe("stringToParams", () => {
     });
 
     expect(stringToParams("AQAAXACs")).toStrictEqual({
-      options: { DisableFanfare: false, RelaxedLogic: false },
+      options: { DisableFanfare: false, RelaxedLogic: false, Mystery: false },
       seed: 1,
       settings: {
         beamMode: BeamMode.StarterPlus,

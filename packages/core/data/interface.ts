@@ -129,6 +129,9 @@ export const TABLE_FLAGS = {
   // HUD bits: 0x01 = Charge  0x02 = Item Counts,
   //           0x04 = Area    0x08 = Dash Items
   HUDBitField: 0x2F8005,
+  // Seed key: reserved block for seed key
+  SeedKey: 0x2F8AF0,
+  SeedKeySize: 16,
   // Seed flags: reserved block for seed flags
   SeedFlags: 0x2F8B00,
   SeedFlagsSize: 12,
