@@ -19,6 +19,7 @@ export type Settings = {
 export type Options = {
   DisableFanfare: boolean;
   RelaxedLogic: boolean;
+  Mystery: boolean;
 }
 
 export type Params = {
@@ -212,7 +213,8 @@ export const paramsToBytes = (seed: number, settings: Settings, options: Options
   bytes[5] = map | beam | suit | gravity | fanfare;
 
   const relaxed = (options.RelaxedLogic ? 0x1 : 0x0) << 6;
-  bytes[6] = relaxed;
+  const mystery = (options.Mystery ? 0x1 : 0x0) << 5;
+  bytes[6] = relaxed | mystery;
 
   return bytes;
 };
@@ -236,6 +238,7 @@ export const bytesToParams = (input: Uint8Array): Params => {
   const heatShield = (bytes[4] >> 5) & 0x1;
   const pressureValve = (bytes[4] >> 6) & 0x3;
   const relaxed = (bytes[6] >> 6) & 0x3;
+  const mystery = (bytes[6] >> 5) & 0x1;
 
   const major = bitsToMajorMode((bytes[3] >> 2) & 0x3);
   const minor = bitsToMinorMode((bytes[3] >> 4) & 0x3);
@@ -267,7 +270,11 @@ export const bytesToParams = (input: Uint8Array): Params => {
       gravityHeatReduction:
         gravity == 0x0 ? GravityHeatReduction.Off : GravityHeatReduction.On,
     },
-    options: { DisableFanfare: fanfare == 0, RelaxedLogic: relaxed == 1 },
+    options: {
+      DisableFanfare: fanfare == 0x0,
+      RelaxedLogic: relaxed == 0x1,
+      Mystery: mystery == 0x1
+    },
   };
 };
 

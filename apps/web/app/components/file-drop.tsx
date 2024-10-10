@@ -3,7 +3,9 @@
 import { useDropzone } from 'react-dropzone'
 import { useCallback, useEffect, useState } from 'react'
 import {
+  isDASHSeed,
   readRomAsString,
+  readSeedKey,
   vanilla as vanillaData,
 } from "core";
 import styles from './file-drop.module.css'
@@ -91,6 +93,23 @@ const FileDrop = (props: React.PropsWithChildren) => {
       // return null
     }
 
+    if (!isDASHSeed(data)) {
+      // Not a vanilla or DASH file
+      toast.error(`Not vanilla ROM or DASH seed`)
+      return
+    }
+
+    // Try to read a seed key from the ROM and load it
+    const keyData = readSeedKey(data);
+    console.log(keyData)
+    if (keyData.key.length > 0) {
+      toast('Loading DASH seed...')
+      router.push(`/seed/${keyData.key}`)
+      return
+    }
+
+    // No seed key so try to read the parameters from the 
+    // ROM and regenerate it; does not work for race seeds
     const encoded = readRomAsString(data);
     if (encoded.length > 0) {
       toast('Loading DASH seed...')

@@ -29,14 +29,16 @@ describe("encoder", () => {
           settings,
           graph,
           options,
-          false
+          false,
+          ''
         );
         const recodePatch = generateSeedPatch(
           decoded.params.seed,
           decoded.params.settings,
           decoded.graph,
           decoded.params.options,
-          false
+          false,
+          ''
         );
         expect(patchToString(recodePatch)).toBe(patchToString(encodePatch));
       }

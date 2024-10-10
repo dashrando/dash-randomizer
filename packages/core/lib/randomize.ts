@@ -30,6 +30,7 @@ async function RandomizeRom(
   const defaultOptions: Options = {
     DisableFanfare: false,
     RelaxedLogic: false,
+    Mystery: false
   };
   const options: Options = { ...defaultOptions, ...opts };
 
@@ -43,7 +44,13 @@ async function RandomizeRom(
 
   // Generate the seed specific patch (item placement, etc.)
   const seedPatch = generateSeedPatch(
-    seed, settings, graph, options, race);
+    seed,
+    settings,
+    graph,
+    options,
+    race,
+    config.seedKey ? config.seedKey : ''
+  );
 
   // Create the rom by patching the vanilla rom.
   return {

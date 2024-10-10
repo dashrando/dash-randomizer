@@ -27,7 +27,8 @@ export const generateSeedPatch = (
   settings: Settings,
   graph: Graph,
   options: Options,
-  race: boolean
+  race: boolean,
+  key: string
 ): Patch => {
   //-----------------------------------------------------------------
   // Verify inputs.
@@ -55,10 +56,6 @@ export const generateSeedPatch = (
 
   const U16toBytes = (u16: number) => {
     return new Uint8Array(new Uint16Array([u16]).buffer);
-  };
-
-  const U32toBytes = (u32: number) => {
-    return new Uint8Array(new Uint32Array([u32]).buffer);
   };
 
   //-----------------------------------------------------------------
@@ -269,6 +266,25 @@ export const generateSeedPatch = (
   }
   encodeBytes(seedPatch, TABLE_FLAGS.SeedFlags, seedFlags)
 
+  //-----------------------------------------------------------------
+  // Encode seed key which is used as the URL by the website
+  //-----------------------------------------------------------------
+
+  if (key.length > 0) {
+    // Convert the key to bytes using Base64 encoding
+    const keyBytes = Buffer.from(key, "base64")
+
+    // The first byte written is bit packed to include the
+    // string length and if the key is for a race seed
+    const size = key.length | (race ? 0x80 : 0x00)
+    encodeBytes(seedPatch, TABLE_FLAGS.SeedKey, U8toBytes(size))
+
+    // Write the remaining bytes
+    keyBytes.forEach((p, i) => {
+      encodeBytes(seedPatch, TABLE_FLAGS.SeedKey + i + 1, U8toBytes(p))
+    })
+  }
+
   return seedPatch;
 };
 
@@ -321,7 +337,7 @@ export const generateFromPreset = (name: string, seedNumber: number) => {
   const { settings, options } = preset;
   const graph = generateSeed(seed, settings, options);
 
-  const seedPatch = generateSeedPatch(seed, settings, graph, options, false);
+  const seedPatch = generateSeedPatch(seed, settings, graph, options, false, '');
   const fileName = getFileName({ seed, settings, options }, graph, preset.fileName);
   const patch = getBasePatch(settings);
 

@@ -24,7 +24,7 @@ import {
 import { fetchSignature } from 'core'
 import { useCallback, useEffect, useState } from 'react'
 import Spacer from '../components/spacer'
-import { saveSeedData } from '@/lib/seed-data'
+import { getNewSeedKey, saveSeedData } from '@/lib/seed-data'
 
 const Sidebar = ({
   name = null,
@@ -357,7 +357,7 @@ export default function Form() {
 
   const onSubmit = async (data: GenerateFormParams) => {
     try {
-      const config = { vanillaBytes: vanilla, presetName: "Custom" };
+      const config = { vanillaBytes: vanilla, presetName: "Custom", seedKey: "" };
 
       const getSeed = () => {
         if (data['seed-mode'] === 'fixed') {
@@ -461,6 +461,7 @@ export default function Form() {
       const options = {
         DisableFanfare: false,
         RelaxedLogic: false,
+        Mystery: false
       };
       if (data.fanfare == 'off') {
         options.DisableFanfare = true;
@@ -470,14 +471,19 @@ export default function Form() {
       };
 
       const seedNumber = getSeed();
+      config.seedKey = await getNewSeedKey()
       const { data: seed, hash } = await RandomizeRom(
-        seedNumber, settings, options, config);
-      const key = await saveSeedData(hash, false, false, null)
-      const name = `DASH_${config.presetName}_${key}.sfc`
+        seedNumber,
+        settings,
+        options,
+        config
+      );
+      await saveSeedData(config.seedKey, hash, false, false, null);
+      const name = `DASH_${config.presetName}_${config.seedKey}.sfc`
       if (seed !== null) {
         downloadFile(seed, name, hash)
       }
-      setRolledSeed({ seed, name, hash, key })
+      setRolledSeed({ seed, name, hash, key: config.seedKey })
     } catch (error) {
       console.error('SEED ERROR', error)
     }

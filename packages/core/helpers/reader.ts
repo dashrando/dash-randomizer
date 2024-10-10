@@ -77,3 +77,25 @@ export const readRomAsString = (rom: Uint8Array) => {
   }
   return encodeSeedAsString(params, graph);
 }
+
+export const readSeedKey = (rom: Uint8Array) => {
+  const offset = TABLE_FLAGS.SeedKey;
+  const keyBytes = rom.subarray(offset, offset + TABLE_FLAGS.SeedKeySize);
+  const size = keyBytes[0] as number;
+
+  // No data in first byte? No seed key
+  if (size === 0) {
+    return {
+      race: false,
+      key: ''
+    }
+  }
+
+  // Left-most bit is set if the key is for a race seed
+  const race = size & 0x80 ? true : false
+  const encoded = keyBytes.slice(1);
+  return {
+    race,
+    key: Buffer.from(encoded).toString("base64").slice(0, size & 0x7f)
+  }
+}

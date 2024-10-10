@@ -27,7 +27,8 @@ export {
   readParams,
   readPortals,
   readRom,
-  readRomAsString
+  readRomAsString,
+  readSeedKey
 } from "./helpers/reader"
 export {
   decodeSeed,
