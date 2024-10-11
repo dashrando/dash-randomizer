@@ -20,6 +20,7 @@ export type Options = {
   DisableFanfare: boolean;
   RelaxedLogic: boolean;
   Mystery: boolean;
+  Spoiler: boolean;
 }
 
 export type Params = {
@@ -214,7 +215,8 @@ export const paramsToBytes = (seed: number, settings: Settings, options: Options
 
   const relaxed = (options.RelaxedLogic ? 0x1 : 0x0) << 6;
   const mystery = (options.Mystery ? 0x1 : 0x0) << 5;
-  bytes[6] = relaxed | mystery;
+  const spoiler = (options.Spoiler ? 0x1 : 0x0) << 4;
+  bytes[6] = relaxed | mystery | spoiler;
 
   return bytes;
 };
@@ -239,6 +241,7 @@ export const bytesToParams = (input: Uint8Array): Params => {
   const pressureValve = (bytes[4] >> 6) & 0x3;
   const relaxed = (bytes[6] >> 6) & 0x3;
   const mystery = (bytes[6] >> 5) & 0x1;
+  const spoiler = (bytes[6] >> 4) & 0x1;
 
   const major = bitsToMajorMode((bytes[3] >> 2) & 0x3);
   const minor = bitsToMinorMode((bytes[3] >> 4) & 0x3);
@@ -273,7 +276,8 @@ export const bytesToParams = (input: Uint8Array): Params => {
     options: {
       DisableFanfare: fanfare == 0x0,
       RelaxedLogic: relaxed == 0x1,
-      Mystery: mystery == 0x1
+      Mystery: mystery == 0x1,
+      Spoiler: spoiler == 0x1
     },
   };
 };

@@ -3,8 +3,9 @@
 import { useDropzone } from 'react-dropzone'
 import { useCallback, useEffect, useState } from 'react'
 import {
+  encodeSeedAsString,
   isDASHSeed,
-  readRomAsString,
+  readRom,
   readSeedKey,
   vanilla as vanillaData,
 } from "core";
@@ -12,6 +13,8 @@ import styles from './file-drop.module.css'
 import { useRouter } from 'next/navigation'
 import { useVanilla } from '../generate/vanilla'
 import { toast } from 'sonner'
+import { getNewSeedKey, saveSeedData } from '@/lib/seed-data';
+import { getSpoiler } from '@/lib/spoiler';
 
 async function getVanilla(value: Uint8Array): Promise<any> {
   const { getSignature, isVerified, isHeadered } = vanillaData
@@ -109,10 +112,19 @@ const FileDrop = (props: React.PropsWithChildren) => {
 
     // No seed key so try to read the parameters from the 
     // ROM and regenerate it; does not work for race seeds
-    const encoded = readRomAsString(data);
-    if (encoded.length > 0) {
+    const { params, graph } = readRom(data);
+    if (params !== undefined && graph !== undefined) {
+      const hash = encodeSeedAsString(params, graph)
+      const seedKey = await getNewSeedKey()
+      await saveSeedData(
+        seedKey,
+        hash,
+        params.options.Mystery,
+        false,
+        params.options.Spoiler ? getSpoiler(hash) : null
+      );
       toast('Loading DASH seed...')
-      router.push(`/seed/${encoded}`)
+      router.push(`/seed/${seedKey}`)
       return
     }
     

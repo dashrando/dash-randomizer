@@ -116,7 +116,8 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
       options: {
         RelaxedLogic: false,
         DisableFanfare: false,
-        Mystery: false
+        Mystery: false,
+        Spoiler: false
       },
       portals,
       itemLocations,

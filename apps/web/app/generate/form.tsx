@@ -25,6 +25,7 @@ import { fetchSignature } from 'core'
 import { useCallback, useEffect, useState } from 'react'
 import Spacer from '../components/spacer'
 import { getNewSeedKey, saveSeedData } from '@/lib/seed-data'
+import { getSpoiler } from '@/lib/spoiler'
 
 const Sidebar = ({
   name = null,
@@ -461,7 +462,8 @@ export default function Form() {
       const options = {
         DisableFanfare: false,
         RelaxedLogic: false,
-        Mystery: false
+        Mystery: false,
+        Spoiler: false
       };
       if (data.fanfare == 'off') {
         options.DisableFanfare = true;
@@ -478,7 +480,13 @@ export default function Form() {
         options,
         config
       );
-      await saveSeedData(config.seedKey, hash, false, false, null);
+      await saveSeedData(
+        config.seedKey,
+        hash,
+        options.Mystery,
+        false,
+        options.Spoiler ? getSpoiler(hash) : null
+      );
       const name = `DASH_${config.presetName}_${config.seedKey}.sfc`
       if (seed !== null) {
         downloadFile(seed, name, hash)

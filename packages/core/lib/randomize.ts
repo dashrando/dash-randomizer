@@ -30,7 +30,8 @@ async function RandomizeRom(
   const defaultOptions: Options = {
     DisableFanfare: false,
     RelaxedLogic: false,
-    Mystery: false
+    Mystery: false,
+    Spoiler: false
   };
   const options: Options = { ...defaultOptions, ...opts };
 

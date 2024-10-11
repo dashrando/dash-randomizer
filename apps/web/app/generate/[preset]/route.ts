@@ -63,6 +63,8 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
     }
 
     const { settings, options } = preset;
+    options.Spoiler = spoiler ? true : false;
+    
     const graph = generateSeed(seed, settings, options);
     const hash = encodeSeedAsString({ seed, settings, options }, graph)
 
