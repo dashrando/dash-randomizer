@@ -1,7 +1,7 @@
 import DotNetRandom from "./dotnet-random";
 import { AreaCounts, Location, getArea, getLocations } from "./locations";
 import { Item, ItemType } from "./items";
-import { Edge, Graph, computeCRC32, encodeSeedAsString } from "..";
+import { Edge, Graph, computeCRC32, encodeSeed } from "..";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
 import { DASH_CLASSIC_PATCHES, TABLE_FLAGS } from "../data/interface";
 import {
@@ -299,7 +299,7 @@ export const getFileName = (params: Params, graph: Graph, rootName?: string, see
   if (seedKey) {
     return `DASH_${mode}_${seedKey}.sfc`
   }
-  const encoded = encodeSeedAsString(params, graph);
+  const encoded = encodeSeed(params, graph);
   const key = computeCRC32(encoded).toString(16)
   return `DASH_${mode}_${key}.sfc`
 }

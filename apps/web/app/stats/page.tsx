@@ -5,7 +5,7 @@ import { generateSeed } from "core/data";
 import { useState } from "react";
 import {
   computeCRC32,
-  encodeSeedAsString,
+  encodeSeed,
   getPreset,
   ItemLocation
 } from "core";
@@ -151,7 +151,7 @@ export default function StatsPage() {
     const encoded: string[] = [];
     for (let i = startSeed; i <= endSeed; i++) {
       const graph = generateSeed(i, settings, options);
-      encoded.push(encodeSeedAsString({ seed: i, settings, options }, graph));
+      encoded.push(encodeSeed({ seed: i, settings, options }, graph));
     }
 
     updateResults(encoded);

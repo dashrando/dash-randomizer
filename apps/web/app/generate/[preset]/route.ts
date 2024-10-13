@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server"
-import { encodeSeedAsString, getAllPresets, getPreset, getSeedNumber } from "core"
+import { encodeSeed, getAllPresets, getPreset, getSeedNumber } from "core"
 import { generateSeed } from "core/data"
 import { getNewSeedKey, saveSeedData } from "@/lib/seed-data"
 
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
     options.Spoiler = spoiler ? true : false;
     
     const graph = generateSeed(seed, settings, options);
-    const hash = encodeSeedAsString({ seed, settings, options }, graph)
+    const hash = encodeSeed({ seed, settings, options }, graph)
 
     const seedKey = await getNewSeedKey()
     await saveSeedData(

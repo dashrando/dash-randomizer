@@ -135,67 +135,6 @@ export const decodeItemLocations = (bytes: Uint8Array) => {
   });
 };
 
-//-----------------------------------------------------------------
-// Encodes all seed data into a byte array which can be used
-// to reconstruct an exact copy of the seed
-//-----------------------------------------------------------------
-
-export const encodeSeed = (params: Params, graph: Graph) => {
-  const bytes = new Uint8Array(ENCODED_SEED_SIZE);
-  bytes[0] = SEED_ENCODING_VERSION;
-
-  const encodedParams = paramsToBytes(
-    params.seed,
-    params.settings,
-    params.options
-  );
-  bytes.set(encodedParams, 1);
-
-  let pos = encodedParams.length + 1;
-  const areaPortals = getAreaPortals();
-
-  const portals = getAreaTransitions(graph);
-  areaPortals.forEach((p) => {
-    const mapping = portals.find(
-      ([m, _]) => m.name === p.name && m.area === p.area
-    );
-    if (mapping === undefined) {
-      throw new Error(`encodeSeed: Failed to find portal ${p.name}`)
-    }
-    bytes[pos++] = areaPortals.findIndex(
-      (n) => n.name === mapping[1].name && n.area === mapping[1].area
-    );
-  });
-
-  const bosses = getBossTransitions(graph);
-  BOSS_AREAS.forEach((a, i) => {
-    const boss = bosses.find(([_, p]) => p.area === a);
-    if (boss === undefined) {
-      throw new Error(`encodeSeed: Failed to find boss in ${a}`)
-    }
-    const from_area = i;
-    const to_area = BOSS_AREAS.findIndex((q) => q === boss[0].area);
-    const boss_idx = BOSS_NAMES.findIndex((q) => boss[0].name.endsWith(q));
-    //TODO: Do we actually need to encode the "from" area? Maybe not
-    bytes[pos++] = (from_area << 6) | (to_area << 2) | boss_idx;
-  });
-
-  const itemTypes = Object.values(Item);
-  const itemLocations = getItemLocations(graph, true);
-
-  itemLocations.forEach((p) => {
-    if (p.item === null) {
-      bytes[pos++] = 0;
-      return;
-    }
-    const item = p.item as ItemType;
-    const itemIndex = itemTypes.findIndex((q) => q === item.type) + 1;
-    bytes[pos++] = (p.item.isMajor ? 0x80 : 0x00) | itemIndex;
-  });
-
-  return bytes;
-};
-
 const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
 const toChar = (val: number) => {
@@ -337,7 +276,12 @@ export const decodeSeedFromString = (input: string) => {
   }
 }
 
-export const encodeSeedAsString = (params: Params, graph: Graph) => {
+//-----------------------------------------------------------------
+// Encodes all seed data into string which can be used to
+// reconstruct an exact copy of the seed
+//-----------------------------------------------------------------
+
+export const encodeSeed = (params: Params, graph: Graph) => {
   let encoded = toChar(SEED_ENCODING_VERSION)
 
   const bytes = new Uint8Array(ENCODED_PARAMS_SIZE + 2)

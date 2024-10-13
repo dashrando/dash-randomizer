@@ -4,7 +4,7 @@ import { generateSeed } from "./graph/fill";
 import { patchRom } from "../helpers/patcher";
 import { Options, Settings } from "./params";
 import { Graph } from "./graph/init";
-import { encodeSeedAsString, } from "../helpers/encoder";
+import { encodeSeed } from "../helpers/encoder";
 
 export type Config = {
   onUpdate?: any
@@ -58,7 +58,7 @@ async function RandomizeRom(
     data: patchRom(config.vanillaBytes, basePatch, seedPatch),
     name: getFileName({ seed, settings, options }, graph,
       config.presetName, config.seedKey),
-    hash: encodeSeedAsString({ seed, settings, options }, graph)
+    hash: encodeSeed({ seed, settings, options }, graph)
   };
 }
 

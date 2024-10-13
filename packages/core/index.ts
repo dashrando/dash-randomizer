@@ -37,7 +37,6 @@ export {
   decodeBossPortals,
   decodeItemLocations,
   encodeSeed,
-  encodeSeedAsString,
 } from "./helpers/encoder"
 export {
   base64ToSafe,

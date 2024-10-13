@@ -14,7 +14,7 @@ import { MajorDistributionMode, Options, Params, Settings } from "../params";
 import { Item, ItemNames, ItemType, majorItem, minorItem } from "../items";
 import { getAreaString, getLocations } from "../locations";
 import { SeasonEdgeUpdates } from "./data/season/edges";
-import { decodeSeed, encodeSeedAsString } from "../../helpers/encoder";
+import { decodeSeed, encodeSeed } from "../../helpers/encoder";
 
 type SeedData = {
   params: Params;
@@ -230,7 +230,7 @@ const checkSeeds = (dirPath: string, areValid: boolean) => {
         const { params, graph } = readRom(rom);
         fs.writeFileSync(
           full.replace(".sfc", ".enc"),
-          encodeSeedAsString(params, graph)
+          encodeSeed(params, graph)
         );
         checkGraph(e, graph, params.settings);
       } else if (full.endsWith(".json")) {
@@ -243,7 +243,7 @@ const checkSeeds = (dirPath: string, areValid: boolean) => {
         checkGraph(e, decoded.graph, decoded.params.settings);
         fs.writeFileSync(
           full.replace(".bin", ".enc"),
-          encodeSeedAsString(decoded.params, decoded.graph)
+          encodeSeed(decoded.params, decoded.graph)
         );
       }
     } else if (stats.isDirectory()) {
@@ -262,7 +262,7 @@ describe("solver", () => {
         const { settings, options } = p;
         const g = generateSeed(i + 1, settings, options);
         const r = { seed: i + 1, settings, options };
-        encodings.push(encodeSeedAsString(r, g));
+        encodings.push(encodeSeed(r, g));
       }
     });
 

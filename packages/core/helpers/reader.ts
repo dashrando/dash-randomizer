@@ -6,7 +6,7 @@ import { bytesToParams } from "../lib/params";
 import { majorItem, minorItem } from "../lib/items";
 import { getArea } from "../lib/locations";
 import { TABLE_FLAGS } from "../data/interface";
-import { encodeSeedAsString } from "./encoder";
+import { encodeSeed } from "./encoder";
 
 export const isDASHSeed = (rom: Uint8Array): boolean => {
   const gameHeader = rom.subarray(0x007fc0, 0x007fc0 + 21);
@@ -75,7 +75,7 @@ export const readRomAsString = (rom: Uint8Array) => {
   if (params === undefined || graph === undefined) {
     return '';
   }
-  return encodeSeedAsString(params, graph);
+  return encodeSeed(params, graph);
 }
 
 export const readSeedKey = (rom: Uint8Array) => {

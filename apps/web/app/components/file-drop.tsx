@@ -3,7 +3,7 @@
 import { useDropzone } from 'react-dropzone'
 import { useCallback, useEffect, useState } from 'react'
 import {
-  encodeSeedAsString,
+  encodeSeed,
   isDASHSeed,
   readRom,
   readSeedKey,
@@ -117,7 +117,7 @@ const FileDrop = (props: React.PropsWithChildren) => {
     if (!race) {
       const { params, graph } = readRom(data);
       if (params !== undefined && graph !== undefined) {
-        const hash = encodeSeedAsString(params, graph)
+        const hash = encodeSeed(params, graph)
         const seedKey = key.length > 0 ? key : await getNewSeedKey()
         await saveSeedData(
           seedKey,

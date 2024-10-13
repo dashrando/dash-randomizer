@@ -1,7 +1,7 @@
 import { generateSeed } from "../data";
-import { getAllPresets, getPreset } from "../lib/presets";
+import { getAllPresets } from "../lib/presets";
 import { generateSeedPatch } from "../lib/sm-rando";
-import { decodeSeedFromString, encodeSeedAsString } from "./encoder";
+import { decodeSeedFromString, encodeSeed } from "./encoder";
 import fs from "fs";
 import path from "path";
 import { patchToString } from "../lib/sm-rando.test";
@@ -19,9 +19,9 @@ describe("encoder", () => {
         const seed = i + 1;
         const { settings, options } = p;
         const graph = generateSeed(seed, settings, options);
-        const encoded = encodeSeedAsString({ seed, settings, options }, graph);
+        const encoded = encodeSeed({ seed, settings, options }, graph);
         const decoded = decodeSeedFromString(encoded);
-        const recoded = encodeSeedAsString(decoded.params, decoded.graph);
+        const recoded = encodeSeed(decoded.params, decoded.graph);
         expect(encodings[idx++]).toBe(recoded)
 
         const encodePatch = generateSeedPatch(
