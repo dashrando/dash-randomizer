@@ -2,7 +2,7 @@
 
 import styles from "./majors.module.css";
 import { getAreaString, getLocations, Item, ItemNames } from "core/data";
-import { decodeItemLocations } from "core";
+import { decodeSeedFromString, getItemLocations } from "core";
 
 type ColumnData = {
   name: string;
@@ -51,7 +51,7 @@ const allColumns: ColumnData[] = [
 export default function MajorItemTable({
   encodedSeeds,
 }: {
-  encodedSeeds: Uint8Array[];
+  encodedSeeds: string[];
 }) {
   const ALL_ITEMS = Object.values(Item)
     .filter((i) => i > 0xc000)
@@ -74,7 +74,8 @@ export default function MajorItemTable({
   });
 
   encodedSeeds.forEach((s) => {
-    decodeItemLocations(s).forEach((v, i) => {
+    const { graph } = decodeSeedFromString(s)
+    getItemLocations(graph, true).forEach((v, i) => {
       if (v.item === null) {
         return;
       }

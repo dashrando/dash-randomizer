@@ -5,7 +5,7 @@ import { generateSeed } from "core/data";
 import { useState } from "react";
 import {
   computeCRC32,
-  encodeSeed,
+  encodeSeedAsString,
   getPreset,
   ItemLocation
 } from "core";
@@ -23,10 +23,10 @@ export type Params = {
   numSeeds: number;
 };
 
-function getHash(encodedSeeds: Uint8Array[]) {
-  const buffers = encodedSeeds.map(arr => Buffer.from(arr));
-  const combinedBuffer = Buffer.concat(buffers);
-  return computeCRC32(combinedBuffer).toString(16).toUpperCase();
+function getHash(encodedSeeds: string[]) {
+  const combined = encodedSeeds.join('');
+  const bytes = Buffer.from(combined, 'base64')
+  return computeCRC32(bytes).toString(16).toUpperCase();
 }
 
 const Parameters = ({ value, update }: { value: Params; update: any }) => {
@@ -127,7 +127,7 @@ export default function StatsPage() {
     numSeeds: 100,
   });
   const [panel, setPanel] = useState("majors");
-  const [encodedSeeds, setEncodedSeeds] = useState<Uint8Array[]>([]);
+  const [encodedSeeds, setEncodedSeeds] = useState<string[]>([]);
   const [generateTimes, setGenerateTimes] = useState({
     start: 0,
     end: 0
@@ -148,10 +148,10 @@ export default function StatsPage() {
     const { settings, options } = preset;
     options.RelaxedLogic = logic == "relaxed";
 
-    const encoded: Uint8Array[] = [];
+    const encoded: string[] = [];
     for (let i = startSeed; i <= endSeed; i++) {
       const graph = generateSeed(i, settings, options);
-      encoded.push(encodeSeed({ seed: i, settings, options }, graph));
+      encoded.push(encodeSeedAsString({ seed: i, settings, options }, graph));
     }
 
     updateResults(encoded);
@@ -162,7 +162,7 @@ export default function StatsPage() {
     setGenerateTimes({ start: 0, end: 0 });
   };
 
-  const updateResults = (encoded: Uint8Array[]) => {
+  const updateResults = (encoded: string[]) => {
     setEncodedSeeds(encoded);
     setGenerateTimes((current) => {
       return {
