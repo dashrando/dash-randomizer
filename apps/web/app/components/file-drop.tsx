@@ -13,7 +13,7 @@ import styles from './file-drop.module.css'
 import { useRouter } from 'next/navigation'
 import { useVanilla } from '../generate/vanilla'
 import { toast } from 'sonner'
-import { getNewSeedKey, saveSeedData } from '@/lib/seed-data';
+import { getNewSeedKey, getSeedData, saveSeedData } from '@/lib/seed-data';
 import { getSpoiler } from '@/lib/spoiler';
 
 async function getVanilla(value: Uint8Array): Promise<any> {
@@ -103,29 +103,34 @@ const FileDrop = (props: React.PropsWithChildren) => {
     }
 
     // Try to read a seed key from the ROM and load it
-    const keyData = readSeedKey(data);
-    if (keyData.key.length > 0) {
-      toast('Loading DASH seed...')
-      router.push(`/seed/${keyData.key}`)
-      return
+    const { key, race } = readSeedKey(data);
+    if (key.length > 0) {
+      const data = await getSeedData(key)
+      if (data != null) {
+        toast('Loading DASH seed...')
+        router.push(`/seed/${key}`)
+        return
+      }
     }
 
     // No seed key so try to read the parameters from the 
     // ROM and regenerate it; does not work for race seeds
-    const { params, graph } = readRom(data);
-    if (params !== undefined && graph !== undefined) {
-      const hash = encodeSeedAsString(params, graph)
-      const seedKey = await getNewSeedKey()
-      await saveSeedData(
-        seedKey,
-        hash,
-        params.options.Mystery,
-        false,
-        params.options.Spoiler ? getSpoiler(hash) : null
-      );
-      toast('Loading DASH seed...')
-      router.push(`/seed/${seedKey}`)
-      return
+    if (!race) {
+      const { params, graph } = readRom(data);
+      if (params !== undefined && graph !== undefined) {
+        const hash = encodeSeedAsString(params, graph)
+        const seedKey = key.length > 0 ? key : await getNewSeedKey()
+        await saveSeedData(
+          seedKey,
+          hash,
+          params.options.Mystery,
+          false,
+          params.options.Spoiler ? getSpoiler(hash) : null
+        );
+        toast('Loading DASH seed...')
+        router.push(`/seed/${seedKey}`)
+        return
+      }
     }
     
     // Not a vanilla or DASH file
