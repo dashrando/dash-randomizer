@@ -1,5 +1,7 @@
-import { getAreaPortals, getBossPortals } from "core";
+import { decodeSeedFromString, getAreaPortals, getBossPortals, Portal, PortalMapping } from "core";
 import styles from "./areas.module.css";
+import { AreaSummary } from "./areas-summary";
+import { isAreaEdge } from "core/data";
 
 export type Transition = {
   from: string;
@@ -11,101 +13,6 @@ type TransitionRow = {
   to: string;
   count: number;
 };
-
-const getNumLoops = (areas: Transition[]) => {
-  const zones: [string, string[]][] = [
-    ["Crateria", []],
-    ["GreenBrinstar", []],
-    ["RedBrinstar", []],
-    ["UpperNorfair", []],
-    ["LowerNorfair", []],
-    ["WreckedShip", []],
-    ["WestMaridia", []],
-    ["EastMaridia", []],
-    ["KraidsLair", []],
-    ["CrocomiresLair", []],
-    ["Tourian", []],
-  ]
-    
-  getAreaPortals().forEach(p => {
-    for (let j = 0; j < zones.length; j++) {
-      if (zones[j][0] == p.area) {
-        zones[j][1].push(p.name)
-      }
-    }
-  })
-
-  let numLoops = 0;
-  zones.forEach(z => {
-    for (let i = 0; i < z[1].length - 1; i++) {
-      areas.forEach(t => {
-        if (t.from != z[1][i]) {
-          return;
-        }
-        for (let j = i + 1; j < z[1].length; j++) {
-          if (t.to == z[1][j]) {
-            numLoops += 1;
-          }
-        }
-      });
-    }
-  })
-  return numLoops;
-}
-
-const getNumSeeds_DuoToDead = (areas: Transition[],num: number) => {
-  const duos = getAreaPortals()
-    .filter(
-      (p) =>
-        p.area == "LowerNorfair" ||
-        p.area == "EastMaridia" ||
-        p.area == "WreckedShip"
-    )
-    .map((p) => p.name);
-  const deads = getAreaPortals()
-    .filter(
-      (p) =>
-        p.area == "KraidsLair" ||
-        p.area == "CrocomiresLair" ||
-        p.area == "Tourian"
-    )
-    .map((p) => p.name);
-
-  let seeds = Array(areas.length).fill(0);
-  areas.forEach((t,i) => {
-    if (duos.includes(t.from)) {
-      if (deads.includes(t.to)) {
-        seeds[Math.floor(i / 32)] += 1;
-      }
-    } else if (duos.includes(t.to)) {
-      if (deads.includes(t.from)) {
-        seeds[Math.floor(i / 32)] += 1;
-      }
-    }
-  })
-
-  return seeds.reduce((partial, x) => partial + (x/2 == num ? 1 : 0), 0);
-}
-
-const getNumVanilla = (areas: Transition[]) => {
-  const vanilla: any[][] = []
-  getAreaPortals().forEach((v, i, arr) => {
-    if (i % 2 == 1) {
-      vanilla.push([arr[i-1].name, v.name])
-    }
-  })
-  let count = 0;
-  vanilla.forEach((p) => {
-    areas.forEach((t,i) => {
-      if (t.from == p[0] && t.to == p[1]) {
-        count += 1;
-      } else if (t.to == p[0] && t.from == p[1]) {
-        count += 1;
-      }
-    });
-  });
-  return count / 2;
-}
 
 function TransitionTable({
   transitions,
@@ -192,7 +99,7 @@ function TransitionTable({
                     `${def_style} ${styles.area_cell}`}
                   title={`${r} to ${c.from.substring(5)}`}>
                 {`${
-                  total == 0 ? "" : (c.count / total * 100).toFixed(1) + "%"
+                  total == 0 || c.count == 0 ? "" : (c.count / total * 100).toFixed(1) + "%"
                   /*+ "  " + c.count + "   " + total*/
                 }`}</td>
               ))}
@@ -223,14 +130,27 @@ function generateCombinations(
 }
 
 export default function AreaDoorTable({
-  bosses,
-  areas,
-  seeds
+  encodedSeeds,
 }: {
-  bosses: Transition[];
-  areas: Transition[];
-  seeds: number;
+  encodedSeeds: string[];
 }) {
+  const areaMappings: PortalMapping[][] = []
+  const combinedAreaTransitions: Transition[] = []
+  encodedSeeds.forEach(p => {
+    const { graph } = decodeSeedFromString(p)
+    const areas = graph.filter(q => isAreaEdge(q)).map<[Portal, Portal]>(q => [q.from, q.to])
+    areas.forEach(p => combinedAreaTransitions.push({ from: p[0].name, to: p[1].name }))
+    for (let i = 0; i < 16; i++) {
+      const cur = areas[i]
+      const idx = areas.findLastIndex(p => p[0].name == cur[1].name && p[1].name == cur[0].name)
+      areas.splice(idx, 1)
+    }
+    areaMappings.push(areas)
+  })
+
+  const areaDoors = getAreaPortals().map(p => p.name)
+
+  /*const bosses = []
   const bossColumns = [
     "Exit_Kraid_KraidsLair",
     "Exit_Phantoon_KraidsLair",
@@ -270,7 +190,6 @@ export default function AreaDoorTable({
   const bossRows = getBossPortals()
     .filter((p) => p.name.startsWith("Door_"))
     .map((p) => p.name);
-  const areaDoors = getAreaPortals().map(p => p.name)
 
   const stringCombos: string[] = []
   generateCombinations('KPDR', 4, '', stringCombos)
@@ -302,11 +221,12 @@ export default function AreaDoorTable({
 
   const toPercent = (count: number) => {
     return (count * 100 / seeds).toFixed(2) + '%'
-  }
+  }*/
 
   return (
     <div>
-      <h3>Bosses</h3>
+      <AreaSummary mappings={areaMappings} />
+      {/*<h3>Bosses</h3>
       <p className={styles.boss_summary}>
         {bossCombos
           .sort((a, b) => b.count - a.count)
@@ -350,28 +270,9 @@ export default function AreaDoorTable({
         rowHeaders={bossRows}
         columnLabels={bossColumnLabels}
         condense={false}
-      />
-      <h3>Areas</h3>
-      <p>
-        <span>Total Transitions: {areas.length}</span>
-        <span style={{ paddingLeft: "20px" }}>
-          Intra-Area Count: {getNumLoops(areas)}
-        </span>
-        <span style={{ paddingLeft: "20px" }}>
-          Vanilla Count: {getNumVanilla(areas)}
-        </span>
-        <span style={{ paddingLeft: "20px" }}>
-          1 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas, 1)}
-        </span>
-        <span style={{ paddingLeft: "20px" }}>
-          2 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas, 2)}
-        </span>
-        <span style={{ paddingLeft: "20px" }}>
-          3 Duo-to-Dead Seeds: {getNumSeeds_DuoToDead(areas, 3)}
-        </span>
-      </p>
+      />*/}
       <TransitionTable
-        transitions={areas}
+        transitions={combinedAreaTransitions}
         columnHeaders={areaDoors}
         rowHeaders={areaDoors}
         columnLabels={undefined}

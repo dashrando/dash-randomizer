@@ -121,7 +121,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
 
 export default function StatsPage() {
   const [params, setParams] = useState({
-    gameMode: "chozo_surprise",
+    gameMode: "spring24",
     logic: "standard",
     startSeed: 1,
     numSeeds: 100,
@@ -228,13 +228,9 @@ export default function StatsPage() {
         {panel == "majors" && (
           <MajorItemTable encodedSeeds={encodedSeeds} />
         )}
-        {/*panel == "areas" && (
-          <AreaDoorTable
-            areas={status.areas}
-            bosses={status.bosses}
-            seeds={status.progression.length}
-          />
-        )*/}
+        {panel == "areas" && (
+          <AreaDoorTable encodedSeeds={encodedSeeds} />
+        )}
         {/*panel == "progression" && (
           <ProgressionStats itemProgression={status.progression} />
         )*/}

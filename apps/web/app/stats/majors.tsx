@@ -11,14 +11,19 @@ type ColumnData = {
   isDashItem: boolean;
 };
 
-const col = (name: string, type: number, isMajor = true, isDashItem = false) => {
+const col = (
+  name: string,
+  type: number,
+  isMajor = true,
+  isDashItem = false
+) => {
   return {
     name,
     type,
     isMajor,
-    isDashItem
-  }
-}
+    isDashItem,
+  };
+};
 
 const allColumns: ColumnData[] = [
   col("Heat Shield", Item.HeatShield, true, true),
@@ -58,9 +63,9 @@ export default function MajorItemTable({
     .map((i) => {
       return {
         type: i as number,
-        name: ItemNames.get(i) as string
-      }
-    })
+        name: ItemNames.get(i) as string,
+      };
+    });
   const locations = getLocations().sort((a, b) => a.address - b.address);
 
   const itemCounts = locations.map((l) => {
@@ -69,12 +74,12 @@ export default function MajorItemTable({
       area: l.area,
       item: new Map(ALL_ITEMS.map((i) => [i.type, 0])),
       hasMajors: false,
-      hasItems: false
+      hasItems: false,
     };
   });
 
   encodedSeeds.forEach((s) => {
-    const { graph } = decodeSeedFromString(s)
+    const { graph } = decodeSeedFromString(s);
     getItemLocations(graph, true).forEach((v, i) => {
       if (v.item === null) {
         return;
@@ -91,7 +96,8 @@ export default function MajorItemTable({
     });
   });
 
-  const showDash = false, showMinors = false;
+  const showDash = false,
+    showMinors = false;
   const columns = allColumns.filter((i) => {
     if (!showMinors && !i.isMajor) {
       return false;
@@ -100,31 +106,26 @@ export default function MajorItemTable({
       return false;
     }
     return true;
-  })
+  });
 
-  const Header = () => {
-    return (
-      <tr>
-        <th className={styles.location}>Location</th>
-        <th className={styles.area}>Area</th>
-        {columns.map((i) => {
-          return <th key={i.name}>{i.name}</th>;
-        })}
-      </tr>
-    )
-  }
   return (
     <table className={styles.majors}>
+      <thead>
+        <tr>
+          <th className={styles.location}>Location</th>
+          <th className={styles.area}>Area</th>
+          {columns.map((i) => {
+            return <th key={i.name}>{i.name}</th>;
+          })}
+        </tr>
+      </thead>
       {encodedSeeds.length <= 0 ? (
-        <tbody><Header /></tbody>
+        <tbody></tbody>
       ) : (
-        <tbody><Header />
-          {itemCounts.map((i) => {
-            if (!showMinors && i.hasMajors === false) {
-              return <></>
-            }
+        <tbody>
+          {itemCounts.filter((i) => showMinors || i.hasMajors).map((i) => {
             return (
-              <tr key={i.name}>
+              <tr key={`${i.name}_${i.area}`}>
                 <td>{i.name}</td>
                 <td>{getAreaString(i.area)}</td>
                 {columns.map((j, k) => {
@@ -145,7 +146,7 @@ export default function MajorItemTable({
               </tr>
             );
           })}
-          </tbody>
+        </tbody>
       )}
     </table>
   );
