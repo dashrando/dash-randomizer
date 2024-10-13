@@ -1,6 +1,5 @@
 import { NextRequest } from "next/server"
 import { encodeSeedAsString, getAllPresets, getPreset, getSeedNumber } from "core"
-import { getSpoiler } from "@/lib/spoiler"
 import { generateSeed } from "core/data"
 import { getNewSeedKey, saveSeedData } from "@/lib/seed-data"
 
@@ -56,12 +55,6 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
       throw err
     }
 
-    if (spoiler && !race) {
-      const err = new Error('Spoilers are currently only valid for race seeds') as HTTPError
-      err.status = 422
-      throw err
-    }
-
     const { settings, options } = preset;
     options.Spoiler = spoiler ? true : false;
     
@@ -74,7 +67,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
       hash,
       mystery,
       race,
-      spoiler ? getSpoiler(hash) : null
+      options.Spoiler
     )
 
     const url = new URL(`seed/${seedKey}`, req.nextUrl.origin)

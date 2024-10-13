@@ -3,25 +3,11 @@
 import { kv } from '@vercel/kv'
 import { customAlphabet } from 'nanoid'
 
-type Spoiler = {
-  'Area Transitions': {
-    [transition: string]: string
-  }
-  Bosses: {
-    [location: string]: string
-  }
-  Items: {
-    [area: string]: {
-      [location: string]: string
-    }
-  }
-}
-
 export type SeedData = {
   hash: string
   key: string
   mystery: boolean
-  spoiler: Spoiler
+  spoiler: boolean
   race: boolean
 }
 
@@ -51,7 +37,7 @@ export const saveSeedData = async (
   hash: string,
   mystery: boolean,
   race: boolean,
-  spoiler: Spoiler | null
+  spoiler: boolean
 ) => {
   const seedObj = {
     key,

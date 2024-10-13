@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation'
 import { useVanilla } from '../generate/vanilla'
 import { toast } from 'sonner'
 import { getNewSeedKey, getSeedData, saveSeedData } from '@/lib/seed-data';
-import { getSpoiler } from '@/lib/spoiler';
 
 async function getVanilla(value: Uint8Array): Promise<any> {
   const { getSignature, isVerified, isHeadered } = vanillaData
@@ -125,7 +124,7 @@ const FileDrop = (props: React.PropsWithChildren) => {
           hash,
           params.options.Mystery,
           false,
-          params.options.Spoiler ? getSpoiler(hash) : null
+          params.options.Spoiler
         );
         toast('Loading DASH seed...')
         router.push(`/seed/${seedKey}`)

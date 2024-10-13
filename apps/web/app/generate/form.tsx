@@ -25,7 +25,6 @@ import { fetchSignature } from 'core'
 import { useCallback, useEffect, useState } from 'react'
 import Spacer from '../components/spacer'
 import { getNewSeedKey, saveSeedData } from '@/lib/seed-data'
-import { getSpoiler } from '@/lib/spoiler'
 
 const Sidebar = ({
   name = null,
@@ -485,7 +484,7 @@ export default function Form() {
         hash,
         options.Mystery,
         false,
-        options.Spoiler ? getSpoiler(hash) : null
+        options.Spoiler
       );
       const name = `DASH_${config.presetName}_${config.seedKey}.sfc`
       if (seed !== null) {

@@ -5,6 +5,7 @@ import DownloadButton from './download-button'
 import Link from 'next/link'
 import { hashToParams } from '@/lib/settings'
 import { getSeedData } from '@/lib/seed-data'
+import { getSpoiler } from '@/lib/spoiler'
 
 export default async function RaceSeedSpoilerPage({ params }: { params: { seed: string } }) {
   const { seed } = params
@@ -18,19 +19,20 @@ export default async function RaceSeedSpoilerPage({ params }: { params: { seed: 
     return notFound()
   }
 
+  const spoilerData = getSpoiler(hash)
   const seedParams = hashToParams(hash)
   const seedNum = seedParams.seed
   const sig = prefetchSignature(seedNum)
-  const bosses = spoiler['Bosses']
-  const areas = spoiler['Area Transitions']
-  const items = spoiler['Items']
+  const bosses = spoilerData['Bosses']
+  const areas = spoilerData['Area Transitions']
+  const items = spoilerData['Items']
 
   return (
     <main className={styles.container}>
       <h1 className={styles.logo}>DASH</h1>
       <div className={styles.signature}>{sig || <>&nbsp;</>}</div>
       <div style={{ marginTop: '32px' }} />
-      <DownloadButton raceKey={seed} data={data.spoiler} />
+      <DownloadButton raceKey={seed} data={spoilerData} />
       <div className={styles.spoiler_data}>
         <section className={styles.spoiler_section}>
           <h3>Bosses</h3>

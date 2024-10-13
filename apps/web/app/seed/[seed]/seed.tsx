@@ -127,10 +127,7 @@ export default function Seed({
               <>&nbsp;</>
               <span className={styles.mono}>{seedName}</span>
             </Button>
-            {!race && hash.length < 20 && (
-              <Link href={`/seed/${seed?.hash}`}>Permalink</Link>
-            )}
-            {race && spoiler && (
+            {spoiler && (
               <div className={styles.spoiler_link}>
                 <Link href={`/seed/${slug}/spoiler`}>
                   View Spoiler Log
