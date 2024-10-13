@@ -14,7 +14,7 @@ import { MajorDistributionMode, Options, Params, Settings } from "../params";
 import { Item, ItemNames, ItemType, majorItem, minorItem } from "../items";
 import { getAreaString, getLocations } from "../locations";
 import { SeasonEdgeUpdates } from "./data/season/edges";
-import { decodeSeed, encodeSeed } from "../../helpers/encoder";
+import { encodeSeed } from "../../helpers/encoder";
 
 type SeedData = {
   params: Params;
@@ -237,14 +237,6 @@ const checkSeeds = (dirPath: string, areValid: boolean) => {
         // Read directly from a JSON file
         const { settings, graph } = loadSeed(full, defaultSettings);
         checkGraph(e, graph, settings);
-      } else if (full.endsWith(".bin")) {
-        const encoded = fs.readFileSync(full);
-        const decoded = decodeSeed(encoded);
-        checkGraph(e, decoded.graph, decoded.params.settings);
-        fs.writeFileSync(
-          full.replace(".bin", ".enc"),
-          encodeSeed(decoded.params, decoded.graph)
-        );
       }
     } else if (stats.isDirectory()) {
       checkSeeds(full, areValid);

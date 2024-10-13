@@ -1,7 +1,6 @@
-import { decodeSeedFromString, getAreaPortals, getBossPortals, Portal, PortalMapping } from "core";
+import { decodeAreaPortals, getAreaPortals, getBossPortals, Portal, PortalMapping } from "core";
 import styles from "./areas.module.css";
 import { AreaSummary } from "./areas-summary";
-import { isAreaEdge } from "core/data";
 
 export type Transition = {
   from: string;
@@ -137,14 +136,13 @@ export default function AreaDoorTable({
   const areaMappings: PortalMapping[][] = []
   const combinedAreaTransitions: Transition[] = []
   encodedSeeds.forEach(p => {
-    const { graph } = decodeSeedFromString(p)
-    const areas = graph.filter(q => isAreaEdge(q)).map<[Portal, Portal]>(q => [q.from, q.to])
-    areas.forEach(p => combinedAreaTransitions.push({ from: p[0].name, to: p[1].name }))
-    for (let i = 0; i < 16; i++) {
-      const cur = areas[i]
-      const idx = areas.findLastIndex(p => p[0].name == cur[1].name && p[1].name == cur[0].name)
-      areas.splice(idx, 1)
-    }
+    const areas = decodeAreaPortals(p)
+    areas.forEach(p => {
+      combinedAreaTransitions.push(
+        { from: p[0].name, to: p[1].name },
+        { from: p[1].name, to: p[0].name },
+      );
+    })
     areaMappings.push(areas)
   })
 

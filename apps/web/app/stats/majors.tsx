@@ -2,7 +2,7 @@
 
 import styles from "./majors.module.css";
 import { getAreaString, getLocations, Item, ItemNames } from "core/data";
-import { decodeSeedFromString, getItemLocations } from "core";
+import { decodeSeed, getItemLocations } from "core";
 
 type ColumnData = {
   name: string;
@@ -79,7 +79,7 @@ export default function MajorItemTable({
   });
 
   encodedSeeds.forEach((s) => {
-    const { graph } = decodeSeedFromString(s);
+    const { graph } = decodeSeed(s);
     getItemLocations(graph, true).forEach((v, i) => {
       if (v.item === null) {
         return;

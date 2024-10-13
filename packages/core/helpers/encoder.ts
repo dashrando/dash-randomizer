@@ -20,10 +20,6 @@ import { Item, ItemType, majorItem, minorItem } from "../lib/items";
 import { base64ToSafe, safeToBase64 } from "./converters";
 
 const SEED_ENCODING_VERSION = 0;
-const AREA_REF_INDEX = 1 + ENCODED_PARAMS_SIZE;
-const BOSS_REF_INDEX = AREA_REF_INDEX + 32;
-const ITEM_REF_INDEX = BOSS_REF_INDEX + 4;
-const ENCODED_SEED_SIZE = 153;
 
 const BOSS_NAMES = ["Kraid", "Phantoon", "Draygon", "Ridley"];
 const BOSS_AREAS = ["KraidsLair", "WreckedShip", "EastMaridia", "LowerNorfair"];
@@ -32,108 +28,6 @@ const BOSS_AREAS = ["KraidsLair", "WreckedShip", "EastMaridia", "LowerNorfair"];
 // Extracts seed data from a byte array...
 //-----------------------------------------------------------------
 
-export const decodeSeed = (
-  bytes: Uint8Array
-): { params: Params; graph: Graph } => {
-  const version = bytes[0];
-  if (version !== SEED_ENCODING_VERSION) {
-    throw new Error(`decodeSeed: Unknown version ${version}`);
-  }
-
-  const params: Params = bytesToParams(bytes.slice(1, 1 + ENCODED_PARAMS_SIZE));
-  const { seed, settings, options } = params;
-  const mappings = [...decodeAreaPortals(bytes), ...decodeBossPortals(bytes)];
-
-  const graph: Graph = loadGraph(
-    seed,
-    0,
-    settings.mapLayout,
-    settings.majorDistribution,
-    settings.randomizeAreas,
-    options.RelaxedLogic,
-    settings.bossMode,
-    mappings
-  );
-
-  decodeItemLocations(bytes).forEach((v) => {
-    if (v.item === null) {
-      return;
-    }
-    const itemNode = graph.find(
-      (p) =>
-        p.from.name === v.location.name &&
-        getArea(p.from.area) === v.location.area
-    );
-    if (itemNode === undefined) {
-      throw new Error(
-        `decodeSeed: Could not find vertex ${v.location.name} in ${v.location.area}`
-      );
-    }
-    itemNode.from.item = v.item;
-  });
-
-  return {
-    params,
-    graph,
-  };
-};
-
-export const decodeAreaPortals = (bytes: Uint8Array): PortalMapping[] => {
-  const areaPortals = getAreaPortals();
-  const mappings: PortalMapping[] = [];
-
-  for (let i = 0; i < areaPortals.length; i++) {
-    const from = areaPortals.at(i) as Portal;
-    const to = areaPortals.at(bytes[i + AREA_REF_INDEX]) as Portal;
-
-    // We only need to map portals once so ignore the reverse mapping
-    if (0 <= mappings.findIndex((m) => m[0] == to && m[1] == from)) {
-      continue;
-    }
-    mappings.push([from, to]);
-  }
-
-  return mappings;
-};
-
-export const decodeBossPortals = (bytes: Uint8Array): PortalMapping[] => {
-  return BOSS_AREAS.map((bossArea, i) => {
-    const bossByte = bytes[i + BOSS_REF_INDEX];
-    const toAreaIndex = (bossByte >> 2) & 0x3;
-    const toBossIndex = bossByte & 0x3;
-    return [
-      {
-        name: `Door_${BOSS_NAMES[i]}Boss`,
-        area: bossArea
-      },
-      {
-        name: `Exit_${BOSS_NAMES[toBossIndex]}`,
-        area: BOSS_AREAS[toAreaIndex],
-      },
-    ];
-  });
-};
-
-export const decodeItemLocations = (bytes: Uint8Array) => {
-  const itemTypes = Object.values(Item);
-  const locations = getLocations().sort((a, b) => a.address - b.address);
-  return locations.map((location, i) => {
-    const itemByte = bytes[i + ITEM_REF_INDEX];
-    let item = null;
-    if (itemByte !== 0) {
-      if (itemByte & 0x80) {
-        const code = itemTypes[(0x7f & itemByte) - 1] as number;
-        item = majorItem(code);
-      } else {
-        item = minorItem(itemTypes[itemByte - 1]);
-      }
-    }
-    return {
-      location,
-      item,
-    };
-  });
-};
 
 const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
@@ -171,7 +65,7 @@ const bossItemLocations = [
   0x79108, // R@R
 ]
 
-export const decodeSeedFromString = (input: string) => {
+export const decodeSeed = (input: string) => {
   const encoded = safeToBase64(input)
   const version = fromChar(encoded[0])
   if (version !== SEED_ENCODING_VERSION) {
@@ -185,10 +79,8 @@ export const decodeSeedFromString = (input: string) => {
   let mappings: PortalMapping[] = [];
   const ignore = [...bossItemLocations];
   let pos = ENCODED_PARAMS_SIZE;
-  //console.log(ignore)
   BOSS_AREAS.map((bossArea, i) => {
     const bossByte = i % 2 === 0 ? bytes[pos] : bytes[pos++];
-    //console.log('bossByte',i,bossByte.toString(16))
     const word = (i % 2 === 0 ? bossByte : (bossByte >> 4)) & 0xF
     ignore[word] = 0;
     const toAreaIndex = (word >> 2) & 0x3;
@@ -204,28 +96,8 @@ export const decodeSeedFromString = (input: string) => {
       },
     ]);
   });
-  //mappings.forEach(p => console.log(p[0].name, '->', p[1].name))
-  //console.log(ignore)
   
-  const areaPortals = getAreaPortals();
-  pos = 13
-  for (let i = 0; i < areaPortals.length; i++) {
-    const from = areaPortals.at(i) as Portal;
-
-    if (0 <= mappings.findIndex((m) => m[0] == from || m[1] == from)) {
-      continue;
-    }
-
-    const to = areaPortals.at(fromChar(encoded[pos++])) as Portal;
-
-    // We only need to map portals once so ignore the reverse mapping
-    if (0 <= mappings.findIndex((m) => m[0] == to && m[1] == from)) {
-      continue;
-    }
-    mappings.push([from, to]);
-  }
-
-  //console.log('mappings:',mappings.length)
+  decodeAreaPortals(encoded).forEach(p => mappings.push(p))
 
   const graph: Graph = loadGraph(
     seed,
@@ -240,6 +112,7 @@ export const decodeSeedFromString = (input: string) => {
 
   const itemTypes = Object.values(Item);
   const locations = getLocations().sort((a, b) => a.address - b.address);
+  pos = 29;
   locations.forEach((location) => {
     if (ignore.includes(location.address)) {
       return;
@@ -274,6 +147,34 @@ export const decodeSeedFromString = (input: string) => {
     params,
     graph
   }
+}
+
+export const decodeAreaPortals = (encoded: string): PortalMapping[] => {
+  const areaPortals = getAreaPortals();
+  const mappings: PortalMapping[] = [];
+
+  let pos = 13
+  for (let i = 0; i < areaPortals.length; i++) {
+    const from = areaPortals.at(i) as Portal;
+
+    if (0 <= mappings.findIndex((m) => m[0] == from || m[1] == from)) {
+      continue;
+    }
+
+    const to = areaPortals.at(fromChar(encoded[pos++])) as Portal;
+
+    // We only need to map portals once so ignore the reverse mapping
+    if (0 <= mappings.findIndex((m) => m[0] == to && m[1] == from)) {
+      continue;
+    }
+    mappings.push([from, to]);
+  }
+
+  return mappings;
+};
+
+export const decodeBossPortals = (_: string): PortalMapping[] => {
+  return []
 }
 
 //-----------------------------------------------------------------

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import useMounted from '@/app/hooks/useMounted'
 import { useVanilla } from '@/app/generate/vanilla'
 import styles from './seed.module.css'
-import { RandomizeRom, ProtectRom, findPreset, Graph, Params, decodeSeedFromString } from 'core'
+import { RandomizeRom, ProtectRom, findPreset, Graph, Params, decodeSeed } from 'core'
 import { cn } from '@/lib/utils'
 import { downloadFile } from '@/lib/downloads'
 import Button from '@/app/components/button'
@@ -90,7 +90,7 @@ export default function Seed({
         
         let graph: Graph = []
         if (hash.length > 20) {
-          const decoded = decodeSeedFromString(hash)
+          const decoded = decodeSeed(hash)
           graph = decoded.graph
         }
         const seedData = await create(seedNum, settings, options, {

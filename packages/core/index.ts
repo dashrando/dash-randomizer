@@ -32,10 +32,8 @@ export {
 } from "./helpers/reader"
 export {
   decodeSeed,
-  decodeSeedFromString,
   decodeAreaPortals,
   decodeBossPortals,
-  decodeItemLocations,
   encodeSeed,
 } from "./helpers/encoder"
 export {
