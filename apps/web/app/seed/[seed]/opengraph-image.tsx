@@ -2,8 +2,10 @@ import { ImageResponse } from 'next/og'
 import { prefetchSignature } from 'core'
 import { hashToParams, parseSettings } from '@/lib/settings'
 import { getSeedData, SeedData } from '@/lib/seed-data'
+import path from 'path'
+import fs from 'fs'
 
-export const runtime = 'edge'
+export const runtime = 'nodejs'
 
 export const getErrorImage = (key: string) => {
   return new ImageResponse(
@@ -26,6 +28,10 @@ export const getErrorImage = (key: string) => {
   )
 }
 
+const loadFont = (fontFileName: string) => {
+  return fs.readFileSync(path.join(process.cwd(), 'public/fonts', fontFileName));
+}
+
 export const getSeedImage = async (data: SeedData) => {
   const seedParams = hashToParams(data.hash)
   const settings = parseSettings(seedParams)
@@ -34,15 +40,9 @@ export const getSeedImage = async (data: SeedData) => {
   const firstPart = settings.settingsParams.slice(0, 4);
   const secondPart = settings.settingsParams.slice(4);
 
-  const inter = await fetch(
-    new URL('../../../public/fonts/inter-latin-ext-400-normal.woff', import.meta.url),
-  ).then((res) => res.arrayBuffer());
-  const interBoldItalic = await fetch(
-    new URL('../../../public/fonts/Inter-BoldItalic.woff', import.meta.url),
-  ).then((res) => res.arrayBuffer());
-  const mono = await fetch(
-    new URL('../../../public/fonts/GeistMono-Regular.otf', import.meta.url),
-  ).then((res) => res.arrayBuffer());
+  const inter = loadFont('inter-latin-ext-400-normal.woff')
+  const interBoldItalic = loadFont('Inter-BoldItalic.woff')
+  const mono = loadFont('GeistMono-Regular.otf')
   return new ImageResponse(
     (
       <div
