@@ -34,6 +34,8 @@ export const getSeedImage = async (data: SeedData) => {
   const firstPart = settings.settingsParams.slice(0, 4);
   const secondPart = settings.settingsParams.slice(4);
 
+  console.log(import.meta.url)
+
   const inter = await fetch(
     new URL('../../../public/fonts/inter-latin-ext-400-normal.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
