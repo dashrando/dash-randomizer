@@ -3,7 +3,7 @@ import { prefetchSignature } from 'core'
 import { hashToParams, parseSettings } from '@/lib/settings'
 import { getSeedData, SeedData } from '@/lib/seed-data'
 
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 
 export const getErrorImage = (key: string) => {
   return new ImageResponse(
@@ -33,8 +33,6 @@ export const getSeedImage = async (data: SeedData) => {
 
   const firstPart = settings.settingsParams.slice(0, 4);
   const secondPart = settings.settingsParams.slice(4);
-
-  console.log(import.meta.url)
 
   const inter = await fetch(
     new URL('../../../public/fonts/inter-latin-ext-400-normal.woff', import.meta.url),
