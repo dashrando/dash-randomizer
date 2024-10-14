@@ -60,7 +60,7 @@ export default async function SeedPage(req: any) {
         hash={hash}
         signature={sig}
         slug={params.seed}
-        race={race}
+        race={race || legacyRace === '1'}
         mystery={mystery}
         spoiler={!!spoiler}
       />
