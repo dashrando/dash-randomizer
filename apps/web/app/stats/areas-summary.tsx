@@ -1,4 +1,4 @@
-import { getAreaPortals, PortalMapping } from "core";
+import { getAreaPortals, getNumLoops, hasInvalidSequence, PortalMapping } from "core";
 import style from "./page.module.css"
 
 const duoPortals = getAreaPortals()
@@ -18,12 +18,6 @@ const deadPortals = getAreaPortals()
       p.area == "Tourian"
   )
   .map((p) => p.name);
-
-const getNumLoops = (mappings: PortalMapping[]) => {
-  const loops = mappings.filter((p) => p[0].area === p[1].area);
-  //loops.forEach(console.log)
-  return loops.length;
-};
 
 const getNumDuoToDuo = (mappings: PortalMapping[]) => {
   return mappings.filter(([p, q]) => {
@@ -65,22 +59,24 @@ const getNumVanilla = (mappings: PortalMapping[]) => {
   }
   return count;
 };
+
 export function AreaSummary({ mappings }: { mappings: PortalMapping[][] }) {
   const numSeeds = mappings.length;
   let numLoops = 0,
     numSeedsWithLoops = 0,
     numVanilla = 0;
   let numSingleDuoToDuo = 0,
-    numDoubleDuoToDuo = 0;
+    numDoubleDuoToDuo = 0,
+    numInvalidSequences = 0;
   let numDuoToDead: number[][] = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ];
-  console.log(mappings)
 
   mappings.forEach((m) => {
     numVanilla += getNumVanilla(m) > 0 ? 1 : 0;
+    numInvalidSequences += (hasInvalidSequence(m) ? 1 : 0);
 
     const seedLoops = getNumLoops(m);
     if (seedLoops > 0) {
@@ -90,12 +86,6 @@ export function AreaSummary({ mappings }: { mappings: PortalMapping[][] }) {
 
     const seedDuoToDead = getNumDuoToDead(m);
     const seedDuoToDuo = getNumDuoToDuo(m);
-    if (typeof seedDuoToDuo === 'string') {
-      alert('here')
-    }
-    if (seedDuoToDuo > 3) {
-      alert('duo-to-duo')
-    }
 
     if (seedDuoToDuo === 1) {
       numSingleDuoToDuo += 1;
@@ -103,7 +93,6 @@ export function AreaSummary({ mappings }: { mappings: PortalMapping[][] }) {
       numDoubleDuoToDuo += 1;
     }
     numDuoToDead[seedDuoToDuo][seedDuoToDead] += 1;
-
   });
 
   const p1 = (num: number) => ((100 * num) / numSeeds).toFixed(1) + "%";
@@ -129,6 +118,10 @@ export function AreaSummary({ mappings }: { mappings: PortalMapping[][] }) {
             <tr key='two-duo-to-duo'>
               <td>2 Duo-to-Duo</td>
               <td>{p1(numDoubleDuoToDuo)}</td>
+            </tr>
+            <tr key='invalid-sequences'>
+              <td>Invalid Sequences</td>
+              <td>{p1(numInvalidSequences)}</td>
             </tr>
           </tbody>
         </table>

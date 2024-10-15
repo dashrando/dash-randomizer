@@ -11,7 +11,13 @@ export { findPreset, getPreset, getAllPresets } from "./lib/presets";
 export { Item } from "./lib/items";
 export { getSeedNumber } from "./lib/sm-rando";
 export { getItemProgression, isGraphValid } from "./lib/graph/solver";
-export { getAreaPortals, getBossPortals, mapPortals } from "./lib/graph/data/portals";
+export {
+  getAreaPortals,
+  getBossPortals,
+  getNumLoops,
+  hasInvalidSequence,
+  mapPortals,
+} from "./lib/graph/data/portals";
 export {
   bytesToParams,
   stringToParams,

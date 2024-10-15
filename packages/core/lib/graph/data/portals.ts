@@ -37,14 +37,74 @@ const samePortals = (unshuffled: PortalMapping[], shuffled: PortalMapping[]) => 
   return true;
 };
 
-const areaLoopCount = (shuffled: PortalMapping[]) => {
-  let numLoops = 0;
-  shuffled.forEach((m) => {
-    if (m[0].area === m[1].area) {
-      numLoops += 1;
+export const getNumLoops = (mappings: PortalMapping[]) => {
+  return mappings.filter((p) => p[0].area === p[1].area).length;
+}
+
+export const hasInvalidSequence = (mappings: PortalMapping[]) => {
+  const deadAreas = ["KraidsLair", "CrocomiresLair", "Tourian"];
+  const duoAreas = ["LowerNorfair", "EastMaridia", "WreckedShip"]
+  const duoConnections = duoAreas.map(p => {
+    return {
+      name: p,
+      duo: false,
+      dead: false
+    }
+  })
+  mappings.forEach((m) => {
+    const fromArea = duoConnections.find((p) => p.name == m[0].area);
+    if (fromArea) {
+      if (deadAreas.includes(m[1].area)) {
+        fromArea.dead = true
+      }
+      if (duoAreas.includes(m[1].area)) {
+        fromArea.duo = true
+      }
+    }
+    const toArea = duoConnections.find((p) => p.name == m[1].area);
+    if (toArea) {
+      if (deadAreas.includes(m[0].area)) {
+        toArea.dead = true
+      }
+      if (duoAreas.includes(m[0].area)) {
+        toArea.duo = true
+      }
     }
   });
-  return numLoops;
+
+  if (duoConnections.filter(p => p.duo).length > 2) {
+    /*console.log('* duo-to-duo-to-duo *')
+    mappings.forEach(p => {
+      if (duoAreas.includes(p[0].area)) {
+        if (duoAreas.includes(p[1].area)) {
+          console.log(`${p[0].name} -> ${p[1].name}`)
+        }
+      } else if (duoAreas.includes(p[1].area)) {
+        if (duoAreas.includes(p[0].area)) {
+          console.log(`${p[1].name} -> ${p[0].name}`)
+        }
+      }
+    })*/
+    return true
+  }
+
+  if (duoConnections.find(p => p.dead && p.duo)) {
+    /*console.log('* duo-to-duo-dead *')
+    mappings.forEach(p => {
+      if (duoAreas.includes(p[0].area)) {
+        if (duoAreas.includes(p[1].area) || deadAreas.includes(p[1].area)) {
+          console.log(`${p[0].name} -> ${p[1].name}`)
+        }
+      } else if (duoAreas.includes(p[1].area)) {
+        if (duoAreas.includes(p[0].area) || deadAreas.includes(p[0].area)) {
+          console.log(`${p[1].name} -> ${p[0].name}`)
+        }
+      }
+    })*/
+    return true
+  }
+
+  return false
 }
 
 const vanillaCount = (vanilla: PortalMapping[], shuffled: PortalMapping[]) => {
@@ -142,19 +202,11 @@ const generateAreaPortals = (seed: number): PortalMapping[] => {
   //
   let shuffled = shuffleAreas();
   while (
-    samePortals(areas, shuffled) ||
+    getNumLoops(shuffled) > maxIntra ||
     vanillaCount(areas, shuffled) > maxVanilla ||
-    areaLoopCount(shuffled) > maxIntra
+    hasInvalidSequence(shuffled)
   ) {
     shuffled = shuffleAreas();
-  }
-
-  if (vanillaCount(areas, shuffled) > 1) {
-    console.error("Too many vanilla connections!");
-  }
-
-  if (areaLoopCount(shuffled) > 1) {
-    console.error("Too many area loops!");
   }
 
   return shuffled;
