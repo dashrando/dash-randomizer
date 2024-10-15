@@ -42,19 +42,19 @@ const Parameters = ({ title, items }: { title: string, items: any[] }) => {
 export default function Seed({
   parameters,
   hash,
-  mystery = false,
-  race = false,
+  mystery,
+  race,
   signature,
   slug,
-  spoiler = false,
+  spoiler,
 }: {
   parameters: Params,
   mystery?: boolean,
   hash: string,
-  race?: boolean,
+  race: boolean,
   signature: string,
-  slug?: string,
-  spoiler?: boolean,
+  slug: string,
+  spoiler: boolean,
 }) {
   const mounted = useMounted()
   const { data: vanilla } = useVanilla()
@@ -150,7 +150,7 @@ export default function Seed({
             <div className={styles.qr}>
               <button onClick={(evt) => {
                 evt.preventDefault()
-                window.open(`/seed/${hash}/qr-popup`, '_blank', 'width=300,height=340')
+                window.open(`/seed/${slug}/qr-popup`, '_blank', 'width=300,height=340')
               }}>
                 Display QR Code
               </button>
