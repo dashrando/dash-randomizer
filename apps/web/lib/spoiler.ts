@@ -1,6 +1,21 @@
 import { parseSettings } from '@/lib/settings';
-import { Graph, Vertex, getAreaPortals, stringToParams } from 'core';
-import { generateSeed, isAreaEdge, isBossEdge } from 'core/data';
+import { Graph, Params, Vertex, decodeSeed, getAreaPortals } from 'core';
+import { isAreaEdge, isBossEdge } from 'core/data';
+
+export type Spoiler = {
+  'Area Transitions': {
+    [transition: string]: string
+  }
+  Bosses: {
+    [location: string]: string
+  }
+  Items: {
+    [area: string]: {
+      [location: string]: string
+    }
+  },
+  Meta: any
+}
 
 const getAreaTransitions = (graph: Graph) => {
   const areaEdges = graph.filter(isAreaEdge)
@@ -79,7 +94,7 @@ const getItems = (graph: Graph) => {
   }
 }
 
-const getMeta = (params: any) => {
+const getMeta = (params: Params) => {
   const parsedSettings = parseSettings(params)
   const { randomizeParams, settingsParams, optionsParams } = parsedSettings
 
@@ -106,15 +121,12 @@ const getMeta = (params: any) => {
   }
 }
 
-export function getSpoiler(seedHash: string) {
-  const parameters = stringToParams(seedHash)
-  const { seed, settings, options } = parameters
-  const graph = generateSeed(seed, settings, options)
-  
+export function getSpoiler(seedHash: string): Spoiler {
+  const { params, graph } = decodeSeed(seedHash)
   return {
     'Bosses': getBosses(graph),
     'Area Transitions': getAreaTransitions(graph),
     'Items': getItems(graph),
-    'Meta': getMeta(parameters),
+    'Meta': getMeta(params),
   }
 }

@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
 import {
-  decodeSeed,
   Graph,
   loadGraph,
   mapPortals,
@@ -142,6 +141,8 @@ const getData = (
     options: {
       RelaxedLogic: false,
       DisableFanfare: false,
+      Mystery: false,
+      Spoiler: false
     },
     portals,
     itemLocations,
@@ -304,10 +305,6 @@ export const checkSeeds = (inputPath: string, areValid: boolean) => {
         // Read directly from a JSON file
         const { settings, graph } = loadSeed(full, defaultSettings);
         checkGraph(e, graph, settings);
-      } else if (full.endsWith(".bin")) {
-        const encoded = fs.readFileSync(full);
-        const decoded = decodeSeed(encoded);
-        checkGraph(e, decoded.graph, decoded.params.settings);
       }
     } else if (stats.isDirectory()) {
       seedCount += checkSeeds(full, areValid);
