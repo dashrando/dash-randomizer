@@ -29,7 +29,32 @@ function getHash(encodedSeeds: string[]) {
   return computeCRC32(bytes).toString(16).toUpperCase();
 }
 
-const Parameters = ({ value, update }: { value: Params; update: any }) => {
+const ProgressBar = ({ progress }: { progress: number }) => {
+  return (
+    <div
+      style={{
+        border: "1px solid #ccc",
+        borderRadius: "4px",
+        width: "20%",
+        height: "16px",
+        position: "relative",
+        top: "3px",
+      }}
+    >
+      <div
+        style={{
+          width: `${progress}%`,
+          height: "100%",
+          backgroundColor: "green",
+          transition: "width 0.2s ease",
+          borderRadius: "4px",
+        }}
+      />
+    </div>
+  );
+};
+
+const Parameters = ({ value, update, loading }: { value: Params; update: any, loading: boolean }) => {
   return (
     <>
       <select
@@ -37,6 +62,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         id="game_mode"
         className={styles.mode_selector}
         value={value.gameMode}
+        disabled={loading}
         onChange={(e) =>
           update({
             gameMode: e.target.value,
@@ -65,6 +91,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         id="logic"
         className={styles.mode_selector}
         value={value.logic}
+        disabled={loading}
         onChange={(e) =>
           update({
             gameMode: value.gameMode,
@@ -87,6 +114,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         max="999999"
         step="100"
         value={value.startSeed}
+        disabled={loading}
         onChange={(e) =>
           update({
             gameMode: value.gameMode,
@@ -106,6 +134,7 @@ const Parameters = ({ value, update }: { value: Params; update: any }) => {
         max="999999"
         step="100"
         value={value.numSeeds}
+        disabled={loading}
         onChange={(e) =>
           update({
             gameMode: value.gameMode,
@@ -128,6 +157,7 @@ export default function StatsPage() {
   });
   const [panel, setPanel] = useState("majors");
   const [encodedSeeds, setEncodedSeeds] = useState<string[]>([]);
+  const [progress, setProgress] = useState(0);
   const [generateTimes, setGenerateTimes] = useState({
     start: 0,
     end: 0
@@ -144,22 +174,36 @@ export default function StatsPage() {
 
     clearResults();
     setGenerateTimes({ start: Date.now(), end: 0 });
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
+    const encoded: string[] = [];
     const { settings, options } = preset;
     options.RelaxedLogic = logic == "relaxed";
 
-    const encoded: string[] = [];
-    for (let i = startSeed; i <= endSeed; i++) {
-      const graph = generateSeed(i, settings, options);
-      encoded.push(encodeSeed({ seed: i, settings, options }, graph));
+    const processChunk = async (start: number, end: number) => {
+      for (let i = start; i <= end; i++) {
+        const graph = generateSeed(i, settings, options);
+        encoded.push(encodeSeed({ seed: i, settings, options }, graph));
+      }
+      return end + 1
     }
 
+    let i = startSeed;
+    while (i < endSeed) {
+      i = await processChunk(i, Math.min(i + 20, endSeed))
+      setProgress(100 * ((i - startSeed + 1) / numSeeds))
+      // Yield control to the event loop to avoid freezing the UI
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 50));
     updateResults(encoded);
   };
 
   const clearResults = () => {
     setEncodedSeeds([]);
     setGenerateTimes({ start: 0, end: 0 });
+    setProgress(0)
   };
 
   const updateResults = (encoded: string[]) => {
@@ -180,33 +224,36 @@ export default function StatsPage() {
   };
 
   const totalTime = generateTimes.end - generateTimes.start;
+  const loading = totalTime < 0 ? true : false;
   const seedCount = encodedSeeds.length;
   const n1 = (n: number) => n.toFixed(1);
 
   return (
     <div id="stats">
       <div className={styles.stats_nav}>
-        <Parameters value={params} update={updateParams} />
+        <Parameters value={params} update={updateParams} loading={loading} />
         <input
           type="button"
           value="Generate"
           id="gen_seeds"
           onClick={generateSeeds}
+          disabled={loading}
         />
         <input
           type="button"
           value="Clear"
           id="clear_table"
           onClick={clearResults}
+          disabled={loading}
         />
-        <span id="action_status" style={{ paddingLeft: "8px" }}>
-          {totalTime < 0 ? (
-            'Generating...'
+        <div id="action_status" style={{ paddingLeft: "8px", display: 'inline-block', width: '50%' }}>
+          {loading ? (
+            <ProgressBar progress={progress} />
           ) : totalTime === 0 ? '' : (
             `${seedCount} seeds ${totalTime}ms [ ${n1(totalTime / seedCount)}
               ms avg] ${getHash(encodedSeeds)}`
           )}
-        </span>
+        </div>
         <span id="right_side" className={styles.right_side}>
           <span className={styles.panel_selector}>
             <label htmlFor="panel_selection">Panel:</label>
@@ -215,6 +262,7 @@ export default function StatsPage() {
               id="panel_selection"
               value={panel}
               onChange={(e) => setPanel(e.target.value)}
+              disabled={loading}
             >
               <option value="majors">Majors</option>
               <option value="areas">Areas</option>
