@@ -2,8 +2,8 @@ import { getLocations } from "../data";
 import DOORS from "../data/doors";
 import { PortalMapping } from "../lib/graph/data/portals";
 import { loadGraph } from "../lib/graph/init";
-import { bytesToParams } from "../lib/params";
-import { majorItem, minorItem } from "../lib/items";
+import { bytesToParams, MajorDistributionMode } from "../lib/params";
+import { Item, majorItem, minorItem } from "../lib/items";
 import { getArea } from "../lib/locations";
 import { TABLE_FLAGS } from "../data/interface";
 import { encodeSeed } from "./encoder";
@@ -56,7 +56,15 @@ export const readRom = (rom: Uint8Array) => {
       return;
     }
     const itemCode = l.GetItemCode(rom);
-    if (node.type == "major") {
+    const isMajor =
+      settings.majorDistribution == MajorDistributionMode.Full
+        ? itemCode > 0xc000 &&
+          itemCode != Item.Missile &&
+          itemCode != Item.Super &&
+          itemCode != Item.PowerBomb
+        : node.type == "major";
+
+    if (isMajor) {
       node.item = majorItem(itemCode)
     } else {
       node.item = minorItem(itemCode)
@@ -84,7 +92,7 @@ export const readSeedKey = (rom: Uint8Array) => {
   const size = keyBytes[0] as number;
 
   // No data in first byte? No seed key
-  if (size === 0) {
+  if (size === 0 || size === 255) {
     return {
       race: false,
       key: ''

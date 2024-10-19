@@ -102,7 +102,7 @@ export const generateSeedPatch = (
 
   const majors = nodes.filter(
     (n) =>
-      n.item.isMajor && //TODO: Does this actually make sense?
+      n.item.isMajor &&
       n.item.type != Item.EnergyTank &&
       n.item.type != Item.Reserve
   );
