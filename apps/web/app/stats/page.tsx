@@ -2,7 +2,7 @@
 
 import styles from "./page.module.css";
 import { generateSeed } from "core/data";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   computeCRC32,
   encodeSeed,
@@ -12,16 +12,33 @@ import {
 import MajorItemTable from "./majors";
 import ProgressionStats from "./progression";
 import NoteworthyStats from "./noteworthy";
-import AreaDoorTable, { Transition } from "./areas";
+import AreaDoorTable from "./areas";
 
 export type ItemProgression = ItemLocation[];
 
-export type Params = {
-  gameMode: string;
-  logic: string;
-  startSeed: number;
-  numSeeds: number;
-};
+function formatTime(ms: number) {
+  // Calculate hours, minutes, seconds, and remaining milliseconds
+  const hours = Math.floor(ms / (1000 * 60 * 60));
+  const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = ((ms % (1000 * 60)) / 1000).toFixed(1);
+
+  let formattedTime = '';
+
+  // Only include hours if it's more than 0
+  if (hours > 0) {
+    formattedTime += `${hours}h `;
+  }
+
+  // Only include minutes if it's more than 0
+  if (minutes > 0 || hours > 0) {  // Include minutes if hours are shown, even if minutes are 0
+    formattedTime += `${minutes}m `;
+  }
+
+  // Always include seconds
+  formattedTime += `${seconds}s`;
+
+  return formattedTime.trim();
+}
 
 function getHash(encodedSeeds: string[]) {
   const combined = encodedSeeds.join('');
@@ -54,117 +71,24 @@ const ProgressBar = ({ progress }: { progress: number }) => {
   );
 };
 
-const Parameters = ({ value, update, loading }: { value: Params; update: any, loading: boolean }) => {
-  return (
-    <>
-      <select
-        name="game_mode"
-        id="game_mode"
-        className={styles.mode_selector}
-        value={value.gameMode}
-        disabled={loading}
-        onChange={(e) =>
-          update({
-            gameMode: e.target.value,
-            logic: value.logic,
-            startSeed: value.startSeed,
-            numSeeds: value.numSeeds,
-          })
-        }
-      >
-        <option value="mm_area_shuffled">M/M Area Shuffled</option>
-        <option value="sgl24">SGL24 - M/M - Boss Surprise</option>
-        <option value="spring24">Spring 24 - Chozo Area</option>
-        <option value="chozo_surprise">Chozo Surprise</option>
-        <option value="surprise_surprise">Surprise Surprise</option>
-        <option value="mm_area_surprise">MM Area Surprise</option>
-        <option value="mm_surprise">MM Surprise</option>
-        <option value="chozo">Chozo</option>
-        <option value="chozo_bozo">Chozo Bozo</option>
-        <option value="sgl23">SGL23 - Full - Boss+Area</option>
-        <option value="standard_mm">Standard - Major / Minor</option>
-        <option value="standard_full">Standard - Full</option>
-        <option value="recall_mm">Recall - Major / Minor</option>
-      </select>
-      <select
-        name="logic"
-        id="logic"
-        className={styles.mode_selector}
-        value={value.logic}
-        disabled={loading}
-        onChange={(e) =>
-          update({
-            gameMode: value.gameMode,
-            logic: e.target.value,
-            startSeed: value.startSeed,
-            numSeeds: value.numSeeds
-          })
-        }
-      >
-        <option value="standard">Standard Logic</option>
-        <option value="relaxed">Relaxed Logic</option>
-      </select>
-
-      <label htmlFor="start_seed" style={{ paddingRight: '4px' }}>Start</label>
-      <input
-        name="start_seed"
-        id="start_seed"
-        type="number"
-        min="1"
-        max="999999"
-        step="100"
-        value={value.startSeed}
-        disabled={loading}
-        onChange={(e) =>
-          update({
-            gameMode: value.gameMode,
-            logic: value.logic,
-            startSeed: e.target.valueAsNumber,
-            numSeeds: value.numSeeds,
-          })
-        }
-      />
-
-      <label htmlFor="num_seeds" style={{ padding: '0px 4px' }}>Count</label>
-      <input
-        name="num_seeds"
-        id="num_seeds"
-        type="number"
-        min="1"
-        max="999999"
-        step="100"
-        value={value.numSeeds}
-        disabled={loading}
-        onChange={(e) =>
-          update({
-            gameMode: value.gameMode,
-            logic: value.logic,
-            startSeed: value.startSeed,
-            numSeeds: e.target.valueAsNumber,
-          })
-        }
-      />
-    </>
-  );
-};
-
 export default function StatsPage() {
-  const [params, setParams] = useState({
-    gameMode: "spring24",
-    logic: "standard",
-    startSeed: 1,
-    numSeeds: 100,
-  });
+  const [gameMode, setGameMode] = useState('spring24');
+  const [logic, setLogic] = useState('standard');
+  const startSeedRef = useRef<HTMLInputElement>(null);
+  const numSeedsRef = useRef<HTMLInputElement>(null);
+
   const [panel, setPanel] = useState("majors");
   const [encodedSeeds, setEncodedSeeds] = useState<string[]>([]);
   const [progress, setProgress] = useState(0);
   const [generateTimes, setGenerateTimes] = useState({
     start: 0,
-    end: 0
+    end: 0,
+    hash: ''
   });
 
   const generateSeeds = async () => {
-    const { gameMode, logic, startSeed, numSeeds } = params;
+    const startSeed = startSeedRef!.current!.valueAsNumber;
+    const numSeeds = numSeedsRef!.current!.valueAsNumber;
     const endSeed = startSeed + numSeeds - 1;
 
     const preset = getPreset(gameMode);
@@ -173,7 +97,7 @@ export default function StatsPage() {
     }
 
     clearResults();
-    setGenerateTimes({ start: Date.now(), end: 0 });
+    setGenerateTimes({ start: Date.now(), end: 0, hash: '' });
     await new Promise((resolve) => setTimeout(resolve, 50));
 
     const encoded: string[] = [];
@@ -189,7 +113,7 @@ export default function StatsPage() {
     }
 
     let i = startSeed;
-    while (i < endSeed) {
+    while (i <= endSeed) {
       i = await processChunk(i, Math.min(i + 20, endSeed))
       setProgress(100 * ((i - startSeed + 1) / numSeeds))
       // Yield control to the event loop to avoid freezing the UI
@@ -202,7 +126,7 @@ export default function StatsPage() {
 
   const clearResults = () => {
     setEncodedSeeds([]);
-    setGenerateTimes({ start: 0, end: 0 });
+    setGenerateTimes({ start: 0, end: 0, hash: '' });
     setProgress(0)
   };
 
@@ -211,27 +135,88 @@ export default function StatsPage() {
     setGenerateTimes((current) => {
       return {
         start: current.start,
-        end: Date.now()
+        end: Date.now(),
+        hash: getHash(encoded)
       }
     });
   }
 
-  const updateParams = (newParams: Params) => {
-    if (newParams.gameMode != params.gameMode) {
-      clearResults();
-    }
-    setParams(newParams);
-  };
-
   const totalTime = generateTimes.end - generateTimes.start;
   const loading = totalTime < 0 ? true : false;
   const seedCount = encodedSeeds.length;
-  const n1 = (n: number) => n.toFixed(1);
 
   return (
     <div id="stats">
       <div className={styles.stats_nav}>
-        <Parameters value={params} update={updateParams} loading={loading} />
+        <select
+          name="game_mode"
+          id="game_mode"
+          className={styles.mode_selector}
+          value={gameMode}
+          disabled={loading}
+          onChange={(e) => {
+            clearResults();
+            setGameMode(e.target.value);
+          }}
+        >
+          <option value="mm_area_shuffled">M/M Area Shuffled</option>
+          <option value="sgl24">SGL24 - M/M - Boss Surprise</option>
+          <option value="spring24">Spring 24 - Chozo Area</option>
+          <option value="chozo_surprise">Chozo Surprise</option>
+          <option value="surprise_surprise">Surprise Surprise</option>
+          <option value="mm_area_surprise">MM Area Surprise</option>
+          <option value="mm_surprise">MM Surprise</option>
+          <option value="chozo">Chozo</option>
+          <option value="chozo_bozo">Chozo Bozo</option>
+          <option value="sgl23">SGL23 - Full - Boss+Area</option>
+          <option value="standard_mm">Standard - Major / Minor</option>
+          <option value="standard_full">Standard - Full</option>
+          <option value="recall_mm">Recall - Major / Minor</option>
+        </select>
+        <select
+          name="logic"
+          id="logic"
+          className={styles.mode_selector}
+          value={logic}
+          disabled={loading}
+          onChange={(e) => {
+            setLogic(e.target.value);
+          }}
+        >
+          <option value="standard">Standard Logic</option>
+          <option value="relaxed">Relaxed Logic</option>
+        </select>
+
+        <label htmlFor="start_seed" style={{ paddingRight: "4px" }}>
+          Start
+        </label>
+        <input
+          name="start_seed"
+          id="start_seed"
+          type="number"
+          min="1"
+          max="9999999"
+          step="100"
+          disabled={loading}
+          ref={startSeedRef}
+          defaultValue={1}
+        />
+
+        <label htmlFor="num_seeds" style={{ padding: "0px 4px" }}>
+          Count
+        </label>
+        <input
+          name="num_seeds"
+          id="num_seeds"
+          type="number"
+          min="1"
+          max="9999999"
+          step="100"
+          disabled={loading}
+          ref={numSeedsRef}
+          defaultValue={100}
+        />
+
         <input
           type="button"
           value="Generate"
@@ -246,12 +231,19 @@ export default function StatsPage() {
           onClick={clearResults}
           disabled={loading}
         />
-        <div id="action_status" style={{ paddingLeft: "8px", display: 'inline-block', width: '50%' }}>
+        <div
+          id="action_status"
+          style={{ paddingLeft: "8px", display: "inline-block", width: "50%" }}
+        >
           {loading ? (
             <ProgressBar progress={progress} />
-          ) : totalTime === 0 ? '' : (
-            `${seedCount} seeds ${totalTime}ms [ ${n1(totalTime / seedCount)}
-              ms avg] ${getHash(encodedSeeds)}`
+          ) : totalTime === 0 ? (
+            ""
+          ) : (
+            `${seedCount} seeds ${formatTime(totalTime)} [ ${(
+              totalTime / seedCount
+            ).toFixed(1)}
+              ms avg] ${generateTimes.hash}`
           )}
         </div>
         <span id="right_side" className={styles.right_side}>
@@ -273,12 +265,8 @@ export default function StatsPage() {
         </span>
       </div>
       <div id="stats_panel" className={styles.stats_panel}>
-        {panel == "majors" && (
-          <MajorItemTable encodedSeeds={encodedSeeds} />
-        )}
-        {panel == "areas" && (
-          <AreaDoorTable encodedSeeds={encodedSeeds} />
-        )}
+        {panel == "majors" && <MajorItemTable encodedSeeds={encodedSeeds} />}
+        {panel == "areas" && <AreaDoorTable encodedSeeds={encodedSeeds} />}
         {/*panel == "progression" && (
           <ProgressionStats itemProgression={status.progression} />
         )*/}
