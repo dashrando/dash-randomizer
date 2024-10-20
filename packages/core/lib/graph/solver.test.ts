@@ -1,8 +1,7 @@
 import {
   Graph,
   loadGraph,
-  readGraph,
-  readParams,
+  readRom,
 } from "../..";
 import { getAllPresets } from "../presets";
 import { generateSeed } from "./fill";
@@ -15,7 +14,7 @@ import { MajorDistributionMode, Options, Params, Settings } from "../params";
 import { Item, ItemNames, ItemType, majorItem, minorItem } from "../items";
 import { getAreaString, getLocations } from "../locations";
 import { SeasonEdgeUpdates } from "./data/season/edges";
-import { decodeSeed, encodeSeed, toSafeString } from "../../helpers/encoder";
+import { encodeSeed } from "../../helpers/encoder";
 
 type SeedData = {
   params: Params;
@@ -117,6 +116,8 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
       options: {
         RelaxedLogic: false,
         DisableFanfare: false,
+        Mystery: false,
+        Spoiler: false
       },
       portals,
       itemLocations,
@@ -226,10 +227,9 @@ const checkSeeds = (dirPath: string, areValid: boolean) => {
       if (full.endsWith(".sfc")) {
         // Read parameters and graph from the ROM
         const rom = new Uint8Array(fs.readFileSync(full));
-        const params = readParams(rom);
-        const graph = readGraph(rom);
+        const { params, graph } = readRom(rom);
         fs.writeFileSync(
-          full.replace(".sfc", ".bin"),
+          full.replace(".sfc", ".enc"),
           encodeSeed(params, graph)
         );
         checkGraph(e, graph, params.settings);
@@ -237,10 +237,6 @@ const checkSeeds = (dirPath: string, areValid: boolean) => {
         // Read directly from a JSON file
         const { settings, graph } = loadSeed(full, defaultSettings);
         checkGraph(e, graph, settings);
-      } else if (full.endsWith(".bin")) {
-        const encoded = fs.readFileSync(full);
-        const decoded = decodeSeed(encoded);
-        checkGraph(e, decoded.graph, decoded.params.settings);
       }
     } else if (stats.isDirectory()) {
       checkSeeds(full, areValid);
@@ -258,7 +254,7 @@ describe("solver", () => {
         const { settings, options } = p;
         const g = generateSeed(i + 1, settings, options);
         const r = { seed: i + 1, settings, options };
-        encodings.push(toSafeString(encodeSeed(r, g)));
+        encodings.push(encodeSeed(r, g));
       }
     });
 

@@ -12,8 +12,14 @@ import {
 
 describe("stringToParams", () => {
   test("Verify", () => {
+    const options = {
+      DisableFanfare: true,
+      RelaxedLogic: false,
+      Mystery: false,
+      Spoiler: false,
+    };
     expect(stringToParams("")).toStrictEqual({
-      options: { DisableFanfare: true, RelaxedLogic: false },
+      options,
       seed: 0,
       settings: {
         beamMode: BeamMode.Vanilla,
@@ -27,9 +33,10 @@ describe("stringToParams", () => {
         suitMode: 0, // unsupported vanilla suit mode
       },
     });
+    options.DisableFanfare = false;
 
     expect(stringToParams("tV8MSAOg")).toStrictEqual({
-      options: { DisableFanfare: false, RelaxedLogic: false },
+      options,
       seed: 810933,
       settings: {
         beamMode: BeamMode.Vanilla,
@@ -45,7 +52,7 @@ describe("stringToParams", () => {
     });
 
     expect(stringToParams("LfsFSBKg")).toStrictEqual({
-      options: { DisableFanfare: false, RelaxedLogic: false },
+      options,
       seed: 391981,
       settings: {
         beamMode: BeamMode.Vanilla,
@@ -61,7 +68,7 @@ describe("stringToParams", () => {
     });
 
     expect(stringToParams("28MOXACs")).toStrictEqual({
-      options: { DisableFanfare: false, RelaxedLogic: false },
+      options,
       seed: 967643,
       settings: {
         beamMode: BeamMode.StarterPlus,
@@ -77,7 +84,7 @@ describe("stringToParams", () => {
     });
 
     expect(stringToParams("AAAAXACs")).toStrictEqual({
-      options: { DisableFanfare: false, RelaxedLogic: false },
+      options,
       seed: 0,
       settings: {
         beamMode: BeamMode.StarterPlus,
@@ -93,7 +100,7 @@ describe("stringToParams", () => {
     });
 
     expect(stringToParams("AQAAXACs")).toStrictEqual({
-      options: { DisableFanfare: false, RelaxedLogic: false },
+      options,
       seed: 1,
       settings: {
         beamMode: BeamMode.StarterPlus,

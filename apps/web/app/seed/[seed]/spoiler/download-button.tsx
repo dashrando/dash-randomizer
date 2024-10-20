@@ -9,7 +9,7 @@ function downloadFile(data: Uint8Array, filename: string) {
 }
 
 export default function DownloadButton({ data, raceKey }: { data: any, raceKey: string }) {
-  const filename = `DASH_race_${raceKey}_spoiler.txt`
+  const filename = `DASH_seed_${raceKey}_spoiler.txt`
   const handleClick = (evt: any) => {
     evt.preventDefault()
     const spoiler = JSON.stringify(data, null, 2)
@@ -18,7 +18,7 @@ export default function DownloadButton({ data, raceKey }: { data: any, raceKey: 
   return (
     <ButtonLink
       variant="outline"
-      href={`/race/${raceKey}/spoiler/download`}
+      href={`/seed/${raceKey}/spoiler/download`}
       download={filename}
       onClick={handleClick}
     >
