@@ -76,6 +76,7 @@ export default function StatsPage() {
   const [logic, setLogic] = useState('standard');
   const startSeedRef = useRef<HTMLInputElement>(null);
   const numSeedsRef = useRef<HTMLInputElement>(null);
+  const cancelRef = useRef(false);
 
   const [panel, setPanel] = useState("majors");
   const [encodedSeeds, setEncodedSeeds] = useState<string[]>([]);
@@ -113,18 +114,28 @@ export default function StatsPage() {
     }
 
     let i = startSeed;
-    while (i <= endSeed) {
+    while (i <= endSeed && !cancelRef.current) {
       i = await processChunk(i, Math.min(i + 20, endSeed))
       setProgress(100 * ((i - startSeed + 1) / numSeeds))
       // Yield control to the event loop to avoid freezing the UI
       await new Promise((resolve) => setTimeout(resolve, 0));
     }
 
+    cancelRef.current = false;
     await new Promise((resolve) => setTimeout(resolve, 50));
     updateResults(encoded);
   };
 
+  const totalTime = generateTimes.end - generateTimes.start;
+  const loading = totalTime < 0 ? true : false;
+  const seedCount = encodedSeeds.length;
+
   const clearResults = () => {
+    if (loading) {
+      cancelRef.current = true;
+      return;
+    }
+    cancelRef.current = false;
     setEncodedSeeds([]);
     setGenerateTimes({ start: 0, end: 0, hash: '' });
     setProgress(0)
@@ -140,10 +151,6 @@ export default function StatsPage() {
       }
     });
   }
-
-  const totalTime = generateTimes.end - generateTimes.start;
-  const loading = totalTime < 0 ? true : false;
-  const seedCount = encodedSeeds.length;
 
   return (
     <div id="stats">
@@ -196,7 +203,6 @@ export default function StatsPage() {
           type="number"
           min="1"
           max="9999999"
-          step="100"
           disabled={loading}
           ref={startSeedRef}
           defaultValue={1}
@@ -211,7 +217,6 @@ export default function StatsPage() {
           type="number"
           min="1"
           max="9999999"
-          step="100"
           disabled={loading}
           ref={numSeedsRef}
           defaultValue={100}
@@ -226,10 +231,9 @@ export default function StatsPage() {
         />
         <input
           type="button"
-          value="Clear"
+          value={loading ? "Stop" : "Clear"}
           id="clear_table"
           onClick={clearResults}
-          disabled={loading}
         />
         <div
           id="action_status"
