@@ -17,6 +17,14 @@ export const isDASHSeed = (rom: Uint8Array): boolean => {
 export const readParams = (bytes: Uint8Array) => {
   const offset = TABLE_FLAGS.SeedFlags;
   const paramBytes = bytes.subarray(offset, offset + TABLE_FLAGS.SeedFlagsSize);
+  if (
+    paramBytes[0] == 0xee &&
+    paramBytes[1] == 0xee &&
+    paramBytes[2] == 0xee &&
+    paramBytes[3] == 0xee
+  ) {
+    return undefined;
+  }
   return bytesToParams(paramBytes);
 }
 
@@ -44,6 +52,9 @@ export const readRom = (rom: Uint8Array) => {
   }
 
   const params = readParams(rom);
+  if (params === undefined) {
+    return {}
+  }
   const { seed, settings, options } = params;
   const portals = readPortals(rom);
   const graph = loadGraph(seed, 1, settings.mapLayout,
