@@ -3,33 +3,17 @@
 import { useDropzone } from 'react-dropzone'
 import { useCallback, useEffect, useState } from 'react'
 import {
+  encodeSeed,
   isDASHSeed,
-  paramsToString,
-  readParams,
+  readRom,
+  readSeedKey,
   vanilla as vanillaData,
 } from "core";
 import styles from './file-drop.module.css'
 import { useRouter } from 'next/navigation'
 import { useVanilla } from '../generate/vanilla'
 import { toast } from 'sonner'
-
-const getParamsFromFile = (bytes: Uint8Array) => {
-  try {
-    const byteParams = readParams(bytes)
-    const seedKey = paramsToString(
-      byteParams.seed,
-      byteParams.settings,
-      byteParams.options
-    )
-    return seedKey
-  } catch (e) {
-    const err = e as Error;
-    console.error(err.message)
-    // TODO: Present a friendly error message to the user instead of an alert.
-    //alert(err.message)
-    return null
-  }
-}
+import { getNewSeedKey, getSeedData, saveSeedData } from '@/lib/seed-data';
 
 async function getVanilla(value: Uint8Array): Promise<any> {
   const { getSignature, isVerified, isHeadered } = vanillaData
@@ -111,10 +95,37 @@ const FileDrop = (props: React.PropsWithChildren) => {
       // return null
     }
 
-    const isDASH = isDASHSeed(data)
-    if (isDASH) {
-      const seedKey = getParamsFromFile(data)
-      if (seedKey) {
+    if (!isDASHSeed(data)) {
+      // Not a vanilla or DASH file
+      toast.error(`Not vanilla ROM or DASH seed`)
+      return
+    }
+
+    // Try to read a seed key from the ROM and load it
+    const { key, race } = readSeedKey(data);
+    if (key.length > 0) {
+      const data = await getSeedData(key)
+      if (data != null) {
+        toast('Loading DASH seed...')
+        router.push(`/seed/${key}`)
+        return
+      }
+    }
+
+    // No seed key so try to read the parameters from the 
+    // ROM and regenerate it; does not work for race seeds
+    if (!race) {
+      const { params, graph } = readRom(data);
+      if (params !== undefined && graph !== undefined) {
+        const hash = encodeSeed(params, graph)
+        const seedKey = key.length > 0 ? key : await getNewSeedKey()
+        await saveSeedData(
+          seedKey,
+          hash,
+          params.options.Mystery,
+          false,
+          params.options.Spoiler
+        );
         toast('Loading DASH seed...')
         router.push(`/seed/${seedKey}`)
         return

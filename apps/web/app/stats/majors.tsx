@@ -2,7 +2,7 @@
 
 import styles from "./majors.module.css";
 import { getAreaString, getLocations, Item, ItemNames } from "core/data";
-import { decodeItemLocations } from "core";
+import { decodeSeed, getItemLocations } from "core";
 
 type ColumnData = {
   name: string;
@@ -11,14 +11,19 @@ type ColumnData = {
   isDashItem: boolean;
 };
 
-const col = (name: string, type: number, isMajor = true, isDashItem = false) => {
+const col = (
+  name: string,
+  type: number,
+  isMajor = true,
+  isDashItem = false
+) => {
   return {
     name,
     type,
     isMajor,
-    isDashItem
-  }
-}
+    isDashItem,
+  };
+};
 
 const allColumns: ColumnData[] = [
   col("Heat Shield", Item.HeatShield, true, true),
@@ -51,16 +56,16 @@ const allColumns: ColumnData[] = [
 export default function MajorItemTable({
   encodedSeeds,
 }: {
-  encodedSeeds: Uint8Array[];
+  encodedSeeds: string[];
 }) {
   const ALL_ITEMS = Object.values(Item)
     .filter((i) => i > 0xc000)
     .map((i) => {
       return {
         type: i as number,
-        name: ItemNames.get(i) as string
-      }
-    })
+        name: ItemNames.get(i) as string,
+      };
+    });
   const locations = getLocations().sort((a, b) => a.address - b.address);
 
   const itemCounts = locations.map((l) => {
@@ -69,12 +74,13 @@ export default function MajorItemTable({
       area: l.area,
       item: new Map(ALL_ITEMS.map((i) => [i.type, 0])),
       hasMajors: false,
-      hasItems: false
+      hasItems: false,
     };
   });
 
   encodedSeeds.forEach((s) => {
-    decodeItemLocations(s).forEach((v, i) => {
+    const { graph } = decodeSeed(s);
+    getItemLocations(graph, true).forEach((v, i) => {
       if (v.item === null) {
         return;
       }
@@ -90,7 +96,8 @@ export default function MajorItemTable({
     });
   });
 
-  const showDash = false, showMinors = false;
+  const showDash = false,
+    showMinors = false;
   const columns = allColumns.filter((i) => {
     if (!showMinors && !i.isMajor) {
       return false;
@@ -99,11 +106,11 @@ export default function MajorItemTable({
       return false;
     }
     return true;
-  })
+  });
 
   return (
     <table className={styles.majors}>
-      <tbody>
+      <thead>
         <tr>
           <th className={styles.location}>Location</th>
           <th className={styles.area}>Area</th>
@@ -111,33 +118,36 @@ export default function MajorItemTable({
             return <th key={i.name}>{i.name}</th>;
           })}
         </tr>
-        {itemCounts.map((i) => {
-          if (!showMinors && i.hasMajors === false) {
-            return <></>
-          }
-          return (
-            <tr key={i.name}>
-              <td>{i.name}</td>
-              <td>{getAreaString(i.area)}</td>
-              {columns.map((j, k) => {
-                const key = i.name + k.toString();
-                const count = i.item.get(j.type) as number;
-                if (count === 0) {
-                  return <td key={key} className={styles.gray_cell}></td>;
-                }
+      </thead>
+      {encodedSeeds.length <= 0 ? (
+        <tbody></tbody>
+      ) : (
+        <tbody>
+          {itemCounts.filter((i) => showMinors || i.hasMajors).map((i) => {
+            return (
+              <tr key={`${i.name}_${i.area}`}>
+                <td>{i.name}</td>
+                <td>{getAreaString(i.area)}</td>
+                {columns.map((j, k) => {
+                  const key = i.name + k.toString();
+                  const count = i.item.get(j.type) as number;
+                  if (count === 0) {
+                    return <td key={key} className={styles.gray_cell}></td>;
+                  }
 
-                const percent = (100 * count) / encodedSeeds.length;
-                const cellColor = percent > 5 ? styles.tan_cell : "";
-                return (
-                  <td key={key} className={cellColor}>
-                    {percent.toFixed(1)}%
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
-      </tbody>
+                  const percent = (100 * count) / encodedSeeds.length;
+                  const cellColor = percent > 5 ? styles.tan_cell : "";
+                  return (
+                    <td key={key} className={cellColor}>
+                      {percent.toFixed(1)}%
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      )}
     </table>
   );
 }

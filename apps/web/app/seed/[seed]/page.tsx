@@ -1,26 +1,34 @@
-import { stringToParams } from "core";
 import Link from 'next/link'
 import styles from './seed.module.css'
 import Seed from './seed'
 import { prefetchSignature } from 'core'
 import Toaster from '../../components/toaster'
-
-type SeedParams = {
-  seed: string
-}
+import { hashToParams } from '@/lib/settings'
+import { notFound } from 'next/navigation'
+import { getSeedData } from '@/lib/seed-data'
 
 export async function generateMetadata({ params }: { params : { seed: string }}) {
-  const settings = stringToParams(params.seed)
+  const data = await getSeedData(params.seed, false)
+  if (!data) {
+    return {
+      title: "DASH Randomizer Seed",
+      description: "Invalid Seed"
+    }
+  }
+  const settings = hashToParams(data.hash)
   const seedNum = settings.seed
-  const sig = prefetchSignature(seedNum)
+  const description = data.race ? params.seed : prefetchSignature(seedNum)
   return {
     title: `DASH Randomizer Seed`,
-    description: sig
+    description
   }
 }
 
-export default function SeedPage({ params }: { params: SeedParams }) {
-  
+export default async function SeedPage({ params }: { params : { seed: string }}) {
+  const data = await getSeedData(params.seed, false)
+  if (!data) {
+    return notFound()
+  }
   const SeedFooter = () => {
     return (
       <footer className={styles.footer}>
@@ -33,18 +41,22 @@ export default function SeedPage({ params }: { params: SeedParams }) {
     );
   };
 
-  const settings = stringToParams(params.seed)
-  const seedNum = settings.seed
+  const { hash, mystery, race, spoiler } = data
+  const seedParams = hashToParams(hash)
+  const seedNum = seedParams.seed
   const sig = prefetchSignature(seedNum)
 
   return (
     <main className={styles.container}>
       <h1 className={styles.logo}>DASH</h1>
       <Seed
-        parameters={settings}
-        hash={params.seed}
+        parameters={seedParams}
+        hash={hash}
         signature={sig}
         slug={params.seed}
+        race={race}
+        mystery={mystery}
+        spoiler={!!spoiler}
       />
       <SeedFooter />
       <Toaster />

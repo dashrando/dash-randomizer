@@ -1,4 +1,4 @@
-import { Item } from 'core'
+import { Item, Params, stringToParams } from 'core'
 import {
   BeamMode,
   BossMode,
@@ -93,7 +93,7 @@ const getExtraItems = (extraItems: number[]) => {
   return { doubleJump, heatShield, pressureValve }
 }
 
-export const parseSettings = (parameters: any) => {
+export const parseSettings = (parameters: Params) => {
   const { settings } = parameters
   const extraItems = getExtraItems(settings.extraItems)
   const randomizeParams = [
@@ -111,9 +111,17 @@ export const parseSettings = (parameters: any) => {
     { label: 'Pressure Valve', value: extraItems.pressureValve, },
   ]
   const optionsParams = [
-    { label: 'Logic', value: getLogic(parameters.options.RelaxedLogic) },
+    { label: 'Logic', value: getLogic(parameters.options.RelaxedLogic ? 1 : 0) },
     //{ label: 'Seed Number', value: parameters.seed },
     { label: 'Item Fanfare', value: displayOnOff(!parameters.options.DisableFanfare), }
   ]
   return { randomizeParams, settingsParams, optionsParams }
+}
+
+export function hashToParams(hash: string) {
+  if (hash.length < 20) {
+    return stringToParams(hash);
+  }
+
+  return stringToParams(hash.slice(1, 13))
 }

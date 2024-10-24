@@ -82,7 +82,7 @@ describe("generateSeedPath", () => {
       const preset = getPreset(name);
       const { settings, options } = preset;
       const graph = generateSeed(seed, settings, options);
-      const patch = generateSeedPatch(seed, settings, graph, options, false);
+      const patch = generateSeedPatch(seed, settings, graph, options, false, '');
       //fs.writeFileSync(
         //path.resolve(dirPath, "seed_patches", fileName),
         //patchToString(patch)
