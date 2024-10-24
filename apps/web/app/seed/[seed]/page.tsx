@@ -7,11 +7,8 @@ import { hashToParams } from '@/lib/settings'
 import { notFound } from 'next/navigation'
 import { getSeedData } from '@/lib/seed-data'
 
-export async function generateMetadata(req: any) {
-  const params = req.params
-  const searchParams = req.searchParams
-  const legacyRace = searchParams['lr']
-  const data = await getSeedData(params.seed, legacyRace === '1')
+export async function generateMetadata({ params }: { params : { seed: string }}) {
+  const data = await getSeedData(params.seed, false)
   if (!data) {
     return {
       title: "DASH Randomizer Seed",
@@ -27,11 +24,8 @@ export async function generateMetadata(req: any) {
   }
 }
 
-export default async function SeedPage(req: any) {
-  const params = req.params
-  const searchParams = req.searchParams
-  const legacyRace = searchParams['lr']
-  const data = await getSeedData(params.seed, legacyRace === '1')
+export default async function SeedPage({ params }: { params : { seed: string }}) {
+  const data = await getSeedData(params.seed, false)
   if (!data) {
     return notFound()
   }
@@ -60,7 +54,7 @@ export default async function SeedPage(req: any) {
         hash={hash}
         signature={sig}
         slug={params.seed}
-        race={race || legacyRace === '1'}
+        race={race}
         mystery={mystery}
         spoiler={!!spoiler}
       />
