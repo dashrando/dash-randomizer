@@ -1,0 +1,5 @@
+.section_sep {
+  margin-top: var(--spacer-6x);
+  padding-top: var(--spacer-4x);
+  border-top: 1px solid #222;
+}
