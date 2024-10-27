@@ -27,19 +27,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
     const mystery = preset?.tags.includes('mystery') || false
     const searchParams = req.nextUrl.searchParams
     const spoiler = searchParams.get('spoiler') || 0
-
-    const isRace = () => {
-      if (mystery) {
-        return true
-      }
-      const raceParam = searchParams.get('race')
-      if (raceParam) {
-        return parseInt(raceParam) === 1
-      }
-      return false
-    }
-
-    const race = isRace()
+    const race = mystery || searchParams.get('race') === '1'
 
     if (preset == undefined) {
       const validPresets = getAllPresets()
