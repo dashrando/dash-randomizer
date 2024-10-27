@@ -5,13 +5,13 @@ import Select from '../components/select'
 import Numeric from '../components/numeric'
 import styles from './page.module.css'
 import { downloadFile } from '@/lib/downloads'
-import { cn, deepEqual  } from '@/lib/utils'
+import { cn, deepEqual } from '@/lib/utils'
 import VanillaButton, { useVanilla } from './vanilla'
 import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
 import Badge from '../components/badge'
 import useMounted from '../hooks/useMounted'
-import { Item, RandomizeRom, paramsToString } from 'core'
+import { Item, RandomizeRom } from 'core'
 import {
   BeamMode,
   BossMode,
@@ -24,6 +24,7 @@ import {
 import { fetchSignature } from 'core'
 import { useCallback, useEffect, useState } from 'react'
 import Spacer from '../components/spacer'
+import { getNewSeedKey, saveSeedData } from '@/lib/seed-data'
 
 const Sidebar = ({
   name = null,
@@ -316,6 +317,7 @@ type RolledSeed = {
   seed: any
   name: string
   hash: string
+  key: string
 }
 
 export default function Form() {
@@ -355,7 +357,7 @@ export default function Form() {
 
   const onSubmit = async (data: GenerateFormParams) => {
     try {
-      const config = { vanillaBytes: vanilla, presetName: "Custom" };
+      const config = { vanillaBytes: vanilla, presetName: "Custom", seedKey: "" };
 
       const getSeed = () => {
         if (data['seed-mode'] === 'fixed') {
@@ -459,6 +461,8 @@ export default function Form() {
       const options = {
         DisableFanfare: false,
         RelaxedLogic: false,
+        Mystery: false,
+        Spoiler: false
       };
       if (data.fanfare == 'off') {
         options.DisableFanfare = true;
@@ -468,13 +472,25 @@ export default function Form() {
       };
 
       const seedNumber = getSeed();
-      const { data: seed, name } = await RandomizeRom(
-        seedNumber, settings, options, config);
-      const hash = paramsToString(seedNumber, settings, options);
+      config.seedKey = await getNewSeedKey()
+      const { data: seed, hash } = await RandomizeRom(
+        seedNumber,
+        settings,
+        options,
+        config
+      );
+      await saveSeedData(
+        config.seedKey,
+        hash,
+        options.Mystery,
+        false,
+        options.Spoiler
+      );
+      const name = `DASH_${config.presetName}_${config.seedKey}.sfc`
       if (seed !== null) {
         downloadFile(seed, name, hash)
       }
-      setRolledSeed({ seed, name, hash })
+      setRolledSeed({ seed, name, hash, key: config.seedKey })
     } catch (error) {
       console.error('SEED ERROR', error)
     }
@@ -776,7 +792,7 @@ export default function Form() {
         <Sidebar
           name={rolledSeed?.name || null}
           signature={signature}
-          hash={rolledSeed?.hash}
+          hash={rolledSeed?.key}
         />
       </div>
     </form>

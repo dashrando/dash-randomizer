@@ -2,9 +2,6 @@ name: Run Jest Tests
 
 on:
   push:
-    branches:
-      - main
-      - canary
 
 jobs:
   test:

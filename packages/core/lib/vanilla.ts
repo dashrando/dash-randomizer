@@ -1,5 +1,5 @@
 import { Vanilla } from "../data";
-import { ToHexString } from "../helpers/converters";
+import { toHexString } from "../helpers/converters";
 
 // Small helper function to use the WebCrypto API universally
 const getCrypto = () => {
@@ -16,7 +16,7 @@ const getCrypto = () => {
 
 export async function getSignature(data: Uint8Array) {
   const value = await getCrypto().subtle.digest("SHA-256", data);
-  return ToHexString(value);
+  return toHexString(value);
 }
 
 export const isHeadered = (signature: string) => signature === Vanilla.headered;

@@ -9,12 +9,17 @@ export * as vanilla from "./lib/vanilla";
 export { patchRom } from "./helpers/patcher";
 export { findPreset, getPreset, getAllPresets } from "./lib/presets";
 export { Item } from "./lib/items";
-export { generateFromPreset, getSeedNumber } from "./lib/sm-rando";
+export { getSeedNumber } from "./lib/sm-rando";
 export { getItemProgression, isGraphValid } from "./lib/graph/solver";
-export { getAreaPortals, getBossPortals, mapPortals } from "./lib/graph/data/portals";
+export {
+  getAreaPortals,
+  getBossPortals,
+  getNumLoops,
+  hasInvalidSequence,
+  mapPortals,
+} from "./lib/graph/data/portals";
 export {
   bytesToParams,
-  paramsToString,
   stringToParams,
 } from "./lib/params";
 export {
@@ -27,21 +32,24 @@ export {
   isDASHSeed,
   readParams,
   readPortals,
-  readGraph
+  readRom,
+  readRomAsString,
+  readSeedKey
 } from "./helpers/reader"
 export {
   decodeSeed,
   decodeAreaPortals,
   decodeBossPortals,
-  decodeItemLocations,
   encodeSeed,
-  toSafeString,
-  fromSafeString
 } from "./helpers/encoder"
+export {
+  base64ToSafe,
+  safeToBase64
+} from "./helpers/converters"
 
 export { RandomizeRom, ProtectRom, BpsPatch };
 
-export type { Options, Settings } from "./lib/params";
+export type { Params, Options, Settings } from "./lib/params";
 export type { Graph, Vertex, Edge } from "./lib/graph/init";
 export type { ItemLocation } from "./lib/graph/solver";
 export type { PlacedItem } from "./lib/graph/utils";

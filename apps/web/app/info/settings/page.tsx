@@ -325,6 +325,7 @@ export default function SettingsInfoPage() {
               <p>
                 <strong>Area Randomization</strong> uses 32 specific doors as portals and randomizes the portal connections, producing a unique map layout.
               </p>
+              <p><a href="/info/area">More info on Area Randomization</a></p>
             </li>
             <li>
               <p>

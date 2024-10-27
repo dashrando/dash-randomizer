@@ -1,55 +1,38 @@
-import { kv } from '@vercel/kv'
 import styles from '../../../seed/[seed]/seed.module.css'
-import { prefetchSignature, stringToParams } from 'core'
+import { prefetchSignature } from 'core'
 import { notFound } from 'next/navigation'
 import DownloadButton from './download-button'
 import Link from 'next/link'
+import { hashToParams } from '@/lib/settings'
+import { getSeedData } from '@/lib/seed-data'
+import { getSpoiler } from '@/lib/spoiler'
 
-type RaceSeedData = {
-  hash: string
-  key: string
-  spoiler: Spoiler
-}
-
-type Spoiler = {
-  'Area Transitions': {
-    [transition: string]: string
-  }
-  Bosses: {
-    [location: string]: string
-  }
-  Items: {
-    [area: string]: {
-      [location: string]: string
-    }
-  }
-}
-
-export default async function RaceSeedSpoilerPage({ params }: { params: { key: string } }) {
-  const { key } = params
-  const data = await kv.hgetall(`race-${key}`)
+export default async function RaceSeedSpoilerPage({ params }: { params: { seed: string } }) {
+  const { seed } = params
+  const data = await getSeedData(seed)
   if (!data) {
-    return <div>Seed not found</div>
+    return <div>Seed not found: {seed}</div>
   }
 
-  const { hash, spoiler } = data as RaceSeedData
+  const { hash, spoiler } = data
   if (!spoiler) {
     return notFound()
   }
 
-  const seedParams = stringToParams(hash)
+  const spoilerData = getSpoiler(hash)
+  const seedParams = hashToParams(hash)
   const seedNum = seedParams.seed
   const sig = prefetchSignature(seedNum)
-  const bosses = spoiler['Bosses']
-  const areas = spoiler['Area Transitions']
-  const items = spoiler['Items']
+  const bosses = spoilerData['Bosses']
+  const areas = spoilerData['Area Transitions']
+  const items = spoilerData['Items']
 
   return (
     <main className={styles.container}>
       <h1 className={styles.logo}>DASH</h1>
       <div className={styles.signature}>{sig || <>&nbsp;</>}</div>
       <div style={{ marginTop: '32px' }} />
-      <DownloadButton raceKey={key} data={data.spoiler} />
+      <DownloadButton raceKey={seed} data={spoilerData} />
       <div className={styles.spoiler_data}>
         <section className={styles.spoiler_section}>
           <h3>Bosses</h3>
@@ -124,7 +107,7 @@ export default async function RaceSeedSpoilerPage({ params }: { params: { key: s
       </div>
       <footer className={styles.footer}>
         <p>
-          <Link href={`/race/${key}`}>Return to Seed Page</Link>
+          <Link href={`/seed/${seed}`}>Return to Seed Page</Link>
         </p>
       </footer>
     </main>

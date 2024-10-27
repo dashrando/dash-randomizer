@@ -152,7 +152,9 @@ const generateMysteryPreset = (): Preset => {
     },
     options: {
       DisableFanfare: false,
-      RelaxedLogic: false
+      RelaxedLogic: false,
+      Mystery: true,
+      Spoiler: false
     }
   }
 }
@@ -174,7 +176,9 @@ export const Preset_MM_Surprise: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   }
 };
 
@@ -195,7 +199,9 @@ export const Preset_MM_Area_Surprise: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   }
 };
 
@@ -216,7 +222,9 @@ export const Preset_MM_Area_Shuffled: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   }
 };
 
@@ -237,7 +245,9 @@ export const Preset_Full_Area_Shuffled: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   }
 };
 
@@ -258,7 +268,9 @@ export const Preset_Full_Surprise: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   }
 };
 
@@ -279,7 +291,9 @@ export const Preset_SurpriseSurprise: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   }
 };
 
@@ -300,7 +314,9 @@ export const Preset_Chozo_Surprise: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   }
 };
 
@@ -321,7 +337,9 @@ export const Preset_Chozo_Area_Surprise: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   }
 };
 
@@ -346,7 +364,9 @@ export const Preset_Chozo: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   }
 };
 
@@ -367,7 +387,9 @@ export const Preset_Chozo_Bozo: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   },
 };
 
@@ -388,7 +410,9 @@ export const Preset_Chozo_Bozo_Area: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   },
 };
 
@@ -409,7 +433,9 @@ export const Preset_Chozo_Area_Shifted: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   },
 };
 
@@ -434,7 +460,9 @@ export const Preset_SGL23: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   },
 };
 export const Preset_SGL24: Preset = {
@@ -454,7 +482,9 @@ export const Preset_SGL24: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   },
 };
 
@@ -475,7 +505,9 @@ export const Preset_Spring_2024: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   },
 };
 
@@ -500,7 +532,9 @@ export const Preset_Classic_MM: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   },
 };
 
@@ -521,7 +555,9 @@ export const Preset_Classic_Full: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   },
 };
 
@@ -546,7 +582,9 @@ export const Preset_Recall_MM: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   },
 };
 
@@ -571,6 +609,8 @@ export const Preset_2017_MM: Preset = {
   },
   options: {
     DisableFanfare: false,
-    RelaxedLogic: false
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
   },
 };
