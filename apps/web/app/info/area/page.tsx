@@ -14,7 +14,7 @@ export default function AreaInfoPage() {
             <strong>Area Randomization</strong> uses 32 specific doors as portals and randomizes the portal connections, producing a unique map layout.
           </p>
         </article>
-        <article className={pageStyles.section_sep}>
+        <article className={cn(styles.article, pageStyles.section_sep)}>
             <p>
             When traversing the map, there are 3 area types:
             </p>
@@ -38,6 +38,7 @@ export default function AreaInfoPage() {
             <Spacer y={10}/>
             <p>
               DASH randomly connects areas when <a href="/info/verified-fill">generating a seed</a>, but a few restrictions are put in place to make for a better racing experience:
+            </p>
               <ul>
                 <li>
                   <p>
@@ -60,10 +61,9 @@ export default function AreaInfoPage() {
                   </p>
                 </li>
               </ul>
-            </p>
           </article>
 
-        <article className={pageStyles.section_sep}>
+        <article className={cn(styles.article, pageStyles.section_sep)}>
           <p>
             <table className={cn(styles.table, styles.mysteryTable)}>
               <thead>

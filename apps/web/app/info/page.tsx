@@ -32,6 +32,11 @@ const InfoArticles: InfoArticle[] = [
     description: 'Surprise Bosses is a boss randomization mode allowing duplicates.',
   },
   {
+    title: 'Area Randomization',
+    href: '/info/area',
+    description: 'Area Randomization creates unique map layouts for exploration.',
+  },
+  {
     title: 'DASH: Recall',
     href: '/info/recall',
     description: 'DASH: Recall is a new preset that tries to rebalance logic.',
