@@ -178,7 +178,6 @@ export default function StatsPage() {
           <option value="sgl23">SGL23 - Full - Boss+Area</option>
           <option value="standard_mm">Standard - Major / Minor</option>
           <option value="standard_full">Standard - Full</option>
-          <option value="recall_mm">Recall - Major / Minor</option>
         </select>
         <select
           name="logic"

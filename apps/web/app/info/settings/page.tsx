@@ -3,6 +3,7 @@ import { Wrapper } from '@/app/components/wrapper'
 import { Link as LinkIcon } from 'react-feather'
 import styles from '../info.module.css'
 import MysterySettings from './mystery'
+import Badge from '@/app/components/badge'
 
 const Title = ({ id, children }: { id: string, children: React.ReactNode }) => (
   <h2 className={styles.title}>
@@ -327,7 +328,7 @@ export default function SettingsInfoPage() {
               </p>
               <p><a href="/info/area">More info on Area Randomization</a></p>
             </li>
-            <li>
+            {/*<li>
               <p>
                 <strong>DASH: Recall</strong> rebalances vanilla map by unlocking certain doors and removing obstacles.
               </p>
@@ -358,7 +359,7 @@ export default function SettingsInfoPage() {
                   </li>
                 </ul>
               </details>
-            </li>
+            </li>*/}
             <li>
               <p>
                 <strong>Vanilla</strong> makes no changes to the door connections.
@@ -485,6 +486,7 @@ export default function SettingsInfoPage() {
         <Article
           id="pressure-valve"
           title="Pressure Valve"
+          badge={<Badge variant={'beta'}>Reworked</Badge>}
         >
           <p>
             <strong>Pressure Valve</strong> is a new item introduced in DASH Recall. When equipped, it allows for seamless underwater movement like Gravity Suit. However, it has no effect in Aqueduct and other rooms in East Maridia. It also offers no damage reduction.
