@@ -313,7 +313,7 @@ export const checkFlags = (load: Loadout) => {
   const HasIce = load.hasIce;
   const HasMorph = load.hasMorph;
   const HasPlasma = load.hasPlasma;
-  //const HasPressureValve = load.hasPressureValve;
+  const HasPressureValve = load.hasPressureValve;
   const HasScrewAttack = load.hasScrewAttack;
   const HasSpaceJump = load.hasSpaceJump;
   const HasSpazer = load.hasSpazer;

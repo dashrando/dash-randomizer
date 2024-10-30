@@ -69,7 +69,7 @@ const WreckedShip_ShipHallway_to_SpongeBath = {
 
 const WreckedShip_RearExit_to_WSHighway = {
   edges: ["ShipRearExit", "Door_WSHighway"],
-  requires: () => (HasHiJump || HasGravity) && HasMorph,
+  requires: () => (HasHiJump || CanMoveInWestMaridia) && HasMorph,
 };
 
 const EastMaridia_OasisBottom_to_Aqueduct = {
