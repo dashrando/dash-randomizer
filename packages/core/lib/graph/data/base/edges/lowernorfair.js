@@ -2,11 +2,22 @@ export const lowernorfairEdges = {
   Door_RidleyMouth: {
     Ruins: () =>
       HasVaria &&
-      (HasGravity || HasHiJump || (HasPressureValve && TotalTanks >= 3)),
+      (HasGravity ||
+        (HasHiJump && TotalTanks >= 2) ||
+        (HasPressureValve && TotalTanks >= 3)),
   },
 
   Door_Musketeers: {
-    Musketeers: () => HasVaria,
+    Musketeers: () =>
+      HasVaria &&
+      (HasScrewAttack ||
+        HasPlasma ||
+        HasCharge ||
+        HasWave ||
+        HasIce ||
+        HasSpazer ||
+        TotalTanks >= 2 ||
+        (HasGravity && TotalTanks >= 1)),
   },
 
   Musketeers: {
@@ -50,7 +61,8 @@ export const lowernorfairEdges = {
   RedKihunterShaftTop: {
     Wasteland: () => CanUsePowerBombs,
     "Energy Tank (Firefleas)": true,
-    WorstRoomTop: () => (CanMoveInWestMaridia && TotalTanks >= 4) || TotalTanks >= 6,
+    WorstRoomTop: () =>
+      (CanMoveInWestMaridia && TotalTanks >= 4) || TotalTanks >= 6,
     "Missiles (Maze)": true,
   },
 
