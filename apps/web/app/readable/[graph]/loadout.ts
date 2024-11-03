@@ -38,7 +38,7 @@ const LoadoutChecks = [
   {
     name: 'HellRunTanks',
     condition:
-      'if (HasVaria OR HasHeatShield) {\n  return 9999\n} else {\n   return TotalTanks\n}'
+      'if (HasVaria OR HasHeatShield) {\n  return 9999\n} else {\n  return TotalTanks\n}'
   },
   {
     name: 'CanDoSuitlessMaridia',
