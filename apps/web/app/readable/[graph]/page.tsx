@@ -18,7 +18,6 @@ export async function generateStaticParams() {
   return [
     { graph: 'standard' },
     { graph: 'area' },
-    { graph: 'recall' },
   ]
 }
 

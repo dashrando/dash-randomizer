@@ -41,7 +41,7 @@ const ResourcesPage: NextPage = () => {
       <section className={styles.section}>
         <h2>Trackers</h2>
         <Resource
-          title="EmoTracker Packs for DASH Standard and DASH Recall"
+          title="EmoTracker Packs for DASH"
           image="/images/Trackers_DASH_EmoTracker.png"
         >
           <p>For instructions on how to use autosplitting on console, check out these <ExternalLink href="https://www.youtube.com/watch?v=AUSSGh30dgA">SNES Classic</ExternalLink> and <ExternalLink href="https://www.youtube.com/watch?v=q05qSIuYcKw">FXPak/SD2Snes</ExternalLink> tutorial videos! (If you don&apos;t have EmoTracker, you can download <ExternalLink href="https://emotracker.net/download/">EmoTracker</ExternalLink> here)</p>
@@ -49,7 +49,7 @@ const ResourcesPage: NextPage = () => {
         </Resource>
         <div className={styles.seperator} />
         <Resource
-          title="Web Browser Manual Tracker for DASH Recall"
+          title="Web Browser Manual Tracker for DASH"
           image="/images/Tracker_Recall_Rumbleminze.png"
         >
           <p>

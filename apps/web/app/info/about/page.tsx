@@ -43,7 +43,7 @@ export default function AboutInfoPage() {
           </p>
           <p>
             More recently, the team released{" "}
-            <a href="/info/recall">DASH: Recall</a> which was a more ambitious
+            <strong>DASH: Recall</strong> which was a more ambitious
             set of changes focused on reimagining and rebalancing vanilla map
             seeds through adjusting major/minor item locations, introducing new
             progression items, and modifying the map to open access to{" "}

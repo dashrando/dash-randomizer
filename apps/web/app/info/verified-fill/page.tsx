@@ -16,7 +16,7 @@ export default function VerifiedFillInfoPage() {
           <h2>Item Pool</h2>
           <p>The available item pool consists of the vanilla major items, a randomly derived number of minor items, and (optionally) any new DASH major items.</p>
           <h2>Early Item Placement</h2>
-          <h3>Major/Minor + Recall</h3>
+          <h3>Major/Minor</h3>
           <ol>
             <li>
               Morph Ball

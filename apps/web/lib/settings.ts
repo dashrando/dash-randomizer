@@ -57,9 +57,6 @@ const getAreaMode = (environment: number, area: boolean) => {
   if (area) {
     return 'Area Randomization';
   }
-  if (environment == MapLayout.Recall) {
-    return 'DASH: Recall';
-  }
   return 'Vanilla';
 }
 

@@ -328,38 +328,6 @@ export default function SettingsInfoPage() {
               </p>
               <p><a href="/info/area">More info on Area Randomization</a></p>
             </li>
-            {/*<li>
-              <p>
-                <strong>DASH: Recall</strong> rebalances vanilla map by unlocking certain doors and removing obstacles.
-              </p>
-              <details>
-                <summary>View all map changes for DASH: Recall</summary>
-                <ul className={styles.list_disc}>
-                  <li>
-                    All speed blocks removed from the bowling room (both at the
-                    top for scouting and the singular block that
-                    prevents access to the item)
-                  </li>
-                  <li>WS Reserve Item no longer in a capsule</li>
-                  <li>Plasma Gray door is now a blue door</li>
-                  <li>Replaced pink pirates with green pirates</li>
-                  <li>
-                    Added a platform in the middle of the plasma room that
-                    allows exit from the room without “can fly”
-                  </li>
-                  <li>
-                    Removed all 5 of the ceiling blocks from the pants room
-                    before Shaktool (the grapple block and the other 4 blocks
-                    on that “row”)
-                  </li>
-                  <li>Removed the sand from the Shaktool hallway</li>
-                  <li>Removed green gate from Crab Tunnel room in Maridia</li>
-                  <li>
-                    Gray door to Cac Alley is now a blue door
-                  </li>
-                </ul>
-              </details>
-            </li>*/}
             <li>
               <p>
                 <strong>Vanilla</strong> makes no changes to the door connections.
