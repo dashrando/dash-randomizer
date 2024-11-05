@@ -24,7 +24,7 @@ export const wreckedshipEdges = {
     SpongeBathRight: () =>
       !HasDefeatedWreckedShipBoss ||
       (HasDefeatedWreckedShipBoss &&
-        (CanFly || CanUsePowerBombs || HasSpeed || HasHiJump || HasGravity)),
+        (CanFly || CanUsePowerBombs || HasSpeed || HasHiJump || CanMoveInWestMaridia)),
     ShipHallway: true,
   },
 
@@ -42,7 +42,7 @@ export const wreckedshipEdges = {
     SpongeBathRight: true,
     Door_WSHighway: () =>
       CanUsePowerBombs &&
-      (HasGravity || (HasHiJump && (HasSpaceJump || HasSpringBall))),
+      (CanMoveInWestMaridia || (HasHiJump && (HasSpaceJump || HasSpringBall))),
   },
 
   "Energy Tank (Wrecked Ship)": {
@@ -50,7 +50,7 @@ export const wreckedshipEdges = {
   },
 
   Door_WSHighway: {
-    ShipRearExit: () => (HasGravity || HasHiJump) && HasMorph,
+    ShipRearExit: () => (CanMoveInWestMaridia || HasHiJump) && HasMorph,
   },
 
   "Missiles (Attic)": {

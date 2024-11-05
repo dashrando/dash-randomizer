@@ -323,7 +323,7 @@ const getItemNodes = (graph: Graph): ItemNode[] => {
   return nodes;
 };
 
-export const getSeedNumber = (seedNumber?: number) => {
+export const getSeedNumber = (seedNumber?: number): number => {
   const MAX_SEED = 1000000
   if (seedNumber != undefined && seedNumber != 0) {
     if (seedNumber > 0 && seedNumber <= MAX_SEED) {

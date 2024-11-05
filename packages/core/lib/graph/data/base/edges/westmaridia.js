@@ -53,7 +53,7 @@ export const westmaridiaEdges = {
 
   AboveMaridiaMap: {
     MainStreet: () => CanOpenGreenDoors,
-    OasisBottom: () => CanMoveInWestMaridia,
+    OasisBottom: () => HasGravity,
     Door_MaridiaMap: () => HasMorph,
   },
 

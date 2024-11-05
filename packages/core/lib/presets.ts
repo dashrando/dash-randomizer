@@ -27,7 +27,6 @@ export type Preset = {
 export const getAllPresets = () => {
   return [
     Preset_Classic_MM,
-    Preset_Recall_MM,
     Preset_SurpriseSurprise,
     Preset_Chozo_Bozo,
     Preset_2017_MM,
@@ -548,33 +547,6 @@ export const Preset_Classic_Full: Preset = {
     minorDistribution: MinorDistributionMode.Dash,
     extraItems: [],
     beamMode: BeamMode.Starter,
-    suitMode: SuitMode.Dash,
-    gravityHeatReduction: GravityHeatReduction.On,
-    randomizeAreas: false,
-    bossMode: BossMode.Vanilla,
-  },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false
-  },
-};
-
-//-----------------------------------------------------------------
-// DASH Recall Settings
-//-----------------------------------------------------------------
-
-export const Preset_Recall_MM: Preset = {
-  title: "Recall M/M",
-  fileName: "RecallMM",
-  tags: ["recall", "recall_mm"],
-  settings: {
-    mapLayout: MapLayout.Recall,
-    majorDistribution: MajorDistributionMode.Recall,
-    minorDistribution: MinorDistributionMode.Dash,
-    extraItems: [Item.DoubleJump, Item.HeatShield, Item.PressureValve],
-    beamMode: BeamMode.StarterPlus,
     suitMode: SuitMode.Dash,
     gravityHeatReduction: GravityHeatReduction.On,
     randomizeAreas: false,

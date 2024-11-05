@@ -50,12 +50,12 @@ export default function ItemPoolsInfoPage() {
                 is considered a minor location and the Right Side Super Missile
                 location in Wrecked Ship is considered a major location.
               </p>
-              <p>
+              {/*<p>
                 Using the <strong>DASH: Recall</strong> Map Layout with the Major/Minor Item Split increases the number
                 of major locations to 36 by adding Mickey Mouse
                 Missiles, Watering Hole Supers, and Sky Missiles. Kraid Energy Tank is
                 considered a minor item location.
-              </p>
+              </p>*/}
               <Spacer y={8} />
             </li>
             <li>

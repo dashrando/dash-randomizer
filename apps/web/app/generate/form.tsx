@@ -563,7 +563,6 @@ export default function Form() {
                   { label: 'Surprise Surprise', value: 'surprise-surprise' },
                   { label: 'Chozo Bozo', value: 'chozo-bozo' },
                   { label: 'SG Live 2023', value: 'sgl23' },
-                  { label: 'DASH: Recall', value: 'dash-recall' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
                   { label: 'Throwback 2017', value: '2017' },
                   { label: 'Custom', value: 'custom', hidden: true }
@@ -625,7 +624,6 @@ export default function Form() {
                 options={[
                   { label: 'Area Randomization', value: 'randomized' },
                   { label: 'Vanilla', value: 'standard' },
-                  { label: 'DASH: Recall', value: 'recall' },
                 ]}
                 name="map-layout"
                 register={register}
@@ -725,7 +723,7 @@ export default function Form() {
                 is a new item that works as a mini-Varia.
               </p>
             </Option>
-            <Option label="Pressure Valve" name="pressure-valve">
+            <Option label="Pressure Valve" name="pressure-valve" badge={<Badge variant={'beta'}>Reworked</Badge>}>
               <Select
                 options={[
                   { label: 'Off', value: 'none' },

@@ -26,7 +26,9 @@ export {
   loadGraph
 } from "./lib/graph/init";
 export {
-  getItemLocations
+  getAreaTransitions,
+  getBossTransitions,
+  getItemLocations,
 } from "./lib/graph/utils";
 export {
   isDASHSeed,
