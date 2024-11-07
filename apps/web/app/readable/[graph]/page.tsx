@@ -27,18 +27,14 @@ const getGraphName = (graph: string) => {
       return 'Standard';
     case 'area':
       return 'Area Rando';
-    case 'recall':
-      return 'DASH Recall';
   }
 }
 
-const getMode = (graph: string) => {
+const getMajorMode = (graph: string) => {
   switch (graph) {
     case 'standard':
     case 'area':
-      return 'Standard';
-    case 'recall':
-      return 'Recall';
+      return MajorDistributionMode.Standard
     default:
       throw Error('Invalid graph')
   }
@@ -46,12 +42,12 @@ const getMode = (graph: string) => {
 
 const LogicPage = ({ params }: { params: { graph: string }}) => {
   const hasArea = params.graph.includes('area')
-  const mode = getMode(params.graph)
+  const majorMode = getMajorMode(params.graph)
   const graph = loadGraph(
     1,
     1,
-    MapLayout[mode],
-    MajorDistributionMode[mode],
+    MapLayout.Standard,
+    majorMode,
     hasArea
   );
 

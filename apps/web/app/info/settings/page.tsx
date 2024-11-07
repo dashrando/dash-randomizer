@@ -422,7 +422,7 @@ export default function SettingsInfoPage() {
           title="Double Jump"
         >
           <p>
-            <strong>Double Jump</strong> is a new item introduced in DASH Recall. When equipped, it allows Samus to make one additional mid-air jump. This behaves like a single-use Space Jump.
+            <strong>Double Jump</strong> is a new item which allows Samus to make one additional mid-air jump. This behaves like a single-use Space Jump.
           </p>
         </Article>
         <Article
@@ -430,7 +430,7 @@ export default function SettingsInfoPage() {
           title="Heat Shield"
         >
           <p>
-            <strong>Heat Shield</strong> is a new item introduced in DASH Recall. When equipped, it reduces heat damage from heated rooms.
+            <strong>Heat Shield</strong> is a new item which reduces heat damage from heated rooms.
           </p>
           <ul>
             <li>
@@ -457,7 +457,7 @@ export default function SettingsInfoPage() {
           badge={<Badge variant={'beta'}>Reworked</Badge>}
         >
           <p>
-            <strong>Pressure Valve</strong> is a new item introduced in DASH Recall. When equipped, it allows for seamless underwater movement like Gravity Suit. However, it has no effect in Aqueduct and other rooms in East Maridia. It also offers no damage reduction.
+            <strong>Pressure Valve</strong> is a new item which allows for seamless underwater movement like Gravity Suit. However, it has no effect in Aqueduct and other rooms in East Maridia. It also offers no damage reduction.
           </p>
           <p>Pressure Valve is superseded by Gravity Suit, and will become unavailable once Gravity Suit has been picked up.</p>
         </Article>

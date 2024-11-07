@@ -36,11 +36,6 @@ const InfoArticles: InfoArticle[] = [
     href: '/info/area',
     description: 'Area Randomization creates unique map layouts for exploration.',
   },
-  /*{
-    title: 'DASH: Recall',
-    href: '/info/recall',
-    description: 'DASH: Recall is a new preset that tries to rebalance logic.',
-  },*/
   {
     title: 'Verified Fill',
     href: '/info/verified-fill',

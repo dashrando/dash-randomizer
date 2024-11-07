@@ -140,8 +140,6 @@ export const getItemPool = (seed: number, settings: Settings, count: number) => 
       switch (majorDistribution) {
         case MajorDistributionMode.Standard:
           return 34 - (100 - count);
-        case MajorDistributionMode.Recall:
-          return 36 - (100 - count);
         default:
           throw new Error("Unknown major distribution");
       }
