@@ -1,5 +1,6 @@
 import { Wrapper } from "@/app/components/wrapper";
 import styles from "../info.module.css";
+import Image from "next/image";
 
 export default function AboutInfoPage() {
   return (
@@ -7,6 +8,16 @@ export default function AboutInfoPage() {
       <div style={{ maxWidth: "620px", margin: "0 auto" }}>
         <article className={styles.article}>
           <h1 className={styles.headline}>About DASH</h1>
+          <p style={{ textAlign: "center" }}>
+            <Image
+              src="/images/in-game-logo.png"
+              alt="DASH Logo"
+              width="600"
+              height="238"
+              loading="eager"
+              style={{ maxWidth: "500px", height: "auto" }}
+            />
+          </p>
           <p>
             <strong>DASH</strong> is an item randomizer for the classic video
             game Super Metroid with a specific focus of achieving competitive
@@ -32,8 +43,8 @@ export default function AboutInfoPage() {
             <a href="https://itemrando.supermetroid.run/">
               Super Metroid Item Randomizer
             </a>{" "}
-            developed by <code>Total</code> and featured in the 2017 Super Metroid Randomizer
-            Tournament.
+            developed by <code>Total</code> and featured in the 2017 Super
+            Metroid Randomizer Tournament.
           </p>
         </article>
       </div>
