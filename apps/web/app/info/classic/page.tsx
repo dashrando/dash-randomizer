@@ -9,14 +9,15 @@ export default function ClassicInfoPage() {
           <h1 className={styles.headline}>DASH: Classic</h1>
           <p>
             The original version of the <strong>DASH Randomizer</strong>{" "}
-            generated one type of seed. We wanted to experiment with adding 
-            additional utility to certain items and opening up some hard gated
-            locations.
+            generated one type of seed. We started with the Major / Minor
+            item randomizer used in the 2017 community randomizer tournament and
+            experimented with giving additional utility to certain items and
+            opening up some hard gated locations.
           </p>
           <p>
-            As an additional wrinkle, these updates were not taken into account
+            As another wrinkle, these updates were not taken into account
             by the seed generation logic. The intent was to reduce linearity in
-            seeds and let players make more decisions when playing.
+            seeds and let players make more decisions by sequence breaking.
           </p>
           <p>
             The <strong>DASH: Classic</strong> preset is maintained to allow for
