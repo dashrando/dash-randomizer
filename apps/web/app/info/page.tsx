@@ -17,11 +17,6 @@ const InfoArticles: InfoArticle[] = [
     description: 'Learn about the available settings and options when generating a seed.',
   },
   {
-    title: 'About',
-    href: '/info/about',
-    description: 'Learn about DASH.',
-  },
-  {
     title: 'Heads Up Display',
     href: '/info/hud',
     description: 'DASH uses a customized HUD to provide info to players in the game.',
@@ -36,11 +31,6 @@ const InfoArticles: InfoArticle[] = [
     href: '/info/area',
     description: 'Area Randomization creates unique map layouts for exploration.',
   },
-  /*{
-    title: 'DASH: Recall',
-    href: '/info/recall',
-    description: 'DASH: Recall is a new preset that tries to rebalance logic.',
-  },*/
   {
     title: 'Verified Fill',
     href: '/info/verified-fill',
@@ -52,9 +42,19 @@ const InfoArticles: InfoArticle[] = [
     description: 'Learn how item pools are created in DASH.',
   },
   {
+    title: 'DASH: Classic',
+    href: '/info/classic',
+    description: 'The original DASH mode lives on as a preset.',
+  },
+  {
     title: 'Canary',
     href: '/info/canary',
     description: 'Canary is our official preview environment for new features.',
+  },
+  {
+    title: 'About',
+    href: '/info/about',
+    description: 'Learn about DASH.',
   }
 ]
 

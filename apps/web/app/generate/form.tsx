@@ -149,10 +149,10 @@ const Option = (
 
 export interface GenerateSeedSettings {
   'item-split': 'standard-mm' | 'full' | 'chozo',
-  'map-layout': 'standard' | 'randomized' | 'recall',
+  'map-layout': 'standard' | 'randomized',
   boss: 'vanilla' | 'shifted' | 'shuffled' | 'surprise',
   minors: 'standard' | 'dash',
-  'environment': 'standard' | 'dash-recall' | 'dash-classic',
+  'environment': 'standard' | 'dash-classic',
   'charge-beam': 'vanilla' | 'starter' | 'starter-plus',
   'gravity-heat-reduction': 'off' | 'on',
   'double-jump': 'off' | 'on',
@@ -174,7 +174,6 @@ export interface GenerateFormParams extends GenerateSeedParams {
     | "chozo-bozo"
     | "sgl23"
     | "sgl24"
-    | "dash-recall"
     | "dash-classic"
     | "2017"
     | "custom"
@@ -241,18 +240,6 @@ const MODES = {
     'double-jump': 'on',
     'heat-shield': 'off',
     'pressure-valve': 'none',
-  },
-  'dash-recall': {
-    'item-split': 'standard-mm',
-    'map-layout': 'recall',
-    boss: 'vanilla',
-    minors: 'dash',
-    'environment': 'dash-recall',
-    'charge-beam': 'starter-plus',
-    'gravity-heat-reduction': 'on',
-    'double-jump': 'on',
-    'heat-shield': 'on',
-    'pressure-valve': 'one',
   },
   'dash-classic': {
     'item-split': 'standard-mm',
@@ -372,9 +359,6 @@ export default function Form() {
       }
 
       let mapLayout = MapLayout.Standard;
-      if (data['environment'] == 'dash-recall') {
-        mapLayout = MapLayout.Recall;
-      }
       if (data['environment'] == 'dash-classic') {
         mapLayout = MapLayout.Classic;
       }
@@ -385,9 +369,6 @@ export default function Form() {
         MinorDistributionMode.Standard
 
       let majorDistribution = MajorDistributionMode.Standard;
-      if (data['map-layout'] == 'recall') {
-        majorDistribution = MajorDistributionMode.Recall;
-      }
       if (data['item-split'] == "full") {
         majorDistribution = MajorDistributionMode.Full;
       }
@@ -418,9 +399,7 @@ export default function Form() {
         bossMode: BossMode.Vanilla,
       };
 
-      if (data.mode == 'dash-recall') {
-        config.presetName = "RecallMM";
-      } else if (data.mode == 'dash-classic') {
+      if (data.mode == 'dash-classic') {
         config.presetName = "ClassicMM";
       } else if (data.mode == '2017') {
         config.presetName = "2017MM";
@@ -511,17 +490,6 @@ export default function Form() {
       if (name === 'mode') {
         prefillSettingsFromPreset(value, reset)
         return
-      }
-
-      if (name === 'map-layout') {
-        if (value['environment'] === 'dash-recall' && value['map-layout'] !== 'recall') {
-          setValue('environment', 'standard');
-          value['environment'] = 'standard';
-        }
-        if (value['environment'] !== 'dash-recall' && value['map-layout'] === 'recall') {
-          setValue('environment', 'dash-recall');
-          value['environment'] = 'dash-recall';
-        }
       }
 
       // Update mode if necessary
@@ -651,13 +619,10 @@ export default function Form() {
             </Option>
             <Option label="Environment Updates" name="environment">
               <Select
-                options={layout == 'recall' ?
-                  [{ label: 'DASH: Recall', value: 'dash-recall' }] :
-                  [
-                    { label: 'Standard', value: 'standard' },
-                    { label: 'DASH', value: 'dash-classic' },
-                  ]}
-                disabled={layout == 'recall'}
+                options={[
+                  { label: 'Standard', value: 'standard' },
+                  { label: 'DASH', value: 'dash-classic' },
+                ]}
                 name="environment"
                 register={register}
               />

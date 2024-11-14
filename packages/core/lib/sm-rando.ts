@@ -289,9 +289,7 @@ export const generateSeedPatch = (
 
 export const getBasePatch = (settings: Settings) => {
   const area = settings.randomizeAreas ? "_area" : "";
-  return settings.mapLayout == MapLayout.Recall
-    ? `dash_recall${area}.bps`
-    : `dash_standard${area}.bps`;
+  return `dash_standard${area}.bps`;
 };
 
 export const getFileName = (params: Params, graph: Graph, rootName?: string, seedKey?: string) => {

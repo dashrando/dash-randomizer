@@ -36,13 +36,11 @@ export type Params = {
 export const MapLayout = {
   Standard: 1,
   Classic: 2,
-  Recall: 3,
 };
 
 export const MajorDistributionMode = {
   Chozo: 25,
   Standard: 34,
-  Recall: 36,
   Full: 38,
 };
 
@@ -83,8 +81,6 @@ const majorModeToBits = (mode: number) => {
   switch (mode) {
     case MajorDistributionMode.Standard:
       return 0x0;
-    case MajorDistributionMode.Recall:
-      return 0x1;
     case MajorDistributionMode.Full:
       return 0x2;
     case MajorDistributionMode.Chozo:
@@ -97,8 +93,6 @@ const bitsToMajorMode = (bits: number) => {
   switch (bits) {
     case 0x0:
       return MajorDistributionMode.Standard;
-    case 0x1:
-      return MajorDistributionMode.Recall;
     case 0x2:
       return MajorDistributionMode.Full;
     case 0x3:
@@ -132,8 +126,6 @@ const mapLayoutToBits = (layout: number) => {
   switch (layout) {
     case MapLayout.Standard:
       return 0;
-    case MapLayout.Recall:
-      return 1;
     case MapLayout.Classic:
       return 2;
   }
@@ -144,8 +136,6 @@ const bitsToMapLayout = (bits: number) => {
   switch (bits) {
     case 0x0:
       return MapLayout.Standard;
-    case 0x1:
-      return MapLayout.Recall;
     case 0x2:
       return MapLayout.Classic;
   }

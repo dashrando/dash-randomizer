@@ -93,10 +93,6 @@ export const Navigation = ({ selected }: { selected: string }) => {
       name: 'Area Rando',
       slug: 'area',
     },
-    /*{
-      name: 'DASH Recall',
-      slug: 'recall',
-    }*/
   ]
   return (
     <nav className={styles.nav_bar}>

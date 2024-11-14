@@ -13,7 +13,6 @@ const getItemSplit = (value: number) => {
     case MajorDistributionMode.Chozo:
       return 'Chozo'
     case MajorDistributionMode.Standard:
-    case MajorDistributionMode.Recall:
       return 'Major/Minor'
     default:
       return 'Full'
@@ -33,8 +32,6 @@ const getEnvironmentUpdates = (value: number) => {
   switch (value) {
     case MapLayout.Standard:
       return "Standard"
-    case MapLayout.Recall:
-      return "DASH: Recall"
     case MapLayout.Classic:
       return "DASH"
   }
@@ -56,9 +53,6 @@ const getBossMode = (value: number) => {
 const getAreaMode = (environment: number, area: boolean) => {
   if (area) {
     return 'Area Randomization';
-  }
-  if (environment == MapLayout.Recall) {
-    return 'DASH: Recall';
   }
   return 'Vanilla';
 }

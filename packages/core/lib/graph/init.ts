@@ -1,6 +1,4 @@
 import { BossMode, MapLayout, MajorDistributionMode } from "../params";
-import { RecallVertexUpdates } from "./data/recall/vertex";
-import { RecallEdgeUpdates } from "./data/recall/edges";
 import { StandardAreaEdgeUpdates } from "./data/standard/area";
 import { generatePortals, PortalMapping } from "./data/portals";
 import { bossItem, Item } from "../items";
@@ -235,8 +233,6 @@ const getEdgeUpdates = (
         return majorModeEdgeUpdates.concat(StandardAreaEdgeUpdates);
       }
       return majorModeEdgeUpdates;
-    case MapLayout.Recall:
-      return majorModeEdgeUpdates.concat(RecallEdgeUpdates);
     default:
       throw new Error(`Unknown map layout: ${mapLayout}`);
   }
@@ -248,8 +244,6 @@ const getEdgeUpdates = (
 
 const getVertexUpdates = (mode: number): VertexUpdate[] => {
   switch (mode) {
-    case MajorDistributionMode.Recall:
-      return RecallVertexUpdates;
     case MajorDistributionMode.Chozo:
       return ChozoVertexUpdates;
     default:
