@@ -135,13 +135,13 @@ export default function ItemViewer() {
     const [seedNum, setSeedNum] = useState(0);
     const presets = getAllPresets()
     return (
-      <>
+      <span>
         <select ref={selection}>
           {presets.map((p) => {
             return <option key={p.title}>{p.title}</option>
           })}
         </select>
-        <span onClick={(e) => {
+        <span className={styles.generate_button} onClick={(e) => {
           e.preventDefault()
           const preset = presets.find(p => p.title == selection.current?.value)
           if (!preset) {
@@ -157,13 +157,13 @@ export default function ItemViewer() {
             progression: getItemProgression(graph, settings)
           })
         }}>Generate</span>
-        <span>{seedNum}</span>
-      </>
+        <span className={styles.seed_number}>{seedNum}</span>
+      </span>
     )
   }
 
   return (
-    <div>
+    <div style={{padding: "5px"}}>
       <form onSubmit={(e) => e.preventDefault()}>
       <select
         name="loader_mode"
