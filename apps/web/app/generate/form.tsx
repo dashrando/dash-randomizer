@@ -5,13 +5,13 @@ import Select from '../components/select'
 import Numeric from '../components/numeric'
 import styles from './page.module.css'
 import { downloadFile } from '@/lib/downloads'
-import { cn, deepEqual  } from '@/lib/utils'
+import { cn, deepEqual } from '@/lib/utils'
 import VanillaButton, { useVanilla } from './vanilla'
 import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
 import Badge from '../components/badge'
 import useMounted from '../hooks/useMounted'
-import { Item, RandomizeRom, paramsToString } from 'core'
+import { Item, RandomizeRom } from 'core'
 import {
   BeamMode,
   BossMode,
@@ -24,6 +24,7 @@ import {
 import { fetchSignature } from 'core'
 import { useCallback, useEffect, useState } from 'react'
 import Spacer from '../components/spacer'
+import { getNewSeedKey, saveSeedData } from '@/lib/seed-data'
 
 const Sidebar = ({
   name = null,
@@ -148,10 +149,10 @@ const Option = (
 
 export interface GenerateSeedSettings {
   'item-split': 'standard-mm' | 'full' | 'chozo',
-  'map-layout': 'standard' | 'randomized' | 'recall',
+  'map-layout': 'standard' | 'randomized',
   boss: 'vanilla' | 'shifted' | 'shuffled' | 'surprise',
   minors: 'standard' | 'dash',
-  'environment': 'standard' | 'dash-recall' | 'dash-classic',
+  'environment': 'standard' | 'dash-classic',
   'charge-beam': 'vanilla' | 'starter' | 'starter-plus',
   'gravity-heat-reduction': 'off' | 'on',
   'double-jump': 'off' | 'on',
@@ -173,7 +174,6 @@ export interface GenerateFormParams extends GenerateSeedParams {
     | "chozo-bozo"
     | "sgl23"
     | "sgl24"
-    | "dash-recall"
     | "dash-classic"
     | "2017"
     | "custom"
@@ -241,18 +241,6 @@ const MODES = {
     'heat-shield': 'off',
     'pressure-valve': 'none',
   },
-  'dash-recall': {
-    'item-split': 'standard-mm',
-    'map-layout': 'recall',
-    boss: 'vanilla',
-    minors: 'dash',
-    'environment': 'dash-recall',
-    'charge-beam': 'starter-plus',
-    'gravity-heat-reduction': 'on',
-    'double-jump': 'on',
-    'heat-shield': 'on',
-    'pressure-valve': 'one',
-  },
   'dash-classic': {
     'item-split': 'standard-mm',
     'map-layout': 'standard',
@@ -316,6 +304,7 @@ type RolledSeed = {
   seed: any
   name: string
   hash: string
+  key: string
 }
 
 export default function Form() {
@@ -355,7 +344,7 @@ export default function Form() {
 
   const onSubmit = async (data: GenerateFormParams) => {
     try {
-      const config = { vanillaBytes: vanilla, presetName: "Custom" };
+      const config = { vanillaBytes: vanilla, presetName: "Custom", seedKey: "" };
 
       const getSeed = () => {
         if (data['seed-mode'] === 'fixed') {
@@ -370,9 +359,6 @@ export default function Form() {
       }
 
       let mapLayout = MapLayout.Standard;
-      if (data['environment'] == 'dash-recall') {
-        mapLayout = MapLayout.Recall;
-      }
       if (data['environment'] == 'dash-classic') {
         mapLayout = MapLayout.Classic;
       }
@@ -383,9 +369,6 @@ export default function Form() {
         MinorDistributionMode.Standard
 
       let majorDistribution = MajorDistributionMode.Standard;
-      if (data['map-layout'] == 'recall') {
-        majorDistribution = MajorDistributionMode.Recall;
-      }
       if (data['item-split'] == "full") {
         majorDistribution = MajorDistributionMode.Full;
       }
@@ -416,9 +399,7 @@ export default function Form() {
         bossMode: BossMode.Vanilla,
       };
 
-      if (data.mode == 'dash-recall') {
-        config.presetName = "RecallMM";
-      } else if (data.mode == 'dash-classic') {
+      if (data.mode == 'dash-classic') {
         config.presetName = "ClassicMM";
       } else if (data.mode == '2017') {
         config.presetName = "2017MM";
@@ -459,6 +440,8 @@ export default function Form() {
       const options = {
         DisableFanfare: false,
         RelaxedLogic: false,
+        Mystery: false,
+        Spoiler: false
       };
       if (data.fanfare == 'off') {
         options.DisableFanfare = true;
@@ -468,13 +451,25 @@ export default function Form() {
       };
 
       const seedNumber = getSeed();
-      const { data: seed, name } = await RandomizeRom(
-        seedNumber, settings, options, config);
-      const hash = paramsToString(seedNumber, settings, options);
+      config.seedKey = await getNewSeedKey()
+      const { data: seed, hash } = await RandomizeRom(
+        seedNumber,
+        settings,
+        options,
+        config
+      );
+      await saveSeedData(
+        config.seedKey,
+        hash,
+        options.Mystery,
+        false,
+        options.Spoiler
+      );
+      const name = `DASH_${config.presetName}_${config.seedKey}.sfc`
       if (seed !== null) {
         downloadFile(seed, name, hash)
       }
-      setRolledSeed({ seed, name, hash })
+      setRolledSeed({ seed, name, hash, key: config.seedKey })
     } catch (error) {
       console.error('SEED ERROR', error)
     }
@@ -495,17 +490,6 @@ export default function Form() {
       if (name === 'mode') {
         prefillSettingsFromPreset(value, reset)
         return
-      }
-
-      if (name === 'map-layout') {
-        if (value['environment'] === 'dash-recall' && value['map-layout'] !== 'recall') {
-          setValue('environment', 'standard');
-          value['environment'] = 'standard';
-        }
-        if (value['environment'] !== 'dash-recall' && value['map-layout'] === 'recall') {
-          setValue('environment', 'dash-recall');
-          value['environment'] = 'dash-recall';
-        }
       }
 
       // Update mode if necessary
@@ -547,7 +531,6 @@ export default function Form() {
                   { label: 'Surprise Surprise', value: 'surprise-surprise' },
                   { label: 'Chozo Bozo', value: 'chozo-bozo' },
                   { label: 'SG Live 2023', value: 'sgl23' },
-                  { label: 'DASH: Recall', value: 'dash-recall' },
                   { label: 'DASH: Classic', value: 'dash-classic' },
                   { label: 'Throwback 2017', value: '2017' },
                   { label: 'Custom', value: 'custom', hidden: true }
@@ -609,7 +592,6 @@ export default function Form() {
                 options={[
                   { label: 'Area Randomization', value: 'randomized' },
                   { label: 'Vanilla', value: 'standard' },
-                  { label: 'DASH: Recall', value: 'recall' },
                 ]}
                 name="map-layout"
                 register={register}
@@ -637,13 +619,10 @@ export default function Form() {
             </Option>
             <Option label="Environment Updates" name="environment">
               <Select
-                options={layout == 'recall' ?
-                  [{ label: 'DASH: Recall', value: 'dash-recall' }] :
-                  [
-                    { label: 'Standard', value: 'standard' },
-                    { label: 'DASH', value: 'dash-classic' },
-                  ]}
-                disabled={layout == 'recall'}
+                options={[
+                  { label: 'Standard', value: 'standard' },
+                  { label: 'DASH', value: 'dash-classic' },
+                ]}
                 name="environment"
                 register={register}
               />
@@ -709,7 +688,7 @@ export default function Form() {
                 is a new item that works as a mini-Varia.
               </p>
             </Option>
-            <Option label="Pressure Valve" name="pressure-valve">
+            <Option label="Pressure Valve" name="pressure-valve" badge={<Badge variant={'beta'}>Reworked</Badge>}>
               <Select
                 options={[
                   { label: 'Off', value: 'none' },
@@ -776,7 +755,7 @@ export default function Form() {
         <Sidebar
           name={rolledSeed?.name || null}
           signature={signature}
-          hash={rolledSeed?.hash}
+          hash={rolledSeed?.key}
         />
       </div>
     </form>

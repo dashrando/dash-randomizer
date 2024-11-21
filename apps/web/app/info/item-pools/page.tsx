@@ -47,14 +47,8 @@ export default function ItemPoolsInfoPage() {
               <p>
                 Major items can be placed at any of the vanilla major item
                 locations. For balance, the Energy Tank location at HiJump Boots
-                is considered a minor location and the Right Side Super Missile
+                is considered a minor location, and the Right Side Super Missile
                 location in Wrecked Ship is considered a major location.
-              </p>
-              <p>
-                Using the <strong>DASH: Recall</strong> Map Layout with the Major/Minor Item Split increases the number
-                of major locations to 36 by adding Mickey Mouse
-                Missiles, Watering Hole Supers, and Sky Missiles. Kraid Energy Tank is
-                considered a minor item location.
               </p>
               <Spacer y={8} />
             </li>
@@ -116,8 +110,8 @@ export default function ItemPoolsInfoPage() {
             </li>
             <li>
               <p>
-                Add any extra DASH items to the pool (Double Jump, Heat Shield,
-                or Pressure Valve)
+                Add any extra DASH items to the pool (<a href="/info/settings#double-jump">Double Jump</a>,{" "}
+                <a href="info/settings#heat-shield">Heat Shield</a>, or <a href="info/settings#pressurve-valve">Pressure Valve</a>)
               </p>
             </li>
             <li>

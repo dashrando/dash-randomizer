@@ -39,7 +39,7 @@ const EastMaridia_Aqueduct_to_Missiles = {
 
 const EastMaridia_OasisBottom_to_SpringBall = {
   edges: ["OasisBottom", "Spring Ball"],
-  requires: () => CanMoveInWestMaridia && CanUsePowerBombs &&
+  requires: () => HasGravity && CanUsePowerBombs &&
     HasGrapple && (CanFly || HasHiJump)
 };
 

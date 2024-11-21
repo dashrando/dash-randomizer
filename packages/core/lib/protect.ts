@@ -2,15 +2,17 @@ import DotNetRandom from "./dotnet-random";
 import { getLocations } from "./locations";
 import RandomizeRom, { Config } from "./randomize";
 import { Options, Settings } from "./params";
+import { Graph } from "./graph/init";
 
 async function ProtectRom(
   seed: number = 0,
   settings: Settings,
   opts: Options,
   config: Config,
-  race: boolean = true
+  race: boolean = true,
+  permaGraph: Graph = []
 ) {
-  const res = await RandomizeRom(seed, settings, opts, config, race);
+  const res = await RandomizeRom(seed, settings, opts, config, race, permaGraph);
   const block = res.data;
 
   if (block == null) {

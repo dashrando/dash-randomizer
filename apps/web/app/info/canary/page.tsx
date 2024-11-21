@@ -9,7 +9,7 @@ export default function CanaryInfoPage() {
         <article className={styles.article}>
           <h1 className={styles.headline}>Canary</h1>
           <p>Canary is the official preview environment for new changes to DASH and available publicly at <a href="https://canary.dashrando.net" target="_blank" rel="noopener noreferrer">canary.dashrando.net</a>. The goal of canary is to provide an early and playable preview of DASH to gather feedback and test new features while also providing reliability for tournaments and competitive racing.</p>
-          <p>For example, <a href="/info/settings#area">Area Randomization</a> and <a href="/info/settings#boss">Boss Randomization</a> are two unstable features in an Alpha state. The DASH team are making these two features available on canary for all to test and provide feedback. While these two features are unstable and in canary, a bug fix can be deployed to the main site and logic independently without bringing in these unstable features.</p>
+          <p>For example, <a href="/info/settings#area">Area Randomization</a> and <a href="/info/settings#boss">Boss Randomization</a> were originally released as unstable features in an Alpha state. The DASH team made these two features available on canary for all to test and provide feedback. While these two features were unstable and in canary, bug fixes were still able to be deployed to the main site and logic independently without bringing in these unstable features.</p>
           <p>Because the canary site can feature breaking changes, it will always be marked in the header as &quot;DASH Canary&quot;.</p>
           <p><em>Examples of what goes into canary:</em></p>
           <ul>

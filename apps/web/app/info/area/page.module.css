@@ -1,0 +1,4 @@
+.section_sep {
+  margin-top: var(--spacer-6x) !important;
+  padding-top: var(--spacer-4x) !important;
+}

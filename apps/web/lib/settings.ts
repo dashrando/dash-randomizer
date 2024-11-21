@@ -1,4 +1,4 @@
-import { Item } from 'core'
+import { Item, Params, stringToParams } from 'core'
 import {
   BeamMode,
   BossMode,
@@ -13,7 +13,6 @@ const getItemSplit = (value: number) => {
     case MajorDistributionMode.Chozo:
       return 'Chozo'
     case MajorDistributionMode.Standard:
-    case MajorDistributionMode.Recall:
       return 'Major/Minor'
     default:
       return 'Full'
@@ -33,8 +32,6 @@ const getEnvironmentUpdates = (value: number) => {
   switch (value) {
     case MapLayout.Standard:
       return "Standard"
-    case MapLayout.Recall:
-      return "DASH: Recall"
     case MapLayout.Classic:
       return "DASH"
   }
@@ -56,9 +53,6 @@ const getBossMode = (value: number) => {
 const getAreaMode = (environment: number, area: boolean) => {
   if (area) {
     return 'Area Randomization';
-  }
-  if (environment == MapLayout.Recall) {
-    return 'DASH: Recall';
   }
   return 'Vanilla';
 }
@@ -93,7 +87,7 @@ const getExtraItems = (extraItems: number[]) => {
   return { doubleJump, heatShield, pressureValve }
 }
 
-export const parseSettings = (parameters: any) => {
+export const parseSettings = (parameters: Params) => {
   const { settings } = parameters
   const extraItems = getExtraItems(settings.extraItems)
   const randomizeParams = [
@@ -111,9 +105,17 @@ export const parseSettings = (parameters: any) => {
     { label: 'Pressure Valve', value: extraItems.pressureValve, },
   ]
   const optionsParams = [
-    { label: 'Logic', value: getLogic(parameters.options.RelaxedLogic) },
+    { label: 'Logic', value: getLogic(parameters.options.RelaxedLogic ? 1 : 0) },
     //{ label: 'Seed Number', value: parameters.seed },
     { label: 'Item Fanfare', value: displayOnOff(!parameters.options.DisableFanfare), }
   ]
   return { randomizeParams, settingsParams, optionsParams }
+}
+
+export function hashToParams(hash: string) {
+  if (hash.length < 20) {
+    return stringToParams(hash);
+  }
+
+  return stringToParams(hash.slice(1, 13))
 }

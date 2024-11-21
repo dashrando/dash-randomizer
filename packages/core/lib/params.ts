@@ -1,5 +1,6 @@
 import { Buffer } from "buffer";
 import { Item } from "./items";
+import { safeToBase64 } from "../helpers/converters";
 
 export const ENCODED_PARAMS_SIZE = 7;
 
@@ -18,6 +19,8 @@ export type Settings = {
 export type Options = {
   DisableFanfare: boolean;
   RelaxedLogic: boolean;
+  Mystery: boolean;
+  Spoiler: boolean;
 }
 
 export type Params = {
@@ -33,13 +36,11 @@ export type Params = {
 export const MapLayout = {
   Standard: 1,
   Classic: 2,
-  Recall: 3,
 };
 
 export const MajorDistributionMode = {
   Chozo: 25,
   Standard: 34,
-  Recall: 36,
   Full: 38,
 };
 
@@ -80,8 +81,6 @@ const majorModeToBits = (mode: number) => {
   switch (mode) {
     case MajorDistributionMode.Standard:
       return 0x0;
-    case MajorDistributionMode.Recall:
-      return 0x1;
     case MajorDistributionMode.Full:
       return 0x2;
     case MajorDistributionMode.Chozo:
@@ -94,8 +93,6 @@ const bitsToMajorMode = (bits: number) => {
   switch (bits) {
     case 0x0:
       return MajorDistributionMode.Standard;
-    case 0x1:
-      return MajorDistributionMode.Recall;
     case 0x2:
       return MajorDistributionMode.Full;
     case 0x3:
@@ -129,8 +126,6 @@ const mapLayoutToBits = (layout: number) => {
   switch (layout) {
     case MapLayout.Standard:
       return 0;
-    case MapLayout.Recall:
-      return 1;
     case MapLayout.Classic:
       return 2;
   }
@@ -141,8 +136,6 @@ const bitsToMapLayout = (bits: number) => {
   switch (bits) {
     case 0x0:
       return MapLayout.Standard;
-    case 0x1:
-      return MapLayout.Recall;
     case 0x2:
       return MapLayout.Classic;
   }
@@ -211,23 +204,11 @@ export const paramsToBytes = (seed: number, settings: Settings, options: Options
   bytes[5] = map | beam | suit | gravity | fanfare;
 
   const relaxed = (options.RelaxedLogic ? 0x1 : 0x0) << 6;
-  bytes[6] = relaxed;
+  const mystery = (options.Mystery ? 0x1 : 0x0) << 5;
+  const spoiler = (options.Spoiler ? 0x1 : 0x0) << 4;
+  bytes[6] = relaxed | mystery | spoiler;
 
   return bytes;
-};
-
-export const paramsToString = (seed: number, settings: Settings, options: Options) => {
-  const bytes = paramsToBytes(seed, settings, options);
-  const encoded = Buffer.from(bytes)
-    .toString("base64")
-    .replaceAll("/", "_")
-    .replaceAll("+", "-")
-    .replace(/=*$/, '');
-
-  if (encoded.length > 8 && encoded.slice(8).replace(/A*$/, '').length == 0) {
-    return encoded.slice(0, 8);
-  }
-  return encoded;
 };
 
 export const bytesToParams = (input: Uint8Array): Params => {
@@ -249,6 +230,8 @@ export const bytesToParams = (input: Uint8Array): Params => {
   const heatShield = (bytes[4] >> 5) & 0x1;
   const pressureValve = (bytes[4] >> 6) & 0x3;
   const relaxed = (bytes[6] >> 6) & 0x3;
+  const mystery = (bytes[6] >> 5) & 0x1;
+  const spoiler = (bytes[6] >> 4) & 0x1;
 
   const major = bitsToMajorMode((bytes[3] >> 2) & 0x3);
   const minor = bitsToMinorMode((bytes[3] >> 4) & 0x3);
@@ -280,14 +263,16 @@ export const bytesToParams = (input: Uint8Array): Params => {
       gravityHeatReduction:
         gravity == 0x0 ? GravityHeatReduction.Off : GravityHeatReduction.On,
     },
-    options: { DisableFanfare: fanfare == 0, RelaxedLogic: relaxed == 1 },
+    options: {
+      DisableFanfare: fanfare == 0x0,
+      RelaxedLogic: relaxed == 0x1,
+      Mystery: mystery == 0x1,
+      Spoiler: spoiler == 0x1
+    },
   };
 };
 
 export const stringToParams = (str: string): Params => {
-  const bytes = Buffer.from(
-    str.replaceAll("_", "/").replaceAll("-", "+"),
-    "base64"
-  );
+  const bytes = Buffer.from(safeToBase64(str), "base64")
   return bytesToParams(bytes);
 };

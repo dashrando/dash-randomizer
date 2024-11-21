@@ -1,17 +1,16 @@
 import DotNetRandom from "./dotnet-random";
-import { AreaCounts, Location, getArea, getAreaString, getLocations } from "./locations";
+import { AreaCounts, Location, getArea, getLocations } from "./locations";
 import { Item, ItemType } from "./items";
-import { Edge, Graph, getPreset } from "..";
-import { generateSeed } from "../data";
+import { Edge, Graph, computeCRC32, encodeSeed } from "..";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
 import { DASH_CLASSIC_PATCHES, TABLE_FLAGS } from "../data/interface";
 import {
   MajorDistributionMode,
   MapLayout,
   Options,
+  Params,
   Settings,
   paramsToBytes,
-  paramsToString,
 } from "./params";
 
 type Hunk = [ number, number, Uint8Array ];
@@ -27,7 +26,8 @@ export const generateSeedPatch = (
   settings: Settings,
   graph: Graph,
   options: Options,
-  race: boolean
+  race: boolean,
+  key: string
 ): Patch => {
   //-----------------------------------------------------------------
   // Verify inputs.
@@ -55,10 +55,6 @@ export const generateSeedPatch = (
 
   const U16toBytes = (u16: number) => {
     return new Uint8Array(new Uint16Array([u16]).buffer);
-  };
-
-  const U32toBytes = (u32: number) => {
-    return new Uint8Array(new Uint32Array([u32]).buffer);
   };
 
   //-----------------------------------------------------------------
@@ -106,7 +102,7 @@ export const generateSeedPatch = (
 
   const majors = nodes.filter(
     (n) =>
-      n.item.isMajor && //TODO: Does this actually make sense?
+      n.item.isMajor &&
       n.item.type != Item.EnergyTank &&
       n.item.type != Item.Reserve
   );
@@ -269,25 +265,42 @@ export const generateSeedPatch = (
   }
   encodeBytes(seedPatch, TABLE_FLAGS.SeedFlags, seedFlags)
 
+  //-----------------------------------------------------------------
+  // Encode seed key which is used as the URL by the website
+  //-----------------------------------------------------------------
+
+  if (key.length > 0) {
+    // Convert the key to bytes using Base64 encoding
+    const keyBytes = Buffer.from(key, "base64")
+
+    // The first byte written is bit packed to include the
+    // string length and if the key is for a race seed
+    const size = key.length | (race ? 0x80 : 0x00)
+    encodeBytes(seedPatch, TABLE_FLAGS.SeedKey, U8toBytes(size))
+
+    // Write the remaining bytes
+    keyBytes.forEach((p, i) => {
+      encodeBytes(seedPatch, TABLE_FLAGS.SeedKey + i + 1, U8toBytes(p))
+    })
+  }
+
   return seedPatch;
 };
 
 export const getBasePatch = (settings: Settings) => {
   const area = settings.randomizeAreas ? "_area" : "";
-  return settings.mapLayout == MapLayout.Recall
-    ? `dash_recall${area}.bps`
-    : `dash_standard${area}.bps`;
+  return `dash_standard${area}.bps`;
 };
 
-export const getFileName = (
-  rootName: string,
-  seed: number,
-  settings: Settings,
-  options: Options
-) => {
-  const flags = paramsToString(seed, settings, options);
-  return `DASH_${rootName}_${flags}.sfc`;
-};
+export const getFileName = (params: Params, graph: Graph, rootName?: string, seedKey?: string) => {
+  const mode = rootName ? rootName : 'Custom'
+  if (seedKey) {
+    return `DASH_${mode}_${seedKey}.sfc`
+  }
+  const encoded = encodeSeed(params, graph);
+  const key = computeCRC32(encoded).toString(16)
+  return `DASH_${mode}_${key}.sfc`
+}
 
 const getItemNodes = (graph: Graph): ItemNode[] => {
   const nodes: ItemNode[] = [];
@@ -308,27 +321,7 @@ const getItemNodes = (graph: Graph): ItemNode[] => {
   return nodes;
 };
 
-export const generateFromPreset = (name: string, seedNumber: number) => {
-  const seed = getSeedNumber(seedNumber);
-  const preset = getPreset(name);
-
-  if (preset == undefined) {
-    console.log("UNKNOWN PRESET: " + name);
-    return ["", null, ""];
-  }
-
-  // Place the items.
-  const { settings, options } = preset;
-  const graph = generateSeed(seed, settings, options);
-
-  const seedPatch = generateSeedPatch(seed, settings, graph, options, false);
-  const fileName = getFileName(preset.fileName, seed, settings, options);
-  const patch = getBasePatch(settings);
-
-  return [`patches/${patch}`, seedPatch, fileName];
-};
-
-export const getSeedNumber = (seedNumber?: number) => {
+export const getSeedNumber = (seedNumber?: number): number => {
   const MAX_SEED = 1000000
   if (seedNumber != undefined && seedNumber != 0) {
     if (seedNumber > 0 && seedNumber <= MAX_SEED) {

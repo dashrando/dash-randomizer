@@ -3,7 +3,6 @@ DASH is a Super Metroid randomizer aimed at competitive play.
 
 This is a monorepo which consists of all the DASH projects, which are located in the [`apps`](apps) and [`packages`](packages) folders.
 * [`web`](apps/web): the website for [dashrando.net](https://www.dashrando.net)
-* [`headless`](apps/headless/): a standalone Node.js version which can be used to generate seeds outside of the website (such as bots).
 * [`core`](packages/core): the logic for seeds for each mode.
 
 ## Local Development

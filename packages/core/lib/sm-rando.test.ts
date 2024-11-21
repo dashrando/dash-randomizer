@@ -82,7 +82,7 @@ describe("generateSeedPath", () => {
       const preset = getPreset(name);
       const { settings, options } = preset;
       const graph = generateSeed(seed, settings, options);
-      const patch = generateSeedPatch(seed, settings, graph, options, false);
+      const patch = generateSeedPatch(seed, settings, graph, options, false, '');
       //fs.writeFileSync(
         //path.resolve(dirPath, "seed_patches", fileName),
         //patchToString(patch)
@@ -102,8 +102,6 @@ describe("generateSeedPath", () => {
     testPreset("chozo_bozo", 0xdead, "chozo_bozo_DEAD.txt");
     testPreset("surprise_surprise", 0xabcd, "surprise_surprise_ABCD.txt");
     testPreset("surprise_surprise", 0xdead, "surprise_surprise_DEAD.txt");
-    testPreset("recall", 0xabcd, "recall_ABCD.txt");
-    testPreset("recall", 0xdead, "recall_DEAD.txt");
     testPreset("classic", 0xabcd, "classic_ABCD.txt");
     testPreset("classic", 0xdead, "classic_DEAD.txt");
     testPreset("2017_mm", 0xabcd, "2017_mm_ABCD.txt");

@@ -16,7 +16,7 @@ const sentryOpts = {
   disableLogger: true,
 }
 
-const partyKitHost = process.env.NEXT_PUBLIC_PARTYKIT_HOST
+const partyKitHost = process.env.NEXT_PUBLIC_PARTYKIT_HOST || '127.0.0.1'
 const partyKiProtocol = partyKitHost.includes('127.0.0.1') ? 'http' : 'https'
 const partyKitProxy = `${partyKiProtocol}://${partyKitHost}`
 

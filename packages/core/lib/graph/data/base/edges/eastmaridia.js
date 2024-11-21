@@ -59,21 +59,21 @@ export const eastmaridiaEdges = {
   },
 
   OasisBottom: {
-    AboveMaridiaMap: () => CanMoveInWestMaridia,
+    AboveMaridiaMap: () => HasGravity,
     // Ice clip in logic
     "Spring Ball": () =>
-      CanMoveInWestMaridia &&
+      HasGravity &&
       CanUsePowerBombs &&
       ((HasGrapple && (CanFly || HasHiJump)) || HasIce),
     OasisTop: () => CanUsePowerBombs || CanUseBombs ||
-      (CanMoveInWestMaridia && HasScrewAttack),
+      (HasGravity && HasScrewAttack),
     Aqueduct: false,
   },
 
   OasisTop: {
     PlasmaSparkRoomTop: () => CanOpenGreenDoors,
     OasisBottom: () => CanUsePowerBombs || CanUseBombs ||
-      (CanMoveInWestMaridia && HasScrewAttack),
+      (HasGravity && HasScrewAttack),
   },
 
   PlasmaSparkRoomTop: {
@@ -102,7 +102,7 @@ export const eastmaridiaEdges = {
   },
 
   "Spring Ball": {
-    OasisBottom: () => CanMoveInWestMaridia && HasMorph,
+    OasisBottom: () => HasGravity && HasMorph,
   },
 
   BotwoonHallwayRight: {

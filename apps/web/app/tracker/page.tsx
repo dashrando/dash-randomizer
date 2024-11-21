@@ -10,10 +10,11 @@ function TrackerPage() {
   return (
     <div className={styles.App}>
       <header className={styles.App_header}>
-        <h2>Super Metroid: DASH Recall</h2>
+        <h2>Super Metroid: DASH</h2>
         <div className="groups">
           {trackerJson.map((group, i) => (
             <TrackerItemGrouping
+              key={i}
               groupIcon={group.groupIcon}
               groupedItems={group.groupedItems}
             />

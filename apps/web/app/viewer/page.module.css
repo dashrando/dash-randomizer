@@ -7,8 +7,17 @@
   display: inline-block;
 }
 
-.item_list {
+.portal {
+  width: 200px;
+  display: inline-block;
+}
+
+.portal_list {
   column-count: 3;
+}
+
+.item_list {
+  column-count: 4;
 }
 
 .major_item {

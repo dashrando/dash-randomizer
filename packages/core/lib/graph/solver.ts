@@ -26,7 +26,7 @@ export const isGraphValid = (graph: Graph, settings: Settings, loadout: Loadout)
 export const getItemProgression = (graph: Graph, settings: Settings, loadout?: Loadout) => {
   const initLoad = loadout != undefined ? loadout : createLoadout();
   const solver = new GraphSolver(graph, settings);
-  if (solver.isValid(initLoad)) {
+  if (solver.isValid(initLoad, true)) {
     const progression: ItemLocation[] = [];
     graph.sort((a, b) => a.from.progression - b.from.progression).forEach((p) => {
       if (p.from.progression === progression.length + 1) {
@@ -56,7 +56,7 @@ const revSolve = (solver: GraphSolver, load: Loadout, node: Vertex) => {
 
   let result = false;
   try {
-    if (solver.isValid(load)) {
+    if (solver.isValid(load, false)) {
       result = true;
     }
   } catch (e) {
@@ -109,12 +109,13 @@ class GraphSolver {
     }
   }
 
-  isValid(initLoad: Loadout) {
+  isValid(initLoad: Loadout, favorProximity: boolean = false) {
     let samus = cloneLoadout(initLoad);
     let progression = 0;
+    let searchVertex = this.startVertex;
 
-    const findAll = () =>
-      searchAndCache(this.graph, this.startVertex, checkFlags(samus));
+    const findAll = (vertex: Vertex) =>
+      searchAndCache(this.graph, vertex, checkFlags(samus));
 
     //-----------------------------------------------------------------
     // Collects all items where there is a round trip back to the
@@ -129,16 +130,21 @@ class GraphSolver {
       const load = cloneLoadout(samus);
       let collectedItem = false;
 
-      itemLocations.forEach((p) => {
+      for (let i = 0; i < itemLocations.length; i++) {
+        const p = itemLocations[i];
         addItem(load, p.item!.type);
         if (!canReachStart(this.graph, p, checkFlags(load))) {
           copyLoadout(load, samus);
-          return;
+          continue;
         }
         addItem(samus, p.item!.type);
         collectedItem = true;
         collectItem(p);
-      });
+        if (favorProximity) {
+          searchVertex = p;
+          break;
+        }
+      }
 
       if (collectedItem) {
         return true;
@@ -160,6 +166,9 @@ class GraphSolver {
         // Collect the item
         addItem(samus, p.item!.type);
         collectItem(p);
+        if (favorProximity) {
+          searchVertex = p;
+        }
         return true;
       };
 
@@ -179,7 +188,7 @@ class GraphSolver {
 
     while (true) {
       // Find all available items
-      const all = findAll();
+      const all = findAll(searchVertex);
       const uncollected = all.filter((v) => v.progression === 0);
 
       // No items available? All done
