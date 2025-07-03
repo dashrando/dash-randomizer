@@ -18,6 +18,7 @@ import {
   getAreaString,
   ItemType,
   SeasonEdgeUpdates,
+  ChozoEdgeUpdates
 } from "core/data";
 import { Options, Params, Settings } from "core/lib/params";
 import { MajorDistributionMode } from "core/params";
@@ -168,7 +169,13 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
   );
 
   if (legacy) {
-    SeasonEdgeUpdates.forEach((c) => {
+    const edgeUpdates = SeasonEdgeUpdates;
+
+    if (majorDistribution === MajorDistributionMode.Chozo) {
+      ChozoEdgeUpdates.forEach((p: any) => edgeUpdates.push(p))
+    }
+
+    edgeUpdates.forEach((c) => {
       const [from, to] = c.edges;
       //TODO: Not currently an issue but should check areas eventually
       const edge = graph.find((n) => n.from.name == from && n.to.name == to);

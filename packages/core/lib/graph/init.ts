@@ -11,7 +11,6 @@ import {
   bossEdges,
   Vertex,
 } from "./data/base/definitions";
-import { ChozoEdgeUpdates } from "./data/chozo/edges";
 
 export type { Vertex } from "./data/base/definitions";
 
@@ -218,21 +217,17 @@ export const cloneGraph = (graph: Graph): Graph => {
 const getEdgeUpdates = (
   mapLayout: number,
   areaShuffle: boolean,
-  majorDistributionMode: number
 ): EdgeUpdate[] => {
 
-  const majorModeEdgeUpdates: EdgeUpdate[] =
-    majorDistributionMode === MajorDistributionMode.Chozo
-      ? ChozoEdgeUpdates
-      : [];
+  const majorModeEdgeUpdates: EdgeUpdate[] = [];
 
   switch (mapLayout) {
     case MapLayout.Standard:
     case MapLayout.Classic:
       if (areaShuffle) {
-        return majorModeEdgeUpdates.concat(StandardAreaEdgeUpdates);
+        return StandardAreaEdgeUpdates;
       }
-      return majorModeEdgeUpdates;
+      return [];
     default:
       throw new Error(`Unknown map layout: ${mapLayout}`);
   }
@@ -318,7 +313,7 @@ export const loadGraph = (
   const g = createGraph(
     getPortals(),
     getVertexUpdates(majorDistributionMode),
-    edgeUpdates.concat(getEdgeUpdates(mapLayout, areaShuffle, majorDistributionMode))
+    edgeUpdates.concat(getEdgeUpdates(mapLayout, areaShuffle))
   );
   addBossItems(g);
   return g;

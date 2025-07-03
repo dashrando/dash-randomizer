@@ -4,6 +4,7 @@ export * from "./data/doors";
 export { Item, ItemNames, majorItem, minorItem } from "./lib/items";
 export { getLocations, Area, Location, getAreaString } from "./lib/locations";
 export { SeasonEdgeUpdates } from "./lib/graph/data/season/edges";
+export { ChozoEdgeUpdates } from "./lib/graph/data/chozo/edges";
 
 export type { ItemType } from "./lib/items";
 
