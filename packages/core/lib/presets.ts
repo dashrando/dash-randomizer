@@ -32,6 +32,7 @@ export const getAllPresets = () => {
     Preset_2017_MM,
     Preset_SGL23,
     Preset_SGL24,
+    Preset_SGL25,
     Preset_Spring_2024,
     Preset_MM_Surprise,
     Preset_MM_Area_Surprise,
@@ -478,6 +479,29 @@ export const Preset_SGL24: Preset = {
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: true,
     bossMode: BossMode.Surprise,
+  },
+  options: {
+    DisableFanfare: false,
+    RelaxedLogic: false,
+    Mystery: false,
+    Spoiler: false
+  },
+};
+
+export const Preset_SGL25: Preset = {
+  title: "SGL25",
+  fileName: "SGL25",
+  tags: ["sgl25"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [Item.DoubleJump],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Shifted,
   },
   options: {
     DisableFanfare: false,

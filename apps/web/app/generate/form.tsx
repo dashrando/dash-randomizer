@@ -174,6 +174,7 @@ export interface GenerateFormParams extends GenerateSeedParams {
     | "chozo-bozo"
     | "sgl23"
     | "sgl24"
+    | "sgl25"
     | "dash-classic"
     | "2017"
     | "custom"
@@ -233,6 +234,18 @@ const MODES = {
     'item-split': 'standard-mm',
     'map-layout': 'randomized',
     boss: 'surprise',
+    minors: 'standard',
+    'environment': 'standard',
+    'charge-beam': 'vanilla',
+    'gravity-heat-reduction': 'off',
+    'double-jump': 'on',
+    'heat-shield': 'off',
+    'pressure-valve': 'none',
+  },
+  'sgl25': {
+    'item-split': 'standard-mm',
+    'map-layout': 'randomized',
+    boss: 'shifted',
     minors: 'standard',
     'environment': 'standard',
     'charge-beam': 'vanilla',
@@ -320,7 +333,8 @@ export default function Form() {
     }
   } = useForm<GenerateFormParams>({
     defaultValues: {
-      'mode': undefined,
+      'mode': 'sgl25',
+      'boss': 'shifted',
       'seed-mode': 'random',
     }
   })
@@ -407,6 +421,8 @@ export default function Form() {
         config.presetName = "SGL23"
       } else if (data.mode == 'sgl24') {
         config.presetName = "SGL24"
+      } else if (data.mode == 'sgl25') {
+        config.presetName = "SGL25"
       } else if (data.mode == 'chozo-bozo') {
         config.presetName = "ChozoBozo"
       } else if (data.mode == 'surprise-surprise') {
@@ -526,6 +542,7 @@ export default function Form() {
               <Select
                 options={[
                   { label: '', value: '', hidden: true },
+                  { label: 'SG Live 2025', value: 'sgl25' },
                   { label: 'SG Live 2024', value: 'sgl24' },
                   { label: 'Spring Invitational 2024', value: 'spring24' },
                   { label: 'Surprise Surprise', value: 'surprise-surprise' },
@@ -574,8 +591,8 @@ export default function Form() {
             <Option label="Boss Locations" name="boss">
               <Select
                 options={[
-                  { label: 'Surprise', value: 'surprise' },
                   { label: 'Shifted', value: 'shifted' },
+                  { label: 'Surprise', value: 'surprise' },
                   { label: 'Shuffled', value: 'shuffled' },
                   { label: 'Vanilla', value: 'vanilla' },
                 ]}
