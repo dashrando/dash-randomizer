@@ -281,5 +281,6 @@ export const bytesToParams = (input: Uint8Array): Params => {
 
 export const stringToParams = (str: string): Params => {
   const bytes = Buffer.from(safeToBase64(str), "base64")
+  //@ts-ignore
   return bytesToParams(bytes);
 };

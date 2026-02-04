@@ -17,6 +17,7 @@ describe("stringToParams", () => {
       RelaxedLogic: false,
       Mystery: false,
       Spoiler: false,
+      BossesKnown: false,
     };
     expect(stringToParams("")).toStrictEqual({
       options,

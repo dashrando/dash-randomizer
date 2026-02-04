@@ -73,7 +73,8 @@ export const findPreset = (
       settings.randomizeAreas !== ps.randomizeAreas ||
       settings.bossMode !== ps.bossMode ||
       options.DisableFanfare !== po.DisableFanfare ||
-      options.RelaxedLogic !== po.RelaxedLogic
+      options.RelaxedLogic !== po.RelaxedLogic ||
+      options.BossesKnown !== po.BossesKnown
     ) {
       return false;
     }
@@ -154,7 +155,8 @@ const generateMysteryPreset = (): Preset => {
       DisableFanfare: false,
       RelaxedLogic: false,
       Mystery: true,
-      Spoiler: false
+      Spoiler: false,
+      BossesKnown: false
     }
   }
 }
@@ -178,7 +180,8 @@ export const Preset_MM_Surprise: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   }
 };
 
@@ -201,7 +204,8 @@ export const Preset_MM_Area_Surprise: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   }
 };
 
@@ -224,7 +228,8 @@ export const Preset_MM_Area_Shuffled: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   }
 };
 
@@ -247,7 +252,8 @@ export const Preset_Full_Area_Shuffled: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   }
 };
 
@@ -270,7 +276,8 @@ export const Preset_Full_Surprise: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   }
 };
 
@@ -293,7 +300,8 @@ export const Preset_SurpriseSurprise: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   }
 };
 
@@ -316,7 +324,8 @@ export const Preset_Chozo_Surprise: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   }
 };
 
@@ -339,7 +348,8 @@ export const Preset_Chozo_Area_Surprise: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   }
 };
 
@@ -366,7 +376,8 @@ export const Preset_Chozo: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   }
 };
 
@@ -389,7 +400,8 @@ export const Preset_Chozo_Bozo: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   },
 };
 
@@ -412,7 +424,8 @@ export const Preset_Chozo_Bozo_Area: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   },
 };
 
@@ -435,7 +448,8 @@ export const Preset_Chozo_Area_Shifted: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   },
 };
 
@@ -462,7 +476,8 @@ export const Preset_SGL23: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   },
 };
 export const Preset_SGL24: Preset = {
@@ -484,7 +499,8 @@ export const Preset_SGL24: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   },
 };
 
@@ -507,7 +523,8 @@ export const Preset_SGL25: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   },
 };
 
@@ -530,7 +547,8 @@ export const Preset_Spring_2024: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   },
 };
 
@@ -557,7 +575,8 @@ export const Preset_Classic_MM: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   },
 };
 
@@ -580,7 +599,8 @@ export const Preset_Classic_Full: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   },
 };
 
@@ -607,6 +627,7 @@ export const Preset_2017_MM: Preset = {
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   },
 };
