@@ -158,13 +158,14 @@ export interface GenerateSeedSettings {
   'double-jump': 'off' | 'on',
   'heat-shield': 'off' | 'on',
   'pressure-valve': 'none' | 'one' | 'two',
+  logic: 'standard' | 'relaxed',
+  'bosses-known': 'off' | 'on',
 }
 
 export interface GenerateSeedParams extends GenerateSeedSettings {
   'seed-mode': 'random' | 'fixed',
   seed: number,
   fanfare: 'off' | 'on', 
-  logic: 'standard' | 'relaxed',
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
@@ -193,6 +194,8 @@ const MODES = {
     'double-jump': 'off',
     'heat-shield': 'off',
     'pressure-valve': 'none',
+    'logic': 'standard',
+    'bosses-known': 'off',
   },
   'surprise-surprise': {
     'item-split': 'full',
@@ -205,6 +208,8 @@ const MODES = {
     'double-jump': 'off',
     'heat-shield': 'off',
     'pressure-valve': 'none',
+    'logic': 'standard',
+    'bosses-known': 'off',
   },
   'chozo-bozo': {
     'item-split': 'chozo',
@@ -217,6 +222,8 @@ const MODES = {
     'double-jump': 'off',
     'heat-shield': 'off',
     'pressure-valve': 'none',
+    'logic': 'standard',
+    'bosses-known': 'off',
   },
   'sgl23': {
     'item-split': 'full',
@@ -229,6 +236,8 @@ const MODES = {
     'double-jump': 'on',
     'heat-shield': 'off',
     'pressure-valve': 'none',
+    'logic': 'standard',
+    'bosses-known': 'off',
   },
   'sgl24': {
     'item-split': 'standard-mm',
@@ -241,6 +250,8 @@ const MODES = {
     'double-jump': 'on',
     'heat-shield': 'off',
     'pressure-valve': 'none',
+    'logic': 'standard',
+    'bosses-known': 'off',
   },
   'sgl25': {
     'item-split': 'standard-mm',
@@ -253,6 +264,8 @@ const MODES = {
     'double-jump': 'on',
     'heat-shield': 'off',
     'pressure-valve': 'none',
+    'logic': 'standard',
+    'bosses-known': 'off',
   },
   'dash-classic': {
     'item-split': 'standard-mm',
@@ -265,6 +278,8 @@ const MODES = {
     'double-jump': 'off',
     'heat-shield': 'off',
     'pressure-valve': 'none',
+    'logic': 'standard',
+    'bosses-known': 'off',
   },
   '2017': {
     'item-split': 'standard-mm',
@@ -277,6 +292,8 @@ const MODES = {
     'double-jump': 'off',
     'heat-shield': 'off',
     'pressure-valve': 'none',
+    'logic': 'standard',
+    'bosses-known': 'off',
   }
 }
 
@@ -286,7 +303,6 @@ const getModeFields = (input: GenerateFormParams): GenerateSeedSettings => {
   delete values.seed
   delete values['seed-mode']
   delete values.fanfare
-  delete values.logic
   return values
 }
 
@@ -457,7 +473,8 @@ export default function Form() {
         DisableFanfare: false,
         RelaxedLogic: false,
         Mystery: false,
-        Spoiler: false
+        Spoiler: false,
+        BossesKnown: false
       };
       if (data.fanfare == 'off') {
         options.DisableFanfare = true;
@@ -465,6 +482,9 @@ export default function Form() {
       if (data.logic == 'relaxed') {
         options.RelaxedLogic = true;
       };
+      if (data['bosses-known'] == 'on') {
+        options.BossesKnown = true;
+      }
 
       const seedNumber = getSeed();
       config.seedKey = await getNewSeedKey()
@@ -751,6 +771,20 @@ export default function Form() {
               <p>
                 <a href="/info/settings#logic">Logic</a>{' '}
                 controls the difficulty of the seed.
+              </p>
+            </Option>
+            <Option label="Bosses Known" name="bosses-known">
+              <Select
+                options={[
+                  { label: 'Off', value: 'off' },
+                  { label: 'On', value: 'on' },
+                ]}
+                name="bosses-known"
+                register={register}
+              />
+              <p>
+                <a href="/info/settings#bosses-known">Bosses Known</a>{' '}
+                controls whether bosses are shown on the main menu.
               </p>
             </Option>
             <Option label="Item Fanfare" name="fanfare">

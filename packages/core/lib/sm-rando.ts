@@ -114,6 +114,15 @@ export const generateSeedPatch = (
   });
 
   //-----------------------------------------------------------------
+  // Write the bosses.
+  //-----------------------------------------------------------------
+
+  encodeBytes(seedPatch, TABLE_FLAGS.ShowBosses, U16toBytes(options.BossesKnown ? 1 : 0));
+  getBosses(graph).forEach((boss, index) => {
+    encodeBytes(seedPatch, 0x2f8b18 + (index * 2), U16toBytes(boss));
+  });
+
+  //-----------------------------------------------------------------
   // Write the spoiler in the credits.
   //-----------------------------------------------------------------
 
@@ -331,4 +340,29 @@ export const getSeedNumber = (seedNumber?: number): number => {
   }
   const timestamp = Math.floor(Date.now() % MAX_SEED);
   return new DotNetRandom(timestamp).NextInRange(1, MAX_SEED);
+}
+
+const getBosses = (graph: Graph) => {
+  const bossEdges = graph.filter(isBossEdge).filter(p => p.to.type == 'exit')
+
+  const getBoss = (location: string) => {
+    const edge = bossEdges.find(p => p.from.name === `Door_${location}Boss`)
+    if (!edge) {
+      return 0xf
+    }
+    switch(edge.to.name.slice(5)) {
+      case "Kraid": return 0;
+      case "Phantoon": return 1;
+      case "Draygon": return 2;
+      case "Ridley": return 3;
+      default: return 0xf;
+    }
+  }
+
+  return [
+    getBoss('Kraid'),
+    getBoss('Phantoon'),
+    getBoss('Draygon'),
+    getBoss('Ridley'),
+  ]
 }

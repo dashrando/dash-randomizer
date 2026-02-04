@@ -141,7 +141,9 @@ export const TABLE_FLAGS = {
   GravityHeatDamage: 0x2F8B10,
   // LN Chozo Trigger: 0x0000 = Require Space Jump
   //                   0x0001 = Nothing Required
-  LNChozoTrigger: 0x2F8B20,
+  LNChozoTrigger: 0x2F8B28,
+  // Show Bosses: 0x0000 = Don't show  0x0001 = Show
+  ShowBosses: 0x2F8B2A,
 };
 
 export const PATCHES = {
@@ -152,9 +154,9 @@ export const PATCHES = {
 };
 
 export const ROOM_PATCH_ADDR = {
-  Waterway: 0x2F8C9C,
-  WreckedShipReserve: 0x2F8E64,
-  PreBotwoon: 0x2F8F54,
+  Waterway: 0x2F8CA6,
+  WreckedShipReserve: 0x2F8E6E,
+  PreBotwoon: 0x2F8F5E,
 };
 
 export const DASH_CLASSIC_PATCHES = [
