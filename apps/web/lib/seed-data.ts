@@ -9,6 +9,7 @@ export type SeedData = {
   mystery: boolean
   spoiler: boolean
   race: boolean
+  bossesKnown: boolean
 }
 
 export const getSeedData = async (key: string, legacyRace: boolean = false) => {
@@ -37,14 +38,16 @@ export const saveSeedData = async (
   hash: string,
   mystery: boolean,
   race: boolean,
-  spoiler: boolean
+  spoiler: boolean,
+  bossesKnown: boolean
 ) => {
   const seedObj = {
     key,
     hash,
     mystery,
     race,
-    spoiler
+    spoiler,
+    bossesKnown
   }
   await kv.hset(`seed-${key}`, seedObj)
 };

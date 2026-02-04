@@ -55,7 +55,8 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
       hash,
       mystery,
       race,
-      options.Spoiler
+      options.Spoiler,
+      options.BossesKnown
     )
 
     const url = new URL(`seed/${seedKey}`, req.nextUrl.origin)

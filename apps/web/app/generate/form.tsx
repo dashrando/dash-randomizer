@@ -499,7 +499,8 @@ export default function Form() {
         hash,
         options.Mystery,
         false,
-        options.Spoiler
+        options.Spoiler,
+        options.BossesKnown
       );
       const name = `DASH_${config.presetName}_${config.seedKey}.sfc`
       if (seed !== null) {
