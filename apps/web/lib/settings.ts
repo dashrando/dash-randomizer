@@ -106,6 +106,7 @@ export const parseSettings = (parameters: Params) => {
   ]
   const optionsParams = [
     { label: 'Logic', value: getLogic(parameters.options.RelaxedLogic ? 1 : 0) },
+    { label: 'Bosses Known', value: displayOnOff(parameters.options.BossesKnown), },
     //{ label: 'Seed Number', value: parameters.seed },
     { label: 'Item Fanfare', value: displayOnOff(!parameters.options.DisableFanfare), }
   ]

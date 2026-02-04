@@ -118,6 +118,7 @@ const getMeta = (params: Params) => {
     'Heat Shield': getValue(settingsParams, 'Heat Shield'),
     'Pressure Valve': getValue(settingsParams, 'Pressure Valve'),
     'Logic': getValue(optionsParams, 'Logic'),
+    'Bosses Known': getValue(optionsParams, 'Bosses Known'),
   }
 }
 
