@@ -20,6 +20,14 @@ export type Preset = {
   options: Options;
 }
 
+const defaultOptions: Options = {
+  DisableFanfare: false,
+  RelaxedLogic: false,
+  Mystery: false,
+  Spoiler: false,
+  BossesKnown: false
+};
+
 //-----------------------------------------------------------------
 // Accessor Method
 //-----------------------------------------------------------------
@@ -176,13 +184,7 @@ export const Preset_MM_Surprise: Preset = {
     randomizeAreas: false,
     bossMode: BossMode.Surprise,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  }
+  options: defaultOptions
 };
 
 export const Preset_MM_Area_Surprise: Preset = {
@@ -200,13 +202,7 @@ export const Preset_MM_Area_Surprise: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Surprise,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  }
+  options: defaultOptions
 };
 
 export const Preset_MM_Area_Shuffled: Preset = {
@@ -224,13 +220,7 @@ export const Preset_MM_Area_Shuffled: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Shuffled,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  }
+  options: defaultOptions
 };
 
 export const Preset_Full_Area_Shuffled: Preset = {
@@ -248,13 +238,7 @@ export const Preset_Full_Area_Shuffled: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Shuffled,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  }
+  options: defaultOptions
 };
 
 export const Preset_Full_Surprise: Preset = {
@@ -272,13 +256,7 @@ export const Preset_Full_Surprise: Preset = {
     randomizeAreas: false,
     bossMode: BossMode.Surprise,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  }
+  options: defaultOptions
 };
 
 export const Preset_SurpriseSurprise: Preset = {
@@ -296,13 +274,7 @@ export const Preset_SurpriseSurprise: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Surprise,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  }
+  options: defaultOptions
 };
 
 export const Preset_Chozo_Surprise: Preset = {
@@ -320,13 +292,7 @@ export const Preset_Chozo_Surprise: Preset = {
     randomizeAreas: false,
     bossMode: BossMode.Surprise,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  }
+  options: defaultOptions
 };
 
 export const Preset_Chozo_Area_Surprise: Preset = {
@@ -344,13 +310,7 @@ export const Preset_Chozo_Area_Surprise: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Surprise,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  }
+  options: defaultOptions
 };
 
 //-----------------------------------------------------------------
@@ -372,13 +332,7 @@ export const Preset_Chozo: Preset = {
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  }
+  options: defaultOptions
 };
 
 export const Preset_Chozo_Bozo: Preset = {
@@ -396,13 +350,7 @@ export const Preset_Chozo_Bozo: Preset = {
     randomizeAreas: false,
     bossMode: BossMode.Shuffled,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  },
+  options: defaultOptions
 };
 
 export const Preset_Chozo_Bozo_Area: Preset = {
@@ -420,13 +368,7 @@ export const Preset_Chozo_Bozo_Area: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Shuffled,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  },
+  options: defaultOptions
 };
 
 export const Preset_Chozo_Area_Shifted: Preset = {
@@ -444,13 +386,7 @@ export const Preset_Chozo_Area_Shifted: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Shifted,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  },
+  options: defaultOptions
 };
 
 //-----------------------------------------------------------------
@@ -472,14 +408,9 @@ export const Preset_SGL23: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Shifted,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  },
+  options: defaultOptions
 };
+
 export const Preset_SGL24: Preset = {
   title: "SGL24",
   fileName: "SGL24",
@@ -495,13 +426,7 @@ export const Preset_SGL24: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Surprise,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  },
+  options: defaultOptions
 };
 
 export const Preset_SGL25: Preset = {
@@ -519,13 +444,7 @@ export const Preset_SGL25: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Shifted,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  },
+  options: defaultOptions
 };
 
 export const Preset_Spring_2024: Preset = {
@@ -543,13 +462,7 @@ export const Preset_Spring_2024: Preset = {
     randomizeAreas: true,
     bossMode: BossMode.Vanilla,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  },
+  options: defaultOptions
 };
 
 //-----------------------------------------------------------------
@@ -571,13 +484,7 @@ export const Preset_Classic_MM: Preset = {
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  },
+  options: defaultOptions
 };
 
 export const Preset_Classic_Full: Preset = {
@@ -595,13 +502,7 @@ export const Preset_Classic_Full: Preset = {
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  },
+  options: defaultOptions
 };
 
 //-----------------------------------------------------------------
@@ -623,11 +524,5 @@ export const Preset_2017_MM: Preset = {
     randomizeAreas: false,
     bossMode: BossMode.Vanilla,
   },
-  options: {
-    DisableFanfare: false,
-    RelaxedLogic: false,
-    Mystery: false,
-    Spoiler: false,
-    BossesKnown: false
-  },
+  options: defaultOptions
 };
