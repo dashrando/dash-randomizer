@@ -118,8 +118,9 @@ export const generateSeedPatch = (
   //-----------------------------------------------------------------
 
   encodeBytes(seedPatch, TABLE_FLAGS.ShowBosses, U16toBytes(options.BossesKnown ? 1 : 0));
-  getBosses(graph).forEach((boss, index) => {
-    encodeBytes(seedPatch, 0x2f8b18 + (index * 2), U16toBytes(boss));
+  getBosses(graph).forEach((bossArray, index) => {
+    encodeBytes(seedPatch, 0x2f8b18 + (index * 2), U16toBytes(bossArray[0]));
+    encodeBytes(seedPatch, 0x2f8b20 + (index * 2), U16toBytes(bossArray[1]));
   });
 
   //-----------------------------------------------------------------
@@ -350,12 +351,29 @@ const getBosses = (graph: Graph) => {
     if (!edge) {
       return 0xf
     }
+    const boss = graph.find(e => e.to === edge.to && e.from.type === 'boss')?.from.item?.name
+
+    const getUnlock = () => {
+      switch (boss) {
+        case 'Brinstar Boss':
+          return 0;
+        case 'Wrecked Ship Boss':
+          return 1;
+        case 'Maridia Boss':
+          return 2;
+        case 'Norfair Boss':
+          return 3;
+        default:
+          return 0xf;
+      }
+    }
+
     switch(edge.to.name.slice(5)) {
-      case "Kraid": return 0;
-      case "Phantoon": return 1;
-      case "Draygon": return 2;
-      case "Ridley": return 3;
-      default: return 0xf;
+      case "Kraid": return [0, getUnlock()];
+      case "Phantoon": return [1, getUnlock()];
+      case "Draygon": return [2, getUnlock()];
+      case "Ridley": return [3, getUnlock()];
+      default: return [0xf, 0xf];
     }
   }
 
