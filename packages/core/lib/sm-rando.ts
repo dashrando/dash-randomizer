@@ -349,7 +349,7 @@ const getBosses = (graph: Graph) => {
   const getBoss = (location: string) => {
     const edge = bossEdges.find(p => p.from.name === `Door_${location}Boss`)
     if (!edge) {
-      return 0xf
+      return [0xf, 0xf];
     }
     const boss = graph.find(e => e.to === edge.to && e.from.type === 'boss')?.from.item?.name
 
