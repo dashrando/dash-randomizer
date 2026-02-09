@@ -72,6 +72,7 @@ export const BossMode = {
   Shuffled: 1,
   Shifted: 2,
   Surprise: 3,
+  Scramble: 4,
 };
 
 //-----------------------------------------------------------------

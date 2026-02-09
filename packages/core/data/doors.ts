@@ -43,7 +43,7 @@ const DOORS: DoorTransition[] = [
     area: "WreckedShip",
     from: "left",
     to: "right",
-    address: undefined,
+    address: boss.DoorFromKraidInWreckedShip,
     vector: boss.DoorVectorToKraidInWreckedShip,
   },
   {
@@ -51,7 +51,7 @@ const DOORS: DoorTransition[] = [
     area: "EastMaridia",
     from: "right",
     to: "left",
-    address: undefined,
+    address: boss.DoorFromKraidInMaridia,
     vector: boss.DoorVectorToKraidInMaridia,
   },
   {
@@ -59,7 +59,7 @@ const DOORS: DoorTransition[] = [
     area: "LowerNorfair",
     from: "right",
     to: "left",
-    address: undefined,
+    address: boss.DoorFromKraidInNorfair,
     vector: boss.DoorVectorToKraidInNorfair,
   },
   {
@@ -83,7 +83,7 @@ const DOORS: DoorTransition[] = [
     area: "KraidsLair",
     from: "left",
     to: "right",
-    address: undefined,
+    address: boss.DoorFromPhantoonInBrinstar,
     vector: boss.DoorVectorToPhantoonInBrinstar,
   },
   {
@@ -91,7 +91,7 @@ const DOORS: DoorTransition[] = [
     area: "EastMaridia",
     from: "right",
     to: "left",
-    address: undefined,
+    address: boss.DoorFromPhantoonInMaridia,
     vector: boss.DoorVectorToPhantoonInMaridia,
   },
   {
@@ -99,7 +99,7 @@ const DOORS: DoorTransition[] = [
     area: "LowerNorfair",
     from: "right",
     to: "left",
-    address: undefined,
+    address: boss.DoorFromPhantoonInNorfair,
     vector: boss.DoorVectorToPhantoonInNorfair,
   },
   {
@@ -123,7 +123,7 @@ const DOORS: DoorTransition[] = [
     area: "KraidsLair",
     from: "left",
     to: "right",
-    address: undefined,
+    address: boss.DoorFromDraygonInBrinstar,
     vector: boss.DoorVectorToDraygonInBrinstar,
   },
   {
@@ -131,7 +131,7 @@ const DOORS: DoorTransition[] = [
     area: "WreckedShip",
     from: "left",
     to: "right",
-    address: undefined,
+    address: boss.DoorFromDraygonInWreckedShip,
     vector: boss.DoorVectorToDraygonInWreckedShip,
   },
   {
@@ -139,7 +139,7 @@ const DOORS: DoorTransition[] = [
     area: "LowerNorfair",
     from: "right",
     to: "left",
-    address: undefined,
+    address: boss.DoorFromDraygonInNorfair,
     vector: boss.DoorVectorToDraygonInNorfair,
   },
   {
@@ -163,7 +163,7 @@ const DOORS: DoorTransition[] = [
     area: "KraidsLair",
     from: "left",
     to: "right",
-    address: undefined,
+    address: boss.DoorFromRidleyInBrinstar,
     vector: boss.DoorVectorToRidleyInBrinstar,
   },
   {
@@ -171,7 +171,7 @@ const DOORS: DoorTransition[] = [
     area: "WreckedShip",
     from: "left",
     to: "right",
-    address: undefined,
+    address: boss.DoorFromRidleyInWreckedShip,
     vector: boss.DoorVectorToRidleyInWreckedShip,
   },
   {
@@ -179,7 +179,7 @@ const DOORS: DoorTransition[] = [
     area: "EastMaridia",
     from: "right",
     to: "left",
-    address: undefined,
+    address: boss.DoorFromRidleyInMaridia,
     vector: boss.DoorVectorToRidleyInMaridia,
   },
   {
