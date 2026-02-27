@@ -69,7 +69,7 @@ const nextConfig = {
       },
       {
         source: "/events",
-        destination: "/events/mystery",
+        destination: "/events/mystery-ii",
         permanent: false,
       },
       {
