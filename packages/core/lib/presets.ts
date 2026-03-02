@@ -52,6 +52,9 @@ export const getPreset = (tag: string) => {
   if (tag === 'mystery') {
     return generateMysteryPreset()
   }
+  if (tag === 'mystery-ii') {
+    return generateMysteryIIPreset()
+  }
   return getAllPresets().find((p) => p.tags.includes(tag));
 };
 
@@ -86,6 +89,78 @@ type WeightedOption = {
   weight: number;
 }
 
+
+const generateMysteryIIPreset = (): Preset => {
+  const MAX_SEED = 2000001
+  const timestamp = Math.floor(Date.now() % MAX_SEED)
+  const rnd = new DotNetRandom(timestamp)
+
+  const getWeightedRandom = (options: WeightedOption[]) => {
+    let sum = 0
+    const draw = rnd.NextDouble()
+    for (let i = 0; i < options.length; i++) {
+      sum += options[i].weight
+      if (draw < sum) {
+        return options[i].value
+      }
+    }
+    throw new Error('Invalid weights')
+  }
+
+  return {
+    title: 'Mystery II',
+    fileName: 'MysteryII',
+    tags: ['mystery-ii'],
+    settings: {
+      mapLayout: MapLayout.Standard,
+      majorDistribution: getWeightedRandom([
+        { value: MajorDistributionMode.Standard, weight: 0.34 },
+        { value: MajorDistributionMode.Chozo, weight: 0.33 },
+        { value: MajorDistributionMode.Full, weight: 0.33 },
+      ]),
+      minorDistribution: getWeightedRandom([
+        { value: MinorDistributionMode.Standard, weight: 0.5 },
+        { value: MinorDistributionMode.Dash, weight: 0.5 },
+      ]),
+      extraItems:
+        [getWeightedRandom([
+          { value: [], weight: 0.5 },
+          { value: [Item.DoubleJump], weight: 0.5 },
+        ])].concat(
+          getWeightedRandom([
+            { value: [], weight: 0.75 },
+            { value: [Item.HeatShield], weight: 0.25 },
+          ])
+        ),
+      beamMode: getWeightedRandom([
+        { value: BeamMode.Vanilla, weight: 0.34 },
+        { value: BeamMode.Starter, weight: 0.33 },
+        { value: BeamMode.StarterPlus, weight: 0.33 },
+      ]),
+      suitMode: SuitMode.Dash,
+      gravityHeatReduction: getWeightedRandom([
+        { value: GravityHeatReduction.Off, weight: 0.75 },
+        { value: GravityHeatReduction.On, weight: 0.25 },
+      ]),
+      randomizeAreas: getWeightedRandom([
+        { value: true, weight: 0.67 },
+        { value: false, weight: 0.33 },
+      ]),
+      bossMode: getWeightedRandom([
+        { value: BossMode.Vanilla, weight: 0.3 },
+        { value: BossMode.Shuffled, weight: 0.3 },
+        { value: BossMode.Shifted, weight: 0.3 },
+        { value: BossMode.Surprise, weight: 0.1 },
+      ])
+    },
+    options: {
+      DisableFanfare: false,
+      RelaxedLogic: false,
+      Mystery: true,
+      Spoiler: false
+    }
+  }
+}
 
 const generateMysteryPreset = (): Preset => {
   const MAX_SEED = 2000001
