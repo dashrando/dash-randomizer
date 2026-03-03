@@ -111,11 +111,118 @@ const mysteryPercentages = [
   },
 ]
 
-export default function MysterySettings({ defaultOpen = false, external = false }: { defaultOpen?: boolean, external?: boolean }) {
+const mysteryPercentages2026 = [
+  {
+    title: 'Item Split',
+    href: '/info/settings#item-split',
+    values: [
+      { label: 'Full', value: 0.2 },
+      { label: 'Chozo', value: 0.4 },
+      { label: 'Major/Minor', value: 0.4 },
+    ]
+  },
+  {
+    title: 'Boss Locations',
+    href: '/info/settings#boss-locations',
+    values: [
+      { label: 'Surprise', value: 0.25 },
+      { label: 'Shuffled', value: 0.25 },
+      { label: 'Shifted', value: 0.25 },
+      { label: 'Scrambled', value: 0.25 },
+    ]
+  },
+  {
+    title: 'Map Layout',
+    href: '/info/settings#map-layout',
+    values: [
+      { label: 'Area Randomization', value: 1.0 },
+      { label: 'Vanilla', value: 0.0 },
+    ]
+  },
+  {
+    title: 'Minor Item Distribution',
+    href: '/info/settings#minors',
+    values: [
+      { label: 'Standard - 3:2:1', value: 0.7 },
+      { label: 'DASH - 2:1:1', value: 0.3 },
+    ]
+  },
+  {
+    title: 'Charge Beam',
+    href: '/info/settings#charge-beam',
+    values: [
+      { label: 'Vanilla', value: 0.6 },
+      { label: 'Starter', value: 0.2 },
+      { label: 'Starter+', value: 0.2 },
+    ]
+  },
+  {
+    title: 'Gravity Heat Reduction',
+    href: '/info/settings#gravity-heat-reduction',
+    values: [
+      { label: 'Off', value: 0.5 },
+      { label: 'On', value: 0.5 },
+    ]
+  },
+  {
+    title: 'Bosses Known',
+    href: '/info/settings#bosses-known',
+    values: [
+      { label: 'Off', value: 0.5 },
+      { label: 'On', value: 0.5 },
+    ]
+  },
+  {
+    title: 'Double Jump',
+    href: '/info/settings#double-jump',
+    values: [
+      { label: 'Off', value: 0.5 },
+      { label: 'On', value: 0.5 },
+    ]
+  },
+  {
+    title: 'Heat Shield',
+    href: '/info/settings#heat-shield',
+    values: [
+      { label: 'Off', value: 0.5 },
+      { label: 'On', value: 0.5 },
+    ]
+  },
+  {
+    title: 'Pressure Valve',
+    href: '/info/settings#pressure-valve',
+    values: [
+      { label: 'Off', value: 0.5 },
+      { label: 'On', value: 0.5 },
+    ]
+  },
+]
+
+export function MysterySettings({ defaultOpen = false, external = false }: { defaultOpen?: boolean, external?: boolean }) {
   return (
     <details open={defaultOpen}>
       <summary>Mystery percentages</summary>
       {mysteryPercentages.map((mystery, index) =>
+        <MysteryTable
+          key={index}
+          external={external}
+          href={mystery.href}
+          title={mystery.title}
+          values={mystery.values}
+        />
+      )}
+      <p>
+        <em>Note: All Mystery seeds will use Standard Logic, Standard Environment Updates and have Item Fanfare enabled. Pressure Valve is not available in Mystery.</em>
+      </p>
+    </details>
+  )
+}
+
+export default function MysterySettings2026({ defaultOpen = false, external = false }: { defaultOpen?: boolean, external?: boolean }) {
+  return (
+    <details open={defaultOpen}>
+      <summary>Mystery percentages</summary>
+      {mysteryPercentages2026.map((mystery, index) =>
         <MysteryTable
           key={index}
           external={external}

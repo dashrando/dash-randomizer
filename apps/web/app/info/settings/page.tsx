@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Wrapper } from '@/app/components/wrapper'
 import { Link as LinkIcon } from 'react-feather'
 import styles from '../info.module.css'
-import MysterySettings from './mystery'
+import MysterySettings2026 from './mystery'
 import Badge from '@/app/components/badge'
 
 const Title = ({ id, children }: { id: string, children: React.ReactNode }) => (
@@ -59,7 +59,7 @@ export default function SettingsInfoPage() {
         <Article id="mode" title="Mode">
           <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss-locations">Boss Locations</a> and <a href="#map-layout">Map Layout</a> parameters. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
           <p>A special mode called <strong>Mystery</strong> will generate a seed with a mix of all randomization parameters and settings.</p>
-          <MysterySettings />
+          <MysterySettings2026 />
         </Article>
         <Article id="item-split" title="Item Split">
           <p><strong>Item Split</strong> determines the available locations where major items can be placed.</p>
@@ -291,6 +291,11 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
+                <strong>Scrambled</strong> bosses randomizes both the bosses (without duplicates) and the areas they unlock. (example: Kraid&apos;s is found at East Maridia, but once defeated could unlock Wrecked Ship.) At least two bosses will not be at their vanilla locations.
+              </p>
+            </li>
+            <li>
+              <p>
                 <strong>Shifted</strong> bosses open access to the area in which they are placed (example: Kraid&apos;s etank will be accessible after defeating whatever boss is in Kraid&apos;s Lair). At least two bosses will not be at their vanilla locations.
               </p>
             </li>
@@ -415,6 +420,18 @@ export default function SettingsInfoPage() {
         >
           <p>
               Enabling <strong>Gravity Heat Reduction</strong> causes Samus to receive 25% less environmental damage from heated rooms when Gravity Suit is equipped without Varia Suit. Note that Gravity Heat Reduction is not considered for logical item progression.
+          </p>
+        </Article>
+        <Article
+          id="bosses-known"
+          title="Bosses Known"
+        >
+          <p>
+              Enabling <strong>Bosses Known</strong> causes the randomized boss information to be displayed on the file select screen. Players will be shown boss locations (LOC), shown which bosses will be found at those locations (BOSS), and shown which areas each boss unlocks when defeated (OPENS).
+              <img
+                src="/images/BossesKnown_Example.png"
+                alt="Bosses Known Information"
+              />
           </p>
         </Article>
         <Article
