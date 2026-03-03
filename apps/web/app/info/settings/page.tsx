@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Wrapper } from '@/app/components/wrapper'
 import { Link as LinkIcon } from 'react-feather'
 import styles from '../info.module.css'
-import MysterySettings2026 from './mystery'
+import { MysterySettings, MysterySettings2026 } from './mystery'
 import Badge from '@/app/components/badge'
 
 const Title = ({ id, children }: { id: string, children: React.ReactNode }) => (

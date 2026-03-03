@@ -2,7 +2,7 @@ import { Wrapper } from '@/app/components/wrapper'
 import styles from '../../vs-world/event.module.css'
 import { LocalTime } from '@/app/components/localTime'
 import Link from 'next/link'
-import MysterySettings from '@/app/info/settings/mystery'
+import { MysterySettings2026 } from '@/app/info/settings/mystery'
 
 export const metadata = {
   title: 'About - DASH Mystery',
@@ -63,33 +63,46 @@ export default function TournamentInfoPage() {
             <article style={{ margin: 'var(--spacer-16x) auto var(--spacer)', maxWidth: '800px', textAlign: 'left' }} className={styles.mysteryArticle}>
               <h2>Registration</h2>
               <p>
-                Sign ups for the Super Metroid Randomizer Mystery tournament is open and will close on <LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York" format={`EEEE, MMMM d 'at' h:mm a`} />. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, June 19.
+                Sign ups for the Super Metroid Randomizer Mystery tournament is open and will close on <LocalTime input="2026-03-26T23:59:00.000" originZone="America/New_York" format={`EEEE, MMMM d 'at' h:mm a`} />. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, April 2nd.
               </p>
               <p>
                 Prior to the tournament, we will be confirming your participation and getting players to join the <a href="https://discord.gg/2usVyy4" target="_blank">Discord server</a>. Discord will be the official medium used to communicate with players and schedule races. Players must join the discord server to participate.
               </p>
-              <h2>Format + Seeding Procedure</h2>
+              <h2>Format</h2>
               <p>
-                The tournament will be swiss format with each match being 1 race. There will be one required match per week (Wednesday - Tuesday).  Seeding for match pairings for the 1st round will be based on previous tournament finishes including SGLive tournaments, the 2022 SMR Multi-Category tournament and SMR League. This will likely not be an exact ordering, of strongest to weakest players, but should be good enough to get fair matchups throughout the swiss rounds. This will be done after the sign up period ends and before the official 1st week of competition begins.
+                The tournament will be swiss format with each match being 1 race. There will be one required match per week (Wednesday - Tuesday).
               </p>
               <p>
                 There will be 6 weeks of swiss competition, which means at least 6 guaranteed matches for each runner. Note, we are starting each week midweek in the hopes that fewer players will miss entire weeks while on vacation.
+              </p>
+              <h2>Qualifying Races + Seeding Procedure</h2>
+              <p>
+                There will be 4 qualifying races available at different times (as to accomodate as many time zones as possible). 
+                <ul>
+                  <li>Saturday, March 21st 8PM Eastern: Qualifying Race 1</li>
+                  <li>Sunday, March 22nd 12PM (Noon) Eastern: Qualifying Race 2</li>
+                  <li>Saturday, March 28th 8PM Eastern: Qualifying Race 3</li>
+                  <li>Sunday, March 29th 12PM (Noon)  Eastern: Qualifying Race 4</li>
+                </ul>
+              </p>
+              <p>
+                Seeding for match pairings for the 1st round of Swiss will be based on the average of a runner's top 2 qualifying race times.
               </p>
               <h2>Mode</h2>
               <p>
               The mode of this tournament is ”Mystery”. What this means is runners will not know what the mode is until the race starts and they start playing the seed. The goal will always be to kill the “G4 bosses”, defeat Mother Brain and escape to the ship. Available settings will be weighted as follows:
               </p>
-              <MysterySettings defaultOpen={true} external={true} />
+              <MysterySettings2026 defaultOpen={true} external={true} />
               <p>
                 <em>These percentages are subject to change before the tournament starts. We will be testing them in the weeks leading up to the tournament. All percentages will be finalized at the same time that first round match ups are announced.</em>
               </p>
               <h2>Timeline</h2>
               <ul>
-                <li>June 3: Registration begins</li>
-                <li><LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York" format="MMMM d" />: Registration ends at <LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York" format="h:mm a" /></li>
-                <li>June 19: Start of swiss week 1</li>
-                <li>August 7: Last day of swiss weeks</li>
-                <li>August 9: Bracket scheduling can begin</li>
+                <li>March 5: Registration begins</li>
+                <li><LocalTime input="2026-03-26T23:59:00.000" originZone="America/New_York" format="MMMM d" />: Registration ends at <LocalTime input="2026-03-26T23:59:00.000" originZone="America/New_York" format="h:mm a" /></li>
+                <li>April 2: Start of swiss week 1</li>
+                <li>May 14: Last day of swiss weeks</li>
+                <li>May 15: Bracket scheduling can begin</li>
               </ul>
               <h2>Scheduling</h2>
               <p>
@@ -152,7 +165,7 @@ export default function TournamentInfoPage() {
                 <li>While not required, it is highly recommended that runners locally record all their races. If your stream goes down during a race (internet issues) you may be asked to provide proof of your finish time. Note that “filming” your screen with your phone (or other camera) is an acceptable form of proof. If you have internet or technical issues (for a moderate/significant period of time) and cannot provide a local recording then you will be forfeited from that match. There will be no rematches.</li>
               </ol>
               <h2>Stream Delay</h2>
-              <p>Stream delay is required for all races. A delay of 10 minutes must be used for each race. If a racer does not delay their stream they will forfeit the race. If a racer wishes to stop stream delay after the race they must NOT discard the delay. Discarding delay will cause the end of the race to be lost and the runner will forfeit the race unless the results can be verified with a local recording.</p>
+              <p>Stream delay is not required.</p>
               <h2>Hardware Rules</h2>
               <ul>
                 <li>Runners may use cartridge, flashcart, approved emulator, SNES classic or a docked Analogue Pocket.</li>
