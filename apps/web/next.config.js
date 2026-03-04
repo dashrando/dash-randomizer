@@ -83,6 +83,16 @@ const nextConfig = {
         permanent: false,
       },
       {
+        source: "/events/mystery-ii/discord",
+        destination: "https://discord.gg/2usVyy4",
+        permanent: false,
+      },
+      {
+        source: "/events/mystery-ii/register",
+        destination: "https://www.inertia.run/i/mystery-vol-ii?returnTo=https%3A%2F%2Fwww.dashrando.net%2Fevents%2Fmystery-ii%2Fregistered",
+        permanent: false,
+      },
+      {
         source: "/events/mystery/register",
         destination: "https://www.inertia.run/i/dash-mystery?returnTo=https%3A%2F%2Fmystery.dash.kupppo.com%2Fevents%2Fmystery%2Fregistered",
         permanent: false,

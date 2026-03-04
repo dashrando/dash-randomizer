@@ -9,7 +9,7 @@ export const metadata = {
 }
 
 export default function TournamentInfoPage() {
-  const baseUrl = '/events/mystery'
+  const baseUrl = '/events/mystery-ii'
 
   return (
     <>
