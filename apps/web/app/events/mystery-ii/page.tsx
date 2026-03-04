@@ -2,6 +2,7 @@ import { Wrapper } from '@/app/components/wrapper'
 import styles from '../vs-world/event.module.css'
 import { ButtonLink } from '@/app/components/button'
 import Link from 'next/link'
+import Background from './bg'
 
 export const metadata = {
   title: 'DASH Mystery Vol II',
@@ -16,7 +17,7 @@ export default function TournamentPage() {
       <div className={styles.mysteryBackground}>
         <div className={styles.aspectRatio}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/mystery-bg.png" alt="DASH Mystery Vol II" loading="eager" />
+          <Background />
         </div>
       </div>
       <div className={styles.mysteryMobileNavBg} />

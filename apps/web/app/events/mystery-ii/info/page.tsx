@@ -3,6 +3,7 @@ import styles from '../../vs-world/event.module.css'
 import { LocalTime } from '@/app/components/localTime'
 import Link from 'next/link'
 import MysterySettings from '@/app/info/settings/mystery'
+import Background from '../bg'
 
 export const metadata = {
   title: 'About - DASH Mystery',
@@ -17,7 +18,7 @@ export default function TournamentInfoPage() {
       <div className={styles.mysteryBackground}>
         <div className={styles.aspectRatio}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/mystery-bg.png" alt="DASH Mystery" loading="eager" />
+          <Background />
         </div>
       </div>
       <div className={styles.mysteryMobileNavBg} />
