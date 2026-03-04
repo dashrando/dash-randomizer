@@ -29,7 +29,8 @@ export default function TournamentPage() {
               </h1>
               <div className={styles.mysteryLogo}>
                 <Link href={`${baseUrl}`}>
-                  <svg width="408" height="81" viewBox="0 0 408 81" fill="none" xmlns="http://www.w3.org/2000/svg" alt="DASH Mystery Vol II">
+                  <svg width="408" height="81" viewBox="0 0 408 81" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <title>DASH Mystery Vol II</title>
                     <path d="M394.833 79.2881V0.848145H407.553V79.2881H394.833Z" fill="white"/>
                     <path d="M375.323 79.2881V0.848145H388.043V79.2881H375.323Z" fill="white"/>
                     <path d="M334.335 79.2881V0.848145H346.949V68.9001H357.655V79.2881H334.335Z" fill="white"/>
