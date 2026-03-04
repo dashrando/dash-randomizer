@@ -41,7 +41,7 @@ export default async function SeedPage({ params }: { params : { seed: string }})
     );
   };
 
-  const { hash, mystery, race, spoiler } = data
+  const { hash, mystery, race, spoiler, bossesKnown } = data
   const seedParams = hashToParams(hash)
   const seedNum = seedParams.seed
   const sig = prefetchSignature(seedNum)
@@ -57,6 +57,7 @@ export default async function SeedPage({ params }: { params : { seed: string }})
         race={race}
         mystery={mystery}
         spoiler={!!spoiler}
+        bossesKnown={!!data.bossesKnown}
       />
       <SeedFooter />
       <Toaster />

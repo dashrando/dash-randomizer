@@ -21,7 +21,7 @@ export default async function RaceSeedPage({ params }: { params: { key: string }
     const seedParams = hashToParams(legacyData.hash)
     const graph = generateSeed(seedParams.seed, seedParams.settings, seedParams.options)
     const encoded = encodeSeed(seedParams, graph)
-    await saveSeedData(params.key, encoded, legacyData.mystery, true, false)
+    await saveSeedData(params.key, encoded, legacyData.mystery, true, false, false);
   }
   redirect(`/seed/${params.key}`);
   return <></>

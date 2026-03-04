@@ -31,7 +31,8 @@ async function RandomizeRom(
     DisableFanfare: false,
     RelaxedLogic: false,
     Mystery: false,
-    Spoiler: false
+    Spoiler: false,
+    BossesKnown: false
   };
   const options: Options = { ...defaultOptions, ...opts };
 
