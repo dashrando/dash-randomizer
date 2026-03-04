@@ -218,7 +218,7 @@ export function MysterySettings({ defaultOpen = false, external = false }: { def
   )
 }
 
-export default function MysterySettings2026({ defaultOpen = false, external = false }: { defaultOpen?: boolean, external?: boolean }) {
+export function MysterySettings2026({ defaultOpen = false, external = false }: { defaultOpen?: boolean, external?: boolean }) {
   return (
     <details open={defaultOpen}>
       <summary>Mystery percentages</summary>
