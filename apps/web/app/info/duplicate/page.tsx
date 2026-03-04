@@ -7,16 +7,16 @@ export default function SurpriseInfoPage() {
     <Wrapper>
       <div style={{ maxWidth: "620px", margin: "0 auto" }}>
         <article className={styles.article}>
-          <h1 className={styles.headline}>Surprise Bosses</h1>
+          <h1 className={styles.headline}>Duplicate Bosses</h1>
           <p>
-            <strong>Surprise</strong> bosses allows any boss to be at any
-            location <u>including duplicates</u>. Defeating a boss opens access
-            to the area in which it is placed (example: Kraid&apos;s etank will
-            be accessible after defeating whatever boss is in Kraid&apos;s
+            <strong>Surprise</strong> and <strong>Scrambled</strong> bosses allows any boss to be at any
+            location <u>including duplicates</u>. In these modes, defeating a boss opens access
+            to the area to which it is associated regardless of where it is placed (example: Kraid&apos;s etank would
+            be accessible after defeating Phantoon in Lower Norfair if it was associated with Kraid&apos;s
             Lair). At least one boss will not be at its vanilla location.
           </p>
           <p>
-            Because <strong>Boss Surprise</strong> can introduce duplicates of
+            Because these modes can introduce duplicates of
             bosses, it is possible that the number of item locations can change
             based on the number of Phantoons in the game. This is because
             Phantoon does not have an item location connected directly to the
