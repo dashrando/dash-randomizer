@@ -310,13 +310,6 @@ export default function SettingsInfoPage() {
               </p>
               <p><a href="/info/duplicate">More info on Duplicate Bosses</a></p>
             </li>
-            {/*<li>
-              <p style={{ marginBottom: 0 }}>
-                <strong>Known</strong> ensures at least two G4 bosses will not be at their vanilla locations, but the player will have the boss locations viewable from the pause screen.
-              </p>
-              <span style={{ display: 'block', height: 'var(--spacer-2x)' }} />
-              <Badge>Coming soon</Badge>
-            </li>*/}
           </ul>
         </Article>
         <Article
@@ -504,6 +497,14 @@ export default function SettingsInfoPage() {
         >
           <p>
             <strong>Item Fanfare</strong> is the ~7 second period after Samus acquires a new item in which the player loses control while heroic music plays. DASH supports disabling Item Fanfare, but they are enabled by default.
+          </p>
+        </Article>
+        <Article
+          id="bosses-known"
+          title="Bosses Known"
+        >
+          <p>
+            <strong>Bosses Known</strong> is a setting that determines whether or not the boss names are shown in the item menu.
           </p>
         </Article>
       </div>
