@@ -777,7 +777,7 @@ export default function Form() {
                 controls the difficulty of the seed.
               </p>
             </Option>
-            <Option label="Bosses Known" name="bosses-known">
+            <Option label="Bosses Known" name="bosses-known" badge={<Badge variant={'beta'}>Beta</Badge>}>
               <Select
                 options={[
                   { label: 'Off', value: 'off' },

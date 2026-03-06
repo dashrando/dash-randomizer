@@ -306,7 +306,7 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Scrambled</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Additionally, the area in which each boss unlocks is also randomized (example: Defeating Phantoon in Lower Norfair could unlock the door to Kraid&apos;s etank). At least one boss will not be at its vanilla location.
+                <Badge variant={'beta'}>Beta</Badge> <strong>Scrambled</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Additionally, the area in which each boss unlocks is also randomized (example: Defeating Phantoon in Lower Norfair could unlock the door to Kraid&apos;s etank). At least one boss will not be at its vanilla location.
               </p>
               <p><a href="/info/duplicate">More info on Duplicate Bosses</a></p>
             </li>
