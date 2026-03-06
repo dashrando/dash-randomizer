@@ -168,7 +168,7 @@ const generateMysteryPreset = (): Preset => {
       RelaxedLogic: false,
       Mystery: true,
       Spoiler: false,
-      BossesKnown: true
+      BossesKnown: false
     }
   }
 }
