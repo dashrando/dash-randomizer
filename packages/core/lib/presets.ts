@@ -165,6 +165,10 @@ const generateMysteryIIPreset = (): Preset => {
     options: {
       DisableFanfare: false,
       RelaxedLogic: false,
+      BossesKnown: getWeightedRandom([
+        { value: false, weight: 0.5 },
+        { value: true, weight: 0.5 },
+      ]),
       Mystery: true,
       Spoiler: false
     }
