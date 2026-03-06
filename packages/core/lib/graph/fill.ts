@@ -15,7 +15,11 @@ const canPlaceItem_Full = (item: ItemType, vertex: Vertex) => {
   if (vertex.item != undefined) {
     return false;
   }
-  if (item.type == Item.Gravity) {
+  if (
+    item.type == Item.Gravity ||
+    item.type == Item.HeatShield ||
+    item.type == Item.PressureValve
+  ) {
     switch (vertex.area) {
       case "Crateria":
         return false;
@@ -41,7 +45,11 @@ const canPlaceItem_MajorMinor = (item: ItemType, vertex: Vertex) => {
   if (item.isMajor != (vertex.type == "major")) {
     return false;
   }
-  if (item.type == Item.Gravity) {
+  if (
+    item.type == Item.Gravity ||
+    item.type == Item.HeatShield ||
+    item.type == Item.PressureValve
+  ) {
     switch (vertex.area) {
       case "Crateria":
         return false;
@@ -167,7 +175,7 @@ const graphFill = (
   rnd: DotNetRandom,
   graph: Graph,
   settings: Settings,
-  maxAttempts = 10,
+  maxAttempts = 10
 ) => {
   //-----------------------------------------------------------------
   // Extract parameters.
@@ -211,9 +219,9 @@ const graphFill = (
   //-----------------------------------------------------------------
 
   //const bossVertices = graph
-    //.map((e) => e.from)
-    //.filter((v) => v.type == "boss")
-    //.filter(isUnique)
+  //.map((e) => e.from)
+  //.filter((v) => v.type == "boss")
+  //.filter(isUnique)
 
   //-----------------------------------------------------------------
   //
@@ -254,10 +262,11 @@ const graphFill = (
       (v) =>
         canPlaceItem(item, v) &&
         canReachVertex(graph, startVertex, v, checker) &&
-        canReachVertex(graph, v, startVertex, checker));
+        canReachVertex(graph, v, startVertex, checker)
+    );
 
     if (available == undefined) {
-      throw new Error("graphFill: failed to find available location for item")
+      throw new Error("graphFill: failed to find available location for item");
     }
     available.item = item;
     addItem(prefillLoadout, itemType);
@@ -330,7 +339,7 @@ const graphFill = (
 export const generateSeed = (
   seed: number,
   settings: Settings,
-  options: Options,
+  options: Options
 ) => {
   const maxOuterLoop = 30;
   let maxInnerLoop = 40;
@@ -352,7 +361,7 @@ export const generateSeed = (
       settings.majorDistribution,
       settings.randomizeAreas,
       options.RelaxedLogic,
-      settings.bossMode,
+      settings.bossMode
     );
 
     try {

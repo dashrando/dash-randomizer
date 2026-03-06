@@ -21,6 +21,7 @@ export type Options = {
   RelaxedLogic: boolean;
   Mystery: boolean;
   Spoiler: boolean;
+  BossesKnown: boolean;
 }
 
 export type Params = {
@@ -71,6 +72,7 @@ export const BossMode = {
   Shuffled: 1,
   Shifted: 2,
   Surprise: 3,
+  Scramble: 4,
 };
 
 //-----------------------------------------------------------------
@@ -166,8 +168,11 @@ const bitsToMapLayout = (bits: number) => {
 //    b: beam mode
 //    m: map layout
 //
-// byte 6 = ll-pppppp
+// byte 6 = ll-m-s-b-ppp
 //    l: logic
+//    m: mystery
+//    s: spoiler
+//    b: bosses known  
 //    p: padding
 //-----------------------------------------------------------------
 
@@ -206,7 +211,8 @@ export const paramsToBytes = (seed: number, settings: Settings, options: Options
   const relaxed = (options.RelaxedLogic ? 0x1 : 0x0) << 6;
   const mystery = (options.Mystery ? 0x1 : 0x0) << 5;
   const spoiler = (options.Spoiler ? 0x1 : 0x0) << 4;
-  bytes[6] = relaxed | mystery | spoiler;
+  const bossesKnown = (options.BossesKnown ? 0x1 : 0x0) << 3;
+  bytes[6] = relaxed | mystery | spoiler | bossesKnown;
 
   return bytes;
 };
@@ -232,6 +238,7 @@ export const bytesToParams = (input: Uint8Array): Params => {
   const relaxed = (bytes[6] >> 6) & 0x3;
   const mystery = (bytes[6] >> 5) & 0x1;
   const spoiler = (bytes[6] >> 4) & 0x1;
+  const bossesKnown = (bytes[6] >> 3) & 0x1;
 
   const major = bitsToMajorMode((bytes[3] >> 2) & 0x3);
   const minor = bitsToMinorMode((bytes[3] >> 4) & 0x3);
@@ -267,12 +274,14 @@ export const bytesToParams = (input: Uint8Array): Params => {
       DisableFanfare: fanfare == 0x0,
       RelaxedLogic: relaxed == 0x1,
       Mystery: mystery == 0x1,
-      Spoiler: spoiler == 0x1
+      Spoiler: spoiler == 0x1,
+      BossesKnown: bossesKnown == 0x1
     },
   };
 };
 
 export const stringToParams = (str: string): Params => {
   const bytes = Buffer.from(safeToBase64(str), "base64")
+  //@ts-ignore
   return bytesToParams(bytes);
 };
