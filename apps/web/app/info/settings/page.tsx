@@ -424,19 +424,6 @@ export default function SettingsInfoPage() {
           </p>
         </Article>
         <Article
-          id="bosses-known"
-          title="Bosses Known"
-          badge={<Badge variant={'beta'}>Beta</Badge>}
-        >
-          <p>
-              Enabling <strong>Bosses Known</strong> causes the randomized boss information to be displayed on the file select screen. Players will be shown boss locations (LOC), shown which bosses will be found at those locations (BOSS), and shown which areas each boss unlocks when defeated (OPENS).
-              <img
-                src="/images/BossesKnown_Example.png"
-                alt="Bosses Known Information"
-              />
-          </p>
-        </Article>
-        <Article
           id="double-jump"
           title="Double Jump"
         >
@@ -513,19 +500,25 @@ export default function SettingsInfoPage() {
           </ul>
         </Article>
         <Article
+          id="bosses-known"
+          title="Bosses Known"
+          badge={<Badge variant={'beta'}>Beta</Badge>}
+        >
+          <p>
+              Enabling <strong>Bosses Known</strong> causes the randomized boss information to be displayed on the file select screen. Players will be shown boss locations (LOC), shown which bosses will be found at those locations (BOSS), and shown which areas each boss unlocks when defeated (OPENS).
+              <img
+                src="/images/BossesKnown_Example.png"
+                alt="Bosses Known Information"
+                style={{ display: 'block', margin: '0 auto', width: '100%' }}
+              />
+          </p>
+        </Article>
+        <Article
           id="fanfare"
           title="Item Fanfare"
         >
           <p>
             <strong>Item Fanfare</strong> is the ~7 second period after Samus acquires a new item in which the player loses control while heroic music plays. DASH supports disabling Item Fanfare, but they are enabled by default.
-          </p>
-        </Article>
-        <Article
-          id="bosses-known"
-          title="Bosses Known"
-        >
-          <p>
-            <strong>Bosses Known</strong> is a setting that determines whether or not the boss names are shown in the item menu.
           </p>
         </Article>
       </div>
