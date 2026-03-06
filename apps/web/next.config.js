@@ -29,7 +29,7 @@ const nextConfig = {
     return [
       {
         source: "/discord",
-        destination: "https://discord.gg/WsnYSxA",
+        destination: "https://discord.gg/rRmPPX6jSK",
         permanent: false,
       },
       {
@@ -84,7 +84,7 @@ const nextConfig = {
       },
       {
         source: "/events/mystery-ii/discord",
-        destination: "https://discord.gg/WsnYSxA",
+        destination: "https://discord.gg/rRmPPX6jSK",
         permanent: false,
       },
       {
