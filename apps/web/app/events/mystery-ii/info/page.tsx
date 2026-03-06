@@ -68,7 +68,7 @@ export default function TournamentInfoPage() {
                 Sign ups for the Super Metroid Randomizer Mystery tournament is open and will close on <LocalTime input="2026-03-26T23:59:00.000" originZone="America/New_York" format={`EEEE, MMMM d 'at' h:mm a`} />. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, April 2nd.
               </p>
               <p>
-                Prior to the tournament, we will be confirming your participation and getting players to join the <a href="https://discord.gg/2usVyy4" target="_blank">Discord server</a>. Discord will be the official medium used to communicate with players and schedule races. Players must join the discord server to participate.
+                Prior to the tournament, we will be confirming your participation and getting players to join the <a href="/discord" target="_blank">Discord server</a>. Discord will be the official medium used to communicate with players and schedule races. Players must join the discord server to participate.
               </p>
               <h2>Format</h2>
               <p>
@@ -92,7 +92,7 @@ export default function TournamentInfoPage() {
               </p>
               <h2>Mode</h2>
               <p>
-              The mode of this tournament is ”Mystery”. What this means is runners will not know what the mode is until the race starts and they start playing the seed. The goal will always be to kill the “G4 bosses”, defeat Mother Brain and escape to the ship. Available settings will be weighted as follows:
+              The mode of this tournament is "Mystery II". What this means is runners will not know what the mode is until the race starts and they start playing the seed. The goal will always be to kill the “G4 bosses”, defeat Mother Brain and escape to the ship. Available settings will be weighted as follows:
               </p>
               <MysterySettings2026 defaultOpen={true} external={true} />
               <p>

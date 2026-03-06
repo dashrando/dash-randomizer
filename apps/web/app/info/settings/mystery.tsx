@@ -221,7 +221,7 @@ export function MysterySettings({ defaultOpen = false, external = false }: { def
 export function MysterySettings2026({ defaultOpen = false, external = false }: { defaultOpen?: boolean, external?: boolean }) {
   return (
     <details open={defaultOpen}>
-      <summary>Mystery percentages</summary>
+      <summary>Mystery Vol II percentages</summary>
       {mysteryPercentages2026.map((mystery, index) =>
         <MysteryTable
           key={index}
