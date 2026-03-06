@@ -47,6 +47,7 @@ export default function Seed({
   signature,
   slug,
   spoiler,
+  bossesKnown
 }: {
   parameters: Params,
   mystery?: boolean,
@@ -55,6 +56,7 @@ export default function Seed({
   signature: string,
   slug: string,
   spoiler: boolean,
+  bossesKnown: boolean
 }) {
   const mounted = useMounted()
   const { data: vanilla } = useVanilla()

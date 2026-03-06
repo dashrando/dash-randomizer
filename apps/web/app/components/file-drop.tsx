@@ -124,7 +124,8 @@ const FileDrop = (props: React.PropsWithChildren) => {
           hash,
           params.options.Mystery,
           false,
-          params.options.Spoiler
+          params.options.Spoiler,
+          params.options.BossesKnown
         );
         toast('Loading DASH seed...')
         router.push(`/seed/${seedKey}`)

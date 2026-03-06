@@ -308,15 +308,13 @@ export default function SettingsInfoPage() {
               <p>
                 <strong>Surprise</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Defeating a boss opens access to the area in which it is placed (example: Kraid&apos;s etank will be accessible after defeating whatever boss is in Kraid&apos;s Lair). At least one boss will not be at its vanilla location.
               </p>
-              <p><a href="/info/surprise">More info on Surprise Bosses</a></p>
             </li>
-            {/*<li>
-              <p style={{ marginBottom: 0 }}>
-                <strong>Known</strong> ensures at least two G4 bosses will not be at their vanilla locations, but the player will have the boss locations viewable from the pause screen.
+            <li>
+              <p>
+                <Badge variant={'beta'}>Beta</Badge> <strong>Scrambled</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Additionally, the area in which each boss unlocks is also randomized (example: Defeating Phantoon in Lower Norfair could unlock the door to Kraid&apos;s etank). At least one boss will not be at its vanilla location.
               </p>
-              <span style={{ display: 'block', height: 'var(--spacer-2x)' }} />
-              <Badge>Coming soon</Badge>
-            </li>*/}
+              <p><a href="/info/duplicate">More info on Duplicate Bosses</a></p>
+            </li>
           </ul>
         </Article>
         <Article
@@ -516,6 +514,14 @@ export default function SettingsInfoPage() {
         >
           <p>
             <strong>Item Fanfare</strong> is the ~7 second period after Samus acquires a new item in which the player loses control while heroic music plays. DASH supports disabling Item Fanfare, but they are enabled by default.
+          </p>
+        </Article>
+        <Article
+          id="bosses-known"
+          title="Bosses Known"
+        >
+          <p>
+            <strong>Bosses Known</strong> is a setting that determines whether or not the boss names are shown in the item menu.
           </p>
         </Article>
       </div>

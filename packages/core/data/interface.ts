@@ -23,8 +23,20 @@ export const BOSS_DOORS = {
   DoorVectorToRidleyInNorfair: 0x198CA,
   // Boss Exit Door Pointers
   DoorFromKraidInBrinstar: 0x7A5E5,
+  DoorFromKraidInWreckedShip: 0x7EAC3,
+  DoorFromKraidInMaridia: 0x7EB0D,
+  DoorFromKraidInNorfair: 0x7EA79,
+  DoorFromPhantoonInBrinstar: 0x7EB57,
   DoorFromPhantoonInWreckedShip: 0x7CD59,
+  DoorFromPhantoonInMaridia: 0x7EBE7,
+  DoorFromPhantoonInNorfair: 0x7EB9F,
+  DoorFromDraygonInBrinstar: 0x7ECC2,
+  DoorFromDraygonInWreckedShip: 0x7ED56,
   DoorFromDraygonInMaridia: 0x7DAA6,
+  DoorFromDraygonInNorfair: 0x7ED0C,
+  DoorFromRidleyInBrinstar: 0x7EE35,
+  DoorFromRidleyInWreckedShip: 0x7EE7F,
+  DoorFromRidleyInMaridia: 0x7EEC9,
   DoorFromRidleyInNorfair: 0x7B376,
   // Boss Exit Door Vectors
   DoorVectorToPreKraid: 0x191CE,
@@ -141,7 +153,9 @@ export const TABLE_FLAGS = {
   GravityHeatDamage: 0x2F8B10,
   // LN Chozo Trigger: 0x0000 = Require Space Jump
   //                   0x0001 = Nothing Required
-  LNChozoTrigger: 0x2F8B20,
+  LNChozoTrigger: 0x2F8B28,
+  // Show Bosses: 0x0000 = Don't show  0x0001 = Show
+  ShowBosses: 0x2F8B2A,
 };
 
 export const PATCHES = {
@@ -152,9 +166,9 @@ export const PATCHES = {
 };
 
 export const ROOM_PATCH_ADDR = {
-  Waterway: 0x2F8C9C,
-  WreckedShipReserve: 0x2F8E64,
-  PreBotwoon: 0x2F8F54,
+  Waterway: 0x2F8CA6,
+  WreckedShipReserve: 0x2F8E6E,
+  PreBotwoon: 0x2F8F5E,
 };
 
 export const DASH_CLASSIC_PATCHES = [

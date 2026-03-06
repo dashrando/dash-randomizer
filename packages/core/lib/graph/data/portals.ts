@@ -245,7 +245,7 @@ const generateBossPortals = (mode: number, seed: number): PortalMapping[] => {
     const exitPortals = bosses.map((b) => b[1]);
 
     // Randomly pick a boss for each door
-    if (mode == BossMode.Surprise) {
+    if (mode == BossMode.Surprise || mode == BossMode.Scramble) {
       return doorPortals.map<PortalMapping>((d) => {
         const exit = {...exitPortals[rng.NextInRange(0, 4)]}
         return [d, exit]
@@ -263,7 +263,14 @@ const generateBossPortals = (mode: number, seed: number): PortalMapping[] => {
     shuffled = shuffleBosses();
   }
 
-  if (mode !== BossMode.Shuffled) {
+  if (mode == BossMode.Scramble) {
+    const areas = ['KraidsLair', 'LowerNorfair', 'EastMaridia', 'WreckedShip'];
+    shuffle(rng, areas)
+    shuffled.forEach((p, i) => {
+      p[1].area = areas[i]
+      //console.log(`${p[0].name} (${p[0].area}) -> ${p[1].name} (${p[1].area})`)
+    });
+  } else if (mode !== BossMode.Shuffled) {
     shuffled.forEach(p => p[1].area = p[0].area)
   }
   
