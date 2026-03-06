@@ -60,6 +60,8 @@ export default function SettingsInfoPage() {
           <p><strong>Mode</strong> is the combination of <a href="#item-split">Item Split</a>, <a href="#boss-locations">Boss Locations</a> and <a href="#map-layout">Map Layout</a> parameters. DASH provides a few curated modes by default, but also allows you to change any of these values to create your own custom mode.</p>
           <p>A special mode called <strong>Mystery</strong> will generate a seed with a mix of all randomization parameters and settings.</p>
           <MysterySettings2026 />
+          <br />
+          <MysterySettings />
         </Article>
         <Article id="item-split" title="Item Split">
           <p><strong>Item Split</strong> determines the available locations where major items can be placed.</p>
@@ -306,12 +308,13 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Surprise</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Defeating a boss opens access to the area in which it is placed (example: Kraid&apos;s etank will be accessible after defeating whatever boss is in Kraid&apos;s Lair). At least one boss will not be at its vanilla location.
+                <strong>Surprise</strong> bosses allows any boss to be at any location <strong style={{ borderBottom: '1px dotted var(--color-muted)' }}>including duplicates</strong>. Defeating a boss opens access to the area in which it is placed (example: Kraid&apos;s etank will be accessible after defeating whatever boss is in Kraid&apos;s Lair). At least one boss will not be at its vanilla location.
               </p>
             </li>
             <li>
               <p>
-                <Badge variant={'beta'}>Beta</Badge> <strong>Scrambled</strong> bosses allows any boss to be at any location <u>including duplicates</u>. Additionally, the area in which each boss unlocks is also randomized (example: Defeating Phantoon in Lower Norfair could unlock the door to Kraid&apos;s etank). At least one boss will not be at its vanilla location.
+                <strong>Scrambled</strong> bosses allows any boss to be at any location <strong style={{ borderBottom: '1px dotted var(--color-muted)' }}>including duplicates</strong>. Additionally, the area in which each boss unlocks is also randomized (example: Defeating Phantoon in Lower Norfair could unlock the door to Kraid&apos;s etank). At least one boss will not be at its vanilla location.
+                <br /><Badge variant={'beta'}>Beta</Badge>
               </p>
               <p><a href="/info/duplicate">More info on Duplicate Bosses</a></p>
             </li>
@@ -423,6 +426,7 @@ export default function SettingsInfoPage() {
         <Article
           id="bosses-known"
           title="Bosses Known"
+          badge={<Badge variant={'beta'}>Beta</Badge>}
         >
           <p>
               Enabling <strong>Bosses Known</strong> causes the randomized boss information to be displayed on the file select screen. Players will be shown boss locations (LOC), shown which bosses will be found at those locations (BOSS), and shown which areas each boss unlocks when defeated (OPENS).
