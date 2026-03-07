@@ -2,7 +2,8 @@ import { Wrapper } from '@/app/components/wrapper'
 import styles from '../../vs-world/event.module.css'
 import { LocalTime } from '@/app/components/localTime'
 import Link from 'next/link'
-import { MysterySettings } from '@/app/info/settings/mystery'
+import Background from '../bg'
+import { MysterySettings2026 } from '@/app/info/settings/mystery'
 
 export const metadata = {
   title: 'About - DASH Mystery',
@@ -10,14 +11,14 @@ export const metadata = {
 }
 
 export default function TournamentInfoPage() {
-  const baseUrl = '/events/mystery'
+  const baseUrl = '/events/mystery-ii'
 
   return (
     <>
       <div className={styles.mysteryBackground}>
         <div className={styles.aspectRatio}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/mystery-bg.png" alt="DASH Mystery" loading="eager" />
+          <Background />
         </div>
       </div>
       <div className={styles.mysteryMobileNavBg} />
@@ -30,8 +31,20 @@ export default function TournamentInfoPage() {
               </h1>
               <div className={styles.mysteryLogo}>
                 <Link href={`${baseUrl}`}>
-                  <svg width="247" height="81" viewBox="0 0 247 81" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M25.204 80H16.512L12.696 40.144L11.742 30.392H11.53L11.636 40.144V80H0.930007V1.56H16.406L20.328 41.628L21.176 50.426H21.494L22.236 41.628L26.158 1.56H41.528V80H30.186V40.144L30.292 30.392H29.974L29.232 40.144L25.204 80ZM68.7443 53.288V80H56.2363V53.288L46.3783 1.56H58.9923L62.8083 31.452H63.1263L66.7303 1.56H78.6023L68.7443 53.288ZM111.121 16.612V31.346H99.3552V15.446C99.3552 12.266 98.5072 10.358 96.4932 10.358C94.4792 10.358 93.7372 12.266 93.7372 15.446V25.092C93.7372 29.438 95.1152 30.922 98.2952 33.996L104.337 39.508C109.531 44.49 111.333 47.67 111.333 55.62V64.948C111.333 75.23 105.503 80.848 96.1752 80.848C86.7412 80.848 81.4412 75.23 81.4412 64.948V49.896H93.3132V66.114C93.3132 69.294 94.1612 71.202 96.1752 71.202C98.1892 71.202 98.9312 69.294 98.9312 66.114V55.938C98.9312 51.592 97.9772 50.638 94.6912 47.67L88.4372 42.052C83.8792 37.812 81.4412 34.102 81.4412 26.788V16.612C81.4412 6.32999 87.1652 0.711997 96.5992 0.711997C106.033 0.711997 111.121 6.32999 111.121 16.612ZM144.175 11.948H135.801V80H123.187V11.948H114.813V1.56H144.175V11.948ZM149.674 80V1.56H174.266V11.948H162.288V35.162H172.994V45.55H162.288V69.612H174.266V80H149.674ZM198.29 71.308V50.744C198.29 47.352 197.442 45.444 195.322 45.444H192.566V80H179.846V1.56H196.382C205.392 1.56 210.904 6.85999 210.904 16.4V30.074C210.904 34.526 209.738 38.13 204.756 40.568C209.738 43.112 210.904 46.716 210.904 51.274V71.308C210.904 74.17 211.328 77.138 212.494 80H199.774C198.502 77.456 198.29 74.064 198.29 71.308ZM198.29 30.604V16.4C198.29 12.902 197.442 10.994 195.322 10.994H192.566V35.904H195.322C197.442 35.904 198.29 33.996 198.29 30.604ZM236.17 53.288V80H223.662V53.288L213.804 1.56H226.418L230.234 31.452H230.552L234.156 1.56H246.028L236.17 53.288Z" fill="white"/>
+                  <svg width="408" height="81" viewBox="0 0 408 81" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <title>DASH Mystery Vol II</title>
+                    <path d="M394.833 79.2881V0.848145H407.553V79.2881H394.833Z" fill="white"/>
+                    <path d="M375.323 79.2881V0.848145H388.043V79.2881H375.323Z" fill="white"/>
+                    <path d="M334.335 79.2881V0.848145H346.949V68.9001H357.655V79.2881H334.335Z" fill="white"/>
+                    <path d="M327.863 15.794V64.342C327.863 74.518 322.033 80.136 312.387 80.136C302.635 80.136 296.805 74.518 296.805 64.342V15.794C296.805 5.618 302.635 0 312.387 0C322.033 0 327.863 5.618 327.863 15.794ZM309.419 65.402C309.419 68.582 310.267 70.49 312.387 70.49C314.401 70.49 315.249 68.582 315.249 65.402V14.734C315.249 11.554 314.401 9.646 312.387 9.646C310.267 9.646 309.419 11.554 309.419 14.734V65.402Z" fill="white"/>
+                    <path d="M283.605 79.2881H269.401L260.073 0.848145H273.111L276.079 42.2941L276.715 52.7881H277.033L277.669 42.2941L280.637 0.848145H293.039L283.605 79.2881Z" fill="white"/>
+                    <path d="M235.241 52.5761V79.2881H222.733V52.5761L212.875 0.848145H225.488L229.305 30.7401H229.622L233.227 0.848145H245.099L235.241 52.5761Z" fill="white"/>
+                    <path d="M197.361 70.5961V50.0321C197.361 46.6401 196.513 44.7321 194.393 44.7321H191.637V79.2881H178.917V0.848145H195.452C204.463 0.848145 209.975 6.14814 209.975 15.6881V29.3621C209.975 33.8141 208.809 37.4181 203.827 39.8561C208.809 42.4001 209.975 46.0041 209.975 50.5621V70.5961C209.975 73.4581 210.399 76.4261 211.565 79.2881H198.844C197.572 76.7441 197.361 73.3521 197.361 70.5961ZM197.361 29.8921V15.6881C197.361 12.1901 196.513 10.2821 194.393 10.2821H191.637V35.1921H194.393C196.513 35.1921 197.361 33.2841 197.361 29.8921Z" fill="white"/>
+                    <path d="M148.744 79.2881V0.848145H173.336V11.2361H161.358V34.4501H172.064V44.8381H161.358V68.9001H173.336V79.2881H148.744Z" fill="white"/>
+                    <path d="M143.245 11.2361H134.871V79.2881H122.257V11.2361H113.883V0.848145H143.245V11.2361Z" fill="white"/>
+                    <path d="M110.191 15.9V30.634H98.4252V14.734C98.4252 11.554 97.5772 9.646 95.5632 9.646C93.5492 9.646 92.8072 11.554 92.8072 14.734V24.38C92.8072 28.726 94.1852 30.21 97.3652 33.284L103.407 38.796C108.601 43.778 110.403 46.958 110.403 54.908V64.236C110.403 74.518 104.573 80.136 95.2452 80.136C85.8112 80.136 80.5112 74.518 80.5112 64.236V49.184H92.3832V65.402C92.3832 68.582 93.2312 70.49 95.2452 70.49C97.2592 70.49 98.0012 68.582 98.0012 65.402V55.226C98.0012 50.88 97.0472 49.926 93.7612 46.958L87.5072 41.34C82.9492 37.1 80.5112 33.39 80.5112 26.076V15.9C80.5112 5.618 86.2352 0 95.6692 0C105.103 0 110.191 5.618 110.191 15.9Z" fill="white"/>
+                    <path d="M67.8142 52.5761V79.2881H55.3062V52.5761L45.4482 0.848145H58.0622L61.8782 30.7401H62.1962L65.8002 0.848145H77.6722L67.8142 52.5761Z" fill="white"/>
+                    <path d="M24.274 79.2881H15.582L11.766 39.4321L10.812 29.6801H10.6L10.706 39.4321V79.2881H0V0.848145H15.476L19.398 40.9161L20.246 49.7141H20.564L21.306 40.9161L25.228 0.848145H40.598V79.2881H29.256V39.4321L29.362 29.6801H29.044L28.302 39.4321L24.274 79.2881Z" fill="white"/>
                   </svg>
                 </Link>
               </div>
@@ -52,33 +65,46 @@ export default function TournamentInfoPage() {
             <article style={{ margin: 'var(--spacer-16x) auto var(--spacer)', maxWidth: '800px', textAlign: 'left' }} className={styles.mysteryArticle}>
               <h2>Registration</h2>
               <p>
-                Sign ups for the Super Metroid Randomizer Mystery tournament is open and will close on <LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York" format={`EEEE, MMMM d 'at' h:mm a`} />. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, June 19.
+                Sign ups for the Super Metroid Randomizer Mystery tournament is open and will close on <LocalTime input="2026-03-26T23:59:00.000" originZone="America/New_York" format={`EEEE, MMMM d 'at' h:mm a`} />. Please be sure to be officially registered before that time so we can get the matchups finalized that weekend for the official 1st week of the tournament, which will begin Wednesday, April 2nd.
               </p>
               <p>
-                Prior to the tournament, we will be confirming your participation and getting players to join the <a href="https://discord.gg/2usVyy4" target="_blank">Discord server</a>. Discord will be the official medium used to communicate with players and schedule races. Players must join the discord server to participate.
+                Prior to the tournament, we will be confirming your participation and getting players to join the <a href="/discord" target="_blank">Discord server</a>. Discord will be the official medium used to communicate with players and schedule races. Players must join the discord server to participate.
               </p>
-              <h2>Format + Seeding Procedure</h2>
+              <h2>Format</h2>
               <p>
-                The tournament will be swiss format with each match being 1 race. There will be one required match per week (Wednesday - Tuesday).  Seeding for match pairings for the 1st round will be based on previous tournament finishes including SGLive tournaments, the 2022 SMR Multi-Category tournament and SMR League. This will likely not be an exact ordering, of strongest to weakest players, but should be good enough to get fair matchups throughout the swiss rounds. This will be done after the sign up period ends and before the official 1st week of competition begins.
+                The tournament will be swiss format with each match being 1 race. There will be one required match per week (Wednesday - Tuesday).
               </p>
               <p>
                 There will be 6 weeks of swiss competition, which means at least 6 guaranteed matches for each runner. Note, we are starting each week midweek in the hopes that fewer players will miss entire weeks while on vacation.
               </p>
+              <h2>Qualifying Races + Seeding Procedure</h2>
+              <p>
+                There will be 4 qualifying races available at different times (as to accomodate as many time zones as possible). 
+                <ul>
+                  <li>Saturday, March 21st 8PM Eastern: Qualifying Race 1</li>
+                  <li>Sunday, March 22nd 12PM (Noon) Eastern: Qualifying Race 2</li>
+                  <li>Saturday, March 28th 8PM Eastern: Qualifying Race 3</li>
+                  <li>Sunday, March 29th 12PM (Noon)  Eastern: Qualifying Race 4</li>
+                </ul>
+              </p>
+              <p>
+                Seeding for match pairings for the 1st round of Swiss will be based on the average of a runner's top 2 qualifying race times.
+              </p>
               <h2>Mode</h2>
               <p>
-              The mode of this tournament is ”Mystery”. What this means is runners will not know what the mode is until the race starts and they start playing the seed. The goal will always be to kill the “G4 bosses”, defeat Mother Brain and escape to the ship. Available settings will be weighted as follows:
+              The mode of this tournament is "Mystery II". What this means is runners will not know what the mode is until the race starts and they start playing the seed. The goal will always be to kill the “G4 bosses”, defeat Mother Brain and escape to the ship. Available settings will be weighted as follows:
               </p>
-              <MysterySettings defaultOpen={true} external={true} />
+              <MysterySettings2026 defaultOpen={true} external={true} />
               <p>
                 <em>These percentages are subject to change before the tournament starts. We will be testing them in the weeks leading up to the tournament. All percentages will be finalized at the same time that first round match ups are announced.</em>
               </p>
               <h2>Timeline</h2>
               <ul>
-                <li>June 3: Registration begins</li>
-                <li><LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York" format="MMMM d" />: Registration ends at <LocalTime input="2024-06-14T23:59:00.000" originZone="America/New_York" format="h:mm a" /></li>
-                <li>June 19: Start of swiss week 1</li>
-                <li>August 7: Last day of swiss weeks</li>
-                <li>August 9: Bracket scheduling can begin</li>
+                <li>March 5: Registration begins</li>
+                <li><LocalTime input="2026-03-26T23:59:00.000" originZone="America/New_York" format="MMMM d" />: Registration ends at <LocalTime input="2026-03-26T23:59:00.000" originZone="America/New_York" format="h:mm a" /></li>
+                <li>April 2: Start of swiss week 1</li>
+                <li>May 14: Last day of swiss weeks</li>
+                <li>May 15: Bracket scheduling can begin</li>
               </ul>
               <h2>Scheduling</h2>
               <p>
@@ -141,8 +167,8 @@ export default function TournamentInfoPage() {
                 <li>While not required, it is highly recommended that runners locally record all their races. If your stream goes down during a race (internet issues) you may be asked to provide proof of your finish time. Note that “filming” your screen with your phone (or other camera) is an acceptable form of proof. If you have internet or technical issues (for a moderate/significant period of time) and cannot provide a local recording then you will be forfeited from that match. There will be no rematches.</li>
               </ol>
               <h2>Stream Delay</h2>
-              <p>Stream delay is required for all races. A delay of 10 minutes must be used for each race. If a racer does not delay their stream they will forfeit the race. If a racer wishes to stop stream delay after the race they must NOT discard the delay. Discarding delay will cause the end of the race to be lost and the runner will forfeit the race unless the results can be verified with a local recording.</p>
-              <h2>Hardware Rules</h2> 
+              <p>Stream delay is not required.</p>
+              <h2>Hardware Rules</h2>
               <ul>
                 <li>Runners may use cartridge, flashcart, approved emulator, SNES classic or a docked Analogue Pocket.</li>
                 <li>ZSNES and Snes9x (v1.43 and below) are banned.</li>
