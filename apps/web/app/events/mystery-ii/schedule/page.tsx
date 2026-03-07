@@ -51,6 +51,9 @@ export default function TournamentInfoPage() {
                     <Link href={`${baseUrl}/info`}>Info</Link>
                   </li>
                   <li>
+                    <Link href={`${baseUrl}/register`} prefetch={false}>Register</Link>
+                  </li>
+                  <li>
                     <Link href={`${baseUrl}/schedule`} className={styles.activeNavLink}>Schedule</Link>
                   </li>
                   <li>
