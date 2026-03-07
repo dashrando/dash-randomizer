@@ -24,7 +24,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
    try {
     const seed = getSeedNumber()
     const preset = getPreset(params.preset)
-    const mystery = preset?.tags.includes('mystery') || false
+    const mystery = preset?.tags.includes('mystery') || preset?.tags.includes('mystery-ii') || false
     const searchParams = req.nextUrl.searchParams
     const spoiler = searchParams.get('spoiler') || 0
     const race = mystery || searchParams.get('race') === '1'
@@ -34,7 +34,7 @@ export async function GET(req: NextRequest, { params }: { params: GenerateParams
         .map(p => p.tags)
         .reduce((acc, cur) => {
         return acc.concat(cur)
-      }, ['mystery']);
+      }, ['mystery', 'mystery-ii']);
       const msg = `Invalid preset. Valid presets are: ${validPresets
         .slice(0, -1)
         .join(", ")} or ${validPresets.slice(-1)}`
