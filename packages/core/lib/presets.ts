@@ -158,7 +158,7 @@ const generateMysteryIIPreset = (): Preset => {
       ]),
       randomizeAreas: true,
       bossMode: getWeightedRandom([
-        { value: BossMode.Vanilla, weight: 0.25 },
+        { value: BossMode.Scramble, weight: 0.25 },
         { value: BossMode.Shuffled, weight: 0.25 },
         { value: BossMode.Shifted, weight: 0.25 },
         { value: BossMode.Surprise, weight: 0.25 },
