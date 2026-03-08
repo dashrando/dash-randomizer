@@ -123,13 +123,13 @@ const generateMysteryIIPreset = (): Preset => {
     settings: {
       mapLayout: MapLayout.Standard,
       majorDistribution: getWeightedRandom([
-        { value: MajorDistributionMode.Standard, weight: 0.34 },
-        { value: MajorDistributionMode.Chozo, weight: 0.33 },
-        { value: MajorDistributionMode.Full, weight: 0.33 },
+        { value: MajorDistributionMode.Standard, weight: 0.4 },
+        { value: MajorDistributionMode.Chozo, weight: 0.4 },
+        { value: MajorDistributionMode.Full, weight: 0.2 },
       ]),
       minorDistribution: getWeightedRandom([
-        { value: MinorDistributionMode.Standard, weight: 0.5 },
-        { value: MinorDistributionMode.Dash, weight: 0.5 },
+        { value: MinorDistributionMode.Standard, weight: 0.7 },
+        { value: MinorDistributionMode.Dash, weight: 0.3 },
       ]),
       extraItems:
         [getWeightedRandom([
@@ -137,29 +137,31 @@ const generateMysteryIIPreset = (): Preset => {
           { value: [Item.DoubleJump], weight: 0.5 },
         ])].concat(
           getWeightedRandom([
-            { value: [], weight: 0.75 },
-            { value: [Item.HeatShield], weight: 0.25 },
-          ])
+            { value: [], weight: 0.5 },
+            { value: [Item.HeatShield], weight: 0.5 },
+          ]),
+        ).concat(
+          getWeightedRandom([
+            { value: [], weight: 0.5 },
+            { value: [Item.PressureValve], weight: 0.5 },
+          ]),
         ),
       beamMode: getWeightedRandom([
-        { value: BeamMode.Vanilla, weight: 0.34 },
-        { value: BeamMode.Starter, weight: 0.33 },
-        { value: BeamMode.StarterPlus, weight: 0.33 },
+        { value: BeamMode.Vanilla, weight: 0.6 },
+        { value: BeamMode.Starter, weight: 0.2 },
+        { value: BeamMode.StarterPlus, weight: 0.2 },
       ]),
       suitMode: SuitMode.Dash,
       gravityHeatReduction: getWeightedRandom([
-        { value: GravityHeatReduction.Off, weight: 0.75 },
-        { value: GravityHeatReduction.On, weight: 0.25 },
+        { value: GravityHeatReduction.Off, weight: 0.5 },
+        { value: GravityHeatReduction.On, weight: 0.5 },
       ]),
-      randomizeAreas: getWeightedRandom([
-        { value: true, weight: 0.67 },
-        { value: false, weight: 0.33 },
-      ]),
+      randomizeAreas: true,
       bossMode: getWeightedRandom([
-        { value: BossMode.Vanilla, weight: 0.3 },
-        { value: BossMode.Shuffled, weight: 0.3 },
-        { value: BossMode.Shifted, weight: 0.3 },
-        { value: BossMode.Surprise, weight: 0.1 },
+        { value: BossMode.Scramble, weight: 0.25 },
+        { value: BossMode.Shuffled, weight: 0.25 },
+        { value: BossMode.Shifted, weight: 0.25 },
+        { value: BossMode.Surprise, weight: 0.25 },
       ])
     },
     options: {
@@ -199,13 +201,13 @@ const generateMysteryPreset = (): Preset => {
     settings: {
       mapLayout: MapLayout.Standard,
       majorDistribution: getWeightedRandom([
-        { value: MajorDistributionMode.Standard, weight: 0.40 },
-        { value: MajorDistributionMode.Chozo, weight: 0.40 },
-        { value: MajorDistributionMode.Full, weight: 0.20 },
+        { value: MajorDistributionMode.Standard, weight: 0.34 },
+        { value: MajorDistributionMode.Chozo, weight: 0.33 },
+        { value: MajorDistributionMode.Full, weight: 0.33 },
       ]),
       minorDistribution: getWeightedRandom([
-        { value: MinorDistributionMode.Standard, weight: 0.7 },
-        { value: MinorDistributionMode.Dash, weight: 0.3 },
+        { value: MinorDistributionMode.Standard, weight: 0.5 },
+        { value: MinorDistributionMode.Dash, weight: 0.5 },
       ]),
       extraItems:
         [getWeightedRandom([
@@ -213,33 +215,29 @@ const generateMysteryPreset = (): Preset => {
           { value: [Item.DoubleJump], weight: 0.5 },
         ])].concat(
           getWeightedRandom([
-            { value: [], weight: 0.5 },
-            { value: [Item.HeatShield], weight: 0.5 },
-          ]),
-          getWeightedRandom([
-            { value: [], weight: 0.5 },
-            { value: [Item.PressureValve], weight: 0.5 },
+            { value: [], weight: 0.75 },
+            { value: [Item.HeatShield], weight: 0.25 },
           ])
         ),
       beamMode: getWeightedRandom([
-        { value: BeamMode.Vanilla, weight: 0.60 },
-        { value: BeamMode.Starter, weight: 0.20 },
-        { value: BeamMode.StarterPlus, weight: 0.20 },
+        { value: BeamMode.Vanilla, weight: 0.34 },
+        { value: BeamMode.Starter, weight: 0.33 },
+        { value: BeamMode.StarterPlus, weight: 0.33 },
       ]),
       suitMode: SuitMode.Dash,
       gravityHeatReduction: getWeightedRandom([
-        { value: GravityHeatReduction.Off, weight: 0.5 },
-        { value: GravityHeatReduction.On, weight: 0.5 },
+        { value: GravityHeatReduction.Off, weight: 0.75 },
+        { value: GravityHeatReduction.On, weight: 0.25 },
       ]),
       randomizeAreas: getWeightedRandom([
-        { value: true, weight: 1.00 },
-        { value: false, weight: 0.0 },
+        { value: true, weight: 0.67 },
+        { value: false, weight: 0.33 },
       ]),
       bossMode: getWeightedRandom([
-        { value: BossMode.Vanilla, weight: 0.1 },
+        { value: BossMode.Vanilla, weight: 0.3 },
         { value: BossMode.Shuffled, weight: 0.3 },
         { value: BossMode.Shifted, weight: 0.3 },
-        { value: BossMode.Surprise, weight: 0.3 },
+        { value: BossMode.Surprise, weight: 0.1 },
       ])
     },
     options: {
