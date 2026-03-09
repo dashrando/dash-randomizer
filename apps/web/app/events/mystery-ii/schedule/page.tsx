@@ -15,7 +15,7 @@ export default function TournamentInfoPage() {
     <>
       <div className={styles.mysteryBackground}>
         <div className={styles.aspectRatio}>
-        <Background />
+        {/* <Background /> */}
         </div>
       </div>
       <div className={styles.mysteryMobileNavBg} />
