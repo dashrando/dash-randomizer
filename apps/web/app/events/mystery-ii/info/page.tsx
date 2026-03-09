@@ -18,7 +18,7 @@ export default function TournamentInfoPage() {
       <div className={styles.mysteryBackground}>
         <div className={styles.aspectRatio}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <Background />
+          {/* <Background /> */}
         </div>
       </div>
       <div className={styles.mysteryMobileNavBg} />
