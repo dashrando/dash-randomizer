@@ -22,9 +22,9 @@ const InfoArticles: InfoArticle[] = [
     description: 'DASH uses a customized HUD to provide info to players in the game.',
   },
   {
-    title: 'Surprise Bosses',
-    href: '/info/surprise',
-    description: 'Surprise Bosses is a boss randomization mode allowing duplicates.',
+    title: 'Duplicate Bosses',
+    href: '/info/duplicate',
+    description: 'Surprise and Scrambled are boss randomization modes allowing duplicates.',
   },
   {
     title: 'Area Randomization',
