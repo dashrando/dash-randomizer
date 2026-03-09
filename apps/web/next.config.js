@@ -106,6 +106,11 @@ const nextConfig = {
         source: "/si24",
         destination: "/events/spring-invitational",
         permanent: false,
+      },
+      {
+        source: "/info/surprise",
+        destination: "/info/duplicate",
+        permanent: false,
       }
     ];
   },
