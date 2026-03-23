@@ -16,6 +16,10 @@ export async function GET() {
         name: "Mystery",
         tags: ["mystery"],
       },
+      {
+        name: "Mystery II",
+        tags: ["mystery-ii"],
+      }
     ]),
   });
 }
