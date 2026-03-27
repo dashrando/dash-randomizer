@@ -57,14 +57,14 @@ export default function DuplicateBossesInfoPage() {
               </tr>
             </tbody>
           </table>
-          <hr />
+          <hr className={pageStyles.separator} />
           <p>
             When using the <strong>Full</strong> Item Split, the potential
             impact is reduced because only minor items are randomly added or
             removed as needed to account for the different number of item
             locations.
           </p>
-          <hr />
+          <hr className={pageStyles.separator} />
           <p>
             For <strong>Major / Minor </strong>Item Split, the item locations
             added/removed are major item locations. First it considers if extra
@@ -117,7 +117,7 @@ export default function DuplicateBossesInfoPage() {
             when there are 0 Phantoons in a seed, the extra energy tank can
             appear at any major location, not just in the boss room locations.
           </p>
-          <hr />
+          <hr className={pageStyles.separator} />
           <p>
             For <strong>Chozo</strong> Item Split, the item locations are chozo
             item locations. There are normally 25 chozo item locations but that

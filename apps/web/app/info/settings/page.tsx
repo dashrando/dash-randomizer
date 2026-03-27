@@ -293,11 +293,6 @@ export default function SettingsInfoPage() {
             </li>
             <li>
               <p>
-                <strong>Scrambled</strong> bosses randomizes both the bosses (without duplicates) and the areas they unlock. (example: Kraid&apos;s is found at East Maridia, but once defeated could unlock Wrecked Ship.) At least two bosses will not be at their vanilla locations.
-              </p>
-            </li>
-            <li>
-              <p>
                 <strong>Shifted</strong> bosses open access to the area in which they are placed (example: Kraid&apos;s etank will be accessible after defeating whatever boss is in Kraid&apos;s Lair). At least two bosses will not be at their vanilla locations.
               </p>
             </li>
