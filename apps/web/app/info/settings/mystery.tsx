@@ -232,7 +232,7 @@ export function MysterySettings2026({ defaultOpen = false, external = false }: {
         />
       )}
       <p>
-        <em>Note: All Mystery seeds will use Standard Logic, Standard Environment Updates and have Item Fanfare enabled. Pressure Valve is not available in Mystery.</em>
+        <em>Note: All Mystery seeds will use Standard Logic, Standard Environment Updates and have Item Fanfare enabled.</em>
       </p>
     </details>
   )
