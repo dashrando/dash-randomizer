@@ -10,8 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
     "isolatedModules": true,
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "node",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
@@ -19,7 +18,6 @@
     "strict": false,
     "target": "es2021",
     "noEmit": true,
-    "types": ["node", "jest"]
   },
   "exclude": ["node_modules"]
 }
