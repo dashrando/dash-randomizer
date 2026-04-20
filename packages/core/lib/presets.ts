@@ -52,7 +52,10 @@ export const getAllPresets = () => {
     Preset_Chozo_Bozo_Area,
     Preset_Chozo_Area_Shifted,
     Preset_MM_Area_Shuffled,
-    Preset_Full_Area_Shuffled
+    Preset_Full_Area_Shuffled,
+    Preset_MM_Area_Scrambled,
+    Preset_Chozo_Area_Scrambled,
+    Preset_Full_Area_Scrambled
   ];
 };
 
@@ -304,6 +307,24 @@ export const Preset_MM_Area_Shuffled: Preset = {
   options: defaultOptions
 };
 
+export const Preset_MM_Area_Scrambled: Preset = {
+  title: "MM Area Scrambled",
+  fileName: "MMAreaScrambled",
+  tags: ["mm_area_scrambled"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Scramble,
+  },
+  options: defaultOptions
+};
+
 export const Preset_Full_Area_Shuffled: Preset = {
   title: "Full Area Shuffled",
   fileName: "FullAreaShuffled",
@@ -318,6 +339,24 @@ export const Preset_Full_Area_Shuffled: Preset = {
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: true,
     bossMode: BossMode.Shuffled,
+  },
+  options: defaultOptions
+};
+
+export const Preset_Full_Area_Scrambled: Preset = {
+  title: "Full Area Scrambled",
+  fileName: "FullAreaScrambled",
+  tags: ["full_area_scrambled"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Full,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Scramble,
   },
   options: defaultOptions
 };
@@ -390,6 +429,24 @@ export const Preset_Chozo_Area_Surprise: Preset = {
     gravityHeatReduction: GravityHeatReduction.Off,
     randomizeAreas: true,
     bossMode: BossMode.Surprise,
+  },
+  options: defaultOptions
+};
+
+export const Preset_Chozo_Area_Scrambled: Preset = {
+  title: "Chozo Area Scrambled",
+  fileName: "ChozoAreaScrambled",
+  tags: ["chozo_area_scrambled"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Chozo,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Scramble,
   },
   options: defaultOptions
 };

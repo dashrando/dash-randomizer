@@ -28,6 +28,17 @@ const Crateria_SupersClimb_to_Climb = {
     (EnergyTanks >= 1 && (HasVaria || TotalTanks >= 2)),
 };
 
+const UpperNorfair_PreCrocomire_to_CrocEscape = {
+  edges: ["PreCrocomire", "Missiles (Croc Escape)"],
+  requires: () =>
+    HellRunTanks >= 2 &&
+    (CanFly ||
+      HasIce ||
+      HasGrapple ||
+      HasDoubleJump ||
+      (HasHiJump && (HasSpringBall || HasSpeed))),
+  };
+
 //-----------------------------------------------------------------
 // Exports.
 //-----------------------------------------------------------------
@@ -36,5 +47,6 @@ export const SeasonEdgeUpdates = [
   EastMaridia_Plasma_to_PrePlasma,
   UpperNorfair_SpeedBooster_to_KingCacLedge,
   LowerNorfair_GoldTorizoFight_to_DefeatedGoldTorizo,
-  Crateria_SupersClimb_to_Climb
+  Crateria_SupersClimb_to_Climb,
+  UpperNorfair_PreCrocomire_to_CrocEscape
 ];

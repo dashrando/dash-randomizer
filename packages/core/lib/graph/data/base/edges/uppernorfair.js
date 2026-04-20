@@ -172,12 +172,10 @@ export const uppernorfairEdges = {
     Door_CrocEntry: () => CanOpenGreenDoors,
     NutellaRefill: () => HellRunTanks >= 1,
     "Missiles (Croc Escape)": () =>
-      HellRunTanks >= 2 &&
-      (CanFly ||
-        HasIce ||
-        HasGrapple ||
-        HasDoubleJump ||
-        (HasHiJump && (HasSpringBall || HasSpeed))), //TODO: Remove getting across with ice
+      //((HasVaria || HasHeatShield) && HasHiJump && HasIce) ||
+      (HellRunTanks >= 2 && (HasSpaceJump || HasGrapple || HasDoubleJump)) ||
+      (HellRunTanks >= 3 && HasHiJump && (HasSpringBall || HasSpeed)) ||
+      ((HasVaria || HasHeatShield || EnergyTanks >= 4) && HasMorph && HasBombs),
   },
 
   "Missiles (Croc Escape)": {

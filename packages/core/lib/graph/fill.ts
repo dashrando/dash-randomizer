@@ -341,7 +341,7 @@ export const generateSeed = (
   settings: Settings,
   options: Options
 ) => {
-  const maxOuterLoop = 30;
+  const maxOuterLoop = 40;
   let maxInnerLoop = 40;
   const rnd = new DotNetRandom(seed);
 
