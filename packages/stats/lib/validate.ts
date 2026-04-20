@@ -7,7 +7,7 @@ import {
   PortalMapping,
   isGraphValid,
   Vertex,
-} from "core";
+} from "../../core";
 import {
   createLoadout,
   getLocations,
@@ -18,9 +18,9 @@ import {
   getAreaString,
   ItemType,
   SeasonEdgeUpdates,
-} from "core/data";
-import { Options, Params, Settings } from "core/lib/params";
-import { MajorDistributionMode } from "core/params";
+} from "../../core/data";
+import { Options, Params, Settings } from "../../core/lib/params";
+import { MajorDistributionMode } from "../../core/params";
 import chalk from "chalk";
 
 type SeedData = {
@@ -142,7 +142,8 @@ const getData = (
       RelaxedLogic: false,
       DisableFanfare: false,
       Mystery: false,
-      Spoiler: false
+      Spoiler: false,
+      BossesKnown: false
     },
     portals,
     itemLocations,

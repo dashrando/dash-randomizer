@@ -1,7 +1,7 @@
 import chalk from "chalk";
-import { encodeSeed, getAllPresets, getPreset, readRomAsString } from "core";
+import { encodeSeed, getAllPresets, getPreset, readRomAsString } from "../core";
 import { checkSeeds } from "./lib/validate";
-import { generateSeed } from "core/data";
+import { generateSeed } from "../core/data";
 import fs from "fs";
 import path from "path";
 
