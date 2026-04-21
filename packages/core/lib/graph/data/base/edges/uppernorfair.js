@@ -175,7 +175,7 @@ export const uppernorfairEdges = {
       //((HasVaria || HasHeatShield) && HasHiJump && HasIce) ||
       (HellRunTanks >= 2 && (HasSpaceJump || HasGrapple || HasDoubleJump)) ||
       (HellRunTanks >= 3 && HasHiJump && (HasSpringBall || HasSpeed)) ||
-      ((HasVaria || HasHeatShield || EnergyTanks >= 4) && HasMorph && HasBombs),
+      ((HasVaria || HasHeatShield || EnergyTanks >= 4) && CanUseBombs),
   },
 
   "Missiles (Croc Escape)": {
