@@ -18,6 +18,7 @@
     "strict": false,
     "target": "es2021",
     "noEmit": true,
+    "types": ["jest", "node"]
   },
   "exclude": ["node_modules"]
 }
