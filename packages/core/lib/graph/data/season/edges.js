@@ -31,12 +31,10 @@ const Crateria_SupersClimb_to_Climb = {
 const UpperNorfair_PreCrocomire_to_CrocEscape = {
   edges: ["PreCrocomire", "Missiles (Croc Escape)"],
   requires: () =>
-    HellRunTanks >= 2 &&
-    (CanFly ||
-      HasIce ||
-      HasGrapple ||
-      HasDoubleJump ||
-      (HasHiJump && (HasSpringBall || HasSpeed))),
+      (HellRunTanks >= 2 && (HasSpaceJump || HasGrapple || HasDoubleJump)) ||
+      (HellRunTanks >= 2 && HasHiJump && HasSpeed) ||
+      (HellRunTanks >= 2 && HasHiJump && HasSpringBall) ||
+      ((HasVaria || HasHeatShield || (TotalTanks >= 3 && EnergyTanks >= 2)) && CanUseBombs),
   };
 
 //-----------------------------------------------------------------
