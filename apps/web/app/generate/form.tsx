@@ -176,6 +176,7 @@ export interface GenerateFormParams extends GenerateSeedParams {
     | "sgl23"
     | "sgl24"
     | "sgl25"
+    | "sgl26"
     | "dash-classic"
     | "2017"
     | "custom"
@@ -267,6 +268,20 @@ const MODES = {
     'logic': 'standard',
     'bosses-known': 'off',
   },
+  'sgl26': {
+    'item-split': 'standard-mm',
+    'map-layout': 'randomized',
+    boss: 'shuffled',
+    minors: 'standard',
+    'environment': 'standard',
+    'charge-beam': 'vanilla',
+    'gravity-heat-reduction': 'off',
+    'double-jump': 'on',
+    'heat-shield': 'on',
+    'pressure-valve': 'one',
+    'logic': 'standard',
+    'bosses-known': 'on',
+  },
   'dash-classic': {
     'item-split': 'standard-mm',
     'map-layout': 'standard',
@@ -349,8 +364,11 @@ export default function Form() {
     }
   } = useForm<GenerateFormParams>({
     defaultValues: {
-      'mode': 'sgl25',
-      'boss': 'shifted',
+      'mode': 'sgl26',
+      'boss': 'shuffled',
+      'heat-shield': 'on',
+      'pressure-valve': 'one',
+      'bosses-known': 'on',
       'seed-mode': 'random',
     }
   })
@@ -439,6 +457,8 @@ export default function Form() {
         config.presetName = "SGL24"
       } else if (data.mode == 'sgl25') {
         config.presetName = "SGL25"
+      } else if (data.mode == 'sgl26') {
+        config.presetName = "SGL26"
       } else if (data.mode == 'chozo-bozo') {
         config.presetName = "ChozoBozo"
       } else if (data.mode == 'surprise-surprise') {
@@ -565,6 +585,7 @@ export default function Form() {
               <Select
                 options={[
                   { label: '', value: '', hidden: true },
+                  { label: 'SG Live 2026', value: 'sgl26' },
                   { label: 'SG Live 2025', value: 'sgl25' },
                   { label: 'SG Live 2024', value: 'sgl24' },
                   { label: 'Spring Invitational 2024', value: 'spring24' },
