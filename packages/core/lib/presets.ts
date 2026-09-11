@@ -41,6 +41,7 @@ export const getAllPresets = () => {
     Preset_SGL23,
     Preset_SGL24,
     Preset_SGL25,
+    Preset_SGL26,
     Preset_Spring_2024,
     Preset_MM_Surprise,
     Preset_MM_Area_Surprise,
@@ -583,6 +584,27 @@ export const Preset_SGL25: Preset = {
     bossMode: BossMode.Shifted,
   },
   options: defaultOptions
+};
+
+export const Preset_SGL26: Preset = {
+  title: "SGL26",
+  fileName: "SGL26",
+  tags: ["sgl26"],
+  settings: {
+    mapLayout: MapLayout.Standard,
+    majorDistribution: MajorDistributionMode.Standard,
+    minorDistribution: MinorDistributionMode.Standard,
+    extraItems: [Item.DoubleJump, Item.HeatShield, Item.PressureValve],
+    beamMode: BeamMode.Vanilla,
+    suitMode: SuitMode.Dash,
+    gravityHeatReduction: GravityHeatReduction.Off,
+    randomizeAreas: true,
+    bossMode: BossMode.Shuffled,
+  },
+  options: {
+    ...defaultOptions,
+    BossesKnown: true
+  }
 };
 
 export const Preset_Spring_2024: Preset = {
