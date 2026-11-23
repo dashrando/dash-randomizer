@@ -123,7 +123,7 @@ export const parseSettings = (parameters: Params) => {
     { label: 'Bosses Known', value: displayOnOff(parameters.options.BossesKnown), },
     //{ label: 'Seed Number', value: parameters.seed },
     { label: 'Item Fanfare', value: displayOnOff(!parameters.options.DisableFanfare), },
-    { label: 'FastMode', value: getFastMode(parameters.options.fastMode), },
+    { label: 'Fast Mode', value: getFastMode(parameters.options.fastMode), },
   ]
   return { randomizeParams, settingsParams, optionsParams }
 }
