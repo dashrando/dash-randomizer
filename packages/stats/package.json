@@ -7,6 +7,7 @@
     "stats": "npm run build && node bin/index.js stats",
     "verify": "npm run build && node bin/index.js verify",
     "validate": "npm run build && node bin/index.js validate",
+    "validate_quiet": "npm run build && node bin/index.js validate_quiet",
     "encode": "npm run build && node bin/index.js encode"
   },
   "author": "",
