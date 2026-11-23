@@ -115,3 +115,5 @@ class IpsHunk {
         return [ hunk, index ];
     }
 }
+
+export default IpsPatch;
