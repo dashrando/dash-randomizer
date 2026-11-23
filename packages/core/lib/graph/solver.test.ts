@@ -10,7 +10,7 @@ import path from "path";
 import { isGraphValid } from "./solver";
 import { createLoadout } from "../loadout";
 import { mapPortals, PortalMapping } from "./data/portals";
-import { MajorDistributionMode, Options, Params, Settings } from "../params";
+import { FastMode, MajorDistributionMode, Options, Params, Settings } from "../params";
 import { Item, ItemNames, ItemType, majorItem, minorItem } from "../items";
 import { getAreaString, getLocations } from "../locations";
 import { SeasonEdgeUpdates } from "./data/season/edges";
@@ -119,6 +119,7 @@ const loadSeed = (filePath: string, defaultSettings?: Settings) => {
         Mystery: false,
         Spoiler: false,
         BossesKnown: false,
+        fastMode: FastMode.Disabled
       },
       portals,
       itemLocations,

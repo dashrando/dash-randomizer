@@ -22,6 +22,7 @@ export type Options = {
   Mystery: boolean;
   Spoiler: boolean;
   BossesKnown: boolean;
+  fastMode: number;
 }
 
 export type Params = {
@@ -73,6 +74,12 @@ export const BossMode = {
   Shifted: 2,
   Surprise: 3,
   Scramble: 4,
+};
+
+export const FastMode = {
+  Disabled: 0,
+  QoL: 1,
+  DangerouslyFast: 2,
 };
 
 //-----------------------------------------------------------------
@@ -144,6 +151,30 @@ const bitsToMapLayout = (bits: number) => {
   throw new Error("unknown map layout");
 };
 
+const fastModeToBits = (fastMode: number) => {
+  switch (fastMode) {
+    case FastMode.Disabled:
+      return 0;
+    case FastMode.QoL:
+      return 1;
+    case FastMode.DangerouslyFast:
+      return 2;
+  }
+  throw new Error("unknown fast mode");
+}
+
+const bitsToFastMode = (bits: number) => {
+  switch (bits) {
+    case 0x0:
+      return FastMode.Disabled;
+    case 0x1:
+      return FastMode.QoL;
+    case 0x2:
+      return FastMode.DangerouslyFast;
+  }
+  throw new Error("unknown fast mode");
+}
+
 //-----------------------------------------------------------------
 // Parameter encoding (12 bytes available)
 //
@@ -156,7 +187,7 @@ const bitsToMapLayout = (bits: number) => {
 //    v: version
 //
 // byte 4 = pp-h-d-bbbb
-//    p: pressurve valve
+//    p: pressure valve
 //    h: heat shield
 //    d: double jump
 //    b: boss mode
@@ -168,11 +199,12 @@ const bitsToMapLayout = (bits: number) => {
 //    b: beam mode
 //    m: map layout
 //
-// byte 6 = ll-m-s-b-ppp
+// byte 6 = ll-m-s-b-ff-p
 //    l: logic
 //    m: mystery
 //    s: spoiler
 //    b: bosses known  
+//    f: fast mode
 //    p: padding
 //-----------------------------------------------------------------
 
@@ -212,7 +244,8 @@ export const paramsToBytes = (seed: number, settings: Settings, options: Options
   const mystery = (options.Mystery ? 0x1 : 0x0) << 5;
   const spoiler = (options.Spoiler ? 0x1 : 0x0) << 4;
   const bossesKnown = (options.BossesKnown ? 0x1 : 0x0) << 3;
-  bytes[6] = relaxed | mystery | spoiler | bossesKnown;
+  const fastMode = fastModeToBits(options.fastMode) << 1;
+  bytes[6] = relaxed | mystery | spoiler | bossesKnown | fastMode;
 
   return bytes;
 };
@@ -239,6 +272,7 @@ export const bytesToParams = (input: Uint8Array): Params => {
   const mystery = (bytes[6] >> 5) & 0x1;
   const spoiler = (bytes[6] >> 4) & 0x1;
   const bossesKnown = (bytes[6] >> 3) & 0x1;
+  const fastMode = bitsToFastMode((bytes[6] >> 1) & 0x2);
 
   const major = bitsToMajorMode((bytes[3] >> 2) & 0x3);
   const minor = bitsToMinorMode((bytes[3] >> 4) & 0x3);
@@ -275,7 +309,8 @@ export const bytesToParams = (input: Uint8Array): Params => {
       RelaxedLogic: relaxed == 0x1,
       Mystery: mystery == 0x1,
       Spoiler: spoiler == 0x1,
-      BossesKnown: bossesKnown == 0x1
+      BossesKnown: bossesKnown == 0x1,
+      fastMode: fastMode,
     },
   };
 };

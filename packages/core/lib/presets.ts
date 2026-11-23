@@ -8,7 +8,8 @@ import {
   SuitMode,
   GravityHeatReduction,
   Settings,
-  Options
+  Options,
+  FastMode
 } from "./params";
 import DotNetRandom from "./dotnet-random";
 
@@ -25,7 +26,8 @@ const defaultOptions: Options = {
   RelaxedLogic: false,
   Mystery: false,
   Spoiler: false,
-  BossesKnown: false
+  BossesKnown: false,
+  fastMode: FastMode.Disabled
 };
 
 //-----------------------------------------------------------------
@@ -176,7 +178,8 @@ const generateMysteryIIPreset = (): Preset => {
         { value: true, weight: 0.5 },
       ]),
       Mystery: true,
-      Spoiler: false
+      Spoiler: false,
+      fastMode: FastMode.Disabled
     }
   }
 }
@@ -249,7 +252,8 @@ const generateMysteryPreset = (): Preset => {
       RelaxedLogic: false,
       Mystery: true,
       Spoiler: false,
-      BossesKnown: false
+      BossesKnown: false,
+      fastMode: FastMode.Disabled
     }
   }
 }

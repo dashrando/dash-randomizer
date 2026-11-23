@@ -1,6 +1,7 @@
 import RandomizeRom from "./lib/randomize";
 import ProtectRom from "./lib/protect";
 import BpsPatch from "./lib/bps-patch";
+import IpsPatch from "./lib/ips-patch";
 
 export const computeCRC32 = BpsPatch.CRC32;
 

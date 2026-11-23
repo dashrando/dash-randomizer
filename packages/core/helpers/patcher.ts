@@ -1,4 +1,5 @@
 import BpsPatch from '../lib/bps-patch'
+import IpsPatch from '../lib/ips-patch'
 
 export type SeedPatch = [
   number,
@@ -9,9 +10,14 @@ export type SeedPatch = [
 export const patchRom = (
   vanillaRom: Uint8Array,
   basePatch: BpsPatch,
+  fastPatch: IpsPatch|null,
   seedPatch: SeedPatch[]
 ) => {
   let rom = basePatch.Apply(vanillaRom);
+
+  if (fastPatch) {
+    rom = fastPatch.Apply(rom);
+  }
 
   seedPatch.forEach((p) => {
     const [off, cnt, pay] = p;
