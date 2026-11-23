@@ -212,7 +212,7 @@ const placeItem = (
   part.from.item = item;
 };
 
-export const checkSeeds = (inputPath: string, areValid: boolean) => {
+export const checkSeeds = (inputPath: string, areValid: boolean, quiet: boolean = false) => {
   const getStuff = () => {
     const inputStat = fs.statSync(inputPath);
     let dirPath = inputPath;
@@ -249,6 +249,11 @@ export const checkSeeds = (inputPath: string, areValid: boolean) => {
       if (seedCount % 10000 === 0) {
         console.log(`Validated ${path.resolve(dirPath, name)}`);
       }
+      return;
+    }
+
+    if (quiet) {
+      console.log(chalk.magentaBright(`Invalid seed ${path.resolve(dirPath, name)}`));
       return;
     }
 
@@ -308,7 +313,7 @@ export const checkSeeds = (inputPath: string, areValid: boolean) => {
         checkGraph(e, graph, settings);
       }
     } else if (stats.isDirectory()) {
-      seedCount += checkSeeds(full, areValid);
+      seedCount += checkSeeds(full, areValid, quiet);
     }
   });
 

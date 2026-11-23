@@ -80,9 +80,9 @@ export async function verify(
   );
 }
 
-export function validate(dirPath: string) {
+export function validate(dirPath: string, quiet: boolean = false) {
   const start = Date.now();
-  const num = checkSeeds(dirPath, true);
+  const num = checkSeeds(dirPath, true, quiet);
   const sec = (Date.now() - start) / 1000.0;
   console.log(
     chalk.green(`Validated ${num} seeds in ${sec.toFixed(1)} seconds`)
@@ -106,6 +106,8 @@ if (args[0] === "verify") {
   }
 } else if (args[0] === "validate") {
   validate(args[1]);
+} else if (args[0] === "validate_quiet") {
+  validate(args[1], true);
 } else if (args[0] === "stats") {
   if (args.length <= 1) {
     console.log("Please specify preset name");
