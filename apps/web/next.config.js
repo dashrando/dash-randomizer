@@ -69,7 +69,22 @@ const nextConfig = {
       },
       {
         source: "/events",
-        destination: "/events/mystery-ii",
+        destination: "/events/sgl26",
+        permanent: false,
+      },
+      {
+        source: "/events/sgl26/schedule",
+        destination: "https://sg-schedule.inertia.run/sgl26smdash",
+        permanent: false,
+      },
+      {
+        source: "/events/sgl26/discord",
+        destination: "https://discord.gg/grCj3sfUBT",
+        permanent: false,
+      },
+      {
+        source: "/events/sgl26/register",
+        destination: "https://speedgaming.challonge.com/sgl26smdash",
         permanent: false,
       },
       {
