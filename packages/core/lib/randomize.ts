@@ -46,7 +46,7 @@ async function RandomizeRom(
   const patch = getBasePatch(settings);
   const basePatch: any = await BpsPatch.Load(`/patches/${patch}`);
 
-  let fastPatch: IpsPatch = null;
+  let fastPatch: IpsPatch|null = null;
   if (options.fastMode == FastMode.QoL) {
     fastPatch = await IpsPatch.Load(`/patches/qol.ips`);
   } else if (options.fastMode == FastMode.DangerouslyFast) {
