@@ -19,6 +19,7 @@ import {
   MajorDistributionMode,
   MapLayout,
   MinorDistributionMode,
+  FastMode,
   SuitMode
 } from 'core/params'
 import { fetchSignature } from 'core'
@@ -166,6 +167,7 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
   'seed-mode': 'random' | 'fixed',
   seed: number,
   fanfare: 'off' | 'on', 
+  'fast-mode': 'disabled' | 'qol' | 'dangerous', 
 }
 
 export interface GenerateFormParams extends GenerateSeedParams {
@@ -302,6 +304,7 @@ const getModeFields = (input: GenerateFormParams): GenerateSeedSettings => {
   delete values.mode
   delete values.seed
   delete values['seed-mode']
+  delete values['fast-mode']
   delete values.fanfare
   return values
 }
@@ -476,7 +479,8 @@ export default function Form() {
         RelaxedLogic: false,
         Mystery: false,
         Spoiler: false,
-        BossesKnown: false
+        BossesKnown: false,
+        fastMode: FastMode.Disabled,
       };
       if (data.fanfare == 'off') {
         options.DisableFanfare = true;
@@ -486,6 +490,11 @@ export default function Form() {
       };
       if (data['bosses-known'] == 'on') {
         options.BossesKnown = true;
+      }
+      if (data['fast-mode'] == 'qol') {
+        options.fastMode = FastMode.QoL;
+      } else if (data['fast-mode'] == 'dangerous') {
+        options.fastMode = FastMode.DangerouslyFast;
       }
 
       const seedNumber = getSeed();
@@ -803,6 +812,21 @@ export default function Form() {
               <p>
                 <a href="/info/settings#fanfare">Item Fanfare</a>{' '}
                 is the music when an item is collected.
+              </p>
+            </Option>
+            <Option label="Fast Mode" name="fast-mode">
+              <Select
+                options={[
+                  { label: 'Disabled', value: 'disabled' },
+                  { label: 'QoL', value: 'qol' },
+                  { label: 'Dangerously Fast', value: 'dangerous' },
+                ]}
+                name="fast-mode"
+                register={register}
+              />
+              <p>
+                <a href="/info/settings#fast-mode">Fast Mode</a>{' '}
+                does stuff.
               </p>
             </Option>
           </Section>

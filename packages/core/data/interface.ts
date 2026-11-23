@@ -166,9 +166,9 @@ export const PATCHES = {
 };
 
 export const ROOM_PATCH_ADDR = {
-  Waterway: 0x2F8CA6,
-  WreckedShipReserve: 0x2F8E6E,
-  PreBotwoon: 0x2F8F5E,
+  Waterway: 0x2F93DC,
+  WreckedShipReserve: 0x2F95A4,
+  PreBotwoon: 0x2F9694,
 };
 
 export const DASH_CLASSIC_PATCHES = [

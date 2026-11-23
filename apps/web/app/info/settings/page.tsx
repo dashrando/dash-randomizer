@@ -516,6 +516,14 @@ export default function SettingsInfoPage() {
             <strong>Item Fanfare</strong> is the ~7 second period after Samus acquires a new item in which the player loses control while heroic music plays. DASH supports disabling Item Fanfare, but they are enabled by default.
           </p>
         </Article>
+        <Article
+          id="fast-mode"
+          title="Fast Mode"
+        >
+          <p>
+            <strong>Fast Mode</strong> does stuff.
+          </p>
+        </Article>
       </div>
     </Wrapper>
   )

@@ -2,6 +2,7 @@ import { Item } from "./items";
 import {
   BeamMode,
   BossMode,
+  FastMode,
   GravityHeatReduction,
   MajorDistributionMode,
   MapLayout,
@@ -18,6 +19,7 @@ describe("stringToParams", () => {
       Mystery: false,
       Spoiler: false,
       BossesKnown: false,
+      fastMode: FastMode.Disabled
     };
     expect(stringToParams("")).toStrictEqual({
       options,

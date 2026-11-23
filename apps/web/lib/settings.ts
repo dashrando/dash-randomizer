@@ -2,6 +2,7 @@ import { Item, Params, stringToParams } from 'core'
 import {
   BeamMode,
   BossMode,
+  FastMode,
   MapLayout,
   MajorDistributionMode,
   MinorDistributionMode,
@@ -34,6 +35,17 @@ const getEnvironmentUpdates = (value: number) => {
       return "Standard"
     case MapLayout.Classic:
       return "DASH"
+  }
+}
+
+const getFastMode = (value: number) => {
+  switch (value) {
+    case FastMode.Disabled:
+      return "Disabled"
+    case FastMode.QoL:
+      return "QoL"
+    case FastMode.DangerouslyFast:
+      return "Dangerously Fast"
   }
 }
 
@@ -110,7 +122,8 @@ export const parseSettings = (parameters: Params) => {
     { label: 'Logic', value: getLogic(parameters.options.RelaxedLogic ? 1 : 0) },
     { label: 'Bosses Known', value: displayOnOff(parameters.options.BossesKnown), },
     //{ label: 'Seed Number', value: parameters.seed },
-    { label: 'Item Fanfare', value: displayOnOff(!parameters.options.DisableFanfare), }
+    { label: 'Item Fanfare', value: displayOnOff(!parameters.options.DisableFanfare), },
+    { label: 'FastMode', value: getFastMode(parameters.options.fastMode), },
   ]
   return { randomizeParams, settingsParams, optionsParams }
 }

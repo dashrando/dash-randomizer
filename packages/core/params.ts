@@ -5,6 +5,7 @@ import {
   BeamMode,
   BossMode,
   SuitMode,
+  FastMode,
   GravityHeatReduction,
 } from "./lib/params";
 
@@ -15,5 +16,6 @@ export {
   BeamMode,
   BossMode,
   SuitMode,
+  FastMode,
   GravityHeatReduction,
 };

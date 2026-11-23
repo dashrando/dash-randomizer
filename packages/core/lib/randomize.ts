@@ -2,9 +2,10 @@ import BpsPatch from "./bps-patch";
 import { getBasePatch, getFileName, generateSeedPatch } from "./sm-rando";
 import { generateSeed } from "./graph/fill";
 import { patchRom } from "../helpers/patcher";
-import { Options, Settings } from "./params";
+import { FastMode, Options, Settings } from "./params";
 import { Graph } from "./graph/init";
 import { encodeSeed } from "../helpers/encoder";
+import IpsPatch from "./ips-patch";
 
 export type Config = {
   onUpdate?: any
@@ -32,7 +33,8 @@ async function RandomizeRom(
     RelaxedLogic: false,
     Mystery: false,
     Spoiler: false,
-    BossesKnown: false
+    BossesKnown: false,
+    fastMode: FastMode.Disabled
   };
   const options: Options = { ...defaultOptions, ...opts };
 
@@ -43,6 +45,13 @@ async function RandomizeRom(
   // Load the base patch associated with the map layout.
   const patch = getBasePatch(settings);
   const basePatch: any = await BpsPatch.Load(`/patches/${patch}`);
+
+  let fastPatch: IpsPatch = null;
+  if (options.fastMode == FastMode.QoL) {
+    fastPatch = await IpsPatch.Load(`/patches/qol.ips`);
+  } else if (options.fastMode == FastMode.DangerouslyFast) {
+    fastPatch = await IpsPatch.Load(`/patches/fast_mode.ips`);
+  }
 
   // Generate the seed specific patch (item placement, etc.)
   const seedPatch = generateSeedPatch(
@@ -56,7 +65,7 @@ async function RandomizeRom(
 
   // Create the rom by patching the vanilla rom.
   return {
-    data: patchRom(config.vanillaBytes, basePatch, seedPatch),
+    data: patchRom(config.vanillaBytes, basePatch, fastPatch, seedPatch),
     name: getFileName({ seed, settings, options }, graph,
       config.presetName, config.seedKey),
     hash: encodeSeed({ seed, settings, options }, graph)
